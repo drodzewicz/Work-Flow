@@ -1,0 +1,21 @@
+@mixin mobile {
+  @media (max-width: #{520px}) {
+    @content;
+  }
+}
+
+@mixin mq-1 {
+  @media (max-width: #{760px}) {
+    @content;
+  }
+}
+@mixin mq-2 {
+  @media (max-width: #{1063px}) {
+    @content;
+  }
+}
+@mixin mq-3 {
+  @media (max-width: #{1600px}) {
+    @content;
+  }
+}
