@@ -1,0 +1,48 @@
+@import "../../assets/styles/colors";
+@import "../../assets/styles/mediaQueries";
+
+.welcome-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  @include mq-1 {
+    flex-direction: column;
+    align-items: center;
+  }
+  & > * {
+    margin: 1rem;
+  }
+  #person-image {
+    $image-size: 20rem;
+    width: $image-size;
+    height: $image-size;
+    @include mq-1 {
+      $image-size: 16rem;
+      width: $image-size;
+      height: $image-size;
+    }
+    
+    
+  }
+  .text-subsection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .home-page-title {
+      font-size: 3rem;
+      margin: 0;
+    }
+    .home-page-description {
+      color: $text-secondary;
+      text-align: center;
+      margin: 0;
+      max-width: 700px;
+    }
+    .btn-accent {
+      margin-top: 2rem;
+    }
+  }
+  .home-page-title, .home-page-description {
+    font-family: 'Secular One', sans-serif;
+  }
+}

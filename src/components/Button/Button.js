@@ -2,9 +2,9 @@ import React from "react";
 import "./Button.scss";
 import PropTypes from "prop-types";
 
-const Button = ({children, classes}) => {
+const Button = ({children, classes, clicked}) => {
   return (
-    <div className={classes.join(" ")}>
+    <div onClick={clicked} className={classes.join(" ")}>
       {children}
     </div>
   ); 
@@ -16,6 +16,7 @@ Button.defaultProps = {
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
+  clicked: PropTypes.func,
   classes: PropTypes.arrayOf(PropTypes.string)
 }
 
