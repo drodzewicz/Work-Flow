@@ -7,6 +7,7 @@
   margin: 0.15rem 0.25rem;
   cursor: pointer;
   transition: 0.2s ease-in-out all;
+  border: none;
 }
 
 .btn-primary {
@@ -31,5 +32,13 @@
     background: $white-1;
     color: $blue-accent;
     box-shadow: 0 0 5px rgba($blue-accent, 0.75);
+  }
+
+  &:disabled {
+    box-shadow: none;
+    background: lighten($blue-accent, 30%);
+    &:hover {
+      color: white;
+    }
   }
 }

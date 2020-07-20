@@ -1,0 +1,52 @@
+@import "../../assets/styles/colors";
+
+
+.simple-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  .form-title {
+    font-family: 'Secular One', sans-serif;
+  }
+  .spinner-overlay {
+    z-index: 3;
+    background-color: rgba(255, 255, 255, 0.34);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .spinner {
+      height: 3rem;
+    }
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    & > div {
+      height: 4.5rem;
+    }
+    .MuiFormLabel-root.Mui-focused {
+      color: $blue-accent;
+      &.Mui-error {
+        color: #f44336;
+      }
+    }
+    .MuiInput-underline {
+      &.Mui-error:after {
+        border-bottom-color: #f44336;
+      }
+      &:after {
+        border-bottom-color: $blue-accent;
+      }
+    }
+  }
+  .btn-submit {
+    margin-top: 1.5rem;
+  }
+}

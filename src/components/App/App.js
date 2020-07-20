@@ -4,6 +4,8 @@ import Button from "components/Button/Button";
 import ContainerBox from "components/ContainerBox/ContainerBox";
 import { WelcomePage } from "pages";
 import Modal from "components/Modal/Modal";
+import LoginForm from "modalForms/LoginForm"
+import RegisterForm from "modalForms/RegisterForm"
 
 import "./App.scss";
 import { ModalContext } from "context/ModalContext";
@@ -13,10 +15,10 @@ function App() {
   const [, setRenderComp] = useContext(ModalContext);
 
   const openLoginModal = () => {
-    setRenderComp({ render: "Login form", show: true });
+    setRenderComp({ render: <LoginForm />, show: true });
   }
   const openRegisterModal = () => {
-    setRenderComp({ render: "Register form", show: true });
+    setRenderComp({ render: <RegisterForm />, show: true });
   }
   return (
     <div className="App">

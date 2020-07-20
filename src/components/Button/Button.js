@@ -2,21 +2,26 @@ import React from "react";
 import "./Button.scss";
 import PropTypes from "prop-types";
 
-const Button = ({children, classes, clicked}) => {
+const Button = ({children, classes, clicked, type, disabled}) => {
   return (
-    <div onClick={clicked} className={classes.join(" ")}>
+    <button disabled={disabled} type={type} onClick={clicked} className={classes.join(" ")}>
       {children}
-    </div>
+    </button>
   ); 
 };
 
 Button.defaultProps = {
-  classes: ["btn-primary"]
+  classes: ["btn-primary"],
+  clicked: null,
+  type: "button",
+  disabled: false
 }
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   clicked: PropTypes.func,
+  disabled: PropTypes.bool,
+  type: PropTypes.string,
   classes: PropTypes.arrayOf(PropTypes.string)
 }
 
