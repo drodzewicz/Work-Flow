@@ -5,6 +5,7 @@ import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
 import { ModalProvider } from "./context/ModalContext";
 
+
 ReactDOM.render(
   <React.StrictMode>
     <ModalProvider>

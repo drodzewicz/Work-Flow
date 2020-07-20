@@ -2,13 +2,12 @@ import React, { useContext } from "react";
 import Navbar from "components/Navbar/Navbar";
 import Button from "components/Button/Button";
 import ContainerBox from "components/ContainerBox/ContainerBox";
-import { WelcomePage } from "pages";
 import Modal from "components/Modal/Modal";
-import LoginForm from "modalForms/LoginForm"
-import RegisterForm from "modalForms/RegisterForm"
-
+import { LoginForm, RegisterForm } from "modalForms";
 import "./App.scss";
 import { ModalContext } from "context/ModalContext";
+import { BrowserRouter as Router } from "react-router-dom";
+import Routes from "routes/Routes";
 
 function App() {
 
@@ -28,7 +27,9 @@ function App() {
         <Button clicked={openRegisterModal}>Register</Button>
       </Navbar>
       <ContainerBox>
-        <WelcomePage />
+        <Router>
+          <Routes />
+        </Router>
       </ContainerBox>
     </div>
   );
