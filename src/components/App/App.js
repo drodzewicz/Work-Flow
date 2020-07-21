@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Navbar from "components/Navbar/Navbar";
 import ContainerBox from "components/ContainerBox/ContainerBox";
 import Modal from "components/Modal/Modal";
@@ -13,12 +13,18 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Badge from '@material-ui/core/Badge';
 import Routes from "routes/Routes";
 import NavItem from "components/Navbar/NavItem";
-import DropdownMenu from "components/DropdownMenu/DropdownMenu"
+import SwitchButton from "components/SwitchButton/SwitchButton";
+import Notification from "components/Notification/Notification";
 
 function App() {
 
   const [, setRenderComp] = useContext(ModalContext);
   const [user, setUser] = useContext(UserContext);
+  const [notifications, setNotification ] = useState([
+    {board: "wix websiite", message: "you have been added to the board"},
+    {board: "learing wordpress with friends", message: "you have been added to the boardyou have been addeddwd dwdwd dwdwd"},
+    {board: "making apython game", message: "you got a new task"},
+  ])
 
   const openLoginModal = () => {
     setRenderComp({ render: <LoginForm />, show: true });
@@ -28,24 +34,32 @@ function App() {
   }
   const logOutUser = () => {
     console.log("log out");
-    setUser(null);
+    setUser({ ...user, username: null });
+  }
+  const removeMessage = (index) => {
+    let tempNotification = [...notifications];
+    tempNotification.splice(index, 1)
+    setNotification(tempNotification);
+    
   }
 
   const loggedInUserNavItems = () => {
     return (
       <>
         <NavItem icon={<HomeIcon />} />
-        <NavItem icon={<AccountBoxIcon />} navName={user} >
+        <NavItem icon={<AccountBoxIcon />} navName={user.username} classes={["profile-nav"]}>
           <Link to="/profile">Profile</Link>
           <span onClick={logOutUser}>logout</span>
-          <span>switch</span>
+          <SwitchButton />
         </NavItem>
-        <NavItem
-          icon={
-            <Badge color="secondary" variant="dot" invisible={false} >
-              <NotificationsIcon />
-            </Badge>
-          } >
+        <NavItem  classes={["notification-nav"]} icon={
+          <Badge color="secondary" variant="dot" invisible={notifications.length < 1} >
+            <NotificationsIcon />
+          </Badge>
+        } >
+          {notifications.map((data, index) => (
+            <Notification key={data.board} message={data.message} boardTitle={data.board} removeNotification={() => removeMessage(index)} />
+          ))}
         </NavItem>
       </>
     );
@@ -65,11 +79,10 @@ function App() {
         <Modal />
         <Navbar>
           {
-            user
+            user.username
               ? loggedInUserNavItems()
               : loggedOutUserNavItems()
           }
-
         </Navbar>
         <ContainerBox>
           <Routes />

@@ -7,14 +7,26 @@ body {
 
 .navbar {
   .nav-item {
-    padding: 0.25rem;
     .MuiSvgIcon-root {
       height: 1.35rem;
     }
-    &.profile-btn {
+    &.profile-nav {
       @include mobile {
         span {
           display: none;
+        }
+      }
+      .drop-down-menu {
+        transform: translateX(5%);
+      }
+    }
+    &.notification-nav {
+      .drop-down-menu {
+        transform: translateX(-80%);
+        width: 14rem;
+        .drop-down-menu-item {
+          padding: 0;
+          height: 4rem;
         }
       }
     }

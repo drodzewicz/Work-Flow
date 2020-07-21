@@ -1,0 +1,39 @@
+@import "../../assets/styles/colors";
+.switch-button {
+  background-color: $gray-1;
+  width: 2.6rem;
+  height: 1.4rem;
+  border-radius: 7rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 0.1rem;
+  transition: all ease-in-out 0.3s;
+  &.switch-on {
+    background: $blue-accent;
+    .circle {
+      transform: translateX(110%);
+      svg {
+        color: $blue-accent;
+      }
+    }
+  }
+  .circle {
+    background-color: white;
+    $circle_size: 1.2rem;
+    width: $circle_size;
+    height: $circle_size;
+    border-radius: 15rem;
+    transform: translateX(0%);
+    transition: all ease-in-out 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      width: 0.9rem;
+      height: 0.9rem;
+      color: darken($gray-1, 15%);
+    }
+  }
+}

@@ -3,7 +3,7 @@ import "./NavItem.scss";
 import PropTypes from "prop-types";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu"
 
-const NavItem = ({ icon, navName, children, clicked }) => {
+const NavItem = ({ icon, navName, children, clicked, classes }) => {
   const [open, setOpen] = useState(false);
 
   const toggleOpen = () => {
@@ -14,8 +14,8 @@ const NavItem = ({ icon, navName, children, clicked }) => {
   }
 
   return (
-    <li className="nav-item">
-      <button className="icon-button" onClick={isFunction(clicked) ? clicked : toggleOpen}>
+    <li className={`nav-item ${classes.join(" ")}`}>
+       <button className="icon-button" onClick={isFunction(clicked) ? clicked : toggleOpen}>
         {!!icon && icon}
         <span>{navName}</span>
       </button>
@@ -29,8 +29,13 @@ const NavItem = ({ icon, navName, children, clicked }) => {
   )
 }
 
+NavItem.defaultProps = {
+  classes: [""]
+}
+
 NavItem.propTypes = {
-  toggleFunction: PropTypes.func
+  toggleFunction: PropTypes.func,
+  classes: PropTypes.arrayOf(PropTypes.string)
 }
 
 export default NavItem
