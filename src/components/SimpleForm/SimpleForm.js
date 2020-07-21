@@ -5,6 +5,7 @@ import { Formik, Field, Form } from "formik";
 import Button from "components/Button/Button";
 import * as Yup from "yup";
 import { TextField } from "@material-ui/core"
+import {ReactComponent as Spinner } from "assets/spinners/Infinity-1s-200px.svg"
 
 const createInitialValueObject = (fieldObject) => {
   let initialValues = {};
@@ -27,7 +28,7 @@ const SimpleForm = ({ title, submitButtonName, validationSchema, handleSubmit, f
           {
             isSubmitting &&
             <div className="spinner-overlay">
-              <img className="spinner" src="spinners/Infinity-1s-200px.svg" alt=""/>
+              <Spinner />
             </div>
           }
           <Form>

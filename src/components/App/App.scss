@@ -1,5 +1,32 @@
 @import "../../assets//styles//colors";
+@import "../../assets/styles/mediaQueries";
 
 body {
   background-color: $gray-bg;
+}
+
+.navbar {
+  .nav-item {
+    padding: 0.25rem;
+    .MuiSvgIcon-root {
+      height: 1.35rem;
+    }
+    &.profile-btn {
+      @include mobile {
+        span {
+          display: none;
+        }
+      }
+    }
+    .MuiBadge-colorSecondary {
+      background: $blue-accent;
+      transform: scale(1) translate(10%, -10%);
+    }
+    .MuiBadge-invisible {
+      transform: scale(0) translate(10%, -10%);
+    }
+  }
+  .profile-setting-drop-down-menu {
+    transform: translateX(7%);
+  }
 }

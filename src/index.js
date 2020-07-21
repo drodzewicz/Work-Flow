@@ -4,12 +4,15 @@ import './index.scss';
 import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
 import { ModalProvider } from "./context/ModalContext";
+import { UserProvider } from "./context/UserContext";
 
 
 ReactDOM.render(
   <React.StrictMode>
     <ModalProvider>
-      <App />
+      <UserProvider>
+        <App />
+      </UserProvider>
     </ModalProvider>
   </React.StrictMode>,
   document.getElementById('root')

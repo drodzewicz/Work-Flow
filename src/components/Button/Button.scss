@@ -8,6 +8,10 @@
   cursor: pointer;
   transition: 0.2s ease-in-out all;
   border: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-primary {
