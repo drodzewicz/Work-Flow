@@ -49,7 +49,7 @@ function App() {
         <NavItem icon={<HomeIcon />} />
         <NavItem icon={<AccountBoxIcon />} navName={user.username} classes={["profile-nav"]}>
           <Link to="/profile">Profile</Link>
-          <span onClick={logOutUser}>logout</span>
+          <button className="logout-btn" onClick={logOutUser}>logout</button>
           <SwitchButton />
         </NavItem>
         <NavItem  classes={["notification-nav"]} icon={
