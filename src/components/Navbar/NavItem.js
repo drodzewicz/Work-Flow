@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./NavItem.scss";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu"
 
 const NavItem = ({ icon, navName, children, clicked, classes }) => {
@@ -19,7 +20,6 @@ const NavItem = ({ icon, navName, children, clicked, classes }) => {
         {!!icon && icon}
         <span>{navName}</span>
       </button>
-
       {open && children &&
         <DropdownMenu closeMenu={toggleOpen}>
           {children}

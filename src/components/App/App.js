@@ -46,7 +46,7 @@ function App() {
   const loggedInUserNavItems = () => {
     return (
       <>
-        <NavItem icon={<HomeIcon />} />
+        <NavItem icon={<Link to="/"><HomeIcon /></Link>} />
         <NavItem icon={<AccountBoxIcon />} navName={user.username} classes={["profile-nav"]}>
           <Link to="/profile">Profile</Link>
           <button className="logout-btn" onClick={logOutUser}>logout</button>

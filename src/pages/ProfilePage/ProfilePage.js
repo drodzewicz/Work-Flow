@@ -1,15 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import "./ProfilePage.scss";
 import * as Yup from "yup";
 import SimpleForm from "components/SimpleForm/SimpleForm";
-import Avatar from "components/Avatar/Avatar";
-
-const fields = {
-  username: {initialVal: "", type: "text"},
-  name: {initialVal: "", type: "text"},
-  suername: {initialVal: "", type: "text"},
-  email: {initialVal: "", type: "text"},
-}
+import Image from "components/Image/Image";
+import ImageIcon from '@material-ui/icons/Image';
 
 const handleSubmit = (data, { setSubmitting }) => {
   setSubmitting(true);
@@ -19,15 +13,31 @@ const handleSubmit = (data, { setSubmitting }) => {
   }, 2000);
 }
 
-function ProfilePage() {
+const chnageImageModalOpen = () => {
+  console.log("chaning image");
+}
+
+const ProfilePage = () => {
+  const [profileInfo, ] = useState({
+    username: {initialVal: "", type: "text"},
+    name: {initialVal: "", type: "text"},
+    suername: {initialVal: "", type: "text"},
+    email: {initialVal: "", type: "text"},
+  });
+
   return (
     <div className="profile-page-container">
-      <Avatar imageLink="https://graphics-for-less.com/wp-content/uploads/edd/2015/11/woman-avatar-4.png" />
+      <div className="profile-image">
+      <Image imageLink="https://graphics-for-less.com/wp-content/uploads/edd/2015/11/woman-avatar-4.png" />
+      <button onClick={chnageImageModalOpen} className="change-image-btn">
+        <ImageIcon />
+      </button>
+      </div>
       <SimpleForm 
-        submitButtonName="Login"
+        submitButtonName="save changes"
         // validationSchema={validationSchema}
         handleSubmit={handleSubmit}
-        fields={fields}
+        fields={profileInfo}
       />
     </div>
   )

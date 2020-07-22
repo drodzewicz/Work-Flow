@@ -6,11 +6,17 @@ const DropdownMenu = ({ children, closeMenu }) => {
   return (
     <ClickAwayListener onClickAway={closeMenu}>
       <div className={"drop-down-menu"}>
-        {children.map(node => (
-          <div key={"" + Math.random()} className="drop-down-menu-item">
-            {node}
-          </div>
-        ))}
+        {
+          Array.isArray(children)
+            ? children.map(node => (
+              <div key={"" + Math.random()} className="drop-down-menu-item">
+                {node}
+              </div>
+            ))
+            : <div className="drop-down-menu-item">
+              {children}
+            </div>
+        }
       </div>
     </ClickAwayListener>
   )

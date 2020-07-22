@@ -1,0 +1,103 @@
+@import "../../assets/styles/colors";
+.board-card {
+  $card-width: 14rem;
+  $card-height: 6rem;
+  background-color: white;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.626);
+  width: $card-width;
+  height: $card-height;
+  border-radius: 7px;
+  margin: 0.5rem 0.5rem;
+  padding: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-decoration: none;
+  transition: 0.3s ease-in-out all;
+  &:hover {
+    background-color: #EDEDED;
+    .bg-columns > .column {
+      background: darken(#EDEDED, 10%);
+      &:nth-of-type(3){
+        height: 60px;
+      }
+      &:nth-of-type(4){
+        height: 30px;
+      }
+      &:nth-of-type(1){
+        height: 50px;
+      }
+      &:nth-of-type(2){
+        height: 70px;
+      }
+    }
+  }
+  .drop-down-menu {
+    transform: translate($card-width / 2 + 1.2rem, $card-height - 2.5rem);
+  }
+  .board-card-body {
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 95%;
+    .board-title {
+      font-family: 'Secular One', sans-serif;
+      font-size: 1rem;
+      width: 100%;
+      color: $text-primary;
+      flex-grow: 1;
+      justify-self: flex-start;
+    }
+    .board-menu{
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      svg{
+        cursor: pointer;
+        height: 1.2rem;
+        width: 1.2rem;
+        color: $text-primary;
+        border-radius: 10px;
+        padding: 3px;
+        transition: all ease-in-out 0.2s;
+        &:hover {
+          background: rgba(0, 0, 0, 0.1);
+
+        }
+      }
+    }
+  }
+  .bg-columns {
+    position: absolute;
+    z-index: 0;
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    align-items: flex-start;
+    .column {
+      background: rgb(235, 235, 235);
+      width: 35px;
+      height: 70px;
+      margin: 0 7px;
+      border-radius: 5px;
+      transition: all ease-in-out 0.3s;
+      &:nth-of-type(1){
+        height: 60px;
+      }
+      &:nth-of-type(2){
+        height: 30px;
+      }
+      &:nth-of-type(3){
+        height: 50px;
+      }
+      &:nth-of-type(4){
+        height: 70px;
+      }
+    }
+  }
+}
