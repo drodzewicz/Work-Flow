@@ -4,6 +4,7 @@ import ContainerBox from "components/ContainerBox/ContainerBox";
 import Modal from "components/Modal/Modal";
 import { LoginForm, RegisterForm } from "modalForms";
 import "./App.scss";
+import ReactDOM from "react-dom";
 import { ModalContext } from "context/ModalContext";
 import { UserContext } from "context/UserContext";
 import { BrowserRouter as Router, Link } from "react-router-dom";
@@ -15,6 +16,7 @@ import Routes from "routes/Routes";
 import NavItem from "components/Navbar/NavItem";
 import SwitchButton from "components/SwitchButton/SwitchButton";
 import Notification from "components/Notification/Notification";
+import Footer from "components/Footer/Footer";
 
 function App() {
 
@@ -88,7 +90,7 @@ function App() {
           <Routes />
         </ContainerBox>
       </Router>
-
+      <Footer />
     </div>
   );
 }

@@ -1,0 +1,43 @@
+@import "../../assets/styles/mediaQueries";
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .pinned-boards-container, .board-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    .board-container-title {
+      font-family: 'Secular One', sans-serif;
+      font-size: 1.2rem;
+      grid-column: 1/5;
+      padding-left: 1rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      svg {
+        margin-right: 0.3rem;
+      }
+    }
+    @include mq-2 {
+      grid-template-columns: repeat(3, 1fr);
+      .board-container-title, .pagination-container {
+      grid-column: 1/4;
+      }
+    }
+    @include mq-1 {
+      grid-template-columns: repeat(2, 1fr);
+      .board-container-title, .pagination-container {
+        grid-column: 1/3;
+        }
+    }
+    @include mobile {
+      grid-template-columns: 1fr;
+      .board-container-title, .pagination-container {
+        grid-column: 1/2;
+        }
+    }
+  }
+}

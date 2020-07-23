@@ -6,7 +6,7 @@ import {ReactComponent as Pin} from "assets/images/pin-empty.svg";
 import {ReactComponent as Pined} from "assets/images/pin-full.svg";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu"
 
-const BoardCard = ({boardTitle, isPinned, to}) => {
+const BoardCard = ({boardTitle, isPinned, pinBoard, to}) => {
 
   const [options, setOptions] = useState(false);
   const history = useHistory();
@@ -14,8 +14,9 @@ const BoardCard = ({boardTitle, isPinned, to}) => {
     e.stopPropagation();
     setOptions(!options);
   }
-  const stopPropagation = (e) => {
+  const togglePinBoard = (e) => {
     e.stopPropagation();
+    pinBoard();
   }
   const editEventModal = (e) => {
     e.stopPropagation();
@@ -40,14 +41,14 @@ const BoardCard = ({boardTitle, isPinned, to}) => {
       </div>
       <div className="board-card-body" onClick={gToBoard}>
         <h1 className="board-title">{boardTitle}</h1>
-        <div className="board-menu">
+        <div onClick={togglePinBoard} className="board-menu">
           {isPinned ? <Pined /> : <Pin />}
           <MoreVertIcon onClick={toggleOptions} />
         </div>
       </div>
       {
         options && 
-        <DropdownMenu onClick={stopPropagation} closeMenu={toggleOptions}>
+        <DropdownMenu closeMenu={toggleOptions}>
           <span onClick={editEventModal}>edit</span>
           <span onClick={leavingEvent}>leave</span>
         </DropdownMenu>

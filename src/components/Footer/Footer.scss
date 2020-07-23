@@ -1,0 +1,19 @@
+@import "../../assets/styles/variables";
+@import "../../assets/styles/colors";
+.app-footer {
+  background: transparent;
+  height: $footer-height;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
+  color: $gray-1;
+  font-size: 0.8rem;
+  border-top: solid 1px $gray-1;
+  transition: ease-in-out all $transition-speed;
+  &:hover {
+    color: darken($gray-1, 20%);
+  }
+}
