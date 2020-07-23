@@ -3,19 +3,56 @@ import "./Pagination.scss";
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 
-const Pagination = ({ currentPage, amountOfPages }) => {
+const Pagination = ({ currentPage, amountOfPages, handleChange }) => {
+  const previousePage = () => {
+    if (currentPage > 1) {
+      handleChange(currentPage - 1);
+    }
+  }
+  const nextPage = () => {
+    handleChange(currentPage + 1);
+  }
+
   return (
-    <div className="pagination-container">
-      <button className=" pagination-itemleft-arrow">
-        <KeyboardArrowLeftIcon />
-      </button>
-      <button className="pagination-item">{currentPage}</button>
-      <button className="pagination-item current-page">{currentPage}</button>
-      <button className="pagination-item">{currentPage}</button>
-      <button className="pagination-item right-arrow">
-        <KeyboardArrowRightIcon />
-      </button>
-    </div>
+    <nav className="pagination-container">
+      {
+        currentPage !== 1 ?
+        <>
+          <button
+            onClick={previousePage}
+            className=" pagination-item arrow">
+            <KeyboardArrowLeftIcon />
+          </button>
+          <div className={`three-dots ${currentPage - 1 === 1 ? "hide" : ""}`}>...</div>
+          <button
+            onClick={previousePage}
+            className="pagination-item"
+          >{currentPage - 1}</button>
+        </>
+        : <div className="empty"></div>
+      }
+      <button
+        className="pagination-item current-page"
+      >{currentPage}</button>
+      {
+        currentPage !== amountOfPages ?
+        <>
+          <button
+            onClick={nextPage}
+            className="pagination-item"
+          >{currentPage + 1}</button>
+          <div className={`three-dots ${currentPage + 1 === amountOfPages ? "hide" : ""}`}>...</div>
+          <button
+            onClick={nextPage}
+            className="pagination-item arrow">
+            <KeyboardArrowRightIcon />
+          </button>
+         
+        </>
+        : <div className="empty"></div>
+      }
+
+    </nav>
   )
 }
 

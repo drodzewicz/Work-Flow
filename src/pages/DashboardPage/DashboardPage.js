@@ -6,6 +6,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import Pagination from "components/Pagination/Pagination";
 
 function DashboardPage() {
+  const [page, setPage] = useState({currentPage: 1, amountOfPages: 10})
   const [boards, setBoards] = useState([
     { id: "1bdwd", title: "Jeden liczmy po kolei", pined: true },
     { id: "dwdwd2", title: "klitarok eta rok grupa", pined: true },
@@ -53,6 +54,10 @@ function DashboardPage() {
     tempBoards[foundBoardIndex].pined = !tempBoards[foundBoardIndex].pined;
     setBoards(tempBoards);
   }
+  const changePage = (pageNumber) => {
+    console.log(`fetching page [${pageNumber}]`)
+    setPage({...page, currentPage: pageNumber })
+  }
 
   return (
     <div className="dashboard-container">
@@ -67,7 +72,10 @@ function DashboardPage() {
           <DashboardIcon /><span>Boards</span>
         </h1>
         {notPinnedBoards()}
-        <Pagination amountOfPages={10} currentPage={4} />
+        {
+          page.amountOfPages > 1 &&
+          <Pagination amountOfPages={page.amountOfPages} currentPage={page.currentPage} handleChange={changePage} />
+        }
       </div>
     </div>
   )
