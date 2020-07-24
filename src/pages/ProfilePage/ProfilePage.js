@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "./ProfilePage.scss";
-import * as Yup from "yup";
+// import * as Yup from "yup";
 import SimpleForm from "components/SimpleForm/SimpleForm";
 import Image from "components/Image/Image";
 import ImageIcon from '@material-ui/icons/Image';

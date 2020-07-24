@@ -4,7 +4,6 @@ import ContainerBox from "components/ContainerBox/ContainerBox";
 import Modal from "components/Modal/Modal";
 import { LoginForm, RegisterForm } from "modalForms";
 import "./App.scss";
-import ReactDOM from "react-dom";
 import { ModalContext } from "context/ModalContext";
 import { UserContext } from "context/UserContext";
 import { BrowserRouter as Router, Link } from "react-router-dom";

@@ -18,7 +18,7 @@ const Routes = () => {
     <Switch>
       <Route exact path="/" component={user.username ? DashboardPage : WelcomePage} />
       <Route exact path="/profile" component={ProfilePage} />
-      <Route exact path="/board/{id}" component={BoardPage} />
+      <Route exact path="/board/:id" render={({match}) => <BoardPage boardId={match.params.id} />} />
       <Route exact path="/error" component={ErrorPage} />
     </Switch>
   );
