@@ -41,8 +41,8 @@ const BoardCard = ({boardTitle, isPinned, pinBoard, to}) => {
       </div>
       <div className="board-card-body" onClick={gToBoard}>
         <h1 className="board-title">{boardTitle}</h1>
-        <div onClick={togglePinBoard} className="board-menu">
-          {isPinned ? <Pined /> : <Pin />}
+        <div className="board-menu">
+          {isPinned ? <Pined onClick={togglePinBoard} /> : <Pin onClick={togglePinBoard} />}
           <MoreVertIcon onClick={toggleOptions} />
         </div>
       </div>

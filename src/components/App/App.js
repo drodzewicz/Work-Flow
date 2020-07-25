@@ -6,7 +6,7 @@ import { LoginForm, RegisterForm } from "modalForms";
 import "./App.scss";
 import { ModalContext } from "context/ModalContext";
 import { UserContext } from "context/UserContext";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import HomeIcon from '@material-ui/icons/Home';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -85,6 +85,7 @@ function App() {
               : loggedOutUserNavItems()
           }
         </Navbar>
+        <Route exact path="/board/:id" render={({match}) => <div>lox</div>} />
         <ContainerBox>
           <Routes />
         </ContainerBox>

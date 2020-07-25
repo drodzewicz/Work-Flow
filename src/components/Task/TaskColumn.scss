@@ -13,6 +13,11 @@
     flex-direction: row;
     align-items: center;
     margin: 0.2rem 0;
+    position: relative;
+    .drop-down-menu {
+      right: -4rem;
+      top: 0;
+    }
     .task-column-name{
       margin: 0;
       margin-left: 0;

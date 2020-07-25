@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import TaskColumn from "components/Task/TaskColumn";
 import "./BoardPage.scss";
+import ExpandText from "components/ExpandText/ExpandText";
 
 const BoardPage = ({boardId}) => {
   const [boardInfo, setBoardInfo] = useState({
@@ -34,7 +35,18 @@ const BoardPage = ({boardId}) => {
 
   return (
     <div className="board-page">
-      <h1 className="board-title">{boardInfo.name}</h1>
+      {/* <h1 className="board-title">{boardInfo.name}</h1> */}
+      <ExpandText text={boardInfo.name}>
+          <div>
+            hallo Lorem ipsum dolor sit amet consectetur adipisicing elit.
+             Eum rem tempore ex numquam expedita. Blanditiis error eum officia
+              unde, velit adipisci provident, doloribus, id quisquam harum
+               reprehenderit ipsa! Earum reprehenderit accusamus ipsum ipsa 
+               voluptate voluptatum corrupti ratione, doloribus, doloremque 
+               amet magni adipisci? Recusandae nesciunt laborum assumenda 
+               saepe quo facere dolor!
+          </div>
+        </ExpandText>
       <div className="board-page-container">
         {columns.map( ({id, listOfTasks, columnName}) => (
           <TaskColumn key={id} columnName={columnName} listOfTasks={listOfTasks} />

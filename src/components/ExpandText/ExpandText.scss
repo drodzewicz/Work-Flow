@@ -1,0 +1,28 @@
+.expand-text-container {
+  .expand-text-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    .text-title {
+      margin: 0;
+    }
+    .MuiSvgIcon-root {
+      height: 2rem;
+      width: 2rem;
+      cursor: pointer;
+      transition: 0.3s all ease-in-out;
+      &.open {
+        transform: rotate(180deg);
+      }
+    }
+  }
+  .expand-content {
+    max-height: 10rem;
+    overflow-y: hidden;
+    transition: 0.5s all ease-in-out;
+    &.close {
+      max-height: 0;
+    }
+  }
+}
