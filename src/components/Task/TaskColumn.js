@@ -26,7 +26,7 @@ const TaskColumn = ({columnName, listOfTasks}) => {
           </DropdownMenu>
         }
       </div>
-      <div>
+      <div className="task-container">
         {
           listOfTasks && listOfTasks.map(({id, name, tags, people, dueDate}) => (
             <Task

@@ -8,6 +8,16 @@
   padding: 0.5rem 0.6rem;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.292);
   font-family: 'Secular One', sans-serif;
+
+  .drop-down-span {
+    position: sticky;
+    .drop-down-menu {
+      position: absolute;
+      margin-left: 8rem;
+      margin-top: -0.15rem;
+    }
+  }
+ 
   .task-title {
     margin: 0;
     font-size: 1rem;

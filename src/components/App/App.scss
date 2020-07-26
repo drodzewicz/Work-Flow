@@ -5,6 +5,13 @@ body {
   background-color: $gray-bg;
 }
 
+.App {
+  .main-content {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
 .navbar {
   .nav-item {
     .MuiSvgIcon-root {

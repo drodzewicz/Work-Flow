@@ -1,4 +1,43 @@
-.board-page-container {
-  display: flex;
-  flex-direction: row;
+
+@import "../../assets/styles/colors";
+.board-page {
+  margin: 0 1rem;
+  .board-title {
+    margin: 2rem 1rem;
+    .text-title{
+      font-family: 'Secular One', sans-serif;
+    }
+    .expand-content {
+      color: $text-secondary;
+    }
+  }
+  .board-page-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    padding-bottom: 1rem;
+    align-items: flex-start;
+    &::-webkit-scrollbar {
+      height: 0.5em;
+    }
+     
+    &::-webkit-scrollbar-track {
+      background: $gray-1;
+      border-radius: 5px;
+    }
+     
+    &::-webkit-scrollbar-thumb {
+      background-color: darken($gray-1, 15%);
+      border-radius: 10px;
+  
+    }
+  }
+  .board-button-group {
+    margin: 1rem 0.5rem;
+    display: flex;
+    flex-direction: row;
+    .MuiSvgIcon-root {
+      height: 1rem;
+    }
+  }
 }
