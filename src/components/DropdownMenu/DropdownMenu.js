@@ -8,7 +8,9 @@ const DropdownMenu = ({ children, closeMenu }) => {
       <div className={"drop-down-menu"}>
         {
           Array.isArray(children)
-            ? children.map(node => (
+            ? children
+            .filter( node => node)
+            .map(node => (
               <div key={"" + Math.random()} className="drop-down-menu-item">
                 {node}
               </div>

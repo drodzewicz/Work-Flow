@@ -1,12 +1,22 @@
-import React, { useState, createContext } from "react";
+import React, { createContext, useReducer } from "react";
 
 export const ModalContext = createContext();
 
-export const ModalProvider = ({ children }) => {
-  const [renderComp, setRenderComp] = useState({
-    render: "",
-    show: false,
-  });
+const initialState = { render: "", title: "", show: false }
 
-  return <ModalContext.Provider value={[renderComp, setRenderComp]}>{children}</ModalContext.Provider>;
+const reducer = (state, {type, payload}) => {
+  switch(type) {
+    case "OPEN":
+      return { render: payload.render, title: payload.title, show: true };
+    case "CLOSE":
+      return { render: "", title: "", show: false };
+    default:
+      return state;
+  }
+}
+
+export const ModalProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  return <ModalContext.Provider value={[state, dispatch]}>{children}</ModalContext.Provider>;
 };

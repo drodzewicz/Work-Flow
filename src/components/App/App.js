@@ -19,7 +19,7 @@ import Footer from "components/Footer/Footer";
 
 function App() {
 
-  const [, setRenderComp] = useContext(ModalContext);
+  const [, modalDispatch] = useContext(ModalContext);
   const [user, setUser] = useContext(UserContext);
   const [notifications, setNotification ] = useState([
     {board: "wix websiite", message: "you have been added to the board"},
@@ -28,10 +28,10 @@ function App() {
   ]);
 
   const openLoginModal = () => {
-    setRenderComp({ render: <LoginForm />, show: true });
+    modalDispatch({type: "OPEN", payload: { render: <LoginForm />, title: "Login"}});
   }
   const openRegisterModal = () => {
-    setRenderComp({ render: <RegisterForm />, show: true });
+    modalDispatch({type: "OPEN", payload: { render: <RegisterForm />, title: "Register"}});
   }
   const logOutUser = () => {
     console.log("log out");

@@ -6,22 +6,27 @@ import CloseIcon from '@material-ui/icons/Close';
 import { ModalContext } from "context/ModalContext";
 
 const Modal = () => {
-  const [renderComp, setRenderComp] = useContext(ModalContext);
+  const [modalState, modalDispatch] = useContext(ModalContext);
 
   const closeModal = () => {
-    setRenderComp({ render: null, show: false });
+    modalDispatch({type: "CLOSE" });
   }
 
-  if(renderComp.show){
+  if(modalState.show){
     return ReactDOM.createPortal(
       <>
         <div className="modal-container">
-          <div className={renderComp.show ? "modal  modal-open" : "modal"}>
-            <CloseIcon onClick={closeModal} className="close" />
-            {renderComp.render}
+          <div className={modalState.show ? "modal  modal-open" : "modal"}>
+            <div className="modal-header">
+              <h2 className="modal-title">{modalState.title}</h2>
+              <CloseIcon onClick={closeModal} className="close" />
+            </div>
+            <div className="modal-body">
+              {modalState.render}
+            </div>
           </div>
         </div>
-        <Backdrop show={renderComp.show} clicked={closeModal} />
+        <Backdrop show={modalState.show} clicked={closeModal} />
       </>,
       document.getElementById("root-modal")
     )

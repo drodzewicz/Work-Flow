@@ -1,4 +1,5 @@
 @import "../../assets/styles/mediaQueries";
+@import "../../assets/styles/colors";
 
 .dashboard-container {
   display: flex;
@@ -11,7 +12,24 @@
     .pagination-container {
       grid-column: 1/5;
     }
+    .new-board-btn {
+      margin-left: 1rem;
+      background-color: $black-1;
+      color: white;
+      font-size: 0.7rem;
+      padding: 3px 5px;
+      border-radius: 2px;
+
+      &:hover {
+        background: lighten($black-1, 10%);
+      }
+      .MuiSvgIcon-root {
+        height: 1rem;
+        width: 1rem;
+      }
+    }
     .board-container-title {
+      color: $black-1;
       font-family: 'Secular One', sans-serif;
       font-size: 1.2rem;
       grid-column: 1/5;

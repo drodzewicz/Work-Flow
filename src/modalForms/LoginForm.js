@@ -29,7 +29,6 @@ const handleSubmit = (data, { setSubmitting }) => {
 const LoginForm = () => {
   return (
       <SimpleForm 
-        title="Login"
         submitButtonName="Login"
         validationSchema={validationSchema}
         handleSubmit={handleSubmit}

@@ -48,7 +48,6 @@ const handleSubmit = (data, { setSubmitting }) => {
 const RegisterForm = () => {
   return (
     <SimpleForm
-      title="Register"
       submitButtonName="Register"
       validationSchema={validationSchema}
       handleSubmit={handleSubmit}

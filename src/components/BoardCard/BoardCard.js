@@ -6,7 +6,7 @@ import {ReactComponent as Pin} from "assets/images/pin-empty.svg";
 import {ReactComponent as Pined} from "assets/images/pin-full.svg";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu"
 
-const BoardCard = ({boardTitle, isPinned, pinBoard, to}) => {
+const BoardCard = ({boardTitle, isPinned, pinBoard, boardId, owner}) => {
 
   const [options, setOptions] = useState(false);
   const history = useHistory();
@@ -22,12 +22,16 @@ const BoardCard = ({boardTitle, isPinned, pinBoard, to}) => {
     e.stopPropagation();
     console.log("editing event");
   }
+  const deleteBoardHandler = (e) => {
+    e.stopPropagation();
+    console.log("deleteing event");
+  }
   const leavingEvent = (e) => {
     e.stopPropagation();
     console.log("leave event");
   }
   const gToBoard = () => {
-    history.push(to);
+    history.push(`/board/${boardId}`);
   }
   
 
@@ -49,8 +53,15 @@ const BoardCard = ({boardTitle, isPinned, pinBoard, to}) => {
       {
         options && 
         <DropdownMenu closeMenu={toggleOptions}>
-          <span onClick={editEventModal}>edit</span>
-          <span onClick={leavingEvent}>leave</span>
+          {
+            owner === "currentUser" ?
+            <>
+             <span onClick={editEventModal}>edit</span>
+             <span onClick={deleteBoardHandler}>delete</span>
+            </>
+            : <span onClick={leavingEvent}>leave</span>
+          }
+          
         </DropdownMenu>
         }
     </div>

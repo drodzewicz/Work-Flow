@@ -15,10 +15,9 @@ const createInitialValueObject = (fieldObject) => {
   return initialValues;
 }
 
-const SimpleForm = ({ title, submitButtonName, validationSchema, handleSubmit, fields }) => {
+const SimpleForm = ({ submitButtonName, validationSchema, handleSubmit, fields }) => {
   return (
     <div className="simple-form-container">
-      <h2 className="form-title">{title}</h2>
       <Formik
         validationSchema={validationSchema}
         initialValues={createInitialValueObject(fields)}
@@ -60,14 +59,12 @@ const SimpleForm = ({ title, submitButtonName, validationSchema, handleSubmit, f
 }
 
 SimpleForm.defaultProps = {
-  title: "",
   validationSchema: Yup.object({}),
   submitButtonName: "Submit"
 }
 
 SimpleForm.propTypes = {
   submitButtonName: PropTypes.string,
-  title: PropTypes.string,
   validationSchema: PropTypes.object,
   handleSubmit: PropTypes.func.isRequired,
   fields: PropTypes.object.isRequired,

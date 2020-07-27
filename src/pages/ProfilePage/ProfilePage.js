@@ -1,22 +1,12 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import "./ProfilePage.scss";
 import * as Yup from "yup";
 import SimpleForm from "components/SimpleForm/SimpleForm";
 import Image from "components/Image/Image";
 import Button from "components/Button/Button";
 import ImageIcon from '@material-ui/icons/Image';
+import { ModalContext } from "context/ModalContext";
 
-const handleSubmit = (data, { setSubmitting }) => {
-  setSubmitting(true);
-  console.log("updated", data);
-  setTimeout(() => {
-    setSubmitting(false);
-  }, 2000);
-}
-
-const chnageImageModalOpen = () => {
-  console.log("chaning image");
-}
 
 const validationSchema = Yup.object({
   username: Yup
@@ -38,6 +28,9 @@ const validationSchema = Yup.object({
 });
 
 const ProfilePage = () => {
+
+  const [, modalDispatch] = useContext(ModalContext);
+
   const [profileInfo, ] = useState({
     username: {initialVal: "DarkoDark", type: "text"},
     name: {initialVal: "darkowski", type: "text"},
@@ -45,11 +38,24 @@ const ProfilePage = () => {
     email: {initialVal: "darkowski@daark.com", type: "text"},
   });
 
+  const handleSubmit = (data, { setSubmitting }) => {
+    setSubmitting(true);
+    console.log("updated", data);
+    setTimeout(() => {
+      setSubmitting(false);
+    }, 2000);
+  }
+  
+  const changeImageModalOpen = () => {
+    modalDispatch({type: "OPEN", payload: { render: "hej", title: "Testing"}})
+  }
+  
+
   return (
     <div className="profile-page-container">
       <div className="profile-image">
         <Image imageLink="https://graphics-for-less.com/wp-content/uploads/edd/2015/11/woman-avatar-4.png" />
-        <button onClick={chnageImageModalOpen} className="change-image-btn">
+        <button onClick={changeImageModalOpen} className="change-image-btn">
           <ImageIcon />
         </button>
       </div>

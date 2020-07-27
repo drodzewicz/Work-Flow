@@ -1,4 +1,5 @@
 @import "../../assets/styles/mediaQueries";
+@import "../../assets/styles/colors";
 
 .backdrop {
   z-index: 900;
@@ -23,14 +24,45 @@
   height: auto;
   border: 1px solid #ccc;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.445);
-  padding: 1rem 2rem 2rem 2rem;
   box-sizing: border-box;
   border-radius: 10px;
   top: 5%;
   transition: all 0.3s ease-out;
-
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+  .modal-header {
+    background-color: $blue-secondary-overlay;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    padding: 0 1rem;
+    position: relative;
+    .modal-title {
+      margin: 0;
+      flex-grow: 1;
+      text-align: center;
+      font-family: 'Secular One', sans-serif;
+      color: darken($blue-secondary-overlay, 80%);
+      font-size: 1.3rem;
+      box-sizing: border-box;
+      transform: translateX(18px);
+      z-index: 1;
+    }
+    .close{
+      align-self: flex-end;
+      cursor: pointer;
+      color: $black-1;
+      font-size: 1.4rem;
+      height: 100%;
+      z-index: 2;
+    }
+  }
+  .modal-body {
+    padding: 1rem 2rem 2rem 2rem;
+  }
 
   @include mobile {
     width: 100%;
@@ -40,11 +72,7 @@
     top: 6rem;
   }
 
-  .close{
-    align-self: flex-end;
-    cursor: pointer;
-    font-size: 1.4rem;
-  }
+
 
 }
 

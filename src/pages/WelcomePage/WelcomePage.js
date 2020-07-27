@@ -3,13 +3,15 @@ import "./WelcomePage.scss";
 import Button from "components/Button/Button";
 import { ModalContext } from "context/ModalContext";
 import workflowPerson from "assets/images/workflow-person.svg";
+import { RegisterForm } from "modalForms";
 
 const WelcomePage = () => {
 
-  const [, setRenderComp] = useContext(ModalContext);
+  const [, modalDispatch] = useContext(ModalContext);
+
 
   const openRegisterModal = () => {
-    setRenderComp({show: true, render: "register form"});
+    modalDispatch({type: "OPEN", payload: { render: <RegisterForm />, title: "Register"}});
   }
 
   return (
