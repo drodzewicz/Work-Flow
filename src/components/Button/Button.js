@@ -4,14 +4,14 @@ import PropTypes from "prop-types";
 
 const Button = ({children, classes, clicked, type, disabled}) => {
   return (
-    <button disabled={disabled} type={type} onClick={clicked} className={classes.join(" ")}>
+    <button disabled={disabled} type={type} onClick={clicked} className={`btn-primary ${classes.join(" ")}`}>
       {children}
     </button>
   ); 
 };
 
 Button.defaultProps = {
-  classes: ["btn-primary"],
+  classes: [""],
   clicked: null,
   type: "button",
   disabled: false

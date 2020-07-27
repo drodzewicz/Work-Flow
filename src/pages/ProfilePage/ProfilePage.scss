@@ -1,4 +1,66 @@
+
+@import "../../assets/styles/mediaQueries";
+@import "../../assets/styles/colors";
 .profile-page-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap ;
+  justify-content: center;
+  align-items: center;
+
+  .change-password {
+    margin-top: 1rem;
+    font-size: 0.7rem;
+  }
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @include mobile {
+      width: 100%;
+      margin-top: 2rem;
+    }
+    .username {
+      margin: 0;
+      font-family: 'Secular One', sans-serif;
+      font-size: 1.4rem;
+    }
+    .name-surname {
+      margin: 0;
+      font-size: 1rem;
+      color: $text-secondary;
+      font-family: 'Roboto', sans-serif;
+    }
+  }
+  & > * {
+    margin: 0 1rem;
+  }
+  .simple-form-container {
+    width: 100%;
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      & > div {
+        margin: 0 0.5rem;
+      }
+      button{
+        grid-column: 1/3;
+        display: flex;
+        width: 10rem;
+        justify-self:center ;
+      }
+
+      @include mobile {
+        grid-template-columns: 1fr;
+        button{
+          grid-column: auto;
+        }
+      }
+
+    }
+  }
   .profile-image {
     $avatar-size: 9rem;
     width: $avatar-size;
