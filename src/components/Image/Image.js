@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Image = ({ imageLink, errorImage, classes }) => {
-
   const fallback = (e) => {
     e.target.src = errorImage;
   };
@@ -14,18 +13,17 @@ const Image = ({ imageLink, errorImage, classes }) => {
       src={imageLink}
       onError={fallback}
     />
-  )
+  );
 };
 Image.defaultProps = {
   errorImage: "https://i.stack.imgur.com/l60Hf.png",
-  classes: [""]
-}
+  classes: [""],
+};
 
 Image.propTypes = {
   imageLink: PropTypes.string.isRequired,
   errorImage: PropTypes.string,
-  classes: PropTypes.arrayOf(PropTypes.string)
-}
+  classes: PropTypes.arrayOf(PropTypes.string),
+};
 
-
-export default Image
+export default Image;

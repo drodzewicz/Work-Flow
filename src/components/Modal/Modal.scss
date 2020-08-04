@@ -20,7 +20,7 @@
   position: fixed;
   z-index: 999;
   background-color: white;
-  width: 28rem;
+  min-width: 28rem;
   height: auto;
   border: 1px solid #ccc;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.445);
@@ -44,14 +44,14 @@
       margin: 0;
       flex-grow: 1;
       text-align: center;
-      font-family: 'Secular One', sans-serif;
+      font-family: "Secular One", sans-serif;
       color: darken($blue-secondary-overlay, 80%);
       font-size: 1.3rem;
       box-sizing: border-box;
       transform: translateX(18px);
       z-index: 1;
     }
-    .close{
+    .close {
       align-self: flex-end;
       cursor: pointer;
       color: $black-1;
@@ -71,28 +71,25 @@
     border-radius: 0;
     top: 6rem;
   }
-
-
-
 }
 
-.modal-open{
+.modal-open {
   animation: open-modal-animation 0.4s ease-out forwards;
   @include mobile {
     animation: auto;
   }
 }
 
-@keyframes open-modal-animation{
-  0%{
+@keyframes open-modal-animation {
+  0% {
     opacity: 0;
     transform: translateY(-100%);
   }
-  50%{
+  50% {
     opacity: 1;
     transform: translateY(6%);
   }
-  100%{
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
