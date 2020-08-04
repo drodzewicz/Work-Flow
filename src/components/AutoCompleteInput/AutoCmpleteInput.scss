@@ -1,19 +1,23 @@
 .auto-complete-input {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-content: center;
   position: relative;
   box-sizing: border-box;
+  background: lightblue;
+  padding: 5px;
+  border-radius: 3px;
+
   .search-input {
     background: transparent;
-    border: 1px solid grey;
-    padding: 3px;
-    border-radius: 3px;
+    border: none;
+    flex-grow: 1;
+    outline: none;
   }
   .search-result-container {
     background: lightblue;
-    top: 1.5rem;
+    top: 2rem;
     position: absolute;
     width: 100%;
     overflow: hidden;

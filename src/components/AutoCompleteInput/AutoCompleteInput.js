@@ -1,5 +1,6 @@
 import React from "react";
 import "./AutoCmpleteInput.scss";
+import SearchIcon from "@material-ui/icons/Search";
 
 const AutoCompleteInput = ({
   timeout,
@@ -19,7 +20,13 @@ const AutoCompleteInput = ({
 
   return (
     <div className="auto-complete-input">
-      <input className="search-input" type="text" onChange={doSearch} />
+      <input
+        placeholder="search..."
+        className="search-input"
+        type="text"
+        onChange={doSearch}
+      />
+      <SearchIcon />
       <div className="search-result-container">
         {searchResult &&
           searchResult.map((data) => (

@@ -66,7 +66,7 @@ const NewBoardForm = () => {
         onSubmit={submitCreateBoard}
       >
         <Form>
-          <div className="inputs">
+          <div className="fields">
             <Field
               label={"board name"}
               name={"name"}
@@ -97,7 +97,7 @@ const NewBoardForm = () => {
               </User>
             ))}
           </div>
-          <Button classes={["btn-accent"]} type="submit">
+          <Button classes={["btn-accent btn-submit"]} type="submit">
             Create
           </Button>
         </Form>
