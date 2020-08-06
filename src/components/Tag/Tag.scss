@@ -1,0 +1,74 @@
+.tag {
+  background: lightcoral;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0.2rem 0;
+  height: 2rem;
+  .tag-input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-family: "Secular One", sans-serif;
+  }
+
+  .tag-check {
+    // margin-left: auto;
+    // margin-right: 0;
+    cursor: pointer;
+  }
+
+  &.red {
+    background: rgb(255, 116, 116);
+    color: white;
+    .tag-input {
+      color: white;
+    }
+  }
+  &.yellow {
+    background: rgb(243, 219, 85);
+    color: black;
+    .tag-input {
+      color: black;
+    }
+  }
+  &.green {
+    background: rgb(89, 175, 89);
+    color: white;
+    .tag-input {
+      color: white;
+    }
+  }
+  &.tiel {
+    background: rgb(146, 250, 233);
+    color: black;
+    .tag-input {
+      color: black;
+    }
+  }
+  &.purple {
+    background: rgb(230, 129, 230);
+    color: white;
+    .tag-input {
+      color: white;
+    }
+  }
+  &.majenta {
+    background: rgb(216, 116, 138);
+    color: white;
+    .tag-input {
+      color: white;
+    }
+  }
+  &.pink {
+    background: rgb(236, 191, 198);
+    color: black;
+    .tag-input {
+      color: black;
+    }
+  }
+}

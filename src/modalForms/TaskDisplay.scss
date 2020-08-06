@@ -1,0 +1,65 @@
+@import "../assets/styles/mediaQueries";
+
+.display-task {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  box-sizing: border-box;
+  @include mobile {
+    flex-direction: column;
+  }
+  & > * {
+    margin: 0 1rem;
+  }
+
+  .text-details {
+    display: flex;
+    flex-direction: column;
+    max-width: 25rem;
+
+    .due-date {
+      margin: 0;
+      font-style: italic;
+      font-size: 0.8rem;
+    }
+    .task-title {
+      margin: 0.3rem 0;
+      font-size: 1.8rem;
+    }
+    .task-description {
+      margin: 0;
+      margin-top: 1rem;
+    }
+    .tag-container {
+      display: flex;
+      flex-direction: row;
+      margin-top: 1rem;
+      .task-tag {
+        min-width: 1.2rem;
+        height: 1.2rem;
+        background: transparent;
+        border-radius: 5px;
+        border: 2px solid black;
+        padding: 0.2rem;
+        margin: 0 0.2rem;
+        font-size: 0.8rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+  .people-details {
+    min-width: 10rem;
+    .user-title {
+      margin: 0;
+      font-size: 1.2rem;
+      &.assigned-people-title {
+        margin-top: 1rem;
+      }
+    }
+    .user-card {
+      margin: 0.2rem 0;
+    }
+  }
+}

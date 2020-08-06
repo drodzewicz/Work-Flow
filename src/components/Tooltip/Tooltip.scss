@@ -1,0 +1,15 @@
+.tool-tip-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  .tooltp {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.787);
+    top: -1rem;
+    color: white;
+    padding: 4px;
+    border-radius: 2px;
+    font-size: 0.8rem;
+  }
+}

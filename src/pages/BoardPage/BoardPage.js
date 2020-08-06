@@ -7,7 +7,7 @@ import PeopleIcon from "@material-ui/icons/People";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import { ModalContext } from "context/ModalContext";
-import { BoardMembers } from "modalForms";
+import { BoardMembers, TagForm, NewColumn } from "modalForms";
 
 const BoardPage = ({ boardId }) => {
   const [boardInfo, setBoardInfo] = useState({
@@ -201,6 +201,19 @@ const BoardPage = ({ boardId }) => {
       payload: { render: <BoardMembers />, title: "Board Members" },
     });
   };
+  const openBoardTagsModal = () => {
+    modalDispatch({
+      type: "OPEN",
+      payload: { render: <TagForm />, title: "Board Tags" },
+    });
+  };
+  const openCreateNewColumn = () => {
+    modalDispatch({
+      type: "OPEN",
+      payload: { render: <NewColumn />, title: "New Column" },
+    });
+  };
+
   return (
     <div className="board-page">
       {/* <h1 className="board-title">{boardInfo.name}</h1> */}
@@ -219,11 +232,11 @@ const BoardPage = ({ boardId }) => {
           <PeopleIcon />
           <span>Peolpe</span>
         </Button>
-        <Button>
+        <Button clicked={openBoardTagsModal}>
           <LocalOfferIcon />
           <span>Tags</span>
         </Button>
-        <Button>
+        <Button clicked={openCreateNewColumn}>
           <AddBoxIcon />
           <span>New Column</span>
         </Button>
