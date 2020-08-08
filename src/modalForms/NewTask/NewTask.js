@@ -13,7 +13,7 @@ const NewTask = () => {
 		{ id: "1j343", username: "user2", imageLink: "link1" },
 		{ id: "1576j3", username: "user3", imageLink: "link1" },
 	]);
-	const [tags, setTags] = useState({
+	const [tags] = useState({
 		red: "",
 		yellow: "",
 		green: "test",

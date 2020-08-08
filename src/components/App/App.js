@@ -19,7 +19,7 @@ import Footer from "components/Footer/Footer";
 
 function App() {
   const [, modalDispatch] = useContext(ModalContext);
-  const [user, setUser] = useContext(UserContext);
+  const [user, dispatchUser] = useContext(UserContext);
   const history = useHistory();
   const [notifications, setNotification] = useState([
     { board: "wix websiite", message: "you have been added to the board" },
@@ -45,7 +45,7 @@ function App() {
   };
   const logOutUser = () => {
     console.log("log out");
-    setUser({ ...user, username: null });
+    dispatchUser({type: "LOGOUT"});
   };
   const removeMessage = (index) => {
     let tempNotification = [...notifications];

@@ -3,13 +3,15 @@ import * as Yup from "yup";
 import SimpleForm from "components/SimpleForm/SimpleForm";
 
 const validationSchema = Yup.object({
-	password: Yup.string().max(25, "username is too long").required("field is required"),
-	matchPassword: Yup.string().max(25, "username is too long").required("field is required"),
+	password: Yup.string().min(5, "must be at least 5 characters").required("field is required"),
+	matchPassword: Yup.string()
+		.oneOf([Yup.ref("password")], "password does not match")
+		.required("Password confirm is required"),
 });
 
 const fields = {
 	password: { initialVal: "", type: "password" },
-	matchPassword: { initialVal: "", type: "password" },
+	matchPassword: { initialVal: "", type: "password", label: "match password" },
 };
 
 const ChangePassword = ({ passwordConfirmationMethod }) => {
