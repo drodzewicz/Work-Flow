@@ -10,246 +10,245 @@ import { ModalContext } from "context/ModalContext";
 import { BoardMembers, TagForm, NewColumn } from "modalForms";
 
 const BoardPage = ({ boardId }) => {
-  const [boardInfo, setBoardInfo] = useState({
-    name: "testing new reat features",
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore cum odit, reprehenderit exercitationem tempora perspiciatis nemo cumque ",
-  });
+	const [boardInfo] = useState({
+		name: "testing new reat features",
+		description:
+			"Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore cum odit, reprehenderit exercitationem tempora perspiciatis nemo cumque ",
+	});
 
-  const [members, setMembers] = useState([
-    { id: "1", username: "user1", imageLink: "" },
-    { id: "2", username: "user2", imageLink: "" },
-    { id: "3", username: "user3", imageLink: "" },
-  ]);
+	const [members] = useState([
+		{ id: "1", username: "user1", imageLink: "" },
+		{ id: "2", username: "user2", imageLink: "" },
+		{ id: "3", username: "user3", imageLink: "" },
+	]);
 
-  const [columns, setColumns] = useState([
-    {
-      id: "COL1",
-      columnName: "test 1",
-      listOfTasks: [
-        {
-          id: "TSK1",
-          name: "task1",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-        {
-          id: "TSK2",
-          name: "task2",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-        {
-          id: "TSK3",
-          name: "task1",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-      ],
-    },
-    {
-      id: "COL2",
-      columnName: "test 2",
-      listOfTasks: [
-        {
-          id: "TSK1",
-          name: "task1",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-        {
-          id: "TSK2",
-          name: "task2",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-        {
-          id: "TSK3",
-          name: "task2",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-        {
-          id: "TSK4",
-          name: "task2",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-        {
-          id: "TSK5",
-          name: "task2",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-        {
-          id: "TSK6",
-          name: "task1",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-        {
-          id: "TSK7",
-          name: "task1",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-        {
-          id: "TSK8",
-          name: "task1",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-        {
-          id: "TSK9",
-          name: "task1",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-      ],
-    },
-    {
-      id: "COL3",
-      columnName: "test 3",
-      listOfTasks: [
-        {
-          id: "TSK1",
-          name: "task1",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-        {
-          id: "TSK2",
-          name: "task2",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-        {
-          id: "TSK3",
-          name: "task1",
-          dueDate: "2020-11-20",
-          tags: ["#D74530", "#25D68F"],
-          people: [
-            { id: "use1", username: "user1", imageLink: "kke" },
-            { id: "use2", username: "user2", imageLink: "kke" },
-          ],
-        },
-      ],
-    },
-  ]);
+	const [columns] = useState([
+		{
+			id: "COL1",
+			columnName: "test 1",
+			listOfTasks: [
+				{
+					id: "TSK1",
+					name: "task1",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+				{
+					id: "TSK2",
+					name: "task2",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+				{
+					id: "TSK3",
+					name: "task1",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+			],
+		},
+		{
+			id: "COL2",
+			columnName: "test 2",
+			listOfTasks: [
+				{
+					id: "TSK1",
+					name: "task1",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+				{
+					id: "TSK2",
+					name: "task2",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+				{
+					id: "TSK3",
+					name: "task2",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+				{
+					id: "TSK4",
+					name: "task2",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+				{
+					id: "TSK5",
+					name: "task2",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+				{
+					id: "TSK6",
+					name: "task1",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+				{
+					id: "TSK7",
+					name: "task1",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+				{
+					id: "TSK8",
+					name: "task1",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+				{
+					id: "TSK9",
+					name: "task1",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+			],
+		},
+		{
+			id: "COL3",
+			columnName: "test 3",
+			listOfTasks: [
+				{
+					id: "TSK1",
+					name: "task1",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+				{
+					id: "TSK2",
+					name: "task2",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+				{
+					id: "TSK3",
+					name: "task1",
+					dueDate: "2020-11-20",
+					tags: ["#D74530", "#25D68F"],
+					people: [
+						{ id: "use1", username: "user1", imageLink: "kke" },
+						{ id: "use2", username: "user2", imageLink: "kke" },
+					],
+				},
+			],
+		},
+	]);
 
-  const [, modalDispatch] = useContext(ModalContext);
+	const [, modalDispatch] = useContext(ModalContext);
 
-  const openBoardMembersModal = () => {
-    modalDispatch({
-      type: "OPEN",
-      payload: { render: <BoardMembers />, title: "Board Members" },
-    });
-  };
-  const openBoardTagsModal = () => {
-    modalDispatch({
-      type: "OPEN",
-      payload: { render: <TagForm />, title: "Board Tags" },
-    });
-  };
-  const openCreateNewColumn = () => {
-    modalDispatch({
-      type: "OPEN",
-      payload: { render: <NewColumn />, title: "New Column" },
-    });
-  };
+	const openBoardMembersModal = () => {
+		modalDispatch({
+			type: "OPEN",
+			payload: { render: <BoardMembers />, title: "Board Members" },
+		});
+	};
+	const openBoardTagsModal = () => {
+		modalDispatch({
+			type: "OPEN",
+			payload: { render: <TagForm />, title: "Board Tags" },
+		});
+	};
+	const openCreateNewColumn = () => {
+		modalDispatch({
+			type: "OPEN",
+			payload: { render: <NewColumn />, title: "New Column" },
+		});
+	};
 
-  return (
-    <div className="board-page">
-      {/* <h1 className="board-title">{boardInfo.name}</h1> */}
-      <ExpandText classes={["board-title"]} text={boardInfo.name}>
-        <div>
-          hallo Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum rem
-          tempore ex numquam expedita. Blanditiis error eum officia unde, velit
-          adipisci provident, doloribus, id quisquam harum reprehenderit ipsa!
-          Earum reprehenderit accusamus ipsum ipsa voluptate voluptatum corrupti
-          ratione, doloribus, doloremque amet magni adipisci? Recusandae
-          nesciunt laborum assumenda saepe quo facere dolor!
-        </div>
-      </ExpandText>
-      <div className="board-button-group">
-        <Button clicked={openBoardMembersModal}>
-          <PeopleIcon />
-          <span>Peolpe</span>
-        </Button>
-        <Button clicked={openBoardTagsModal}>
-          <LocalOfferIcon />
-          <span>Tags</span>
-        </Button>
-        <Button clicked={openCreateNewColumn}>
-          <AddBoxIcon />
-          <span>New Column</span>
-        </Button>
-      </div>
-      <div className="board-page-container">
-        {columns.map(({ id, listOfTasks, columnName }) => (
-          <span key={id}>
-            <TaskColumn columnName={columnName} listOfTasks={listOfTasks} />
-          </span>
-        ))}
-      </div>
-    </div>
-  );
+	return (
+		<div className="board-page">
+			{/* <h1 className="board-title">{boardInfo.name}</h1> */}
+			<ExpandText classes={["board-title"]} text={boardInfo.name}>
+				<div>
+					hallo Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum rem tempore ex numquam
+					expedita. Blanditiis error eum officia unde, velit adipisci provident, doloribus, id
+					quisquam harum reprehenderit ipsa! Earum reprehenderit accusamus ipsum ipsa voluptate
+					voluptatum corrupti ratione, doloribus, doloremque amet magni adipisci? Recusandae
+					nesciunt laborum assumenda saepe quo facere dolor!
+				</div>
+			</ExpandText>
+			<div className="board-button-group">
+				<Button clicked={openBoardMembersModal}>
+					<PeopleIcon />
+					<span>Peolpe</span>
+				</Button>
+				<Button clicked={openBoardTagsModal}>
+					<LocalOfferIcon />
+					<span>Tags</span>
+				</Button>
+				<Button clicked={openCreateNewColumn}>
+					<AddBoxIcon />
+					<span>New Column</span>
+				</Button>
+			</div>
+			<div className="board-page-container">
+				{columns.map(({ id, listOfTasks, columnName }) => (
+					<span key={id}>
+						<TaskColumn columnName={columnName} listOfTasks={listOfTasks} />
+					</span>
+				))}
+			</div>
+		</div>
+	);
 };
 
 export default BoardPage;

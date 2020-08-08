@@ -1,19 +1,22 @@
-import LoginForm from "./LoginForm";
-import RegisterForm from "./RegisterForm";
-import NewBoardForm from "./NewBoardForm";
-import NewTaskForm from "./NewTaskForm";
+import Login from "./Login";
+import Register from "./Register";
+import NewBoard from "./NewBoard/NewBoard";
+import NewTask from "./NewTask/NewTask";
 import BoardMembers from "./BoardMembers";
-import TagForm from "./TagsForm";
-import TaskDisplay from "./TaskDisplay";
+import TagForm from "./Tags";
+import TaskDisplay from "./TaskDisplay/TaskDisplay";
 import NewColumn from "./NewColumn.js";
-
+import ChangePassword from "./ChangePassword.js";
+import ChangeProfilePicture from "./ChangeProfilePicture.js";
 export {
-  LoginForm,
-  RegisterForm,
-  NewBoardForm,
+  Login,
+  Register,
+  NewBoard,
   BoardMembers,
   TagForm,
-  NewTaskForm,
+  NewTask,
   NewColumn,
   TaskDisplay,
+  ChangePassword,
+  ChangeProfilePicture,
 };

@@ -1,21 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.scss';
-import App from './components/App/App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.scss";
+import App from "./components/App/App";
+import * as serviceWorker from "./serviceWorker";
 import { ModalProvider } from "./context/ModalContext";
 import { UserProvider } from "./context/UserContext";
-
+import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
     <ModalProvider>
       <UserProvider>
-        <App />
+        <Router>
+          <App />
+        </Router>
       </UserProvider>
     </ModalProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
