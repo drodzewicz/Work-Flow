@@ -13,6 +13,12 @@ body {
 }
 
 .navbar {
+  .home-btn button {
+    padding: 0;
+    a {
+      padding: 0.35rem 0.65rem;
+    }
+  }
   .nav-item {
     .MuiSvgIcon-root {
       height: 1.35rem;
@@ -29,7 +35,7 @@ body {
       .logout-btn {
         background: none;
         border: none;
-        font-family: 'Roboto', sans-serif;
+        font-family: "Roboto", sans-serif;
         font-size: 1rem;
         padding: 0;
       }
