@@ -7,7 +7,7 @@ import Pagination from "components/Pagination/Pagination";
 import Button from "components/Button/Button";
 import { ModalContext } from "context/ModalContext";
 import AddBoxIcon from "@material-ui/icons/AddBox";
-import { NewBoardForm } from "modalForms";
+import { NewBoard } from "modalForms";
 
 function DashboardPage() {
   const [page, setPage] = useState({ currentPage: 1, amountOfPages: 10 });
@@ -91,7 +91,7 @@ function DashboardPage() {
   const openCreateNewBoardModal = () => {
     modalDispatch({
       type: "OPEN",
-      payload: { render: <NewBoardForm />, title: "New Board" },
+      payload: { render: <NewBoard />, title: "New Board" },
     });
   };
   const pinnedBoards = () => {

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import Navbar from "components/Navbar/Navbar";
 import ContainerBox from "components/ContainerBox/ContainerBox";
 import Modal from "components/Modal/Modal";
-import { LoginForm, RegisterForm } from "modalForms";
+import { Login, Register } from "modalForms";
 import "./App.scss";
 import { ModalContext } from "context/ModalContext";
 import { UserContext } from "context/UserContext";
@@ -34,13 +34,13 @@ function App() {
   const openLoginModal = () => {
     modalDispatch({
       type: "OPEN",
-      payload: { render: <LoginForm />, title: "Login" },
+      payload: { render: <Login />, title: "Login" },
     });
   };
   const openRegisterModal = () => {
     modalDispatch({
       type: "OPEN",
-      payload: { render: <RegisterForm />, title: "Register" },
+      payload: { render: <Register />, title: "Register" },
     });
   };
   const logOutUser = () => {

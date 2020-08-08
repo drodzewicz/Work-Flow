@@ -3,13 +3,13 @@ import * as Yup from "yup";
 import SimpleForm from "components/SimpleForm/SimpleForm";
 
 const validationSchema = Yup.object({
-	name: Yup.string().max(25, "username is too long").required("field is required"),
-	order: Yup.number().required("field is required"),
+	username: Yup.string().max(25, "username is too long").required("field is required"),
+	password: Yup.string().min(5, "must be at least 5 characters").required("field is required"),
 });
 
 const fields = {
-	name: { initialVal: "", type: "text" },
-	order: { initialVal: "", type: "number" },
+	username: { initialVal: "", type: "text" },
+	password: { initialVal: "", type: "password" },
 };
 
 const handleSubmit = (data, { setSubmitting }) => {
@@ -20,10 +20,10 @@ const handleSubmit = (data, { setSubmitting }) => {
 	}, 2000);
 };
 
-const NewColumn = () => {
+const Login = () => {
 	return (
 		<SimpleForm
-			submitButtonName="Create"
+			submitButtonName="Login"
 			validationSchema={validationSchema}
 			handleSubmit={handleSubmit}
 			fields={fields}
@@ -31,4 +31,4 @@ const NewColumn = () => {
 	);
 };
 
-export default NewColumn;
+export default Login;
