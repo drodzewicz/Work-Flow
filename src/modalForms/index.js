@@ -2,7 +2,7 @@ import Login from "./Login";
 import Register from "./Register";
 import NewBoard from "./NewBoard/NewBoard";
 import NewTask from "./NewTask/NewTask";
-import BoardMembers from "./BoardMembers";
+import BoardMembers from "./BoardMembers/BoardMembers";
 import TagForm from "./Tags";
 import TaskDisplay from "./TaskDisplay/TaskDisplay";
 import NewColumn from "./NewColumn.js";

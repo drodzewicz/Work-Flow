@@ -2,86 +2,85 @@
 @import "../../assets/styles/colors";
 
 .board-form-container {
-  display: flex;
-  flex-direction: row;
-  & > form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    align-items: center;
-    width: 100%;
-    @include mobile {
-      grid-template-columns: 1fr;
-    }
-    & > * {
-      margin: 0 1rem;
-      @include mobile {
-        margin: 0 ;
-      }
-    }
+	display: flex;
+	flex-direction: row;
+	& > form {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		align-items: center;
+		width: 100%;
+		@include mobile {
+			grid-template-columns: 1fr;
+		}
+		& > * {
+			margin: 0 1rem;
+			@include mobile {
+				margin: 0;
+			}
+		}
 
-    .fields {
-      width: 15rem;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      @include mobile { 
-        width: auto;
-      }
-      & > * {
-        &.board-name-input {
-          margin-bottom: 1rem;
-          .MuiInputLabel-outlined {
-            transform: translate(14px, 13px) scale(1);
-          }
-          .MuiInputLabel-shrink {
-            transform: translate(14px,-6px) scale(0.75);
-          }
-        }
-        .MuiInputBase-input, .MuiInputBase-multiline {
-          padding: 0.6rem;
-          @include mobile {
-            margin-bottom: 1rem;
-          }
-          textarea {
-            padding: 0;
-          }
-        }
-      }
-    }
-    .user-container {
-      .auto-complete-input-wrapper {
-        margin-bottom: 1rem;
-      }
-      .user-card-container {
-        overflow-y: scroll;
-        height: 10rem;
-        &::-webkit-scrollbar {
-          width: 0.5em;
-        }
-         
-        &::-webkit-scrollbar-track {
-          background: darken($blue-primary-overlay, 5%);
-          border-radius: 5px;
-        }
-         
-        &::-webkit-scrollbar-thumb {
-          background-color: darken($gray-1, 5%);
-          border-radius: 10px;
-      
-        }
-        .user-card {
-          margin-left: 0;
-        }
-      }
-    }
-    .btn-submit {
-      grid-column: 1/3;
-      margin: auto;
-      margin-top: 1rem;
-      @include mobile {
-        grid-column: auto;
-      }
-    }
-  }
-  
+		.fields {
+			width: 15rem;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			@include mobile {
+				width: auto;
+			}
+			& > * {
+				&.board-name-input {
+					margin-bottom: 1rem;
+					.MuiInputLabel-outlined {
+						transform: translate(14px, 13px) scale(1);
+					}
+					.MuiInputLabel-shrink {
+						transform: translate(14px, -6px) scale(0.75);
+					}
+				}
+				.MuiInputBase-input,
+				.MuiInputBase-multiline {
+					padding: 0.6rem;
+					@include mobile {
+						margin-bottom: 1rem;
+					}
+					textarea {
+						padding: 0;
+					}
+				}
+			}
+		}
+		.user-container {
+			.auto-complete-input-wrapper {
+				margin-bottom: 1rem;
+			}
+			.user-card-container {
+				overflow-y: scroll;
+				height: 10rem;
+				&::-webkit-scrollbar {
+					width: 0.5em;
+				}
+
+				&::-webkit-scrollbar-track {
+					background: darken($blue-primary-overlay, 5%);
+					border-radius: 5px;
+				}
+
+				&::-webkit-scrollbar-thumb {
+					background-color: darken($gray-1, 5%);
+					border-radius: 10px;
+				}
+				.user-card {
+					margin-left: 0;
+				}
+			}
+		}
+		.btn-submit {
+			grid-column: 1/3;
+			margin: auto;
+			margin-top: 1rem;
+			@include mobile {
+				grid-column: auto;
+			}
+		}
+	}
 }

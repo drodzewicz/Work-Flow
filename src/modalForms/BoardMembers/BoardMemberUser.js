@@ -43,14 +43,14 @@ const BoardMemberUser = ({ username, imageLink, userType }) => {
         </div>
         <MoreVertIcon onClick={toggleOptions} />
         {userType !== "owner" && userTypeOption && (
-          <DropdownMenu closeMenu={toggleUserTypeOptions}>
-            {userType !== "admin" && <Admin />}
-            {userType !== "regular" && <RegularUser />}
-            {userType !== "guest" && <Visitor />}
+          <DropdownMenu classes={["user-roles"]} closeMenu={toggleUserTypeOptions}>
+            {userType !== "admin" && <><Admin /><span>Admin</span> </>}
+            {userType !== "regular" && <><RegularUser /><span>Regular</span></>}
+            {userType !== "guest" && <><Visitor /><span>Guest</span></>}
           </DropdownMenu>
         )}
         {options && (
-          <DropdownMenu closeMenu={toggleOptions}>
+          <DropdownMenu classes={["user-option-menu"]} closeMenu={toggleOptions}>
             <span>remove</span>
           </DropdownMenu>
         )}

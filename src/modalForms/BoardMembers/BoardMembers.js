@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
-import BoardMemberUser from "./BoardMemberUser/BoardMemberUser";
+import BoardMemberUser from "./BoardMemberUser";
 import Pagination from "components/Pagination/Pagination";
+import "./BoardMembers.scss";
 
 const BoardMembers = () => {
 	const [members] = useState([
@@ -83,9 +84,11 @@ const BoardMembers = () => {
 	return (
 		<div className="board-members-modal">
 			<AutoCompleteInput execMethod={dynamicSearchHandler} timeout={500} searchResult={[]} />
-			{dislpayMembers.map(({ id, username, imageLink, userType }) => (
-				<BoardMemberUser key={id} username={username} imageLink={imageLink} userType={userType} />
-			))}
+			<div className="user-container">
+				{dislpayMembers.map(({ id, username, imageLink, userType }) => (
+					<BoardMemberUser key={id} username={username} imageLink={imageLink} userType={userType} />
+				))}
+			</div>
 			<Pagination
 				amountOfPages={page.amountOfPages}
 				currentPage={page.currentPage}
