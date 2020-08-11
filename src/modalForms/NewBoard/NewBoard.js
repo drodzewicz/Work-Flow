@@ -12,6 +12,9 @@ const NewBoard = () => {
 		{ id: "1j2j3", username: "user1", imageLink: "link1" },
 		{ id: "1j343", username: "user2", imageLink: "link1" },
 		{ id: "1576j3", username: "user3", imageLink: "link1" },
+		{ id: "1j2dd3", username: "user1", imageLink: "link1" },
+		{ id: "1j3dd43", username: "user2", imageLink: "link1" },
+		{ id: "15f7d6j3", username: "user3", imageLink: "link1" },
 	]);
 
 	const [searchRes, setSearchRes] = useState([]);
@@ -29,7 +32,8 @@ const NewBoard = () => {
 	];
 
 	const submitCreateBoard = (data, { setSubmitting }) => {
-		console.log(`creating board: `, data);
+		const testVal = { ...data, taskUsers: users };
+		console.log(`creating board: `, testVal);
 	};
 
 	const dynamicSearchHandler = (data) => {
@@ -63,28 +67,39 @@ const NewBoard = () => {
 			>
 				<Form>
 					<div className="fields">
-						<Field label={"board name"} name={"name"} type={"text"} as={TextField} />
+						<Field
+							className="board-name-input"
+							variant="outlined"
+							label={"board name"}
+							name={"name"}
+							type={"text"}
+							as={TextField}
+						/>
 						<Field
 							label={"description"}
 							name={"description"}
 							type={"text"}
-							rowsMax={4}
-							placeholder="Maximum 4d rows"
-							as={TextareaAutosize}
+							rowsMax={7}
+							multiline
+							rows={7}
+							variant="outlined"
+							as={TextField}
 						/>
 					</div>
 					<div className="user-container">
 						<AutoCompleteInput
 							execMethod={dynamicSearchHandler}
-							timeout={500}
+							timeout={700}
 							searchResult={searchRes}
 							clickResult={addUserToBoardHandler}
 						/>
-						{users.map(({ id, username, imageLink }) => (
-							<User key={id} username={username} imageLink={imageLink}>
-								<RemoveCircleOutlineIcon onClick={() => removeUserFromBoardHandler(id)} />
-							</User>
-						))}
+						<div className="user-card-container">
+							{users.map(({ id, username, imageLink }) => (
+								<User key={id} username={username} imageLink={imageLink}>
+									<RemoveCircleOutlineIcon onClick={() => removeUserFromBoardHandler(id)} />
+								</User>
+							))}
+						</div>
 					</div>
 					<Button classes={["btn-accent btn-submit"]} type="submit">
 						Create
