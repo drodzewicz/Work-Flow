@@ -1,23 +1,34 @@
-$gray-bg: #F5F9FA;
-$white-1: #FCFCFC;
-$gray-1: #BFCDD0;
+$gray-bg: #f5f9fa;
+$white-1: #fcfcfc;
+$gray-1: #bfcdd0;
 $text-secondary: #626262;
-$blue-accent: #19B2BD;
-$blue-secondary-overlay: #F0F7F7;
+$blue-accent: #19b2bd;
+$blue-secondary-overlay: #f0f7f7;
 $text-primary: #404040;
-$blue-primary-overlay: #E0EBEE;
+$blue-primary-overlay: #e0ebee;
 $black-1: #222222;
 
 // labels
-$label-red: #FB8A8A;
-$label-orange: #FFAC4B;
-$label-green: #63FF85;
-$label-blue: #8A95FB;
-$label-pink: #FF52D9;
-$label-yellow: #FFEF5B;
+$label-red: #fb8a8a;
+$label-orange: #ffac4b;
+$label-green: #63ff85;
+$label-blue: #8a95fb;
+$label-pink: #ff52d9;
+$label-yellow: #ffef5b;
 
 // dark mode
 $gray-bg-dark: #333637;
-$dark-1: #474A4B;
+$dark-1: #474a4b;
 $dark-2: #535657;
-$blue-accent-dark: #7EC3C8;
+$blue-accent-dark: #7ec3c8;
+
+// tag colors
+$tag-red: rgb(255, 116, 116);
+$tag-yellow: rgb(243, 219, 85);
+$tag-green:rgb(89, 175, 89);
+$tag-tiel:rgb(146, 250, 233);
+$tag-purple: rgb(230, 129, 230);
+$tag-majenta: rgb(216, 116, 138);
+$tag-pink: rgb(236, 191, 198);
+$tag-black : rgb(29, 29, 29);
+$tag-white: rgb(238, 238, 238);

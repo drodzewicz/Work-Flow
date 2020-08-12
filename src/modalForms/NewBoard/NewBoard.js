@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./NewBoard.scss";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import User from "components/User/User";
-import { TextField, TextareaAutosize } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import Button from "components/Button/Button";
 import { Formik, Field, Form } from "formik";
 import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
