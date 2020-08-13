@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Tag from "components/Tag/Tag";
 import { TextField } from "@material-ui/core";
 import Button from "components/Button/Button";
 import CheckIcon from "@material-ui/icons/Check";

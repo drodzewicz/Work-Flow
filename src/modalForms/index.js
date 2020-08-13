@@ -5,7 +5,6 @@ import NewTask from "./NewTask/NewTask";
 import BoardMembers from "./BoardMembers/BoardMembers";
 import TagForm from "./Tags/Tags";
 import TaskDisplay from "./TaskDisplay/TaskDisplay";
-import NewColumn from "./NewColumn.js";
 import ChangePassword from "./ChangePassword.js";
 import ChangeProfilePicture from "./ChangeProfilePicture.js";
 export {
@@ -15,7 +14,6 @@ export {
   BoardMembers,
   TagForm,
   NewTask,
-  NewColumn,
   TaskDisplay,
   ChangePassword,
   ChangeProfilePicture,

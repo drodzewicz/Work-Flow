@@ -10,19 +10,14 @@ import { ModalContext } from "context/ModalContext";
 import { BoardMembers, TagForm, NewColumn } from "modalForms";
 
 const BoardPage = ({ boardId }) => {
+	const [newColumn, setNewColumn] = useState("");
+
 	const [boardInfo] = useState({
 		name: "testing new reat features",
 		description:
 			"Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore cum odit, reprehenderit exercitationem tempora perspiciatis nemo cumque ",
 	});
-
-	const [members] = useState([
-		{ id: "1", username: "user1", imageLink: "" },
-		{ id: "2", username: "user2", imageLink: "" },
-		{ id: "3", username: "user3", imageLink: "" },
-	]);
-
-	const [columns] = useState([
+	const [columns, setColumns] = useState([
 		{
 			id: "COL1",
 			columnName: "test 1",
@@ -190,7 +185,7 @@ const BoardPage = ({ boardId }) => {
 					],
 				},
 			],
-		},
+		}
 	]);
 
 	const [, modalDispatch] = useContext(ModalContext);
@@ -207,11 +202,25 @@ const BoardPage = ({ boardId }) => {
 			payload: { render: <TagForm />, title: "Board Tags" },
 		});
 	};
-	const openCreateNewColumn = () => {
-		modalDispatch({
-			type: "OPEN",
-			payload: { render: <NewColumn />, title: "New Column" },
-		});
+
+	const handleNewColumnChange = (event) => {
+		setNewColumn(event.target.value);
+	};
+	const createNewColumn = (event) => {
+		if (event.key === "Enter" && newColumn !== "") {
+			console.log("creating new column");
+			setNewColumn("");
+			const submittedColumn = {
+				id: newColumn,
+				columnName: newColumn,
+				listOfTasks: [],
+			};
+			setColumns(columns => {
+				const tempColumns = [...columns];
+				tempColumns.push(submittedColumn);
+				return tempColumns;
+			})
+		}
 	};
 
 	return (
@@ -235,10 +244,6 @@ const BoardPage = ({ boardId }) => {
 					<LocalOfferIcon />
 					<span>Tags</span>
 				</Button>
-				<Button clicked={openCreateNewColumn}>
-					<AddBoxIcon />
-					<span>New Column</span>
-				</Button>
 			</div>
 			<div className="board-page-container">
 				{columns.map(({ id, listOfTasks, columnName }) => (
@@ -246,6 +251,21 @@ const BoardPage = ({ boardId }) => {
 						<TaskColumn columnName={columnName} listOfTasks={listOfTasks} />
 					</span>
 				))}
+				<div>
+					<div className="add-new-column">
+						{/* <button onClick={openCreateNewColumn} className="btn-add-new-column">
+						<AddBoxIcon />
+						<span>New Column</span>
+					</button> */}
+						<input
+							onKeyDown={createNewColumn}
+							value={newColumn}
+							onChange={handleNewColumnChange}
+							type="text"
+							placeholder="+ new column"
+						/>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

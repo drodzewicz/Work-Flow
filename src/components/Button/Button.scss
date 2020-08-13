@@ -46,6 +46,7 @@
   &:disabled {
     box-shadow: none;
     background: lighten($blue-accent, 30%);
+    color: white;
     &:hover {
       color: white;
     }

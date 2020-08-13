@@ -20,7 +20,8 @@ const Task = ({ taskId, name, tags, people, dueDate }) => {
       },
     });
   };
-  const toggleOptions = () => {
+  const toggleOptions = (event) => {
+    event.stopPropagation();
     setOpntions((options) => !options);
   };
   return (

@@ -8,6 +8,8 @@ import Button from "components/Button/Button";
 import { ModalContext } from "context/ModalContext";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import { NewBoard } from "modalForms";
+import ContainerBox from "components/ContainerBox/ContainerBox";
+
 
 const tempBoards = [
 	[
@@ -227,7 +229,7 @@ function DashboardPage() {
 	};
 
 	return (
-		<div className="dashboard-container">
+		<ContainerBox classes={["dashboard-container"]}>
 			<div className="pinned-boards-container">
 				<h1 className="board-container-title">
 					<Pin />
@@ -271,7 +273,7 @@ function DashboardPage() {
 					/>
 				)}
 			</div>
-		</div>
+		</ContainerBox>
 	);
 }
 

@@ -67,12 +67,12 @@
 
 			@each $name, $color in $colors {
 				&.#{$name} {
-					background: mix($color, rgb(49, 38, 38), 80%);
+					background: mix($color, rgb(29, 18, 18), 80%);
 					&:after {
 						background: $color;
                     }
                     svg {
-                        background: mix($color, rgb(49, 38, 38), 50%);;
+                        background:mix($color, rgb(29, 18, 18), 70%);
                         fill: $color;
                     }
 				}
