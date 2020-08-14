@@ -6,8 +6,15 @@ import DropdownMenu from "components/DropdownMenu/DropdownMenu"
 
 const NavItem = ({ icon, navName, children, clicked, classes }) => {
   const [open, setOpen] = useState(false);
+  const [dropDownCords, setDropDownCords] = useState({});
 
-  const toggleOpen = () => {
+  const toggleOpen = (event) => {
+    const rect = event.target.getBoundingClientRect();
+		setDropDownCords({
+			left: rect.x + rect.width / 2,
+			top: rect.y + window.scrollY,
+    });
+    
     setOpen(!open);
   }
   const isFunction = (propFunc) => {
@@ -21,7 +28,7 @@ const NavItem = ({ icon, navName, children, clicked, classes }) => {
         <span>{navName}</span>
       </button>
       {open && children &&
-        <DropdownMenu closeMenu={toggleOpen}>
+        <DropdownMenu classes={classes} cords={dropDownCords} closeMenu={toggleOpen}>
           {children}
         </DropdownMenu>
       }

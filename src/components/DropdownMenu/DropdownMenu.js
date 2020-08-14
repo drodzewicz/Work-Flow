@@ -2,11 +2,13 @@ import React from "react";
 import "./DropdownMenu.scss";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import PropTypes from "prop-types";
+import Portal from "HOC/Portal";
 
-const DropdownMenu = ({ classes, children, closeMenu }) => {
+const DropdownMenu = ({ classes, children, closeMenu, cords }) => {
 	return (
+		<Portal mountTo="root-modal">
 		<ClickAwayListener onClickAway={closeMenu}>
-			<div className={`drop-down-menu ${classes.join(" ")}`}>
+			<div style={{top: cords.top, left: cords.left}} className={`drop-down-menu ${classes.join(" ")}`}>
 				{Array.isArray(children) ? (
 					children
 						.filter((node) => node)
@@ -20,6 +22,7 @@ const DropdownMenu = ({ classes, children, closeMenu }) => {
 				)}
 			</div>
 		</ClickAwayListener>
+		</Portal>
 	);
 };
 

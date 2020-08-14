@@ -10,6 +10,7 @@ import { NewTask } from "modalForms";
 
 const TaskColumn = ({ columnName, listOfTasks }) => {
 	const [options, setOptions] = useState(false);
+	const [scroll, setScroll] = useState(true);
 	const toggleOptions = () => {
 		setOptions(!options);
 	};
@@ -20,6 +21,9 @@ const TaskColumn = ({ columnName, listOfTasks }) => {
 			payload: { render: <NewTask />, title: "Board Tags" },
 		});
 	};
+	const toggleScrollHandler = () => {
+		setScroll(scroll => !scroll);
+	}
 
 	return (
 		<div className="task-column">
@@ -38,7 +42,7 @@ const TaskColumn = ({ columnName, listOfTasks }) => {
 					</DropdownMenu>
 				)}
 			</div>
-			<div className="task-container">
+			<div className={`task-container ${scroll ? "" : "block-scroll"}`}>
 				{listOfTasks &&
 					listOfTasks.map(({ id, name, tags, people, dueDate }) => (
 						<Task
@@ -48,6 +52,7 @@ const TaskColumn = ({ columnName, listOfTasks }) => {
 							tags={tags}
 							people={people}
 							dueDate={dueDate}
+							toggleScroll={toggleScrollHandler}
 						/>
 					))}
 			</div>
