@@ -7,11 +7,9 @@ import { ReactComponent as Pined } from "assets/images/pin-full.svg";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 
 const BoardCard = ({ boardTitle, isPinned, pinBoard, boardId, owner }) => {
-
 	const history = useHistory();
 
 	const anchorElement = useRef();
-
 
 	const togglePinBoard = (e) => {
 		e.stopPropagation();
@@ -41,14 +39,14 @@ const BoardCard = ({ boardTitle, isPinned, pinBoard, boardId, owner }) => {
 				<div className="column"></div>
 				<div className="column"></div>
 			</div>
-			<div className="board-card-body" onClick={gToBoard}>
-				<h1 className="board-title">{boardTitle}</h1>
+			<div className="board-card-body" >
+				<h1 onClick={gToBoard} className="board-title">{boardTitle}</h1>
 				<div className="board-menu">
 					{isPinned ? <Pined onClick={togglePinBoard} /> : <Pin onClick={togglePinBoard} />}
-					<MoreVertIcon ref={anchorElement}  />
+					<MoreVertIcon ref={anchorElement} />
 				</div>
 			</div>
-			<DropdownMenu anchorEl={anchorElement} >
+			<DropdownMenu anchorEl={anchorElement}>
 				{owner === "currentUser" ? (
 					<>
 						<span onClick={editEventModal}>edit</span>

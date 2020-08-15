@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import "./TaskColumn.scss";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
@@ -9,21 +9,17 @@ import { ModalContext } from "context/ModalContext";
 import { NewTask } from "modalForms";
 
 const TaskColumn = ({ columnName, listOfTasks }) => {
-	const [options, setOptions] = useState(false);
-	const [scroll, setScroll] = useState(true);
-	const toggleOptions = () => {
-		setOptions(!options);
-	};
+
 	const [, modalDispatch] = useContext(ModalContext);
+
+	const anchorElement = useRef();
+
 	const openBoardTagsModal = () => {
 		modalDispatch({
 			type: "OPEN",
 			payload: { render: <NewTask />, title: "Board Tags" },
 		});
 	};
-	const toggleScrollHandler = () => {
-		setScroll(scroll => !scroll);
-	}
 
 	return (
 		<div className="task-column">
@@ -32,17 +28,15 @@ const TaskColumn = ({ columnName, listOfTasks }) => {
 				<button onClick={openBoardTagsModal} className="add-new-task-btn">
 					<PlaylistAddIcon />{" "}
 				</button>
-				<button onClick={toggleOptions} className="more-options">
+				<button ref={anchorElement} className="more-options">
 					<MoreVertIcon />
 				</button>
-				{options && (
-					<DropdownMenu closeMenu={toggleOptions}>
-						<span>delete</span>
-						<span>edit</span>
-					</DropdownMenu>
-				)}
+				<DropdownMenu anchorEl={anchorElement}>
+					<span>delete</span>
+					<span>edit</span>
+				</DropdownMenu>
 			</div>
-			<div className={`task-container ${scroll ? "" : "block-scroll"}`}>
+			<div className={"task-container"}>
 				{listOfTasks &&
 					listOfTasks.map(({ id, name, tags, people, dueDate }) => (
 						<Task
@@ -52,7 +46,6 @@ const TaskColumn = ({ columnName, listOfTasks }) => {
 							tags={tags}
 							people={people}
 							dueDate={dueDate}
-							toggleScroll={toggleScrollHandler}
 						/>
 					))}
 			</div>

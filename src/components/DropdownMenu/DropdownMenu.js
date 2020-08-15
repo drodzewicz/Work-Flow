@@ -10,10 +10,9 @@ const DropdownMenu = ({ classes, children, anchorEl }) => {
 	const [cords, setCords] = useState({});
 	const [show, setShow] = useState(false);
 
-	const openMenu = (event) => {
-		event.stopPropagation();
-
-		const rect = event.target.getBoundingClientRect();
+	const openMenu = () => {
+		// event.stopPropagation();
+		const rect = anchorEl.current.getBoundingClientRect();
 		setCords({
 			left: rect.x + rect.width / 2,
 			top: rect.y + window.scrollY,

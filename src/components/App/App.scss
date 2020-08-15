@@ -13,7 +13,7 @@ body {
 }
 
 .notification-nav.drop-down-menu {
-	transform: translate(-90%, 15%);
+	transform: translate(-12.5rem, 2rem);
 	width: 14rem;
 	.drop-down-menu-item {
 		padding: 0;
@@ -27,8 +27,8 @@ body {
       display: none;
     }
   }
-  .drop-down-menu {
-    transform: translateX(5%);
+  &.drop-down-menu {
+    transform: translate(-1rem, 2rem);
   }
   .logout-btn {
     background: none;

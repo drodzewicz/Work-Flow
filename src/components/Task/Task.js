@@ -1,15 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import "./Task.scss";
 import Image from "components/Image/Image";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import { TaskDisplay } from "modalForms";
 import { ModalContext } from "context/ModalContext";
 
-const Task = ({ taskId, name, tags, people, dueDate, toggleScroll }) => {
-	const [options, setOpntions] = useState(false);
-	const [dropDownCords, setDropDownCords] = useState({});
-
+const Task = ({ taskId, name, tags, people, dueDate }) => {
 	const [, modalDispatch] = useContext(ModalContext);
 
 	const openTaskDetailsModal = (event) => {
@@ -21,30 +16,11 @@ const Task = ({ taskId, name, tags, people, dueDate, toggleScroll }) => {
 			},
 		});
 	};
-	const toggleOptions = (event) => {
-		event.stopPropagation();
 
-		const rect = event.target.getBoundingClientRect();
-		setDropDownCords({
-			left: rect.x + rect.width / 2,
-			top: rect.y + window.scrollY,
-		});
-		toggleScroll();
-		setOpntions((options) => !options);
-	};
 	return (
 		<div className="task-card" onClick={openTaskDetailsModal}>
-			{options && (
-				<span className="drop-down-span">
-					<DropdownMenu cords={dropDownCords} closeMenu={toggleOptions}>
-						<span>delete</span>
-						<span>edit</span>
-					</DropdownMenu>
-				</span>
-			)}
 			<div className="card-head">
 				<div className="due-date">{dueDate}</div>
-				<MoreVertIcon onClick={toggleOptions} />
 			</div>
 			<h3 className="task-title">{name}</h3>
 			<div className="card-bottom">
