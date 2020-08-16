@@ -8,16 +8,14 @@ import { UserProvider } from "./context/UserContext";
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ModalProvider>
-      <UserProvider>
-        <Router>
-          <App />
-        </Router>
-      </UserProvider>
-    </ModalProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+	<ModalProvider>
+		<UserProvider>
+			<Router>
+				<App />
+			</Router>
+		</UserProvider>
+	</ModalProvider>,
+	document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

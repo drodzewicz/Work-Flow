@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./TaskDisplay.scss";
 import User from "components/User/User";
+import Tag from "components/Tag/Tag";
 
 const TaskDisplay = ({ taskId }) => {
   const [taskDetails] = useState({
@@ -9,8 +10,8 @@ const TaskDisplay = ({ taskId }) => {
     description:
       "this is some lorem ipsum text to fill out the gaps is the template",
     tags: [
-      { id: "12de", tagCode: "4fgh", tagName: "" },
-      { id: "2345ff", tagCode: "fr5", tagName: "front end" },
+      { id: "12de", color: "red", tagName: "d" },
+      { id: "2345ff", color: "tiel", tagName: "front end" },
     ],
     taskAuthor: { id: "fdefe43", username: "Darko", imageLink: "ddwdwd" },
     peopleAssigned: [
@@ -26,10 +27,8 @@ const TaskDisplay = ({ taskId }) => {
         <h1 className="task-title">{taskDetails.title}</h1>
         <p className="task-description">{taskDetails.description}</p>
         <div className="tag-container">
-          {taskDetails.tags.map(({ id, tagCode, tagName }) => (
-            <div key={id} className={`task-tag ${tagCode}`}>
-              {tagName}
-            </div>
+          {taskDetails.tags.map(({ id, color, tagName }) => (
+            <Tag key={id} colorCode={color} tagName={tagName} />
           ))}
         </div>
       </div>

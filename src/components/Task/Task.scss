@@ -40,13 +40,20 @@
       justify-content: flex-start;
       align-items: center;
       flex-grow: 1;
-      .tag {
-        $tag-size: 0.7rem;
-        width: $tag-size;
-        height: $tag-size;
-        margin: 0 1px;
-        border-radius: 50%;
+
+      .tags {
+        display: flex;
+        flex-direction: row;
+        
+        .tag {
+          $tag-size: 0.7rem;
+          width: $tag-size;
+          height: $tag-size;
+          margin: 0 1px;
+          border-radius: 50%;
+        }
       }
+
     }
     .task-people {
       display: flex;

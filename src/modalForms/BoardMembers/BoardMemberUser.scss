@@ -1,0 +1,23 @@
+.board-user {
+  position: relative;
+  .user-card {
+    .user-option-menu {
+      transform: translate(-1rem, 0);
+    }
+    .user-roles {
+      right: 3rem;
+      .drop-down-menu-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        svg {
+          margin-right: 0.5rem;
+        }
+        span {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

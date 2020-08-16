@@ -1,74 +1,58 @@
-.tag {
-  background: lightcoral;
+@import "../../assets/styles/colors";
+
+.filter-tag{
+  background: rgb(236, 236, 236)(231, 231, 231);
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  margin: 0.2rem 0;
-  height: 2rem;
-  .tag-input {
-    flex-grow: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-    text-align: center;
-    font-family: "Secular One", sans-serif;
-  }
-
-  .tag-check {
-    // margin-left: auto;
-    // margin-right: 0;
-    cursor: pointer;
-  }
+  border-radius: 5px;
+  font-family: 'Secular One', sans-serif;
+  font-size: 0.8rem;
+  margin: 0.2rem;
+  padding: 2px 5px;
 
   &.red {
-    background: rgb(255, 116, 116);
+    background: $tag-red;
     color: white;
-    .tag-input {
-      color: white;
-    }
   }
   &.yellow {
-    background: rgb(243, 219, 85);
+    background: $tag-yellow;
     color: black;
-    .tag-input {
-      color: black;
-    }
   }
   &.green {
-    background: rgb(89, 175, 89);
-    color: white;
-    .tag-input {
-      color: white;
-    }
+    background: $tag-green;
+    color: black;
   }
   &.tiel {
-    background: rgb(146, 250, 233);
+    background: $tag-tiel;
     color: black;
-    .tag-input {
-      color: black;
-    }
   }
   &.purple {
-    background: rgb(230, 129, 230);
+    background: $tag-purple;
     color: white;
-    .tag-input {
-      color: white;
-    }
   }
   &.majenta {
-    background: rgb(216, 116, 138);
+    background: $tag-majenta;
     color: white;
-    .tag-input {
-      color: white;
-    }
   }
   &.pink {
-    background: rgb(236, 191, 198);
-    color: black;
-    .tag-input {
-      color: black;
-    }
+    background: $tag-pink;
+    column-rule: white;
   }
+  &.black {
+    background: $tag-black;
+    color: white;
+  }
+  &.white {
+    background: $tag-white;
+    color: black;
+  }
+
+  .delete-tag {
+    cursor: pointer;
+    height: 1rem;
+    width: 1rem;
+  }
+
 }

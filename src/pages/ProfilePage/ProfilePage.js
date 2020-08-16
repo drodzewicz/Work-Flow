@@ -7,6 +7,7 @@ import Button from "components/Button/Button";
 import ImageIcon from "@material-ui/icons/Image";
 import { ModalContext } from "context/ModalContext";
 import { ChangePassword, ChangeProfilePicture } from "modalForms";
+import ContainerBox from "components/ContainerBox/ContainerBox";
 
 const validationSchema = Yup.object({
 	username: Yup.string().max(25, "username is too long").required("field is required"),
@@ -58,7 +59,7 @@ const ProfilePage = () => {
 	};
 
 	return (
-		<div className="profile-page-container">
+		<ContainerBox classes={["profile-page-container"]}>
 			<div className="profile-image">
 				<Image imageLink={profilePicture} />
 				<button onClick={changeImageModalOpen} className="change-image-btn">
@@ -78,7 +79,7 @@ const ProfilePage = () => {
 			<Button clicked={changePasswordModalOpen} classes={["change-password"]}>
 				change password
 			</Button>
-		</div>
+		</ContainerBox>
 	);
 };
 
