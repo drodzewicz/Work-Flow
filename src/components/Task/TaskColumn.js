@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, {  useContext, useRef } from "react";
 import "./TaskColumn.scss";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";

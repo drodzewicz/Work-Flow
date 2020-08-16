@@ -21,16 +21,16 @@ const DropdownMenu = ({ classes, children, anchorEl }) => {
 	};
 
 	useEffect(() => {
-		const anchiouse = anchorEl.current;
-		anchiouse.addEventListener("click", openMenu);
+		const dropDownMenuAnchorElement = anchorEl.current;
+		dropDownMenuAnchorElement.addEventListener("click", openMenu);
 
 		if (show) {
 			setShow(false);
 		}
 		return () => {
-			anchiouse.removeEventListener("click", openMenu);
+			dropDownMenuAnchorElement.removeEventListener("click", openMenu);
 		};
-	}, [width, anchorEl]);
+	}, [width]);
 
 	const closeMenuClickHandler = () => {
 		setShow(false);

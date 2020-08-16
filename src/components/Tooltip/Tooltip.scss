@@ -1,15 +1,22 @@
 .tool-tip-wrapper {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  .tooltp {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.787);
-    top: -1rem;
-    color: white;
-    padding: 4px;
-    border-radius: 2px;
-    font-size: 0.8rem;
-  }
+  flex-direction: column;
+	justify-content: center;
+	position: absolute;
+	background: rgba(0, 0, 0, 0.6);
+	color: white;
+	padding: 6px;
+	border-radius: 5px;
+	font-size: 0.8rem;
+  z-index: 1001;
+  box-sizing: border-box;
+	// .tooltp {
+	//   position: absolute;
+	//   background: rgba(0, 0, 0, 0.787);
+	//   top: -1rem;
+	//   color: white;
+	//   padding: 4px;
+	//   border-radius: 2px;
+	//   font-size: 0.8rem;
+	// }
 }
