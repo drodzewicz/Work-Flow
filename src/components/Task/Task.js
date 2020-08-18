@@ -4,12 +4,58 @@ import Image from "components/Image/Image";
 import { TaskDisplay } from "modalForms";
 import { ModalContext } from "context/ModalContext";
 import Tooltip from "components/Tooltip/Tooltip";
+import { useDrag, useDrop } from "react-dnd";
+import { ItemTypes } from "utils/items";
 
-const Task = ({ taskId, name, tags, people, removeTask }) => {
+const Task = ({ taskId, name, index, columnIndex, tags, people, removeTask, move2 }) => {
 	const [, modalDispatch] = useContext(ModalContext);
 
 	const poepleAnchorElement = useRef();
 	const tagsAnchorElement = useRef();
+	const ref = useRef(null);
+
+	const [, drop] = useDrop({
+		accept: ItemTypes.TASK_CARD,
+		hover(item, monitor) {
+			if (!ref.current) {
+				return;
+			}
+			const dragIndex = item.taskIndex;
+			const hoverIndex = index;
+
+			if (dragIndex === hoverIndex) {
+				return;
+			}
+
+			const hoveredRect = ref.current.getBoundingClientRect();
+			const hoverMiddleY = (hoveredRect.bottom - hoveredRect.top) / 2;
+			const mousePosition = monitor.getClientOffset();
+			const hoverClientY = mousePosition.y - hoveredRect.top;
+
+			if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+				return;
+			}
+
+			if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+				return;
+			}
+			// console.log(`dragIndex: [${columnIndex}, ${dragIndex}], hoverIndex: ${hoverIndex}`)
+			move2({ col: columnIndex, task: dragIndex }, { col: columnIndex, task: hoverIndex });
+			item.taskIndex = hoverIndex;
+		},
+	});
+
+	const [{ isDragging }, drag] = useDrag({
+		item: {
+			type: ItemTypes.TASK_CARD,
+			id: taskId,
+			taskIndex: index,
+			columnIndex,
+		},
+		collect: (monitor) => ({
+			isDragging: !!monitor.isDragging(),
+		}),
+	});
 
 	const openTaskDetailsModal = (event) => {
 		modalDispatch({
@@ -21,25 +67,32 @@ const Task = ({ taskId, name, tags, people, removeTask }) => {
 		});
 	};
 
+	drag(drop(ref));
+
 	return (
-		<div className="task-card" onClick={openTaskDetailsModal}>
+		<div
+			ref={ref}
+			style={{ opacity: isDragging ? 0.5 : 1 }}
+			className="task-card"
+			onClick={openTaskDetailsModal}
+		>
 			<h3 className="task-title">{name}</h3>
 			<div className="card-bottom">
 				<div className="task-tags">
 					<div className="tags" ref={tagsAnchorElement}>
 						{tags &&
-							tags.map((tag) => (
-								<div key={tag} className="tag" style={{ backgroundColor: tag }}></div>
+							tags.map(({color, id, name}) => (
+								<div key={id} className={`tag-mini ${color}`}></div>
 							))}
 					</div>
 				</div>
 				<Tooltip anchorEl={tagsAnchorElement}>
-					{tags && tags.map((tag) => <span key={tag}>{tag}</span>)}
+					{tags && tags.map(({ id, name}) => <span key={id}>{name}</span>)}
 				</Tooltip>
 				<div className="task-people" ref={poepleAnchorElement}>
 					{people &&
-						people.map(({ id, imageLink }) => (
-							<Image key={id} classes={["avatar"]} imageLink={imageLink} />
+						people.map(({ id, imageURL }) => (
+							<Image key={id} classes={["avatar"]} imageURL={imageURL} />
 						))}
 				</div>
 				<Tooltip anchorEl={poepleAnchorElement}>

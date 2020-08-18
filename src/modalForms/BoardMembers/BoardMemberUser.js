@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import { ReactComponent as Admin } from "assets/images/Admin.svg";

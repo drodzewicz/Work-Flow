@@ -62,7 +62,7 @@ Tooltip.propTypes = {
 		PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
 	]).isRequired,
 	children: PropTypes.node.isRequired,
-	offset: PropTypes.objectOf({x: PropTypes.number, y: PropTypes.number})
+	offset: PropTypes.shape({x: PropTypes.number, y: PropTypes.number})
 };
 
 export default Tooltip;

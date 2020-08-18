@@ -7,8 +7,18 @@ import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import { ModalContext } from "context/ModalContext";
 
 import { NewTask } from "modalForms";
+import { useDrop } from "react-dnd";
+import { ItemTypes } from "utils/items";
 
-const TaskColumn = ({ columnName, listOfTasks, removeTask, removeColumn, columnIndex }) => {
+const TaskColumn = ({
+	columnName,
+	listOfTasks,
+	removeTask,
+	removeColumn,
+	columnIndex,
+	moveHandler,
+	move2,
+}) => {
 	const [, modalDispatch] = useContext(ModalContext);
 
 	const anchorElement = useRef();
@@ -19,6 +29,16 @@ const TaskColumn = ({ columnName, listOfTasks, removeTask, removeColumn, columnI
 			payload: { render: <NewTask />, title: "New Task" },
 		});
 	};
+
+	const [{ addedProps }, drop] = useDrop({
+		accept: ItemTypes.TASK_CARD,
+		// drop: (item, monitor) => {
+		// 	moveHandler(item.columnIndex, item.taskIndex, columnIndex);
+		// },
+		collect: (monitor) => ({
+			isOver: !!monitor.isOver(),
+		}),
+	});
 
 	return (
 		<div className="task-column">
@@ -35,7 +55,7 @@ const TaskColumn = ({ columnName, listOfTasks, removeTask, removeColumn, columnI
 					<span>edit</span>
 				</DropdownMenu>
 			</div>
-			<div className={"task-container"}>
+			<div ref={drop} className={"task-container"}>
 				{listOfTasks &&
 					listOfTasks.map(({ id, name, tags, people }, index) => (
 						<Task
@@ -44,8 +64,11 @@ const TaskColumn = ({ columnName, listOfTasks, removeTask, removeColumn, columnI
 							name={name}
 							tags={tags}
 							people={people}
+							index={index}
+							columnIndex={columnIndex}
+							move2={move2}
 							removeTask={() => {
-								removeTask(columnIndex, index);
+								removeTask(id);
 							}}
 						/>
 					))}

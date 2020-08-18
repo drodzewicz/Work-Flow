@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Image = ({ imageLink, errorImage, classes }) => {
+const Image = ({ imageURL, errorImage, classes }) => {
   const fallback = (e) => {
     e.target.src = errorImage;
   };
@@ -10,7 +10,7 @@ const Image = ({ imageLink, errorImage, classes }) => {
     <img
       className={`custom image ${classes.join(" ")}`}
       alt="custom"
-      src={imageLink}
+      src={imageURL}
       onError={fallback}
     />
   );
@@ -21,7 +21,7 @@ Image.defaultProps = {
 };
 
 Image.propTypes = {
-  imageLink: PropTypes.string.isRequired,
+  imageURL: PropTypes.string.isRequired,
   errorImage: PropTypes.string,
   classes: PropTypes.arrayOf(PropTypes.string),
 };

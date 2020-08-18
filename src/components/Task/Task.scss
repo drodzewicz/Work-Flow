@@ -1,83 +1,100 @@
 @import "../../assets/styles/colors";
 .task-card {
-  background-color: $white-1;
-  width: 15rem;
-  border-radius: 5px;
-  margin: 0.6rem 0.5rem;
-  box-sizing: border-box;
-  padding: 0.5rem 0.6rem;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.292);
-  font-family: 'Secular One', sans-serif;
+	background-color: $white-1;
+	width: 15rem;
+	border-radius: 5px;
+	margin: 0.6rem 0.5rem;
+	box-sizing: border-box;
+	padding: 0.5rem 0.6rem;
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.292);
+	font-family: "Secular One", sans-serif;
 
-  .drop-down-span {
-    position: sticky;
-    .drop-down-menu {
-      position: absolute;
-      margin-left: 8rem;
-      margin-top: -0.15rem;
-    }
-  }
- 
-  .task-title {
-    margin: 0;
-    font-size: 1rem;
-    color: $text-primary;
-  }
-  .avatar {
-    $avatar-size: 1rem;
-    height: $avatar-size;
-    width: $avatar-size;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.292);
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  .card-bottom {
-    display: flex;
-    flex-direction: row;
-    .task-tags {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-      flex-grow: 1;
+	.drop-down-span {
+		position: sticky;
+		.drop-down-menu {
+			position: absolute;
+			margin-left: 8rem;
+			margin-top: -0.15rem;
+		}
+	}
 
-      .tags {
-        display: flex;
-        flex-direction: row;
-        
-        .tag {
-          $tag-size: 0.7rem;
-          width: $tag-size;
-          height: $tag-size;
-          margin: 0 1px;
-          border-radius: 50%;
-        }
-      }
+	.task-title {
+		margin: 0;
+		font-size: 1rem;
+		color: $text-primary;
+	}
+	.avatar {
+		$avatar-size: 1rem;
+		height: $avatar-size;
+		width: $avatar-size;
+		box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.292);
+		border-radius: 50%;
+		object-fit: cover;
+	}
+	.card-bottom {
+		display: flex;
+		flex-direction: row;
+		.task-tags {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			align-items: center;
+			flex-grow: 1;
 
-    }
-    .task-people {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      .avatar {
-        margin-right: -5px;
-      }
-    }
-  }
-  .card-head {
-    display: flex;
-    flex-direction: row;
-    .MuiSvgIcon-root {
-     height: 1rem;
-     width: 1rem;
-     cursor: pointer;
-    }
-    .due-date {
-      font-style: italic;
-      flex-grow: 1;
-      font-size: 0.7rem;
-      color: $text-secondary;
-    }
-  }
+			.tags {
+				display: flex;
+				flex-direction: row;
+
+				.tag-mini {
+					$tag-size: 0.7rem;
+					width: $tag-size;
+					height: $tag-size;
+					margin: 0 1px;
+					border-radius: 50%;
+
+					$colors: (
+						"red": $tag-red,
+						"yellow": $tag-yellow,
+						"green": $tag-green,
+						"tiel": $tag-tiel,
+						"purple": $tag-purple,
+						"majenta": $tag-majenta,
+						"pink": $tag-pink,
+						"black": $tag-black,
+						"white": $tag-white,
+					);
+
+					@each $name, $bg in $colors {
+						&.#{$name} {
+							background: $bg;
+						}
+					}
+				}
+			}
+		}
+		.task-people {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			.avatar {
+				margin-right: -5px;
+			}
+		}
+	}
+	.card-head {
+		display: flex;
+		flex-direction: row;
+		.MuiSvgIcon-root {
+			height: 1rem;
+			width: 1rem;
+			cursor: pointer;
+		}
+		.due-date {
+			font-style: italic;
+			flex-grow: 1;
+			font-size: 0.7rem;
+			color: $text-secondary;
+		}
+	}
 }

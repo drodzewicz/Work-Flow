@@ -8,184 +8,21 @@ import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import { ModalContext } from "context/ModalContext";
 import { BoardMembers, TagForm } from "modalForms";
 
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
+
+import { boardTasks_DATA, taskColumns_DATA, boardInfo_DATA } from "data";
+
 const BoardPage = ({ boardId }) => {
 	const [newColumn, setNewColumn] = useState("");
 
 	const [boardInfo] = useState({
-		name: "testing new reat features",
-		description:
-			"Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore cum odit, reprehenderit exercitationem tempora perspiciatis nemo cumque ",
+		name: boardInfo_DATA.name,
+		description: boardInfo_DATA.description,
 	});
-	const [columns, setColumns] = useState([
-		{
-			id: "COL1",
-			columnName: "test 1",
-			listOfTasks: [
-				{
-					id: "TSK1",
-					name: "task1",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-				{
-					id: "TSK2",
-					name: "task2",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-				{
-					id: "TSK3",
-					name: "task1",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-			],
-		},
-		{
-			id: "COL2",
-			columnName: "test 2",
-			listOfTasks: [
-				{
-					id: "TSK1",
-					name: "task1",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-				{
-					id: "TSK2",
-					name: "task2",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-				{
-					id: "TSK3",
-					name: "task2",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-				{
-					id: "TSK4",
-					name: "task2",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-				{
-					id: "TSK5",
-					name: "task2",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-				{
-					id: "TSK6",
-					name: "task1",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-				{
-					id: "TSK7",
-					name: "task1",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-				{
-					id: "TSK8",
-					name: "task1",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-				{
-					id: "TSK9",
-					name: "task1",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-			],
-		},
-		{
-			id: "COL3",
-			columnName: "test 3",
-			listOfTasks: [
-				{
-					id: "TSK1",
-					name: "task1",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-				{
-					id: "TSK2",
-					name: "task2",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-				{
-					id: "TSK3",
-					name: "task1",
-					dueDate: "2020-11-20",
-					tags: ["#D74530", "#25D68F"],
-					people: [
-						{ id: "use1", username: "user1", imageLink: "kke" },
-						{ id: "use2", username: "user2", imageLink: "kke" },
-					],
-				},
-			],
-		},
-	]);
+	const [tasks, setTasks] = useState(boardTasks_DATA);
+
+	const [columns, setColumns] = useState(taskColumns_DATA);
 
 	const [, modalDispatch] = useContext(ModalContext);
 
@@ -201,18 +38,15 @@ const BoardPage = ({ boardId }) => {
 			payload: { render: <TagForm />, title: "Board Tags" },
 		});
 	};
-
 	const handleNewColumnChange = (event) => {
 		setNewColumn(event.target.value);
 	};
 	const createNewColumn = (event) => {
 		if (event.key === "Enter" && newColumn !== "") {
-			console.log("creating new column");
 			setNewColumn("");
 			const submittedColumn = {
 				id: newColumn,
-				columnName: newColumn,
-				listOfTasks: [],
+				name: newColumn,
 			};
 			setColumns((columns) => {
 				const tempColumns = [...columns];
@@ -221,7 +55,6 @@ const BoardPage = ({ boardId }) => {
 			});
 		}
 	};
-
 	const removeColum = (columnIndex) => {
 		setColumns((columns) => {
 			const tempColumns = [...columns];
@@ -229,25 +62,38 @@ const BoardPage = ({ boardId }) => {
 			return tempColumns;
 		});
 	};
-	const removeTask = (columnIndex, taskIndex) => {
-		setColumns((columns) => {
-			const tempColumns = [...columns];
-			tempColumns[columnIndex].listOfTasks.splice(taskIndex, 1);
-			return tempColumns;
+	const removeTask = (taskId) => {
+		setTasks((tasks) => {
+			const tempTasks = [...tasks];
+			const foundIndexOfTask = tempTasks.findIndex(({ id }) => id === taskId);
+			tempTasks.splice(foundIndexOfTask, 1);
+			return tempTasks;
 		});
 		modalDispatch({ type: "CLOSE" });
 	};
 
+	// const moveItem = (originColumnIndex, originTaskIndex, toColumnIndex, toTaskIndex) => {
+	// 	console.log(
+	// 		`moving task [${originColumnIndex}|${originTaskIndex}] => [${toColumnIndex}|${toTaskIndex}]`
+	// 	);
+	// };
+
+	// const moveItem2 = (prevIndex, hoverIndex) => {
+	// 	console.log(prevIndex, hoverIndex);
+	// 	setColumns((columns) => {
+	// 		const tempColumns = [...columns];
+	// 		const draggableTask = tempColumns[prevIndex.col].listOfTasks[prevIndex.task];
+	// 		tempColumns[prevIndex.col].listOfTasks.splice(prevIndex.task, 1);
+	// 		tempColumns[hoverIndex.col].listOfTasks.splice(hoverIndex.task, 0, draggableTask);
+	// 		return tempColumns;
+	// 	});
+	// };
+
 	return (
 		<div className="board-page">
-			{/* <h1 className="board-title">{boardInfo.name}</h1> */}
 			<ExpandText classes={["board-title"]} text={boardInfo.name}>
 				<div>
-					hallo Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum rem tempore ex numquam
-					expedita. Blanditiis error eum officia unde, velit adipisci provident, doloribus, id
-					quisquam harum reprehenderit ipsa! Earum reprehenderit accusamus ipsum ipsa voluptate
-					voluptatum corrupti ratione, doloribus, doloremque amet magni adipisci? Recusandae
-					nesciunt laborum assumenda saepe quo facere dolor!
+				{boardInfo.description}
 				</div>
 			</ExpandText>
 			<div className="board-button-group">
@@ -260,30 +106,32 @@ const BoardPage = ({ boardId }) => {
 					<span>Tags</span>
 				</Button>
 			</div>
-			<div className="board-page-container">
-				{columns.map(({ id, listOfTasks, columnName }, index) => (
-					<span key={id}>
-						<TaskColumn
-							columnIndex={index}
-							removeTask={removeTask}
-							removeColumn={() => removeColum(index)}
-							columnName={columnName}
-							listOfTasks={listOfTasks}
-						/>
-					</span>
-				))}
-				<div>
-					<div className="add-new-column">
-						<input
-							onKeyDown={createNewColumn}
-							value={newColumn}
-							onChange={handleNewColumnChange}
-							type="text"
-							placeholder="+ new column"
-						/>
+			<DndProvider backend={HTML5Backend}>
+				<div className="board-page-container">
+					{columns.map(({ id, name }, index) => (
+						<span key={id}>
+							<TaskColumn
+								columnIndex={index}
+								removeTask={removeTask}
+								removeColumn={() => removeColum(index)}
+								columnName={name}
+								listOfTasks={tasks.filter(({ column }) => column.id === id)}
+							/>
+						</span>
+					))}
+					<div>
+						<div className="add-new-column">
+							<input
+								onKeyDown={createNewColumn}
+								value={newColumn}
+								onChange={handleNewColumnChange}
+								type="text"
+								placeholder="+ new column"
+							/>
+						</div>
 					</div>
 				</div>
-			</div>
+			</DndProvider>
 		</div>
 	);
 };

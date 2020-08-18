@@ -1,58 +1,39 @@
 @import "../../assets/styles/colors";
 
-.filter-tag{
-  background: rgb(236, 236, 236)(231, 231, 231);
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  font-family: 'Secular One', sans-serif;
-  font-size: 0.8rem;
-  margin: 0.2rem;
-  padding: 2px 5px;
+.filter-tag {
+	background: rgb(255, 255, 255);
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	font-family: "Secular One", sans-serif;
+	font-size: 0.8rem;
+	margin: 0.2rem;
+	padding: 2px 5px;
 
-  &.red {
-    background: $tag-red;
-    color: white;
-  }
-  &.yellow {
-    background: $tag-yellow;
-    color: black;
-  }
-  &.green {
-    background: $tag-green;
-    color: black;
-  }
-  &.tiel {
-    background: $tag-tiel;
-    color: black;
-  }
-  &.purple {
-    background: $tag-purple;
-    color: white;
-  }
-  &.majenta {
-    background: $tag-majenta;
-    color: white;
-  }
-  &.pink {
-    background: $tag-pink;
-    column-rule: white;
-  }
-  &.black {
-    background: $tag-black;
-    color: white;
-  }
-  &.white {
-    background: $tag-white;
-    color: black;
-  }
+	$colors: (
+		"red": $tag-red ,
+		"yellow": $tag-yellow ,
+		"green": $tag-green ,
+		"tiel": $tag-tiel ,
+		"purple": $tag-purple ,
+		"majenta": $tag-majenta ,
+		"pink": $tag-pink ,
+		"black": $tag-black ,
+		"white": $tag-white ,
+	);
 
-  .delete-tag {
-    cursor: pointer;
-    height: 1rem;
-    width: 1rem;
-  }
+	@each $name, $bg in $colors {
+		&.#{$name} {
+			background: $bg;
+			color: black
+		}
+	}
 
+	.delete-tag {
+		cursor: pointer;
+		height: 1rem;
+		width: 1rem;
+	}
 }
