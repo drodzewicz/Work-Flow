@@ -3,7 +3,7 @@ import "./Tooltip.scss";
 import Portal from "HOC/Portal";
 import PropTypes from "prop-types";
 
-function Tooltip({ classes, children, anchorEl }) {
+function Tooltip({ classes, children, anchorEl, offset }) {
 	const [showTooltip, setShowTooltip] = useState(false);
 	const [cords, setCords] = useState({});
 	let waitTimeBeforeRender = 0;
@@ -12,10 +12,9 @@ function Tooltip({ classes, children, anchorEl }) {
 		const tooltipAnchorElement = anchorEl.current;
 		const rect = anchorEl.current.getBoundingClientRect();
 		setCords({
-			left: rect.x - rect.width / 2,
-			top: rect.y + window.scrollY + 30,
+			left: rect.x - rect.width / 2 + offset.x,
+			top: rect.y + window.scrollY + 30 + offset.y,
 		});
-
 		tooltipAnchorElement.addEventListener("mouseenter", showToolTip);
 		tooltipAnchorElement.addEventListener("mouseleave", hideToolTip);
 
@@ -38,7 +37,7 @@ function Tooltip({ classes, children, anchorEl }) {
 	};
 	if (showTooltip) {
 		return (
-			<Portal mountTo="root-modal">
+			<Portal mountTo="root-menu">
 				<div
 					style={{ top: cords.top, left: cords.left }}
 					className={`tool-tip-wrapper ${classes.join(" ")}`}
@@ -53,6 +52,7 @@ function Tooltip({ classes, children, anchorEl }) {
 }
 Tooltip.defaultProps = {
 	classes: [""],
+	offset: { x: 0, y: 0}
 };
 
 Tooltip.propTypes = {
@@ -62,6 +62,7 @@ Tooltip.propTypes = {
 		PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
 	]).isRequired,
 	children: PropTypes.node.isRequired,
+	offset: PropTypes.objectOf({x: PropTypes.number, y: PropTypes.number})
 };
 
 export default Tooltip;

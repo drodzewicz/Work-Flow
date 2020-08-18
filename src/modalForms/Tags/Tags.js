@@ -3,7 +3,7 @@ import { TextField } from "@material-ui/core";
 import Button from "components/Button/Button";
 import CheckIcon from "@material-ui/icons/Check";
 import DeleteIcon from "@material-ui/icons/Delete";
-import LocalOfferIcon from "@material-ui/icons/LocalOffer";
+import TagButton from "components/Tag/TagButton";
 import "./Tags.scss";
 
 const Tags = () => {
@@ -62,11 +62,11 @@ const Tags = () => {
 
 	const canDeleteTag = () => {
 		const indexOfTag = boardTags.findIndex((tag) => tag.color === selectedColor);
-		if(indexOfTag > -1){
+		if (indexOfTag > -1) {
 			return boardTags[indexOfTag].id === "";
 		}
 		return true;
-	}
+	};
 
 	return (
 		<div className="tag-form">
@@ -87,14 +87,15 @@ const Tags = () => {
 				</Button>
 			</div>
 			<div className="tag-color-container">
-				{boardTags.map(({ color, id }, index) => (
-					<button
+				{boardTags.map(({ color, id, name }, index) => (
+					<TagButton
 						key={color}
-						onClick={() => selectTag(index)}
-						className={`color-tile ${color} ${selectedColor === color ? "selected" : ""}`}
-					>
-						{id !== "" && <LocalOfferIcon />}
-					</button>
+						clicked={() => selectTag(index)}
+						selected={selectedColor === color}
+						showIcon={id !== ""}
+						color={color}
+						name={name}
+					/>
 				))}
 			</div>
 		</div>

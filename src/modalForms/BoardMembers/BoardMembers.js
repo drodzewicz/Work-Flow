@@ -5,7 +5,10 @@ import Pagination from "components/Pagination/Pagination";
 import "./BoardMembers.scss";
 
 const BoardMembers = () => {
-	const [members] = useState([
+	const AMOUNT_OF_PAGES = 10;
+	const MAX_USERS_PER_PAGE = 5;
+
+	const [members, setMembers] = useState([
 		{
 			id: "1j2j3",
 			username: "morowiecki",
@@ -50,35 +53,34 @@ const BoardMembers = () => {
 			userType: "guest",
 		},
 	]);
-	const [page, setPage] = useState({
-		currentPage: 1,
-		amountOfPages: 10,
-		maxUsers: 5,
-	});
+	const [currentPage, setCurrentPage] = useState(1);
 
-	const [dislpayMembers, setDislpayMembers] = useState([]);
+	const [dislpayMembers, setDisplayMembers] = useState([]);
 
 	useEffect(() => {
 		const tempMembers = members.slice(
-			page.currentPage * page.maxUsers - page.maxUsers,
-			page.currentPage * page.maxUsers
+			currentPage * MAX_USERS_PER_PAGE - MAX_USERS_PER_PAGE,
+			currentPage * MAX_USERS_PER_PAGE
 		);
-		setDislpayMembers((displayMembers) => [...tempMembers]);
+		setDisplayMembers(tempMembers);
+		console.log(`fetching page [${currentPage}]`);
 		return () => {};
-	}, []);
+	}, [members, currentPage]);
 
 	const dynamicSearchHandler = (data) => {
-		if (data === "") setDislpayMembers(members);
-		setDislpayMembers(members.filter((user) => user.username.includes(data)));
+		if (data === "") setDisplayMembers(members);
+		setDisplayMembers(members.filter((user) => user.username.includes(data)));
 	};
-	const changePage = (pageNumber) => {
-		const tempMembers = members.slice(
-			pageNumber * page.maxUsers - page.maxUsers,
-			pageNumber * page.maxUsers
-		);
-		setDislpayMembers(tempMembers);
-		console.log(`fetching page [${pageNumber}]`);
-		setPage({ ...page, currentPage: pageNumber });
+	const changePageHandler = (pageNumber) => {
+		setCurrentPage(pageNumber);
+	};
+	const removeUserFromBoard = (memberId) => {
+		setMembers((members) => {
+			const tempMembers = [...members];
+			const indexOfFoundMember = tempMembers.findIndex(({ id }) => id === memberId);
+			tempMembers.splice(indexOfFoundMember, 1);
+			return tempMembers;
+		});
 	};
 
 	return (
@@ -86,14 +88,16 @@ const BoardMembers = () => {
 			<AutoCompleteInput execMethod={dynamicSearchHandler} timeout={500} searchResult={[]} />
 			<div className="user-container">
 				{dislpayMembers.map(({ id, username, imageLink, userType }) => (
-					<BoardMemberUser key={id} username={username} imageLink={imageLink} userType={userType} />
+					<BoardMemberUser
+						key={id}
+						removeUser={() => removeUserFromBoard(id)}
+						username={username}
+						imageLink={imageLink}
+						userType={userType}
+					/>
 				))}
 			</div>
-			<Pagination
-				amountOfPages={page.amountOfPages}
-				currentPage={page.currentPage}
-				handleChange={changePage}
-			/>
+			<Pagination amountOfPages={AMOUNT_OF_PAGES} currentPage={currentPage} handleChange={changePageHandler} />
 		</div>
 	);
 };

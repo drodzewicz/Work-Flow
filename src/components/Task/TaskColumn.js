@@ -1,4 +1,4 @@
-import React, {  useContext, useRef } from "react";
+import React, { useContext, useRef } from "react";
 import "./TaskColumn.scss";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
@@ -8,8 +8,7 @@ import { ModalContext } from "context/ModalContext";
 
 import { NewTask } from "modalForms";
 
-const TaskColumn = ({ columnName, listOfTasks }) => {
-
+const TaskColumn = ({ columnName, listOfTasks, removeTask, removeColumn, columnIndex }) => {
 	const [, modalDispatch] = useContext(ModalContext);
 
 	const anchorElement = useRef();
@@ -17,7 +16,7 @@ const TaskColumn = ({ columnName, listOfTasks }) => {
 	const openBoardTagsModal = () => {
 		modalDispatch({
 			type: "OPEN",
-			payload: { render: <NewTask />, title: "Board Tags" },
+			payload: { render: <NewTask />, title: "New Task" },
 		});
 	};
 
@@ -32,20 +31,22 @@ const TaskColumn = ({ columnName, listOfTasks }) => {
 					<MoreVertIcon />
 				</button>
 				<DropdownMenu anchorEl={anchorElement}>
-					<span>delete</span>
+					<span onClick={removeColumn}>delete</span>
 					<span>edit</span>
 				</DropdownMenu>
 			</div>
 			<div className={"task-container"}>
 				{listOfTasks &&
-					listOfTasks.map(({ id, name, tags, people, dueDate }) => (
+					listOfTasks.map(({ id, name, tags, people }, index) => (
 						<Task
 							key={id}
 							taskId={id}
 							name={name}
 							tags={tags}
 							people={people}
-							dueDate={dueDate}
+							removeTask={() => {
+								removeTask(columnIndex, index);
+							}}
 						/>
 					))}
 			</div>

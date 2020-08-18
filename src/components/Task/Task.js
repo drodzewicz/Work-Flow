@@ -5,7 +5,7 @@ import { TaskDisplay } from "modalForms";
 import { ModalContext } from "context/ModalContext";
 import Tooltip from "components/Tooltip/Tooltip";
 
-const Task = ({ taskId, name, tags, people, dueDate }) => {
+const Task = ({ taskId, name, tags, people, removeTask }) => {
 	const [, modalDispatch] = useContext(ModalContext);
 
 	const poepleAnchorElement = useRef();
@@ -15,7 +15,7 @@ const Task = ({ taskId, name, tags, people, dueDate }) => {
 		modalDispatch({
 			type: "OPEN",
 			payload: {
-				render: <TaskDisplay taskId={taskId} />,
+				render: <TaskDisplay taskId={taskId} removeTask={removeTask} />,
 				title: "Task Details",
 			},
 		});
@@ -23,9 +23,6 @@ const Task = ({ taskId, name, tags, people, dueDate }) => {
 
 	return (
 		<div className="task-card" onClick={openTaskDetailsModal}>
-			<div className="card-head">
-				<div className="due-date">{dueDate}</div>
-			</div>
 			<h3 className="task-title">{name}</h3>
 			<div className="card-bottom">
 				<div className="task-tags">

@@ -5,9 +5,8 @@ import ExpandText from "components/ExpandText/ExpandText";
 import Button from "components/Button/Button";
 import PeopleIcon from "@material-ui/icons/People";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
-import AddBoxIcon from "@material-ui/icons/AddBox";
 import { ModalContext } from "context/ModalContext";
-import { BoardMembers, TagForm, NewColumn } from "modalForms";
+import { BoardMembers, TagForm } from "modalForms";
 
 const BoardPage = ({ boardId }) => {
 	const [newColumn, setNewColumn] = useState("");
@@ -185,7 +184,7 @@ const BoardPage = ({ boardId }) => {
 					],
 				},
 			],
-		}
+		},
 	]);
 
 	const [, modalDispatch] = useContext(ModalContext);
@@ -215,12 +214,28 @@ const BoardPage = ({ boardId }) => {
 				columnName: newColumn,
 				listOfTasks: [],
 			};
-			setColumns(columns => {
+			setColumns((columns) => {
 				const tempColumns = [...columns];
 				tempColumns.push(submittedColumn);
 				return tempColumns;
-			})
+			});
 		}
+	};
+
+	const removeColum = (columnIndex) => {
+		setColumns((columns) => {
+			const tempColumns = [...columns];
+			tempColumns.splice(columnIndex, 1);
+			return tempColumns;
+		});
+	};
+	const removeTask = (columnIndex, taskIndex) => {
+		setColumns((columns) => {
+			const tempColumns = [...columns];
+			tempColumns[columnIndex].listOfTasks.splice(taskIndex, 1);
+			return tempColumns;
+		});
+		modalDispatch({ type: "CLOSE" });
 	};
 
 	return (
@@ -246,17 +261,19 @@ const BoardPage = ({ boardId }) => {
 				</Button>
 			</div>
 			<div className="board-page-container">
-				{columns.map(({ id, listOfTasks, columnName }) => (
+				{columns.map(({ id, listOfTasks, columnName }, index) => (
 					<span key={id}>
-						<TaskColumn columnName={columnName} listOfTasks={listOfTasks} />
+						<TaskColumn
+							columnIndex={index}
+							removeTask={removeTask}
+							removeColumn={() => removeColum(index)}
+							columnName={columnName}
+							listOfTasks={listOfTasks}
+						/>
 					</span>
 				))}
 				<div>
 					<div className="add-new-column">
-						{/* <button onClick={openCreateNewColumn} className="btn-add-new-column">
-						<AddBoxIcon />
-						<span>New Column</span>
-					</button> */}
 						<input
 							onKeyDown={createNewColumn}
 							value={newColumn}

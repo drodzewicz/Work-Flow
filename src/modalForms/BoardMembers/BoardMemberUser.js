@@ -8,7 +8,7 @@ import { ReactComponent as RegularUser } from "assets/images/regular-user.svg";
 import User from "components/User/User";
 import "./BoardMemberUser.scss";
 
-const BoardMemberUser = ({ username, imageLink, userType }) => {
+const BoardMemberUser = ({ username, imageLink, userType, removeUser }) => {
 	const userRoleAnchorElement = useRef();
 	const optionsAnchorElement = useRef();
 
@@ -56,7 +56,7 @@ const BoardMemberUser = ({ username, imageLink, userType }) => {
 					</DropdownMenu>
 				)}
 				<DropdownMenu classes={["user-option-menu"]} anchorEl={optionsAnchorElement}>
-					<span>remove</span>
+					<span onClick={removeUser}>remove</span>
 				</DropdownMenu>
 			</User>
 		</div>
