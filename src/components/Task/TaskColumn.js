@@ -12,12 +12,15 @@ import { ItemTypes } from "utils/items";
 
 const TaskColumn = ({
 	columnName,
+	columnId,
 	listOfTasks,
 	removeTask,
 	removeColumn,
 	columnIndex,
 	moveHandler,
+	onDrop,
 	move2,
+	moveItem
 }) => {
 	const [, modalDispatch] = useContext(ModalContext);
 
@@ -35,6 +38,9 @@ const TaskColumn = ({
 		// drop: (item, monitor) => {
 		// 	moveHandler(item.columnIndex, item.taskIndex, columnIndex);
 		// },
+		drop: (item, monitor) => {
+			onDrop(item, monitor, { id: columnId, name: columnName });
+		},
 		collect: (monitor) => ({
 			isOver: !!monitor.isOver(),
 		}),
@@ -66,7 +72,8 @@ const TaskColumn = ({
 							people={people}
 							index={index}
 							columnIndex={columnIndex}
-							move2={move2}
+							// move2={move2}
+							moveItem={moveItem}
 							removeTask={() => {
 								removeTask(id);
 							}}

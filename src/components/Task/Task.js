@@ -7,7 +7,7 @@ import Tooltip from "components/Tooltip/Tooltip";
 import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "utils/items";
 
-const Task = ({ taskId, name, index, columnIndex, tags, people, removeTask, move2 }) => {
+const Task = ({ taskId, name, index, columnIndex, tags, moveItem, people, removeTask, move2 }) => {
 	const [, modalDispatch] = useContext(ModalContext);
 
 	const poepleAnchorElement = useRef();
@@ -39,8 +39,10 @@ const Task = ({ taskId, name, index, columnIndex, tags, people, removeTask, move
 			if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
 				return;
 			}
-			// console.log(`dragIndex: [${columnIndex}, ${dragIndex}], hoverIndex: ${hoverIndex}`)
-			move2({ col: columnIndex, task: dragIndex }, { col: columnIndex, task: hoverIndex });
+			// console.log(`dragIndex: ${dragIndex}, hoverIndex: ${hoverIndex}`)
+			// move2({ col: columnIndex, task: dragIndex }, { col: columnIndex, task: hoverIndex });
+			// console.log(`hovering over [${name.substring(0, 6)}]`)
+			moveItem(taskId, item.id);
 			item.taskIndex = hoverIndex;
 		},
 	});
@@ -81,13 +83,13 @@ const Task = ({ taskId, name, index, columnIndex, tags, people, removeTask, move
 				<div className="task-tags">
 					<div className="tags" ref={tagsAnchorElement}>
 						{tags &&
-							tags.map(({color, id, name}) => (
+							tags.map(({ color, id, name }) => (
 								<div key={id} className={`tag-mini ${color}`}></div>
 							))}
 					</div>
 				</div>
 				<Tooltip anchorEl={tagsAnchorElement}>
-					{tags && tags.map(({ id, name}) => <span key={id}>{name}</span>)}
+					{tags && tags.map(({ id, name }) => <span key={id}>{name}</span>)}
 				</Tooltip>
 				<div className="task-people" ref={poepleAnchorElement}>
 					{people &&

@@ -72,29 +72,43 @@ const BoardPage = ({ boardId }) => {
 		modalDispatch({ type: "CLOSE" });
 	};
 
-	// const moveItem = (originColumnIndex, originTaskIndex, toColumnIndex, toTaskIndex) => {
-	// 	console.log(
-	// 		`moving task [${originColumnIndex}|${originTaskIndex}] => [${toColumnIndex}|${toTaskIndex}]`
-	// 	);
-	// };
-
-	// const moveItem2 = (prevIndex, hoverIndex) => {
-	// 	console.log(prevIndex, hoverIndex);
-	// 	setColumns((columns) => {
-	// 		const tempColumns = [...columns];
-	// 		const draggableTask = tempColumns[prevIndex.col].listOfTasks[prevIndex.task];
-	// 		tempColumns[prevIndex.col].listOfTasks.splice(prevIndex.task, 1);
-	// 		tempColumns[hoverIndex.col].listOfTasks.splice(hoverIndex.task, 0, draggableTask);
-	// 		return tempColumns;
+	// const onDrop = (item, monitor, column) => {
+	// 	setTasks((tasks) => {
+	// 		const tempTask = [...tasks];
+	// 		const foundTaskIndex = tasks.findIndex(({ id }) => id === item.id);
+	// 		const movingTask = tempTask.splice(foundTaskIndex, 1)[0];
+	// 		tempTask.push({ ...movingTask, column });
+	// 		return tempTask;
 	// 	});
 	// };
+	const onDrop = (item, monitor, column) => {
+		setTasks((prevState) => {
+			const newItems = prevState.filter((i) => i.id !== item.id);
+			return [...newItems];
+		});
+	};
+
+	const moveItem = (hoveredTaskId, taskId) => {
+		const indexOfHoveredTask = tasks.findIndex(({ id }) => id === hoveredTaskId);
+		const indexOfMovingTask = tasks.findIndex(({ id }) => id === taskId);
+		const { column } = tasks[indexOfHoveredTask];
+
+		console.log(`hovered: ${indexOfHoveredTask} task: ${indexOfMovingTask}`);
+
+		setTasks((tasks) => {
+			const tempTasks = [...tasks];
+			let movedTask = tempTasks.splice(indexOfMovingTask, 1)[0];
+			movedTask = { ...movedTask, column };
+			// console.log(movedTask);
+			tempTasks.splice(indexOfHoveredTask, 0, movedTask);
+			return tempTasks;
+		});
+	};
 
 	return (
 		<div className="board-page">
 			<ExpandText classes={["board-title"]} text={boardInfo.name}>
-				<div>
-				{boardInfo.description}
-				</div>
+				<div>{boardInfo.description}</div>
 			</ExpandText>
 			<div className="board-button-group">
 				<Button clicked={openBoardMembersModal}>
@@ -111,11 +125,14 @@ const BoardPage = ({ boardId }) => {
 					{columns.map(({ id, name }, index) => (
 						<span key={id}>
 							<TaskColumn
+								onDrop={onDrop}
+								columnId={id}
 								columnIndex={index}
 								removeTask={removeTask}
 								removeColumn={() => removeColum(index)}
 								columnName={name}
 								listOfTasks={tasks.filter(({ column }) => column.id === id)}
+								moveItem={moveItem}
 							/>
 						</span>
 					))}
