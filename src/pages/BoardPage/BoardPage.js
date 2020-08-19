@@ -72,21 +72,21 @@ const BoardPage = ({ boardId }) => {
 		modalDispatch({ type: "CLOSE" });
 	};
 
-	// const onDrop = (item, monitor, column) => {
-	// 	setTasks((tasks) => {
-	// 		const tempTask = [...tasks];
-	// 		const foundTaskIndex = tasks.findIndex(({ id }) => id === item.id);
-	// 		const movingTask = tempTask.splice(foundTaskIndex, 1)[0];
-	// 		tempTask.push({ ...movingTask, column });
-	// 		return tempTask;
-	// 	});
-	// };
 	const onDrop = (item, monitor, column) => {
-		setTasks((prevState) => {
-			const newItems = prevState.filter((i) => i.id !== item.id);
-			return [...newItems];
+		setTasks((tasks) => {
+			const tempTask = [...tasks];
+			const foundTaskIndex = tasks.findIndex(({ id }) => id === item.id);
+			const movingTask = tempTask.splice(foundTaskIndex, 1)[0];
+			tempTask.push({ ...movingTask, column });
+			return tempTask;
 		});
 	};
+	// const onDrop = (item, monitor, column) => {
+	// 	// setTasks((prevState) => {
+	// 	// 	// const newItems = prevState.filter((i) => i.id !== item.id);
+	// 	// 	return [...newItems];
+	// 	// });
+	// };
 
 	const moveItem = (hoveredTaskId, taskId) => {
 		const indexOfHoveredTask = tasks.findIndex(({ id }) => id === hoveredTaskId);

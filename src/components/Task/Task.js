@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useEffect } from "react";
 import "./Task.scss";
 import Image from "components/Image/Image";
 import { TaskDisplay } from "modalForms";
@@ -97,7 +97,7 @@ const Task = ({ taskId, name, index, columnIndex, tags, moveItem, people, remove
 							<Image key={id} classes={["avatar"]} imageURL={imageURL} />
 						))}
 				</div>
-				<Tooltip anchorEl={poepleAnchorElement}>
+				<Tooltip anchorEl={poepleAnchorElement} index={index}>
 					{people && people.map(({ id, username }) => <span key={id}>{username}</span>)}
 				</Tooltip>
 			</div>
