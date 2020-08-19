@@ -8,10 +8,25 @@ import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import { ModalContext } from "context/ModalContext";
 import { BoardMembers, TagForm } from "modalForms";
 
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider } from "react-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 
-import { boardTasks_DATA, taskColumns_DATA, boardInfo_DATA } from "data";
+import { boardTasks_DATA, taskColumns_DATA, boardInfo_DATA, boardTasks_2_DATA } from "data";
+
+const onDragEnd = (result, tasks, setTasks) => {
+	if (!result.destination) return;
+	const { source, destination } = result;
+	console.log(result);
+
+	const indexOfSourceColumn = tasks.findIndex(({ id }) => id === source.droppableId);
+	const indexOfDestinationColumn = tasks.findIndex(({ id }) => id === destination.droppableId);
+
+	setTasks((tasks) => {
+		const tempTasks = [...tasks];
+		const movingTask = tempTasks[indexOfSourceColumn].tasks.splice(source.index, 1)[0];
+		tempTasks[indexOfDestinationColumn].tasks.splice(destination.index, 0, movingTask);
+		return tempTasks;
+	});
+};
 
 const BoardPage = ({ boardId }) => {
 	const [newColumn, setNewColumn] = useState("");
@@ -20,7 +35,7 @@ const BoardPage = ({ boardId }) => {
 		name: boardInfo_DATA.name,
 		description: boardInfo_DATA.description,
 	});
-	const [tasks, setTasks] = useState(boardTasks_DATA);
+	const [tasks, setTasks] = useState(boardTasks_2_DATA);
 
 	const [columns, setColumns] = useState(taskColumns_DATA);
 
@@ -47,11 +62,12 @@ const BoardPage = ({ boardId }) => {
 			const submittedColumn = {
 				id: newColumn,
 				name: newColumn,
+				tasks: [],
 			};
-			setColumns((columns) => {
-				const tempColumns = [...columns];
-				tempColumns.push(submittedColumn);
-				return tempColumns;
+			setTasks((tasks) => {
+				const tempTasks = [...tasks];
+				tempTasks.push(submittedColumn);
+				return tempTasks;
 			});
 		}
 	};
@@ -72,39 +88,6 @@ const BoardPage = ({ boardId }) => {
 		modalDispatch({ type: "CLOSE" });
 	};
 
-	const onDrop = (item, monitor, column) => {
-		setTasks((tasks) => {
-			const tempTask = [...tasks];
-			const foundTaskIndex = tasks.findIndex(({ id }) => id === item.id);
-			const movingTask = tempTask.splice(foundTaskIndex, 1)[0];
-			tempTask.push({ ...movingTask, column });
-			return tempTask;
-		});
-	};
-	// const onDrop = (item, monitor, column) => {
-	// 	// setTasks((prevState) => {
-	// 	// 	// const newItems = prevState.filter((i) => i.id !== item.id);
-	// 	// 	return [...newItems];
-	// 	// });
-	// };
-
-	const moveItem = (hoveredTaskId, taskId) => {
-		const indexOfHoveredTask = tasks.findIndex(({ id }) => id === hoveredTaskId);
-		const indexOfMovingTask = tasks.findIndex(({ id }) => id === taskId);
-		const { column } = tasks[indexOfHoveredTask];
-
-		console.log(`hovered: ${indexOfHoveredTask} task: ${indexOfMovingTask}`);
-
-		setTasks((tasks) => {
-			const tempTasks = [...tasks];
-			let movedTask = tempTasks.splice(indexOfMovingTask, 1)[0];
-			movedTask = { ...movedTask, column };
-			// console.log(movedTask);
-			tempTasks.splice(indexOfHoveredTask, 0, movedTask);
-			return tempTasks;
-		});
-	};
-
 	return (
 		<div className="board-page">
 			<ExpandText classes={["board-title"]} text={boardInfo.name}>
@@ -120,19 +103,17 @@ const BoardPage = ({ boardId }) => {
 					<span>Tags</span>
 				</Button>
 			</div>
-			<DndProvider backend={HTML5Backend}>
+			<DragDropContext onDragEnd={(result) => onDragEnd(result, tasks, setTasks)}>
 				<div className="board-page-container">
-					{columns.map(({ id, name }, index) => (
+					{tasks.map(({ id, name, tasks }, index) => (
 						<span key={id}>
 							<TaskColumn
-								onDrop={onDrop}
 								columnId={id}
 								columnIndex={index}
 								removeTask={removeTask}
 								removeColumn={() => removeColum(index)}
 								columnName={name}
-								listOfTasks={tasks.filter(({ column }) => column.id === id)}
-								moveItem={moveItem}
+								listOfTasks={tasks}
 							/>
 						</span>
 					))}
@@ -148,7 +129,7 @@ const BoardPage = ({ boardId }) => {
 						</div>
 					</div>
 				</div>
-			</DndProvider>
+			</DragDropContext>
 		</div>
 	);
 };

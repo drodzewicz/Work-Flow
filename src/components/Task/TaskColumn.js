@@ -6,22 +6,11 @@ import Task from "./Task";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import { ModalContext } from "context/ModalContext";
 
-import { NewTask } from "modalForms";
-import { useDrop } from "react-dnd";
-import { ItemTypes } from "utils/items";
+import { Droppable } from "react-beautiful-dnd";
 
-const TaskColumn = ({
-	columnName,
-	columnId,
-	listOfTasks,
-	removeTask,
-	removeColumn,
-	columnIndex,
-	moveHandler,
-	onDrop,
-	move2,
-	moveItem
-}) => {
+import { NewTask } from "modalForms";
+
+const TaskColumn = ({ columnName, columnId, listOfTasks, removeTask, removeColumn, columnIndex }) => {
 	const [, modalDispatch] = useContext(ModalContext);
 
 	const anchorElement = useRef();
@@ -33,54 +22,51 @@ const TaskColumn = ({
 		});
 	};
 
-	const [{ addedProps }, drop] = useDrop({
-		accept: ItemTypes.TASK_CARD,
-		// drop: (item, monitor) => {
-		// 	moveHandler(item.columnIndex, item.taskIndex, columnIndex);
-		// },
-		drop: (item, monitor) => {
-			onDrop(item, monitor, { id: columnId, name: columnName });
-		},
-		collect: (monitor) => ({
-			isOver: !!monitor.isOver(),
-		}),
-	});
-
 	return (
-		<div className="task-column">
-			<div className="task-column-header">
-				<h2 className="task-column-name">{columnName}</h2>
-				<button onClick={openBoardTagsModal} className="add-new-task-btn">
-					<PlaylistAddIcon />{" "}
-				</button>
-				<button ref={anchorElement} className="more-options">
-					<MoreVertIcon />
-				</button>
-				<DropdownMenu anchorEl={anchorElement}>
-					<span onClick={removeColumn}>delete</span>
-					<span>edit</span>
-				</DropdownMenu>
-			</div>
-			<div ref={drop} className={"task-container"}>
-				{listOfTasks &&
-					listOfTasks.map(({ id, name, tags, people }, index) => (
-						<Task
-							key={id}
-							taskId={id}
-							name={name}
-							tags={tags}
-							people={people}
-							index={index}
-							columnIndex={columnIndex}
-							// move2={move2}
-							moveItem={moveItem}
-							removeTask={() => {
-								removeTask(id);
-							}}
-						/>
-					))}
-			</div>
-		</div>
+		<Droppable droppableId={columnId}>
+			{(provided, snapshot) => {
+				return (
+					<div
+						style={{ background: snapshot.isDraggingOver ? "lightblue" : "lightgrey" }}
+						{...provided.droppableProps}
+						ref={provided.innerRef}
+						className="task-column"
+					>
+						<div className="task-column-header">
+							<h2 className="task-column-name">{columnName}</h2>
+							<button onClick={openBoardTagsModal} className="add-new-task-btn">
+								<PlaylistAddIcon />{" "}
+							</button>
+							<button ref={anchorElement} className="more-options">
+								<MoreVertIcon />
+							</button>
+							<DropdownMenu anchorEl={anchorElement}>
+								<span onClick={removeColumn}>delete</span>
+								<span>edit</span>
+							</DropdownMenu>
+						</div>
+						<div className={"task-container"}>
+							{listOfTasks &&
+								listOfTasks.map(({ id, name, tags, people }, index) => (
+									<Task
+										key={id}
+										taskId={id}
+										name={name}
+										tags={tags}
+										people={people}
+										index={index}
+										columnIndex={columnIndex}
+										removeTask={() => {
+											removeTask(id);
+										}}
+									/>
+								))}
+							{provided.placeholder}
+						</div>
+					</div>
+				);
+			}}
+		</Droppable>
 	);
 };
 
