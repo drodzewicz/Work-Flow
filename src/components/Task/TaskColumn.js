@@ -27,10 +27,9 @@ const TaskColumn = ({ columnName, columnId, listOfTasks, removeTask, removeColum
 			{(provided, snapshot) => {
 				return (
 					<div
-						style={{ background: snapshot.isDraggingOver ? "lightblue" : "lightgrey" }}
 						{...provided.droppableProps}
 						ref={provided.innerRef}
-						className="task-column"
+						className={`task-column ${snapshot.isDraggingOver ? "active" : ""}`}
 					>
 						<div className="task-column-header">
 							<h2 className="task-column-name">{columnName}</h2>

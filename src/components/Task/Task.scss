@@ -3,25 +3,22 @@
 	background-color: $white-1;
 	width: 15rem;
 	border-radius: 5px;
-	margin: 0.6rem 0.5rem;
+	margin: 0 0 8px 0;
 	box-sizing: border-box;
 	padding: 0.5rem 0.6rem;
 	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.292);
-	font-family: "Secular One", sans-serif;
+	user-select: none;
 
-	.drop-down-span {
-		position: sticky;
-		.drop-down-menu {
-			position: absolute;
-			margin-left: 8rem;
-			margin-top: -0.15rem;
-		}
+	&.isDragging {
+		background-color: $blue-secondary-overlay;
 	}
 
 	.task-title {
 		margin: 0;
-		font-size: 1rem;
+		font-size: 0.9rem;
 		color: $text-primary;
+		font-family: 'Roboto', sans-serif;
+		margin-bottom: 0.2rem;
 	}
 	.avatar {
 		$avatar-size: 1rem;
@@ -34,6 +31,8 @@
 	.card-bottom {
 		display: flex;
 		flex-direction: row;
+		cursor: default;
+
 		.task-tags {
 			display: flex;
 			flex-direction: row;

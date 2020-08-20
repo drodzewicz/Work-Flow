@@ -8,6 +8,12 @@
 	margin: 0 0.5rem;
 	padding: 0.2rem 0.5rem;
 	font-family: "Secular One", sans-serif;
+	border: 2px solid transparent;
+	box-shadow: 0 0 3px transparent;
+	transition: all 0.2s ease-in-out;
+	&.active {
+		background: mix($blue-accent, $blue-primary-overlay, 10%);
+	}
 
 	.task-container {
 		width: 16.5rem;

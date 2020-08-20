@@ -31,17 +31,9 @@ const Task = ({ taskId, name, index, columnIndex, tags, people, removeTask }) =>
 						ref={provided.innerRef}
 						{...provided.draggableProps}
 						{...provided.dragHandleProps}
-						className="task-card"
+						className={`task-card ${snapshot.isDragging ? "isDragging" : ""}`}
 						onClick={openTaskDetailsModal}
-						style={{
-							userSelect: "none",
-							padding: 16,
-							margin: "0 0 8px 0",
-							minHeight: "50px",
-							backgroundColor: snapshot.isDragging ? "#263B4A" : "#456C86",
-							color: "white",
-							...provided.draggableProps.style,
-						}}
+						style={{ ...provided.draggableProps.style }}
 					>
 						<h3 className="task-title">{name}</h3>
 						<div className="card-bottom">
@@ -53,7 +45,7 @@ const Task = ({ taskId, name, index, columnIndex, tags, people, removeTask }) =>
 										))}
 								</div>
 							</div>
-							<Tooltip anchorEl={tagsAnchorElement}>
+							<Tooltip anchorEl={tagsAnchorElement} index={index}>
 								{tags && tags.map(({ id, name }) => <span key={id}>{name}</span>)}
 							</Tooltip>
 							<div className="task-people" ref={poepleAnchorElement}>

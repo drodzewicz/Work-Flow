@@ -37,6 +37,160 @@ export const singleTask_DATA = {
 	people: [{ id: "use1", username: "user1", imageURL: "kke" }],
 };
 
+export const boardTasks_2_DATA = [
+	{
+		id: "122jhdwdw",
+		name: "backlog",
+		tasks: [
+			{
+				id: "TSK1",
+				name: "saving one",
+				tags: [
+					{ color: "red", id: "dwdw44545", name: "BUG" },
+					{ color: "pink", id: "fghha466", name: "UI/UX" },
+				],
+				people: [
+					{ id: "use1", username: "user1", imageURL: "kke" },
+					{ id: "use2", username: "user2", imageURL: "kke" },
+				],
+			},
+			{
+				id: "TSK2",
+				name: "private ryan",
+				tags: [
+					{ color: "tiel", id: "fe555", name: "backend" },
+					{ color: "pink", id: "fghha466", name: "UI/UX" },
+				],
+				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
+			},
+			{
+				id: "TSK3",
+				name: "czy nieeeeeeeee",
+				tags: [
+					{ color: "red", id: "dwdw44545", name: "BUG" },
+					{ color: "tiel", id: "fe555", name: "backend" },
+					{ color: "pink", id: "fghha466", name: "UI/UX" },
+				],
+				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
+			},
+		],
+	},
+	{
+		id: "dwdw56565",
+		name: "to-do",
+		tasks: [
+			{
+				id: "TSK12",
+				name: "deekens az tak to mozna zagrac jak najbardziej tez nie jeszcze raz",
+				tags: [
+					{ color: "red", id: "dwdw44545", name: "BUG" },
+					{ color: "pink", id: "fghha466", name: "UI/UX" },
+				],
+				people: [
+					{ id: "use1", username: "user1", imageURL: "kke" },
+					{ id: "use2", username: "user2", imageURL: "kke" },
+				],
+			},
+			{
+				id: "TSK13",
+				name: "prawda falsz",
+				tags: [
+					{ color: "tiel", id: "fe555", name: "backend" },
+					{ color: "pink", id: "fghha466", name: "UI/UX" },
+				],
+				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
+			},
+			{
+				id: "TSK14",
+				name: "dawwwnooo",
+				tags: [
+					{ color: "red", id: "dwdw44545", name: "BUG" },
+					{ color: "tiel", id: "fe555", name: "backend" },
+					{ color: "pink", id: "fghha466", name: "UI/UX" },
+				],
+				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
+			},
+			{
+				id: "TSK15",
+				name: "555 dawwwnoo fffe",
+				tags: [
+					{ color: "red", id: "dwdw44545", name: "BUG" },
+					{ color: "tiel", id: "fe555", name: "backend" },
+					{ color: "pink", id: "fghha466", name: "UI/UX" },
+				],
+				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
+			},
+			{
+				id: "TSK16",
+				name: "lorem ipsum lorem 65 ipsum jeszcze ipsum i ujeszcze trovhe ipsum",
+				tags: [
+					{ color: "red", id: "dwdw44545", name: "BUG" },
+					{ color: "tiel", id: "fe555", name: "backend" },
+					{ color: "pink", id: "fghha466", name: "UI/UX" },
+				],
+				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
+			},
+			{
+				id: "TSK17",
+				name: "an okoko",
+				tags: [
+					{ color: "red", id: "dwdw44545", name: "BUG" },
+					{ color: "tiel", id: "fe555", name: "backend" },
+					{ color: "pink", id: "fghha466", name: "UI/UX" },
+				],
+				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
+			},
+			{
+				id: "TSK18",
+				name: "another one",
+				tags: [
+					{ color: "red", id: "dwdw44545", name: "BUG" },
+					{ color: "tiel", id: "fe555", name: "backend" },
+					{ color: "pink", id: "fghha466", name: "UI/UX" },
+				],
+				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
+			},
+		],
+	},
+	{
+		id: "do35665646",
+		name: "done",
+		tasks: [
+			{
+				id: "TSK33",
+				name: "ff fsaving one 3434",
+				tags: [
+					{ color: "red", id: "dwdw44545", name: "BUG" },
+					{ color: "pink", id: "fghha466", name: "UI/UX" },
+				],
+				people: [
+					{ id: "use1", username: "user1", imageURL: "kke" },
+					{ id: "use2", username: "user2", imageURL: "kke" },
+				],
+			},
+			{
+				id: "TSK332",
+				name: "priffffe fe",
+				tags: [
+					{ color: "tiel", id: "fe555", name: "backend" },
+					{ color: "pink", id: "fghha466", name: "UI/UX" },
+				],
+				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
+			},
+			{
+				id: "TSK324",
+				name: "po angielsku",
+				tags: [
+					{ color: "red", id: "dwdw44545", name: "BUG" },
+					{ color: "tiel", id: "fe555", name: "backend" },
+					{ color: "pink", id: "fghha466", name: "UI/UX" },
+				],
+				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
+			},
+		],
+	},
+];
+
 export const boardTasks_DATA = [
 	{
 		id: "TSK1",
@@ -433,4 +587,4 @@ export const pinnedBoards_DATA = [
 		title: "piecdziesait",
 		owner: { id: "kek123", username: "user1" },
 	},
-]
+];
