@@ -3,56 +3,13 @@ import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
 import BoardMemberUser from "./BoardMemberUser";
 import Pagination from "components/Pagination/Pagination";
 import "./BoardMembers.scss";
+import { boardMembers_DATA } from "data";
 
 const BoardMembers = () => {
 	const AMOUNT_OF_PAGES = 10;
 	const MAX_USERS_PER_PAGE = 5;
 
-	const [members, setMembers] = useState([
-		{
-			id: "1j2j3",
-			username: "morowiecki",
-			imageLink: "link1",
-			userType: "owner",
-		},
-		{
-			id: "1j3d43",
-			username: "morowka",
-			imageLink: "link1",
-			userType: "admin",
-		},
-		{
-			id: "1576j3",
-			username: "user3",
-			imageLink: "link1",
-			userType: "regular",
-		},
-		{
-			id: "675343",
-			username: "kieliszek",
-			imageLink: "link1",
-			userType: "admin",
-		},
-		{ id: "433j3", username: "user5", imageLink: "link1", userType: "regular" },
-		{
-			id: "1j3rrr",
-			username: "user6",
-			imageLink: "link1",
-			userType: "regular",
-		},
-		{
-			id: "15tttj3",
-			username: "siema",
-			imageLink: "link1",
-			userType: "regular",
-		},
-		{
-			id: "67eredr3",
-			username: "asystka",
-			imageLink: "link1",
-			userType: "guest",
-		},
-	]);
+	const [members, setMembers] = useState(boardMembers_DATA);
 	const [currentPage, setCurrentPage] = useState(1);
 
 	const [dislpayMembers, setDisplayMembers] = useState([]);
@@ -87,17 +44,21 @@ const BoardMembers = () => {
 		<div className="board-members-modal">
 			<AutoCompleteInput execMethod={dynamicSearchHandler} timeout={500} searchResult={[]} />
 			<div className="user-container">
-				{dislpayMembers.map(({ id, username, imageLink, userType }) => (
+				{dislpayMembers.map(({ id, username, imageURL, userType }) => (
 					<BoardMemberUser
 						key={id}
 						removeUser={() => removeUserFromBoard(id)}
 						username={username}
-						imageLink={imageLink}
+						imageURL={imageURL}
 						userType={userType}
 					/>
 				))}
 			</div>
-			<Pagination amountOfPages={AMOUNT_OF_PAGES} currentPage={currentPage} handleChange={changePageHandler} />
+			<Pagination
+				amountOfPages={AMOUNT_OF_PAGES}
+				currentPage={currentPage}
+				handleChange={changePageHandler}
+			/>
 		</div>
 	);
 };

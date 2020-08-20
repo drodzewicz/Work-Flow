@@ -4,19 +4,16 @@ import User from "components/User/User";
 import Tag from "components/Tag/Tag";
 import Button from "components/Button/Button";
 
+import { singleTask_DATA } from "data";
+
 const TaskDisplay = ({ taskId, removeTask }) => {
+	const { name, description, author, tags , people}  = singleTask_DATA;
 	const [taskDetails] = useState({
-		title: "Test Task",
-		description: "this is some lorem ipsum text to fill out the gaps is the template",
-		tags: [
-			{ id: "12de", color: "red", tagName: "d" },
-			{ id: "2345ff", color: "tiel", tagName: "front end" },
-		],
-		taskAuthor: { id: "fdefe43", username: "Darko", imageLink: "ddwdwd" },
-		peopleAssigned: [
-			{ id: "wddwd", username: "kekus", imageLink: "ddwdwd" },
-			{ id: "3fedf", username: "mek", imageLink: "ddwdwd" },
-		],
+		title: name,
+		description: description,
+		tags: tags,
+		taskAuthor: author,
+		peopleAssigned: people,
 	});
 
 	return (
@@ -30,8 +27,8 @@ const TaskDisplay = ({ taskId, removeTask }) => {
 				<h1 className="task-title">{taskDetails.title}</h1>
 				<p className="task-description">{taskDetails.description}</p>
 				<div className="tag-container">
-					{taskDetails.tags.map(({ id, color, tagName }) => (
-						<Tag key={id} colorCode={color} tagName={tagName} />
+					{taskDetails.tags.map(({ id, color, name }) => (
+						<Tag key={id} colorCode={color} tagName={name} />
 					))}
 				</div>
 			</div>
@@ -39,12 +36,12 @@ const TaskDisplay = ({ taskId, removeTask }) => {
 				<h2 className="added-by user-title">Task Author</h2>
 				<User
 					username={taskDetails.taskAuthor.username}
-					imageLink={taskDetails.taskAuthor.imageLink}
+					imageURL={taskDetails.taskAuthor.imageURL}
 				/>
 				<h2 className="assigned-people-title user-title">People</h2>
 				<div className="assigned-people-container">
-					{taskDetails.peopleAssigned.map(({ id, username, imageLink }) => (
-						<User key={id} username={username} imageLink={imageLink} />
+					{taskDetails.peopleAssigned.map(({ id, username, imageURL }) => (
+						<User key={id} username={username} imageURL={imageURL} />
 					))}
 				</div>
 			</div>

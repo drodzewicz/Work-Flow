@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Tag.scss";
 import PropTypes from "prop-types";
-import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 
 const Tag = ({ colorCode, tagName, deleteTag, selectTag }) => {

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import { ReactComponent as Admin } from "assets/images/Admin.svg";
@@ -8,7 +8,7 @@ import { ReactComponent as RegularUser } from "assets/images/regular-user.svg";
 import User from "components/User/User";
 import "./BoardMemberUser.scss";
 
-const BoardMemberUser = ({ username, imageLink, userType, removeUser }) => {
+const BoardMemberUser = ({ username, imageURL, userType, removeUser }) => {
 	const userRoleAnchorElement = useRef();
 	const optionsAnchorElement = useRef();
 
@@ -28,7 +28,7 @@ const BoardMemberUser = ({ username, imageLink, userType, removeUser }) => {
 	};
 	return (
 		<div className="board-user">
-			<User username={username} imageLink={imageLink}>
+			<User username={username} imageURL={imageURL}>
 				<div className="user-type" ref={userRoleAnchorElement}>
 					{userTypeIcon(userType)}
 				</div>

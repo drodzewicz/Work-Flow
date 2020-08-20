@@ -11,12 +11,12 @@ import Tag from "components/Tag/Tag";
 
 const NewTask = () => {
 	const [users, setUsers] = useState([
-		{ id: "1j2j3", username: "user1", imageLink: "link1" },
-		{ id: "1j343", username: "user2", imageLink: "link1" },
-		{ id: "1576j3", username: "user3", imageLink: "link1" },
-		{ id: "1j2dd3", username: "user1", imageLink: "link1" },
-		{ id: "1j3dd43", username: "user2", imageLink: "link1" },
-		{ id: "15f7d6j3", username: "user3", imageLink: "link1" },
+		{ id: "1j2j3", username: "user1", imageURL: "link1" },
+		{ id: "1j343", username: "user2", imageURL: "link1" },
+		{ id: "1576j3", username: "user3", imageURL: "link1" },
+		{ id: "1j2dd3", username: "user1", imageURL: "link1" },
+		{ id: "1j3dd43", username: "user2", imageURL: "link1" },
+		{ id: "15f7d6j3", username: "user3", imageURL: "link1" },
 	]);
 
 	const [boardTags, setBoardTags] = useState([
@@ -36,10 +36,10 @@ const NewTask = () => {
 	};
 
 	const temmptUsers = [
-		{ id: "1j2j3", username: "user1", imageLink: "link1" },
-		{ id: "1j343", username: "user2", imageLink: "link1" },
-		{ id: "1576j3", username: "user3", imageLink: "link1" },
-		{ id: "675343", username: "user4", imageLink: "link1" },
+		{ id: "1j2j3", username: "user1", imageURL: "link1" },
+		{ id: "1j343", username: "user2", imageURL: "link1" },
+		{ id: "1576j3", username: "user3", imageURL: "link1" },
+		{ id: "675343", username: "user4", imageURL: "link1" },
 	];
 
 	const submitCreateTask = (data, { setSubmitting }) => {
@@ -114,8 +114,8 @@ const NewTask = () => {
 							clickResult={addUserToTask}
 						/>
 						<div className="user-card-container">
-							{users.map(({ id, username, imageLink }) => (
-								<User key={id} username={username} imageLink={imageLink}>
+							{users.map(({ id, username, imageURL }) => (
+								<User key={id} username={username} imageURL={imageURL}>
 									<RemoveCircleOutlineIcon onClick={() => removeUserFromTask(id)} />
 								</User>
 							))}

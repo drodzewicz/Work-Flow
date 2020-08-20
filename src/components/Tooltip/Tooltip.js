@@ -3,7 +3,7 @@ import "./Tooltip.scss";
 import Portal from "HOC/Portal";
 import PropTypes from "prop-types";
 
-function Tooltip({ classes, children, anchorEl, offset }) {
+function Tooltip({ classes, children, anchorEl, offset, index }) {
 	const [showTooltip, setShowTooltip] = useState(false);
 	const [cords, setCords] = useState({});
 	let waitTimeBeforeRender = 0;
@@ -23,7 +23,7 @@ function Tooltip({ classes, children, anchorEl, offset }) {
 			tooltipAnchorElement.removeEventListener("mouseenter", showToolTip);
 			tooltipAnchorElement.removeEventListener("mouseleave", hideToolTip);
 		};
-	}, []);
+	}, [index]);
 
 	const showToolTip = () => {
 		waitTimeBeforeRender = setTimeout(() => {
@@ -62,7 +62,7 @@ Tooltip.propTypes = {
 		PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
 	]).isRequired,
 	children: PropTypes.node.isRequired,
-	offset: PropTypes.objectOf({x: PropTypes.number, y: PropTypes.number})
+	offset: PropTypes.shape({x: PropTypes.number, y: PropTypes.number})
 };
 
 export default Tooltip;
