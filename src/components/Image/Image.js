@@ -9,7 +9,7 @@ const Image = ({ imageURL, errorImage, classes }) => {
   return (
     <img
       className={`custom image ${classes.join(" ")}`}
-      alt="custom"
+      alt=""
       src={imageURL}
       onError={fallback}
     />

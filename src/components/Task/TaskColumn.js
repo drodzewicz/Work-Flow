@@ -23,7 +23,7 @@ const TaskColumn = ({ columnName, columnId, listOfTasks, removeTask, removeColum
 	};
 
 	return (
-		<Droppable droppableId={columnId}>
+		<Droppable droppableId={columnId} type="droppableTaskToColumn">
 			{(provided, snapshot) => {
 				return (
 					<div
