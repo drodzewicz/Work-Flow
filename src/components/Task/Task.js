@@ -23,6 +23,28 @@ const Task = ({ taskId, name, index, tags, people, removeTask }) => {
 		});
 	};
 
+	const displayAssignedUsers = (users) => {
+		const maxUserAmount = 3;
+		const userAmount = users.length;
+		let displayUsers = [];
+		if (userAmount > maxUserAmount) {
+			displayUsers = users.slice(0, maxUserAmount);
+		} else {
+			displayUsers = users;
+		}
+
+		return (
+			<div className="task-user-wrapper">
+				{displayUsers.map(({ id, imageURL }) => (
+					<Image key={id} classes={["avatar"]} imageURL={imageURL} />
+				))}
+				{maxUserAmount - userAmount < 0 && (
+					<span className="additional-users">{`+${Math.abs(maxUserAmount - userAmount)}`}</span>
+				)}
+			</div>
+		);
+	};
+
 	return (
 		<Draggable draggableId={taskId} index={index}>
 			{(provided, snapshot) => (
@@ -48,10 +70,7 @@ const Task = ({ taskId, name, index, tags, people, removeTask }) => {
 							{tags && tags.map(({ id, name }) => <span key={id}>{name}</span>)}
 						</Tooltip>
 						<div className="task-people" ref={poepleAnchorElement}>
-							{people &&
-								people.map(({ id, imageURL }) => (
-									<Image key={id} classes={["avatar"]} imageURL={imageURL} />
-								))}
+							{people && displayAssignedUsers(people)}
 						</div>
 						<Tooltip anchorEl={poepleAnchorElement} index={index}>
 							{people && people.map(({ id, username }) => <span key={id}>{username}</span>)}

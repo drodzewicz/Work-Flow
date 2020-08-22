@@ -12,7 +12,7 @@ import ContainerBox from "components/ContainerBox/ContainerBox";
 import { boards_DATA, pinnedBoards_DATA } from "data";
 
 function DashboardPage() {
-	const [page, setPage] = useState({ currentPage: 1, amountOfPages: 3 });
+	const [page, setPage] = useState({ currentPage: 1, amountOfPages: boards_DATA.length });
 
 	const [pinnedBoards, setPinnedBoards] = useState(pinnedBoards_DATA);
 
@@ -27,30 +27,56 @@ function DashboardPage() {
 		});
 	};
 
-	const pinBoard = (boardId) => {
-		const foundBoardIndex = boards.findIndex((board) => board.id === boardId);
-		setPinnedBoards((pinnedBoards) => {
-			const tempBoards = [...pinnedBoards];
-			pinnedBoards.push(boards[foundBoardIndex]);
-			return tempBoards;
-		});
+	const leaveBoard = (boardId) => {
+		const indexOfBoardInBoardList = boards.findIndex(({ id }) => id === boardId);
+		const indexOfBoardInPinnedBoardList = pinnedBoards.findIndex(({ id }) => id === boardId);
+
 		setBoards((boards) => {
-			const tempBoards = [...boards];
-			tempBoards.splice(foundBoardIndex, 1);
-			return tempBoards;
+			const newBoards = [...boards];
+			newBoards.splice(indexOfBoardInBoardList, 1);
+			return newBoards;
+		});
+
+		if(indexOfBoardInPinnedBoardList > -1) {
+			setPinnedBoards((boards) => {
+				const newBoards = [...boards];
+				newBoards.splice(indexOfBoardInPinnedBoardList, 1);
+				return newBoards;
+			});
+		}
+	};
+
+	const togglePinBoard = (boardIndex, pinnedBoardIndex) => {
+		const foundPinnedBoardIndex =
+			pinnedBoardIndex > -1
+				? pinnedBoardIndex
+				: pinnedBoards.findIndex((board) => board.id === boards[boardIndex].id);
+		const foundBoardIndex =
+			boardIndex > -1
+				? boardIndex
+				: boards.findIndex((board) => board.id === pinnedBoards[pinnedBoardIndex].id);
+
+		setPinnedBoards((pinnedBoards) => {
+			const tempPinnedBoards = [...pinnedBoards];
+
+			if (boards[foundBoardIndex].pinned) {
+				tempPinnedBoards.splice(foundPinnedBoardIndex, 1);
+			} else {
+				tempPinnedBoards.push({ ...boards[foundBoardIndex], pinned: true });
+			}
+			return tempPinnedBoards;
+		});
+
+		setBoards((boards) => {
+			const modifiedBoards = [...boards];
+			modifiedBoards[foundBoardIndex].pinned = !modifiedBoards[foundBoardIndex].pinned;
+			return modifiedBoards;
 		});
 	};
 
-	const unPinBoard = (boardId) => {
-		const foundBoardIndex = pinnedBoards.findIndex((board) => board.id === boardId);
-		setPinnedBoards((boards) => {
-			const tempBoards = [...boards];
-			tempBoards.splice(foundBoardIndex, 1);
-			return tempBoards;
-		});
-	};
 	const changePage = (pageNumber) => {
 		console.log(`fetching page [${pageNumber}]`);
+		setBoards(boards_DATA[pageNumber - 1]);
 		setPage((pageState) => ({ ...pageState, currentPage: pageNumber }));
 	};
 
@@ -61,12 +87,12 @@ function DashboardPage() {
 					<Pin />
 					<span>Pinned</span>
 				</h1>
-				{pinnedBoards.map(({ id, owner, title }) => (
+				{pinnedBoards.map(({ id, owner, title }, index) => (
 					<BoardCard
 						key={id}
 						boardId={id}
 						isPinned={true}
-						pinBoard={() => unPinBoard(id)}
+						pinBoard={() => togglePinBoard(-1, index)}
 						boardTitle={title}
 						owner={owner}
 					/>
@@ -81,12 +107,13 @@ function DashboardPage() {
 						Create Board
 					</Button>
 				</h1>
-				{boards.map(({ id, owner, title }) => (
+				{boards.map(({ id, owner, title, pinned }, index) => (
 					<BoardCard
 						key={id}
 						boardId={id}
-						isPinned={false}
-						pinBoard={() => pinBoard(id)}
+						isPinned={pinned}
+						pinBoard={() => togglePinBoard(index, -1)}
+						leaveBoard={leaveBoard}
 						boardTitle={title}
 						owner={owner}
 					/>

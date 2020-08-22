@@ -18,7 +18,7 @@ import Footer from "components/Footer/Footer";
 
 function App() {
 	const [, modalDispatch] = useContext(ModalContext);
-	const [user, dispatchUser] = useContext(UserContext);
+	const [{ username, theme }, dispatchUser] = useContext(UserContext);
 	const history = useHistory();
 	const [notifications, setNotification] = useState([
 		{ board: "wix websiite", message: "you have been added to the board" },
@@ -58,7 +58,7 @@ function App() {
 		return (
 			<>
 				<NavItem clicked={goToHomePage} icon={<HomeIcon />} />
-				<NavItem icon={<AccountBoxIcon />} navName={user.username} classes={["profile-nav"]}>
+				<NavItem icon={<AccountBoxIcon />} navName={username} classes={["profile-nav"]}>
 					<Link to="/profile">Profile</Link>
 					<button className="logout-btn" onClick={logOutUser}>
 						logout
@@ -95,10 +95,10 @@ function App() {
 	};
 
 	return (
-		<div className="App">
+		<div className={`App ${theme ? "theme-light" : "theme-dark"}`}>
 			<Modal />
-			<Navbar>{user.username ? loggedInUserNavItems() : loggedOutUserNavItems()}</Navbar>
-				<Routes />
+			<Navbar>{username ? loggedInUserNavItems() : loggedOutUserNavItems()}</Navbar>
+			<Routes />
 			<Footer />
 		</div>
 	);

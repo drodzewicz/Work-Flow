@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import TaskColumn from "components/Task/TaskColumn";
+import { ModalContext } from "context/ModalContext";
 
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
 const TaskBoard = ({ tasks, setTasks }) => {
+	const [, modalDispatch] = useContext(ModalContext);
+
 	const [newColumn, setNewColumn] = useState("");
+
 	const handleNewColumnChange = (event) => {
 		setNewColumn(event.target.value);
 	};
@@ -23,21 +27,20 @@ const TaskBoard = ({ tasks, setTasks }) => {
 			});
 		}
 	};
-	const removeColum = (columnIndex) => {
+	const removeColumn = (columnIndex) => {
 		setTasks((tasks) => {
 			const newTasks = [...tasks];
 			newTasks.splice(columnIndex, 1);
 			return newTasks;
 		});
 	};
-	const removeTask = (taskId) => {
+	const removeTask = (columnIndex, taskIndex) => {
 		setTasks((tasks) => {
 			const tempTasks = [...tasks];
-			const foundIndexOfTask = tempTasks.findIndex(({ id }) => id === taskId);
-			tempTasks.splice(foundIndexOfTask, 1);
+			tempTasks[columnIndex].tasks.splice(taskIndex, 1);
 			return tempTasks;
 		});
-		// modalDispatch({ type: "CLOSE" });
+		modalDispatch({ type: "CLOSE" });
 	};
 
 	const DraggableTaskColumn = (id, name, tasks, index) => {
@@ -55,7 +58,7 @@ const TaskBoard = ({ tasks, setTasks }) => {
 								columnId={id}
 								columnIndex={index}
 								removeTask={removeTask}
-								removeColumn={() => removeColum(index)}
+								removeColumn={() => removeColumn(index)}
 								columnName={name}
 								listOfTasks={tasks}
 							/>

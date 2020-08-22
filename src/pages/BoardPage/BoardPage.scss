@@ -1,6 +1,10 @@
 @import "../../assets/styles/colors";
+@import "../../assets/styles/variables";
 .board-page {
 	margin: 0 1rem;
+	min-height: calc(100vh - #{$navbar-height} - #{$footer-height} - 3.5rem);
+	display: flex;
+	flex-direction: column;
 	.board-title {
 		margin: 2rem 1rem;
 		.text-title {
@@ -44,7 +48,9 @@
 		flex-direction: row;
 		overflow-x: scroll;
 		padding: 1rem 0;
-		align-items: flex-start;
+		flex-grow: 1;
+		// min-height: 50rem;
+		flex-grow: 1;
 
 		&::-webkit-scrollbar {
 			height: 0.5em;
@@ -64,7 +70,10 @@
 			display: flex;
 			flex-direction: row;
 			align-items: flex-start;
-
+			height: 100%;
+			& > div {
+				height: 100%;
+			}
 		}
 	}
 	.board-button-group {

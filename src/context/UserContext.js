@@ -7,9 +7,9 @@ const initialState = { username: "Darek", theme: true };
 const reducer = (state, { type, payload }) => {
 	switch (type) {
 		case "LOGIN":
-			return { ...state, user: payload.username };
+			return { ...state, username: payload.username };
 		case "LOGOUT":
-			return { ...state, user: null };
+			return { ...state, username: null };
 		case "THEME_DARK":
 			return { ...state, theme: false };
 		case "THEME_LIGHT":

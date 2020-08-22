@@ -12,6 +12,13 @@ const Modal = () => {
 		modalDispatch({ type: "CLOSE" });
 	};
 
+	const bodyElement = document.getElementsByTagName("body")[0];
+
+	if (modalState.show) {
+		bodyElement.style.overflowY = "hidden";
+		window.scrollTo(0, 0);
+	} else bodyElement.style.overflowY = "auto";
+
 	if (modalState.show) {
 		return (
 			<Portal mountTo="root-modal">

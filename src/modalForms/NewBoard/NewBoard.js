@@ -7,15 +7,10 @@ import Button from "components/Button/Button";
 import { Formik, Field, Form } from "formik";
 import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
 
+import { userList_DATA } from "data";
+
 const NewBoard = () => {
-	const [users, setUsers] = useState([
-		{ id: "1j2j3", username: "user1", imageLink: "link1" },
-		{ id: "1j343", username: "user2", imageLink: "link1" },
-		{ id: "1576j3", username: "user3", imageLink: "link1" },
-		{ id: "1j2dd3", username: "user1", imageLink: "link1" },
-		{ id: "1j3dd43", username: "user2", imageLink: "link1" },
-		{ id: "15f7d6j3", username: "user3", imageLink: "link1" },
-	]);
+	const [users, setUsers] = useState([]);
 
 	const [searchRes, setSearchRes] = useState([]);
 
@@ -23,13 +18,6 @@ const NewBoard = () => {
 		name: "",
 		description: "",
 	};
-
-	const temmptUsers = [
-		{ id: "1j2j3", username: "user1", imageLink: "link1" },
-		{ id: "1j343", username: "user2", imageLink: "link1" },
-		{ id: "1576j3", username: "user3", imageLink: "link1" },
-		{ id: "675343", username: "user4", imageLink: "link1" },
-	];
 
 	const submitCreateBoard = (data, { setSubmitting }) => {
 		const testVal = { ...data, taskUsers: users };
@@ -39,7 +27,7 @@ const NewBoard = () => {
 	const dynamicSearchHandler = (data) => {
 		console.log(`fethcing string ${data}`);
 		// ... fetch to API
-		const parsedResult = temmptUsers
+		const parsedResult = userList_DATA
 			.filter((dbUsers) => users.findIndex((user) => user.id === dbUsers.id) < 0)
 			.map((user) => ({
 				...user,
@@ -47,6 +35,9 @@ const NewBoard = () => {
 				text: user.username,
 			}));
 		setSearchRes(parsedResult);
+	};
+	const clearSearchResults = () => {
+		setSearchRes([]);
 	};
 	const addUserToBoardHandler = (user) => {
 		setSearchRes([]);
@@ -92,10 +83,11 @@ const NewBoard = () => {
 							timeout={700}
 							searchResult={searchRes}
 							clickResult={addUserToBoardHandler}
+							clearResults={clearSearchResults}
 						/>
 						<div className="user-card-container">
-							{users.map(({ id, username, imageLink }) => (
-								<User key={id} username={username} imageLink={imageLink}>
+							{users.map(({ id, username, imageURL }) => (
+								<User key={id} username={username} imageURL={imageURL}>
 									<RemoveCircleOutlineIcon onClick={() => removeUserFromBoardHandler(id)} />
 								</User>
 							))}

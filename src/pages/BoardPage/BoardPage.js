@@ -11,7 +11,7 @@ import TaskBoard from "./TaskBoard";
 
 import { DragDropContext } from "react-beautiful-dnd";
 
-import { boardTasks_DATA, taskColumns_DATA, boardInfo_DATA, boardTasks_2_DATA } from "data";
+import { boardInfo_DATA, boardTasks_2_DATA } from "data";
 
 const onDragEnd = (result, tasks, setTasks) => {
 	if (!result.destination) return;

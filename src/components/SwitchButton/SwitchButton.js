@@ -1,33 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./SwitchButton.scss";
-// import {UserContext} from "context/UserContext";
+import { UserContext } from "context/UserContext";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import Brightness3Icon from "@material-ui/icons/Brightness3";
 
 const SwitchButton = () => {
-  const [test, setTest] = React.useState(false);
-  // const [user, setUser] = React.useContext(UserContext);
-  const toggle = () => {
-    setTest(!test);
-    // setUser({...user, theme: !user.theme })
-  };
-  const enterClickHandler = (event) => {
-    if (event.key === "Enter") {
-      toggle();
-    }
-  };
-  return (
-    <div
-      tabIndex="0"
-      onClick={toggle}
-      onKeyDown={enterClickHandler}
-      className={`switch-button ${test ? "switch-on" : ""}`}
-    >
-      <div className="circle">
-        {test ? <Brightness3Icon /> : <Brightness7Icon />}
-      </div>
-    </div>
-  );
+  const [{theme}, dispatchTheme] = useContext(UserContext);
+
+	const toggle = () => {
+    const themeToChange = !theme ? "THEME_LIGHT" : "THEME_DARK";
+		dispatchTheme({ type: themeToChange });
+	};
+
+	return (
+		<div onClick={toggle} className={`switch-button ${theme ? "" : "switch-on"}`}>
+			<div className="circle">{theme ? <Brightness7Icon /> : <Brightness3Icon />}</div>
+		</div>
+	);
 };
 
 export default SwitchButton;

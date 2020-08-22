@@ -11,6 +11,11 @@
 	border: 2px solid transparent;
 	box-shadow: 0 0 3px transparent;
 	transition: all 0.2s ease-in-out;
+	height: 100%;
+
+	.task-column-wrapper {
+		height: 100%;
+	}
 	&.active {
 		background: mix($blue-accent, $blue-primary-overlay, 10%);
 	}

@@ -1,11 +1,11 @@
 @import "../../assets/styles/colors";
 @import "../../assets/styles/mediaQueries";
 
-body {
-	background-color: $gray-bg;
-}
+
 
 .App {
+	background-color: $gray-bg;
+
 	.main-content {
 		display: flex;
 		flex-direction: row;

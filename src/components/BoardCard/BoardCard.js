@@ -6,7 +6,7 @@ import { ReactComponent as Pin } from "assets/images/pin-empty.svg";
 import { ReactComponent as Pined } from "assets/images/pin-full.svg";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 
-const BoardCard = ({ boardTitle, isPinned, pinBoard, boardId, owner }) => {
+const BoardCard = ({ boardTitle, isPinned, pinBoard,leaveBoard, boardId, owner }) => {
 	const history = useHistory();
 
 	const anchorElement = useRef();
@@ -25,7 +25,7 @@ const BoardCard = ({ boardTitle, isPinned, pinBoard, boardId, owner }) => {
 	};
 	const leavingEvent = (e) => {
 		e.stopPropagation();
-		console.log("leave event");
+		leaveBoard(boardId)
 	};
 	const gToBoard = () => {
 		history.push(`/board/${boardId}`);

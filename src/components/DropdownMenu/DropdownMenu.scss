@@ -19,6 +19,7 @@
     cursor: pointer;
     padding: 0.2rem 0.6rem;
     transition: 0.2s all ease-in-out;
+    user-select: none;
     &:hover {
       background: $blue-secondary-overlay;
     }

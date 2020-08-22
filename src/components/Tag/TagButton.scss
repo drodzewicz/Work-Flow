@@ -49,6 +49,8 @@
             "purple": $tag-purple,
             "majenta": $tag-majenta,
             "pink": $tag-pink,
+            "black": $tag-black,
+            "white": $tag-white,
         );
 
         @each $name, $color in $colors {
