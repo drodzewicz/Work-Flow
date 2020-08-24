@@ -42,6 +42,21 @@ const TaskBoard = ({ tasks, setTasks }) => {
 		});
 		modalDispatch({ type: "CLOSE" });
 	};
+	const addNewTask = (columnIndex, newTask) => {
+		setTasks( tasks => {
+			const tempTasks = [...tasks];
+			tempTasks[columnIndex].tasks.push(newTask);
+			return tempTasks;
+		})
+	}
+	const changeColumnNameHandller = (columnId, newColumnName) => {
+		setTasks( tasks => {
+			const tempTasks = [...tasks];
+			const foundColumnIndex = tempTasks.findIndex(({id}) => id === columnId);
+			tempTasks[foundColumnIndex].name = newColumnName;
+			return tempTasks;
+		})
+	}
 
 	const DraggableTaskColumn = (id, name, tasks, index) => {
 		return (
@@ -58,7 +73,9 @@ const TaskBoard = ({ tasks, setTasks }) => {
 								columnId={id}
 								columnIndex={index}
 								removeTask={removeTask}
+								addnewTask = {addNewTask}
 								removeColumn={() => removeColumn(index)}
+								changeColumnsName={changeColumnNameHandller}
 								columnName={name}
 								listOfTasks={tasks}
 							/>

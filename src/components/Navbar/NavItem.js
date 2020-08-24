@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 // import { Link } from "react-router-dom";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 
-const NavItem = ({ icon, navName, children, clicked, classes }) => {
-
+const NavItem = ({ icon, navName, children, clicked, classes, offset }) => {
 	const anchorElement = useRef();
 
 	return (
@@ -14,7 +13,11 @@ const NavItem = ({ icon, navName, children, clicked, classes }) => {
 				{!!icon && icon}
 				<span>{navName}</span>
 			</button>
-			{children && <DropdownMenu classes={classes} anchorEl={anchorElement}>{children}</DropdownMenu>}
+			{children && (
+				<DropdownMenu offset={offset} classes={classes} anchorEl={anchorElement}>
+					{children}
+				</DropdownMenu>
+			)}
 		</li>
 	);
 };

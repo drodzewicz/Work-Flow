@@ -58,7 +58,12 @@ function App() {
 		return (
 			<>
 				<NavItem clicked={goToHomePage} icon={<HomeIcon />} />
-				<NavItem icon={<AccountBoxIcon />} navName={username} classes={["profile-nav"]}>
+				<NavItem
+					offset={{ x: -60, y: 10 }}
+					icon={<AccountBoxIcon />}
+					navName={username}
+					classes={["profile-nav"]}
+				>
 					<Link to="/profile">Profile</Link>
 					<button className="logout-btn" onClick={logOutUser}>
 						logout
@@ -66,6 +71,7 @@ function App() {
 					<SwitchButton />
 				</NavItem>
 				<NavItem
+					offset={{ x: -20, y: 10 }}
 					classes={["notification-nav"]}
 					icon={
 						<Badge color="secondary" variant="dot" invisible={notifications.length < 1}>

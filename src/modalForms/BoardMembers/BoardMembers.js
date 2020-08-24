@@ -35,8 +35,6 @@ const BoardMembers = () => {
 	}, [members, currentPage]);
 
 	const dynamicSearchHandler = (data) => {
-		// if (data === "") setDisplayMembers(members);
-		// setDisplayMembers(members.filter((user) => user.username.includes(data)));
 
 		console.log(`fethcing string ${data}`);
 		// ... fetch to API

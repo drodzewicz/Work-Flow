@@ -66,7 +66,7 @@ const Task = ({ taskId, name, index, tags, people, removeTask }) => {
 									))}
 							</div>
 						</div>
-						<Tooltip anchorEl={tagsAnchorElement} index={index}>
+						<Tooltip anchorEl={tagsAnchorElement} index={index} offset={{ x: 0, y: 0 }}>
 							{tags && tags.map(({ id, name }) => <span key={id}>{name}</span>)}
 						</Tooltip>
 						<div className="task-people" ref={poepleAnchorElement}>

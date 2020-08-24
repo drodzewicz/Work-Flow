@@ -9,22 +9,12 @@ import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import Tag from "components/Tag/Tag";
 
-const NewTask = () => {
-	const [users, setUsers] = useState([
-		{ id: "1j2j3", username: "user1", imageURL: "link1" },
-		{ id: "1j343", username: "user2", imageURL: "link1" },
-		{ id: "1576j3", username: "user3", imageURL: "link1" },
-		{ id: "1j2dd3", username: "user1", imageURL: "link1" },
-		{ id: "1j3dd43", username: "user2", imageURL: "link1" },
-		{ id: "15f7d6j3", username: "user3", imageURL: "link1" },
-	]);
+import { userList_DATA, tags_DATA } from "data";
 
-	const [boardTags, setBoardTags] = useState([
-		{ color: "red", id: "dwdw44545", name: "frontend", selected: false },
-		{ color: "yellow", id: "dwd232", name: "backend", selected: false },
-		{ color: "purple", id: "gg34555", name: "bug", selected: false },
-		{ color: "majenta", id: "22342ffdf", name: "new", selected: false },
-	]);
+const NewTask = ({columnIndex, addnewTask}) => {
+	const [users, setUsers] = useState([]);
+
+	const [boardTags, setBoardTags] = useState(tags_DATA);
 
 	const tagChoiceButton = useRef();
 
@@ -35,22 +25,18 @@ const NewTask = () => {
 		description: "",
 	};
 
-	const temmptUsers = [
-		{ id: "1j2j3", username: "user1", imageURL: "link1" },
-		{ id: "1j343", username: "user2", imageURL: "link1" },
-		{ id: "1576j3", username: "user3", imageURL: "link1" },
-		{ id: "675343", username: "user4", imageURL: "link1" },
-	];
 
 	const submitCreateTask = (data, { setSubmitting }) => {
-		const testVal = { ...data, taskUsers: users };
+		const seletctedTags = boardTags.filter(({selected}) => selected);
+		const testVal = { ...data, id: data.name, people: users, tags: seletctedTags};
 		console.log(`creating task: `, testVal);
+		addnewTask(columnIndex, testVal); 
 	};
 
 	const dynamicSearchHandler = (data) => {
 		console.log(`fethcing string ${data}`);
 		// ... fetch to API
-		const parsedResult = temmptUsers
+		const parsedResult = userList_DATA
 			.filter((dbUsers) => users.findIndex((user) => user.id === dbUsers.id) < 0)
 			.map((user) => ({
 				...user,
@@ -66,6 +52,11 @@ const NewTask = () => {
 		// ..
 		setUsers(tempUsers);
 	};
+
+	const clearSearchResults = () => {
+		setSearchRes([]);
+	};
+
 	const removeUserFromTask = (userId) => {
 		setUsers((currentUserList) => currentUserList.filter(({ id }) => id !== userId));
 	};
@@ -112,6 +103,7 @@ const NewTask = () => {
 							timeout={700}
 							searchResult={searchRes}
 							clickResult={addUserToTask}
+							clearResults={clearSearchResults}
 						/>
 						<div className="user-card-container">
 							{users.map(({ id, username, imageURL }) => (
@@ -122,13 +114,16 @@ const NewTask = () => {
 						</div>
 					</div>
 					<div className="list-of-tags">
-						{/* <button ref={tagChoiceButton}>jeden</button> */}
 						<Button refEl={tagChoiceButton}>Choose Tags</Button>
 						<DropdownMenu anchorEl={tagChoiceButton} classes={["tag-drop-down"]}>
 							{boardTags
 								.filter(({ selected }) => !selected)
 								.map(({ id, color, name }) => (
-									<div onClick={() => toggleSelectTag(id)} key={id} className={`tag-item ${color}`}>
+									<div
+										onClick={() => toggleSelectTag(id)}
+										key={id}
+										className={`tag-item ${color}`}
+									>
 										{name}
 									</div>
 								))}
@@ -137,7 +132,12 @@ const NewTask = () => {
 							{boardTags
 								.filter(({ selected }) => selected)
 								.map(({ id, color, name }) => (
-									<Tag key={id} deleteTag={() => toggleSelectTag(id)} tagName={name} colorCode={color} />
+									<Tag
+										key={id}
+										deleteTag={() => toggleSelectTag(id)}
+										tagName={name}
+										colorCode={color}
+									/>
 								))}
 						</div>
 					</div>

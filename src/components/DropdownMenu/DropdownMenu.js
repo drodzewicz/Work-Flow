@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import Portal from "HOC/Portal";
 import useWindowSize from "Hooks/useWindowSize";
 
-const DropdownMenu = ({ classes, children, anchorEl }) => {
+const DropdownMenu = ({ classes, children, anchorEl, offset }) => {
 	const [width] = useWindowSize();
 	const [cords, setCords] = useState({});
 	const [show, setShow] = useState(false);
@@ -14,8 +14,8 @@ const DropdownMenu = ({ classes, children, anchorEl }) => {
 		// event.stopPropagation();
 		const rect = anchorEl.current.getBoundingClientRect();
 		setCords({
-			left: rect.x + rect.width / 2,
-			top: rect.y + window.scrollY,
+			left: rect.x + rect.width + offset.x,
+			top: rect.y + window.scrollY + offset.y,
 		});
 		setShow(true);
 	};
@@ -66,11 +66,13 @@ const DropdownMenu = ({ classes, children, anchorEl }) => {
 
 DropdownMenu.defaultProps = {
 	classes: [""],
+	offset: {x: 0, y: 0}
 };
 
 DropdownMenu.propTypes = {
 	classes: PropTypes.arrayOf(PropTypes.string),
 	children: PropTypes.node.isRequired,
+	offset: PropTypes.shape({x: PropTypes.number, y: PropTypes.number})
 };
 
 export default DropdownMenu;
