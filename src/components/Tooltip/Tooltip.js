@@ -3,13 +3,31 @@ import "./Tooltip.scss";
 import Portal from "HOC/Portal";
 import PropTypes from "prop-types";
 
-function Tooltip({ classes, children, anchorEl, offset, index }) {
+function Tooltip({ classes, children, anchorEl, offset }) {
 	const [showTooltip, setShowTooltip] = useState(false);
-	const [cords, setCords] = useState({left: 0, top: 0});
+	const [cords, setCords] = useState({ left: 0, top: 0 });
 	const toolTipRef = useRef();
-	let waitTimeBeforeRender = 0;
 
 	useEffect(() => {
+		let waitTimeBeforeRender = 0;
+
+		const showToolTiphandler = () => {
+			waitTimeBeforeRender = setTimeout(() => {
+				setShowTooltip(true);
+				const rect = anchorEl.current.getBoundingClientRect();
+				const toolTipContainerWith = toolTipRef.current.getBoundingClientRect().width;
+				setCords({
+					left: rect.x + rect.width / 2 - toolTipContainerWith / 2 + offset.x,
+					top: rect.y + 30 + offset.y,
+				});
+			}, 500);
+		};
+
+		const hideToolTipHandler = () => {
+			if (waitTimeBeforeRender) clearTimeout(waitTimeBeforeRender);
+			setShowTooltip(false);
+		};
+
 		const tooltipAnchorElement = anchorEl.current;
 		tooltipAnchorElement.addEventListener("mouseenter", showToolTiphandler);
 		tooltipAnchorElement.addEventListener("mouseleave", hideToolTipHandler);
@@ -19,25 +37,8 @@ function Tooltip({ classes, children, anchorEl, offset, index }) {
 			tooltipAnchorElement.removeEventListener("mouseenter", showToolTiphandler);
 			tooltipAnchorElement.removeEventListener("mouseleave", hideToolTipHandler);
 		};
-	}, [index]);
+	}, [ offset, anchorEl]);
 
-	const showToolTiphandler = () => {
-		waitTimeBeforeRender = setTimeout(() => {
-			setShowTooltip(true);
-			const rect = anchorEl.current.getBoundingClientRect();
-			const toolTipContainerWith = toolTipRef.current.getBoundingClientRect().width;
-			setCords({
-				left: rect.x + (rect.width / 2) - (toolTipContainerWith / 2) + offset.x,
-				top: rect.y + 30 + offset.y,
-			});
-		}, 500);
-		
-	};
-
-	const hideToolTipHandler = () => {
-		if (waitTimeBeforeRender) clearTimeout(waitTimeBeforeRender);
-		setShowTooltip(false);
-	};
 	if (showTooltip) {
 		return (
 			<Portal mountTo="root-menu">

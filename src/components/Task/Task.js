@@ -1,23 +1,45 @@
-import React, { useContext, useRef, useEffect } from "react";
+import React, { useContext, useRef } from "react";
 import "./Task.scss";
 import Image from "components/Image/Image";
 import { TaskDisplay } from "modalForms";
 import { ModalContext } from "context/ModalContext";
+import { TaskContext } from "context/TaskContext";
 import Tooltip from "components/Tooltip/Tooltip";
 
 import { Draggable } from "react-beautiful-dnd";
 
-const Task = ({ taskId, name, index, tags, people, removeTask }) => {
+const Task = ({ taskId, name, indexes, tags, people }) => {
 	const [, modalDispatch] = useContext(ModalContext);
+	const [, setTasks] = useContext(TaskContext);
 
 	const poepleAnchorElement = useRef();
 	const tagsAnchorElement = useRef();
+
+	const { taskIndex, columnIndex } = indexes;
+
+	const removeTask = () => {
+		setTasks((tasks) => {
+			const tempTasks = [...tasks];
+			tempTasks[columnIndex].tasks.splice(taskIndex, 1);
+			return tempTasks;
+		});
+		modalDispatch({ type: "CLOSE" });
+	};
+
+	const updateTask = (updatedTask) => {
+		setTasks((tasks) => {
+			const tempTasks = [...tasks];
+			tempTasks[columnIndex].tasks[taskIndex] = updatedTask;
+			return tempTasks;
+		});
+		modalDispatch({ type: "CLOSE" });
+	};
 
 	const openTaskDetailsModal = () => {
 		modalDispatch({
 			type: "OPEN",
 			payload: {
-				render: <TaskDisplay taskId={taskId} removeTask={removeTask} />,
+				render: <TaskDisplay taskId={taskId} removeTask={removeTask} updateTask={updateTask} />,
 				title: "Task Details",
 			},
 		});
@@ -46,7 +68,7 @@ const Task = ({ taskId, name, index, tags, people, removeTask }) => {
 	};
 
 	return (
-		<Draggable draggableId={taskId} index={index}>
+		<Draggable draggableId={taskId} index={taskIndex}>
 			{(provided, snapshot) => (
 				<div
 					ref={provided.innerRef}
@@ -66,13 +88,13 @@ const Task = ({ taskId, name, index, tags, people, removeTask }) => {
 									))}
 							</div>
 						</div>
-						<Tooltip anchorEl={tagsAnchorElement} index={index} offset={{ x: 0, y: 0 }}>
+						<Tooltip anchorEl={tagsAnchorElement}>
 							{tags && tags.map(({ id, name }) => <span key={id}>{name}</span>)}
 						</Tooltip>
 						<div className="task-people" ref={poepleAnchorElement}>
 							{people && displayAssignedUsers(people)}
 						</div>
-						<Tooltip anchorEl={poepleAnchorElement} index={index}>
+						<Tooltip anchorEl={poepleAnchorElement}>
 							{people && people.map(({ id, username }) => <span key={id}>{username}</span>)}
 						</Tooltip>
 					</div>

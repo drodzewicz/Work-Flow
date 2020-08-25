@@ -1,7 +1,6 @@
 import Login from "./Login";
 import Register from "./Register";
 import NewBoard from "./NewBoard/NewBoard";
-import NewTask from "./NewTask/NewTask";
 import BoardMembers from "./BoardMembers/BoardMembers";
 import TagForm from "./Tags/Tags";
 import TaskDisplay from "./TaskDisplay/TaskDisplay";
@@ -13,7 +12,6 @@ export {
   NewBoard,
   BoardMembers,
   TagForm,
-  NewTask,
   TaskDisplay,
   ChangePassword,
   ChangeProfilePicture,

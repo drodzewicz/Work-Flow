@@ -5,23 +5,16 @@ import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 import Task from "./Task";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import { ModalContext } from "context/ModalContext";
+import { TaskContext } from "context/TaskContext";
 import ColumnNameInput from "./ColumnNameInput";
 
 import { Droppable } from "react-beautiful-dnd";
 
-import { NewTask } from "modalForms";
+import TaskEditor from "modalForms/NewTask/TaskEditor";
 
-const TaskColumn = ({
-	columnName,
-	columnId,
-	listOfTasks,
-	removeTask,
-	removeColumn,
-	columnIndex,
-	changeColumnsName,
-	addnewTask,
-}) => {
+const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
 	const [, modalDispatch] = useContext(ModalContext);
+	const [, setTasks] = useContext(TaskContext);
 
 	const [showTitleInput, setShowTitleInput] = useState(false);
 
@@ -30,7 +23,36 @@ const TaskColumn = ({
 	const openBoardTagsModal = () => {
 		modalDispatch({
 			type: "OPEN",
-			payload: { render: <NewTask addnewTask={addnewTask} columnIndex={columnIndex} />, title: "New Task" },
+			payload: {
+				render: <TaskEditor addTask={addnewTask} submitDataURL="POST task/create?" buttonName="Create" />,
+				title: "New Task",
+			},
+		});
+	};
+
+	const removeColumn = () => {
+		setTasks((tasks) => {
+			const newTasks = [...tasks];
+			newTasks.splice(columnIndex, 1);
+			return newTasks;
+		});
+	};
+
+	const addnewTask = (newTask) => {
+		setTasks((tasks) => {
+			const newTasks = [...tasks];
+			newTasks[columnIndex].tasks.push(newTask);
+			return newTasks;
+		});
+		modalDispatch({ type: "CLOSE" });
+	};
+
+	const changeColumnName = (columnId, newColumnName) => {
+		setTasks((tasks) => {
+			const tempTasks = [...tasks];
+			const foundColumnIndex = tempTasks.findIndex(({ id }) => id === columnId);
+			tempTasks[foundColumnIndex].name = newColumnName;
+			return tempTasks;
 		});
 	};
 
@@ -39,7 +61,7 @@ const TaskColumn = ({
 	};
 
 	const onEnter = (newName) => {
-		changeColumnsName(columnId, newName);
+		changeColumnName(columnId, newName);
 		setShowTitleInput(false);
 	};
 
@@ -83,11 +105,7 @@ const TaskColumn = ({
 										name={name}
 										tags={tags}
 										people={people}
-										index={index}
-										columnIndex={columnIndex}
-										removeTask={() => {
-											removeTask(columnIndex, index);
-										}}
+										indexes={{ taskIndex: index, columnIndex }}
 									/>
 								))}
 							{provided.placeholder}

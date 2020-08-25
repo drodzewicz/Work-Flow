@@ -10,27 +10,25 @@ const DropdownMenu = ({ classes, children, anchorEl, offset }) => {
 	const [cords, setCords] = useState({});
 	const [show, setShow] = useState(false);
 
-	const openMenu = () => {
-		// event.stopPropagation();
-		const rect = anchorEl.current.getBoundingClientRect();
-		setCords({
-			left: rect.x + rect.width + offset.x,
-			top: rect.y + window.scrollY + offset.y,
-		});
-		setShow(true);
-	};
-
 	useEffect(() => {
 		const dropDownMenuAnchorElement = anchorEl.current;
+
+		const openMenu = () => {
+			const rect = anchorEl.current.getBoundingClientRect();
+			setCords({
+				left: rect.x + rect.width + offset.x,
+				top: rect.y + window.scrollY + offset.y,
+			});
+			setShow(true);
+		};
+
 		dropDownMenuAnchorElement.addEventListener("click", openMenu);
 
-		if (show) {
-			setShow(false);
-		}
+		setShow(false);
 		return () => {
 			dropDownMenuAnchorElement.removeEventListener("click", openMenu);
 		};
-	}, [width]);
+	}, [width, anchorEl, offset]);
 
 	const closeMenuClickHandler = () => {
 		setShow(false);
@@ -66,13 +64,13 @@ const DropdownMenu = ({ classes, children, anchorEl, offset }) => {
 
 DropdownMenu.defaultProps = {
 	classes: [""],
-	offset: {x: 0, y: 0}
+	offset: { x: 0, y: 0 },
 };
 
 DropdownMenu.propTypes = {
 	classes: PropTypes.arrayOf(PropTypes.string),
 	children: PropTypes.node.isRequired,
-	offset: PropTypes.shape({x: PropTypes.number, y: PropTypes.number})
+	offset: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
 };
 
 export default DropdownMenu;

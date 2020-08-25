@@ -7,6 +7,8 @@ import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import { ModalContext } from "context/ModalContext";
 import { BoardMembers, TagForm } from "modalForms";
 
+import {TaskProvider} from "context/TaskContext";
+
 import TaskBoard from "./TaskBoard";
 
 import { DragDropContext } from "react-beautiful-dnd";
@@ -49,6 +51,8 @@ const BoardPage = ({ boardId }) => {
 
 	const [, modalDispatch] = useContext(ModalContext);
 
+	
+
 	const openBoardMembersModal = () => {
 		modalDispatch({
 			type: "OPEN",
@@ -78,7 +82,9 @@ const BoardPage = ({ boardId }) => {
 				</Button>
 			</div>
 			<DragDropContext onDragEnd={(result) => onDragEnd(result, tasks, setTasks)}>
-				<TaskBoard tasks={tasks} setTasks={setTasks} />
+				<TaskProvider values={[tasks, setTasks]}>
+					<TaskBoard />
+				</TaskProvider>
 			</DragDropContext>
 		</div>
 	);

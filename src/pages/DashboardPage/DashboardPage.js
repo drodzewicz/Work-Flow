@@ -31,13 +31,15 @@ function DashboardPage() {
 		const indexOfBoardInBoardList = boards.findIndex(({ id }) => id === boardId);
 		const indexOfBoardInPinnedBoardList = pinnedBoards.findIndex(({ id }) => id === boardId);
 
-		setBoards((boards) => {
-			const newBoards = [...boards];
-			newBoards.splice(indexOfBoardInBoardList, 1);
-			return newBoards;
-		});
+		if (indexOfBoardInBoardList > -1) {
+			setBoards((boards) => {
+				const newBoards = [...boards];
+				newBoards.splice(indexOfBoardInBoardList, 1);
+				return newBoards;
+			});
+		}
 
-		if(indexOfBoardInPinnedBoardList > -1) {
+		if (indexOfBoardInPinnedBoardList > -1) {
 			setPinnedBoards((boards) => {
 				const newBoards = [...boards];
 				newBoards.splice(indexOfBoardInPinnedBoardList, 1);
@@ -93,6 +95,7 @@ function DashboardPage() {
 						boardId={id}
 						isPinned={true}
 						pinBoard={() => togglePinBoard(-1, index)}
+						leaveBoard={leaveBoard}
 						boardTitle={title}
 						owner={owner}
 					/>

@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react";
 import TaskColumn from "components/Task/TaskColumn";
-import { ModalContext } from "context/ModalContext";
+import { TaskContext } from "context/TaskContext";
 
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
-const TaskBoard = ({ tasks, setTasks }) => {
-	const [, modalDispatch] = useContext(ModalContext);
+const TaskBoard = () => {
+	const [tasks, setTasks] = useContext(TaskContext);
 
 	const [newColumn, setNewColumn] = useState("");
 
@@ -27,36 +27,6 @@ const TaskBoard = ({ tasks, setTasks }) => {
 			});
 		}
 	};
-	const removeColumn = (columnIndex) => {
-		setTasks((tasks) => {
-			const newTasks = [...tasks];
-			newTasks.splice(columnIndex, 1);
-			return newTasks;
-		});
-	};
-	const removeTask = (columnIndex, taskIndex) => {
-		setTasks((tasks) => {
-			const tempTasks = [...tasks];
-			tempTasks[columnIndex].tasks.splice(taskIndex, 1);
-			return tempTasks;
-		});
-		modalDispatch({ type: "CLOSE" });
-	};
-	const addNewTask = (columnIndex, newTask) => {
-		setTasks( tasks => {
-			const tempTasks = [...tasks];
-			tempTasks[columnIndex].tasks.push(newTask);
-			return tempTasks;
-		})
-	}
-	const changeColumnNameHandller = (columnId, newColumnName) => {
-		setTasks( tasks => {
-			const tempTasks = [...tasks];
-			const foundColumnIndex = tempTasks.findIndex(({id}) => id === columnId);
-			tempTasks[foundColumnIndex].name = newColumnName;
-			return tempTasks;
-		})
-	}
 
 	const DraggableTaskColumn = (id, name, tasks, index) => {
 		return (
@@ -72,10 +42,6 @@ const TaskBoard = ({ tasks, setTasks }) => {
 								key={id}
 								columnId={id}
 								columnIndex={index}
-								removeTask={removeTask}
-								addnewTask = {addNewTask}
-								removeColumn={() => removeColumn(index)}
-								changeColumnsName={changeColumnNameHandller}
 								columnName={name}
 								listOfTasks={tasks}
 							/>
