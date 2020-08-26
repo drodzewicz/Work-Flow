@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import "./NavItem.scss";
 import PropTypes from "prop-types";
-// import { Link } from "react-router-dom";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 
 const NavItem = ({ icon, navName, children, clicked, classes, offset }) => {

@@ -8,7 +8,7 @@ import { ModalContext } from "context/ModalContext";
 import { singleTask_DATA } from "data";
 
 // import EditTask from "modalForms/NewTask/EditTask";
-import TaskEditor from "modalForms/NewTask/TaskEditor";
+import TaskEditor from "modalForms/TaskEditor/TaskEditor";
 
 const TaskDisplay = ({ taskId, removeTask, updateTask }) => {
 	const { name, description, author, tags, people } = singleTask_DATA;

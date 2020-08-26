@@ -7,7 +7,8 @@ import Pagination from "components/Pagination/Pagination";
 import Button from "components/Button/Button";
 import { ModalContext } from "context/ModalContext";
 import AddBoxIcon from "@material-ui/icons/AddBox";
-import { NewBoard } from "modalForms";
+// import { NewBoard } from "modalForms";
+import BoardEditor from "modalForms/NewBoard/BoardEditor";
 import ContainerBox from "components/ContainerBox/ContainerBox";
 import { boards_DATA, pinnedBoards_DATA } from "data";
 
@@ -23,7 +24,21 @@ function DashboardPage() {
 	const openCreateNewBoardModal = () => {
 		modalDispatch({
 			type: "OPEN",
-			payload: { render: <NewBoard />, title: "New Board" },
+			// payload: { render: <NewBoard />, title: "New Board" },
+			payload: {
+				render: (
+					<BoardEditor addBoard={addBoardToList} buttonName="Create" submitDataURL="board/post" />
+				),
+				title: "New Board",
+			},
+		});
+	};
+
+	const addBoardToList = (newBoard) => {
+		setBoards((boards) => {
+			const newBoardList = [...boards];
+			newBoardList.splice(0, newBoard, 0);
+			return newBoardList;
 		});
 	};
 
@@ -81,6 +96,8 @@ function DashboardPage() {
 		setBoards(boards_DATA[pageNumber - 1]);
 		setPage((pageState) => ({ ...pageState, currentPage: pageNumber }));
 	};
+
+
 
 	return (
 		<ContainerBox classes={["dashboard-container"]}>

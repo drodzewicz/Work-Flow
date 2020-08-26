@@ -35,8 +35,8 @@ const ProfilePage = () => {
 		}, 2000);
 	};
 
-	const handleChangeProfilePicture = (newImageLink) => {
-		setProfilePicture(newImageLink);
+	const handleChangeProfilePicture = (newImageURL) => {
+		setProfilePicture(newImageURL);
 	};
 
 	const changeImageModalOpen = () => {
@@ -59,26 +59,28 @@ const ProfilePage = () => {
 	};
 
 	return (
-		<ContainerBox classes={["profile-page-container"]}>
-			<div className="profile-image">
-				<Image imageLink={profilePicture} />
-				<button onClick={changeImageModalOpen} className="change-image-btn">
-					<ImageIcon />
-				</button>
+		<ContainerBox classes={[""]}>
+			<div className="profile-page-container">
+				<div className="profile-image">
+					<Image imageURL={profilePicture} />
+					<button onClick={changeImageModalOpen} className="change-image-btn">
+						<ImageIcon />
+					</button>
+				</div>
+				<div className="profile-info">
+					<h1 className="username">{`@${profileInfo.username.initialVal}`}</h1>
+					<h3 className="name-surname">{`${profileInfo.name.initialVal} ${profileInfo.surname.initialVal}`}</h3>
+				</div>
+				<SimpleForm
+					submitButtonName="save changes"
+					validationSchema={validationSchema}
+					handleSubmit={handleSaveChanges}
+					fields={profileInfo}
+				/>
+				<Button clicked={changePasswordModalOpen} classes={["change-password"]}>
+					change password
+				</Button>
 			</div>
-			<div className="profile-info">
-				<h1 className="username">{`@${profileInfo.username.initialVal}`}</h1>
-				<h3 className="name-surname">{`${profileInfo.name.initialVal} ${profileInfo.surname.initialVal}`}</h3>
-			</div>
-			<SimpleForm
-				submitButtonName="save changes"
-				validationSchema={validationSchema}
-				handleSubmit={handleSaveChanges}
-				fields={profileInfo}
-			/>
-			<Button clicked={changePasswordModalOpen} classes={["change-password"]}>
-				change password
-			</Button>
 		</ContainerBox>
 	);
 };

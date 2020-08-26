@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./DropdownMenu.scss";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import PropTypes from "prop-types";
@@ -9,6 +9,7 @@ const DropdownMenu = ({ classes, children, anchorEl, offset }) => {
 	const [width] = useWindowSize();
 	const [cords, setCords] = useState({});
 	const [show, setShow] = useState(false);
+	const offsetRef = useRef(offset);
 
 	useEffect(() => {
 		const dropDownMenuAnchorElement = anchorEl.current;
@@ -16,8 +17,8 @@ const DropdownMenu = ({ classes, children, anchorEl, offset }) => {
 		const openMenu = () => {
 			const rect = anchorEl.current.getBoundingClientRect();
 			setCords({
-				left: rect.x + rect.width + offset.x,
-				top: rect.y + window.scrollY + offset.y,
+				left: rect.x + rect.width + offsetRef.current.x,
+				top: rect.y + window.scrollY + offsetRef.current.y,
 			});
 			setShow(true);
 		};
@@ -28,7 +29,7 @@ const DropdownMenu = ({ classes, children, anchorEl, offset }) => {
 		return () => {
 			dropDownMenuAnchorElement.removeEventListener("click", openMenu);
 		};
-	}, [width, anchorEl, offset]);
+	}, [width, anchorEl]);
 
 	const closeMenuClickHandler = () => {
 		setShow(false);
@@ -36,7 +37,7 @@ const DropdownMenu = ({ classes, children, anchorEl, offset }) => {
 
 	if (show) {
 		return (
-			<Portal mountTo="root-modal">
+			<Portal mountTo="root-menu">
 				<ClickAwayListener onClickAway={closeMenuClickHandler}>
 					<div
 						style={{ top: cords.top, left: cords.left }}

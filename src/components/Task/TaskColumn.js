@@ -10,7 +10,7 @@ import ColumnNameInput from "./ColumnNameInput";
 
 import { Droppable } from "react-beautiful-dnd";
 
-import TaskEditor from "modalForms/NewTask/TaskEditor";
+import TaskEditor from "modalForms/TaskEditor/TaskEditor";
 
 const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
 	const [, modalDispatch] = useContext(ModalContext);

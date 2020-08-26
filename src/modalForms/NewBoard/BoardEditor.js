@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./NewBoard.scss";
+import "./BoardEditor.scss";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import User from "components/User/User";
 import { TextField } from "@material-ui/core";
@@ -9,7 +9,7 @@ import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
 
 import { userList_DATA } from "data";
 
-const NewBoard = () => {
+const BoardEditor = ({submitDataURL, buttonName, addBoard, updateBoard, initialValues}) => {
 	const [users, setUsers] = useState([]);
 
 	const [searchRes, setSearchRes] = useState([]);
@@ -19,12 +19,13 @@ const NewBoard = () => {
 		description: "",
 	};
 
-	const submitCreateBoard = (data, { setSubmitting }) => {
-		const testVal = { ...data, taskUsers: users };
-		console.log(`creating board: `, testVal);
+	const submitButtonClick = (data, { setSubmitting }) => {
+		const submittedData = { ...data, taskUsers: users };
+		console.log("submitted board: ", submittedData, `to [${submitDataURL}]`);
+		if(addBoard !== undefined) addBoard(submittedData);
+		if(updateBoard !== undefined) updateBoard(submittedData);
 	};
-
-	const dynamicSearchHandler = (data) => {
+	const searchUsers = (data) => {
 		console.log(`fethcing string ${data}`);
 		// ... fetch to API
 		const parsedResult = userList_DATA
@@ -36,7 +37,7 @@ const NewBoard = () => {
 			}));
 		setSearchRes(parsedResult);
 	};
-	const clearSearchResults = () => {
+	const clearUserSearchResults = () => {
 		setSearchRes([]);
 	};
 	const addUserToBoardHandler = (user) => {
@@ -54,7 +55,7 @@ const NewBoard = () => {
 			<Formik
 				// validationSchema={validationSchema}
 				initialValues={initialValuse}
-				onSubmit={submitCreateBoard}
+				onSubmit={submitButtonClick}
 			>
 				<Form>
 					<div className="fields">
@@ -79,11 +80,11 @@ const NewBoard = () => {
 					</div>
 					<div className="user-container">
 						<AutoCompleteInput
-							execMethod={dynamicSearchHandler}
+							execMethod={searchUsers}
 							timeout={700}
 							searchResult={searchRes}
 							clickResult={addUserToBoardHandler}
-							clearResults={clearSearchResults}
+							clearResults={clearUserSearchResults}
 						/>
 						<div className="user-card-container">
 							{users.map(({ id, username, imageURL }) => (
@@ -93,8 +94,8 @@ const NewBoard = () => {
 							))}
 						</div>
 					</div>
-					<Button classes={["btn-accent btn-submit"]} type="submit">
-						Create
+					<Button classes={["btn-accent","btn-submit"]} type="submit">
+						{buttonName}
 					</Button>
 				</Form>
 			</Formik>
@@ -102,4 +103,4 @@ const NewBoard = () => {
 	);
 };
 
-export default NewBoard;
+export default BoardEditor;
