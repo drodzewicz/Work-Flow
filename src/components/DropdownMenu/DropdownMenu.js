@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import "./DropdownMenu.scss";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import PropTypes from "prop-types";
 import Portal from "HOC/Portal";
+import { UserContext } from "context/UserContext";
 import useWindowSize from "Hooks/useWindowSize";
 
 const DropdownMenu = ({ classes, children, anchorEl, offset }) => {
@@ -10,6 +11,7 @@ const DropdownMenu = ({ classes, children, anchorEl, offset }) => {
 	const [cords, setCords] = useState({});
 	const [show, setShow] = useState(false);
 	const offsetRef = useRef(offset);
+	const [{ theme }] = useContext(UserContext);
 
 	useEffect(() => {
 		const dropDownMenuAnchorElement = anchorEl.current;
@@ -41,7 +43,9 @@ const DropdownMenu = ({ classes, children, anchorEl, offset }) => {
 				<ClickAwayListener onClickAway={closeMenuClickHandler}>
 					<div
 						style={{ top: cords.top, left: cords.left }}
-						className={`drop-down-menu ${classes.join(" ")}`}
+						className={`drop-down-menu ${theme ? "theme-light" : "theme-dark"} ${classes.join(
+							" "
+						)}`}
 					>
 						{Array.isArray(children) ? (
 							children

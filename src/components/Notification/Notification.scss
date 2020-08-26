@@ -42,3 +42,24 @@
     width: 1rem;
   }
 }
+
+.theme-dark  .notification {
+  &:hover {
+    svg {
+      color: $blue-accent-dark;
+    }
+    .notification-body {
+      h2 {
+        color: $blue-accent-dark;
+      }
+      span {
+        color: mix( $blue-accent-dark, white, 70%);
+      }
+    }
+  }
+  .notification-body {
+    span {
+      color: $text-secondary-dark;
+    }
+  }
+}

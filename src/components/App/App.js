@@ -57,6 +57,7 @@ function App() {
 	const loggedInUserNavItems = () => {
 		return (
 			<>
+				<SwitchButton />
 				<NavItem clicked={goToHomePage} icon={<HomeIcon />} />
 				<NavItem
 					offset={{ x: -60, y: 10 }}
@@ -68,7 +69,6 @@ function App() {
 					<button className="logout-btn" onClick={logOutUser}>
 						logout
 					</button>
-					<SwitchButton />
 				</NavItem>
 				<NavItem
 					offset={{ x: -20, y: 10 }}

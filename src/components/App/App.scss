@@ -1,10 +1,11 @@
 @import "../../assets/styles/colors";
 @import "../../assets/styles/mediaQueries";
 
-
-
 .App {
 	background-color: $gray-bg;
+	&.theme-dark {
+		background-color: $gray-bg-dark;
+	}
 
 	.main-content {
 		display: flex;
@@ -22,21 +23,21 @@
 }
 
 .profile-nav {
-  @include mobile {
-    span {
-      display: none;
-    }
-  }
-  &.drop-down-menu {
-    transform: translate(-1rem, 2rem);
-  }
-  .logout-btn {
-    background: none;
-    border: none;
-    font-family: "Roboto", sans-serif;
-    font-size: 1rem;
-    padding: 0;
-  }
+	@include mobile {
+		span {
+			display: none;
+		}
+	}
+	&.drop-down-menu {
+		transform: translate(-1rem, 2rem);
+	}
+	.logout-btn {
+		background: none;
+		border: none;
+		font-family: "Roboto", sans-serif;
+		font-size: 1rem;
+		padding: 0;
+	}
 }
 
 .navbar {
@@ -56,4 +57,11 @@
 	.profile-setting-drop-down-menu {
 		transform: translateX(7%);
 	}
+	.switch-button {
+		margin-right: 0.5rem;
+	}
+}
+
+.theme-dark .nav-item .MuiBadge-colorSecondary  {
+	background: $blue-accent-dark;
 }

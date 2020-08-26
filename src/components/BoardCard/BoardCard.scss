@@ -18,9 +18,9 @@
   text-decoration: none;
   transition: 0.3s ease-in-out all;
   &:hover {
-    background-color: #EDEDED;
+    background-color: lighten($light-blue-1, 2%);
     .bg-columns > .column {
-      background: darken(#EDEDED, 10%);
+      background: darken($light-blue-1, 5%);
       &:nth-of-type(3){
         height: 60px;
       }
@@ -58,17 +58,20 @@
       flex-direction: row;
       justify-content: flex-end;
       align-items: center;
+      .pin-icon {
+        height: 1rem;
+      }
       svg{
         cursor: pointer;
         height: 1.2rem;
         width: 1.2rem;
         color: $text-primary;
         fill: $text-primary;
-        border-radius: 10px;
+        border-radius: 5px;
         padding: 3px;
         transition: all ease-in-out 0.2s;
         &:hover {
-          background: rgba(0, 0, 0, 0.1);
+          background: darken($light-blue-1, 5%);
 
         }
       }
@@ -82,7 +85,7 @@
     height: 70px;
     align-items: flex-start;
     .column {
-      background: rgb(235, 235, 235);
+      background: $light-blue-1;
       width: 35px;
       height: 70px;
       margin: 0 7px;
@@ -101,5 +104,28 @@
         height: 70px;
       }
     }
+  }
+}
+
+.theme-dark .board-card {
+  background-color: $dark-2;
+  &:hover {
+    background-color: lighten($dark-2, 2%);
+    .bg-columns > .column {
+      background: $dark-3;
+    }
+  }
+  .board-title { 
+    color: $text-primary-dark;
+  }
+  .board-menu svg{
+    color: $text-primary-dark;
+    fill: $text-primary-dark;
+    &:hover {
+      background: darken($dark-3, 5%);
+    }
+  }
+  .bg-columns .column{ 
+    background: $dark-3;
   }
 }

@@ -16,30 +16,39 @@
       margin-left: 1rem;
       background-color: $black-1;
       color: white;
-      font-size: 0.7rem;
+      font-size: 0.9rem;
       padding: 3px 5px;
-      border-radius: 2px;
-
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       &:hover {
         background: lighten($black-1, 10%);
       }
       .MuiSvgIcon-root {
-        height: 1rem;
-        width: 1rem;
+        height: 1.1rem;
+        width: 1.1rem;
+        margin-right: 0.2rem;
       }
     }
     .board-container-title {
       color: $black-1;
       font-family: 'Secular One', sans-serif;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       grid-column: 1/5;
       padding-left: 1rem;
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
       align-items: center;
-      svg {
-        margin-right: 0.3rem;
+      .pin-icon, .board {
+        color: $black-1;
+        fill: $black-1;
+        height: 1.2rem;
+        width: 1.2rem;
+      }
+      span {
+        margin-left: 0.3rem;
       }
     }
     @include mq-2 {
@@ -61,4 +70,22 @@
         }
     }
   }
+}
+
+.theme-dark .pinned-boards-container, .theme-dark .board-container {
+  .board-container-title {
+    color: white;
+    .pin-icon, .board {
+      color: white;
+      fill: white;
+    }
+  }
+  .new-board-btn {
+    background-color: $white-1;
+    color: $black-1;
+    &:hover {
+      background: darken($white-1, 10%);
+    }
+  }
+
 }

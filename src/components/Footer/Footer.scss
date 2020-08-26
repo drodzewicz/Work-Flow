@@ -1,19 +1,45 @@
 @import "../../assets/styles/variables";
 @import "../../assets/styles/colors";
 .app-footer {
-  background: transparent;
-  height: $footer-height;
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Roboto', sans-serif;
-  color: $gray-1;
-  font-size: 0.8rem;
-  border-top: solid 1px $gray-1;
-  transition: ease-in-out all $transition-speed;
-  &:hover {
-    color: darken($gray-1, 20%);
-  }
+	background: transparent;
+	height: $footer-height;
+	margin-top: 1rem;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+
+	border-top: solid 1px $gray-1;
+
+	.footer-item {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		margin: 0 1rem;
+		font-family: "Roboto", sans-serif;
+		color: $gray-1;
+		font-size: 0.8rem;
+		cursor: pointer;
+		transition: ease-in-out all $transition-speed;
+		font-weight: bold;
+		&:hover {
+			color: darken($gray-1, 20%);
+		}
+		svg {
+			height: 1rem;
+			width: 1rem;
+			margin-right: 3px;
+		}
+	}
+}
+
+.theme-dark .app-footer {
+	border-color: $dark-3;
+	.footer-item {
+		color: $dark-3;
+		&:hover {
+			color: lighten($dark-3, 20%);
+		}
+	}
 }

@@ -1,12 +1,14 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import "./Tooltip.scss";
 import Portal from "HOC/Portal";
 import PropTypes from "prop-types";
+import { UserContext } from "context/UserContext";
 
 function Tooltip({ classes, children, anchorEl, offset }) {
 	const [showTooltip, setShowTooltip] = useState(false);
 	const [cords, setCords] = useState({ left: 0, top: 0 });
 	const toolTipRef = useRef();
+	const [{ theme }] = useContext(UserContext);
 
 	useEffect(() => {
 		let waitTimeBeforeRender = 0;
@@ -37,7 +39,7 @@ function Tooltip({ classes, children, anchorEl, offset }) {
 			tooltipAnchorElement.removeEventListener("mouseenter", showToolTiphandler);
 			tooltipAnchorElement.removeEventListener("mouseleave", hideToolTipHandler);
 		};
-	}, [ offset, anchorEl]);
+	}, [offset, anchorEl]);
 
 	if (showTooltip) {
 		return (
@@ -45,7 +47,9 @@ function Tooltip({ classes, children, anchorEl, offset }) {
 				<div
 					ref={toolTipRef}
 					style={{ top: cords.top, left: cords.left }}
-					className={`tool-tip-wrapper ${classes.join(" ")}`}
+					className={`tool-tip-wrapper ${theme ? "theme-light" : "theme-dark"} ${classes.join(
+						" "
+					)}`}
 				>
 					{children}
 				</div>

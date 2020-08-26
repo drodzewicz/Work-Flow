@@ -103,7 +103,7 @@ function DashboardPage() {
 		<ContainerBox classes={["dashboard-container"]}>
 			<div className="pinned-boards-container">
 				<h1 className="board-container-title">
-					<Pin />
+					<Pin className="pin-icon" />
 					<span>Pinned</span>
 				</h1>
 				{pinnedBoards.map(({ id, owner, title }, index) => (
@@ -120,11 +120,11 @@ function DashboardPage() {
 			</div>
 			<div className="board-container">
 				<h1 className="board-container-title">
-					<DashboardIcon />
+					<DashboardIcon className="board-icon" />
 					<span>Boards</span>
 					<Button clicked={openCreateNewBoardModal} classes={["new-board-btn"]}>
 						<AddBoxIcon />
-						Create Board
+						New Board
 					</Button>
 				</h1>
 				{boards.map(({ id, owner, title, pinned }, index) => (

@@ -31,3 +31,18 @@
     }
   }
 }
+
+.theme-dark .nav-item  {
+  a {
+    color: $white-1;
+  }
+  .icon-button {
+    color: $white-1;
+    background: darken($dark-1, 10%);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    &:hover {
+      background: darken($dark-1, 7%);;
+      color: $white-1;
+    }
+  }
+}
