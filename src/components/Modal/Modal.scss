@@ -94,3 +94,16 @@
     transform: translateY(0);
   }
 }
+
+
+.theme-dark .modal {
+  background-color: $dark-2;
+  border-color: $dark-3;
+  .modal-header {
+    background-color: $dark-1;
+    .modal-title, .close {
+      color: white;
+    }
+ 
+  }
+}

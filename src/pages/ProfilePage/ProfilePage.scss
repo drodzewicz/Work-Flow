@@ -113,3 +113,12 @@
     }
   }
 }
+
+.theme-dark .profile-info {
+  .username {
+    color: $text-primary-dark;
+  }
+  .name-surname {
+    color: $text-secondary-dark;
+  }
+}

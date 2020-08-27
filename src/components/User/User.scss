@@ -1,6 +1,5 @@
 @import "../../assets/styles/colors";
 .user-card {
-  //   background: $blue-secondary-overlay;
   background: rgb(239, 239, 245);
   display: flex;
   flex-direction: row;
@@ -37,4 +36,14 @@
       margin: 0;
     }
   }
+}
+
+.theme-dark .user-card {
+  background: lighten($dark-3, 10%);
+  .username {
+    color: $white-1;
+  }
+  .user-buttons > * {
+      color: $dark-1;
+    }
 }

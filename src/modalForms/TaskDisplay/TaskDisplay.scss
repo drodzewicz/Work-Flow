@@ -1,4 +1,5 @@
 @import "../../assets/styles/mediaQueries";
+@import "../../assets/styles/colors";
 
 .display-task {
 	display: flex;
@@ -72,5 +73,17 @@
 		.user-card {
 			margin: 0.2rem 0;
 		}
+	}
+}
+
+.theme-dark .display-task{
+	.task-title {
+		color: $text-primary-dark;
+	}
+	.task-description {
+		color: $text-secondary-dark;
+	}
+	.user-title {
+		color: $text-primary-dark;
 	}
 }

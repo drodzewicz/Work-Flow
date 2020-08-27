@@ -126,6 +126,6 @@
     }
   }
   .bg-columns .column{ 
-    background: $dark-3;
+    background: lighten($dark-2, 3%);
   }
 }

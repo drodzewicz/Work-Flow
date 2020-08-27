@@ -46,7 +46,7 @@ const BoardMemberUser = ({
 					{userTypeIcon(userType)}
 				</div>
 				{userType !== "owner" && (ownerAuth || adminAuthorized()) && (
-					<MoreVertIcon ref={optionsAnchorElement} />
+					<MoreVertIcon className="option-more" ref={optionsAnchorElement} />
 				)}
 
 				{userType !== "owner" && ownerAuth && (

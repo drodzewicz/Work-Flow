@@ -33,3 +33,17 @@
     }
   }
 }
+
+.theme-dark .board-user{
+  .owner-icon {
+    fill: $dark-1;
+      background: $blue-accent-dark;
+  }
+  .user-type {
+    fill: white;
+    
+  }
+  .option-more {
+    color: $dark-1;
+  }
+}

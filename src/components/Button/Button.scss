@@ -30,6 +30,17 @@
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
   }
 }
+.theme-dark .btn-primary{
+  color: white;
+  background: $dark-1;
+  &:hover {
+    background: $dark-2;
+    color: $white-1;
+  }
+  &:disabled {
+    color: $dark-3;
+  }
+}
 .btn-accent {
   @extend %btn;
   color: white;
@@ -49,6 +60,23 @@
     color: white;
     &:hover {
       color: white;
+    }
+  }
+}
+
+.theme-dark .btn-accent {
+  color: $dark-2;
+  background: $blue-accent-dark;
+  &:hover {
+    background: $white-1;
+    color: $blue-accent;
+  }
+
+  &:disabled {
+    background: lighten($blue-accent-dark, 30%);
+    color: $dark-2;
+    &:hover {
+      color: $dark-2;
     }
   }
 }

@@ -49,7 +49,6 @@
 		overflow-x: scroll;
 		padding: 1rem 0;
 		flex-grow: 1;
-		// min-height: 50rem;
 		flex-grow: 1;
 
 		&::-webkit-scrollbar {
@@ -82,6 +81,43 @@
 		flex-direction: row;
 		.MuiSvgIcon-root {
 			height: 1rem;
+		}
+	}
+}
+
+.theme-dark {
+	.board-page-container {
+		&::-webkit-scrollbar-track {
+			background: $dark-1;
+			border-radius: 5px;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background-color: $dark-3;
+			border-radius: 10px;
+		}
+	}	
+	.board-page .board-title {
+		svg {
+			color: $text-primary-dark;
+		}
+		.text-title {
+			color: $text-primary-dark;
+		}
+		.expand-content {
+			color: $text-secondary-dark;
+		}
+	}
+	.add-new-column {
+		background-color: $dark-1;
+		border-color: $dark-3;
+
+		input {
+			color: white;
+			background: transparent;
+			&::placeholder {
+				color: darken(white, 30%);
+			}
 		}
 	}
 }

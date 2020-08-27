@@ -115,3 +115,13 @@
 		}
 	}
 }
+
+.theme-dark .task-card{
+	background-color: $dark-3;
+	&.isDragging {
+		background-color: lighten($dark-3, 7%);
+	}
+	.task-title {
+		color: $text-primary-dark;
+	}
+}
