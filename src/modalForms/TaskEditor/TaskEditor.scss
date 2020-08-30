@@ -2,6 +2,7 @@
 @import "../../assets/styles/colors";
 
 .new-task-container {
+	margin: 2rem 3rem;
 	display: flex;
 	flex-direction: row;
 	& > form {
@@ -9,12 +10,12 @@
 		grid-template-columns: repeat(2, 1fr);
 		align-items: center;
 		width: 100%;
-		@include mobile {
+		@include mq-1 {
 			grid-template-columns: 1fr;
 		}
 		& > * {
 			margin: 0 1rem;
-			@include mobile {
+			@include mq-1 {
 				margin: 0;
 			}
 		}
@@ -24,7 +25,7 @@
 			height: 100%;
 			display: flex;
 			flex-direction: column;
-			@include mobile {
+			@include mq-1 {
 				width: auto;
 			}
 			& > * {
@@ -40,7 +41,7 @@
 				.MuiInputBase-input,
 				.MuiInputBase-multiline {
 					padding: 0.6rem;
-					@include mobile {
+					@include mq-1 {
 						margin-bottom: 1rem;
 					}
 					textarea {
@@ -48,14 +49,26 @@
 					}
 				}
 			}
-		}
-		.user-container {
-			.auto-complete-input-wrapper {
+			.MuiInputBase-root {
 				margin-bottom: 1rem;
 			}
+		}
+		.user-container {
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			.auto-complete-input-wrapper,
 			.user-card-container {
-				overflow-y: scroll;
+				margin: 1rem 0;
+			}
+			.user-card-container {
+				overflow-y: hide;
+				width: 100%;
 				height: 10rem;
+
+				&.overflow-scroll {
+					overflow-y: scroll;
+				}
 				&::-webkit-scrollbar {
 					width: 0.5em;
 				}
@@ -73,43 +86,54 @@
 					margin-left: 0;
 				}
 			}
-    }
-    .list-of-tags {
-      margin-top: 1rem;
-      grid-column: 1/3;
-      @include mq-1 {
-        grid-column: auto;
-	  }
+		}
+		.list-of-tags {
+			margin-top: 1rem;
+			grid-column: 1/3;
+			@include mq-1 {
+				grid-column: auto;
+			}
 
-
-	  .chosen-tags-container {
-		  display: flex;
-		  flex-direction: row;
-	  }
-
-  
-	}
-
+			.chosen-tags-container {
+				margin-top: 1rem;
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+				max-width: 32rem;
+				min-height: 2rem;
+			}
+		}
 
 		.btn-submit {
 			grid-column: 1/3;
 			margin: auto;
 			margin-top: 1rem;
-			@include mobile {
+			@include mq-1 {
 				grid-column: auto;
 			}
 		}
 	}
 }
 
+.theme-dark .new-task-container .user-container .user-card-container {
+	&::-webkit-scrollbar-track {
+		background: $dark-1;
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: $dark-3;
+	}
+}
+
 $colors: (
-	"red": $tag-red,
-	"yellow": $tag-yellow,
-	"green": $tag-green,
-	"tiel": $tag-tiel,
-	"purple": $tag-purple,
-	"majenta": $tag-majenta,
-	"pink": $tag-pink,
+	"red" $tag-red white,
+	"yellow" $tag-yellow rgb(49, 30, 23),
+	"green" $tag-green rgb(36, 59, 26),
+	"tiel" $tag-tiel rgb(61, 61, 61),
+	"purple" $tag-purple white,
+	"majenta" $tag-majenta black,
+	"pink" $tag-pink black,
+	"black" $tag-black white,
+	"white" $tag-white black
 );
 
 .drop-down-menu.tag-drop-down {
@@ -125,12 +149,15 @@ $colors: (
 			justify-content: center;
 			font-weight: bold;
 		}
-		@each $name, $color in $colors {
+		@each $name, $color, $text in $colors {
 			.tag-item.#{$name} {
-				background: mix($color, white, 50%);
-				color: mix($color,rgb(51, 30, 30), 50%);
+				background: mix($color, white, 80%);
+				color: $text;
+				transition: all ease-in-out 0.2s;
+				&:hover {
+					background: lighten($color, 10%)
+				}
 			}
 		}
-		
 	}
-  }
+}

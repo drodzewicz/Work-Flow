@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField } from "@material-ui/core";
+import TextInput from "components/TextInput/TextInput";
 import Button from "components/Button/Button";
 import CheckIcon from "@material-ui/icons/Check";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -71,15 +71,14 @@ const Tags = () => {
 	return (
 		<div className="tag-form">
 			<div className="tag-name-input-wrappper">
-				<TextField
+				<TextInput
 					onChange={handleTagNameInput}
 					label={"tag name"}
 					name={"tagName"}
 					type={"text"}
-					variant="outlined"
 					value={inputTagName}
 				/>
-				<Button disabled={inputTagName === "" || selectedColor === ""} clicked={createNewTag}>
+				<Button classes={["check-btn"]} disabled={inputTagName === "" || selectedColor === ""} clicked={createNewTag}>
 					<CheckIcon />
 				</Button>
 				<Button disabled={canDeleteTag()} clicked={deleteTag}>

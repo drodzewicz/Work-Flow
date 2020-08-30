@@ -28,22 +28,13 @@
     & > div {
       height: 4.5rem;
     }
-    .MuiFormLabel-root.Mui-focused {
-      color: $blue-accent;
-      &.Mui-error {
-        color: #f44336;
-      }
-    }
-    .MuiInput-underline {
-      &.Mui-error:after {
-        border-bottom-color: #f44336;
-      }
-      &:after {
-        border-bottom-color: $blue-accent;
-      }
-    }
+
   }
   .btn-submit {
     margin-top: 1.5rem;
   }
+}
+
+.theme-dark .simple-form-container .spinner-overlay{
+  background-color: rgba( $gray-bg-dark, 0.34);
 }

@@ -30,6 +30,10 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  min-width: 500px;
+  @include mobile {
+    min-width: auto;
+  }
   .modal-header {
     background-color: $blue-secondary-overlay;
     display: flex;

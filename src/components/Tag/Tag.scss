@@ -13,21 +13,23 @@
 	padding: 2px 5px;
 
 	$colors: (
-		"red": $tag-red ,
-		"yellow": $tag-yellow ,
-		"green": $tag-green ,
-		"tiel": $tag-tiel ,
-		"purple": $tag-purple ,
-		"majenta": $tag-majenta ,
-		"pink": $tag-pink ,
-		"black": $tag-black ,
-		"white": $tag-white ,
+		"red" $tag-red white,
+		"yellow" $tag-yellow rgb(49, 30, 23),
+		"green" $tag-green white,
+		"tiel" $tag-tiel rgb(61, 61, 61),
+		"purple" $tag-purple white,
+		"majenta" $tag-majenta black,
+		"pink" $tag-pink black,
+		"black" $tag-black white,
+		"white" $tag-white black,
 	);
 
-	@each $name, $bg in $colors {
+	@each $name, $bg, $textColor in $colors {
 		&.#{$name} {
 			background: $bg;
-			color: black
+			& > * {
+				color: $textColor
+			}
 		}
 	}
 

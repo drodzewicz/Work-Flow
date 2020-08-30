@@ -73,6 +73,7 @@ function App() {
 				<NavItem
 					offset={{ x: -20, y: 10 }}
 					classes={["notification-nav"]}
+					dropDownOnClickClose={false}
 					icon={
 						<Badge color="secondary" variant="dot" invisible={notifications.length < 1}>
 							<NotificationsIcon />

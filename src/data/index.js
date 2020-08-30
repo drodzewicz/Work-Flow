@@ -622,10 +622,14 @@ export const pinnedBoards_DATA = [
 	},
 ];
 
-export const  tags_DATA = [
+export const tags_DATA = [
 	{ color: "red", id: "dwdw44545", name: "frontend" },
-		{ color: "tiel", id: "fefef455", name: "new things" },
-		{ color: "majenta", id: "dddhhhtht", name: "UI" },
-		{ color: "pink", id: "44yhthth", name: "Devops" },
-		{ color: "white", id: "f4565656532", name: "brand new fetures" },
-]
+	{ color: "tiel", id: "fefef455", name: "new things" },
+	{ color: "majenta", id: "dddhhhtht", name: "UI" },
+	{ color: "pink", id: "44yhthth", name: "Devops" },
+	{ color: "purple", id: "fegg", name: "brand new fetures" },
+	{ color: "green", id: "f4565656532", name: "another test" },
+	{ color: "yellow", id: "yd45666", name: "Vue" },
+	{ color: "black", id: "dwdwd4545", name: "React" },
+	{ color: "white", id: "ggg45677", name: "Java spring boot" },
+];

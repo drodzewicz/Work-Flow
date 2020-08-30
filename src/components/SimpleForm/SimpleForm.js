@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 import { Formik, Field, Form } from "formik";
 import Button from "components/Button/Button";
 import * as Yup from "yup";
-import { TextField } from "@material-ui/core";
+// import { TextField } from "@material-ui/core";
 import { ReactComponent as Spinner } from "assets/spinners/Infinity-1s-200px.svg";
+import TextInput from "components/TextInput/TextInput";
 
 const createInitialValueObject = (fieldObject) => {
 	let initialValues = {};
@@ -15,9 +16,9 @@ const createInitialValueObject = (fieldObject) => {
 	return initialValues;
 };
 
-const SimpleForm = ({ submitButtonName, validationSchema, handleSubmit, fields }) => {
+const SimpleForm = ({ submitButtonName, validationSchema, handleSubmit, fields, classes }) => {
 	return (
-		<div className="simple-form-container">
+		<div className={`simple-form-container ${classes.join(" ")}`}>
 			<Formik
 				validationSchema={validationSchema}
 				initialValues={createInitialValueObject(fields)}
@@ -34,12 +35,12 @@ const SimpleForm = ({ submitButtonName, validationSchema, handleSubmit, fields }
 							{Object.entries(fields).map((field) => (
 								<Field
 									key={field[0]}
-									error={!!errors[field[0]]}
+									hasErrors={!!errors[field[0]]}
 									helperText={errors[field[0]]}
-									label={fields[field[0]].label ? fields[field[0]].label : field[0]}
+									label={fields[field[0]].label}
 									name={field[0]}
 									type={fields[field[0]].type}
-									as={TextField}
+									as={TextInput}
 								/>
 							))}
 							<Button
@@ -60,6 +61,7 @@ const SimpleForm = ({ submitButtonName, validationSchema, handleSubmit, fields }
 SimpleForm.defaultProps = {
 	validationSchema: Yup.object({}),
 	submitButtonName: "Submit",
+	classes: [""],
 };
 
 SimpleForm.propTypes = {
@@ -67,6 +69,7 @@ SimpleForm.propTypes = {
 	validationSchema: PropTypes.object,
 	handleSubmit: PropTypes.func.isRequired,
 	fields: PropTypes.object.isRequired,
+	classes: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default SimpleForm;

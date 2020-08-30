@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import "./TaskEditor.scss";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import User from "components/User/User";
-import { TextField } from "@material-ui/core";
+import TextInput from "components/TextInput/TextInput";
+
 import Button from "components/Button/Button";
 import { Formik, Field, Form } from "formik";
 import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
@@ -32,7 +33,7 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 
 	const submitOnButtonClick = (data, { setSubmitting }) => {
 		console.log(`submitting to [${submitDataURL}]:`, data);
-		const submittingTask = { ...data, people: users, tags: chosenBoardTags, id: data.name};
+		const submittingTask = { ...data, people: users, tags: chosenBoardTags, id: data.name };
 		if (addTask !== undefined) addTask(submittingTask);
 		if (updateTask !== undefined) updateTask(submittingTask);
 	};
@@ -62,10 +63,11 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 		});
 	};
 	// TAGS
-	const addTagToList = (tagIndex) => {
+	const addTagToList = (tagId) => {
+		const foundTag = availableTags.find( ({id}) => id === tagId);
 		setChosenBoardTags((tags) => {
 			const newTags = [...tags];
-			newTags.push(availableTags[tagIndex]);
+			newTags.push(foundTag);
 			return newTags;
 		});
 	};
@@ -91,18 +93,13 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 							variant="outlined"
 							label={"task name"}
 							name={"name"}
-							type={"text"}
-							as={TextField}
+							as={TextInput}
 						/>
 						<Field
 							label={"description"}
 							name={"description"}
-							type={"text"}
-							rowsMax={7}
-							multiline
-							rows={7}
-							variant="outlined"
-							as={TextField}
+							multiline={{ rows: 7, max: 7 }}
+							as={TextInput}
 						/>
 					</div>
 					<div className="user-container">
@@ -113,10 +110,13 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 							clickResult={addUserToList}
 							clearResults={clearUserSearchResults}
 						/>
-						<div className="user-card-container">
+						<div className={`user-card-container ${users.length > 4 ? "overflow-scroll" : ""}`}>
 							{users.map(({ id, username, imageURL }, index) => (
 								<User key={id} username={username} imageURL={imageURL}>
-									<RemoveCircleOutlineIcon onClick={() => removeUserFromList(index)} />
+									<RemoveCircleOutlineIcon
+										className="remove-user-icon"
+										onClick={() => removeUserFromList(index)}
+									/>
 								</User>
 							))}
 						</div>
@@ -124,10 +124,12 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 					<div className="list-of-tags">
 						<Button refEl={tagChoiceButton}>Choose Tags</Button>
 						<DropdownMenu anchorEl={tagChoiceButton} classes={["tag-drop-down"]}>
-							{availableTags.map(({ id, color, name }, index) => (
+							{availableTags
+							.filter(({id: tagId}) => chosenBoardTags.findIndex( ({id}) => id === tagId) < 0)
+							.map(({ id, color, name }, index) => (
 								<div
-									onClick={() => addTagToList(index)}
 									key={id}
+									onClick={() => addTagToList(id)}
 									className={`tag-item ${color}`}
 								>
 									{name}

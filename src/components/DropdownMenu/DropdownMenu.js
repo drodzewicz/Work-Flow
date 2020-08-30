@@ -6,7 +6,7 @@ import Portal from "HOC/Portal";
 import { UserContext } from "context/UserContext";
 import useWindowSize from "Hooks/useWindowSize";
 
-const DropdownMenu = ({ classes, children, anchorEl, offset }) => {
+const DropdownMenu = ({ classes, children, anchorEl, offset, onClickClose }) => {
 	const [width] = useWindowSize();
 	const [cords, setCords] = useState({});
 	const [show, setShow] = useState(false);
@@ -51,7 +51,11 @@ const DropdownMenu = ({ classes, children, anchorEl, offset }) => {
 							children
 								.filter((node) => node)
 								.map((node) => (
-									<div key={"" + Math.random()} className="drop-down-menu-item">
+									<div
+										onClick={onClickClose ? closeMenuClickHandler : undefined}
+										key={"" + Math.random()}
+										className="drop-down-menu-item"
+									>
 										{node}
 									</div>
 								))
@@ -70,12 +74,14 @@ const DropdownMenu = ({ classes, children, anchorEl, offset }) => {
 DropdownMenu.defaultProps = {
 	classes: [""],
 	offset: { x: 0, y: 0 },
+	onClickClose: true,
 };
 
 DropdownMenu.propTypes = {
 	classes: PropTypes.arrayOf(PropTypes.string),
 	children: PropTypes.node.isRequired,
 	offset: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
+	onClickClose: PropTypes.bool,
 };
 
 export default DropdownMenu;

@@ -7,5 +7,19 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
+		margin-bottom: 1rem;
+		height: 4rem;
+		padding: 0 0.7rem;
+
+		.btn-primary {
+			margin-top: 1rem;
+		}
+		.check-btn {
+			margin-left: 1rem
+		}
+
+		.MuiFormControl-root {
+			flex-grow: 1;
+		}
 	}
 }

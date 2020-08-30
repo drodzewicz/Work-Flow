@@ -9,11 +9,16 @@ const AutoCompleteInput = ({ timeout, execMethod, searchResult, clickResult, cle
 
 	let watingTimeout = 0;
 
+	const searchByText = () => {
+		const searchString = searchInputRef.current.value;
+		if(searchString.length > 0) execMethod(searchString);
+	}
+
 	const doSearch = (event) => {
-		const searchText = event.target.value;
+		const searchString = event.target.value;
 		if (watingTimeout) clearTimeout(watingTimeout);
 		watingTimeout = setTimeout(() => {
-			if(searchText.length > 0) execMethod(searchText);
+			if(searchString.length > 0) execMethod(searchString);
 		}, timeout);
 	};
 
@@ -36,7 +41,7 @@ const AutoCompleteInput = ({ timeout, execMethod, searchResult, clickResult, cle
 					{searchResult.length > 0 ? (
 						<ClearIcon onClick={clearInputSearch} className="search-icon clear-icon" />
 					) : (
-						<SearchIcon className="search-icon" />
+						<SearchIcon onClick={searchByText} className="search-icon" />
 					)}
 				</div>
 				<div

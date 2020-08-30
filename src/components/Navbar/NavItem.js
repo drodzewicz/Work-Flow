@@ -3,7 +3,7 @@ import "./NavItem.scss";
 import PropTypes from "prop-types";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 
-const NavItem = ({ icon, navName, children, clicked, classes, offset }) => {
+const NavItem = ({ icon, navName, children, clicked, classes, offset, dropDownOnClickClose }) => {
 	const anchorElement = useRef();
 
 	return (
@@ -13,7 +13,12 @@ const NavItem = ({ icon, navName, children, clicked, classes, offset }) => {
 				<span>{navName}</span>
 			</button>
 			{children && (
-				<DropdownMenu offset={offset} classes={classes} anchorEl={anchorElement}>
+				<DropdownMenu
+					onClickClose={dropDownOnClickClose}
+					offset={offset}
+					classes={classes}
+					anchorEl={anchorElement}
+				>
 					{children}
 				</DropdownMenu>
 			)}
@@ -23,11 +28,13 @@ const NavItem = ({ icon, navName, children, clicked, classes, offset }) => {
 
 NavItem.defaultProps = {
 	classes: [""],
+	dropDownOnClickClose: true,
 };
 
 NavItem.propTypes = {
 	toggleFunction: PropTypes.func,
 	classes: PropTypes.arrayOf(PropTypes.string),
+	dropDownOnClickClose: PropTypes.bool,
 };
 
 export default NavItem;

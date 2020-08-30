@@ -1,15 +1,34 @@
 .board-members-modal {
+	.auto-complete-input-wrapper {
+		margin-bottom: 2rem;
+	}
 
-    .auto-complete-input-wrapper {
-        margin-bottom: 2rem;
-    }
+	.user-container {
+		min-height: 20rem;
+		.user-card {
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+}
 
-    .user-container {
-        min-height: 20rem;
-        .user-card {
-            margin-left: 0;
-            margin-right: 0;
-        }
-    }
-   
+.drop-down-menu.user-roles {
+	.drop-down-menu-item > div {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		svg {
+			height: 0.9rem;
+			width: 0.9rem;
+			margin-right: 0.3rem;
+		}
+	}
+}
+
+.theme-dark.drop-down-menu.user-roles {
+	svg {
+		fill: white;
+		color: white;
+	}
 }

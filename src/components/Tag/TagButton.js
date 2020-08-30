@@ -17,7 +17,7 @@ const TagButton = ({ clicked, showIcon, color, name, selected }) => {
 				{showIcon && <LocalOfferIcon />}
 			</button>
 			{name && (
-				<Tooltip offset={{ x: 0, y: 310 }} anchorEl={anchorEl}>
+				<Tooltip offset={{ x: 0, y: 20 }} anchorEl={anchorEl}>
 					<span>{name}</span>
 				</Tooltip>
 			)}
