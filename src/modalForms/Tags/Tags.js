@@ -78,7 +78,7 @@ const Tags = () => {
 					type={"text"}
 					value={inputTagName}
 				/>
-				<Button classes={["check-btn"]} disabled={inputTagName === "" || selectedColor === ""} clicked={createNewTag}>
+				<Button classes={["check-btn"]} disabled={!inputTagName || !selectedColor} clicked={createNewTag}>
 					<CheckIcon />
 				</Button>
 				<Button disabled={canDeleteTag()} clicked={deleteTag}>

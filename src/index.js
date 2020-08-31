@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
-import App from "./components/App/App";
+import App from "./App/App";
 import * as serviceWorker from "./serviceWorker";
 import { ModalProvider } from "./context/ModalContext";
 import { UserProvider } from "./context/UserContext";

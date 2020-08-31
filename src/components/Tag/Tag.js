@@ -3,9 +3,9 @@ import "./Tag.scss";
 import PropTypes from "prop-types";
 import ClearIcon from "@material-ui/icons/Clear";
 
-const Tag = ({ colorCode, tagName, deleteTag, selectTag }) => {
+const Tag = ({ colorCode, tagName, deleteTag }) => {
 	return (
-		<div onClick={selectTag} className={`filter-tag ${colorCode}`}>
+		<div className={`filter-tag ${colorCode}`}>
 			<span className="tag-name">{tagName}</span>
 			{deleteTag !== undefined && <ClearIcon className="delete-tag" onClick={deleteTag} />}
 		</div>
@@ -15,6 +15,7 @@ const Tag = ({ colorCode, tagName, deleteTag, selectTag }) => {
 Tag.propTypes = {
 	colorCode: PropTypes.string.isRequired,
 	tagName: PropTypes.string.isRequired,
+	deleteTag: PropTypes.func.isRequired,
 };
 
 export default Tag;

@@ -21,9 +21,11 @@ Button.defaultProps = {
 	clicked: null,
 	type: "button",
 	disabled: false,
+	refEl: undefined,
 };
 
 Button.propTypes = {
+	refEl: PropTypes.object,
 	children: PropTypes.node.isRequired,
 	clicked: PropTypes.func,
 	disabled: PropTypes.bool,

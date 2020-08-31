@@ -14,6 +14,8 @@ const reducer = (state, { type, payload }) => {
 			return { ...state, theme: false };
 		case "THEME_LIGHT":
 			return { ...state, theme: true };
+		case "THEME_TOGGLE":
+			return { ...state, theme: !state.theme };
 		default:
 			return state;
 	}

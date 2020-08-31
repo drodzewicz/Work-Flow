@@ -7,8 +7,8 @@ import { UserContext } from "context/UserContext";
 import Portal from "HOC/Portal";
 
 const Modal = () => {
-	const [modalState, modalDispatch] = useContext(ModalContext);
-	const [{theme}] = useContext(UserContext);
+	const [{ show, title, render }, modalDispatch] = useContext(ModalContext);
+	const [{ theme }] = useContext(UserContext);
 
 	const closeModal = () => {
 		modalDispatch({ type: "CLOSE" });
@@ -16,25 +16,25 @@ const Modal = () => {
 
 	const bodyElement = document.getElementsByTagName("body")[0];
 
-	if (modalState.show) {
+	if (show) {
 		bodyElement.style.overflowY = "hidden";
 		window.scrollTo(0, 0);
 	} else bodyElement.style.overflowY = "auto";
 
-	if (modalState.show) {
+	if (show) {
 		return (
 			<Portal mountTo="root-modal">
 				<>
-					<div className={`modal-container ${theme ? "theme-light": "theme-dark"}`}>
-						<div className={modalState.show ? "modal  modal-open" : "modal"}>
+					<div className={`modal-container ${theme ? "theme-light" : "theme-dark"}`}>
+						<div className={`modal ${show ? "open" : ""}`}>
 							<div className="modal-header">
-								<h2 className="modal-title">{modalState.title}</h2>
+								<h2 className="modal-title">{title}</h2>
 								<CloseIcon onClick={closeModal} className="close" />
 							</div>
-							<div className="modal-body">{modalState.render}</div>
+							<div className="modal-body">{render}</div>
 						</div>
 					</div>
-					<Backdrop show={modalState.show} clicked={closeModal} />
+					<Backdrop show={show} clicked={closeModal} />
 				</>
 			</Portal>
 		);

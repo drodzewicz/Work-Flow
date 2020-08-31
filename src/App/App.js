@@ -45,10 +45,15 @@ function App() {
 		console.log("log out");
 		dispatchUser({ type: "LOGOUT" });
 	};
+	const toggleTheme = () => {
+		dispatchUser({ type: "THEME_TOGGLE" });
+	};
 	const removeMessage = (index) => {
-		let tempNotification = [...notifications];
-		tempNotification.splice(index, 1);
-		setNotification(tempNotification);
+		setNotification( notifications => {
+			const newNotification = [...notifications];
+			newNotification.splice(index, 1)
+			return newNotification;
+		})
 	};
 	const goToHomePage = () => {
 		history.push("/");
@@ -57,7 +62,7 @@ function App() {
 	const loggedInUserNavItems = () => {
 		return (
 			<>
-				<SwitchButton />
+				<SwitchButton toggle={toggleTheme} isOn={!theme} />
 				<NavItem clicked={goToHomePage} icon={<HomeIcon />} />
 				<NavItem
 					offset={{ x: -60, y: 10 }}
@@ -73,6 +78,7 @@ function App() {
 				<NavItem
 					offset={{ x: -20, y: 10 }}
 					classes={["notification-nav"]}
+					dropDownScrollableAt={400}
 					dropDownOnClickClose={false}
 					icon={
 						<Badge color="secondary" variant="dot" invisible={notifications.length < 1}>

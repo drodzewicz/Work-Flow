@@ -1,8 +1,9 @@
 import React, { useRef } from "react";
-import "./AutoCmpleteInput.scss";
 import SearchIcon from "@material-ui/icons/Search";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import ClearIcon from "@material-ui/icons/Clear";
+import PropTypes from "prop-types";
+import "./AutoCmpleteInput.scss";
 
 const AutoCompleteInput = ({ timeout, execMethod, searchResult, clickResult, clearResults }) => {
 	const searchInputRef = useRef();
@@ -62,5 +63,16 @@ const AutoCompleteInput = ({ timeout, execMethod, searchResult, clickResult, cle
 		</ClickAwayListener>
 	);
 };
+
+AutoCompleteInput.defaultProps = {
+	timeout: 0,
+}
+AutoCompleteInput.propTypes = {
+	timeout: PropTypes.number,
+	execMethod: PropTypes.func.isRequired,
+	searchResult: PropTypes.array.isRequired,
+	clickResult: PropTypes.func.isRequired,
+	clearResults: PropTypes.func.isRequired
+}
 
 export default AutoCompleteInput;

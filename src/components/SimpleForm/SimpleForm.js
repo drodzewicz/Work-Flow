@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { Formik, Field, Form } from "formik";
 import Button from "components/Button/Button";
 import * as Yup from "yup";
-// import { TextField } from "@material-ui/core";
 import { ReactComponent as Spinner } from "assets/spinners/Infinity-1s-200px.svg";
 import TextInput from "components/TextInput/TextInput";
 
@@ -32,14 +31,14 @@ const SimpleForm = ({ submitButtonName, validationSchema, handleSubmit, fields, 
 							</div>
 						)}
 						<Form>
-							{Object.entries(fields).map((field) => (
+							{Object.entries(fields).map(([field]) => (
 								<Field
-									key={field[0]}
-									hasErrors={!!errors[field[0]]}
-									helperText={errors[field[0]]}
-									label={fields[field[0]].label}
-									name={field[0]}
-									type={fields[field[0]].type}
+									key={field}
+									hasErrors={!!errors[field]}
+									helperText={errors[field]}
+									label={fields[field].label}
+									name={field}
+									type={fields[field].type}
 									as={TextInput}
 								/>
 							))}

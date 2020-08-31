@@ -3,7 +3,16 @@ import "./NavItem.scss";
 import PropTypes from "prop-types";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 
-const NavItem = ({ icon, navName, children, clicked, classes, offset, dropDownOnClickClose }) => {
+const NavItem = ({
+	icon,
+	navName,
+	children,
+	clicked,
+	classes,
+	offset,
+	dropDownOnClickClose,
+	dropDownScrollableAt,
+}) => {
 	const anchorElement = useRef();
 
 	return (
@@ -14,6 +23,7 @@ const NavItem = ({ icon, navName, children, clicked, classes, offset, dropDownOn
 			</button>
 			{children && (
 				<DropdownMenu
+					scrollableAt={dropDownScrollableAt}
 					onClickClose={dropDownOnClickClose}
 					offset={offset}
 					classes={classes}
@@ -28,11 +38,21 @@ const NavItem = ({ icon, navName, children, clicked, classes, offset, dropDownOn
 
 NavItem.defaultProps = {
 	classes: [""],
+	icon: null,
+	children: null,
+	navName: "",
+	offset: undefined,
 	dropDownOnClickClose: true,
+	clicked: undefined,
 };
 
 NavItem.propTypes = {
+	icon: PropTypes.element,
+	navName: PropTypes.string,
 	toggleFunction: PropTypes.func,
+	children: PropTypes.node,
+	clicked: PropTypes.func,
+	offset: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
 	classes: PropTypes.arrayOf(PropTypes.string),
 	dropDownOnClickClose: PropTypes.bool,
 };

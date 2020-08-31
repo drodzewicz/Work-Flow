@@ -114,7 +114,7 @@ function DashboardPage() {
 						pinBoard={() => togglePinBoard(-1, index)}
 						leaveBoard={leaveBoard}
 						boardTitle={title}
-						owner={owner}
+						ownerId={owner.id}
 					/>
 				))}
 			</div>
@@ -135,7 +135,7 @@ function DashboardPage() {
 						pinBoard={() => togglePinBoard(index, -1)}
 						leaveBoard={leaveBoard}
 						boardTitle={title}
-						owner={owner}
+						ownerId={owner.id}
 					/>
 				))}
 				{page.amountOfPages > 1 && (

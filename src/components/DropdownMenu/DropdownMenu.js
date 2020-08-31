@@ -6,7 +6,7 @@ import Portal from "HOC/Portal";
 import { UserContext } from "context/UserContext";
 import useWindowSize from "Hooks/useWindowSize";
 
-const DropdownMenu = ({ classes, children, anchorEl, offset, onClickClose }) => {
+const DropdownMenu = ({ classes, children, anchorEl, offset, onClickClose, scrollableAt }) => {
 	const [width] = useWindowSize();
 	const [cords, setCords] = useState({});
 	const [show, setShow] = useState(false);
@@ -42,10 +42,10 @@ const DropdownMenu = ({ classes, children, anchorEl, offset, onClickClose }) => 
 			<Portal mountTo="root-menu">
 				<ClickAwayListener onClickAway={closeMenuClickHandler}>
 					<div
-						style={{ top: cords.top, left: cords.left }}
-						className={`drop-down-menu ${theme ? "theme-light" : "theme-dark"} ${classes.join(
-							" "
-						)}`}
+						style={{ top: cords.top, left: cords.left, maxHeight: scrollableAt }}
+						className={`drop-down-menu ${!!scrollableAt ? "scrollable" : ""} ${
+							theme ? "theme-light" : "theme-dark"
+						} ${classes.join(" ")}`}
 					>
 						{Array.isArray(children) ? (
 							children
@@ -75,6 +75,7 @@ DropdownMenu.defaultProps = {
 	classes: [""],
 	offset: { x: 0, y: 0 },
 	onClickClose: true,
+	scrollableAt: undefined,
 };
 
 DropdownMenu.propTypes = {
@@ -82,6 +83,7 @@ DropdownMenu.propTypes = {
 	children: PropTypes.node.isRequired,
 	offset: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
 	onClickClose: PropTypes.bool,
+	scrollableAt: PropTypes.number,
 };
 
 export default DropdownMenu;

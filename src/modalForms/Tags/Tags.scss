@@ -1,6 +1,7 @@
 @import "../../assets/styles/colors";
 
 .tag-form {
+	margin: 0 3rem 2rem;
 	max-width: 25rem;
 	.tag-name-input-wrappper {
 		display: flex;
@@ -21,5 +22,10 @@
 		.MuiFormControl-root {
 			flex-grow: 1;
 		}
+	}
+	.tag-color-container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
 	}
 }

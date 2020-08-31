@@ -151,11 +151,12 @@ $colors: (
 		}
 		@each $name, $color, $text in $colors {
 			.tag-item.#{$name} {
-				background: mix($color, white, 80%);
-				color: $text;
+				background: mix($color, white, 70%);
+				color: mix($text, white, 80%);
 				transition: all ease-in-out 0.2s;
 				&:hover {
-					background: lighten($color, 10%)
+					background: $color;
+					color: $text;
 				}
 			}
 		}

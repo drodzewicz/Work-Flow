@@ -1,12 +1,13 @@
 import React, { useRef } from "react";
-import "./BoardCard.scss";
 import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { ReactComponent as Pin } from "assets/images/pin-empty.svg";
 import { ReactComponent as Pined } from "assets/images/pin-full.svg";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
+import "./BoardCard.scss";
 
-const BoardCard = ({ boardTitle, isPinned, pinBoard,leaveBoard, boardId, owner }) => {
+const BoardCard = ({ boardTitle, isPinned, pinBoard, leaveBoard, boardId, ownerId }) => {
 	const history = useHistory();
 
 	const anchorElement = useRef();
@@ -17,15 +18,13 @@ const BoardCard = ({ boardTitle, isPinned, pinBoard,leaveBoard, boardId, owner }
 	};
 	const editEventModal = (e) => {
 		e.stopPropagation();
-		console.log("editing event");
 	};
 	const deleteBoardHandler = (e) => {
 		e.stopPropagation();
-		console.log("deleteing event");
 	};
 	const leavingEvent = (e) => {
 		e.stopPropagation();
-		leaveBoard(boardId)
+		leaveBoard(boardId);
 	};
 	const gToBoard = () => {
 		history.push(`/board/${boardId}`);
@@ -39,15 +38,21 @@ const BoardCard = ({ boardTitle, isPinned, pinBoard,leaveBoard, boardId, owner }
 				<div className="column"></div>
 				<div className="column"></div>
 			</div>
-			<div className="board-card-body" >
-				<h1 onClick={gToBoard} className="board-title">{boardTitle}</h1>
+			<div className="board-card-body">
+				<h1 onClick={gToBoard} className="board-title">
+					{boardTitle}
+				</h1>
 				<div className="board-menu">
-					{isPinned ? <Pined className="pin-icon" onClick={togglePinBoard} /> : <Pin className="pin-icon"  onClick={togglePinBoard} />}
+					{isPinned ? (
+						<Pined className="pin-icon" onClick={togglePinBoard} />
+					) : (
+						<Pin className="pin-icon" onClick={togglePinBoard} />
+					)}
 					<MoreVertIcon ref={anchorElement} />
 				</div>
 			</div>
 			<DropdownMenu anchorEl={anchorElement}>
-				{owner === "currentUser" ? (
+				{ownerId === "currentUser" ? (
 					<>
 						<span onClick={editEventModal}>edit</span>
 						<span onClick={deleteBoardHandler}>delete</span>
@@ -58,6 +63,18 @@ const BoardCard = ({ boardTitle, isPinned, pinBoard,leaveBoard, boardId, owner }
 			</DropdownMenu>
 		</div>
 	);
+};
+
+BoardCard.propTypes = {
+	isPinned: false,
+};
+BoardCard.propTypes = {
+	boardTitle: PropTypes.string.isRequired,
+	isPinned: PropTypes.bool,
+	pinBoard: PropTypes.func.isRequired,
+	leaveBoard: PropTypes.func.isRequired,
+	boardId: PropTypes.string.isRequired,
+	ownerId: PropTypes.string.isRequired
 };
 
 export default BoardCard;

@@ -123,7 +123,7 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 					</div>
 					<div className="list-of-tags">
 						<Button refEl={tagChoiceButton}>Choose Tags</Button>
-						<DropdownMenu anchorEl={tagChoiceButton} classes={["tag-drop-down"]}>
+						<DropdownMenu offset={{x: -102, y: 35}} scrollableAt={160} anchorEl={tagChoiceButton} classes={["tag-drop-down"]}>
 							{availableTags
 							.filter(({id: tagId}) => chosenBoardTags.findIndex( ({id}) => id === tagId) < 0)
 							.map(({ id, color, name }, index) => (
