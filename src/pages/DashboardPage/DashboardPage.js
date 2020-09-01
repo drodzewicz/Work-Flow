@@ -1,15 +1,15 @@
 import React, { useState, useContext } from "react";
-import BoardCard from "components/BoardCard/BoardCard";
-import "./DashboardPage.scss";
 import { ReactComponent as Pin } from "assets/images/pin-full.svg";
+import "./DashboardPage.scss";
+import AddBoxIcon from "@material-ui/icons/AddBox";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import Pagination from "components/Pagination/Pagination";
+import BoardCard from "components/BoardCard/BoardCard";
 import Button from "components/Button/Button";
-import { ModalContext } from "context/ModalContext";
-import AddBoxIcon from "@material-ui/icons/AddBox";
-// import { NewBoard } from "modalForms";
-import BoardEditor from "modalForms/NewBoard/BoardEditor";
+import BoardEditor from "modalForms/BoardEditor/BoardEditor";
 import ContainerBox from "components/ContainerBox/ContainerBox";
+import { ModalContext } from "context/ModalContext";
+
 import { boards_DATA, pinnedBoards_DATA } from "data";
 
 function DashboardPage() {
@@ -24,7 +24,6 @@ function DashboardPage() {
 	const openCreateNewBoardModal = () => {
 		modalDispatch({
 			type: "OPEN",
-			// payload: { render: <NewBoard />, title: "New Board" },
 			payload: {
 				render: (
 					<BoardEditor addBoard={addBoardToList} buttonName="Create" submitDataURL="board/post" />
@@ -96,8 +95,6 @@ function DashboardPage() {
 		setBoards(boards_DATA[pageNumber - 1]);
 		setPage((pageState) => ({ ...pageState, currentPage: pageNumber }));
 	};
-
-
 
 	return (
 		<ContainerBox classes={["dashboard-container"]}>

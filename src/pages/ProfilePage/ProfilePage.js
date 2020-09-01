@@ -1,13 +1,13 @@
 import React, { useState, useContext } from "react";
-import "./ProfilePage.scss";
 import * as Yup from "yup";
+import "./ProfilePage.scss";
+import ImageIcon from "@material-ui/icons/Image";
 import SimpleForm from "components/SimpleForm/SimpleForm";
 import Image from "components/Image/Image";
 import Button from "components/Button/Button";
-import ImageIcon from "@material-ui/icons/Image";
+import ContainerBox from "components/ContainerBox/ContainerBox";
 import { ModalContext } from "context/ModalContext";
 import { ChangePassword, ChangeProfilePicture } from "modalForms";
-import ContainerBox from "components/ContainerBox/ContainerBox";
 
 const validationSchema = Yup.object({
 	username: Yup.string().max(25, "username is too long").required("field is required"),

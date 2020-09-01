@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 
 const ColumnNameInput = ({ initialVal, onEnter, hideInput }) => {
 	const columnNameInputRef = useRef();
@@ -37,5 +38,11 @@ const ColumnNameInput = ({ initialVal, onEnter, hideInput }) => {
 		/>
 	);
 };
+
+ColumnNameInput.propTypes = {
+	initialVal: PropTypes.string.isRequired,
+	onEnter: PropTypes.func.isRequired,
+	hideInput: PropTypes.func.isRequired
+}
 
 export default ColumnNameInput;

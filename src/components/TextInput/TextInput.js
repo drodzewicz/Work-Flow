@@ -33,6 +33,8 @@ TextInput.defaultProps = {
 	label: "",
 	type: "text",
 	multiline: { rows: 1, max: 1 },
+	onChange: undefined,
+	value: "",
 };
 
 TextInput.propTypes = {
@@ -42,6 +44,8 @@ TextInput.propTypes = {
 	name: PropTypes.string.isRequired,
 	type: PropTypes.string,
 	multiline: PropTypes.shape({ rows: PropTypes.number.isRequired, max: PropTypes.number.isRequired }),
+	onChange: PropTypes.func,
+	value: PropTypes.string,
 };
 
 export default TextInput;

@@ -26,7 +26,7 @@ const Modal = () => {
 			<Portal mountTo="root-modal">
 				<>
 					<div className={`modal-container ${theme ? "theme-light" : "theme-dark"}`}>
-						<div className={`modal ${show ? "open" : ""}`}>
+						<div className={`modal modal-open`}>
 							<div className="modal-header">
 								<h2 className="modal-title">{title}</h2>
 								<CloseIcon onClick={closeModal} className="close" />

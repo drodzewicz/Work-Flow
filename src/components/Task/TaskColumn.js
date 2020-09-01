@@ -1,4 +1,5 @@
 import React, { useState, useContext, useRef } from "react";
+import PropTypes from "prop-types";
 import "./TaskColumn.scss";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
@@ -10,7 +11,7 @@ import ColumnNameInput from "./ColumnNameInput";
 
 import { Droppable } from "react-beautiful-dnd";
 
-import TaskEditor from "modalForms/TaskEditor/TaskEditor";
+import { TaskEditor } from "modalForms";
 
 const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
 	const [, modalDispatch] = useContext(ModalContext);
@@ -24,7 +25,9 @@ const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
 		modalDispatch({
 			type: "OPEN",
 			payload: {
-				render: <TaskEditor addTask={addnewTask} submitDataURL="POST task/create?" buttonName="Create" />,
+				render: (
+					<TaskEditor addTask={addnewTask} submitDataURL="POST task/create?" buttonName="Create" />
+				),
 				title: "New Task",
 			},
 		});
@@ -86,7 +89,7 @@ const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
 								<h2 className="task-column-name">{columnName}</h2>
 							)}
 							<button onClick={openBoardTagsModal} className="add-new-task-btn">
-								<PlaylistAddIcon />{" "}
+								<PlaylistAddIcon />
 							</button>
 							<button ref={anchorElement} className="more-options">
 								<MoreVertIcon />
@@ -115,6 +118,13 @@ const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
 			}}
 		</Droppable>
 	);
+};
+
+TaskColumn.propTypes = {
+	columnName: PropTypes.string.isRequired,
+	columnId: PropTypes.string.isRequired,
+	listOfTasks: PropTypes.array.isRequired,
+	columnIndex: PropTypes.number.isRequired,
 };
 
 export default TaskColumn;

@@ -1,4 +1,5 @@
 import React, { useContext, useRef } from "react";
+import PropTypes from "prop-types";
 import "./Task.scss";
 import Image from "components/Image/Image";
 import { TaskDisplay } from "modalForms";
@@ -83,7 +84,7 @@ const Task = ({ taskId, name, indexes, tags, people }) => {
 						<div className="task-tags">
 							<div className="tags" ref={tagsAnchorElement}>
 								{tags &&
-									tags.map(({ color, id, name }) => (
+									tags.map(({ color, id }) => (
 										<div key={id} className={`tag-mini ${color}`}></div>
 									))}
 							</div>
@@ -102,6 +103,18 @@ const Task = ({ taskId, name, indexes, tags, people }) => {
 			)}
 		</Draggable>
 	);
+};
+
+Task.defaultProps = {
+	tags: undefined,
+	people: undefined,
+};
+Task.propTypes = {
+	taskId: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
+	indexes: PropTypes.shape({ taskIndex: PropTypes.number, columnIndex: PropTypes.number }).isRequired,
+	tags: PropTypes.array,
+	people: PropTypes.array,
 };
 
 export default Task;

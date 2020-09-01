@@ -1,17 +1,15 @@
 import React, { useState, useContext } from "react";
+import { DragDropContext } from "react-beautiful-dnd";
+import PropTypes from "prop-types";
 import "./BoardPage.scss";
 import ExpandText from "components/ExpandText/ExpandText";
 import Button from "components/Button/Button";
+import TaskBoard from "./TaskBoard";
 import PeopleIcon from "@material-ui/icons/People";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import { ModalContext } from "context/ModalContext";
-import { BoardMembers, TagForm } from "modalForms";
-
-import {TaskProvider} from "context/TaskContext";
-
-import TaskBoard from "./TaskBoard";
-
-import { DragDropContext } from "react-beautiful-dnd";
+import { BoardMembers, Tags } from "modalForms";
+import { TaskProvider } from "context/TaskContext";
 
 import { boardInfo_DATA, boardTasks_2_DATA } from "data";
 
@@ -51,8 +49,6 @@ const BoardPage = ({ boardId }) => {
 
 	const [, modalDispatch] = useContext(ModalContext);
 
-	
-
 	const openBoardMembersModal = () => {
 		modalDispatch({
 			type: "OPEN",
@@ -62,7 +58,7 @@ const BoardPage = ({ boardId }) => {
 	const openBoardTagsModal = () => {
 		modalDispatch({
 			type: "OPEN",
-			payload: { render: <TagForm />, title: "Board Tags" },
+			payload: { render: <Tags />, title: "Board Tags" },
 		});
 	};
 
@@ -89,5 +85,9 @@ const BoardPage = ({ boardId }) => {
 		</div>
 	);
 };
+
+BoardPage.propTypes = {
+	boardId: PropTypes.string.isRequired
+}
 
 export default BoardPage;
