@@ -22,7 +22,10 @@ const Tags = () => {
 	]);
 
 	const handleTagNameInput = (event) => {
-		setInputTagName(event.target.value);
+		const inputValue = event.target.value.replace(/\n/g, "");
+		if(inputValue.length <= 30){
+			setInputTagName(inputValue);
+		}
 	};
 
 	const selectTag = (index) => {

@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
+import * as Yup from "yup";
 import "./TaskEditor.scss";
+import { ReactComponent as Spinner } from "assets/spinners/Infinity-1s-200px.svg";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import User from "components/User/User";
 import TextInput from "components/TextInput/TextInput";
@@ -12,10 +14,15 @@ import Tag from "components/Tag/Tag";
 
 import { userList_DATA, tags_DATA } from "data";
 
+const validationSchema = Yup.object({
+	name: Yup.string().max(25, "board name is too long").required("field is required"),
+	description: Yup.string().max(200, "description is too long"),
+});
+
 const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialValues }) => {
 	const tagChoiceButton = useRef();
 
-	const initialValuse = {
+	const initialVals = {
 		name: initialValues ? initialValues.name : "",
 		description: initialValues ? initialValues.description : "",
 	};
@@ -34,7 +41,7 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 	const submitOnButtonClick = (data, { setSubmitting }) => {
 		console.log(`submitting to [${submitDataURL}]:`, data);
 		const submittingTask = { ...data, people: users, tags: chosenBoardTags, id: data.name };
-		if (addTask !== undefined) addTask(submittingTask);
+		// if (addTask !== undefined) addTask(submittingTask);
 		if (updateTask !== undefined) updateTask(submittingTask);
 	};
 
@@ -64,7 +71,7 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 	};
 	// TAGS
 	const addTagToList = (tagId) => {
-		const foundTag = availableTags.find( ({id}) => id === tagId);
+		const foundTag = availableTags.find(({ id }) => id === tagId);
 		setChosenBoardTags((tags) => {
 			const newTags = [...tags];
 			newTags.push(foundTag);
@@ -82,75 +89,104 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 	return (
 		<div className="new-task-container">
 			<Formik
-				// validationSchema={validationSchema}
-				initialValues={initialValuse}
+				validationSchema={validationSchema}
+				initialValues={initialVals}
 				onSubmit={submitOnButtonClick}
 			>
-				<Form>
-					<div className="fields">
-						<Field
-							className="new-task-input"
-							variant="outlined"
-							label={"task name"}
-							name={"name"}
-							as={TextInput}
-						/>
-						<Field
-							label={"description"}
-							name={"description"}
-							multiline={{ rows: 7, max: 7 }}
-							as={TextInput}
-						/>
-					</div>
-					<div className="user-container">
-						<AutoCompleteInput
-							execMethod={searchUser}
-							timeout={700}
-							searchResult={userSearchResult}
-							clickResult={addUserToList}
-							clearResults={clearUserSearchResults}
-						/>
-						<div className={`user-card-container ${users.length > 4 ? "overflow-scroll" : ""}`}>
-							{users.map(({ id, username, imageURL }, index) => (
-								<User key={id} username={username} imageURL={imageURL}>
-									<RemoveCircleOutlineIcon
-										className="remove-user-icon"
-										onClick={() => removeUserFromList(index)}
-									/>
-								</User>
-							))}
-						</div>
-					</div>
-					<div className="list-of-tags">
-						<Button refEl={tagChoiceButton}>Choose Tags</Button>
-						<DropdownMenu offset={{x: -102, y: 35}} scrollableAt={160} anchorEl={tagChoiceButton} classes={["tag-drop-down"]}>
-							{availableTags
-							.filter(({id: tagId}) => chosenBoardTags.findIndex( ({id}) => id === tagId) < 0)
-							.map(({ id, color, name }, index) => (
-								<div
-									key={id}
-									onClick={() => addTagToList(id)}
-									className={`tag-item ${color}`}
-								>
-									{name}
-								</div>
-							))}
-						</DropdownMenu>
-						<div className="chosen-tags-container">
-							{chosenBoardTags.map(({ id, color, name }, index) => (
-								<Tag
-									key={id}
-									deleteTag={() => removeTagFromList(index)}
-									tagName={name}
-									colorCode={color}
+				{({ isSubmitting, isValid, errors }) => (
+					<>
+						{isSubmitting && (
+							<div className="spinner-overlay">
+								<Spinner />
+							</div>
+						)}
+						<Form>
+							<div className="fields">
+								<Field
+									className="new-task-input"
+									label={"task name"}
+									name={"name"}
+									hasErrors={!!errors["name"]}
+									helperText={errors["name"]}
+									classes={["board-name-field"]}
+									as={TextInput}
 								/>
-							))}
-						</div>
-					</div>
-					<Button classes={["btn-accent btn-submit"]} type="submit">
-						{buttonName}
-					</Button>
-				</Form>
+								<Field
+									classes={["board-description-field"]}
+									name={"description"}
+									hasErrors={!!errors["description"]}
+									helperText={errors["description"]}
+									multiline={{ rows: 7, max: 7 }}
+									as={TextInput}
+								/>
+							</div>
+							<div className="user-container">
+								<AutoCompleteInput
+									execMethod={searchUser}
+									timeout={700}
+									searchResult={userSearchResult}
+									clickResult={addUserToList}
+									clearResults={clearUserSearchResults}
+								/>
+								<div
+									className={`user-card-container ${
+										users.length > 4 ? "overflow-scroll" : ""
+									}`}
+								>
+									{users.map(({ id, username, imageURL }, index) => (
+										<User key={id} username={username} imageURL={imageURL}>
+											<RemoveCircleOutlineIcon
+												className="remove-user-icon"
+												onClick={() => removeUserFromList(index)}
+											/>
+										</User>
+									))}
+								</div>
+							</div>
+							<div className="list-of-tags">
+								<Button refEl={tagChoiceButton}>Choose Tags</Button>
+								<DropdownMenu
+									offset={{ x: -102, y: 35 }}
+									scrollableAt={160}
+									anchorEl={tagChoiceButton}
+									classes={["tag-drop-down"]}
+								>
+									{availableTags
+										.filter(
+											({ id: tagId }) =>
+												chosenBoardTags.findIndex(({ id }) => id === tagId) < 0
+										)
+										.map(({ id, color, name }, index) => (
+											<div
+												key={id}
+												onClick={() => addTagToList(id)}
+												className={`tag-item ${color}`}
+											>
+												{name}
+											</div>
+										))}
+								</DropdownMenu>
+								<div className="chosen-tags-container">
+									{chosenBoardTags.map(({ id, color, name }, index) => (
+										<Tag
+											key={id}
+											deleteTag={() => removeTagFromList(index)}
+											tagName={name}
+											colorCode={color}
+										/>
+									))}
+								</div>
+							</div>
+							<Button
+								disabled={isSubmitting || !isValid}
+								classes={["btn-accent btn-submit"]}
+								type="submit"
+							>
+								{buttonName}
+							</Button>
+						</Form>
+					</>
+				)}
 			</Formik>
 		</div>
 	);

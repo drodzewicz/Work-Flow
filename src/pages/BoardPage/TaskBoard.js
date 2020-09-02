@@ -10,10 +10,13 @@ const TaskBoard = () => {
 	const [newColumn, setNewColumn] = useState("");
 
 	const handleNewColumnChange = (event) => {
-		setNewColumn(event.target.value);
+		const newColumnName = event.target.value;
+		if(newColumnName.length < 20){
+			setNewColumn(newColumnName);
+		}
 	};
 	const createNewColumn = (event) => {
-		if (event.key === "Enter" && newColumn !== "") {
+		if (event.key === "Enter" && newColumn.trim() !== "") {
 			setNewColumn("");
 			const submittedColumn = {
 				id: newColumn,

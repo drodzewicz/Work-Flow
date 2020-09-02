@@ -3,7 +3,7 @@ import { TextField } from "@material-ui/core";
 import "./TextInput.scss";
 import PropTypes from "prop-types";
 
-const TextInput = ({ hasErrors, helperText, label, name, type, multiline, onChange, value }) => {
+const TextInput = ({ hasErrors, helperText, label, name, type, multiline, onChange, value, classes }) => {
 	const getLabel = () => {
 		return label.length > 0 ? label : name;
 	};
@@ -12,7 +12,7 @@ const TextInput = ({ hasErrors, helperText, label, name, type, multiline, onChan
 		<TextField
 			onChange={onChange}
 			value={value}
-			className="workflow-textfield"
+			className={`workflow-textfield ${classes.join(" ")}`}
 			error={hasErrors}
 			helperText={helperText}
 			label={getLabel()}
@@ -35,6 +35,7 @@ TextInput.defaultProps = {
 	multiline: { rows: 1, max: 1 },
 	onChange: undefined,
 	value: "",
+	classes: [],
 };
 
 TextInput.propTypes = {
@@ -46,6 +47,7 @@ TextInput.propTypes = {
 	multiline: PropTypes.shape({ rows: PropTypes.number.isRequired, max: PropTypes.number.isRequired }),
 	onChange: PropTypes.func,
 	value: PropTypes.string,
+	classes: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default TextInput;

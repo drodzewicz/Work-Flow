@@ -17,11 +17,14 @@ const ColumnNameInput = ({ initialVal, onEnter, hideInput }) => {
 	};
 
 	const columnNameOnChangeHandler = (e) => {
-		setColumnName(e.target.value);
+		const updatedColumnName = e.target.value;
+		if(updatedColumnName.length > 0){
+			setColumnName(updatedColumnName);
+		}
 	};
 
 	const updateColumnName = (e) => {
-		if (e.key === "Enter" && columnNameState !== "") {
+		if (e.key === "Enter" && columnNameState.trim() !== "") {
 			onEnter(columnNameState);
 		}
 	};

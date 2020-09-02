@@ -1,8 +1,13 @@
 @import "../../assets/styles/colors";
+@import "../../assets/styles/mediaQueries";
 
 .tag-form {
 	margin: 0 3rem 2rem;
 	max-width: 25rem;
+	@include mobile {
+		max-width: auto;
+		margin: 0;
+	}
 	.tag-name-input-wrappper {
 		display: flex;
 		flex-direction: row;
