@@ -7,29 +7,27 @@ const userService = {};
 const { SECRET_KEY } = process.env || "veri $ecret K#y";
 
 userService.registerUser = async function (req, res) {
-	const { username, password } = req.body;
+	const { username, password, name, surname, email } = req.body;
 
 	// password hashing
 	const salt = await bcrypt.genSalt(10);
 
 	if (password === undefined || typeof password !== "string") {
 		return res.status(400).json({
-			msg: { password: "password is required" },
+			message: { password: "password is required" },
 		});
 	}
 
 	const hashedPassword = await bcrypt.hash(password, salt);
-	const newUser = new User({ username, password: hashedPassword });
+	const newUser = new User({ username, password: hashedPassword, name, surname, email });
 	try {
 		await newUser.save();
 		return res.status(201).json({
-			success: true,
-			msg: "sucessfully registered",
+			message: "sucessfully registered",
 		});
 	} catch (error) {
 		return res.status(400).json({
-			err: true,
-			msg: User.processErrors(error),
+			message: User.processErrors(error),
 		});
 	}
 };
@@ -47,7 +45,7 @@ userService.loginJWT = async function (req, res) {
 			});
 		} else {
 			return res.status(404).json({
-				msg: "bad login",
+				message: "bad login",
 			});
 		}
 	} catch (error) {
@@ -57,5 +55,17 @@ userService.loginJWT = async function (req, res) {
 		});
 	}
 };
+
+userService.changePassword = async function (req, res) {
+	return res.status(200).json({message: "chnage password temp route"})
+}
+
+userService.changeAvatarImage = async function (req, res) {
+	return res.status(200).json({message: "chnage avatar temp route"})
+}
+
+userService.updateCredentials = async function (req, res) {
+	return res.status(200).json({message: " udpate credentials temp route"})
+}
 
 module.exports = userService;

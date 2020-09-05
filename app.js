@@ -3,6 +3,7 @@ const express = require("express");
 const http = require("http");
 const logger = require("morgan");
 const errorHandler = require("errorhandler");
+const cors = require("cors");
 
 const app = express();
 const server = http.createServer(app);
@@ -21,6 +22,12 @@ if (ENVIROMENT === "development") {
 } else {
 	app.use(logger("short"));
 }
+
+
+app.use(cors({
+    credentials: true,
+    origin: "http://localhost:3000"
+}));
 
 const authRoutes = require("./routes/auth");
 app.use("/api", authRoutes);

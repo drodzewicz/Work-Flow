@@ -2,7 +2,7 @@ import React, { useReducer, createContext } from "react";
 
 export const UserContext = createContext();
 
-const initialState = { username: "Darek", theme: true };
+const initialState = { username: null, theme: true };
 
 const reducer = (state, { type, payload }) => {
 	switch (type) {
