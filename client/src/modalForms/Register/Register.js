@@ -1,6 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import * as Yup from "yup";
-import SimpleForm from "components/SimpleForm/SimpleForm";
+import { useFetchData } from "Hooks/useFetch";
+import { Formik, Field, Form } from "formik";
+import TextInput from "components/TextInput/TextInput";
+import Button from "components/Button/Button";
+import { ReactComponent as Spinner } from "assets/spinners/Infinity-1s-200px.svg";
 import "./Register.scss";
 
 const validationSchema = Yup.object({
@@ -14,6 +18,14 @@ const validationSchema = Yup.object({
 	surname: Yup.string().max(25, "surname is too long").required("field is required"),
 });
 
+const createInitialValueObject = (fieldObject) => {
+	let initialValues = {};
+	Object.keys(fieldObject).forEach((fieldName) => {
+		initialValues[fieldName] = fieldObject[fieldName].initialVal;
+	});
+	return initialValues;
+};
+
 const fields = {
 	username: { initialVal: "", type: "text" },
 	password: { initialVal: "", type: "password" },
@@ -23,23 +35,64 @@ const fields = {
 	surname: { initialVal: "", type: "surname" },
 };
 
-const handleSubmit = (data, { setSubmitting }) => {
-	setSubmitting(true);
-	console.log("submited", data);
-	setTimeout(() => {
-		setSubmitting(false);
-	}, 2000);
-};
-
 const Register = () => {
+	const [registerResponse, registerCallAPI] = useFetchData({
+		url: "http://localhost:8080/api/register",
+		method: "POST",
+	});
+
+
+	const handleSubmit = async (data, {setErrors}) => {
+		const response = await registerCallAPI(data);
+		console.log(response);
+		if(!!response.error) setErrors(response.error.data.message);
+		
+	};
+
+	const getFieldError = (fieldName) => {
+		if (!registerResponse.error) return "";
+		const { data } = registerResponse.error;
+		return data.message[fieldName];
+	};
+
 	return (
-		<SimpleForm
-			classes={["register-form"]}
-			submitButtonName="Register"
-			validationSchema={validationSchema}
-			handleSubmit={handleSubmit}
-			fields={fields}
-		/>
+		<div className={`simple-form-container register-form`}>
+			<Formik
+				validationSchema={validationSchema}
+				initialValues={createInitialValueObject(fields)}
+				onSubmit={handleSubmit}
+			>
+				{({ isValid, errors }) => (
+					<>
+						{registerResponse.isLoading && (
+							<div className="spinner-overlay">
+								<Spinner />
+							</div>
+						)}
+						<Form>
+							{Object.entries(fields).map(([field]) => (
+								<Field
+									key={field}
+									hasErrors={!!errors[field]}
+									helperText={errors[field]}
+									label={fields[field].label}
+									name={field}
+									type={fields[field].type}
+									as={TextInput}
+								/>
+							))}
+							<Button
+								classes={["btn-accent", "btn-submit"]}
+								type="submit"
+								disabled={registerResponse.isLoading || !isValid}
+							>
+								Register
+							</Button>
+						</Form>
+					</>
+				)}
+			</Formik>
+		</div>
 	);
 };
 

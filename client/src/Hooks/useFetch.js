@@ -3,15 +3,17 @@ import axios from "axios";
 
 export const useFetchData = ({ url, method }) => {
 	const [res, setRes] = useState({ data: null, error: null, isLoading: false });
-
+    
 	const callAPI = useCallback(
 		async (payload) => {
 			setRes((prevState) => ({ ...prevState, isLoading: true }));
 			try {
 				const response = await axios({ method, url, data: payload });
-				setRes({ data: response.data, isLoading: false, error: null });
+                setRes({ data: response.data, isLoading: false, error: null });
+                return {data: response.data, error: null};
 			} catch (error) {
-				setRes({ data: null, isLoading: false, error: error.response });
+                setRes({ data: null, isLoading: false, error: error.response });
+                return {data: null, error: error.response};
 			}
 		},
 		[url, method]

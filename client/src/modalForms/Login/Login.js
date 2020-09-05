@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import * as Yup from "yup";
 import "./Login.scss";
 import { useFetchData } from "Hooks/useFetch";
-import axios from "axios";
 import { Formik, Field, Form } from "formik";
 import Button from "components/Button/Button";
 import { ReactComponent as Spinner } from "assets/spinners/Infinity-1s-200px.svg";
@@ -19,57 +18,36 @@ const fields = {
 };
 
 const Login = () => {
-	const [res, callAPI] = useFetchData({
+	const [loginResponse, loginCallAPI] = useFetchData({
 		url: "http://localhost:8080/api/login",
 		method: "POST",
 	});
 
-	const handleSubmit = async (data, { setSubmitting }) => {
-		callAPI(data);
-		// setSubmitting(true);
-		// try {
-		// 	const res = await axios.post("http://localhost:8080/api/login", data);
-		// 	console.log(res.data);
-		// 	setSubmitting(false);
-		// } catch (error) {
-		// 	console.log();
-		// 	setSubmitting(false);
-		// }
+	const handleSubmit = async (data) => {
+		const response = await loginCallAPI(data);
+		if (!!response.data) localStorage.setItem("token", response.data.token);
 	};
 
 	return (
-		// <div>
-		// 	<SimpleForm
-		// 		classes={["login-form"]}
-		// 		submitButtonName="Login"
-		// 		validationSchema={validationSchema}
-		// 		handleSubmit={handleSubmit}
-		// 		fields={fields}
-		// 	/>
-		// </div>
 		<div className={`simple-form-container login-form`}>
-			<Formik
-				validationSchema={validationSchema}
-				initialValues={fields}
-				onSubmit={handleSubmit}
-			>
-				{({ isSubmitting, isValid, errors }) => (
+			<Formik validationSchema={validationSchema} initialValues={fields} onSubmit={handleSubmit}>
+				{({ isValid, errors }) => (
 					<>
-						{res.isLoading && (
+						{loginResponse.isLoading && (
 							<div className="spinner-overlay">
 								<Spinner />
 							</div>
 						)}
 						<Form>
 							<Field
-								hasErrors={!!errors["username"]}
-								helperText={errors["username"]}
+								hasErrors={!!errors["username"] || !!loginResponse.error}
+								helperText={!!loginResponse.error ? "bad username" : errors["username"]}
 								name="username"
 								as={TextInput}
 							/>
 							<Field
-								hasErrors={!!errors["password"]}
-								helperText={errors["password"]}
+								hasErrors={!!errors["password"] || !!loginResponse.error}
+								helperText={!!loginResponse.error ? "bad password" : errors["password"]}
 								name="password"
 								type="password"
 								as={TextInput}
@@ -77,7 +55,7 @@ const Login = () => {
 							<Button
 								classes={["btn-accent", "btn-submit"]}
 								type="submit"
-								disabled={isSubmitting || !isValid}
+								disabled={loginResponse.isLoading || !isValid}
 							>
 								Log in
 							</Button>
