@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, { useContext } from "react";
 import * as Yup from "yup";
-import { useFetchData } from "Hooks/useFetch";
+import { useCallFetchData } from "Hooks/useFetch";
 import { Formik, Field, Form } from "formik";
 import TextInput from "components/TextInput/TextInput";
 import Button from "components/Button/Button";
 import { ReactComponent as Spinner } from "assets/spinners/Infinity-1s-200px.svg";
+import { ModalContext } from "context/ModalContext";
 import "./Register.scss";
 
 const validationSchema = Yup.object({
@@ -36,23 +37,17 @@ const fields = {
 };
 
 const Register = () => {
-	const [registerResponse, registerCallAPI] = useFetchData({
-		url: "http://localhost:8080/api/register",
+	const [, dispatchUser] = useContext(ModalContext);
+
+	const [registerResponse, registerCallAPI] = useCallFetchData({
+		url: "/register",
 		method: "POST",
 	});
 
-
-	const handleSubmit = async (data, {setErrors}) => {
+	const handleSubmit = async (data, { setErrors }) => {
 		const response = await registerCallAPI(data);
-		console.log(response);
-		if(!!response.error) setErrors(response.error.data.message);
-		
-	};
-
-	const getFieldError = (fieldName) => {
-		if (!registerResponse.error) return "";
-		const { data } = registerResponse.error;
-		return data.message[fieldName];
+		if (!!response.error) setErrors(response.error.data.message);
+		if (!!response.data) dispatchUser({ type: "CLOSE" });
 	};
 
 	return (

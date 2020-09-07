@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Navbar from "components/Navbar/Navbar";
 import Modal from "components/Modal/Modal";
 import { Login, Register } from "modalForms";
@@ -15,10 +15,17 @@ import NavItem from "components/Navbar/NavItem";
 import SwitchButton from "components/SwitchButton/SwitchButton";
 import Notification from "components/Notification/Notification";
 import Footer from "components/Footer/Footer";
+// import { useFetchData } from "Hooks/useFetch";
+import { useFetchData } from "Hooks/useFetch";
 
 function App() {
+	const authUser = useFetchData({
+		url: "/isAuth",
+		method: "GET",
+		token: true,
+	});
 	const [, modalDispatch] = useContext(ModalContext);
-	const [{ username, theme }, dispatchUser] = useContext(UserContext);
+	const [{ user, theme }, dispatchUser] = useContext(UserContext);
 	const history = useHistory();
 	const [notifications, setNotification] = useState([
 		{ board: "wix websiite", message: "you have been added to the board" },
@@ -28,6 +35,12 @@ function App() {
 		},
 		{ board: "making apython game", message: "you got a new task" },
 	]);
+
+	useEffect(() => {
+		if (!!authUser.data && !!authUser.data.user)
+			dispatchUser({ type: "LOGIN", payload: { user: authUser.data.user } });
+		return () => {};
+	}, [authUser, dispatchUser]);
 
 	const openLoginModal = () => {
 		modalDispatch({
@@ -42,18 +55,17 @@ function App() {
 		});
 	};
 	const logOutUser = () => {
-		console.log("log out");
 		dispatchUser({ type: "LOGOUT" });
 	};
 	const toggleTheme = () => {
 		dispatchUser({ type: "THEME_TOGGLE" });
 	};
 	const removeMessage = (index) => {
-		setNotification( notifications => {
+		setNotification((notifications) => {
 			const newNotification = [...notifications];
-			newNotification.splice(index, 1)
+			newNotification.splice(index, 1);
 			return newNotification;
-		})
+		});
 	};
 	const goToHomePage = () => {
 		history.push("/");
@@ -67,7 +79,7 @@ function App() {
 				<NavItem
 					offset={{ x: -60, y: 10 }}
 					icon={<AccountBoxIcon />}
-					navName={username}
+					navName={user.username}
 					classes={["profile-nav"]}
 				>
 					<Link to="/profile">Profile</Link>
@@ -110,7 +122,7 @@ function App() {
 	return (
 		<div className={`App ${theme ? "theme-light" : "theme-dark"}`}>
 			<Modal />
-			<Navbar>{username ? loggedInUserNavItems() : loggedOutUserNavItems()}</Navbar>
+			<Navbar>{user ? loggedInUserNavItems() : loggedOutUserNavItems()}</Navbar>
 			<Routes />
 			<Footer />
 		</div>

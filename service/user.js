@@ -6,7 +6,7 @@ const userService = {};
 
 const { SECRET_KEY } = process.env || "veri $ecret K#y";
 
-userService.registerUser = async function (req, res) {
+userService.registerUser = async (req, res) => {
 	const { username, password, name, surname, email } = req.body;
 
 	// password hashing
@@ -32,7 +32,7 @@ userService.registerUser = async function (req, res) {
 	}
 };
 
-userService.loginJWT = async function (req, res) {
+userService.loginJWT = async (req, res) => {
 	const { username, password } = req.body;
 	try {
 		const foundUser = await User.findOne({ username: username });
@@ -42,6 +42,7 @@ userService.loginJWT = async function (req, res) {
 			const token = jwt.sign({ id: foundUser._id }, SECRET_KEY, { expiresIn: 604800 });
 			return res.status(200).json({
 				token: `Bearer ${token}`,
+				user: foundUser,
 			});
 		} else {
 			return res.status(404).json({
@@ -56,16 +57,34 @@ userService.loginJWT = async function (req, res) {
 	}
 };
 
+userService.isAuthenticated = async (req, res) => {
+	const { id } = req.user;
+	
+	try {
+		const foundUser = await User.findById(id);
+		const { _id, username, email, name, surname, avatarImageURL } = foundUser;
+		return res.status(200).json({
+			authorized: true,
+			user: { id: _id, username, email, name, surname, avatarImageURL },
+		});
+	} catch (error) {
+		return res.status(404).json({
+			authorized: false,
+			message: User.processErrors(error),
+		});
+	}
+};
+
 userService.changePassword = async function (req, res) {
-	return res.status(200).json({message: "chnage password temp route"})
-}
+	return res.status(200).json({ message: "chnage password temp route" });
+};
 
 userService.changeAvatarImage = async function (req, res) {
-	return res.status(200).json({message: "chnage avatar temp route"})
-}
+	return res.status(200).json({ message: "chnage avatar temp route" });
+};
 
 userService.updateCredentials = async function (req, res) {
-	return res.status(200).json({message: " udpate credentials temp route"})
-}
+	return res.status(200).json({ message: " udpate credentials temp route" });
+};
 
 module.exports = userService;
