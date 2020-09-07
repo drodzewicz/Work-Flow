@@ -1,17 +1,22 @@
-import React, { useContext } from "react";
-import { Switch, Route } from "react-router-dom";
-import { UserContext } from "context/UserContext";
+import React from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { WelcomePage, ProfilePage, BoardPage, DashboardPage, ErrorPage } from "pages";
+import ProtectedRoute from "./ProtectedRoute";
 
 const Routes = () => {
-	const [{ user }] = useContext(UserContext);
+	const token = localStorage.getItem("token");
 
 	return (
 		<Switch>
-			<Route exact path="/" component={user ? DashboardPage : WelcomePage} />
-			<Route exact path="/profile" component={ProfilePage} />
-			<Route exact path="/board/:id" render={({ match }) => <BoardPage boardId={match.params.id} />} />
-			<Route exact path="/error" component={ErrorPage} />
+			<Route exact path="/" component={!!token ? DashboardPage : WelcomePage} />
+			<ProtectedRoute auth={!!token} path="/profile" component={ProfilePage} />
+			<ProtectedRoute
+				auth={!!token}
+				path="/board/:id"
+				component={({ match }) => <BoardPage boardId={match.params.id} />}
+			/>
+			<ProtectedRoute auth={!!token} path="/error" component={ErrorPage} />
+			<Route render={() => <Redirect to="/" />} />
 		</Switch>
 	);
 };

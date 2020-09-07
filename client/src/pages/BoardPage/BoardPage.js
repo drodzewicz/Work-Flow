@@ -87,7 +87,7 @@ const BoardPage = ({ boardId }) => {
 };
 
 BoardPage.propTypes = {
-	boardId: PropTypes.string.isRequired
-}
+	boardId: PropTypes.string.isRequired,
+};
 
 export default BoardPage;

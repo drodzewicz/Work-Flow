@@ -12,8 +12,8 @@ import { UserContext } from "context/UserContext";
 const LoggedInUserNav = () => {
 	const history = useHistory();
 
-    const [{ user, theme }, dispatchUser] = useContext(UserContext);
-    const [notifications, setNotification] = useState([
+	const [{ user, theme }, dispatchUser] = useContext(UserContext);
+	const [notifications, setNotification] = useState([
 		{ board: "wix websiite", message: "you have been added to the board" },
 		{
 			board: "learing wordpress with friends",
