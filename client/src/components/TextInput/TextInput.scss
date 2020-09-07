@@ -3,12 +3,7 @@
 //  MuiInputLabel-shrink MuiInputLabel-marginDense MuiFormLabel-filled
 
 .workflow-textfield {
-	.MuiInputBase-multiline.MuiInputBase-marginDense {
-		padding-top: 6px;
-	}
-	&.MuiFormControl-marginDense {
-		margin: 0;
-	}
+	margin-bottom: 1rem;
 
 	.MuiFormLabel-root {
 		&.MuiInputLabel-marginDense {
@@ -29,7 +24,7 @@
 		}
 	}
 	.MuiInput-underline {
-		padding: 9px 6px;
+		padding: 6px;
 		background: rgba($blue-secondary-overlay, 0.5);
 		&:before {
 			border-color: rgba($blue-accent, 0.5);

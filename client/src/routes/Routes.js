@@ -1,27 +1,19 @@
 import React, { useContext } from "react";
 import { Switch, Route } from "react-router-dom";
 import { UserContext } from "context/UserContext";
-import {
-  WelcomePage,
-  ProfilePage,
-  BoardPage,
-  DashboardPage,
-  ErrorPage,
-} from "pages";
-
+import { WelcomePage, ProfilePage, BoardPage, DashboardPage, ErrorPage } from "pages";
 
 const Routes = () => {
+	const [{ user }] = useContext(UserContext);
 
-  const [user,] = useContext(UserContext);
+	return (
+		<Switch>
+			<Route exact path="/" component={user ? DashboardPage : WelcomePage} />
+			<Route exact path="/profile" component={ProfilePage} />
+			<Route exact path="/board/:id" render={({ match }) => <BoardPage boardId={match.params.id} />} />
+			<Route exact path="/error" component={ErrorPage} />
+		</Switch>
+	);
+};
 
-  return (
-    <Switch>
-      <Route exact path="/" component={user.username ? DashboardPage : WelcomePage} />
-      <Route exact path="/profile" component={ProfilePage} />
-      <Route exact path="/board/:id" render={({match}) => <BoardPage boardId={match.params.id} />} />
-      <Route exact path="/error" component={ErrorPage} />
-    </Switch>
-  );
-}
-
-export default Routes
+export default Routes;

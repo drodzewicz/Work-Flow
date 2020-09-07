@@ -20,8 +20,8 @@ const TextInput = ({ hasErrors, helperText, label, name, type, multiline, onChan
 			type={type}
 			variant={"standard"}
 			multiline={!!multiline}
-			rows={multiline.rows}
-			rowsMax={multiline.max}
+			rows={multiline?.rows}
+			rowsMax={multiline?.max}
 			margin="dense"
 		/>
 	);
@@ -32,7 +32,7 @@ TextInput.defaultProps = {
 	helperText: "",
 	label: "",
 	type: "text",
-	multiline: { rows: 1, max: 1 },
+	multiline: undefined,
 	onChange: undefined,
 	value: "",
 	classes: [],

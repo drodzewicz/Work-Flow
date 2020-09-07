@@ -30,25 +30,25 @@
 				width: auto;
 			}
 			& > * {
-				&.board-name-input {
-					margin-bottom: 1rem;
-					.MuiInputLabel-outlined {
-						transform: translate(14px, 13px) scale(1);
-					}
-					.MuiInputLabel-shrink {
-						transform: translate(14px, -6px) scale(0.75);
-					}
-				}
-				.MuiInputBase-input,
-				.MuiInputBase-multiline {
-					padding: 0.6rem;
-					@include mq-1 {
-						margin-bottom: 1rem;
-					}
-					textarea {
-						padding: 0;
-					}
-				}
+				// &.board-name-input {
+				// 	margin-bottom: 1rem;
+				// 	.MuiInputLabel-outlined {
+				// 		transform: translate(14px, 13px) scale(1);
+				// 	}
+				// 	.MuiInputLabel-shrink {
+				// 		transform: translate(14px, -6px) scale(0.75);
+				// 	}
+				// }
+				// .MuiInputBase-input,
+				// .MuiInputBase-multiline {
+				// 	padding: 0.6rem;
+				// 	@include mq-1 {
+				// 		margin-bottom: 1rem;
+				// 	}
+				// 	textarea {
+				// 		padding: 0;
+				// 	}
+				// }
 			}
 			.board-name-field {
 				height: 4.5rem;

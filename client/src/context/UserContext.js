@@ -2,14 +2,15 @@ import React, { useReducer, createContext } from "react";
 
 export const UserContext = createContext();
 
-const initialState = { username: null, theme: true };
+const initialState = { user: null, theme: true };
 
 const reducer = (state, { type, payload }) => {
 	switch (type) {
 		case "LOGIN":
-			return { ...state, username: payload.username };
+			return { ...state, user: payload.user };
 		case "LOGOUT":
-			return { ...state, username: null };
+			localStorage.removeItem("token");
+			return { ...state, user: null };
 		case "THEME_DARK":
 			return { ...state, theme: false };
 		case "THEME_LIGHT":
