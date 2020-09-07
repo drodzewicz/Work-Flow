@@ -2,18 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./Navbar.scss";
 
+import DefaultNav from "./DefaultNav";
+import LoggedInUserNav from "./LoggedInUserNav";
 
-const Navbar = ({children}) => {
-  return (
-    <nav className="navbar">
-      {children}
-    </nav>
-  );
+const Navbar = ({user}) => {
+	return <nav className="navbar">{user ? <LoggedInUserNav /> : <DefaultNav />}</nav>;
+};
+
+Navbar.defaultProps = {
+  user: null
 };
 
 Navbar.propTypes = {
-  children: PropTypes.node
-}
+  user: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.number
+  ])
+};
 
 export default Navbar;
-
