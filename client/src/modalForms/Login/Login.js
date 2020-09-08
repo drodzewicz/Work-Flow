@@ -32,8 +32,7 @@ const Login = () => {
 		const response = await loginCallAPI(data);
 		if (!!response.data) {
 			const { token, user } = response.data;
-			localStorage.setItem("token", token);
-			userDispatch({ type: "LOGIN", payload: { user } });
+			userDispatch({ type: "LOGIN", payload: { user, token } });
 			modalDispatch({ type: "CLOSE" });
 		}
 	};
