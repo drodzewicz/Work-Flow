@@ -1,4 +1,5 @@
 const mongoose = require("../configs/mongoose");
+const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 
@@ -40,6 +41,7 @@ const userSchema = new Schema({
     }
 });
 
+userSchema.plugin(uniqueValidator, { message: '{VALUE} is not available' });
 
 userSchema.methods.isValidPassword = async function (password) {
     return await bcrypt.compare(password, this.password);

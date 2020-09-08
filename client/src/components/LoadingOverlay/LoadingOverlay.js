@@ -4,13 +4,16 @@ import "./LoadingOverlay.scss";
 import PropTypes from "prop-types";
 import { UserContext } from "context/UserContext";
 
-const LoadingOverlay = ({ show, opacity }) => {
+const LoadingOverlay = ({ show, opacity, classes }) => {
 	const [{ theme }] = useContext(UserContext);
 	const overlayColor = theme ? "255, 255, 255" : "71, 74, 75";
 
 	if (show) {
 		return (
-			<div className="loading-overlay" style={{ backgroundColor: `rgba(${overlayColor}, ${opacity})` }}>
+			<div
+				className={`loading-overlay ${classes.join("")}`}
+				style={{ backgroundColor: `rgba(${overlayColor}, ${opacity})` }}
+			>
 				<Spinner className="loading-overlay-spinner" />
 			</div>
 		);
@@ -22,11 +25,13 @@ const LoadingOverlay = ({ show, opacity }) => {
 LoadingOverlay.defaultProps = {
 	show: true,
 	opacity: 1,
+	classes: [""],
 };
 
 LoadingOverlay.propTypes = {
 	show: PropTypes.bool,
 	opacity: PropTypes.number,
+	classes: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default LoadingOverlay;

@@ -30,7 +30,10 @@ app.use(cors({
 }));
 
 const authRoutes = require("./routes/auth");
-app.use("/api", authRoutes);
+const userRoutes = require("./routes/user");
+app
+	.use("/api", authRoutes)
+	.use("/api/user", userRoutes);
 
 
 // bad request - catches all non existing routes

@@ -5,7 +5,6 @@ const passport = require("passport");
 const { registerUser, loginJWT, isAuthenticated } = require("../service/user");
 
 require("../configs/passport-jwt")(passport);
-
 const authJWT = passport.authenticate("jwt", { session: false });
 
 router.route("/register").post(registerUser);

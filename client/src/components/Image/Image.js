@@ -10,12 +10,13 @@ const Image = ({ imageURL, errorImage, classes }) => {
 	return <img className={`custom image ${classes.join(" ")}`} alt="" src={imageURL} onError={fallback} />;
 };
 Image.defaultProps = {
+	imageURL: "",
 	errorImage: defaultAvatar,
 	classes: [""],
 };
 
 Image.propTypes = {
-	imageURL: PropTypes.string.isRequired,
+	imageURL: PropTypes.string,
 	errorImage: PropTypes.string,
 	classes: PropTypes.arrayOf(PropTypes.string),
 };

@@ -1,26 +1,42 @@
-import React from "react";
+import React, { useContext } from "react";
 import * as Yup from "yup";
 import SimpleForm from "components/SimpleForm/SimpleForm";
+import { useCallFetchData } from "Hooks/useFetch";
+import { ModalContext } from "context/ModalContext";
 
 const validationSchema = Yup.object({
-	password: Yup.string().min(5, "must be at least 5 characters").required("field is required"),
+	newPassword: Yup.string().min(5, "must be at least 5 characters").required("field is required"),
 	matchPassword: Yup.string()
-		.oneOf([Yup.ref("password")], "password does not match")
+		.oneOf([Yup.ref("newPassword")], "password does not match")
 		.required("Password confirm is required"),
 });
 
 const fields = {
-	password: { initialVal: "", type: "password" },
+	newPassword: { initialVal: "", type: "password" },
 	matchPassword: { initialVal: "", type: "password", label: "match password" },
 };
 
-const ChangePassword = ({ passwordConfirmationMethod }) => {
-	const handleSubmit = (data, { setSubmitting }) => {
+const ChangePassword = () => {
+	const [, modalDispatch] = useContext(ModalContext);
+
+	const [, changePasswordCallAPI] = useCallFetchData({
+		url: "/user/change_password",
+		method: "PATCH",
+		token: true,
+	});
+
+	const handleSubmit = async (submittedData, { setSubmitting, setErrors }) => {
 		setSubmitting(true);
-		console.log("submited", data);
-		setTimeout(() => {
+		try {
+			const {data, error} = await changePasswordCallAPI(submittedData);
+			if(!!data) {
+				modalDispatch({ type: "CLOSE" });
+			} else if (!!error) {
+				setErrors(error.data.message)
+			}
+		} catch (error) {
 			setSubmitting(false);
-		}, 2000);
+		}
 	};
 
 	return (
