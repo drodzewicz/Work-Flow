@@ -10,7 +10,8 @@ import { ModalContext } from "context/ModalContext";
 import { UserContext } from "context/UserContext";
 import { ChangePassword, ChangeProfilePicture } from "modalForms";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
-import { useCallFetchData } from "Hooks/useFetch";
+import fetchData from "helper/fetchData";
+
 
 const validationSchema = Yup.object({
 	username: Yup.string().max(25, "username is too long").required("field is required"),
@@ -22,13 +23,8 @@ const validationSchema = Yup.object({
 const ProfilePage = () => {
 	const [, modalDispatch] = useContext(ModalContext);
 	const [{ user }] = useContext(UserContext);
-	const [, changeCredentialsCallAPI] = useCallFetchData({
-		url: "/user/update_credentials",
-		method: "POST",
-		token: true,
-	});
 
-	// const { username } = user;
+
 	const [profileInfo, setProfileInfo] = useState({
 		username: { initialVal: "", type: "text" },
 		name: { initialVal: "", type: "text" },
@@ -54,12 +50,16 @@ const ProfilePage = () => {
 	}, [user]);
 
 	const handleSaveChanges = async (submittedData, { setSubmitting, setErrors }) => {
-		setSubmitting(true);
-		const { error} = await changeCredentialsCallAPI(submittedData);
+		const { error } = await fetchData({
+			method: "POST",
+			url: "/user/update_credentials",
+			token: true,
+			setLoading: setSubmitting,
+			payload: submittedData,
+		});
 		if (!!error) {
-			setErrors(error.data.message)
+			setErrors(error.message)
 		} 
-		setSubmitting(false);
 	};
 	const changeImageModalOpen = () => {
 		modalDispatch({

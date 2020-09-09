@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ReactComponent as Pin } from "assets/images/pin-full.svg";
 import "./DashboardPage.scss";
 import AddBoxIcon from "@material-ui/icons/AddBox";
@@ -9,6 +9,7 @@ import Button from "components/Button/Button";
 import BoardEditor from "modalForms/BoardEditor/BoardEditor";
 import ContainerBox from "components/ContainerBox/ContainerBox";
 import { ModalContext } from "context/ModalContext";
+import fetchData from "helper/fetchData";
 
 import { boards_DATA, pinnedBoards_DATA } from "data";
 
@@ -20,6 +21,19 @@ function DashboardPage() {
 	const [boards, setBoards] = useState(boards_DATA[0]);
 
 	const [, modalDispatch] = useContext(ModalContext);
+
+	useEffect(() => {
+		const getMyBoards = async () => {
+			const { data, error } = await fetchData({
+				method: "GET",
+				url: "/board/user/my_boards",
+				token: true,
+			});
+			console.log(data, error);
+		};
+		getMyBoards();
+		return () => {};
+	}, []);
 
 	const openCreateNewBoardModal = () => {
 		modalDispatch({

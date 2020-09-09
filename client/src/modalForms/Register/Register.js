@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import * as Yup from "yup";
-import { useCallFetchData } from "Hooks/useFetch";
 import { Formik, Field, Form } from "formik";
 import TextInput from "components/TextInput/TextInput";
 import Button from "components/Button/Button";
 import { ReactComponent as Spinner } from "assets/spinners/Infinity-1s-200px.svg";
 import { ModalContext } from "context/ModalContext";
 import "./Register.scss";
+import fetchData from "helper/fetchData";
 
 const validationSchema = Yup.object({
 	username: Yup.string().max(25, "username is too long").required("field is required"),
@@ -37,17 +37,17 @@ const fields = {
 };
 
 const Register = () => {
-	const [, dispatchUser] = useContext(ModalContext);
+	const [, modalDispatch] = useContext(ModalContext);
 
-	const [registerResponse, registerCallAPI] = useCallFetchData({
-		url: "/register",
-		method: "POST",
-	});
-
-	const handleSubmit = async (data, { setErrors }) => {
-		const response = await registerCallAPI(data);
-		if (!!response.error) setErrors(response.error.data.message);
-		if (!!response.data) dispatchUser({ type: "CLOSE" });
+	const handleSubmit = async (submittedData, { setErrors, setSubmitting }) => {
+		const { data, error } = await fetchData({
+			method: "POST",
+			url: "/register",
+			setLoading: setSubmitting,
+			payload: submittedData,
+		});
+		if (!!data) modalDispatch({ type: "CLOSE" });
+		if (!!error) setErrors(error.message);
 	};
 
 	return (
@@ -57,9 +57,9 @@ const Register = () => {
 				initialValues={createInitialValueObject(fields)}
 				onSubmit={handleSubmit}
 			>
-				{({ isValid, errors }) => (
+				{({ isValid, errors, isSubmitting }) => (
 					<>
-						{registerResponse.isLoading && (
+						{isSubmitting && (
 							<div className="spinner-overlay">
 								<Spinner />
 							</div>
@@ -79,7 +79,7 @@ const Register = () => {
 							<Button
 								classes={["btn-accent", "btn-submit"]}
 								type="submit"
-								disabled={registerResponse.isLoading || !isValid}
+								disabled={isSubmitting || !isValid}
 							>
 								Register
 							</Button>

@@ -7,31 +7,33 @@ import { UserContext } from "context/UserContext";
 import Routes from "routes/Routes";
 
 import Footer from "components/Footer/Footer";
-import { useFetchData } from "Hooks/useFetch";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
+import fetchData from "helper/fetchData";
 
 function App() {
-	const authUser = useFetchData({
-		url: "/isAuth",
-		method: "GET",
-		token: true,
-	});
-	const [{user, theme }, dispatchUser] = useContext(UserContext);
+	const [{ user, theme }, dispatchUser] = useContext(UserContext);
 	const [authLoading, setAuthLoading] = useState(false);
 
 	useEffect(() => {
-		if (!!authUser.data && !!authUser.data.user) {
-			dispatchUser({ type: "LOGIN", payload: { user: authUser.data.user } });
-			setAuthLoading(false);
-		}
+		const isUserAuthenticated = async () => {
+			const { data, status } = await fetchData({
+				url: "/isAuth",
+				token: true,
+				method: "GET",
+				setLoading: setAuthLoading,
+			});
+			if (status === 401) dispatchUser({ type: "LOGOUT" });
+			if (!!data) dispatchUser({ type: "LOGIN", payload: { user: data.user } });
+		};
+		isUserAuthenticated();
 
 		return () => {};
-	}, [authUser, dispatchUser]);
+	}, [dispatchUser]);
 
 	return (
 		<div className={`App ${theme ? "theme-light" : "theme-dark"}`}>
 			<Modal />
-			<LoadingOverlay show={authLoading} />
+			{/* <LoadingOverlay show={authLoading} /> */}
 			<Navbar user={user} />
 			<Routes />
 			<Footer />

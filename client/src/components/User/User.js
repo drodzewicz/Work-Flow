@@ -15,10 +15,11 @@ const User = ({ imageURL, username, children }) => {
 
 User.defaltProps = {
 	children: null,
+	imageURL: ""
 };
 
 User.propTypes = {
-	imageURL: PropTypes.string.isRequired,
+	imageURL: PropTypes.string,
 	username: PropTypes.string.isRequired,
 	children: PropTypes.node,
 };

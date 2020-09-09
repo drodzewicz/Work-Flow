@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import * as Yup from "yup";
 import SimpleForm from "components/SimpleForm/SimpleForm";
-import { useCallFetchData } from "Hooks/useFetch";
 import { ModalContext } from "context/ModalContext";
+import fetchData from "helper/fetchData";
 
 const validationSchema = Yup.object({
 	newPassword: Yup.string().min(5, "must be at least 5 characters").required("field is required"),
@@ -19,23 +19,18 @@ const fields = {
 const ChangePassword = () => {
 	const [, modalDispatch] = useContext(ModalContext);
 
-	const [, changePasswordCallAPI] = useCallFetchData({
-		url: "/user/change_password",
-		method: "PATCH",
-		token: true,
-	});
-
 	const handleSubmit = async (submittedData, { setSubmitting, setErrors }) => {
-		setSubmitting(true);
-		try {
-			const {data, error} = await changePasswordCallAPI(submittedData);
-			if(!!data) {
-				modalDispatch({ type: "CLOSE" });
-			} else if (!!error) {
-				setErrors(error.data.message)
-			}
-		} catch (error) {
-			setSubmitting(false);
+		const { data, error } = await fetchData({
+			method: "PATCH",
+			url: "/user/change_password",
+			token: true,
+			setLoading: setSubmitting,
+			payload: submittedData,
+		});
+		if (!!data) {
+			modalDispatch({ type: "CLOSE" });
+		} else if (!!error) {
+			setErrors(error.message);
 		}
 	};
 

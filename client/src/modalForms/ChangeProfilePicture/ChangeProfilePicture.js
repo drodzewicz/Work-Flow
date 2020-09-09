@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import * as Yup from "yup";
 import SimpleForm from "components/SimpleForm/SimpleForm";
 import { ModalContext } from "context/ModalContext";
-import { useCallFetchData } from "Hooks/useFetch";
+import fetchData from "helper/fetchData";
 
 const validationSchema = Yup.object({
 	imageLink: Yup.string().url().required("image link is required"),
@@ -15,20 +15,17 @@ const fields = {
 const ChangeProfilePicture = ({ changeProfilePic }) => {
 	const [, modalDispatch] = useContext(ModalContext);
 
-	const [, changeImageCallAPI] = useCallFetchData({
-		url: "/user/change_avatar",
-		method: "PATCH",
-		token: true,
-	});
-
-	const handleSubmit = async (data, { setSubmitting }) => {
-		setSubmitting(true);
-		try {
-			await changeImageCallAPI({ imageURL: data.imageLink });
-			changeProfilePic(data.imageLink);
+	const handleSubmit = async (submittedData, { setSubmitting }) => {
+		const { data } = await fetchData({
+			method: "PATCH",
+			url: "/user/change_avatar",
+			token: true,
+			setLoading: setSubmitting,
+			payload: { imageURL: submittedData.imageLink },
+		});
+		if (!!data) {
 			modalDispatch({ type: "CLOSE" });
-		} catch (error) {
-			setSubmitting(false);
+			changeProfilePic(submittedData.imageLink);
 		}
 	};
 	return (

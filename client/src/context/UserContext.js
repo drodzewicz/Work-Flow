@@ -7,7 +7,7 @@ const initialState = { user: null, theme: true };
 const reducer = (state, { type, payload }) => {
 	switch (type) {
 		case "LOGIN":
-			localStorage.setItem("token", payload.token);
+			!!payload.token && localStorage.setItem("token", payload.token);
 			return { ...state, user: payload.user };
 		case "LOGOUT":
 			localStorage.removeItem("token");

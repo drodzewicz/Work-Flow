@@ -132,4 +132,23 @@ userService.updateCredentials = async function (req, res) {
 	}
 };
 
+userService.searchUserByRegex = async function (req, res) {
+	const { username: loggedInUser } = req.user;
+	const { username } = req.query;
+	try {
+		const foundUsers = await User.find({ username: { $regex: username, $options: "i" } });
+		return res
+			.status(200)
+			.json(
+				foundUsers
+					.filter(({ username }) => username !== loggedInUser)
+					.map(({ _id: id, username, avatarImageURL }) => ({ id, username, avatarImageURL }))
+			);
+	} catch (error) {
+		return res.status(400).json({
+			message: User.processErrors(error),
+		});
+	}
+};
+
 module.exports = userService;
