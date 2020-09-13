@@ -5,12 +5,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  .pinned-boards-container, .board-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    .pagination-container {
-      grid-column: 1/5;
+  // max-width: 970px;
+  .board-container {
+    position: relative;
+  }
+  .board-container-wrapper {
+    position: relative;
+    max-width: 970px;
+  }
+  .board-container-title {
+    color: $black-1;
+    font-family: 'Secular One', sans-serif;
+    font-size: 1.3rem;
+    grid-column: 1/5;
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    .pin-icon, .board {
+      color: $black-1;
+      fill: $black-1;
+      height: 1.2rem;
+      width: 1.2rem;
+    }
+    span {
+      margin-left: 0.3rem;
     }
     .new-board-btn {
       margin-left: 1rem;
@@ -31,26 +51,16 @@
         margin-right: 0.2rem;
       }
     }
-    .board-container-title {
-      color: $black-1;
-      font-family: 'Secular One', sans-serif;
-      font-size: 1.3rem;
+  }
+
+  .pinned-boards-container, .board-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    .pagination-container {
       grid-column: 1/5;
-      padding-left: 1rem;
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-      .pin-icon, .board {
-        color: $black-1;
-        fill: $black-1;
-        height: 1.2rem;
-        width: 1.2rem;
-      }
-      span {
-        margin-left: 0.3rem;
-      }
     }
+
+
     @include mq-2 {
       grid-template-columns: repeat(3, 1fr);
       .board-container-title, .pagination-container {
@@ -72,19 +82,19 @@
   }
 }
 
-.theme-dark .pinned-boards-container, .theme-dark .board-container {
+.theme-dark {
   .board-container-title {
     color: white;
     .pin-icon, .board {
       color: white;
       fill: white;
     }
-  }
-  .new-board-btn {
-    background-color: $white-1;
-    color: $black-1;
-    &:hover {
-      background: darken($white-1, 10%);
+    .new-board-btn {
+      background-color: $white-1;
+      color: $black-1;
+      &:hover {
+        background: darken($white-1, 10%);
+      }
     }
   }
 

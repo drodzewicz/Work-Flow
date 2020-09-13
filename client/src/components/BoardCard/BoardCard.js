@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -6,9 +6,16 @@ import { ReactComponent as Pin } from "assets/images/pin-empty.svg";
 import { ReactComponent as Pined } from "assets/images/pin-full.svg";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import "./BoardCard.scss";
+import { UserContext } from "context/UserContext";
+import { ModalContext } from "context/ModalContext";
+import fetchData from "helper/fetchData";
+import BoardEditor from "modalForms/BoardEditor/BoardEditor";
 
-const BoardCard = ({ boardTitle, isPinned, pinBoard, leaveBoard, boardId, ownerId }) => {
+const BoardCard = ({ boardInfo, boardId, isPinned, pinBoard, removeBoard, ownerId }) => {
 	const history = useHistory();
+
+	const [{ user }] = useContext(UserContext);
+	const [, modalDispatch] = useContext(ModalContext);
 
 	const anchorElement = useRef();
 
@@ -16,15 +23,44 @@ const BoardCard = ({ boardTitle, isPinned, pinBoard, leaveBoard, boardId, ownerI
 		e.stopPropagation();
 		pinBoard();
 	};
-	const editEventModal = (e) => {
-		e.stopPropagation();
+
+	const editEventModal = () => {
+		modalDispatch({
+			type: "OPEN",
+			payload: {
+				render: (
+					<BoardEditor
+						buttonName="Update"
+						submitDataURL={`/board/${boardId}`}
+						initialValues={{
+							id: boardId,
+							name: boardInfo.name,
+							description: boardInfo.description,
+							members: boardInfo.members,
+						}}
+					/>
+				),
+				title: "New Board",
+			},
+		});
 	};
-	const deleteBoardHandler = (e) => {
-		e.stopPropagation();
+
+	const deleteBoardHandler = async () => {
+		const { error } = await fetchData({
+			method: "DELETE",
+			url: `/board/${boardId}`,
+			token: true,
+		});
+		if(!error) removeBoard(boardId);
 	};
-	const leavingEvent = (e) => {
-		e.stopPropagation();
-		leaveBoard(boardId);
+	const leavingEvent = async () => {
+		const { error, data } = await fetchData({
+			method: "DELETE",
+			url: `/board/${boardId}/leave_board`,
+			token: true,
+		});
+		if(!error) removeBoard(boardId);
+		console.log(data)
 	};
 	const gToBoard = () => {
 		history.push(`/board/${boardId}`);
@@ -40,7 +76,7 @@ const BoardCard = ({ boardTitle, isPinned, pinBoard, leaveBoard, boardId, ownerI
 			</div>
 			<div className="board-card-body">
 				<h1 onClick={gToBoard} className="board-title">
-					{boardTitle}
+					{boardInfo.name}
 				</h1>
 				<div className="board-menu">
 					{isPinned ? (
@@ -52,14 +88,9 @@ const BoardCard = ({ boardTitle, isPinned, pinBoard, leaveBoard, boardId, ownerI
 				</div>
 			</div>
 			<DropdownMenu anchorEl={anchorElement}>
-				{ownerId === "currentUser" ? (
-					<>
-						<span onClick={editEventModal}>edit</span>
-						<span onClick={deleteBoardHandler}>delete</span>
-					</>
-				) : (
-					<span onClick={leavingEvent}>leave</span>
-				)}
+				{ownerId === user?.id && <span onClick={editEventModal}>edit</span>}
+				{ownerId === user?.id && <span onClick={deleteBoardHandler}>delete</span>}
+				{ownerId !== user?.id && <span onClick={leavingEvent}>leave</span>}
 			</DropdownMenu>
 		</div>
 	);
@@ -69,12 +100,16 @@ BoardCard.propTypes = {
 	isPinned: false,
 };
 BoardCard.propTypes = {
-	boardTitle: PropTypes.string.isRequired,
+	boardInfo: PropTypes.shape({
+		name: PropTypes.string,
+		description: PropTypes.string,
+		members: PropTypes.array,
+	}).isRequired,
 	isPinned: PropTypes.bool,
 	pinBoard: PropTypes.func.isRequired,
-	leaveBoard: PropTypes.func.isRequired,
+	removeBoard: PropTypes.func.isRequired,
 	boardId: PropTypes.string.isRequired,
-	ownerId: PropTypes.string.isRequired
+	ownerId: PropTypes.string.isRequired,
 };
 
 export default BoardCard;

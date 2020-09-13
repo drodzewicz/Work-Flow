@@ -53,7 +53,7 @@ const AutoCompleteInput = ({ timeout, execMethod, searchResult, clickResult, cle
 							<div
 								className="search-result-item"
 								onClick={() => clickResult(data)}
-								key={data.id}
+								key={data._id}
 							>
 								<span>{data.text}</span>
 							</div>

@@ -11,6 +11,7 @@ import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
 import { ModalContext } from "context/ModalContext";
 
 import fetchData from "helper/fetchData";
+import { useHistory } from "react-router-dom";
 
 // import { userList_DATA } from "data";
 
@@ -19,11 +20,13 @@ const validationSchema = Yup.object({
 	description: Yup.string().max(200, "description is too long"),
 });
 
-const BoardEditor = ({ submitDataURL, buttonName, addBoard, updateBoard, initialValues }) => {
-	const [users, setUsers] = useState([]);
+const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
+	const [users, setUsers] = useState(!!initialValues ? initialValues.members : []);
 	const [searchRes, setSearchRes] = useState([]);
 
 	const [, dispatchModal] = useContext(ModalContext);
+
+	const history = useHistory();
 
 	const initialVals = {
 		name: initialValues ? initialValues.name : "",
@@ -31,18 +34,30 @@ const BoardEditor = ({ submitDataURL, buttonName, addBoard, updateBoard, initial
 	};
 
 	const submitButtonClick = async (submittedData, { setSubmitting }) => {
-		submittedData = { ...submittedData, members: users };
-		if (addBoard !== undefined) {
-			const { data, error } = await fetchData({
-				method: "POST",
-				url: "/board",
-				token: true,
-				setLoading: setSubmitting,
-				payload: submittedData,
-			});
-			if (!!error) console.log(error);
-			if (!!data) dispatchModal({ type: "CLOSE" });
+		submittedData = { ...submittedData, members: users.map(({ _id }) => _id) };
+		const { data } = await fetchData({
+			method: "POST",
+			url: submitDataURL,
+			token: true,
+			setLoading: setSubmitting,
+			payload: submittedData,
+		});
+		if (!!data) {
+			dispatchModal({ type: "CLOSE" });
+			console.log("test: ", data);
+			const boardId = data.board._id;
+			history.push(`/board/${boardId}`);
 		}
+		// if (updateBoard !== undefined) {
+		// 	const { data } = await fetchData({
+		// 		method: "POST",
+		// 		url: `/board/${initialValues.id}`,
+		// 		token: true,
+		// 		setLoading: setSubmitting,
+		// 		payload: submittedData,
+		// 	});
+		// 	if (!!data) dispatchModal({ type: "CLOSE" });
+		// }
 	};
 	const searchUsers = async (username) => {
 		const { data } = await fetchData({
@@ -65,11 +80,10 @@ const BoardEditor = ({ submitDataURL, buttonName, addBoard, updateBoard, initial
 		setSearchRes([]);
 		const tempUsers = [...users];
 		tempUsers.push(user);
-		// ..
 		setUsers(tempUsers);
 	};
 	const removeUserFromBoardHandler = (userId) => {
-		setUsers((currentUserList) => currentUserList.filter(({ id }) => id !== userId));
+		setUsers((currentUserList) => currentUserList.filter(({ _id }) => _id !== userId));
 	};
 	return (
 		<div className="board-form-container">
@@ -109,8 +123,10 @@ const BoardEditor = ({ submitDataURL, buttonName, addBoard, updateBoard, initial
 								<AutoCompleteInput
 									execMethod={searchUsers}
 									timeout={700}
-									searchResult={searchRes.filter(({ id }) =>
-										users.findIndex(({ id: chosenUserId }) => chosenUserId === id) < 0
+									searchResult={searchRes.filter(
+										({ _id }) =>
+											users.findIndex(({ _id: chosenUserId }) => chosenUserId === _id) <
+											0
 									)}
 									clickResult={addUserToBoardHandler}
 									clearResults={clearUserSearchResults}
@@ -120,10 +136,10 @@ const BoardEditor = ({ submitDataURL, buttonName, addBoard, updateBoard, initial
 										users.length > 4 ? "overflow-scroll" : ""
 									}`}
 								>
-									{users.map(({ id, username, avatarImageURL }) => (
-										<User key={id} username={username} imageURL={avatarImageURL}>
+									{users.map(({ _id, username, avatarImageURL }) => (
+										<User key={_id} username={username} imageURL={avatarImageURL}>
 											<RemoveCircleOutlineIcon
-												onClick={() => removeUserFromBoardHandler(id)}
+												onClick={() => removeUserFromBoardHandler(_id)}
 											/>
 										</User>
 									))}

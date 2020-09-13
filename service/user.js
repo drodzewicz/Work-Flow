@@ -142,7 +142,7 @@ userService.searchUserByRegex = async function (req, res) {
 			.json(
 				foundUsers
 					.filter(({ username }) => username !== loggedInUser)
-					.map(({ _id: id, username, avatarImageURL }) => ({ id, username, avatarImageURL }))
+					.map(({ _id, username, avatarImageURL }) => ({ _id, username, avatarImageURL }))
 			);
 	} catch (error) {
 		return res.status(400).json({

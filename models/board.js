@@ -19,19 +19,15 @@ const boardSchema = new Schema({
 	members: [
 		{
 			_id: false,
-			id: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "User",
-			},
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
 		},
 	],
 	columns: [
 		{
 			_id: false,
-			id: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "Task",
-			},
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Task",
 		},
 	],
 });

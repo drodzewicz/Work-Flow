@@ -10,54 +10,62 @@ import BoardEditor from "modalForms/BoardEditor/BoardEditor";
 import ContainerBox from "components/ContainerBox/ContainerBox";
 import { ModalContext } from "context/ModalContext";
 import fetchData from "helper/fetchData";
+import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 
-import { boards_DATA, pinnedBoards_DATA } from "data";
+// import { pinnedBoards_DATA } from "data";
 
 function DashboardPage() {
-	const [page, setPage] = useState({ currentPage: 1, amountOfPages: boards_DATA.length });
-
-	const [pinnedBoards, setPinnedBoards] = useState(pinnedBoards_DATA);
-
-	const [boards, setBoards] = useState(boards_DATA[0]);
-
+	const [page, setPage] = useState({ currentPage: 1, amountOfPages: 1 });
+	const [pinnedBoards, setPinnedBoards] = useState([]);
+	const [boards, setBoards] = useState([]);
+	const [isLoadingBoards, setLoadingBoards] = useState(false);
 	const [, modalDispatch] = useContext(ModalContext);
 
 	useEffect(() => {
-		const getMyBoards = async () => {
-			const { data, error } = await fetchData({
+		const getPinnedBoards = async () => {
+			const { data } = await fetchData({
 				method: "GET",
-				url: "/board/user/my_boards",
+				url: "/board/user/pined_boards",
 				token: true,
 			});
-			console.log(data, error);
+			if (!!data) setPinnedBoards(data);
+		};
+		getPinnedBoards();
+		return () => {};
+	}, []);
+
+	useEffect(() => {
+		const getMyBoards = async () => {
+			const { data } = await fetchData({
+				method: "GET",
+				url: `/board/user/my_boards?page=${page.currentPage}&limit=8`,
+				token: true,
+				setLoading: setLoadingBoards,
+			});
+			if (!!data) {
+				setPage((prevState) => ({ ...prevState, amountOfPages: data.totalPageCount }));
+				setBoards(data.items);
+			}
 		};
 		getMyBoards();
 		return () => {};
-	}, []);
+	}, [page.currentPage]);
 
 	const openCreateNewBoardModal = () => {
 		modalDispatch({
 			type: "OPEN",
 			payload: {
 				render: (
-					<BoardEditor addBoard={addBoardToList} buttonName="Create" submitDataURL="board/post" />
+					<BoardEditor submitDataURL="/board" buttonName="Create" />
 				),
 				title: "New Board",
 			},
 		});
 	};
 
-	const addBoardToList = (newBoard) => {
-		setBoards((boards) => {
-			const newBoardList = [...boards];
-			newBoardList.splice(0, newBoard, 0);
-			return newBoardList;
-		});
-	};
-
-	const leaveBoard = (boardId) => {
-		const indexOfBoardInBoardList = boards.findIndex(({ id }) => id === boardId);
-		const indexOfBoardInPinnedBoardList = pinnedBoards.findIndex(({ id }) => id === boardId);
+	const removeBoard = (boardId) => {
+		const indexOfBoardInBoardList = boards.findIndex(({ _id }) => _id === boardId);
+		const indexOfBoardInPinnedBoardList = pinnedBoards.findIndex(({ _id }) => _id === boardId);
 
 		if (indexOfBoardInBoardList > -1) {
 			setBoards((boards) => {
@@ -76,15 +84,23 @@ function DashboardPage() {
 		}
 	};
 
-	const togglePinBoard = (boardIndex, pinnedBoardIndex) => {
+	const togglePinBoard = async (boardIndex, pinnedBoardIndex) => {
 		const foundPinnedBoardIndex =
 			pinnedBoardIndex > -1
 				? pinnedBoardIndex
-				: pinnedBoards.findIndex((board) => board.id === boards[boardIndex].id);
+				: pinnedBoards.findIndex((board) => board._id === boards[boardIndex]._id);
 		const foundBoardIndex =
 			boardIndex > -1
 				? boardIndex
-				: boards.findIndex((board) => board.id === pinnedBoards[pinnedBoardIndex].id);
+				: boards.findIndex((board) => board._id === pinnedBoards[pinnedBoardIndex]._id);
+
+		const { data, error } = await fetchData({
+			method: "PATCH",
+			url: `/board/user/pined_boards?boardId=${boards[foundBoardIndex]._id}`,
+			token: true,
+		});
+
+		console.log(data, error);
 
 		setPinnedBoards((pinnedBoards) => {
 			const tempPinnedBoards = [...pinnedBoards];
@@ -105,8 +121,6 @@ function DashboardPage() {
 	};
 
 	const changePage = (pageNumber) => {
-		console.log(`fetching page [${pageNumber}]`);
-		setBoards(boards_DATA[pageNumber - 1]);
 		setPage((pageState) => ({ ...pageState, currentPage: pageNumber }));
 	};
 
@@ -117,19 +131,19 @@ function DashboardPage() {
 					<Pin className="pin-icon" />
 					<span>Pinned</span>
 				</h1>
-				{pinnedBoards.map(({ id, owner, title }, index) => (
+				{pinnedBoards.map(({ _id, author, name, description, members }, index) => (
 					<BoardCard
-						key={id}
-						boardId={id}
+						key={_id}
+						boardId={_id}
 						isPinned={true}
 						pinBoard={() => togglePinBoard(-1, index)}
-						leaveBoard={leaveBoard}
-						boardTitle={title}
-						ownerId={owner.id}
+						removeBoard={removeBoard}
+						boardInfo={{ name, description, members }}
+						ownerId={author}
 					/>
 				))}
 			</div>
-			<div className="board-container">
+			<div className="board-container-wrapper">
 				<h1 className="board-container-title">
 					<DashboardIcon className="board-icon" />
 					<span>Boards</span>
@@ -138,23 +152,28 @@ function DashboardPage() {
 						New Board
 					</Button>
 				</h1>
-				{boards.map(({ id, owner, title, pinned }, index) => (
-					<BoardCard
-						key={id}
-						boardId={id}
-						isPinned={pinned}
-						pinBoard={() => togglePinBoard(index, -1)}
-						leaveBoard={leaveBoard}
-						boardTitle={title}
-						ownerId={owner.id}
-					/>
-				))}
-				{page.amountOfPages > 1 && (
-					<Pagination
-						amountOfPages={page.amountOfPages}
-						currentPage={page.currentPage}
-						handleChange={changePage}
-					/>
+				<LoadingOverlay show={isLoadingBoards} />
+				{!isLoadingBoards && (
+					<div className="board-container">
+						{boards.map(({ _id, author, pinned, name, description, members }, index) => (
+							<BoardCard
+								key={_id}
+								boardId={_id}
+								isPinned={pinned}
+								pinBoard={() => togglePinBoard(index, -1)}
+								removeBoard={removeBoard}
+								boardInfo={{ name, description, members }}
+								ownerId={author}
+							/>
+						))}
+						{page.amountOfPages > 1 && (
+							<Pagination
+								amountOfPages={page.amountOfPages}
+								currentPage={page.currentPage}
+								handleChange={changePage}
+							/>
+						)}
+					</div>
 				)}
 			</div>
 		</ContainerBox>
