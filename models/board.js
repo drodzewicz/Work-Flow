@@ -19,8 +19,14 @@ const boardSchema = new Schema({
 	members: [
 		{
 			_id: false,
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "User",
+			user: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+			},
+			role: {
+				type: String,
+				default: "regular"
+			}
 		},
 	],
 	columns: [

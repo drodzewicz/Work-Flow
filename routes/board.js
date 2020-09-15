@@ -10,7 +10,8 @@ const {
 	updateBoard,
 	togglePinBoard,
     deleteBoard,
-    leaveBoard
+    leaveBoard,
+    getBoardMembers
 } = require("../service/board");
 
 const authJWT = passport.authenticate("jwt", { session: false });
@@ -29,6 +30,9 @@ router.route("/:id")
     .get(authJWT, getBoardById)
     .post(authJWT, updateBoard)
     .delete(authJWT, deleteBoard);
+
+router.route("/:id/members")
+    .get(authJWT, getBoardMembers)
 
 router.route("/:id/leave_board")
     .delete(authJWT, leaveBoard);

@@ -6,15 +6,13 @@ import { ReactComponent as Pin } from "assets/images/pin-empty.svg";
 import { ReactComponent as Pined } from "assets/images/pin-full.svg";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import "./BoardCard.scss";
-import { UserContext } from "context/UserContext";
 import { ModalContext } from "context/ModalContext";
 import fetchData from "helper/fetchData";
 import BoardEditor from "modalForms/BoardEditor/BoardEditor";
 
-const BoardCard = ({ boardInfo, boardId, isPinned, pinBoard, removeBoard, ownerId }) => {
+const BoardCard = ({ boardInfo, boardId, isPinned, pinBoard, removeBoard, isAuthor }) => {
 	const history = useHistory();
 
-	const [{ user }] = useContext(UserContext);
 	const [, modalDispatch] = useContext(ModalContext);
 
 	const anchorElement = useRef();
@@ -36,11 +34,13 @@ const BoardCard = ({ boardInfo, boardId, isPinned, pinBoard, removeBoard, ownerI
 							id: boardId,
 							name: boardInfo.name,
 							description: boardInfo.description,
-							members: boardInfo.members,
+							members: boardInfo.members
+								.filter(({ role }) => role !== "owner")
+								.map(({ user }) => user),
 						}}
 					/>
 				),
-				title: "New Board",
+				title: "Edit Board",
 			},
 		});
 	};
@@ -51,16 +51,15 @@ const BoardCard = ({ boardInfo, boardId, isPinned, pinBoard, removeBoard, ownerI
 			url: `/board/${boardId}`,
 			token: true,
 		});
-		if(!error) removeBoard(boardId);
+		if (!error) removeBoard(boardId);
 	};
 	const leavingEvent = async () => {
-		const { error, data } = await fetchData({
+		const { error } = await fetchData({
 			method: "DELETE",
 			url: `/board/${boardId}/leave_board`,
 			token: true,
 		});
-		if(!error) removeBoard(boardId);
-		console.log(data)
+		if (!error) removeBoard(boardId);
 	};
 	const gToBoard = () => {
 		history.push(`/board/${boardId}`);
@@ -88,9 +87,9 @@ const BoardCard = ({ boardInfo, boardId, isPinned, pinBoard, removeBoard, ownerI
 				</div>
 			</div>
 			<DropdownMenu anchorEl={anchorElement}>
-				{ownerId === user?.id && <span onClick={editEventModal}>edit</span>}
-				{ownerId === user?.id && <span onClick={deleteBoardHandler}>delete</span>}
-				{ownerId !== user?.id && <span onClick={leavingEvent}>leave</span>}
+				{isAuthor && <span onClick={editEventModal}>edit</span>}
+				{isAuthor && <span onClick={deleteBoardHandler}>delete</span>}
+				{!isAuthor && <span onClick={leavingEvent}>leave</span>}
 			</DropdownMenu>
 		</div>
 	);
@@ -98,6 +97,7 @@ const BoardCard = ({ boardInfo, boardId, isPinned, pinBoard, removeBoard, ownerI
 
 BoardCard.propTypes = {
 	isPinned: false,
+	isAuthor: false,
 };
 BoardCard.propTypes = {
 	boardInfo: PropTypes.shape({
@@ -109,7 +109,7 @@ BoardCard.propTypes = {
 	pinBoard: PropTypes.func.isRequired,
 	removeBoard: PropTypes.func.isRequired,
 	boardId: PropTypes.string.isRequired,
-	ownerId: PropTypes.string.isRequired,
+	isAuthor: PropTypes.bool,
 };
 
 export default BoardCard;

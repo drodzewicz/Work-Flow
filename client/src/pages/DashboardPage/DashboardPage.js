@@ -55,9 +55,7 @@ function DashboardPage() {
 		modalDispatch({
 			type: "OPEN",
 			payload: {
-				render: (
-					<BoardEditor submitDataURL="/board" buttonName="Create" />
-				),
+				render: <BoardEditor submitDataURL="/board" buttonName="Create" />,
 				title: "New Board",
 			},
 		});
@@ -94,30 +92,29 @@ function DashboardPage() {
 				? boardIndex
 				: boards.findIndex((board) => board._id === pinnedBoards[pinnedBoardIndex]._id);
 
-		const { data, error } = await fetchData({
+		const { data } = await fetchData({
 			method: "PATCH",
 			url: `/board/user/pined_boards?boardId=${boards[foundBoardIndex]._id}`,
 			token: true,
 		});
+		if (!!data) {
+			setPinnedBoards((pinnedBoards) => {
+				const tempPinnedBoards = [...pinnedBoards];
 
-		console.log(data, error);
+				if (boards[foundBoardIndex].pinned) {
+					tempPinnedBoards.splice(foundPinnedBoardIndex, 1);
+				} else {
+					tempPinnedBoards.push({ ...boards[foundBoardIndex], pinned: true });
+				}
+				return tempPinnedBoards;
+			});
 
-		setPinnedBoards((pinnedBoards) => {
-			const tempPinnedBoards = [...pinnedBoards];
-
-			if (boards[foundBoardIndex].pinned) {
-				tempPinnedBoards.splice(foundPinnedBoardIndex, 1);
-			} else {
-				tempPinnedBoards.push({ ...boards[foundBoardIndex], pinned: true });
-			}
-			return tempPinnedBoards;
-		});
-
-		setBoards((boards) => {
-			const modifiedBoards = [...boards];
-			modifiedBoards[foundBoardIndex].pinned = !modifiedBoards[foundBoardIndex].pinned;
-			return modifiedBoards;
-		});
+			setBoards((boards) => {
+				const modifiedBoards = [...boards];
+				modifiedBoards[foundBoardIndex].pinned = !modifiedBoards[foundBoardIndex].pinned;
+				return modifiedBoards;
+			});
+		}
 	};
 
 	const changePage = (pageNumber) => {
@@ -131,7 +128,7 @@ function DashboardPage() {
 					<Pin className="pin-icon" />
 					<span>Pinned</span>
 				</h1>
-				{pinnedBoards.map(({ _id, author, name, description, members }, index) => (
+				{pinnedBoards.map(({ _id, name, description, members, isAuthor }, index) => (
 					<BoardCard
 						key={_id}
 						boardId={_id}
@@ -139,7 +136,7 @@ function DashboardPage() {
 						pinBoard={() => togglePinBoard(-1, index)}
 						removeBoard={removeBoard}
 						boardInfo={{ name, description, members }}
-						ownerId={author}
+						isAuthor={isAuthor}
 					/>
 				))}
 			</div>
@@ -155,7 +152,7 @@ function DashboardPage() {
 				<LoadingOverlay show={isLoadingBoards} />
 				{!isLoadingBoards && (
 					<div className="board-container">
-						{boards.map(({ _id, author, pinned, name, description, members }, index) => (
+						{boards.map(({ _id, pinned, name, description, members, isAuthor }, index) => (
 							<BoardCard
 								key={_id}
 								boardId={_id}
@@ -163,7 +160,7 @@ function DashboardPage() {
 								pinBoard={() => togglePinBoard(index, -1)}
 								removeBoard={removeBoard}
 								boardInfo={{ name, description, members }}
-								ownerId={author}
+								isAuthor={isAuthor}
 							/>
 						))}
 						{page.amountOfPages > 1 && (

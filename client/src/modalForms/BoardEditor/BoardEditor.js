@@ -34,7 +34,7 @@ const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
 	};
 
 	const submitButtonClick = async (submittedData, { setSubmitting }) => {
-		submittedData = { ...submittedData, members: users.map(({ _id }) => _id) };
+		submittedData = { ...submittedData, members: users.map(({ _id }) => ({ user: _id })) };
 		const { data } = await fetchData({
 			method: "POST",
 			url: submitDataURL,
@@ -44,21 +44,11 @@ const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
 		});
 		if (!!data) {
 			dispatchModal({ type: "CLOSE" });
-			console.log("test: ", data);
 			const boardId = data.board._id;
 			history.push(`/board/${boardId}`);
 		}
-		// if (updateBoard !== undefined) {
-		// 	const { data } = await fetchData({
-		// 		method: "POST",
-		// 		url: `/board/${initialValues.id}`,
-		// 		token: true,
-		// 		setLoading: setSubmitting,
-		// 		payload: submittedData,
-		// 	});
-		// 	if (!!data) dispatchModal({ type: "CLOSE" });
-		// }
 	};
+	
 	const searchUsers = async (username) => {
 		const { data } = await fetchData({
 			method: "GET",

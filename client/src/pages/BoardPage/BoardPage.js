@@ -52,7 +52,7 @@ const BoardPage = ({ boardId }) => {
 	const openBoardMembersModal = () => {
 		modalDispatch({
 			type: "OPEN",
-			payload: { render: <BoardMembers />, title: "Board Members" },
+			payload: { render: <BoardMembers boardId={boardId} />, title: "Board Members" },
 		});
 	};
 	const openBoardTagsModal = () => {
