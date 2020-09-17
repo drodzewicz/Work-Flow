@@ -35,8 +35,6 @@ const BoardCard = ({ boardInfo, boardId, isPinned, pinBoard, removeBoard, isAuth
 							name: boardInfo.name,
 							description: boardInfo.description,
 							members: boardInfo.members
-								.filter(({ role }) => role !== "owner")
-								.map(({ user }) => user),
 						}}
 					/>
 				),

@@ -2,7 +2,7 @@ import React, { useReducer, createContext, useEffect } from "react";
 
 export const UserContext = createContext();
 
-const initialState = { user: null, theme: true };
+const initialState = { user: null, role: null, theme: true };
 
 const reducer = (state, { type, payload }) => {
 	switch (type) {
@@ -11,7 +11,7 @@ const reducer = (state, { type, payload }) => {
 			return { ...state, user: payload.user };
 		case "LOGOUT":
 			localStorage.removeItem("token");
-			return { ...state, user: null };
+			return { ...state, user: null, role: null };
 		case "THEME_DARK":
 			localStorage.setItem("theme", "dark");
 			return { ...state, theme: false };
@@ -21,6 +21,8 @@ const reducer = (state, { type, payload }) => {
 		case "THEME_TOGGLE":
 			localStorage.setItem("theme", state.theme ? "dark" : "light");
 			return { ...state, theme: !state.theme };
+		case "SET_ROLE":
+			return { ...state, role: payload.role };
 		default:
 			return state;
 	}

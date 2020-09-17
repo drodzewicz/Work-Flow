@@ -11,7 +11,11 @@ const {
 	togglePinBoard,
     deleteBoard,
     leaveBoard,
-    getBoardMembers
+    changeUserRole,
+    getBoardMembers,
+    getBoardMember,
+    addNewUser,
+    removeUserFromBoard
 } = require("../service/board");
 
 const authJWT = passport.authenticate("jwt", { session: false });
@@ -33,6 +37,12 @@ router.route("/:id")
 
 router.route("/:id/members")
     .get(authJWT, getBoardMembers)
+    .patch(authJWT, addNewUser)
+
+router.route("/:boardId/members/:userId")
+    .patch(authJWT, changeUserRole)
+    .get(authJWT, getBoardMember)
+    .delete(authJWT,removeUserFromBoard);
 
 router.route("/:id/leave_board")
     .delete(authJWT, leaveBoard);

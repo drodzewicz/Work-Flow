@@ -35,7 +35,7 @@ userService.registerUser = async (req, res) => {
 userService.loginJWT = async (req, res) => {
 	const { username, password } = req.body;
 	try {
-		const foundUser = await User.findOne({ username: username });
+		const foundUser = await User.findOne({ username: username },"_id username name surname avatarImageURL password");
 		const comparePasswords = await bcrypt.compare(password, foundUser.password);
 
 		if (foundUser !== null && comparePasswords) {
@@ -61,11 +61,10 @@ userService.isAuthenticated = async (req, res) => {
 	const { id } = req.user;
 
 	try {
-		const foundUser = await User.findById(id);
-		const { _id, username, email, name, surname, avatarImageURL } = foundUser;
+		const foundUser = await User.findOne({ _id: id },"_id username name surname avatarImageURL");
 		return res.status(200).json({
 			authorized: true,
-			user: { id: _id, username, email, name, surname, avatarImageURL },
+			user: foundUser,
 		});
 	} catch (error) {
 		return res.status(404).json({

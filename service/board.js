@@ -7,7 +7,7 @@ const boardService = {};
 boardService.createNewBoard = async (req, res) => {
 	const { id: authorId } = req.user;
 	const { name, description, members } = req.body;
-	members.push({ user: authorId, role: "owner" });
+	members.splice(0, 0, { user: authorId, role: "owner" });
 	const newBoard = new Board({ name, description, members, author: authorId });
 	try {
 		await newBoard.save();
@@ -64,7 +64,7 @@ boardService.getMyBoards = async (req, res) => {
 		const { pinnedBoards } = await User.findById(id);
 		paginatedMyBoards.items = paginatedMyBoards.items.map((board) => {
 			let isAuthor = false;
-			if(board.author.toLocaleString() === id.toLocaleString()) isAuthor = true;
+			if (board.author.toLocaleString() === id.toLocaleString()) isAuthor = true;
 			if (
 				pinnedBoards.findIndex(
 					(boardId) => boardId.toLocaleString() === board._id.toLocaleString()
@@ -94,7 +94,7 @@ boardService.getMyPinnedBoards = async (req, res) => {
 		});
 		pinnedBoards = pinnedBoards.map((board) => {
 			let isAuthor = false;
-			if(board.author.toLocaleString() === id.toLocaleString()) isAuthor = true;
+			if (board.author.toLocaleString() === id.toLocaleString()) isAuthor = true;
 			return { ...board.toObject(), pinned: true, isAuthor };
 		});
 		return res.status(200).json(pinnedBoards);
@@ -202,6 +202,7 @@ boardService.leaveBoard = async (req, res) => {
 boardService.getBoardMembers = async (req, res) => {
 	const { id } = req.params;
 	const { page, limit } = req.query;
+	const { username } = req.query;
 
 	try {
 		const { members } = await Board.findOne({ _id: id }, "members").populate({
@@ -211,8 +212,87 @@ boardService.getBoardMembers = async (req, res) => {
 				select: "_id username avatarImageURL",
 			},
 		});
+		if (!page || !limit) {
+			return res.status(200).json(members);
+		}
+		if (!!username) {
+			const matchedMembers = members.find((value) => username.test(value));
+			return res.status(200).json(matchedMembers);
+		}
+
 		const paginatedMembers = paginateConetnt(members, page, limit);
 		return res.status(200).json(paginatedMembers);
+	} catch (error) {
+		return res.status(400).json({
+			message: Board.processErrors(error),
+		});
+	}
+};
+
+boardService.getBoardMember = async (req, res) => {
+	const { boardId, userId } = req.params;
+	try {
+		const foundBoard = await Board.findOne({ _id: boardId }, "_id members");
+		const foundMember = foundBoard.members.find(
+			({ user }) => user.toLocaleString() === userId.toLocaleString()
+		);
+		return res.status(200).json({ member: foundMember });
+	} catch (error) {
+		return res.status(400).json({
+			message: Board.processErrors(error),
+		});
+	}
+};
+
+boardService.removeUserFromBoard = async (req, res) => {
+	const { boardId, userId } = req.params;
+	try {
+		let foundBoard = await Board.findOne({ _id: boardId }, "_id members");
+		foundBoard.members = foundBoard.members.filter(
+			({ user }) => user.toLocaleString() !== userId.toLocaleString()
+		);
+		foundBoard.save();
+		return res.status(200).json({ message: "user removed from board" });
+	} catch (error) {
+		return res.status(400).json({
+			message: Board.processErrors(error),
+		});
+	}
+};
+
+boardService.addNewUser = async (req, res) => {
+	const { id } = req.params;
+	const { userId } = req.query;
+
+	try {
+		const foundBoard = await Board.findOne({ _id: id }, "_id members");
+		foundBoard.members.push({ user: userId });
+		foundBoard.save();
+		return res.status(200).json({ message: "user added to the board", boardMembers: foundBoard.members });
+	} catch (error) {
+		return res.status(400).json({
+			message: Board.processErrors(error),
+		});
+	}
+};
+
+boardService.changeUserRole = async (req, res) => {
+	const { userId, boardId } = req.params;
+	const { newRole } = req.query;
+
+	if (!newRole) {
+		return res.status(400).json({ message: "role was not given" });
+	}
+
+	try {
+		const foundBoard = await Board.findOne({ _id: boardId }, "_id members");
+		foundBoard.members.forEach(({ user }, index) => {
+			if (user._id.toLocaleString() === userId.toLocaleString()) {
+				foundBoard.members[index].role = newRole;
+			}
+		});
+		foundBoard.save();
+		return res.status(200).json({ message: "role changed", role: newRole });
 	} catch (error) {
 		return res.status(400).json({
 			message: Board.processErrors(error),

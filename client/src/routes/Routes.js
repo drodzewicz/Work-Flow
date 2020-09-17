@@ -9,13 +9,13 @@ const Routes = () => {
 	return (
 		<Switch>
 			<Route exact path="/" component={!!token ? DashboardPage : WelcomePage} />
-			<ProtectedRoute auth={!!token} path="/profile" component={ProfilePage} />
-			<ProtectedRoute
-				auth={!!token}
-				path="/board/:id"
-				component={({ match }) => <BoardPage boardId={match.params.id} />}
-			/>
-			<ProtectedRoute auth={!!token} path="/error" component={ErrorPage} />
+			<ProtectedRoute auth={!!token} path="/profile" render={ProfilePage} />
+			 <ProtectedRoute
+			 	auth={!!token}
+			 	path="/board/:id"
+			 	render={({ match }) => <BoardPage boardId={match.params.id} />}
+			 />
+			<ProtectedRoute auth={!!token} path="/error" render={ErrorPage} />
 			<Route render={() => <Redirect to="/" />} />
 		</Switch>
 	);

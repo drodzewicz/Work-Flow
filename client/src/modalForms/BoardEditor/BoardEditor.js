@@ -34,7 +34,7 @@ const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
 	};
 
 	const submitButtonClick = async (submittedData, { setSubmitting }) => {
-		submittedData = { ...submittedData, members: users.map(({ _id }) => ({ user: _id })) };
+		submittedData = { ...submittedData, members: users.map( ({user}) => ({user: user._id})) };
 		const { data } = await fetchData({
 			method: "POST",
 			url: submitDataURL,
@@ -69,11 +69,11 @@ const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
 	const addUserToBoardHandler = (user) => {
 		setSearchRes([]);
 		const tempUsers = [...users];
-		tempUsers.push(user);
+		tempUsers.push({user});
 		setUsers(tempUsers);
 	};
 	const removeUserFromBoardHandler = (userId) => {
-		setUsers((currentUserList) => currentUserList.filter(({ _id }) => _id !== userId));
+		setUsers((currentUserList) => currentUserList.filter(({ user }) => user._id !== userId));
 	};
 	return (
 		<div className="board-form-container">
@@ -115,7 +115,7 @@ const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
 									timeout={700}
 									searchResult={searchRes.filter(
 										({ _id }) =>
-											users.findIndex(({ _id: chosenUserId }) => chosenUserId === _id) <
+											users.findIndex(({ user }) => user._id === _id) <
 											0
 									)}
 									clickResult={addUserToBoardHandler}
@@ -126,11 +126,11 @@ const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
 										users.length > 4 ? "overflow-scroll" : ""
 									}`}
 								>
-									{users.map(({ _id, username, avatarImageURL }) => (
-										<User key={_id} username={username} imageURL={avatarImageURL}>
-											<RemoveCircleOutlineIcon
-												onClick={() => removeUserFromBoardHandler(_id)}
-											/>
+									{users.map(({user, role }) => (
+										<User key={user._id} username={user.username} imageURL={user.avatarImageURL}>
+											{role !== "owner" && <RemoveCircleOutlineIcon
+												onClick={() => removeUserFromBoardHandler(user._id)}
+											/>}
 										</User>
 									))}
 								</div>

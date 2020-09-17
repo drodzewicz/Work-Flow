@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import PropTypes from "prop-types";
 import "./BoardPage.scss";
@@ -8,8 +8,10 @@ import TaskBoard from "./TaskBoard";
 import PeopleIcon from "@material-ui/icons/People";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import { ModalContext } from "context/ModalContext";
+import { UserContext } from "context/UserContext";
 import { BoardMembers, Tags } from "modalForms";
 import { TaskProvider } from "context/TaskContext";
+import fetchData from "helper/fetchData";
 
 import { boardInfo_DATA, boardTasks_2_DATA } from "data";
 
@@ -48,6 +50,21 @@ const BoardPage = ({ boardId }) => {
 	const [tasks, setTasks] = useState(boardTasks_2_DATA);
 
 	const [, modalDispatch] = useContext(ModalContext);
+	const [{ user }, userDispatch] = useContext(UserContext);
+
+	useEffect(() => {
+		console.log("test");
+		const getLoggedInUserRole = async () => {
+			const { data } = await fetchData({
+				method: "GET",
+				url: `/board/${boardId}/members/${user._id}`,
+				token: true,
+			});
+			if (!!data) userDispatch({ type: "SET_ROLE", payload: { role: data.member.role } });
+		};
+		!!user && getLoggedInUserRole();
+		return () => {};
+	}, [user, boardId,userDispatch]);
 
 	const openBoardMembersModal = () => {
 		modalDispatch({

@@ -12,7 +12,7 @@ import fetchData from "helper/fetchData";
 
 function App() {
 	const [{ user, theme }, dispatchUser] = useContext(UserContext);
-	const [authLoading, setAuthLoading] = useState(false);
+	const [authLoading, setAuthLoading] = useState(true);
 
 	useEffect(() => {
 		const isUserAuthenticated = async () => {
@@ -33,9 +33,9 @@ function App() {
 	return (
 		<div className={`App ${theme ? "theme-light" : "theme-dark"}`}>
 			<Modal />
-			{/* <LoadingOverlay show={authLoading} /> */}
+			<LoadingOverlay show={authLoading} />
 			<Navbar user={user} />
-			<Routes />
+			{!authLoading && <Routes />}
 			<Footer />
 		</div>
 	);

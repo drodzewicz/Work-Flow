@@ -3,12 +3,11 @@ import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
 import BoardMemberUser from "./BoardMemberUser";
 import Pagination from "components/Pagination/Pagination";
 import "./BoardMembers.scss";
-import {  userList_DATA } from "data";
 import PropTypes from "prop-types";
 import fetchData from "helper/fetchData";
 
 const BoardMembers = ({ boardId }) => {
-
+	const USER_LIMIT = 5;
 	const [members, setMembers] = useState([]);
 	const [page, setPage] = useState({ currentPage: 1, amountOfPages: 1 });
 
@@ -18,38 +17,43 @@ const BoardMembers = ({ boardId }) => {
 		const fetchBoardMembers = async () => {
 			const { data } = await fetchData({
 				method: "GET",
-				url: `/board/${boardId}/members?limit=5&page=${page.currentPage}`,
+				url: `/board/${boardId}/members?limit=${USER_LIMIT}&page=${page.currentPage}`,
 				token: true,
 			});
-			console.log(data);
 			if (!!data) {
-				const {totalPageCount, items} = data; 
-				setPage( pages => ({ ...pages, amountOfPages: totalPageCount}));
+				const { totalPageCount, items } = data;
+				setPage((pages) => ({ ...pages, amountOfPages: totalPageCount }));
 				setMembers(items);
 			}
-			// if (!!data) setMembers(data);
 		};
 		fetchBoardMembers();
 		return () => {};
 	}, [boardId, page.currentPage]);
 
-
-	const dynamicSearchHandler = (data) => {
-		console.log(`fethcing string ${data}`);
-		// ... fetch to API
-		const parsedResult = userList_DATA
-			.filter((dbUsers) => members.findIndex((user) => user.id === dbUsers.id) < 0)
-			.map((user) => ({
+	const dynamicSearchHandler = async (username) => {
+		const { data } = await fetchData({
+			method: "GET",
+			url: `user/find_user?username=${username}`,
+			token: true,
+		});
+		if (!!data) {
+			const parsedResult = data.map((user) => ({
 				...user,
-				id: user.id,
 				text: user.username,
 			}));
-		setSearchRes(parsedResult);
+			setSearchRes(parsedResult);
+		}
 	};
 	const changePageHandler = (pageNumber) => {
-		setPage( pages => ({ ...pages, currentPage: pageNumber}));
+		setPage((pages) => ({ ...pages, currentPage: pageNumber }));
 	};
-	const removeUserFromBoard = (memberId) => {
+	const removeUserFromBoard = async (memberId) => {
+		const { data , error} = await fetchData({
+			method: "DELETE",
+			url: `board/${boardId}/members/${memberId}`,
+			token: true,
+		});
+		console.log(data, error)
 		setMembers((members) => {
 			const tempMembers = [...members];
 			const indexOfFoundMember = tempMembers.findIndex(({ id }) => id === memberId);
@@ -57,21 +61,35 @@ const BoardMembers = ({ boardId }) => {
 			return tempMembers;
 		});
 	};
-	const addUserToBoardHandler = (user) => {
+	const addUserToBoardHandler = async (user) => {
 		setSearchRes([]);
-		const tempUsers = [...members];
-		tempUsers.push({ ...user, userType: "regular" });
-		// ..
-		setMembers(tempUsers);
+		const { data } = await fetchData({
+			method: "PATCH",
+			url: `board/${boardId}/members?userId=${user._id}`,
+			token: true,
+		});
+		if(!!data && members.length < USER_LIMIT){
+			setMembers( members => {
+				const tempUsers = [...members];
+				tempUsers.push({ user, role: "regular" });
+				return tempUsers;
+			});
+		}
 	};
 	const clearSearchResults = () => {
 		setSearchRes([]);
 	};
-	const changeUserRole = (userId, newRole) => {
-		const foundUserIndex = members.findIndex(({ id }) => id === userId);
+	const changeUserRole = async (userId, newRole) => {
+		const foundUserIndex = members.findIndex(({ user }) => user._id === userId);
+		const { data, error } = await fetchData({
+			method: "PATCH",
+			url: `/board/${boardId}/members/${userId}?newRole=${newRole}`,
+			token: true,
+		});
+		console.log(data, error);
 		setMembers((members) => {
 			const newMembers = [...members];
-			newMembers[foundUserIndex].userType = newRole;
+			newMembers[foundUserIndex].role = newRole;
 			return newMembers;
 		});
 	};
@@ -81,7 +99,9 @@ const BoardMembers = ({ boardId }) => {
 			<AutoCompleteInput
 				execMethod={dynamicSearchHandler}
 				timeout={500}
-				searchResult={searchRes}
+				searchResult={searchRes.filter(
+					({ _id }) => members.findIndex(({ user }) => user._id === _id) < 0
+				)}
 				clickResult={addUserToBoardHandler}
 				clearResults={clearSearchResults}
 			/>
