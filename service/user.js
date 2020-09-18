@@ -35,7 +35,7 @@ userService.registerUser = async (req, res) => {
 userService.loginJWT = async (req, res) => {
 	const { username, password } = req.body;
 	try {
-		const foundUser = await User.findOne({ username: username });
+		const foundUser = await User.findOne({ username: username },"_id username name surname avatarImageURL password");
 		const comparePasswords = await bcrypt.compare(password, foundUser.password);
 
 		if (foundUser !== null && comparePasswords) {
@@ -59,13 +59,12 @@ userService.loginJWT = async (req, res) => {
 
 userService.isAuthenticated = async (req, res) => {
 	const { id } = req.user;
-	
+
 	try {
-		const foundUser = await User.findById(id);
-		const { _id, username, email, name, surname, avatarImageURL } = foundUser;
+		const foundUser = await User.findOne({ _id: id },"_id username name surname avatarImageURL");
 		return res.status(200).json({
 			authorized: true,
-			user: { id: _id, username, email, name, surname, avatarImageURL },
+			user: foundUser,
 		});
 	} catch (error) {
 		return res.status(404).json({
@@ -76,15 +75,79 @@ userService.isAuthenticated = async (req, res) => {
 };
 
 userService.changePassword = async function (req, res) {
-	return res.status(200).json({ message: "chnage password temp route" });
+	const { id } = req.user;
+	const { newPassword, matchPassword } = req.body;
+
+	try {
+		const foundUser = await User.findById(id);
+
+		if (newPassword !== matchPassword) {
+			return res.status(400).json({ message: { matchPassword: "does not match password" } });
+		}
+
+		const comparePasswords = await bcrypt.compare(newPassword, foundUser.password);
+		if (comparePasswords) {
+			return res.status(400).json({ message: { newPassword: "can't use same password" } });
+		}
+		const salt = await bcrypt.genSalt(10);
+		const hashedPassword = await bcrypt.hash(newPassword, salt);
+		foundUser.password = hashedPassword;
+		foundUser.save();
+
+		return res.status(200).json({ message: "password successfully chnaged" });
+	} catch (error) {
+		return res.status(400).json({
+			msg: User.processErrors(error),
+		});
+	}
 };
 
 userService.changeAvatarImage = async function (req, res) {
-	return res.status(200).json({ message: "chnage avatar temp route" });
+	const { imageURL } = req.body;
+	const { id } = req.user;
+	try {
+		await User.findOneAndUpdate(
+			{ _id: id },
+			{ avatarImageURL: imageURL },
+			{ runValidators: true, context: "query" }
+		);
+		return res.status(200).json({ message: "avatar succefully updated" });
+	} catch (error) {
+		return res.status(400).json({
+			msg: User.processErrors(error),
+		});
+	}
 };
 
 userService.updateCredentials = async function (req, res) {
-	return res.status(200).json({ message: " udpate credentials temp route" });
+	const { id } = req.user;
+	try {
+		await User.findOneAndUpdate({ _id: id }, { ...req.body }, { runValidators: true, context: "query" });
+		return res.status(200).json({ updated: true });
+	} catch (error) {
+		return res.status(400).json({
+			message: User.processErrors(error),
+		});
+	}
+};
+
+userService.searchUserByRegex = async function (req, res) {
+	const { username: loggedInUser } = req.user;
+	const { username } = req.query;
+	try {
+		const foundUsers = await User.find({ username: { $regex: username, $options: "i" } });
+		return res
+			.status(200)
+			.json(
+				foundUsers
+					.filter(({ username }) => username !== loggedInUser)
+					.map(({ _id, username, avatarImageURL }) => ({ _id, username, avatarImageURL }))
+			);
+	} catch (error) {
+		return res.status(400).json({
+			message: User.processErrors(error),
+		});
+	}
 };
 
 module.exports = userService;

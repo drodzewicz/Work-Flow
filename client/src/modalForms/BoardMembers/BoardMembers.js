@@ -3,77 +3,95 @@ import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
 import BoardMemberUser from "./BoardMemberUser";
 import Pagination from "components/Pagination/Pagination";
 import "./BoardMembers.scss";
-import { boardMembers_DATA, userList_DATA } from "data";
+import PropTypes from "prop-types";
+import fetchData from "helper/fetchData";
 
-const BoardMembers = () => {
-	const AMOUNT_OF_PAGES = 10;
-	const MAX_USERS_PER_PAGE = 5;
-
+const BoardMembers = ({ boardId }) => {
+	const USER_LIMIT = 5;
 	const [members, setMembers] = useState([]);
-	const [currentPage, setCurrentPage] = useState(1);
+	const [page, setPage] = useState({ currentPage: 1, amountOfPages: 1 });
 
-	const [dislpayMembers, setDisplayMembers] = useState([]);
 	const [searchRes, setSearchRes] = useState([]);
 
 	useEffect(() => {
-		console.log("fethcing users");
-
-		setTimeout(() => {
-			setMembers(boardMembers_DATA);
-		}, 2000);
-
+		const fetchBoardMembers = async () => {
+			const { data } = await fetchData({
+				method: "GET",
+				url: `/board/${boardId}/members?limit=${USER_LIMIT}&page=${page.currentPage}`,
+				token: true,
+			});
+			if (!!data) {
+				const { totalPageCount, items } = data;
+				setPage((pages) => ({ ...pages, amountOfPages: totalPageCount }));
+				setMembers(items);
+			}
+		};
+		fetchBoardMembers();
 		return () => {};
-	}, []);
+	}, [boardId, page.currentPage]);
 
-	useEffect(() => {
-		const tempMembers = members.slice(
-			currentPage * MAX_USERS_PER_PAGE - MAX_USERS_PER_PAGE,
-			currentPage * MAX_USERS_PER_PAGE
-		);
-		setDisplayMembers(tempMembers);
-		return () => {};
-	}, [members, currentPage]);
-
-	const dynamicSearchHandler = (data) => {
-
-		console.log(`fethcing string ${data}`);
-		// ... fetch to API
-		const parsedResult = userList_DATA
-			.filter((dbUsers) => members.findIndex((user) => user.id === dbUsers.id) < 0)
-			.map((user) => ({
+	const dynamicSearchHandler = async (username) => {
+		const { data } = await fetchData({
+			method: "GET",
+			url: `user/find_user?username=${username}`,
+			token: true,
+		});
+		if (!!data) {
+			const parsedResult = data.map((user) => ({
 				...user,
-				id: user.id,
 				text: user.username,
 			}));
-		setSearchRes(parsedResult);
+			setSearchRes(parsedResult);
+		}
 	};
 	const changePageHandler = (pageNumber) => {
-		setCurrentPage(pageNumber);
+		setPage((pages) => ({ ...pages, currentPage: pageNumber }));
 	};
-	const removeUserFromBoard = (memberId) => {
-		setMembers((members) => {
-			const tempMembers = [...members];
-			const indexOfFoundMember = tempMembers.findIndex(({ id }) => id === memberId);
-			tempMembers.splice(indexOfFoundMember, 1);
-			return tempMembers;
+	const removeUserFromBoard = async (memberId) => {
+		const { data } = await fetchData({
+			method: "DELETE",
+			url: `board/${boardId}/members/${memberId}`,
+			token: true,
 		});
+		if(!!data) {
+			setMembers((members) => {
+				const tempMembers = [...members];
+				const indexOfFoundMember = tempMembers.findIndex(({ id }) => id === memberId);
+				tempMembers.splice(indexOfFoundMember, 1);
+				return tempMembers;
+			});
+		}
+	
 	};
-	const addUserToBoardHandler = (user) => {
+	const addUserToBoardHandler = async (user) => {
 		setSearchRes([]);
-		const tempUsers = [...members];
-		tempUsers.push({...user, userType: "regular"});
-		// ..
-		setMembers(tempUsers);
+		const { data } = await fetchData({
+			method: "PATCH",
+			url: `board/${boardId}/members?userId=${user._id}`,
+			token: true,
+		});
+		if(!!data && members.length < USER_LIMIT){
+			setMembers( members => {
+				const tempUsers = [...members];
+				tempUsers.push({ user, role: "regular" });
+				return tempUsers;
+			});
+		}
 	};
 	const clearSearchResults = () => {
 		setSearchRes([]);
 	};
-
-	const changeUserRole = (userId, newRole) => {
-		const foundUserIndex = members.findIndex(({ id }) => id === userId);
+	const changeUserRole = async (userId, newRole) => {
+		const foundUserIndex = members.findIndex(({ user }) => user._id === userId);
+		const { data, error } = await fetchData({
+			method: "PATCH",
+			url: `/board/${boardId}/members/${userId}?newRole=${newRole}`,
+			token: true,
+		});
+		console.log(data, error);
 		setMembers((members) => {
 			const newMembers = [...members];
-			newMembers[foundUserIndex].userType = newRole;
+			newMembers[foundUserIndex].role = newRole;
 			return newMembers;
 		});
 	};
@@ -83,32 +101,36 @@ const BoardMembers = () => {
 			<AutoCompleteInput
 				execMethod={dynamicSearchHandler}
 				timeout={500}
-				searchResult={searchRes}
+				searchResult={searchRes.filter(
+					({ _id }) => members.findIndex(({ user }) => user._id === _id) < 0
+				)}
 				clickResult={addUserToBoardHandler}
 				clearResults={clearSearchResults}
 			/>
 			<div className="user-container">
-				{dislpayMembers.map(({ id, username, imageURL, userType }) => (
+				{members.map(({ user, role }) => (
 					<BoardMemberUser
-						key={id}
-						removeUser={() => removeUserFromBoard(id)}
-						userId={id}
-						username={username}
-						imageURL={imageURL}
-						userType={userType}
-						ownerAuth={true}
-						adminAuth={true}
+						key={user._id}
+						removeUser={() => removeUserFromBoard(user._id)}
+						userId={user._id}
+						username={user.username}
+						imageURL={user.avatarImageURL}
+						userType={role}
 						changeUserRole={changeUserRole}
 					/>
 				))}
 			</div>
 			<Pagination
-				amountOfPages={AMOUNT_OF_PAGES}
-				currentPage={currentPage}
+				amountOfPages={page.amountOfPages}
+				currentPage={page.currentPage}
 				handleChange={changePageHandler}
 			/>
 		</div>
 	);
+};
+
+BoardMembers.propTypes = {
+	boardId: PropTypes.string.isRequired,
 };
 
 export default BoardMembers;

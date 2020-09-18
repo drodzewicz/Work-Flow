@@ -1,5 +1,12 @@
 @import "../../assets/styles/mediaQueries";
 @import "../../assets/styles/colors";
+
+.container-box .profile-page-loading-overlay {
+  height: 50%;
+  @include mobile {
+    height: 100%;
+  }
+}
 .profile-page-container {
   display: flex;
   flex-direction: row;

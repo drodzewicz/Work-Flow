@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import * as Yup from "yup";
 import "./BoardEditor.scss";
 import { ReactComponent as Spinner } from "assets/spinners/Infinity-1s-200px.svg";
@@ -8,41 +8,60 @@ import Button from "components/Button/Button";
 import { Formik, Field, Form } from "formik";
 import TextInput from "components/TextInput/TextInput";
 import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
+import { ModalContext } from "context/ModalContext";
 
-import { userList_DATA } from "data";
+import fetchData from "helper/fetchData";
+import { useHistory } from "react-router-dom";
+
+// import { userList_DATA } from "data";
 
 const validationSchema = Yup.object({
 	name: Yup.string().max(25, "board name is too long").required("field is required"),
 	description: Yup.string().max(200, "description is too long"),
 });
 
-const BoardEditor = ({ submitDataURL, buttonName, addBoard, updateBoard, initialValues }) => {
-	const [users, setUsers] = useState([]);
-
+const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
+	const [users, setUsers] = useState(!!initialValues ? initialValues.members : []);
 	const [searchRes, setSearchRes] = useState([]);
+
+	const [, dispatchModal] = useContext(ModalContext);
+
+	const history = useHistory();
 
 	const initialVals = {
 		name: initialValues ? initialValues.name : "",
 		description: initialValues ? initialValues.description : "",
 	};
 
-	const submitButtonClick = (data, { setSubmitting }) => {
-		const submittedData = { ...data, taskUsers: users };
-		console.log("submitted board: ", submittedData, `to [${submitDataURL}]`);
-		// if (addBoard !== undefined) addBoard(submittedData);
-		// if (updateBoard !== undefined) updateBoard(submittedData);
+	const submitButtonClick = async (submittedData, { setSubmitting }) => {
+		submittedData = { ...submittedData, members: users.map( ({user}) => ({user: user._id})) };
+		const { data } = await fetchData({
+			method: "POST",
+			url: submitDataURL,
+			token: true,
+			setLoading: setSubmitting,
+			payload: submittedData,
+		});
+		if (!!data) {
+			dispatchModal({ type: "CLOSE" });
+			const boardId = data.board._id;
+			history.push(`/board/${boardId}`);
+		}
 	};
-	const searchUsers = (data) => {
-		console.log(`fethcing string ${data}`);
-		// ... fetch to API
-		const parsedResult = userList_DATA
-			.filter((dbUsers) => users.findIndex((user) => user.id === dbUsers.id) < 0)
-			.map((user) => ({
+	
+	const searchUsers = async (username) => {
+		const { data } = await fetchData({
+			method: "GET",
+			url: `user/find_user?username=${username}`,
+			token: true,
+		});
+		if (!!data) {
+			const parsedResult = data.map((user) => ({
 				...user,
-				id: user.id,
 				text: user.username,
 			}));
-		setSearchRes(parsedResult);
+			setSearchRes(parsedResult);
+		}
 	};
 	const clearUserSearchResults = () => {
 		setSearchRes([]);
@@ -50,12 +69,11 @@ const BoardEditor = ({ submitDataURL, buttonName, addBoard, updateBoard, initial
 	const addUserToBoardHandler = (user) => {
 		setSearchRes([]);
 		const tempUsers = [...users];
-		tempUsers.push(user);
-		// ..
+		tempUsers.push({user});
 		setUsers(tempUsers);
 	};
 	const removeUserFromBoardHandler = (userId) => {
-		setUsers((currentUserList) => currentUserList.filter(({ id }) => id !== userId));
+		setUsers((currentUserList) => currentUserList.filter(({ user }) => user._id !== userId));
 	};
 	return (
 		<div className="board-form-container">
@@ -95,7 +113,11 @@ const BoardEditor = ({ submitDataURL, buttonName, addBoard, updateBoard, initial
 								<AutoCompleteInput
 									execMethod={searchUsers}
 									timeout={700}
-									searchResult={searchRes}
+									searchResult={searchRes.filter(
+										({ _id }) =>
+											users.findIndex(({ user }) => user._id === _id) <
+											0
+									)}
 									clickResult={addUserToBoardHandler}
 									clearResults={clearUserSearchResults}
 								/>
@@ -104,11 +126,11 @@ const BoardEditor = ({ submitDataURL, buttonName, addBoard, updateBoard, initial
 										users.length > 4 ? "overflow-scroll" : ""
 									}`}
 								>
-									{users.map(({ id, username, imageURL }) => (
-										<User key={id} username={username} imageURL={imageURL}>
-											<RemoveCircleOutlineIcon
-												onClick={() => removeUserFromBoardHandler(id)}
-											/>
+									{users.map(({user, role }) => (
+										<User key={user._id} username={user.username} imageURL={user.avatarImageURL}>
+											{role !== "owner" && <RemoveCircleOutlineIcon
+												onClick={() => removeUserFromBoardHandler(user._id)}
+											/>}
 										</User>
 									))}
 								</div>

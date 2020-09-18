@@ -4,6 +4,7 @@ const http = require("http");
 const logger = require("morgan");
 const errorHandler = require("errorhandler");
 const cors = require("cors");
+const passport = require("passport");
 
 const app = express();
 const server = http.createServer(app);
@@ -30,7 +31,15 @@ app.use(cors({
 }));
 
 const authRoutes = require("./routes/auth");
-app.use("/api", authRoutes);
+const userRoutes = require("./routes/user");
+const boardRoutes = require("./routes/board");
+const tagRoutes = require("./routes/tag");
+require("./configs/passport-jwt")(passport);
+app
+	.use("/api", authRoutes)
+	.use("/api/user", userRoutes)
+	.use("/api/board", boardRoutes)
+	.use("/api/board/:boardId/tag", tagRoutes);
 
 
 // bad request - catches all non existing routes

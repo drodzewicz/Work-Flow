@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import { Formik, Field, Form } from "formik";
 import Button from "components/Button/Button";
 import * as Yup from "yup";
-import { ReactComponent as Spinner } from "assets/spinners/Infinity-1s-200px.svg";
 import TextInput from "components/TextInput/TextInput";
+import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 
 const createInitialValueObject = (fieldObject) => {
 	let initialValues = {};
@@ -25,11 +25,7 @@ const SimpleForm = ({ submitButtonName, validationSchema, handleSubmit, fields, 
 			>
 				{({ isSubmitting, isValid, errors }) => (
 					<>
-						{isSubmitting && (
-							<div className="spinner-overlay">
-								<Spinner />
-							</div>
-						)}
+						<LoadingOverlay show={isSubmitting} opacity={0.5} />
 						<Form>
 							{Object.entries(fields).map(([field]) => (
 								<Field

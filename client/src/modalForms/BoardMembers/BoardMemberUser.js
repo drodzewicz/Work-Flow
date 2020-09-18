@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import { ReactComponent as Admin } from "assets/images/Admin.svg";
@@ -6,6 +6,7 @@ import { ReactComponent as Crown } from "assets/images/crown.svg";
 import { ReactComponent as Visitor } from "assets/images/visitor.svg";
 import { ReactComponent as RegularUser } from "assets/images/regular-user.svg";
 import User from "components/User/User";
+import { UserContext } from "context/UserContext";
 import "./BoardMemberUser.scss";
 
 const BoardMemberUser = ({
@@ -14,12 +15,11 @@ const BoardMemberUser = ({
 	imageURL,
 	userType,
 	removeUser,
-	ownerAuth,
-	adminAuth,
 	changeUserRole,
 }) => {
 	const userRoleAnchorElement = useRef();
 	const optionsAnchorElement = useRef();
+	const [{role}] = useContext(UserContext);
 
 	const userTypeIcon = (type) => {
 		switch (type) {
@@ -36,20 +36,22 @@ const BoardMemberUser = ({
 		}
 	};
 
-	const adminAuthorized = () => {
-		return adminAuth && userType !== "admin" && userType !== "owner";
-	};
+	const isAuthorized = () => {
+		if(role === "owner") return true;
+		if(role === "admin" && userType !== "owner" && userType !== "admin") return true;
+	}
+
 	return (
 		<div className="board-user">
 			<User username={username} imageURL={imageURL}>
 				<div className="user-type" ref={userRoleAnchorElement}>
 					{userTypeIcon(userType)}
 				</div>
-				{userType !== "owner" && (ownerAuth || adminAuthorized()) && (
+				{userType !== "owner" && isAuthorized() && (
 					<MoreVertIcon className="option-more" ref={optionsAnchorElement} />
 				)}
 
-				{userType !== "owner" && ownerAuth && (
+				{userType !== "owner" && isAuthorized() && (
 					<DropdownMenu classes={["user-roles"]} anchorEl={userRoleAnchorElement}>
 						{userType !== "admin" && (
 							<div onClick={() => changeUserRole(userId, "admin")}>
@@ -71,8 +73,8 @@ const BoardMemberUser = ({
 						)}
 					</DropdownMenu>
 				)}
-				{userType !== "owner" && (ownerAuth || adminAuthorized()) && (
-					<DropdownMenu classes={["user-option-menu"]} anchorEl={optionsAnchorElement}>
+				{userType !== "owner" && isAuthorized() && (
+					<DropdownMenu onClickClose={true} classes={["user-option-menu"]} anchorEl={optionsAnchorElement}>
 						<span onClick={removeUser}>remove</span>
 					</DropdownMenu>
 				)}

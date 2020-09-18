@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ReactComponent as Pin } from "assets/images/pin-full.svg";
 import "./DashboardPage.scss";
 import AddBoxIcon from "@material-ui/icons/AddBox";
@@ -9,41 +9,61 @@ import Button from "components/Button/Button";
 import BoardEditor from "modalForms/BoardEditor/BoardEditor";
 import ContainerBox from "components/ContainerBox/ContainerBox";
 import { ModalContext } from "context/ModalContext";
+import fetchData from "helper/fetchData";
+import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 
-import { boards_DATA, pinnedBoards_DATA } from "data";
+// import { pinnedBoards_DATA } from "data";
 
 function DashboardPage() {
-	const [page, setPage] = useState({ currentPage: 1, amountOfPages: boards_DATA.length });
-
-	const [pinnedBoards, setPinnedBoards] = useState(pinnedBoards_DATA);
-
-	const [boards, setBoards] = useState(boards_DATA[0]);
-
+	const [page, setPage] = useState({ currentPage: 1, amountOfPages: 1 });
+	const [pinnedBoards, setPinnedBoards] = useState([]);
+	const [boards, setBoards] = useState([]);
+	const [isLoadingBoards, setLoadingBoards] = useState(false);
 	const [, modalDispatch] = useContext(ModalContext);
+
+	useEffect(() => {
+		const getPinnedBoards = async () => {
+			const { data } = await fetchData({
+				method: "GET",
+				url: "/board/user/pined_boards",
+				token: true,
+			});
+			if (!!data) setPinnedBoards(data);
+		};
+		getPinnedBoards();
+		return () => {};
+	}, []);
+
+	useEffect(() => {
+		const getMyBoards = async () => {
+			const { data } = await fetchData({
+				method: "GET",
+				url: `/board/user/my_boards?page=${page.currentPage}&limit=8`,
+				token: true,
+				setLoading: setLoadingBoards,
+			});
+			if (!!data) {
+				setPage((prevState) => ({ ...prevState, amountOfPages: data.totalPageCount }));
+				setBoards(data.items);
+			}
+		};
+		getMyBoards();
+		return () => {};
+	}, [page.currentPage]);
 
 	const openCreateNewBoardModal = () => {
 		modalDispatch({
 			type: "OPEN",
 			payload: {
-				render: (
-					<BoardEditor addBoard={addBoardToList} buttonName="Create" submitDataURL="board/post" />
-				),
+				render: <BoardEditor submitDataURL="/board" buttonName="Create" />,
 				title: "New Board",
 			},
 		});
 	};
 
-	const addBoardToList = (newBoard) => {
-		setBoards((boards) => {
-			const newBoardList = [...boards];
-			newBoardList.splice(0, newBoard, 0);
-			return newBoardList;
-		});
-	};
-
-	const leaveBoard = (boardId) => {
-		const indexOfBoardInBoardList = boards.findIndex(({ id }) => id === boardId);
-		const indexOfBoardInPinnedBoardList = pinnedBoards.findIndex(({ id }) => id === boardId);
+	const removeBoard = (boardId) => {
+		const indexOfBoardInBoardList = boards.findIndex(({ _id }) => _id === boardId);
+		const indexOfBoardInPinnedBoardList = pinnedBoards.findIndex(({ _id }) => _id === boardId);
 
 		if (indexOfBoardInBoardList > -1) {
 			setBoards((boards) => {
@@ -62,37 +82,42 @@ function DashboardPage() {
 		}
 	};
 
-	const togglePinBoard = (boardIndex, pinnedBoardIndex) => {
+	const togglePinBoard = async (boardIndex, pinnedBoardIndex) => {
 		const foundPinnedBoardIndex =
 			pinnedBoardIndex > -1
 				? pinnedBoardIndex
-				: pinnedBoards.findIndex((board) => board.id === boards[boardIndex].id);
+				: pinnedBoards.findIndex((board) => board._id === boards[boardIndex]._id);
 		const foundBoardIndex =
 			boardIndex > -1
 				? boardIndex
-				: boards.findIndex((board) => board.id === pinnedBoards[pinnedBoardIndex].id);
+				: boards.findIndex((board) => board._id === pinnedBoards[pinnedBoardIndex]._id);
 
-		setPinnedBoards((pinnedBoards) => {
-			const tempPinnedBoards = [...pinnedBoards];
-
-			if (boards[foundBoardIndex].pinned) {
-				tempPinnedBoards.splice(foundPinnedBoardIndex, 1);
-			} else {
-				tempPinnedBoards.push({ ...boards[foundBoardIndex], pinned: true });
-			}
-			return tempPinnedBoards;
+		const { data } = await fetchData({
+			method: "PATCH",
+			url: `/board/user/pined_boards?boardId=${boards[foundBoardIndex]._id}`,
+			token: true,
 		});
+		if (!!data) {
+			setPinnedBoards((pinnedBoards) => {
+				const tempPinnedBoards = [...pinnedBoards];
 
-		setBoards((boards) => {
-			const modifiedBoards = [...boards];
-			modifiedBoards[foundBoardIndex].pinned = !modifiedBoards[foundBoardIndex].pinned;
-			return modifiedBoards;
-		});
+				if (boards[foundBoardIndex].pinned) {
+					tempPinnedBoards.splice(foundPinnedBoardIndex, 1);
+				} else {
+					tempPinnedBoards.push({ ...boards[foundBoardIndex], pinned: true });
+				}
+				return tempPinnedBoards;
+			});
+
+			setBoards((boards) => {
+				const modifiedBoards = [...boards];
+				modifiedBoards[foundBoardIndex].pinned = !modifiedBoards[foundBoardIndex].pinned;
+				return modifiedBoards;
+			});
+		}
 	};
 
 	const changePage = (pageNumber) => {
-		console.log(`fetching page [${pageNumber}]`);
-		setBoards(boards_DATA[pageNumber - 1]);
 		setPage((pageState) => ({ ...pageState, currentPage: pageNumber }));
 	};
 
@@ -103,19 +128,19 @@ function DashboardPage() {
 					<Pin className="pin-icon" />
 					<span>Pinned</span>
 				</h1>
-				{pinnedBoards.map(({ id, owner, title }, index) => (
+				{pinnedBoards.map(({ _id, name, description, members, isAuthor }, index) => (
 					<BoardCard
-						key={id}
-						boardId={id}
+						key={_id}
+						boardId={_id}
 						isPinned={true}
 						pinBoard={() => togglePinBoard(-1, index)}
-						leaveBoard={leaveBoard}
-						boardTitle={title}
-						ownerId={owner.id}
+						removeBoard={removeBoard}
+						boardInfo={{ name, description, members }}
+						isAuthor={isAuthor}
 					/>
 				))}
 			</div>
-			<div className="board-container">
+			<div className="board-container-wrapper">
 				<h1 className="board-container-title">
 					<DashboardIcon className="board-icon" />
 					<span>Boards</span>
@@ -124,23 +149,28 @@ function DashboardPage() {
 						New Board
 					</Button>
 				</h1>
-				{boards.map(({ id, owner, title, pinned }, index) => (
-					<BoardCard
-						key={id}
-						boardId={id}
-						isPinned={pinned}
-						pinBoard={() => togglePinBoard(index, -1)}
-						leaveBoard={leaveBoard}
-						boardTitle={title}
-						ownerId={owner.id}
-					/>
-				))}
-				{page.amountOfPages > 1 && (
-					<Pagination
-						amountOfPages={page.amountOfPages}
-						currentPage={page.currentPage}
-						handleChange={changePage}
-					/>
+				<LoadingOverlay show={isLoadingBoards} />
+				{!isLoadingBoards && (
+					<div className="board-container">
+						{boards.map(({ _id, pinned, name, description, members, isAuthor }, index) => (
+							<BoardCard
+								key={_id}
+								boardId={_id}
+								isPinned={pinned}
+								pinBoard={() => togglePinBoard(index, -1)}
+								removeBoard={removeBoard}
+								boardInfo={{ name, description, members }}
+								isAuthor={isAuthor}
+							/>
+						))}
+						{page.amountOfPages > 1 && (
+							<Pagination
+								amountOfPages={page.amountOfPages}
+								currentPage={page.currentPage}
+								handleChange={changePage}
+							/>
+						)}
+					</div>
 				)}
 			</div>
 		</ContainerBox>
