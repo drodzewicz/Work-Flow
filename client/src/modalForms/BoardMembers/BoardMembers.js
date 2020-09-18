@@ -48,18 +48,20 @@ const BoardMembers = ({ boardId }) => {
 		setPage((pages) => ({ ...pages, currentPage: pageNumber }));
 	};
 	const removeUserFromBoard = async (memberId) => {
-		const { data , error} = await fetchData({
+		const { data } = await fetchData({
 			method: "DELETE",
 			url: `board/${boardId}/members/${memberId}`,
 			token: true,
 		});
-		console.log(data, error)
-		setMembers((members) => {
-			const tempMembers = [...members];
-			const indexOfFoundMember = tempMembers.findIndex(({ id }) => id === memberId);
-			tempMembers.splice(indexOfFoundMember, 1);
-			return tempMembers;
-		});
+		if(!!data) {
+			setMembers((members) => {
+				const tempMembers = [...members];
+				const indexOfFoundMember = tempMembers.findIndex(({ id }) => id === memberId);
+				tempMembers.splice(indexOfFoundMember, 1);
+				return tempMembers;
+			});
+		}
+	
 	};
 	const addUserToBoardHandler = async (user) => {
 		setSearchRes([]);

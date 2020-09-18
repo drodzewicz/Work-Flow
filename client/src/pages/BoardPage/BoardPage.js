@@ -53,7 +53,6 @@ const BoardPage = ({ boardId }) => {
 	const [{ user }, userDispatch] = useContext(UserContext);
 
 	useEffect(() => {
-		console.log("test");
 		const getLoggedInUserRole = async () => {
 			const { data } = await fetchData({
 				method: "GET",
@@ -75,7 +74,7 @@ const BoardPage = ({ boardId }) => {
 	const openBoardTagsModal = () => {
 		modalDispatch({
 			type: "OPEN",
-			payload: { render: <Tags />, title: "Board Tags" },
+			payload: { render: <Tags boardId={boardId} />, title: "Board Tags" },
 		});
 	};
 

@@ -25,8 +25,14 @@ const boardSchema = new Schema({
 			},
 			role: {
 				type: String,
-				default: "regular"
-			}
+				default: "regular",
+			},
+		},
+	],
+	tags: [
+		{
+			name: { type: String, required: [true, "name is required"] },
+			colorCode: { type: String, required: [true, "colorCode is required"] },
 		},
 	],
 	columns: [

@@ -33,11 +33,13 @@ app.use(cors({
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const boardRoutes = require("./routes/board");
+const tagRoutes = require("./routes/tag");
 require("./configs/passport-jwt")(passport);
 app
 	.use("/api", authRoutes)
 	.use("/api/user", userRoutes)
-	.use("/api/board", boardRoutes);
+	.use("/api/board", boardRoutes)
+	.use("/api/board/:boardId/tag", tagRoutes);
 
 
 // bad request - catches all non existing routes

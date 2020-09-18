@@ -1,29 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextInput from "components/TextInput/TextInput";
 import Button from "components/Button/Button";
 import CheckIcon from "@material-ui/icons/Check";
 import DeleteIcon from "@material-ui/icons/Delete";
 import TagButton from "components/Tag/TagButton";
 import "./Tags.scss";
+import fetchData from "helper/fetchData";
+import PropTypes from "prop-types";
 
-const Tags = () => {
+const colorList = ["red", "yellow", "green", "tiel", "purple", "majenta", "pink", "black", "white"];
+
+const createInitalTagValues = (boardColors) => {
+	const initialTagValues = [];
+	colorList.forEach((color) => {
+		const foundTag = boardColors.find(({ colorCode }) => colorCode === color);
+		if (foundTag === undefined) initialTagValues.push({ id: "", color, name: "" });
+		else initialTagValues.push({ id: foundTag._id, color, name: foundTag.name });
+	});
+	return initialTagValues;
+};
+
+const Tags = ({ boardId }) => {
 	const [inputTagName, setInputTagName] = useState("");
 	const [selectedColor, setSelectedColor] = useState("");
-	const [boardTags, setBoardTags] = useState([
-		{ color: "red", id: "dwdw44545", name: "frontend" },
-		{ color: "yellow", id: "", name: "" },
-		{ color: "green", id: "", name: "" },
-		{ color: "tiel", id: "fefef455", name: "new things" },
-		{ color: "purple", id: "", name: "" },
-		{ color: "majenta", id: "", name: "" },
-		{ color: "pink", id: "", name: "" },
-		{ color: "black", id: "", name: "" },
-		{ color: "white", id: "f4565656532", name: "brand new fetures" },
-	]);
+	const [boardTags, setBoardTags] = useState([]);
+
+	useEffect(() => {
+		const getBoardTags = async () => {
+			const { data } = await fetchData({
+				method: "GET",
+				url: `/board/${boardId}/tag/`,
+				token: true,
+			});
+			if (!!data) {
+				const { tags } = data;
+				setBoardTags(createInitalTagValues(tags));
+			}
+		};
+		getBoardTags();
+		return () => {};
+	}, [boardId]);
 
 	const handleTagNameInput = (event) => {
 		const inputValue = event.target.value.replace(/\n/g, "");
-		if(inputValue.length <= 30){
+		if (inputValue.length <= 30) {
 			setInputTagName(inputValue);
 		}
 	};
@@ -33,26 +53,51 @@ const Tags = () => {
 		setSelectedColor(boardTags[index].color);
 	};
 
-	const createNewTag = () => {
+	const createNewTag = async () => {
 		if (selectedColor !== "" && inputTagName !== "") {
 			const indexOfTag = boardTags.findIndex((tag) => tag.color === selectedColor);
+			let tagId = "";
+
 			if (boardTags[indexOfTag].id === "") {
-				console.log("create new tag");
+				const { data } = await fetchData({
+					method: "POST",
+					url: `/board/${boardId}/tag`,
+					token: true,
+					payload: {
+						name: inputTagName,
+						colorCode: selectedColor,
+					},
+				});
+				if(!!data) tagId = data.tag._id;
 			} else {
-				console.log("update tag");
+				const { data } = await fetchData({
+					method: "POST",
+					url: `/board/${boardId}/tag/${boardTags[indexOfTag].id}`,
+					token: true,
+					payload: {
+						name: inputTagName,
+						colorCode: selectedColor,
+					},
+				});
+				if(!!data) tagId = data.tag._id;
 			}
-			setBoardTags((tags) => {
+			if(tagId !== "") setBoardTags((tags) => {
 				const tempTags = [...tags];
 				tempTags[indexOfTag].name = inputTagName;
-				tempTags[indexOfTag].id = inputTagName;
+				tempTags[indexOfTag].id = tagId;
 				return tempTags;
 			});
 		}
 	};
-	const deleteTag = () => {
+	const deleteTag = async () => {
 		if (selectedColor !== "" && inputTagName !== "") {
 			const indexOfTag = boardTags.findIndex((tag) => tag.color === selectedColor);
-			setBoardTags((tags) => {
+			const { data } = await fetchData({
+				method: "DELETE",
+				url: `/board/${boardId}/tag/${boardTags[indexOfTag].id}`,
+				token: true,
+			});
+			if(!!data) setBoardTags((tags) => {
 				const tempTags = [...tags];
 				tempTags[indexOfTag].name = "";
 				tempTags[indexOfTag].id = "";
@@ -81,7 +126,11 @@ const Tags = () => {
 					type={"text"}
 					value={inputTagName}
 				/>
-				<Button classes={["check-btn"]} disabled={!inputTagName || !selectedColor} clicked={createNewTag}>
+				<Button
+					classes={["check-btn"]}
+					disabled={!inputTagName || !selectedColor}
+					clicked={createNewTag}
+				>
 					<CheckIcon />
 				</Button>
 				<Button disabled={canDeleteTag()} clicked={deleteTag}>
@@ -102,6 +151,10 @@ const Tags = () => {
 			</div>
 		</div>
 	);
+};
+
+Tags.propTypes = {
+	boardId: PropTypes.string.isRequired,
 };
 
 export default Tags;
