@@ -31,15 +31,24 @@ const boardSchema = new Schema({
 	],
 	tags: [
 		{
-			name: { type: String, required: [true, "name is required"] },
-			colorCode: { type: String, required: [true, "colorCode is required"] },
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Tag",
 		},
 	],
 	columns: [
 		{
-			_id: false,
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Task",
+			name: String,
+			columnIndex: Number,
+			tasks: [
+				{
+					_id: false,
+					taskIndex: Number,
+					task: {
+						type: mongoose.Schema.Types.ObjectId,
+						ref: "Task",
+					},
+				},
+			],
 		},
 	],
 });
