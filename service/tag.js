@@ -28,7 +28,7 @@ tagService.createNewTag = async (req, res) => {
 		return res.status(200).json({ message: "created new tag", tag: saveTag });
 	} catch (error) {
 		return res.status(400).json({
-			message: Board.processErrors(error),
+			message: Tag.processErrors(error),
 		});
 	}
 };

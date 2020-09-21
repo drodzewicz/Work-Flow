@@ -34,12 +34,16 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const boardRoutes = require("./routes/board");
 const tagRoutes = require("./routes/tag");
+const taskRoutes = require("./routes/task");
+const columnRoutes = require("./routes/column");
 require("./configs/passport-jwt")(passport);
 app
 	.use("/api", authRoutes)
 	.use("/api/user", userRoutes)
 	.use("/api/board", boardRoutes)
-	.use("/api/board/:boardId/tag", tagRoutes);
+	.use("/api/board/:boardId/tag", tagRoutes)
+	.use("/api/board/:boardId/task", taskRoutes)
+	.use("/api/board/:boardId/column", columnRoutes);
 
 
 // bad request - catches all non existing routes

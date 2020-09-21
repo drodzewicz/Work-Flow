@@ -1,34 +1,19 @@
 import React, { useState, useContext } from "react";
 import TaskColumn from "components/Task/TaskColumn";
 import { TaskContext } from "context/TaskContext";
-
+import NewColumn from "components/NewColumn/NewColumn";
+import PropTypes from "prop-types";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
-const TaskBoard = () => {
+const TaskBoard = ({boardId}) => {
 	const [tasks, setTasks] = useContext(TaskContext);
 
-	const [newColumn, setNewColumn] = useState("");
-
-	const handleNewColumnChange = (event) => {
-		const newColumnName = event.target.value;
-		if(newColumnName.length < 20){
-			setNewColumn(newColumnName);
-		}
-	};
-	const createNewColumn = (event) => {
-		if (event.key === "Enter" && newColumn.trim() !== "") {
-			setNewColumn("");
-			const submittedColumn = {
-				id: newColumn,
-				name: newColumn,
-				tasks: [],
-			};
-			setTasks((tasks) => {
-				const tempTasks = [...tasks];
-				tempTasks.push(submittedColumn);
-				return tempTasks;
-			});
-		}
+	const appendNewColumn = (newColumn) => {
+		setTasks((tasks) => {
+			const tempTasks = [...tasks];
+			tempTasks.push(newColumn);
+			return tempTasks;
+		});
 	};
 
 	const DraggableTaskColumn = (id, name, tasks, index) => {
@@ -47,6 +32,7 @@ const TaskBoard = () => {
 								columnIndex={index}
 								columnName={name}
 								listOfTasks={tasks}
+								boardId={boardId}
 							/>
 						</div>
 					);
@@ -61,8 +47,8 @@ const TaskBoard = () => {
 				{(provided, snapshot) => {
 					return (
 						<div className="board-page-flex" ref={provided.innerRef}>
-							{tasks.map(({ id, name, tasks }, index) =>
-								DraggableTaskColumn(id, name, tasks, index)
+							{tasks.map(({ _id, name, tasks }, index) =>
+								DraggableTaskColumn(_id, name, tasks, index)
 							)}
 							{provided.placeholder}
 						</div>
@@ -70,18 +56,14 @@ const TaskBoard = () => {
 				}}
 			</Droppable>
 			<div>
-				<div className="add-new-column">
-					<input
-						onKeyDown={createNewColumn}
-						value={newColumn}
-						onChange={handleNewColumnChange}
-						type="text"
-						placeholder="+ new column"
-					/>
-				</div>
+				<NewColumn boardId={boardId} appendNewColumn={appendNewColumn} />
 			</div>
 		</div>
 	);
 };
+
+TaskBoard.propTypes = {
+	boardId: PropTypes.string.isRequired
+}
 
 export default TaskBoard;

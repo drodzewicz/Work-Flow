@@ -38,15 +38,11 @@ const boardSchema = new Schema({
 	columns: [
 		{
 			name: String,
-			columnIndex: Number,
 			tasks: [
 				{
 					_id: false,
-					taskIndex: Number,
-					task: {
-						type: mongoose.Schema.Types.ObjectId,
-						ref: "Task",
-					},
+					type: mongoose.Schema.Types.ObjectId,
+					ref: "Task",
 				},
 			],
 		},

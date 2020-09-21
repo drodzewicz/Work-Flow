@@ -8,12 +8,13 @@ import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import { ModalContext } from "context/ModalContext";
 import { TaskContext } from "context/TaskContext";
 import ColumnNameInput from "./ColumnNameInput";
+import fetchData from "helper/fetchData";
 
 import { Droppable } from "react-beautiful-dnd";
 
 import { TaskEditor } from "modalForms";
 
-const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
+const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex, boardId }) => {
 	const [, modalDispatch] = useContext(ModalContext);
 	const [, setTasks] = useContext(TaskContext);
 
@@ -33,7 +34,13 @@ const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
 		});
 	};
 
-	const removeColumn = () => {
+	const removeColumn = async () => {
+		const { data, error } = await fetchData({
+			method: "DELETE",
+			url: `/board/${boardId}/column/${columnId}`,
+			token: true,
+		});
+		console.log(data, error);
 		setTasks((tasks) => {
 			const newTasks = [...tasks];
 			newTasks.splice(columnIndex, 1);
@@ -50,10 +57,10 @@ const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
 		modalDispatch({ type: "CLOSE" });
 	};
 
-	const changeColumnName = (columnId, newColumnName) => {
+	const changeColumnName = (newColumnName) => {
 		setTasks((tasks) => {
 			const tempTasks = [...tasks];
-			const foundColumnIndex = tempTasks.findIndex(({ id }) => id === columnId);
+			const foundColumnIndex = tempTasks.findIndex(({ _id }) => _id === columnId);
 			tempTasks[foundColumnIndex].name = newColumnName;
 			return tempTasks;
 		});
@@ -63,8 +70,17 @@ const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
 		setShowTitleInput(true);
 	};
 
-	const onEnter = (newName) => {
-		changeColumnName(columnId, newName);
+	const onEnter = async (newName) => {
+		const { data, error } = await fetchData({
+			method: "PATCH",
+			url: `/board/${boardId}/column/${columnId}`,
+			token: true,
+			payload: {
+				name: newName,
+			},
+		});
+		console.log(data, error);
+		changeColumnName(newName);
 		setShowTitleInput(false);
 	};
 

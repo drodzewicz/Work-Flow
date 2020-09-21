@@ -13,33 +13,46 @@ import { BoardMembers, Tags } from "modalForms";
 import { TaskProvider } from "context/TaskContext";
 import fetchData from "helper/fetchData";
 
-import { boardInfo_DATA, boardTasks_2_DATA } from "data";
+import { boardInfo_DATA } from "data";
 
-const onDragEnd = (result, tasks, setTasks) => {
+const handleMoveColumn = async (boardId, setTasks, sourceIndex, destinationIndex) => {
+	if (sourceIndex !== destinationIndex) {
+		setTasks((tasks) => {
+			const tempTasks = [...tasks];
+			const movingColumn = tempTasks.splice(sourceIndex, 1)[0];
+			tempTasks.splice(destinationIndex, 0, movingColumn);
+			return tempTasks;
+		});
+		const { data, error } = await fetchData({
+			method: "PATCH",
+			url: `/board/${boardId}/column`,
+			token: true,
+			payload: {
+				sourceIndex,
+				destinationIndex,
+			},
+		});
+		console.log(data, error);
+	}
+};
+
+const handleMoveTask = (setTasks, tasks, source, destination) => {
+	const indexOfSourceColumn = tasks.findIndex(({ id }) => id === source.droppableId);
+	const indexOfDestinationColumn = tasks.findIndex(({ id }) => id === destination.droppableId);
+
+	setTasks((tasks) => {
+		const tempTasks = [...tasks];
+		const movingTask = tempTasks[indexOfSourceColumn].tasks.splice(source.index, 1)[0];
+		tempTasks[indexOfDestinationColumn].tasks.splice(destination.index, 0, movingTask);
+		return tempTasks;
+	});
+};
+
+const onDragEnd = (boardId, result, tasks, setTasks) => {
 	if (!result.destination) return;
 	const { source, destination, type } = result;
-
-	if (type === "droppableTaskToColumn") {
-		const indexOfSourceColumn = tasks.findIndex(({ id }) => id === source.droppableId);
-		const indexOfDestinationColumn = tasks.findIndex(({ id }) => id === destination.droppableId);
-
-		setTasks((tasks) => {
-			const tempTasks = [...tasks];
-			const movingTask = tempTasks[indexOfSourceColumn].tasks.splice(source.index, 1)[0];
-			tempTasks[indexOfDestinationColumn].tasks.splice(destination.index, 0, movingTask);
-			return tempTasks;
-		});
-	} else if (type === "droppableColumn") {
-		const indexOfSourceColum = source.index;
-		const indexOfDestinationColumn = destination.index;
-
-		setTasks((tasks) => {
-			const tempTasks = [...tasks];
-			const movingColumn = tempTasks.splice(indexOfSourceColum, 1)[0];
-			tempTasks.splice(indexOfDestinationColumn, 0, movingColumn);
-			return tempTasks;
-		});
-	}
+	if (type === "droppableTaskToColumn") handleMoveTask(setTasks, tasks, source, destination);
+	else if (type === "droppableColumn") handleMoveColumn(boardId, setTasks, source.index, destination.index);
 };
 
 const BoardPage = ({ boardId }) => {
@@ -47,7 +60,7 @@ const BoardPage = ({ boardId }) => {
 		name: boardInfo_DATA.name,
 		description: boardInfo_DATA.description,
 	});
-	const [tasks, setTasks] = useState(boardTasks_2_DATA);
+	const [tasks, setTasks] = useState([]);
 
 	const [, modalDispatch] = useContext(ModalContext);
 	const [{ user }, userDispatch] = useContext(UserContext);
@@ -63,7 +76,20 @@ const BoardPage = ({ boardId }) => {
 		};
 		!!user && getLoggedInUserRole();
 		return () => {};
-	}, [user, boardId,userDispatch]);
+	}, [user, boardId, userDispatch]);
+
+	useEffect(() => {
+		const getBoardTasks = async () => {
+			const { data } = await fetchData({
+				method: "GET",
+				url: `/board/${boardId}/column`,
+				token: true,
+			});
+			if (!!data) setTasks(data.columns);
+		};
+		getBoardTasks();
+		return () => {};
+	}, [boardId]);
 
 	const openBoardMembersModal = () => {
 		modalDispatch({
@@ -93,9 +119,9 @@ const BoardPage = ({ boardId }) => {
 					<span>Tags</span>
 				</Button>
 			</div>
-			<DragDropContext onDragEnd={(result) => onDragEnd(result, tasks, setTasks)}>
+			<DragDropContext onDragEnd={(result) => onDragEnd(boardId, result, tasks, setTasks)}>
 				<TaskProvider values={[tasks, setTasks]}>
-					<TaskBoard />
+					<TaskBoard boardId={boardId} />
 				</TaskProvider>
 			</DragDropContext>
 		</div>

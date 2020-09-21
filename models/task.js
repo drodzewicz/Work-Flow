@@ -16,7 +16,12 @@ const taskSchema = new Schema({
 			},
 		},
 	],
-	tags: [{ _id: String, name: String, colorCode: String }],
+	tags: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Tag",
+		},
+	],
 });
 
 const Task = mongoose.model("Task", taskSchema);
