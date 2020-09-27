@@ -27,7 +27,13 @@ const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex, boardId })
 			type: "OPEN",
 			payload: {
 				render: (
-					<TaskEditor addTask={addnewTask} submitDataURL="POST task/create?" buttonName="Create" />
+					<TaskEditor
+						columnId={columnId}
+						boardId={boardId}
+						addTask={addnewTask}
+						submitDataURL="POST task/create?"
+						buttonName="Create"
+					/>
 				),
 				title: "New Task",
 			},
@@ -117,11 +123,12 @@ const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex, boardId })
 						</div>
 						<div className={"task-container"}>
 							{listOfTasks &&
-								listOfTasks.map(({ id, name, tags, people }, index) => (
+								listOfTasks.map(({ _id, title, tags, people }, index) => (
 									<Task
-										key={id}
-										taskId={id}
-										name={name}
+										key={_id}
+										taskId={_id}
+										boardId={boardId}
+										title={title}
 										tags={tags}
 										people={people}
 										indexes={{ taskIndex: index, columnIndex }}

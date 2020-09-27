@@ -9,7 +9,7 @@ import Tooltip from "components/Tooltip/Tooltip";
 
 import { Draggable } from "react-beautiful-dnd";
 
-const Task = ({ taskId, name, indexes, tags, people }) => {
+const Task = ({ taskId, title, indexes, tags, people, boardId }) => {
 	const [, modalDispatch] = useContext(ModalContext);
 	const [, setTasks] = useContext(TaskContext);
 
@@ -40,7 +40,7 @@ const Task = ({ taskId, name, indexes, tags, people }) => {
 		modalDispatch({
 			type: "OPEN",
 			payload: {
-				render: <TaskDisplay taskId={taskId} removeTask={removeTask} updateTask={updateTask} />,
+				render: <TaskDisplay boardId={boardId} taskId={taskId} removeTask={removeTask} updateTask={updateTask} />,
 				title: "Task Details",
 			},
 		});
@@ -58,8 +58,8 @@ const Task = ({ taskId, name, indexes, tags, people }) => {
 
 		return (
 			<div className="task-user-wrapper">
-				{displayUsers.map(({ id, imageURL }) => (
-					<Image key={id} classes={["avatar"]} imageURL={imageURL} />
+				{displayUsers.map(({ _id, avatarImageURL }) => (
+					<Image key={_id} classes={["avatar"]} imageURL={avatarImageURL} />
 				))}
 				{maxUserAmount - userAmount < 0 && (
 					<span className="additional-users">{`+${Math.abs(maxUserAmount - userAmount)}`}</span>
@@ -79,24 +79,24 @@ const Task = ({ taskId, name, indexes, tags, people }) => {
 					onClick={openTaskDetailsModal}
 					style={{ ...provided.draggableProps.style }}
 				>
-					<h3 className="task-title">{name}</h3>
+					<h3 className="task-title">{title}</h3>
 					<div className="card-bottom">
 						<div className="task-tags">
 							<div className="tags" ref={tagsAnchorElement}>
 								{tags &&
-									tags.map(({ color, id }) => (
-										<div key={id} className={`tag-mini ${color}`}></div>
+									tags.map(({ colorCode, _id }) => (
+										<div key={_id} className={`tag-mini ${colorCode}`}></div>
 									))}
 							</div>
 						</div>
 						<Tooltip anchorEl={tagsAnchorElement}>
-							{tags && tags.map(({ id, name }) => <span key={id}>{name}</span>)}
+							{tags && tags.map(({ _id, name }) => <span key={_id}>{name}</span>)}
 						</Tooltip>
 						<div className="task-people" ref={poepleAnchorElement}>
 							{people && displayAssignedUsers(people)}
 						</div>
 						<Tooltip anchorEl={poepleAnchorElement}>
-							{people && people.map(({ id, username }) => <span key={id}>{username}</span>)}
+							{people && people.map(({ _id, username }) => <span key={_id}>{username}</span>)}
 						</Tooltip>
 					</div>
 				</div>
@@ -111,7 +111,7 @@ Task.defaultProps = {
 };
 Task.propTypes = {
 	taskId: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
+	title: PropTypes.string.isRequired,
 	indexes: PropTypes.shape({ taskIndex: PropTypes.number, columnIndex: PropTypes.number }).isRequired,
 	tags: PropTypes.array,
 	people: PropTypes.array,

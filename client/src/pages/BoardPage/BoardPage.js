@@ -36,29 +36,38 @@ const handleMoveColumn = async (boardId, setTasks, sourceIndex, destinationIndex
 	}
 };
 
-const handleMoveTask = (setTasks, tasks, source, destination) => {
-	const indexOfSourceColumn = tasks.findIndex(({ id }) => id === source.droppableId);
-	const indexOfDestinationColumn = tasks.findIndex(({ id }) => id === destination.droppableId);
-
-	setTasks((tasks) => {
-		const tempTasks = [...tasks];
+const handleMoveTask = async (boardId, setTasks, tasks, source, destination) => {
+	const indexOfSourceColumn = tasks.findIndex(({ _id }) => _id === source.droppableId);
+	const indexOfDestinationColumn = tasks.findIndex(({ _id }) => _id === destination.droppableId);
+	setTasks((taskColumns) => {
+		const tempTasks = [...taskColumns];
 		const movingTask = tempTasks[indexOfSourceColumn].tasks.splice(source.index, 1)[0];
 		tempTasks[indexOfDestinationColumn].tasks.splice(destination.index, 0, movingTask);
 		return tempTasks;
 	});
+	const { data, error } = await fetchData({
+			method: "PATCH",
+			url: `/board/${boardId}/task`,
+			token: true,
+			payload: {
+				source: { columnIndex: indexOfSourceColumn, taskIndex: source.index },
+				destination: { columnIndex: indexOfDestinationColumn, taskIndex: destination.index },
+			},
+		});
+		console.log(data)
 };
 
 const onDragEnd = (boardId, result, tasks, setTasks) => {
 	if (!result.destination) return;
 	const { source, destination, type } = result;
-	if (type === "droppableTaskToColumn") handleMoveTask(setTasks, tasks, source, destination);
+	if (type === "droppableTaskToColumn") handleMoveTask(boardId, setTasks, tasks, source, destination);
 	else if (type === "droppableColumn") handleMoveColumn(boardId, setTasks, source.index, destination.index);
 };
 
 const BoardPage = ({ boardId }) => {
-	const [boardInfo] = useState({
-		name: boardInfo_DATA.name,
-		description: boardInfo_DATA.description,
+	const [boardInfo, setBoardInfo] = useState({
+		name: "",
+		description: "",
 	});
 	const [tasks, setTasks] = useState([]);
 
@@ -74,6 +83,7 @@ const BoardPage = ({ boardId }) => {
 			});
 			if (!!data) userDispatch({ type: "SET_ROLE", payload: { role: data.member.role } });
 		};
+
 		!!user && getLoggedInUserRole();
 		return () => {};
 	}, [user, boardId, userDispatch]);
@@ -82,10 +92,14 @@ const BoardPage = ({ boardId }) => {
 		const getBoardTasks = async () => {
 			const { data } = await fetchData({
 				method: "GET",
-				url: `/board/${boardId}/column`,
+				url: `/board/${boardId}`,
 				token: true,
 			});
-			if (!!data) setTasks(data.columns);
+			console.log(data);
+			if (!!data) {
+				setTasks(data.columns);
+				setBoardInfo({ name: data.name, description: data.description });
+			}
 		};
 		getBoardTasks();
 		return () => {};

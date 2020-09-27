@@ -32,7 +32,7 @@ const Login = () => {
 		});
 		if (!!data) {
 			const { token, user } = data;
-			userDispatch({ type: "LOGIN", payload: { user, token } });
+			userDispatch({ type: "LOGIN_SUCCESS", payload: { user, token } });
 			modalDispatch({ type: "CLOSE" });
 		} else if(!!error) {
 			setErrors({username: "bad username", password: "bad password"})

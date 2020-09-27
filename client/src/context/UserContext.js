@@ -2,16 +2,19 @@ import React, { useReducer, createContext, useEffect } from "react";
 
 export const UserContext = createContext();
 
-const initialState = { user: null, role: null, theme: true };
+const initialState = { authStatus: null, user: null, role: null, theme: true };
 
 const reducer = (state, { type, payload }) => {
 	switch (type) {
-		case "LOGIN":
+		case "LOGIN_SUCCESS":
 			!!payload.token && localStorage.setItem("token", payload.token);
-			return { ...state, user: payload.user };
+			return { ...state, user: payload.user, authStatus: "success" };
+		case "LOGIN_FAIL":
+			localStorage.removeItem("token");
+			return { ...state, user: null, authStatus: "failed" };
 		case "LOGOUT":
 			localStorage.removeItem("token");
-			return { ...state, user: null, role: null };
+			return { ...state, user: null, authStatus: null, role: null };
 		case "THEME_DARK":
 			localStorage.setItem("theme", "dark");
 			return { ...state, theme: false };

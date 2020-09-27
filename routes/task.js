@@ -8,13 +8,19 @@ const {
     getBoardTasks,
     deleteTask,
     updateTask,
+    moveTask
 } = require("../service/task");
 
 const authJWT = passport.authenticate("jwt", { session: false });
 
 
 router.route("/")
-    .delete(authJWT, createTask)
+    .post(authJWT, createTask)
+    .patch(authJWT, moveTask)
+
+router.route("/:taskId")
+    .get(authJWT, getTaskbyId)
+    .delete(authJWT, deleteTask)
 
 
 module.exports = router;

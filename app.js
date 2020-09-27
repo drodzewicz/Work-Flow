@@ -42,8 +42,8 @@ app
 	.use("/api/user", userRoutes)
 	.use("/api/board", boardRoutes)
 	.use("/api/board/:boardId/tag", tagRoutes)
-	.use("/api/board/:boardId/task", taskRoutes)
-	.use("/api/board/:boardId/column", columnRoutes);
+	.use("/api/board/:boardId/column", columnRoutes)
+	.use("/api/board/:boardId/task", taskRoutes);
 
 
 // bad request - catches all non existing routes

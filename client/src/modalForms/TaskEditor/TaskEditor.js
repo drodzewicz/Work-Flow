@@ -11,19 +11,20 @@ import { Formik, Field, Form } from "formik";
 import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import Tag from "components/Tag/Tag";
+import fetchData from "helper/fetchData";
 
-import { userList_DATA, tags_DATA } from "data";
+// import { userList_DATA, tags_DATA } from "data";
 
 const validationSchema = Yup.object({
-	name: Yup.string().max(25, "board name is too long").required("field is required"),
+	title: Yup.string().max(25, "task title is too long").required("field is required"),
 	description: Yup.string().max(200, "description is too long"),
 });
 
-const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialValues }) => {
+const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialValues, boardId, columnId }) => {
 	const tagChoiceButton = useRef();
 
 	const initialVals = {
-		name: initialValues ? initialValues.name : "",
+		title: initialValues ? initialValues.name : "",
 		description: initialValues ? initialValues.description : "",
 	};
 	const [users, setUsers] = useState(initialValues ? [...initialValues.people] : []);
@@ -34,25 +35,60 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 
 	useEffect(() => {
 		//  fetch all available tags at mount of  the component
-		setAvailableTags(tags_DATA);
-		return () => {};
-	}, []);
+		const getBoardTags = async () => {
+			const { data } = await fetchData({
+				method: "GET",
+				url: `/board/${boardId}/tag`,
+				token: true,
+			});
+			if(!!data) setAvailableTags(data.tags);
 
-	const submitOnButtonClick = (data, { setSubmitting }) => {
-		console.log(`submitting to [${submitDataURL}]:`, data);
-		const submittingTask = { ...data, people: users, tags: chosenBoardTags, id: data.name };
-		// if (addTask !== undefined) addTask(submittingTask);
-		if (updateTask !== undefined) updateTask(submittingTask);
+		}
+		getBoardTags();
+		return () => {};
+	}, [boardId]);
+
+	const submitOnButtonClick = async (submittedData, { setSubmitting }) => {
+		const submittingTask = {
+			...submittedData,
+			people: users.map(({ _id }) => _id),
+			tags: chosenBoardTags.map(({ _id }) => _id),
+		};
+		const addNewTaskToBoard = {
+			...submittedData,
+			people: users,
+			tags: chosenBoardTags,
+			_id: "" + Math.floor(Math.random() * 100),
+		};
+
+		const { data, error } = await fetchData({
+			method: "POST",
+			url: `/board/${boardId}/task?columnId=${columnId}`,
+			token: true,
+			setLoading: setSubmitting,
+			payload: submittingTask,
+		});
+		console.log(data, error);
+		if (addTask !== undefined) addTask(addNewTaskToBoard);
+		if (updateTask !== undefined) updateTask(addNewTaskToBoard);
 	};
 
 	// USER
 	const clearUserSearchResults = () => {
 		setUserSearchResult([]);
 	};
-	const searchUser = (data) => {
-		console.log(`fethcing users from [ board/memebers] based on: ${data}`);
-		// fetch datat from API and update userSearchState
-		setUserSearchResult(userList_DATA.map((users) => ({ ...users, text: users.username })));
+	const searchUser = async (username) => {
+		const { data, error } = await fetchData({
+			method: "GET",
+			url: `/board/${boardId}/members?username=${username}`,
+			token: true,
+		});
+		console.log(data, error);
+		setUserSearchResult(
+			data
+				.filter(({ user }) => users.findIndex(({ _id }) => _id === user._id) < 0)
+				.map(({ user }) => ({ ...user, text: user.username }))
+		);
 	};
 	const addUserToList = (user) => {
 		setUsers((users) => {
@@ -71,7 +107,7 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 	};
 	// TAGS
 	const addTagToList = (tagId) => {
-		const foundTag = availableTags.find(({ id }) => id === tagId);
+		const foundTag = availableTags.find(({ _id }) => _id === tagId);
 		setChosenBoardTags((tags) => {
 			const newTags = [...tags];
 			newTags.push(foundTag);
@@ -104,10 +140,10 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 							<div className="fields">
 								<Field
 									className="new-task-input"
-									label={"task name"}
-									name={"name"}
-									hasErrors={!!errors["name"]}
-									helperText={errors["name"]}
+									label={"task title"}
+									name={"title"}
+									hasErrors={!!errors["title"]}
+									helperText={errors["title"]}
 									classes={["board-name-field"]}
 									as={TextInput}
 								/>
@@ -133,8 +169,8 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 										users.length > 4 ? "overflow-scroll" : ""
 									}`}
 								>
-									{users.map(({ id, username, imageURL }, index) => (
-										<User key={id} username={username} imageURL={imageURL}>
+									{users.map(({ _id, username, avatarImageURL }, index) => (
+										<User key={_id} username={username} imageURL={avatarImageURL}>
 											<RemoveCircleOutlineIcon
 												className="remove-user-icon"
 												onClick={() => removeUserFromList(index)}
@@ -153,26 +189,26 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 								>
 									{availableTags
 										.filter(
-											({ id: tagId }) =>
-												chosenBoardTags.findIndex(({ id }) => id === tagId) < 0
+											({ _id: tagId }) =>
+												chosenBoardTags.findIndex(({ _id }) => _id === tagId) < 0
 										)
-										.map(({ id, color, name }, index) => (
+										.map(({ _id, colorCode, name }, index) => (
 											<div
-												key={id}
-												onClick={() => addTagToList(id)}
-												className={`tag-item ${color}`}
+												key={_id}
+												onClick={() => addTagToList(_id)}
+												className={`tag-item ${colorCode}`}
 											>
 												{name}
 											</div>
 										))}
 								</DropdownMenu>
 								<div className="chosen-tags-container">
-									{chosenBoardTags.map(({ id, color, name }, index) => (
+									{chosenBoardTags.map(({ _id, colorCode, name }, index) => (
 										<Tag
-											key={id}
+											key={_id}
 											deleteTag={() => removeTagFromList(index)}
 											tagName={name}
-											colorCode={color}
+											colorCode={colorCode}
 										/>
 									))}
 								</div>

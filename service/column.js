@@ -24,7 +24,16 @@ columnService.createColumn = async (req, res) => {
 columnService.getBoardColumns = async (req, res) => {
 	const { boardId } = req.params;
 	try {
-		const { columns } = await Board.findOne({ _id: boardId }, "columns");
+		const { columns } = await Board.findOne({ _id: boardId }, "columns").populate({
+			path: "columns",
+			populate: {
+				path: "tasks",
+				populate: {
+					path: "people tags",
+					select: "_id username avatarImageURL colorCode name",
+				},
+			},
+		});
 		return res.status(200).json({ columns });
 	} catch (error) {
 		return res.status(400).json({

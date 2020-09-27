@@ -10,10 +10,8 @@ const taskSchema = new Schema({
 	},
 	people: [
 		{
-			user: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "User",
-			},
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
 		},
 	],
 	tags: [

@@ -12,10 +12,14 @@ const Tag = ({ colorCode, tagName, deleteTag }) => {
 	);
 };
 
+Tag.defaultProps = {
+	deleteTag: undefined
+}
+
 Tag.propTypes = {
 	colorCode: PropTypes.string.isRequired,
 	tagName: PropTypes.string.isRequired,
-	deleteTag: PropTypes.func.isRequired,
+	deleteTag: PropTypes.func,
 };
 
 export default Tag;
