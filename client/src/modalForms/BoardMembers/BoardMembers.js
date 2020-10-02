@@ -5,12 +5,13 @@ import Pagination from "components/Pagination/Pagination";
 import "./BoardMembers.scss";
 import PropTypes from "prop-types";
 import fetchData from "helper/fetchData";
+import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 
 const BoardMembers = ({ boardId }) => {
 	const USER_LIMIT = 5;
 	const [members, setMembers] = useState([]);
 	const [page, setPage] = useState({ currentPage: 1, amountOfPages: 1 });
-
+	const [isPageLoading, setPageLoading] = useState(true);
 	const [searchRes, setSearchRes] = useState([]);
 
 	useEffect(() => {
@@ -19,6 +20,7 @@ const BoardMembers = ({ boardId }) => {
 				method: "GET",
 				url: `/board/${boardId}/members?limit=${USER_LIMIT}&page=${page.currentPage}`,
 				token: true,
+				setLoading: setPageLoading,
 			});
 			if (!!data) {
 				const { totalPageCount, items } = data;
@@ -53,7 +55,7 @@ const BoardMembers = ({ boardId }) => {
 			url: `board/${boardId}/members/${memberId}`,
 			token: true,
 		});
-		if(!!data) {
+		if (!!data) {
 			setMembers((members) => {
 				const tempMembers = [...members];
 				const indexOfFoundMember = tempMembers.findIndex(({ id }) => id === memberId);
@@ -61,7 +63,6 @@ const BoardMembers = ({ boardId }) => {
 				return tempMembers;
 			});
 		}
-	
 	};
 	const addUserToBoardHandler = async (user) => {
 		setSearchRes([]);
@@ -70,8 +71,8 @@ const BoardMembers = ({ boardId }) => {
 			url: `board/${boardId}/members?userId=${user._id}`,
 			token: true,
 		});
-		if(!!data && members.length < USER_LIMIT){
-			setMembers( members => {
+		if (!!data && members.length < USER_LIMIT) {
+			setMembers((members) => {
 				const tempUsers = [...members];
 				tempUsers.push({ user, role: "regular" });
 				return tempUsers;
@@ -107,19 +108,22 @@ const BoardMembers = ({ boardId }) => {
 				clickResult={addUserToBoardHandler}
 				clearResults={clearSearchResults}
 			/>
-			<div className="user-container">
-				{members.map(({ user, role }) => (
-					<BoardMemberUser
-						key={user._id}
-						removeUser={() => removeUserFromBoard(user._id)}
-						userId={user._id}
-						username={user.username}
-						imageURL={user.avatarImageURL}
-						userType={role}
-						changeUserRole={changeUserRole}
-					/>
-				))}
-			</div>
+			<LoadingOverlay show={isPageLoading} opacity={0}>
+				<div className="user-container">
+					{members.map(({ user, role }) => (
+						<BoardMemberUser
+							key={user._id}
+							removeUser={() => removeUserFromBoard(user._id)}
+							userId={user._id}
+							username={user.username}
+							imageURL={user.avatarImageURL}
+							userType={role}
+							changeUserRole={changeUserRole}
+						/>
+					))}
+				</div>
+			</LoadingOverlay>
+
 			<Pagination
 				amountOfPages={page.amountOfPages}
 				currentPage={page.currentPage}

@@ -4,7 +4,7 @@ import "./LoadingOverlay.scss";
 import PropTypes from "prop-types";
 import { UserContext } from "context/UserContext";
 
-const LoadingOverlay = ({ show, opacity, classes }) => {
+const LoadingOverlay = ({ show, opacity, classes, children }) => {
 	const [{ theme }] = useContext(UserContext);
 	const overlayColor = theme ? "255, 255, 255" : "71, 74, 75";
 
@@ -18,7 +18,7 @@ const LoadingOverlay = ({ show, opacity, classes }) => {
 			</div>
 		);
 	} else {
-		return null;
+		return <div>{children}</div>;
 	}
 };
 

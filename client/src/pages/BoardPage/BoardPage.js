@@ -12,57 +12,8 @@ import { UserContext } from "context/UserContext";
 import { BoardMembers, Tags } from "modalForms";
 import { TaskProvider } from "context/TaskContext";
 import fetchData from "helper/fetchData";
-
-import { boardInfo_DATA } from "data";
-
-const handleMoveColumn = async (boardId, setTasks, sourceIndex, destinationIndex) => {
-	if (sourceIndex !== destinationIndex) {
-		setTasks((tasks) => {
-			const tempTasks = [...tasks];
-			const movingColumn = tempTasks.splice(sourceIndex, 1)[0];
-			tempTasks.splice(destinationIndex, 0, movingColumn);
-			return tempTasks;
-		});
-		const { data, error } = await fetchData({
-			method: "PATCH",
-			url: `/board/${boardId}/column`,
-			token: true,
-			payload: {
-				sourceIndex,
-				destinationIndex,
-			},
-		});
-		console.log(data, error);
-	}
-};
-
-const handleMoveTask = async (boardId, setTasks, tasks, source, destination) => {
-	const indexOfSourceColumn = tasks.findIndex(({ _id }) => _id === source.droppableId);
-	const indexOfDestinationColumn = tasks.findIndex(({ _id }) => _id === destination.droppableId);
-	setTasks((taskColumns) => {
-		const tempTasks = [...taskColumns];
-		const movingTask = tempTasks[indexOfSourceColumn].tasks.splice(source.index, 1)[0];
-		tempTasks[indexOfDestinationColumn].tasks.splice(destination.index, 0, movingTask);
-		return tempTasks;
-	});
-	const { data, error } = await fetchData({
-			method: "PATCH",
-			url: `/board/${boardId}/task`,
-			token: true,
-			payload: {
-				source: { columnIndex: indexOfSourceColumn, taskIndex: source.index },
-				destination: { columnIndex: indexOfDestinationColumn, taskIndex: destination.index },
-			},
-		});
-		console.log(data)
-};
-
-const onDragEnd = (boardId, result, tasks, setTasks) => {
-	if (!result.destination) return;
-	const { source, destination, type } = result;
-	if (type === "droppableTaskToColumn") handleMoveTask(boardId, setTasks, tasks, source, destination);
-	else if (type === "droppableColumn") handleMoveColumn(boardId, setTasks, source.index, destination.index);
-};
+import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
+import { onDragEnd } from "./dragHelper";
 
 const BoardPage = ({ boardId }) => {
 	const [boardInfo, setBoardInfo] = useState({
@@ -70,7 +21,7 @@ const BoardPage = ({ boardId }) => {
 		description: "",
 	});
 	const [tasks, setTasks] = useState([]);
-
+	const [isTaskLoading, setTaskLoading] = useState(false);
 	const [, modalDispatch] = useContext(ModalContext);
 	const [{ user }, userDispatch] = useContext(UserContext);
 
@@ -81,29 +32,26 @@ const BoardPage = ({ boardId }) => {
 				url: `/board/${boardId}/members/${user._id}`,
 				token: true,
 			});
-			if (!!data) userDispatch({ type: "SET_ROLE", payload: { role: data.member.role } });
+			if (!!data) userDispatch({ type: "SET_ROLE", payload: { role: data.member.role, boardId } });
 		};
 
-		!!user && getLoggedInUserRole();
-		return () => {};
-	}, [user, boardId, userDispatch]);
-
-	useEffect(() => {
 		const getBoardTasks = async () => {
 			const { data } = await fetchData({
 				method: "GET",
 				url: `/board/${boardId}`,
 				token: true,
+				setLoading: setTaskLoading,
 			});
-			console.log(data);
 			if (!!data) {
 				setTasks(data.columns);
 				setBoardInfo({ name: data.name, description: data.description });
 			}
 		};
 		getBoardTasks();
+		!!user && getLoggedInUserRole();
+
 		return () => {};
-	}, [boardId]);
+	}, [user, boardId, userDispatch]);
 
 	const openBoardMembersModal = () => {
 		modalDispatch({
@@ -119,25 +67,29 @@ const BoardPage = ({ boardId }) => {
 	};
 
 	return (
-		<div className="board-page">
-			<ExpandText classes={["board-title"]} text={boardInfo.name}>
-				<div>{boardInfo.description}</div>
-			</ExpandText>
-			<div className="board-button-group">
-				<Button clicked={openBoardMembersModal}>
-					<PeopleIcon />
-					<span>Peolpe</span>
-				</Button>
-				<Button clicked={openBoardTagsModal}>
-					<LocalOfferIcon />
-					<span>Tags</span>
-				</Button>
-			</div>
-			<DragDropContext onDragEnd={(result) => onDragEnd(boardId, result, tasks, setTasks)}>
-				<TaskProvider values={[tasks, setTasks]}>
-					<TaskBoard boardId={boardId} />
-				</TaskProvider>
-			</DragDropContext>
+		<div className="board-page-wrapper">
+			<LoadingOverlay show={isTaskLoading} opacity={0} classes={["task-loading"]}>
+				<div className="board-page">
+					<ExpandText classes={["board-title"]} text={boardInfo.name}>
+						<div>{boardInfo.description}</div>
+					</ExpandText>
+					<div className="board-button-group">
+						<Button clicked={openBoardMembersModal}>
+							<PeopleIcon />
+							<span>Peolpe</span>
+						</Button>
+						<Button clicked={openBoardTagsModal}>
+							<LocalOfferIcon />
+							<span>Tags</span>
+						</Button>
+					</div>
+					<DragDropContext onDragEnd={(result) => onDragEnd(boardId, result, tasks, setTasks)}>
+						<TaskProvider values={[tasks, setTasks]}>
+							<TaskBoard boardId={boardId} />
+						</TaskProvider>
+					</DragDropContext>
+				</div>
+			</LoadingOverlay>
 		</div>
 	);
 };

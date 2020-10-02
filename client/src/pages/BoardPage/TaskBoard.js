@@ -1,11 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import TaskColumn from "components/Task/TaskColumn";
 import { TaskContext } from "context/TaskContext";
 import NewColumn from "components/NewColumn/NewColumn";
 import PropTypes from "prop-types";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
-const TaskBoard = ({boardId}) => {
+const TaskBoard = ({ boardId }) => {
 	const [tasks, setTasks] = useContext(TaskContext);
 
 	const appendNewColumn = (newColumn) => {

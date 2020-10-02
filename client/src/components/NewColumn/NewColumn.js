@@ -17,11 +17,6 @@ const NewColumn = ({ appendNewColumn, boardId }) => {
 	const createNewColumn = async (event) => {
 		if (event.key === "Enter" && columnName.trim() !== "") {
 			setColumnName("");
-			const submittedColumn = {
-				_id: columnName,
-				name: columnName,
-				tasks: [],
-            };
             const { data } = await fetchData({
 				method: "POST",
 				url: `/board/${boardId}/column`,
@@ -29,8 +24,8 @@ const NewColumn = ({ appendNewColumn, boardId }) => {
                 payload: {
                     name: columnName
                 }
-            });
-			if(!!data) appendNewColumn(submittedColumn);
+			});
+			if(!!data) appendNewColumn(data.newColumn);
 		}
 	};
 	return (

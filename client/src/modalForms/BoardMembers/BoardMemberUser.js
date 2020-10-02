@@ -1,4 +1,5 @@
 import React, { useRef, useContext } from "react";
+import PropTypes from "prop-types";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import { ReactComponent as Admin } from "assets/images/Admin.svg";
@@ -9,17 +10,10 @@ import User from "components/User/User";
 import { UserContext } from "context/UserContext";
 import "./BoardMemberUser.scss";
 
-const BoardMemberUser = ({
-	username,
-	userId,
-	imageURL,
-	userType,
-	removeUser,
-	changeUserRole,
-}) => {
+const BoardMemberUser = ({ username, userId, imageURL, userType, removeUser, changeUserRole }) => {
 	const userRoleAnchorElement = useRef();
 	const optionsAnchorElement = useRef();
-	const [{role}] = useContext(UserContext);
+	const [{ currentBoard }] = useContext(UserContext);
 
 	const userTypeIcon = (type) => {
 		switch (type) {
@@ -37,9 +31,15 @@ const BoardMemberUser = ({
 	};
 
 	const isAuthorized = () => {
-		if(role === "owner") return true;
-		if(role === "admin" && userType !== "owner" && userType !== "admin") return true;
-	}
+		if (currentBoard.role === "owner") return true;
+		if (currentBoard.role === "admin" && userType !== "owner" && userType !== "admin") return true;
+	};
+
+	const roleList = [
+		{ roleName: "Admin", role: "admin", icon: <Admin /> },
+		{ roleName: "Regular", role: "regular", icon: <RegularUser /> },
+		{ roleName: "Guest", role: "guest", icon: <Visitor /> },
+	];
 
 	return (
 		<div className="board-user">
@@ -53,34 +53,41 @@ const BoardMemberUser = ({
 
 				{userType !== "owner" && isAuthorized() && (
 					<DropdownMenu classes={["user-roles"]} anchorEl={userRoleAnchorElement}>
-						{userType !== "admin" && (
-							<div onClick={() => changeUserRole(userId, "admin")}>
-								<Admin />
-								<span>Admin</span>
-							</div>
-						)}
-						{userType !== "regular" && (
-							<div onClick={() => changeUserRole(userId, "regular")}>
-								<RegularUser />
-								<span>Regular</span>
-							</div>
-						)}
-						{userType !== "guest" && (
-							<div onClick={() => changeUserRole(userId, "guest")}>
-								<Visitor />
-								<span>Guest</span>
-							</div>
-						)}
+						{roleList
+							.filter(({ role }) => role !== userType)
+							.map(({ roleName, role, icon }) => (
+								<div key={role} onClick={() => changeUserRole(userId, role)}>
+									{icon}
+									<span>{roleName}</span>
+								</div>
+							))}
 					</DropdownMenu>
 				)}
 				{userType !== "owner" && isAuthorized() && (
-					<DropdownMenu onClickClose={true} classes={["user-option-menu"]} anchorEl={optionsAnchorElement}>
+					<DropdownMenu
+						onClickClose={true}
+						classes={["user-option-menu"]}
+						anchorEl={optionsAnchorElement}
+					>
 						<span onClick={removeUser}>remove</span>
 					</DropdownMenu>
 				)}
 			</User>
 		</div>
 	);
+};
+
+BoardMemberUser.defaultProps = {
+	imageURL: ""
+}
+
+BoardMemberUser.propTypes = {
+	username: PropTypes.string.isRequired,
+	userId: PropTypes.string.isRequired,
+	imageURL: PropTypes.string,
+	userType: PropTypes.string.isRequired,
+	removeUser: PropTypes.func.isRequired,
+	changeUserRole: PropTypes.func.isRequired,
 };
 
 export default BoardMemberUser;

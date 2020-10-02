@@ -9,7 +9,7 @@ import Tooltip from "components/Tooltip/Tooltip";
 
 import { Draggable } from "react-beautiful-dnd";
 
-const Task = ({ taskId, title, indexes, tags, people, boardId }) => {
+const Task = ({ taskId, title, indexes, tags, people }) => {
 	const [, modalDispatch] = useContext(ModalContext);
 	const [, setTasks] = useContext(TaskContext);
 
@@ -40,7 +40,7 @@ const Task = ({ taskId, title, indexes, tags, people, boardId }) => {
 		modalDispatch({
 			type: "OPEN",
 			payload: {
-				render: <TaskDisplay boardId={boardId} taskId={taskId} removeTask={removeTask} updateTask={updateTask} />,
+				render: <TaskDisplay taskId={taskId} removeTask={removeTask} updateTask={updateTask} />,
 				title: "Task Details",
 			},
 		});

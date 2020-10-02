@@ -5,7 +5,6 @@ const passport = require("passport");
 const {
     createTask,
     getTaskbyId,
-    getBoardTasks,
     deleteTask,
     updateTask,
     moveTask
@@ -21,6 +20,7 @@ router.route("/")
 router.route("/:taskId")
     .get(authJWT, getTaskbyId)
     .delete(authJWT, deleteTask)
+    .post(authJWT,updateTask)
 
 
 module.exports = router;

@@ -1,20 +1,19 @@
 import React, { useState, useContext, useEffect } from "react";
+import PropTypes from "prop-types";
 import "./TaskDisplay.scss";
 import User from "components/User/User";
 import Tag from "components/Tag/Tag";
 import Button from "components/Button/Button";
 
 import { ModalContext } from "context/ModalContext";
-import { singleTask_DATA } from "data";
+import { UserContext } from "context/UserContext";
 
-// import EditTask from "modalForms/NewTask/EditTask";
 import TaskEditor from "modalForms/TaskEditor/TaskEditor";
 import fetchData from "helper/fetchData";
 
-
-const TaskDisplay = ({ taskId, boardId, removeTask, updateTask }) => {
-
+const TaskDisplay = ({ taskId, removeTask, updateTask }) => {
 	const [, dispatchModal] = useContext(ModalContext);
+	const [{ currentBoard }] = useContext(UserContext);
 
 	const [taskDetails, setTaskDetails] = useState({
 		title: "",
@@ -26,35 +25,33 @@ const TaskDisplay = ({ taskId, boardId, removeTask, updateTask }) => {
 
 	useEffect(() => {
 		const getTaskInfo = async () => {
-			console.log("lox")
 			const { data } = await fetchData({
 				method: "GET",
-				url: `/board/${boardId}/task/${taskId}`,
+				url: `/board/${currentBoard.id}/task/${taskId}`,
 				token: true,
 			});
-			console.log(data)
-			if(!!data) setTaskDetails({
-				title: data.task.title,
-				description: data.task.description,
-				tags: data.task.tags,
-				taskAuthor: data.task.author,
-				peopleAssigned: data.task.people
-			})
-		}
+			if (!!data)
+				setTaskDetails({
+					title: data.task.title,
+					description: data.task.description,
+					tags: data.task.tags,
+					taskAuthor: data.task.author,
+					peopleAssigned: data.task.people,
+				});
+		};
 		getTaskInfo();
 		return () => {};
-	}, []);
+	}, [currentBoard.id, taskId]);
 
 	const deleteTask = async () => {
 		const { status, data } = await fetchData({
-				method: "DELETE",
-				url: `/board/${boardId}/task/${taskId}`,
-				token: true,
-			});
-			console.log(data)
-		if(status === "200") removeTask()
-		
-	}
+			method: "DELETE",
+			url: `/board/${currentBoard.id}/task/${taskId}`,
+			token: true,
+		});
+		console.log(data);
+		if (status === "200") removeTask();
+	};
 
 	const openTaskEditModal = () => {
 		dispatchModal({
@@ -63,10 +60,16 @@ const TaskDisplay = ({ taskId, boardId, removeTask, updateTask }) => {
 				title: "Edit Task",
 				render: (
 					<TaskEditor
-						submitDataURL="POST task/update?"
 						buttonName="Update"
 						updateTask={updateTask}
-						initialValues={{ name: taskDetails.title, description: taskDetails.description, tags: taskDetails.tags, people: taskDetails.peopleAssigned }}
+						boardId={currentBoard.id}
+						submitDataURL={`/board/${currentBoard.id}/task/${taskId}`}
+						initialValues={{
+							name: taskDetails.title,
+							description: taskDetails.description,
+							tags: taskDetails.tags,
+							people: taskDetails.peopleAssigned,
+						}}
 					/>
 				),
 			},
@@ -95,7 +98,10 @@ const TaskDisplay = ({ taskId, boardId, removeTask, updateTask }) => {
 			</div>
 			<div className="people-details">
 				<h2 className="added-by user-title">Task Author</h2>
-				<User username={taskDetails.taskAuthor.username} imageURL={taskDetails.taskAuthor.avatarImageURL} />
+				<User
+					username={taskDetails.taskAuthor.username}
+					imageURL={taskDetails.taskAuthor.avatarImageURL}
+				/>
 				<h2 className="assigned-people-title user-title">People</h2>
 				<div className="assigned-people-container">
 					{taskDetails.peopleAssigned.map(({ _id, username, avatarImageURL }) => (
@@ -105,6 +111,12 @@ const TaskDisplay = ({ taskId, boardId, removeTask, updateTask }) => {
 			</div>
 		</div>
 	);
+};
+
+TaskDisplay.propTypes = {
+	taskId: PropTypes.string.isRequired,
+	removeTask: PropTypes.func.isRequired,
+	updateTask: PropTypes.func.isRequired,
 };
 
 export default TaskDisplay;

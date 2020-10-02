@@ -5,19 +5,16 @@ import "./Navbar.scss";
 import DefaultNav from "./DefaultNav";
 import LoggedInUserNav from "./LoggedInUserNav";
 
-const Navbar = ({user}) => {
-	return <nav className="navbar">{user ? <LoggedInUserNav /> : <DefaultNav />}</nav>;
+const Navbar = ({isAuth}) => {
+	return <nav className="navbar">{isAuth ? <LoggedInUserNav /> : <DefaultNav />}</nav>;
 };
 
 Navbar.defaultProps = {
-  user: null
+  isAuth: false
 };
 
 Navbar.propTypes = {
-  user: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.number
-  ])
+  isAuth: PropTypes.bool
 };
 
 export default Navbar;

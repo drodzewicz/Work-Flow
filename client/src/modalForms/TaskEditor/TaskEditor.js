@@ -12,6 +12,7 @@ import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import Tag from "components/Tag/Tag";
 import fetchData from "helper/fetchData";
+import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 
 // import { userList_DATA, tags_DATA } from "data";
 
@@ -20,7 +21,7 @@ const validationSchema = Yup.object({
 	description: Yup.string().max(200, "description is too long"),
 });
 
-const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialValues, boardId, columnId }) => {
+const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialValues, boardId }) => {
 	const tagChoiceButton = useRef();
 
 	const initialVals = {
@@ -63,7 +64,7 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 
 		const { data, error } = await fetchData({
 			method: "POST",
-			url: `/board/${boardId}/task?columnId=${columnId}`,
+			url: submitDataURL,
 			token: true,
 			setLoading: setSubmitting,
 			payload: submittingTask,
@@ -131,6 +132,7 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 			>
 				{({ isSubmitting, isValid, errors }) => (
 					<>
+					<LoadingOverlay show={isSubmitting} ></LoadingOverlay>
 						{isSubmitting && (
 							<div className="spinner-overlay">
 								<Spinner />

@@ -11,9 +11,8 @@ import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 import fetchData from "helper/fetchData";
 
 function App() {
-	const [{ user, authStatus, theme }, dispatchUser] = useContext(UserContext);
+	const [{ authStatus, theme }, dispatchUser] = useContext(UserContext);
 	const [authLoading, setAuthLoading] = useState(true);
-	const [isAuth, setIsAuth] = useState(false);
 
 	useEffect(() => {
 		const checkUserAuthentication = async () => {
@@ -21,7 +20,6 @@ function App() {
 				url: "/isAuth",
 				token: true,
 				method: "GET",
-				// setLoading: setAuthLoading,
 			});
 			if (status === 401) dispatchUser({ type: "LOGIN_FAIL" });
 			if (!!data) dispatchUser({ type: "LOGIN_SUCCESS", payload: { user: data.user } });
@@ -32,17 +30,17 @@ function App() {
 	}, [dispatchUser]);
 
 	useEffect(() => {
-		if(authStatus === "success" || authStatus === "failed" ) setAuthLoading(false);
-		// if(authStatus !== "success" ) setIsAuth(true);
+		if (authStatus === "success" || authStatus === "failed") setAuthLoading(false);
 		return () => {};
 	}, [authStatus]);
 
 	return (
 		<div className={`App ${theme ? "theme-light" : "theme-dark"}`}>
 			<Modal />
-			<LoadingOverlay show={authLoading} />
-			<Navbar user={user} />
-			{!authLoading && <Routes />}
+			<Navbar isAuth={authStatus === "success"} />
+			<LoadingOverlay classes={["authentication-loading"]} show={authLoading} opacity={0}>
+				<Routes />
+			</LoadingOverlay>
 			<Footer />
 		</div>
 	);
