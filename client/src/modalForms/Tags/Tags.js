@@ -30,20 +30,24 @@ const Tags = ({ boardId }) => {
 	const [{ currentBoard }] = useContext(UserContext);
 
 	useEffect(() => {
+		let _isMounted = true;
+
 		const getBoardTags = async () => {
 			const { data } = await fetchData({
 				method: "GET",
 				url: `/board/${boardId}/tag/`,
 				token: true,
-				setLoading: setTagLoading,
 			});
-			if (!!data) {
+			if (_isMounted) setTagLoading(false);
+			if (!!data && _isMounted) {
 				const { tags } = data;
 				setBoardTags(createInitalTagValues(tags));
 			}
 		};
 		getBoardTags();
-		return () => {};
+		return () => {
+			_isMounted = false;
+		};
 	}, [boardId]);
 
 	const handleTagNameInput = (event) => {
@@ -58,7 +62,7 @@ const Tags = ({ boardId }) => {
 	};
 
 	const selectTag = (index) => {
-		if(isAuthorized()) {
+		if (isAuthorized()) {
 			setInputTagName(boardTags[index].name);
 			setSelectedColor(boardTags[index].color);
 		}
@@ -70,8 +74,8 @@ const Tags = ({ boardId }) => {
 			let tagId = "";
 
 			let requestURL = "";
-			if (boardTags[indexOfTag].id === "") requestURL = `/board/${boardId}/tag`
-			else requestURL = `/board/${boardId}/tag/${boardTags[indexOfTag].id}`
+			if (boardTags[indexOfTag].id === "") requestURL = `/board/${boardId}/tag`;
+			else requestURL = `/board/${boardId}/tag/${boardTags[indexOfTag].id}`;
 
 			const { data } = await fetchData({
 				method: "POST",

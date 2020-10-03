@@ -14,6 +14,7 @@ import { TaskProvider } from "context/TaskContext";
 import fetchData from "helper/fetchData";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 import { onDragEnd } from "./dragHelper";
+import { useHistory } from "react-router-dom";
 
 const BoardPage = ({ boardId }) => {
 	const [boardInfo, setBoardInfo] = useState({
@@ -24,34 +25,41 @@ const BoardPage = ({ boardId }) => {
 	const [isTaskLoading, setTaskLoading] = useState(false);
 	const [, modalDispatch] = useContext(ModalContext);
 	const [{ user }, userDispatch] = useContext(UserContext);
+	const history = useHistory();
 
 	useEffect(() => {
+		let _isMounted = true;
 		const getLoggedInUserRole = async () => {
-			const { data } = await fetchData({
+			const { data, status } = await fetchData({
 				method: "GET",
 				url: `/board/${boardId}/members/${user._id}`,
 				token: true,
 			});
-			if (!!data) userDispatch({ type: "SET_ROLE", payload: { role: data.member.role, boardId } });
+			if (_isMounted && status === 200)
+				userDispatch({ type: "SET_ROLE", payload: { role: data.member.role, boardId } });
 		};
 
 		const getBoardTasks = async () => {
-			const { data } = await fetchData({
+			const { data, status } = await fetchData({
 				method: "GET",
 				url: `/board/${boardId}`,
 				token: true,
 				setLoading: setTaskLoading,
 			});
-			if (!!data) {
+			if (status === 200) {
 				setTasks(data.columns);
 				setBoardInfo({ name: data.name, description: data.description });
+			} else {
+				history.replace(`/error/${status}`);
 			}
 		};
 		getBoardTasks();
 		!!user && getLoggedInUserRole();
 
-		return () => {};
-	}, [user, boardId, userDispatch]);
+		return () => {
+			_isMounted = false;
+		};
+	}, [user, boardId, userDispatch, history]);
 
 	const openBoardMembersModal = () => {
 		modalDispatch({

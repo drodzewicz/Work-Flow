@@ -10,6 +10,7 @@ import { UserContext } from "context/UserContext";
 
 import TaskEditor from "modalForms/TaskEditor/TaskEditor";
 import fetchData from "helper/fetchData";
+import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 
 const TaskDisplay = ({ taskId, removeTask, updateTask }) => {
 	const [, dispatchModal] = useContext(ModalContext);
@@ -19,18 +20,24 @@ const TaskDisplay = ({ taskId, removeTask, updateTask }) => {
 		title: "",
 		description: "",
 		tags: [],
-		taskAuthor: "",
+		taskAuthor: {
+			_id: "loading",
+			username: "loading",
+		},
 		peopleAssigned: [],
 	});
+	const [isTaskLoading, setTaskLoading] = useState(true);
 
 	useEffect(() => {
+		let _isMounted = true;
 		const getTaskInfo = async () => {
 			const { data } = await fetchData({
 				method: "GET",
 				url: `/board/${currentBoard.id}/task/${taskId}`,
 				token: true,
 			});
-			if (!!data)
+			if (_isMounted) setTaskLoading(false);
+			if (!!data && _isMounted) {
 				setTaskDetails({
 					title: data.task.title,
 					description: data.task.description,
@@ -38,9 +45,12 @@ const TaskDisplay = ({ taskId, removeTask, updateTask }) => {
 					taskAuthor: data.task.author,
 					peopleAssigned: data.task.people,
 				});
+			}
 		};
 		getTaskInfo();
-		return () => {};
+		return () => {
+			_isMounted = false;
+		};
 	}, [currentBoard.id, taskId]);
 
 	const deleteTask = async () => {
@@ -77,38 +87,42 @@ const TaskDisplay = ({ taskId, removeTask, updateTask }) => {
 	};
 
 	return (
-		<div className="display-task">
-			<div className="text-details">
-				<div className="info-header">
-					<Button classes={["edit-btn delete-btn"]} clicked={deleteTask}>
-						delete
-					</Button>
-					<Button classes={["edit-btn"]} clicked={openTaskEditModal}>
-						edit
-					</Button>
-				</div>
+		<div className="display-task-wrapper">
+			<LoadingOverlay show={isTaskLoading} opacity={0}>
+				<div className="display-task">
+					<div className="text-details">
+						<div className="info-header">
+							<Button classes={["edit-btn delete-btn"]} clicked={deleteTask}>
+								delete
+							</Button>
+							<Button classes={["edit-btn"]} clicked={openTaskEditModal}>
+								edit
+							</Button>
+						</div>
 
-				<h1 className="task-title">{taskDetails.title}</h1>
-				<p className="task-description">{taskDetails.description}</p>
-				<div className="tag-container">
-					{taskDetails.tags.map(({ _id, colorCode, name }) => (
-						<Tag key={_id} colorCode={colorCode} tagName={name} />
-					))}
+						<h1 className="task-title">{taskDetails.title}</h1>
+						<p className="task-description">{taskDetails.description}</p>
+						<div className="tag-container">
+							{taskDetails.tags.map(({ _id, colorCode, name }) => (
+								<Tag key={_id} colorCode={colorCode} tagName={name} />
+							))}
+						</div>
+					</div>
+					<div className="people-details">
+						<h2 className="added-by user-title">Task Author</h2>
+						<User
+							username={taskDetails.taskAuthor.username}
+							imageURL={taskDetails.taskAuthor.avatarImageURL}
+						/>
+						<h2 className="assigned-people-title user-title">People</h2>
+						<div className="assigned-people-container">
+							{taskDetails.peopleAssigned.map(({ _id, username, avatarImageURL }) => (
+								<User key={_id} username={username} imageURL={avatarImageURL} />
+							))}
+						</div>
+					</div>
 				</div>
-			</div>
-			<div className="people-details">
-				<h2 className="added-by user-title">Task Author</h2>
-				<User
-					username={taskDetails.taskAuthor.username}
-					imageURL={taskDetails.taskAuthor.avatarImageURL}
-				/>
-				<h2 className="assigned-people-title user-title">People</h2>
-				<div className="assigned-people-container">
-					{taskDetails.peopleAssigned.map(({ _id, username, avatarImageURL }) => (
-						<User key={_id} username={username} imageURL={avatarImageURL} />
-					))}
-				</div>
-			</div>
+			</LoadingOverlay>
 		</div>
 	);
 };

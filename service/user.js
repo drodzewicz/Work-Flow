@@ -61,7 +61,7 @@ userService.isAuthenticated = async (req, res) => {
 	const { id } = req.user;
 
 	try {
-		const foundUser = await User.findOne({ _id: id },"_id username name surname avatarImageURL");
+		const foundUser = await User.findOne({ _id: id },"_id username name surname avatarImageURL email");
 		return res.status(200).json({
 			authorized: true,
 			user: foundUser,

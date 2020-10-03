@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "context/UserContext";
 import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
 import BoardMemberUser from "./BoardMemberUser";
 import Pagination from "components/Pagination/Pagination";
@@ -13,23 +14,28 @@ const BoardMembers = ({ boardId }) => {
 	const [page, setPage] = useState({ currentPage: 1, amountOfPages: 1 });
 	const [isPageLoading, setPageLoading] = useState(true);
 	const [searchRes, setSearchRes] = useState([]);
+	const [{ currentBoard }] = useContext(UserContext);
 
 	useEffect(() => {
+		let _isMounted = true;
+
 		const fetchBoardMembers = async () => {
 			const { data } = await fetchData({
 				method: "GET",
 				url: `/board/${boardId}/members?limit=${USER_LIMIT}&page=${page.currentPage}`,
 				token: true,
-				setLoading: setPageLoading,
 			});
-			if (!!data) {
+			if( _isMounted) setPageLoading(false);
+			if (!!data && _isMounted) {
 				const { totalPageCount, items } = data;
 				setPage((pages) => ({ ...pages, amountOfPages: totalPageCount }));
 				setMembers(items);
 			}
 		};
 		fetchBoardMembers();
-		return () => {};
+		return () => {
+			_isMounted = false;
+		};
 	}, [boardId, page.currentPage]);
 
 	const dynamicSearchHandler = async (username) => {
@@ -97,17 +103,23 @@ const BoardMembers = ({ boardId }) => {
 		});
 	};
 
+	const isAuthenticated = () => {
+		return currentBoard.role === "owner" || currentBoard.role === "admin";
+	};
+
 	return (
 		<div className="board-members-modal">
-			<AutoCompleteInput
-				execMethod={dynamicSearchHandler}
-				timeout={500}
-				searchResult={searchRes.filter(
-					({ _id }) => members.findIndex(({ user }) => user._id === _id) < 0
-				)}
-				clickResult={addUserToBoardHandler}
-				clearResults={clearSearchResults}
-			/>
+			{isAuthenticated() && (
+				<AutoCompleteInput
+					execMethod={dynamicSearchHandler}
+					timeout={500}
+					searchResult={searchRes.filter(
+						({ _id }) => members.findIndex(({ user }) => user._id === _id) < 0
+					)}
+					clickResult={addUserToBoardHandler}
+					clearResults={clearSearchResults}
+				/>
+			)}
 			<LoadingOverlay show={isPageLoading} opacity={0}>
 				<div className="user-container">
 					{members.map(({ user, role }) => (

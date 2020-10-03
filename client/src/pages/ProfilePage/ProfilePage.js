@@ -12,7 +12,6 @@ import { ChangePassword, ChangeProfilePicture } from "modalForms";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 import fetchData from "helper/fetchData";
 
-
 const validationSchema = Yup.object({
 	username: Yup.string().max(25, "username is too long").required("field is required"),
 	email: Yup.string().email().required("field is required"),
@@ -24,7 +23,6 @@ const ProfilePage = () => {
 	const [, modalDispatch] = useContext(ModalContext);
 	const [{ user }] = useContext(UserContext);
 
-
 	const [profileInfo, setProfileInfo] = useState({
 		username: { initialVal: "", type: "text" },
 		name: { initialVal: "", type: "text" },
@@ -32,7 +30,7 @@ const ProfilePage = () => {
 		email: { initialVal: "", type: "text" },
 	});
 	const [profilePicture, setProfilePicture] = useState("");
-	const [profileLoaded, setProfileLoaded] = useState(false);
+	const [isProfileLoaded, setProfileLoading] = useState(true);
 
 	useEffect(() => {
 		if (!!user) {
@@ -44,7 +42,7 @@ const ProfilePage = () => {
 				surname: { initialVal: surname, type: "text" },
 				email: { initialVal: email, type: "text" },
 			});
-			setProfileLoaded(true);
+			setProfileLoading(false);
 		}
 		return () => {};
 	}, [user]);
@@ -58,8 +56,8 @@ const ProfilePage = () => {
 			payload: submittedData,
 		});
 		if (!!error) {
-			setErrors(error.message)
-		} 
+			setErrors(error.message);
+		}
 	};
 	const changeImageModalOpen = () => {
 		modalDispatch({
@@ -82,7 +80,7 @@ const ProfilePage = () => {
 
 	return (
 		<ContainerBox classes={[""]}>
-			{profileLoaded ? (
+			<LoadingOverlay classes={["profile-page-loading-overlay"]} show={isProfileLoaded} opacity={0}>
 				<div className="profile-page-container">
 					<div className="profile-image">
 						<Image imageURL={profilePicture} />
@@ -99,14 +97,13 @@ const ProfilePage = () => {
 						validationSchema={validationSchema}
 						handleSubmit={handleSaveChanges}
 						fields={profileInfo}
+						loadingOverlayColor={{ light: "245, 249, 250", dark: "51, 54, 55" }}
 					/>
 					<Button clicked={changePasswordModalOpen} classes={["change-password"]}>
 						change password
 					</Button>
 				</div>
-			) : (
-				<LoadingOverlay classes={["profile-page-loading-overlay"]} show={true} opacity={0} />
-			)}
+			</LoadingOverlay>
 		</ContainerBox>
 	);
 };

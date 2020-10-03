@@ -2,6 +2,7 @@
 @import "../../assets/styles/colors";
 
 .container-box .profile-page-loading-overlay {
+  position: absolute;
   height: 50%;
   @include mobile {
     height: 100%;
@@ -51,6 +52,10 @@
   .simple-form-container {
     width: 100%;
     margin-top: 2rem;
+
+    .loading-overlay {
+      position: absolute;
+    }
     form {
       display: grid;
       grid-template-columns: 1fr 1fr;

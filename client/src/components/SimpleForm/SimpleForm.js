@@ -15,7 +15,14 @@ const createInitialValueObject = (fieldObject) => {
 	return initialValues;
 };
 
-const SimpleForm = ({ submitButtonName, validationSchema, handleSubmit, fields, classes }) => {
+const SimpleForm = ({
+	submitButtonName,
+	validationSchema,
+	handleSubmit,
+	fields,
+	classes,
+	loadingOverlayColor,
+}) => {
 	return (
 		<div className={`simple-form-container ${classes.join(" ")}`}>
 			<Formik
@@ -25,7 +32,7 @@ const SimpleForm = ({ submitButtonName, validationSchema, handleSubmit, fields, 
 			>
 				{({ isSubmitting, isValid, errors }) => (
 					<>
-						<LoadingOverlay show={isSubmitting} opacity={0.5} />
+						<LoadingOverlay show={isSubmitting} opacity={0.5} color={loadingOverlayColor} />
 						<Form>
 							{Object.entries(fields).map(([field]) => (
 								<Field
@@ -57,6 +64,7 @@ SimpleForm.defaultProps = {
 	validationSchema: Yup.object({}),
 	submitButtonName: "Submit",
 	classes: [""],
+	loadingOverlayColor: undefined,
 };
 
 SimpleForm.propTypes = {
@@ -65,6 +73,7 @@ SimpleForm.propTypes = {
 	handleSubmit: PropTypes.func.isRequired,
 	fields: PropTypes.object.isRequired,
 	classes: PropTypes.arrayOf(PropTypes.string),
+	loadingOverlayColor: PropTypes.shape({ light: PropTypes.string, dark: PropTypes.string }),
 };
 
 export default SimpleForm;

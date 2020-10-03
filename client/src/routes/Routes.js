@@ -16,7 +16,7 @@ const Routes = () => {
 				path="/board/:id"
 				render={({ match }) => <BoardPage boardId={match.params.id} />}
 			/>
-			<ProtectedRoute auth={authStatus === "success"} path="/error" component={ErrorPage} />
+			<Route exact path="/error/:code" render={({match}) => <ErrorPage errorCode={match.params.code} />} />
 			<Route render={() => <Redirect to="/" />} />
 		</Switch>
 	);
