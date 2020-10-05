@@ -3,8 +3,10 @@ import "./NewColumn.scss";
 import PropTypes from "prop-types";
 import fetchData from "helper/fetchData";
 
+// import { ws } from "socket";
+import { emitWS } from "helper/socketData";
 
-const NewColumn = ({ appendNewColumn, boardId }) => {
+const NewColumn = ({ boardId }) => {
 	const [columnName, setColumnName] = useState("");
 
 	const handleNewColumnChange = (event) => {
@@ -16,16 +18,16 @@ const NewColumn = ({ appendNewColumn, boardId }) => {
 
 	const createNewColumn = async (event) => {
 		if (event.key === "Enter" && columnName.trim() !== "") {
-			setColumnName("");
-            const { data } = await fetchData({
-				method: "POST",
-				url: `/board/${boardId}/column`,
-                token: true,
-                payload: {
-                    name: columnName
-                }
+			emitWS({
+				roomId: boardId,
+				eventName: "createNewColumn",
+				token: true,
+				payload: { name: columnName },
+				res: (response) => {
+					console.log("tetsing res: ", response);
+				},
 			});
-			if(!!data) appendNewColumn(data.newColumn);
+			setColumnName("");
 		}
 	};
 	return (
@@ -42,8 +44,7 @@ const NewColumn = ({ appendNewColumn, boardId }) => {
 };
 
 NewColumn.propTypes = {
-    boardId: PropTypes.string.isRequired,
-	appendNewColumn: PropTypes.func.isRequired,
+	boardId: PropTypes.string.isRequired,
 };
 
 export default NewColumn;

@@ -8,7 +8,7 @@ const {
     deleteTask,
     updateTask,
     moveTask
-} = require("../service/task");
+} = require("../service/http/task");
 
 const authJWT = passport.authenticate("jwt", { session: false });
 

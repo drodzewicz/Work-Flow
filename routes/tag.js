@@ -7,7 +7,7 @@ const {
     deleteTag,
     getBoardTags,
     updateTag
-} = require("../service/tag");
+} = require("../service/http/tag");
 
 const authJWT = passport.authenticate("jwt", { session: false });
 

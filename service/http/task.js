@@ -1,7 +1,7 @@
-const { populate } = require("../models/board");
-const Board = require("../models/board");
-const Tag = require("../models/tag");
-const Task = require("../models/task");
+const { populate } = require("../../models/board");
+const Board = require("../../models/board");
+const Tag = require("../../models/tag");
+const Task = require("../../models/task");
 
 const taskService = {};
 

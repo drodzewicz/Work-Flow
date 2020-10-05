@@ -1,5 +1,5 @@
-const Board = require("../models/board");
-const Tag = require("../models/tag");
+const Board = require("../../models/board");
+const Tag = require("../../models/tag");
 
 const tagService = {};
 

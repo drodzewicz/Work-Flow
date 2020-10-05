@@ -1,6 +1,6 @@
-const Board = require("../models/board");
-const User = require("../models/user");
-const paginateConetnt = require("../helper/pagination");
+const Board = require("../../models/board");
+const User = require("../../models/user");
+const paginateConetnt = require("../../helper/pagination");
 
 const boardService = {};
 

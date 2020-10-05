@@ -8,7 +8,7 @@ const {
     getBoardColumns,
     editColumnName,
     moveColumn
-} = require("../service/column");
+} = require("../service/http/column");
 
 const authJWT = passport.authenticate("jwt", { session: false });
 

@@ -1,20 +1,29 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import TaskColumn from "components/Task/TaskColumn";
 import { TaskContext } from "context/TaskContext";
 import NewColumn from "components/NewColumn/NewColumn";
 import PropTypes from "prop-types";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
+import { ws } from "socket";
+
 const TaskBoard = ({ boardId }) => {
 	const [tasks, setTasks] = useContext(TaskContext);
 
-	const appendNewColumn = (newColumn) => {
+	const createSocketNewBoard = (newColumn) => {
 		setTasks((tasks) => {
 			const tempTasks = [...tasks];
 			tempTasks.push(newColumn);
 			return tempTasks;
 		});
 	};
+	useEffect(() => {
+		ws.on("createNewColumn", createSocketNewBoard);
+		return () => {
+			ws.removeListener("createNewColumn", createSocketNewBoard);
+		};
+	}, []);
+
 
 	const DraggableTaskColumn = (id, name, tasks, index) => {
 		return (
@@ -56,14 +65,14 @@ const TaskBoard = ({ boardId }) => {
 				}}
 			</Droppable>
 			<div>
-				<NewColumn boardId={boardId} appendNewColumn={appendNewColumn} />
+				<NewColumn boardId={boardId} />
 			</div>
 		</div>
 	);
 };
 
 TaskBoard.propTypes = {
-	boardId: PropTypes.string.isRequired
-}
+	boardId: PropTypes.string.isRequired,
+};
 
 export default TaskBoard;

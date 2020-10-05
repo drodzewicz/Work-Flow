@@ -1,6 +1,6 @@
-const Board = require("../models/board");
-const Tag = require("../models/tag");
-const Task = require("../models/task");
+const Board = require("../../models/board");
+const Tag = require("../../models/tag");
+const Task = require("../../models/task");
 
 const columnService = {};
 

@@ -12,6 +12,7 @@ import { ChangePassword, ChangeProfilePicture } from "modalForms";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 import fetchData from "helper/fetchData";
 
+
 const validationSchema = Yup.object({
 	username: Yup.string().max(25, "username is too long").required("field is required"),
 	email: Yup.string().email().required("field is required"),
@@ -33,6 +34,7 @@ const ProfilePage = () => {
 	const [isProfileLoaded, setProfileLoading] = useState(true);
 
 	useEffect(() => {
+		
 		if (!!user) {
 			const { username, email, name, surname, avatarImageURL } = user;
 			setProfilePicture(avatarImageURL);
@@ -43,8 +45,10 @@ const ProfilePage = () => {
 				email: { initialVal: email, type: "text" },
 			});
 			setProfileLoading(false);
+
 		}
-		return () => {};
+		return () => {
+		};
 	}, [user]);
 
 	const handleSaveChanges = async (submittedData, { setSubmitting, setErrors }) => {

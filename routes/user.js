@@ -7,7 +7,7 @@ const {
 	changeAvatarImage,
 	updateCredentials,
 	searchUserByRegex,
-} = require("../service/user");
+} = require("../service/http/user");
 
 const authJWT = passport.authenticate("jwt", { session: false });
 

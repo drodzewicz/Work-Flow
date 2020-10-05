@@ -16,6 +16,8 @@ import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 import { onDragEnd } from "./dragHelper";
 import { useHistory } from "react-router-dom";
 
+import { ws } from "socket";
+
 const BoardPage = ({ boardId }) => {
 	const [boardInfo, setBoardInfo] = useState({
 		name: "",
@@ -35,8 +37,10 @@ const BoardPage = ({ boardId }) => {
 				url: `/board/${boardId}/members/${user._id}`,
 				token: true,
 			});
-			if (_isMounted && status === 200)
+			if (_isMounted && status === 200) {
+				ws.emit("joinBoardRoom", { room: boardId });
 				userDispatch({ type: "SET_ROLE", payload: { role: data.member.role, boardId } });
+			}
 		};
 
 		const getBoardTasks = async () => {
@@ -57,6 +61,7 @@ const BoardPage = ({ boardId }) => {
 		!!user && getLoggedInUserRole();
 
 		return () => {
+			ws.emit("leaveBoardRoom", { room: boardId });
 			_isMounted = false;
 		};
 	}, [user, boardId, userDispatch, history]);
