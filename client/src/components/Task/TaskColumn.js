@@ -9,6 +9,7 @@ import { ModalContext } from "context/ModalContext";
 import { TaskContext } from "context/TaskContext";
 import ColumnNameInput from "./ColumnNameInput";
 import fetchData from "helper/fetchData";
+import { emitWS } from "helper/socketData";
 
 import { Droppable } from "react-beautiful-dnd";
 
@@ -40,15 +41,11 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
 	};
 
 	const removeColumn = async () => {
-		const { status } = await fetchData({
-			method: "DELETE",
-			url: `/board/${boardId}/column/${columnId}`,
+		emitWS({
+			roomId: boardId,
+			eventName: "deleteColumn",
 			token: true,
-		});
-		if(status === 200) setTasks((tasks) => {
-			const newTasks = [...tasks];
-			newTasks.splice(columnIndex, 1);
-			return newTasks;
+			payload: { columnId, columnIndex },
 		});
 	};
 
@@ -77,7 +74,7 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
 				name: newName,
 			},
 		});
-		if(status === 200) {
+		if (status === 200) {
 			setTasks((tasks) => {
 				const tempTasks = [...tasks];
 				const foundColumnIndex = tempTasks.findIndex(({ _id }) => _id === columnId);
@@ -86,7 +83,6 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
 			});
 			setShowTitleInput(false);
 		}
-
 	};
 
 	return (

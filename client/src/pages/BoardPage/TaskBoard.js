@@ -17,10 +17,29 @@ const TaskBoard = ({ boardId }) => {
 			return tempTasks;
 		});
 	};
+	const deleteSocketColumn = (deleteResponse) => {
+		setTasks((tasks) => {
+			const newTasks = [...tasks];
+			newTasks.splice(deleteResponse.index, 1);
+			return newTasks;
+		});
+	};
+	const moveSocketColumn = (moveResponse) => {
+		setTasks((tasks) => {
+			const tempTasks = [...tasks];
+			const movingColumn = tempTasks.splice(moveResponse.source, 1)[0];
+			tempTasks.splice(moveResponse.destination, 0, movingColumn);
+			return tempTasks;
+		});
+	};
 	useEffect(() => {
 		ws.on("createNewColumn", createSocketNewBoard);
+		ws.on("deleteColumn", deleteSocketColumn);
+		ws.on("moveColumn", moveSocketColumn);
 		return () => {
 			ws.removeListener("createNewColumn", createSocketNewBoard);
+			ws.removeListener("deleteColumn", deleteSocketColumn);
+			ws.removeListener("moveColumn", moveSocketColumn);
 		};
 	}, []);
 

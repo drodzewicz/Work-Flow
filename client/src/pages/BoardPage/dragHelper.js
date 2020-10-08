@@ -1,22 +1,32 @@
 import fetchData from "helper/fetchData";
+import { emitWS } from "helper/socketData";
 
 const handleMoveColumn = async (boardId, setTasks, sourceIndex, destinationIndex) => {
 	if (sourceIndex !== destinationIndex) {
-		setTasks((tasks) => {
-			const tempTasks = [...tasks];
-			const movingColumn = tempTasks.splice(sourceIndex, 1)[0];
-			tempTasks.splice(destinationIndex, 0, movingColumn);
-			return tempTasks;
-		});
-		await fetchData({
-			method: "PATCH",
-			url: `/board/${boardId}/column`,
+		// setTasks((tasks) => {
+		// 	const tempTasks = [...tasks];
+		// 	const movingColumn = tempTasks.splice(sourceIndex, 1)[0];
+		// 	tempTasks.splice(destinationIndex, 0, movingColumn);
+		// 	return tempTasks;
+		// });
+		emitWS({
+			roomId: boardId,
+			eventName: "moveColumn",
 			token: true,
-			payload: {
+			payload: { 
 				sourceIndex,
 				destinationIndex,
-			},
+			 },
 		});
+		// await fetchData({
+		// 	method: "PATCH",
+		// 	url: `/board/${boardId}/column`,
+		// 	token: true,
+		// 	payload: {
+		// 		sourceIndex,
+		// 		destinationIndex,
+		// 	},
+		// });
 	}
 };
 

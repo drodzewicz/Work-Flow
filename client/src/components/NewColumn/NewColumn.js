@@ -22,10 +22,7 @@ const NewColumn = ({ boardId }) => {
 				roomId: boardId,
 				eventName: "createNewColumn",
 				token: true,
-				payload: { name: columnName },
-				res: (response) => {
-					console.log("tetsing res: ", response);
-				},
+				payload: { name: columnName }
 			});
 			setColumnName("");
 		}
