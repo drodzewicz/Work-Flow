@@ -5,20 +5,21 @@ const taskSchema = new Schema({
 	title: String,
 	description: String,
 	author: {
-		id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "User",
-		},
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User",
 	},
 	people: [
 		{
-			id: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "User",
-			},
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
 		},
 	],
-	tags: [{ name: String, colorCode: String }],
+	tags: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Tag",
+		},
+	],
 });
 
 const Task = mongoose.model("Task", taskSchema);

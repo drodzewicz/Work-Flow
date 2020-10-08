@@ -8,12 +8,14 @@ import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import { ModalContext } from "context/ModalContext";
 import { TaskContext } from "context/TaskContext";
 import ColumnNameInput from "./ColumnNameInput";
+import fetchData from "helper/fetchData";
+import { emitWS } from "helper/socketData";
 
 import { Droppable } from "react-beautiful-dnd";
 
 import { TaskEditor } from "modalForms";
 
-const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
+const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks }) => {
 	const [, modalDispatch] = useContext(ModalContext);
 	const [, setTasks] = useContext(TaskContext);
 
@@ -26,18 +28,24 @@ const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
 			type: "OPEN",
 			payload: {
 				render: (
-					<TaskEditor addTask={addnewTask} submitDataURL="POST task/create?" buttonName="Create" />
+					<TaskEditor
+						boardId={boardId}
+						addTask={addnewTask}
+						submitDataURL={`/board/${boardId}/task?columnId=${columnId}`}
+						buttonName="Create"
+					/>
 				),
 				title: "New Task",
 			},
 		});
 	};
 
-	const removeColumn = () => {
-		setTasks((tasks) => {
-			const newTasks = [...tasks];
-			newTasks.splice(columnIndex, 1);
-			return newTasks;
+	const removeColumn = async () => {
+		emitWS({
+			roomId: boardId,
+			eventName: "deleteColumn",
+			token: true,
+			payload: { columnId, columnIndex },
 		});
 	};
 
@@ -50,22 +58,31 @@ const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
 		modalDispatch({ type: "CLOSE" });
 	};
 
-	const changeColumnName = (columnId, newColumnName) => {
-		setTasks((tasks) => {
-			const tempTasks = [...tasks];
-			const foundColumnIndex = tempTasks.findIndex(({ id }) => id === columnId);
-			tempTasks[foundColumnIndex].name = newColumnName;
-			return tempTasks;
-		});
-	};
-
 	const activateColumnNameEditInput = () => {
 		setShowTitleInput(true);
 	};
-
-	const onEnter = (newName) => {
-		changeColumnName(columnId, newName);
+	const dissableColumnNameEditInput = () => {
 		setShowTitleInput(false);
+	};
+
+	const changeColumnNameOnKeyPressEnter = async (newName) => {
+		const { status } = await fetchData({
+			method: "PATCH",
+			url: `/board/${boardId}/column/${columnId}`,
+			token: true,
+			payload: {
+				name: newName,
+			},
+		});
+		if (status === 200) {
+			setTasks((tasks) => {
+				const tempTasks = [...tasks];
+				const foundColumnIndex = tempTasks.findIndex(({ _id }) => _id === columnId);
+				tempTasks[foundColumnIndex].name = newName;
+				return tempTasks;
+			});
+			setShowTitleInput(false);
+		}
 	};
 
 	return (
@@ -79,15 +96,12 @@ const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
 					>
 						<div className="task-column-header">
 							<span className="task-count">{listOfTasks.length}</span>
-							{showTitleInput ? (
-								<ColumnNameInput
-									hideInput={() => setShowTitleInput(false)}
-									initialVal={columnName}
-									onEnter={onEnter}
-								/>
-							) : (
-								<h2 className="task-column-name">{columnName}</h2>
-							)}
+							<ColumnNameInput
+								hideInput={dissableColumnNameEditInput}
+								initialVal={columnName}
+								onEnter={changeColumnNameOnKeyPressEnter}
+								editTitle={showTitleInput}
+							/>
 							<button onClick={openBoardTagsModal} className="add-new-task-btn">
 								<PlaylistAddIcon />
 							</button>
@@ -101,11 +115,12 @@ const TaskColumn = ({ columnName, columnId, listOfTasks, columnIndex }) => {
 						</div>
 						<div className={"task-container"}>
 							{listOfTasks &&
-								listOfTasks.map(({ id, name, tags, people }, index) => (
+								listOfTasks.map(({ _id, title, tags, people }, index) => (
 									<Task
-										key={id}
-										taskId={id}
-										name={name}
+										key={_id}
+										taskId={_id}
+										boardId={boardId}
+										title={title}
 										tags={tags}
 										people={people}
 										indexes={{ taskIndex: index, columnIndex }}

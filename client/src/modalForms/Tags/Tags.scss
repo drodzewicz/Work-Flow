@@ -1,6 +1,9 @@
 @import "../../assets/styles/colors";
 @import "../../assets/styles/mediaQueries";
 
+.tag-form-wrapper .loading-overlay {
+	min-height: 14rem;
+} 
 .tag-form {
 	margin: 0 3rem 2rem;
 	max-width: 25rem;

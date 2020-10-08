@@ -11,8 +11,8 @@ const Pagination = ({ currentPage, amountOfPages, handleChange }) => {
 	const nextPage = () => {
 		handleChange(currentPage + 1);
 	};
-
-	return (
+	if(	amountOfPages < 2) return null
+	 else return (
 		<nav className="pagination-container">
 			{currentPage !== 1 ? (
 				<>

@@ -1,40 +1,85 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import PropTypes from "prop-types";
 import "./TaskDisplay.scss";
 import User from "components/User/User";
 import Tag from "components/Tag/Tag";
 import Button from "components/Button/Button";
 
 import { ModalContext } from "context/ModalContext";
-import { singleTask_DATA } from "data";
+import { UserContext } from "context/UserContext";
 
-// import EditTask from "modalForms/NewTask/EditTask";
 import TaskEditor from "modalForms/TaskEditor/TaskEditor";
+import fetchData from "helper/fetchData";
+import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 
 const TaskDisplay = ({ taskId, removeTask, updateTask }) => {
-	const { name, description, author, tags, people } = singleTask_DATA;
-
 	const [, dispatchModal] = useContext(ModalContext);
-	
+	const [{ currentBoard }] = useContext(UserContext);
 
-	const [taskDetails] = useState({
-		title: name,
-		description: description,
-		tags: tags,
-		taskAuthor: author,
-		peopleAssigned: people,
+	const [taskDetails, setTaskDetails] = useState({
+		title: "",
+		description: "",
+		tags: [],
+		taskAuthor: {
+			_id: "loading",
+			username: "loading",
+		},
+		peopleAssigned: [],
 	});
+	const [isTaskLoading, setTaskLoading] = useState(true);
+
+	useEffect(() => {
+		let _isMounted = true;
+		const getTaskInfo = async () => {
+			const { data } = await fetchData({
+				method: "GET",
+				url: `/board/${currentBoard.id}/task/${taskId}`,
+				token: true,
+			});
+			if (_isMounted) setTaskLoading(false);
+			if (!!data && _isMounted) {
+				setTaskDetails({
+					title: data.task.title,
+					description: data.task.description,
+					tags: data.task.tags,
+					taskAuthor: data.task.author,
+					peopleAssigned: data.task.people,
+				});
+			}
+		};
+		getTaskInfo();
+		return () => {
+			_isMounted = false;
+		};
+	}, [currentBoard.id, taskId]);
+
+	const deleteTask = async () => {
+		const { status, data } = await fetchData({
+			method: "DELETE",
+			url: `/board/${currentBoard.id}/task/${taskId}`,
+			token: true,
+		});
+		console.log(data);
+		if (status === "200") removeTask();
+	};
 
 	const openTaskEditModal = () => {
-			dispatchModal({
+		dispatchModal({
 			type: "OPEN",
 			payload: {
 				title: "Edit Task",
 				render: (
 					<TaskEditor
-						submitDataURL="POST task/update?"
 						buttonName="Update"
 						updateTask={updateTask}
-						initialValues={ { name, description, tags, people }}
+						boardId={currentBoard.id}
+						submitDataURL={`/board/${currentBoard.id}/task/${taskId}`}
+						initialValues={{
+							name: taskDetails.title,
+							description: taskDetails.description,
+							tags: taskDetails.tags,
+							people: taskDetails.peopleAssigned,
+						}}
 					/>
 				),
 			},
@@ -42,37 +87,50 @@ const TaskDisplay = ({ taskId, removeTask, updateTask }) => {
 	};
 
 	return (
-		<div className="display-task">
-			<div className="text-details">
-				<div className="info-header">
-					<Button classes={["edit-btn delete-btn"]} clicked={removeTask}>
-						delete
-					</Button>
-					<Button classes={["edit-btn"]} clicked={openTaskEditModal}>
-						edit
-					</Button>
-				</div>
+		<div className="display-task-wrapper">
+			<LoadingOverlay show={isTaskLoading} opacity={0}>
+				<div className="display-task">
+					<div className="text-details">
+						<div className="info-header">
+							<Button classes={["edit-btn delete-btn"]} clicked={deleteTask}>
+								delete
+							</Button>
+							<Button classes={["edit-btn"]} clicked={openTaskEditModal}>
+								edit
+							</Button>
+						</div>
 
-				<h1 className="task-title">{taskDetails.title}</h1>
-				<p className="task-description">{taskDetails.description}</p>
-				<div className="tag-container">
-					{taskDetails.tags.map(({ id, color, name }) => (
-						<Tag key={id} colorCode={color} tagName={name} />
-					))}
+						<h1 className="task-title">{taskDetails.title}</h1>
+						<p className="task-description">{taskDetails.description}</p>
+						<div className="tag-container">
+							{taskDetails.tags.map(({ _id, colorCode, name }) => (
+								<Tag key={_id} colorCode={colorCode} tagName={name} />
+							))}
+						</div>
+					</div>
+					<div className="people-details">
+						<h2 className="added-by user-title">Task Author</h2>
+						<User
+							username={taskDetails.taskAuthor.username}
+							imageURL={taskDetails.taskAuthor.avatarImageURL}
+						/>
+						<h2 className="assigned-people-title user-title">People</h2>
+						<div className="assigned-people-container">
+							{taskDetails.peopleAssigned.map(({ _id, username, avatarImageURL }) => (
+								<User key={_id} username={username} imageURL={avatarImageURL} />
+							))}
+						</div>
+					</div>
 				</div>
-			</div>
-			<div className="people-details">
-				<h2 className="added-by user-title">Task Author</h2>
-				<User username={taskDetails.taskAuthor.username} imageURL={taskDetails.taskAuthor.imageURL} />
-				<h2 className="assigned-people-title user-title">People</h2>
-				<div className="assigned-people-container">
-					{taskDetails.peopleAssigned.map(({ id, username, imageURL }) => (
-						<User key={id} username={username} imageURL={imageURL} />
-					))}
-				</div>
-			</div>
+			</LoadingOverlay>
 		</div>
 	);
+};
+
+TaskDisplay.propTypes = {
+	taskId: PropTypes.string.isRequired,
+	removeTask: PropTypes.func.isRequired,
+	updateTask: PropTypes.func.isRequired,
 };
 
 export default TaskDisplay;

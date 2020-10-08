@@ -1,35 +1,48 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import TaskColumn from "components/Task/TaskColumn";
 import { TaskContext } from "context/TaskContext";
-
+import NewColumn from "components/NewColumn/NewColumn";
+import PropTypes from "prop-types";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
-const TaskBoard = () => {
+import { ws } from "socket";
+
+const TaskBoard = ({ boardId }) => {
 	const [tasks, setTasks] = useContext(TaskContext);
 
-	const [newColumn, setNewColumn] = useState("");
+	const createSocketNewBoard = (newColumn) => {
+		setTasks((tasks) => {
+			const tempTasks = [...tasks];
+			tempTasks.push(newColumn);
+			return tempTasks;
+		});
+	};
+	const deleteSocketColumn = (deleteResponse) => {
+		setTasks((tasks) => {
+			const newTasks = [...tasks];
+			newTasks.splice(deleteResponse.index, 1);
+			return newTasks;
+		});
+	};
+	const moveSocketColumn = (moveResponse) => {
+		setTasks((tasks) => {
+			const tempTasks = [...tasks];
+			const movingColumn = tempTasks.splice(moveResponse.source, 1)[0];
+			tempTasks.splice(moveResponse.destination, 0, movingColumn);
+			return tempTasks;
+		});
+	};
+	useEffect(() => {
+		ws.on("createNewColumn", createSocketNewBoard);
+		ws.on("deleteColumn", deleteSocketColumn);
+		ws.on("moveColumn", moveSocketColumn);
+		return () => {
+			ws.removeListener("createNewColumn", createSocketNewBoard);
+			ws.removeListener("deleteColumn", deleteSocketColumn);
+			ws.removeListener("moveColumn", moveSocketColumn);
+		};
+	}, []);
 
-	const handleNewColumnChange = (event) => {
-		const newColumnName = event.target.value;
-		if(newColumnName.length < 20){
-			setNewColumn(newColumnName);
-		}
-	};
-	const createNewColumn = (event) => {
-		if (event.key === "Enter" && newColumn.trim() !== "") {
-			setNewColumn("");
-			const submittedColumn = {
-				id: newColumn,
-				name: newColumn,
-				tasks: [],
-			};
-			setTasks((tasks) => {
-				const tempTasks = [...tasks];
-				tempTasks.push(submittedColumn);
-				return tempTasks;
-			});
-		}
-	};
 
 	const DraggableTaskColumn = (id, name, tasks, index) => {
 		return (
@@ -47,6 +60,7 @@ const TaskBoard = () => {
 								columnIndex={index}
 								columnName={name}
 								listOfTasks={tasks}
+								boardId={boardId}
 							/>
 						</div>
 					);
@@ -61,8 +75,8 @@ const TaskBoard = () => {
 				{(provided, snapshot) => {
 					return (
 						<div className="board-page-flex" ref={provided.innerRef}>
-							{tasks.map(({ id, name, tasks }, index) =>
-								DraggableTaskColumn(id, name, tasks, index)
+							{tasks.map(({ _id, name, tasks }, index) =>
+								DraggableTaskColumn(_id, name, tasks, index)
 							)}
 							{provided.placeholder}
 						</div>
@@ -70,18 +84,14 @@ const TaskBoard = () => {
 				}}
 			</Droppable>
 			<div>
-				<div className="add-new-column">
-					<input
-						onKeyDown={createNewColumn}
-						value={newColumn}
-						onChange={handleNewColumnChange}
-						type="text"
-						placeholder="+ new column"
-					/>
-				</div>
+				<NewColumn boardId={boardId} />
 			</div>
 		</div>
 	);
+};
+
+TaskBoard.propTypes = {
+	boardId: PropTypes.string.isRequired,
 };
 
 export default TaskBoard;

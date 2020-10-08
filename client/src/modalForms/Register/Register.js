@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import * as Yup from "yup";
-import { Formik, Field, Form } from "formik";
-import TextInput from "components/TextInput/TextInput";
-import Button from "components/Button/Button";
-import { ReactComponent as Spinner } from "assets/spinners/Infinity-1s-200px.svg";
 import { ModalContext } from "context/ModalContext";
 import "./Register.scss";
 import fetchData from "helper/fetchData";
+import SimpleForm from "components/SimpleForm/SimpleForm";
+import { Login } from "modalForms";
 
 const validationSchema = Yup.object({
 	username: Yup.string().max(25, "username is too long").required("field is required"),
@@ -19,14 +17,6 @@ const validationSchema = Yup.object({
 	surname: Yup.string().max(25, "surname is too long").required("field is required"),
 });
 
-const createInitialValueObject = (fieldObject) => {
-	let initialValues = {};
-	Object.keys(fieldObject).forEach((fieldName) => {
-		initialValues[fieldName] = fieldObject[fieldName].initialVal;
-	});
-	return initialValues;
-};
-
 const fields = {
 	username: { initialVal: "", type: "text" },
 	password: { initialVal: "", type: "password" },
@@ -38,6 +28,13 @@ const fields = {
 
 const Register = () => {
 	const [, modalDispatch] = useContext(ModalContext);
+	let openLoginAfterRegisterTimeOut = null;
+
+	useEffect(() => {
+		return () => {
+			clearTimeout(openLoginAfterRegisterTimeOut);
+		};
+	}, [openLoginAfterRegisterTimeOut]);
 
 	const handleSubmit = async (submittedData, { setErrors, setSubmitting }) => {
 		const { data, error } = await fetchData({
@@ -46,47 +43,23 @@ const Register = () => {
 			setLoading: setSubmitting,
 			payload: submittedData,
 		});
-		if (!!data) modalDispatch({ type: "CLOSE" });
+		if (!!data) {
+			modalDispatch({ type: "CLOSE" });
+			openLoginAfterRegisterTimeOut = setTimeout(() => {
+				modalDispatch({ type: "OPEN", payload: { render: <Login />, title: "LogIn" } });
+			}, 1000);
+		}
 		if (!!error) setErrors(error.message);
 	};
 
 	return (
 		<div className={`simple-form-container register-form`}>
-			<Formik
+			<SimpleForm
+				submitButtonName="REgister"
 				validationSchema={validationSchema}
-				initialValues={createInitialValueObject(fields)}
-				onSubmit={handleSubmit}
-			>
-				{({ isValid, errors, isSubmitting }) => (
-					<>
-						{isSubmitting && (
-							<div className="spinner-overlay">
-								<Spinner />
-							</div>
-						)}
-						<Form>
-							{Object.entries(fields).map(([field]) => (
-								<Field
-									key={field}
-									hasErrors={!!errors[field]}
-									helperText={errors[field]}
-									label={fields[field].label}
-									name={field}
-									type={fields[field].type}
-									as={TextInput}
-								/>
-							))}
-							<Button
-								classes={["btn-accent", "btn-submit"]}
-								type="submit"
-								disabled={isSubmitting || !isValid}
-							>
-								Register
-							</Button>
-						</Form>
-					</>
-				)}
-			</Formik>
+				handleSubmit={handleSubmit}
+				fields={fields}
+			/>
 		</div>
 	);
 };

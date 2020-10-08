@@ -1,6 +1,16 @@
 @import "../../assets/styles/mediaQueries";
 @import "../../assets/styles/colors";
 
+.display-task-wrapper {
+	.loading-overlay {
+		width: 34rem;
+		height: 10rem;
+		@include mq-1 {
+			width: 25rem;
+		}
+	}
+}
+
 .display-task {
 	display: flex;
 	flex-direction: row;
@@ -40,6 +50,10 @@
 		.task-description {
 			margin: 0;
 			margin-top: 1rem;
+			width: 25rem;
+			@include mq-1 {
+				width: 15rem;
+			}
 		}
 		.tag-container {
 			display: flex;

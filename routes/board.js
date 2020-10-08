@@ -16,7 +16,7 @@ const {
     getBoardMember,
     addNewUser,
     removeUserFromBoard
-} = require("../service/board");
+} = require("../service/http/board");
 
 const authJWT = passport.authenticate("jwt", { session: false });
 

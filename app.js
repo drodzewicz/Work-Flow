@@ -5,9 +5,11 @@ const logger = require("morgan");
 const errorHandler = require("errorhandler");
 const cors = require("cors");
 const passport = require("passport");
+const socketIO = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
+const io = socketIO(server);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -34,12 +36,22 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const boardRoutes = require("./routes/board");
 const tagRoutes = require("./routes/tag");
+const taskRoutes = require("./routes/task");
+const columnRoutes = require("./routes/column");
 require("./configs/passport-jwt")(passport);
 app
 	.use("/api", authRoutes)
 	.use("/api/user", userRoutes)
 	.use("/api/board", boardRoutes)
-	.use("/api/board/:boardId/tag", tagRoutes);
+	.use("/api/board/:boardId/tag", tagRoutes)
+	.use("/api/board/:boardId/column", columnRoutes)
+	.use("/api/board/:boardId/task", taskRoutes);
+
+const columnWS = require("./sockets/column");
+
+io.on("connection", (socket) => {
+	columnWS(io, socket);
+});
 
 
 // bad request - catches all non existing routes

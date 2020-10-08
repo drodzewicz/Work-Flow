@@ -1,6 +1,6 @@
-const Board = require("../models/board");
-const User = require("../models/user");
-const paginateConetnt = require("../helper/pagination");
+const Board = require("../../models/board");
+const User = require("../../models/user");
+const paginateConetnt = require("../../helper/pagination");
 
 const boardService = {};
 
@@ -108,10 +108,19 @@ boardService.getMyPinnedBoards = async (req, res) => {
 boardService.getBoardById = async (req, res) => {
 	const { id } = req.params;
 	try {
-		const foundBoard = await Board.findById(id);
+		const foundBoard = await Board.findOne({ _id: id }, "_id name description author columns").populate({
+			path: "columns",
+			populate: {
+				path: "tasks",
+				populate: {
+					path: "people tags",
+					select: "_id username avatarImageURL colorCode name",
+				},
+			},
+		});
 		return res.status(200).json(foundBoard);
 	} catch (error) {
-		return res.status(400).json({
+		return res.status(404).json({
 			message: Board.processErrors(error),
 		});
 	}

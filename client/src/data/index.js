@@ -52,11 +52,11 @@ export const singleTask_DATA = {
 
 export const boardTasks_2_DATA = [
 	{
-		id: "122jhdwdw",
+		_id: "122jhdwdw",
 		name: "backlog",
 		tasks: [
 			{
-				id: "TSK1",
+				_id: "TSK1",
 				name: "saving one",
 				tags: [
 					{ color: "red", id: "bug-red", name: "BUG" },
@@ -78,7 +78,7 @@ export const boardTasks_2_DATA = [
 				],
 			},
 			{
-				id: "TSK2",
+				_id: "TSK2",
 				name: "private ryan",
 				tags: [
 					{ color: "tiel", id: "fe555", name: "backend" },
@@ -87,7 +87,7 @@ export const boardTasks_2_DATA = [
 				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
 			},
 			{
-				id: "TSK3",
+				_id: "TSK3",
 				name: "czy nieeeeeeeee",
 				tags: [
 					{ color: "red", id: "dwdw44545", name: "BUG" },
@@ -99,11 +99,11 @@ export const boardTasks_2_DATA = [
 		],
 	},
 	{
-		id: "dwdw56565",
+		_id: "dwdw56565",
 		name: "to-do",
 		tasks: [
 			{
-				id: "TSK12",
+				_id: "TSK12",
 				name: "deekens az tak to mozna zagrac jak najbardziej tez nie jeszcze raz",
 				tags: [
 					{ color: "red", id: "dwdw44545", name: "BUG" },
@@ -115,7 +115,7 @@ export const boardTasks_2_DATA = [
 				],
 			},
 			{
-				id: "TSK13",
+				_id: "TSK13",
 				name: "prawda falsz",
 				tags: [
 					{ color: "tiel", id: "fe555", name: "backend" },
@@ -124,7 +124,7 @@ export const boardTasks_2_DATA = [
 				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
 			},
 			{
-				id: "TSK14",
+				_id: "TSK14",
 				name: "dawwwnooo",
 				tags: [
 					{ color: "red", id: "dwdw44545", name: "BUG" },
@@ -134,7 +134,7 @@ export const boardTasks_2_DATA = [
 				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
 			},
 			{
-				id: "TSK15",
+				_id: "TSK15",
 				name: "555 dawwwnoo fffe",
 				tags: [
 					{ color: "red", id: "dwdw44545", name: "BUG" },
@@ -144,7 +144,7 @@ export const boardTasks_2_DATA = [
 				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
 			},
 			{
-				id: "TSK16",
+				_id: "TSK16",
 				name: "lorem ipsum lorem 65 ipsum jeszcze ipsum i ujeszcze trovhe ipsum",
 				tags: [
 					{ color: "red", id: "dwdw44545", name: "BUG" },
@@ -154,7 +154,7 @@ export const boardTasks_2_DATA = [
 				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
 			},
 			{
-				id: "TSK17",
+				_id: "TSK17",
 				name: "an okoko",
 				tags: [
 					{ color: "red", id: "dwdw44545", name: "BUG" },
@@ -164,7 +164,7 @@ export const boardTasks_2_DATA = [
 				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
 			},
 			{
-				id: "TSK18",
+				_id: "TSK18",
 				name: "another one",
 				tags: [
 					{ color: "red", id: "dwdw44545", name: "BUG" },
@@ -176,41 +176,9 @@ export const boardTasks_2_DATA = [
 		],
 	},
 	{
-		id: "do35665646",
+		_id: "do35665646",
 		name: "done",
-		tasks: [
-			{
-				id: "TSK33",
-				name: "ff fsaving one 3434",
-				tags: [
-					{ color: "red", id: "dwdw44545", name: "BUG" },
-					{ color: "pink", id: "fghha466", name: "UI/UX" },
-				],
-				people: [
-					{ id: "use1", username: "user1", imageURL: "kke" },
-					{ id: "use2", username: "user2", imageURL: "kke" },
-				],
-			},
-			{
-				id: "TSK332",
-				name: "priffffe fe",
-				tags: [
-					{ color: "tiel", id: "fe555", name: "backend" },
-					{ color: "pink", id: "fghha466", name: "UI/UX" },
-				],
-				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
-			},
-			{
-				id: "TSK324",
-				name: "po angielsku",
-				tags: [
-					{ color: "red", id: "dwdw44545", name: "BUG" },
-					{ color: "tiel", id: "fe555", name: "backend" },
-					{ color: "pink", id: "fghha466", name: "UI/UX" },
-				],
-				people: [{ id: "use1", username: "user1", imageURL: "kke" }],
-			},
-		],
+		tasks: [],
 	},
 ];
 

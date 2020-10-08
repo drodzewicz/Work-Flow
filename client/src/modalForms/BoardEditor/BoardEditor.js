@@ -1,13 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import * as Yup from "yup";
 import "./BoardEditor.scss";
 import { ReactComponent as Spinner } from "assets/spinners/Infinity-1s-200px.svg";
-import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
-import User from "components/User/User";
 import Button from "components/Button/Button";
 import { Formik, Field, Form } from "formik";
 import TextInput from "components/TextInput/TextInput";
-import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
 import { ModalContext } from "context/ModalContext";
 
 import fetchData from "helper/fetchData";
@@ -21,9 +18,6 @@ const validationSchema = Yup.object({
 });
 
 const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
-	const [users, setUsers] = useState(!!initialValues ? initialValues.members : []);
-	const [searchRes, setSearchRes] = useState([]);
-
 	const [, dispatchModal] = useContext(ModalContext);
 
 	const history = useHistory();
@@ -34,7 +28,6 @@ const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
 	};
 
 	const submitButtonClick = async (submittedData, { setSubmitting }) => {
-		submittedData = { ...submittedData, members: users.map( ({user}) => ({user: user._id})) };
 		const { data } = await fetchData({
 			method: "POST",
 			url: submitDataURL,
@@ -48,33 +41,7 @@ const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
 			history.push(`/board/${boardId}`);
 		}
 	};
-	
-	const searchUsers = async (username) => {
-		const { data } = await fetchData({
-			method: "GET",
-			url: `user/find_user?username=${username}`,
-			token: true,
-		});
-		if (!!data) {
-			const parsedResult = data.map((user) => ({
-				...user,
-				text: user.username,
-			}));
-			setSearchRes(parsedResult);
-		}
-	};
-	const clearUserSearchResults = () => {
-		setSearchRes([]);
-	};
-	const addUserToBoardHandler = (user) => {
-		setSearchRes([]);
-		const tempUsers = [...users];
-		tempUsers.push({user});
-		setUsers(tempUsers);
-	};
-	const removeUserFromBoardHandler = (userId) => {
-		setUsers((currentUserList) => currentUserList.filter(({ user }) => user._id !== userId));
-	};
+
 	return (
 		<div className="board-form-container">
 			<Formik
@@ -108,32 +75,6 @@ const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
 									helperText={errors["description"]}
 									as={TextInput}
 								/>
-							</div>
-							<div className="user-container">
-								<AutoCompleteInput
-									execMethod={searchUsers}
-									timeout={700}
-									searchResult={searchRes.filter(
-										({ _id }) =>
-											users.findIndex(({ user }) => user._id === _id) <
-											0
-									)}
-									clickResult={addUserToBoardHandler}
-									clearResults={clearUserSearchResults}
-								/>
-								<div
-									className={`user-card-container ${
-										users.length > 4 ? "overflow-scroll" : ""
-									}`}
-								>
-									{users.map(({user, role }) => (
-										<User key={user._id} username={user.username} imageURL={user.avatarImageURL}>
-											{role !== "owner" && <RemoveCircleOutlineIcon
-												onClick={() => removeUserFromBoardHandler(user._id)}
-											/>}
-										</User>
-									))}
-								</div>
 							</div>
 							<Button
 								disabled={isSubmitting || !isValid}
