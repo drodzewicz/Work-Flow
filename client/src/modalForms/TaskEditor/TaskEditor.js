@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import * as Yup from "yup";
 import "./TaskEditor.scss";
 import { ReactComponent as Spinner } from "assets/spinners/Infinity-1s-200px.svg";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import User from "components/User/User";
 import TextInput from "components/TextInput/TextInput";
+import { UserContext } from "context/UserContext";
 
 import Button from "components/Button/Button";
 import { Formik, Field, Form } from "formik";
@@ -13,6 +14,7 @@ import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import Tag from "components/Tag/Tag";
 import fetchData from "helper/fetchData";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
+import { emitWS } from "helper/socketData";
 
 // import { userList_DATA, tags_DATA } from "data";
 
@@ -21,8 +23,9 @@ const validationSchema = Yup.object({
 	description: Yup.string().max(200, "description is too long"),
 });
 
-const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialValues, boardId }) => {
+const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialValues, boardId, columnId }) => {
 	const tagChoiceButton = useRef();
+	const [{user}] = useContext(UserContext);
 
 	const initialVals = {
 		title: initialValues ? initialValues.name : "",
@@ -42,11 +45,11 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 				url: `/board/${boardId}/tag`,
 				token: true,
 			});
-			if(!!data) setAvailableTags(data.tags);
+			if (!!data) setAvailableTags(data.tags);
 
 		}
 		getBoardTags();
-		return () => {};
+		return () => { };
 	}, [boardId]);
 
 	const submitOnButtonClick = async (submittedData, { setSubmitting }) => {
@@ -55,23 +58,36 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 			people: users.map(({ _id }) => _id),
 			tags: chosenBoardTags.map(({ _id }) => _id),
 		};
-		const addNewTaskToBoard = {
-			...submittedData,
-			people: users,
-			tags: chosenBoardTags,
-			_id: "" + Math.floor(Math.random() * 100),
-		};
-
-		const { data, error } = await fetchData({
-			method: "POST",
-			url: submitDataURL,
+		emitWS({
+			roomId: boardId,
+			eventName: "createTask",
 			token: true,
-			setLoading: setSubmitting,
-			payload: submittingTask,
+			payload: {
+				authorId: user._id,
+				...submittingTask,
+				columnId,
+				res: (res) => {
+
+				}
+			}
 		});
-		console.log(data, error);
-		if (addTask !== undefined) addTask(addNewTaskToBoard);
-		if (updateTask !== undefined) updateTask(addNewTaskToBoard);
+		// const addNewTaskToBoard = {
+		// 	...submittedData,
+		// 	people: users,
+		// 	tags: chosenBoardTags,
+		// 	_id: "" + Math.floor(Math.random() * 100),
+		// };
+
+		// const { data, error } = await fetchData({
+		// 	method: "POST",
+		// 	url: submitDataURL,
+		// 	token: true,
+		// 	setLoading: setSubmitting,
+		// 	payload: submittingTask,
+		// });
+		// console.log(data, error);
+		// if (addTask !== undefined) addTask(addNewTaskToBoard);
+		// if (updateTask !== undefined) updateTask(addNewTaskToBoard);
 	};
 
 	// USER
@@ -79,12 +95,11 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 		setUserSearchResult([]);
 	};
 	const searchUser = async (username) => {
-		const { data, error } = await fetchData({
+		const { data } = await fetchData({
 			method: "GET",
 			url: `/board/${boardId}/members?username=${username}`,
 			token: true,
 		});
-		console.log(data, error);
 		setUserSearchResult(
 			data
 				.filter(({ user }) => users.findIndex(({ _id }) => _id === user._id) < 0)
@@ -132,7 +147,7 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 			>
 				{({ isSubmitting, isValid, errors }) => (
 					<>
-					<LoadingOverlay show={isSubmitting} ></LoadingOverlay>
+						<LoadingOverlay show={isSubmitting} ></LoadingOverlay>
 						{isSubmitting && (
 							<div className="spinner-overlay">
 								<Spinner />
@@ -167,9 +182,8 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 									clearResults={clearUserSearchResults}
 								/>
 								<div
-									className={`user-card-container ${
-										users.length > 4 ? "overflow-scroll" : ""
-									}`}
+									className={`user-card-container ${users.length > 4 ? "overflow-scroll" : ""
+										}`}
 								>
 									{users.map(({ _id, username, avatarImageURL }, index) => (
 										<User key={_id} username={username} imageURL={avatarImageURL}>

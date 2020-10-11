@@ -29,6 +29,7 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
 			payload: {
 				render: (
 					<TaskEditor
+						columnId={columnId}
 						boardId={boardId}
 						addTask={addnewTask}
 						submitDataURL={`/board/${boardId}/task?columnId=${columnId}`}

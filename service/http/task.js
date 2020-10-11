@@ -49,7 +49,7 @@ taskService.deleteTask = async (req, res) => {
 	try {
 		await Task.findByIdAndDelete(taskId);
 		await Board.findOneAndUpdate({ _id: boardId }, { $pull: { columns: { tasks: { _id: taskId } } } });
-		return res.json({ task: test });
+		return res.json({ message: "task deleted" });
 	} catch (error) {
 		return res.status(400).json({
 			message: Task.processErrors(error),

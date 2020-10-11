@@ -48,9 +48,11 @@ app
 	.use("/api/board/:boardId/task", taskRoutes);
 
 const columnWS = require("./sockets/column");
+const taskWS = require("./sockets/task");
 
 io.on("connection", (socket) => {
 	columnWS(io, socket);
+	taskWS(io, socket);
 });
 
 

@@ -18,15 +18,6 @@ const Task = ({ taskId, title, indexes, tags, people }) => {
 
 	const { taskIndex, columnIndex } = indexes;
 
-	const removeTask = () => {
-		setTasks((tasks) => {
-			const tempTasks = [...tasks];
-			tempTasks[columnIndex].tasks.splice(taskIndex, 1);
-			return tempTasks;
-		});
-		modalDispatch({ type: "CLOSE" });
-	};
-
 	const updateTask = (updatedTask) => {
 		setTasks((tasks) => {
 			const tempTasks = [...tasks];
@@ -40,7 +31,7 @@ const Task = ({ taskId, title, indexes, tags, people }) => {
 		modalDispatch({
 			type: "OPEN",
 			payload: {
-				render: <TaskDisplay taskId={taskId} removeTask={removeTask} updateTask={updateTask} />,
+				render: <TaskDisplay taskId={taskId} updateTask={updateTask} />,
 				title: "Task Details",
 			},
 		});

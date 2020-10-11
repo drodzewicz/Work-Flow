@@ -4,44 +4,72 @@ import { TaskContext } from "context/TaskContext";
 import NewColumn from "components/NewColumn/NewColumn";
 import PropTypes from "prop-types";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import { useHistory } from "react-router-dom"
 
 import { ws } from "socket";
 
 const TaskBoard = ({ boardId }) => {
+	const history = useHistory();
 	const [tasks, setTasks] = useContext(TaskContext);
 
-	const createSocketNewBoard = (newColumn) => {
-		setTasks((tasks) => {
-			const tempTasks = [...tasks];
-			tempTasks.push(newColumn);
-			return tempTasks;
-		});
-	};
-	const deleteSocketColumn = (deleteResponse) => {
-		setTasks((tasks) => {
-			const newTasks = [...tasks];
-			newTasks.splice(deleteResponse.index, 1);
-			return newTasks;
-		});
-	};
-	const moveSocketColumn = (moveResponse) => {
-		setTasks((tasks) => {
-			const tempTasks = [...tasks];
-			const movingColumn = tempTasks.splice(moveResponse.source, 1)[0];
-			tempTasks.splice(moveResponse.destination, 0, movingColumn);
-			return tempTasks;
-		});
-	};
+	
 	useEffect(() => {
+		const createSocketNewBoard = (newColumn) => {
+			setTasks((tasks) => {
+				const tempTasks = [...tasks];
+				tempTasks.push(newColumn);
+				return tempTasks;
+			});
+		};
+		const deleteSocketColumn = (deleteResponse) => {
+			setTasks((tasks) => {
+				const newTasks = [...tasks];
+				newTasks.splice(deleteResponse.index, 1);
+				return newTasks;
+			});
+		};
+		const moveSocketColumn = (moveResponse) => {
+			setTasks((tasks) => {
+				const tempTasks = [...tasks];
+				const movingColumn = tempTasks.splice(moveResponse.source, 1)[0];
+				tempTasks.splice(moveResponse.destination, 0, movingColumn);
+				return tempTasks;
+			});
+		};
+		const createTask = (data) => {
+			const {success, task} = data;
+			if(success) {
+				setTasks((tasks) => {
+					const tempTasks = [...tasks];
+					tempTasks[task.columnIndex].tasks.push(task);
+					return tempTasks;
+				});
+			}
+		}
+		const deleteTask = (data) => {
+			const {success, error, index} = data;
+			if(success){
+				setTasks((tasks) => {
+					const newTasks = [...tasks];
+					newTasks[index.col].tasks.splice(index.task, 1);
+					return newTasks;
+				});
+			}
+		}
+
 		ws.on("createNewColumn", createSocketNewBoard);
 		ws.on("deleteColumn", deleteSocketColumn);
 		ws.on("moveColumn", moveSocketColumn);
+		ws.on("createTask", createTask);
+		ws.on("deleteTask", deleteTask);
 		return () => {
 			ws.removeListener("createNewColumn", createSocketNewBoard);
 			ws.removeListener("deleteColumn", deleteSocketColumn);
 			ws.removeListener("moveColumn", moveSocketColumn);
+			ws.removeListener("createTask", createTask);
+			ws.removeListener("deleteTask", deleteTask);
 		};
-	}, []);
+	}, [setTasks]);
 
 
 	const DraggableTaskColumn = (id, name, tasks, index) => {

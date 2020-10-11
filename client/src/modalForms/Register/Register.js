@@ -55,7 +55,7 @@ const Register = () => {
 	return (
 		<div className={`simple-form-container register-form`}>
 			<SimpleForm
-				submitButtonName="REgister"
+				submitButtonName="Register"
 				validationSchema={validationSchema}
 				handleSubmit={handleSubmit}
 				fields={fields}

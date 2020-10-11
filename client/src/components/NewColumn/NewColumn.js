@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./NewColumn.scss";
 import PropTypes from "prop-types";
-import fetchData from "helper/fetchData";
 
 // import { ws } from "socket";
 import { emitWS } from "helper/socketData";

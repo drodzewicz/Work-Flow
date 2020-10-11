@@ -11,8 +11,10 @@ import { UserContext } from "context/UserContext";
 import TaskEditor from "modalForms/TaskEditor/TaskEditor";
 import fetchData from "helper/fetchData";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
+import { emitWS } from "helper/socketData";
 
-const TaskDisplay = ({ taskId, removeTask, updateTask }) => {
+
+const TaskDisplay = ({ taskId, updateTask }) => {
 	const [, dispatchModal] = useContext(ModalContext);
 	const [{ currentBoard }] = useContext(UserContext);
 
@@ -54,13 +56,20 @@ const TaskDisplay = ({ taskId, removeTask, updateTask }) => {
 	}, [currentBoard.id, taskId]);
 
 	const deleteTask = async () => {
-		const { status, data } = await fetchData({
-			method: "DELETE",
-			url: `/board/${currentBoard.id}/task/${taskId}`,
-			token: true,
-		});
-		console.log(data);
-		if (status === "200") removeTask();
+		const shouldDelete = window.confirm("are you sure you want to delete this task?")
+		if (shouldDelete) {
+			emitWS({
+				roomId: currentBoard.id,
+				eventName: "deleteTask",
+				token: true,
+				payload: {
+					taskId,
+				},
+				res: (res) => {
+					if (res.success) dispatchModal({ type: "CLOSE" });
+				}
+			});
+		}
 	};
 
 	const openTaskEditModal = () => {
@@ -129,7 +138,6 @@ const TaskDisplay = ({ taskId, removeTask, updateTask }) => {
 
 TaskDisplay.propTypes = {
 	taskId: PropTypes.string.isRequired,
-	removeTask: PropTypes.func.isRequired,
 	updateTask: PropTypes.func.isRequired,
 };
 
