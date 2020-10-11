@@ -3,12 +3,6 @@ import { emitWS } from "helper/socketData";
 
 const handleMoveColumn = async (boardId, setTasks, sourceIndex, destinationIndex) => {
 	if (sourceIndex !== destinationIndex) {
-		// setTasks((tasks) => {
-		// 	const tempTasks = [...tasks];
-		// 	const movingColumn = tempTasks.splice(sourceIndex, 1)[0];
-		// 	tempTasks.splice(destinationIndex, 0, movingColumn);
-		// 	return tempTasks;
-		// });
 		emitWS({
 			roomId: boardId,
 			eventName: "moveColumn",
@@ -18,15 +12,6 @@ const handleMoveColumn = async (boardId, setTasks, sourceIndex, destinationIndex
 				destinationIndex,
 			 },
 		});
-		// await fetchData({
-		// 	method: "PATCH",
-		// 	url: `/board/${boardId}/column`,
-		// 	token: true,
-		// 	payload: {
-		// 		sourceIndex,
-		// 		destinationIndex,
-		// 	},
-		// });
 	}
 };
 
@@ -39,14 +24,14 @@ const handleMoveTask = async (boardId, setTasks, tasks, source, destination) => 
 		tempTasks[indexOfDestinationColumn].tasks.splice(destination.index, 0, movingTask);
 		return tempTasks;
 	});
-	await fetchData({
-		method: "PATCH",
-		url: `/board/${boardId}/task`,
+	emitWS({
+		roomId: boardId,
+		eventName: "moveTask",
 		token: true,
-		payload: {
+		payload: { 
 			source: { columnIndex: indexOfSourceColumn, taskIndex: source.index },
 			destination: { columnIndex: indexOfDestinationColumn, taskIndex: destination.index },
-		},
+		 },
 	});
 };
 

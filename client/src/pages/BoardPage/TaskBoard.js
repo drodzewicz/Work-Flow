@@ -12,7 +12,7 @@ const TaskBoard = ({ boardId }) => {
 	const history = useHistory();
 	const [tasks, setTasks] = useContext(TaskContext);
 
-	
+
 	useEffect(() => {
 		const createSocketNewBoard = (newColumn) => {
 			setTasks((tasks) => {
@@ -37,8 +37,8 @@ const TaskBoard = ({ boardId }) => {
 			});
 		};
 		const createTask = (data) => {
-			const {success, task} = data;
-			if(success) {
+			const { success, task } = data;
+			if (success) {
 				setTasks((tasks) => {
 					const tempTasks = [...tasks];
 					tempTasks[task.columnIndex].tasks.push(task);
@@ -47,8 +47,8 @@ const TaskBoard = ({ boardId }) => {
 			}
 		}
 		const deleteTask = (data) => {
-			const {success, error, index} = data;
-			if(success){
+			const { success, error, index } = data;
+			if (success) {
 				setTasks((tasks) => {
 					const newTasks = [...tasks];
 					newTasks[index.col].tasks.splice(index.task, 1);
@@ -56,18 +56,35 @@ const TaskBoard = ({ boardId }) => {
 				});
 			}
 		}
+		const moveTask = (data) => {
+			const { success, source, destination, taskId } = data;
+			if (success) {
+				setTasks((taskColumns) => {
+					if (taskColumns[destination.columnIndex]?.tasks[destination.taskIndex]?._id === taskId) {
+						return taskColumns;
+					} else {
+						const tempTasks = [...taskColumns];
+						const movingTask = tempTasks[source.columnIndex].tasks.splice(source.taskIndex, 1)[0];
+						tempTasks[destination.columnIndex].tasks.splice(destination.taskIndex, 0, movingTask);
+						return tempTasks;
+					}
+				});
+			}
+
+		}
 
 		ws.on("createNewColumn", createSocketNewBoard);
 		ws.on("deleteColumn", deleteSocketColumn);
 		ws.on("moveColumn", moveSocketColumn);
 		ws.on("createTask", createTask);
 		ws.on("deleteTask", deleteTask);
+		ws.on("moveTask", moveTask);
 		return () => {
 			ws.removeListener("createNewColumn", createSocketNewBoard);
 			ws.removeListener("deleteColumn", deleteSocketColumn);
 			ws.removeListener("moveColumn", moveSocketColumn);
 			ws.removeListener("createTask", createTask);
-			ws.removeListener("deleteTask", deleteTask);
+			ws.removeListener("moveTask", moveTask);
 		};
 	}, [setTasks]);
 

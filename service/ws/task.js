@@ -55,17 +55,24 @@ taskSocketService.deleteTask = async (data) => {
 	}
 };
 taskSocketService.moveTask = async (data) => {
-	const { boardId, sourceIndex, destinationIndex } = data;
+	const { source, destination, boardId } = data;
 	try {
 		const foundBoard = await Board.findOne({ _id: boardId }, "columns");
-		const movedColumn = foundBoard.columns.splice(sourceIndex, 1)[0];
-		foundBoard.columns.splice(destinationIndex, 0, movedColumn);
+		const movingTask = foundBoard.columns[source.columnIndex].tasks.splice(source.taskIndex, 1)[0];
+		const taskId = movingTask._id;
+		foundBoard.columns[destination.columnIndex].tasks.splice(destination.taskIndex, 0, movingTask);
 		await foundBoard.save();
-		return { message: "moved column", source: sourceIndex, destination: destinationIndex };
+		return {
+			success: true,
+			message: "tasked moved",
+			source, 
+			destination,
+			taskId
+		};
 	} catch (error) {
 		return {
-			error: true,
-			message: Board.processErrors(error),
+			errro: true,
+			message: Task.processErrors(error),
 		};
 	}
 };
