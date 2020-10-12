@@ -31,8 +31,7 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
 					<TaskEditor
 						columnId={columnId}
 						boardId={boardId}
-						addTask={addnewTask}
-						submitDataURL={`/board/${boardId}/task?columnId=${columnId}`}
+						action="CREATE"
 						buttonName="Create"
 					/>
 				),
@@ -48,15 +47,6 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
 			token: true,
 			payload: { columnId, columnIndex },
 		});
-	};
-
-	const addnewTask = (newTask) => {
-		setTasks((tasks) => {
-			const newTasks = [...tasks];
-			newTasks[columnIndex].tasks.push(newTask);
-			return newTasks;
-		});
-		modalDispatch({ type: "CLOSE" });
 	};
 
 	const activateColumnNameEditInput = () => {

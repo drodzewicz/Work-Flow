@@ -82,7 +82,8 @@ const TaskDisplay = ({ taskId, updateTask }) => {
 						buttonName="Update"
 						updateTask={updateTask}
 						boardId={currentBoard.id}
-						submitDataURL={`/board/${currentBoard.id}/task/${taskId}`}
+						taskId={taskId}
+						action={"UPDATE"}
 						initialValues={{
 							name: taskDetails.title,
 							description: taskDetails.description,

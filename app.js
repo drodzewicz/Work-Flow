@@ -32,6 +32,7 @@ app.use(cors({
     origin: "http://localhost:3000"
 }));
 
+// HTTP REQUESTS
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const boardRoutes = require("./routes/board");
@@ -47,20 +48,22 @@ app
 	.use("/api/board/:boardId/column", columnRoutes)
 	.use("/api/board/:boardId/task", taskRoutes);
 
-const columnWS = require("./sockets/column");
-const taskWS = require("./sockets/task");
-
-io.on("connection", (socket) => {
-	columnWS(io, socket);
-	taskWS(io, socket);
-});
-
-
 // bad request - catches all non existing routes
 app.use((req, res) => {
 	res.status(404).json({
 		error: `Bad request: ${req.method} ${req.originalUrl}`,
 	});
+});
+
+// WEB-SOCKETS
+const columnWS = require("./sockets/column");
+const taskWS = require("./sockets/task");
+const roomsWS = require("./sockets/rooms");
+
+io.on("connection", (socket) => {
+	roomsWS(io, socket);
+	columnWS(io, socket);
+	taskWS(io, socket);
 });
 
 server.listen(PORT, () => {

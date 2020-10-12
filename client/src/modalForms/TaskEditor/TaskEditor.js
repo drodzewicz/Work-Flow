@@ -6,6 +6,7 @@ import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import User from "components/User/User";
 import TextInput from "components/TextInput/TextInput";
 import { UserContext } from "context/UserContext";
+import { ModalContext } from "context/ModalContext";
 
 import Button from "components/Button/Button";
 import { Formik, Field, Form } from "formik";
@@ -23,9 +24,10 @@ const validationSchema = Yup.object({
 	description: Yup.string().max(200, "description is too long"),
 });
 
-const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialValues, boardId, columnId }) => {
+const TaskEditor = ({ buttonName, action, updateTask, initialValues, boardId, taskId, columnId }) => {
 	const tagChoiceButton = useRef();
-	const [{user}] = useContext(UserContext);
+	const [{ user }] = useContext(UserContext);
+	const [, modalDispatch] = useContext(ModalContext);
 
 	const initialVals = {
 		title: initialValues ? initialValues.name : "",
@@ -58,19 +60,31 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 			people: users.map(({ _id }) => _id),
 			tags: chosenBoardTags.map(({ _id }) => _id),
 		};
-		emitWS({
-			roomId: boardId,
-			eventName: "createTask",
-			token: true,
-			payload: {
-				authorId: user._id,
-				...submittingTask,
-				columnId,
+		if (action === "CREATE") {
+			emitWS({
+				roomId: boardId,
+				eventName: "createTask",
+				token: true,
+				payload: {
+					authorId: user._id,
+					...submittingTask,
+					columnId,
+				},
 				res: (res) => {
-
+					if (res.success) modalDispatch({ type: "CLOSE" });
 				}
-			}
-		});
+			});
+		} else if (action === "UPDATE") {
+			const { data } = await fetchData({
+				method: "POST",
+				url: `/board/${boardId}/task/${taskId}`,
+				token: true,
+				setLoading: setSubmitting,
+				payload: submittingTask,
+			});
+			// if(!!data) updateTask(addNewTaskToBoard)
+		}
+
 		// const addNewTaskToBoard = {
 		// 	...submittedData,
 		// 	people: users,
@@ -243,5 +257,6 @@ const TaskEditor = ({ submitDataURL, buttonName, addTask, updateTask, initialVal
 		</div>
 	);
 };
+
 
 export default TaskEditor;

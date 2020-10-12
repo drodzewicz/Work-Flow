@@ -7,10 +7,10 @@ const handleMoveColumn = async (boardId, setTasks, sourceIndex, destinationIndex
 			roomId: boardId,
 			eventName: "moveColumn",
 			token: true,
-			payload: { 
+			payload: {
 				sourceIndex,
 				destinationIndex,
-			 },
+			},
 		});
 	}
 };
@@ -24,15 +24,20 @@ const handleMoveTask = async (boardId, setTasks, tasks, source, destination) => 
 		tempTasks[indexOfDestinationColumn].tasks.splice(destination.index, 0, movingTask);
 		return tempTasks;
 	});
-	emitWS({
-		roomId: boardId,
-		eventName: "moveTask",
-		token: true,
-		payload: { 
-			source: { columnIndex: indexOfSourceColumn, taskIndex: source.index },
-			destination: { columnIndex: indexOfDestinationColumn, taskIndex: destination.index },
-		 },
-	});
+	const sourceIndexes = { columnIndex: indexOfSourceColumn, taskIndex: source.index }
+	const destinationIndexes = { columnIndex: indexOfDestinationColumn, taskIndex: destination.index }
+	if (sourceIndexes.columnIndex !== destinationIndexes.columnIndex || sourceIndexes.taskIndex !== destinationIndexes.taskIndex) {
+		emitWS({
+			roomId: boardId,
+			eventName: "moveTask",
+			token: true,
+			payload: {
+				source: sourceIndexes,
+				destination: destinationIndexes,
+			},
+		});
+	}
+
 };
 
 export const onDragEnd = (boardId, result, tasks, setTasks) => {
