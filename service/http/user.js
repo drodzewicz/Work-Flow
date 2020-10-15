@@ -27,15 +27,15 @@ userService.registerUser = async (req, res) => {
 		});
 	} catch (error) {
 		return res.status(400).json({
+			error: true,
 			message: User.processErrors(error),
 		});
 	}
 };
-
 userService.loginJWT = async (req, res) => {
 	const { username, password } = req.body;
 	try {
-		const foundUser = await User.findOne({ username: username },"_id username name surname avatarImageURL password");
+		const foundUser = await User.findOne({ username: username }, "_id username name surname avatarImageURL password");
 		const comparePasswords = await bcrypt.compare(password, foundUser.password);
 
 		if (foundUser !== null && comparePasswords) {
@@ -51,17 +51,16 @@ userService.loginJWT = async (req, res) => {
 		}
 	} catch (error) {
 		return res.status(400).json({
-			err: true,
-			msg: User.processErrors(error),
+			error: true,
+			message: User.processErrors(error),
 		});
 	}
 };
-
 userService.isAuthenticated = async (req, res) => {
 	const { id } = req.user;
 
 	try {
-		const foundUser = await User.findOne({ _id: id },"_id username name surname avatarImageURL email");
+		const foundUser = await User.findOne({ _id: id }, "_id username name surname avatarImageURL email");
 		return res.status(200).json({
 			authorized: true,
 			user: foundUser,
@@ -73,7 +72,6 @@ userService.isAuthenticated = async (req, res) => {
 		});
 	}
 };
-
 userService.changePassword = async function (req, res) {
 	const { id } = req.user;
 	const { newPassword, matchPassword } = req.body;
@@ -101,7 +99,6 @@ userService.changePassword = async function (req, res) {
 		});
 	}
 };
-
 userService.changeAvatarImage = async function (req, res) {
 	const { imageURL } = req.body;
 	const { id } = req.user;
@@ -118,7 +115,6 @@ userService.changeAvatarImage = async function (req, res) {
 		});
 	}
 };
-
 userService.updateCredentials = async function (req, res) {
 	const { id } = req.user;
 	try {
@@ -130,19 +126,16 @@ userService.updateCredentials = async function (req, res) {
 		});
 	}
 };
-
 userService.searchUserByRegex = async function (req, res) {
 	const { username: loggedInUser } = req.user;
 	const { username } = req.query;
 	try {
 		const foundUsers = await User.find({ username: { $regex: username, $options: "i" } });
-		return res
-			.status(200)
-			.json(
-				foundUsers
-					.filter(({ username }) => username !== loggedInUser)
-					.map(({ _id, username, avatarImageURL }) => ({ _id, username, avatarImageURL }))
-			);
+		return res.status(200).json(
+			foundUsers
+				.filter(({ username }) => username !== loggedInUser)
+				.map(({ _id, username, avatarImageURL }) => ({ _id, username, avatarImageURL }))
+		);
 	} catch (error) {
 		return res.status(400).json({
 			message: User.processErrors(error),

@@ -1,6 +1,7 @@
 const Board = require("../../models/board");
 const User = require("../../models/user");
 const paginateConetnt = require("../../helper/pagination");
+const processErrors = require("../../helper/errorHandler");
 
 const boardService = {};
 
@@ -11,44 +12,34 @@ boardService.createNewBoard = async (req, res) => {
 	const newBoard = new Board({ name, description, members, author: authorId });
 	try {
 		await newBoard.save();
-		return res.json({ message: "created", board: newBoard });
+		return res.json({
+			success: true,
+			message: "created",
+			board: newBoard
+		});
 	} catch (error) {
 		return res.status(400).json({
-			message: Board.processErrors(error),
+			error: true,
+			message: processErrors(error),
 		});
 	}
 };
-
 boardService.updateBoard = async (req, res) => {
-	const { name, description, members } = req.body;
-	const { id } = req.params;
+	const { name, description } = req.body;
+	const { boardId } = req.params;
 	try {
-		const foundBoard = await Board.findById(id);
-		foundBoard.name = name;
-		foundBoard.description = description;
-
-		const updatedMemberList = [];
-		members.forEach(({ user: newUser }) => {
-			const indexOfExistingUser = foundBoard.members.findIndex(
-				({ user }) => user.toLocaleString() === newUser.toLocaleString()
-			);
-			if (indexOfExistingUser >= 0) {
-				updatedMemberList.push(foundBoard.members[indexOfExistingUser]);
-			} else {
-				updatedMemberList.push({ user: newUser, role: "regular" });
-			}
+		await Board.findOneAndUpdate({_id: boardId}, {name, description})
+		return res.json({
+			message: "updated",
+			success: true
 		});
-		foundBoard.members = updatedMemberList;
-
-		await foundBoard.save();
-		return res.json({ message: "updated", board: foundBoard });
 	} catch (error) {
 		return res.status(400).json({
-			message: Board.processErrors(error),
+			error: true,
+			message: processErrors(error),
 		});
 	}
 };
-
 boardService.getMyBoards = async (req, res) => {
 	const { id } = req.user;
 	const { page, limit } = req.query;
@@ -56,7 +47,7 @@ boardService.getMyBoards = async (req, res) => {
 		const foundMyBoards = await Board.find(
 			{ "members.user": id },
 			"description members name _id author"
-		).populate({
+		).sort({ timeCreated: -1 }).populate({
 			path: "members",
 			populate: { path: "user", select: "username avatarImageURL _id" },
 		});
@@ -79,11 +70,11 @@ boardService.getMyBoards = async (req, res) => {
 		return res.json(paginatedMyBoards);
 	} catch (error) {
 		return res.status(400).json({
-			message: Board.processErrors(error),
+			error: true,
+			message: processErrors(error),
 		});
 	}
 };
-
 boardService.getMyPinnedBoards = async (req, res) => {
 	const { id } = req.user;
 	try {
@@ -100,15 +91,15 @@ boardService.getMyPinnedBoards = async (req, res) => {
 		return res.status(200).json(pinnedBoards);
 	} catch (error) {
 		return res.status(400).json({
-			message: Board.processErrors(error),
+			errror: true,
+			message: processErrors(error),
 		});
 	}
 };
-
 boardService.getBoardById = async (req, res) => {
-	const { id } = req.params;
+	const { boardId } = req.params;
 	try {
-		const foundBoard = await Board.findOne({ _id: id }, "_id name description author columns").populate({
+		const foundBoard = await Board.findOne({ _id: boardId }, "_id name description author columns").populate({
 			path: "columns",
 			populate: {
 				path: "tasks",
@@ -121,11 +112,11 @@ boardService.getBoardById = async (req, res) => {
 		return res.status(200).json(foundBoard);
 	} catch (error) {
 		return res.status(404).json({
-			message: Board.processErrors(error),
+			error: true,
+			message: processErrors(error),
 		});
 	}
 };
-
 boardService.togglePinBoard = async (req, res) => {
 	const { boardId } = req.query;
 	const { id } = req.user;
@@ -150,10 +141,9 @@ boardService.togglePinBoard = async (req, res) => {
 		});
 	}
 };
-
 boardService.deleteBoard = async (req, res) => {
 	const { id } = req.user;
-	const { id: boardId } = req.params;
+	const { boardId } = req.params;
 
 	try {
 		const { author } = await Board.findById(boardId);
@@ -178,14 +168,13 @@ boardService.deleteBoard = async (req, res) => {
 		return res.status(200).json({ message: `successfully deleted board with id: ${boardId}` });
 	} catch (error) {
 		return res.status(400).json({
-			message: Board.processErrors(error),
+			message: processErrors(error),
 		});
 	}
 };
-
 boardService.leaveBoard = async (req, res) => {
 	const { id } = req.user;
-	const { id: boardId } = req.params;
+	const { boardId } = req.params;
 
 	try {
 		const foundBoard = await Board.findById(boardId);
@@ -203,108 +192,7 @@ boardService.leaveBoard = async (req, res) => {
 		return res.status(200).json({ message: `successfully left board of id: ${boardId}` });
 	} catch (error) {
 		return res.status(400).json({
-			message: Board.processErrors(error),
-		});
-	}
-};
-
-boardService.getBoardMembers = async (req, res) => {
-	const { id } = req.params;
-	const { page, limit } = req.query;
-	const { username } = req.query;
-
-	try {
-		const { members } = await Board.findOne({ _id: id }, "members").populate({
-			path: "members",
-			populate: {
-				path: "user",
-				select: "_id username avatarImageURL",
-			},
-		});
-		if (!page || !limit) {
-			return res.status(200).json(members);
-		}
-		if (!!username) {
-			const matchedMembers = members.find((value) => username.test(value));
-			return res.status(200).json(matchedMembers);
-		}
-
-		const paginatedMembers = paginateConetnt(members, page, limit);
-		return res.status(200).json(paginatedMembers);
-	} catch (error) {
-		return res.status(400).json({
-			message: Board.processErrors(error),
-		});
-	}
-};
-
-boardService.getBoardMember = async (req, res) => {
-	const { boardId, userId } = req.params;
-	try {
-		const foundBoard = await Board.findOne({ _id: boardId }, "_id members");
-		const foundMember = foundBoard.members.find(
-			({ user }) => user.toLocaleString() === userId.toLocaleString()
-		);
-		return res.status(200).json({ member: foundMember });
-	} catch (error) {
-		return res.status(400).json({
-			message: Board.processErrors(error),
-		});
-	}
-};
-
-boardService.removeUserFromBoard = async (req, res) => {
-	const { boardId, userId } = req.params;
-	try {
-		let foundBoard = await Board.findOne({ _id: boardId }, "_id members");
-		foundBoard.members = foundBoard.members.filter(
-			({ user }) => user.toLocaleString() !== userId.toLocaleString()
-		);
-		foundBoard.save();
-		return res.status(200).json({ message: "user removed from board" });
-	} catch (error) {
-		return res.status(400).json({
-			message: Board.processErrors(error),
-		});
-	}
-};
-
-boardService.addNewUser = async (req, res) => {
-	const { id } = req.params;
-	const { userId } = req.query;
-
-	try {
-		const foundBoard = await Board.findOne({ _id: id }, "_id members");
-		foundBoard.members.push({ user: userId });
-		foundBoard.save();
-		return res.status(200).json({ message: "user added to the board", boardMembers: foundBoard.members });
-	} catch (error) {
-		return res.status(400).json({
-			message: Board.processErrors(error),
-		});
-	}
-};
-
-boardService.changeUserRole = async (req, res) => {
-	const { userId, boardId } = req.params;
-	const { newRole } = req.query;
-
-	if (!newRole) {
-		return res.status(400).json({ message: "role was not given" });
-	}
-
-	try {
-		const foundBoard = await Board.findOne({ _id: boardId }, "_id members");
-		foundBoard.members.forEach(({ user }, index) => {
-			if (user._id.toLocaleString() === userId.toLocaleString()) {
-				foundBoard.members[index].role = newRole;
-			}
-		});
-		foundBoard.save();
-		return res.status(200).json({ message: "role changed", role: newRole });
-	} catch (error) {
-		return res.status(400).json({
-			message: Board.processErrors(error),
+			message: processErrors(error),
 		});
 	}
 };

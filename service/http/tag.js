@@ -1,5 +1,6 @@
 const Board = require("../../models/board");
 const Tag = require("../../models/tag");
+const processErrors = require("../../helper/errorHandler");
 
 const tagService = {};
 
@@ -10,11 +11,10 @@ tagService.getBoardTags = async (req, res) => {
 		return res.status(200).json({ tags });
 	} catch (error) {
 		return res.status(400).json({
-			message: Board.processErrors(error),
+			message: processErrors(error),
 		});
 	}
 };
-
 tagService.createNewTag = async (req, res) => {
 	const { boardId } = req.params;
 	const { name, colorCode } = req.body;
@@ -40,7 +40,7 @@ tagService.deleteTag = async (req, res) => {
 		return res.status(200).json({ message: "tag deleted" });
 	} catch (error) {
 		return res.status(400).json({
-			message: Board.processErrors(error),
+			message: processErrors(error),
 		});
 	}
 };

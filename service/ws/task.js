@@ -1,6 +1,6 @@
 const Board = require("../../models/board");
 const Task = require("../../models/task");
-const User = require("../../models/user");
+const processErrors = require("../../helper/errorHandler");
 
 const taskSocketService = {};
 

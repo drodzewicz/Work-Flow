@@ -3,20 +3,17 @@ const router = express.Router();
 const passport = require("passport");
 
 const {
-	createNewBoard,
-	getMyBoards,
-	getMyPinnedBoards,
-	getBoardById,
-	updateBoard,
-	togglePinBoard,
+    createNewBoard,
+    getMyBoards,
+    getMyPinnedBoards,
+    getBoardById,
+    updateBoard,
+    togglePinBoard,
     deleteBoard,
     leaveBoard,
-    changeUserRole,
-    getBoardMembers,
-    getBoardMember,
-    addNewUser,
-    removeUserFromBoard
 } = require("../service/http/board");
+
+const { isBoardAuthor, isBoardMember } = require("../middleware/boardMiddleware")
 
 const authJWT = passport.authenticate("jwt", { session: false });
 
@@ -30,22 +27,12 @@ router.route("/user/pined_boards")
     .get(authJWT, getMyPinnedBoards)
     .patch(authJWT, togglePinBoard);
 
-router.route("/:id")
-    .get(authJWT, getBoardById)
-    .post(authJWT, updateBoard)
-    .delete(authJWT, deleteBoard);
+router.route("/:boardId")
+    .get(authJWT, isBoardMember, getBoardById)
+    .post(authJWT, isBoardAuthor, updateBoard)
+    .delete(authJWT, isBoardAuthor, deleteBoard);
 
-router.route("/:id/members")
-    .get(authJWT, getBoardMembers)
-    .patch(authJWT, addNewUser)
-
-router.route("/:boardId/members/:userId")
-    .patch(authJWT, changeUserRole)
-    .get(authJWT, getBoardMember)
-    .delete(authJWT,removeUserFromBoard);
-
-router.route("/:id/leave_board")
-    .delete(authJWT, leaveBoard);
-
+router.route("/:boardId/leave_board")
+    .delete(authJWT, isBoardMember, leaveBoard);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const Board = require("../../models/board");
-const User = require("../../models/user");
+const processErrors = require("../../helper/errorHandler");
 
 const columnSocketService = {};
 
@@ -15,7 +15,7 @@ columnSocketService.createColumn = async (data) => {
 	} catch (error) {
 		return {
 			error: true,
-			message: Board.processErrors(error),
+			message: processErrors(error),
 		};
 	}
 };
@@ -28,7 +28,7 @@ columnSocketService.deleteColumn = async (data) => {
 	} catch (error) {
 		return {
 			error: true,
-			message: Board.processErrors(error),
+			message: processErrors(error),
 		};
 	}
 };
@@ -43,7 +43,7 @@ columnSocketService.moveColumn = async (data) => {
 	} catch (error) {
 		return {
 			error: true,
-			message: Board.processErrors(error),
+			message: processErrors(error),
 		};
 	}
 };

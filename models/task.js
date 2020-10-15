@@ -22,14 +22,4 @@ const taskSchema = new Schema({
 	],
 });
 
-const Task = mongoose.model("Task", taskSchema);
-
-Task.processErrors = (err) => {
-	const msg = {};
-	for (const key in err.errors) {
-		msg[key] = err.errors[key].message;
-	}
-	return msg;
-};
-
-module.exports = Task;
+module.exports = mongoose.model("Task", taskSchema);

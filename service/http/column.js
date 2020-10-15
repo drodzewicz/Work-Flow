@@ -1,9 +1,7 @@
 const Board = require("../../models/board");
-const Tag = require("../../models/tag");
-const Task = require("../../models/task");
+const processErrors = require("../../helper/errorHandler");
 
 const columnService = {};
-
 
 columnService.getBoardColumns = async (req, res) => {
 	const { boardId } = req.params;
@@ -21,11 +19,10 @@ columnService.getBoardColumns = async (req, res) => {
 		return res.status(200).json({ columns });
 	} catch (error) {
 		return res.status(400).json({
-			message: Board.processErrors(error),
+			message: processErrors(error),
 		});
 	}
 };
-
 columnService.editColumnName = async (req, res) => {
 	const { boardId, columnId } = req.params;
 	const { name } = req.body;
@@ -37,7 +34,7 @@ columnService.editColumnName = async (req, res) => {
 		return res.status(200).json({ message: "updated column name" });
 	} catch (error) {
 		return res.status(400).json({
-			message: Board.processErrors(error),
+			message: processErrors(error),
 		});
 	}
 };

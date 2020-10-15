@@ -6,14 +6,4 @@ const tagSchema = new Schema({
 	colorCode: String,
 });
 
-const Tag = mongoose.model("Tag", tagSchema);
-
-Tag.processErrors = (err) => {
-	const msg = {};
-	for (const key in err.errors) {
-		msg[key] = err.errors[key].message;
-	}
-	return msg;
-};
-
-module.exports = Tag;
+module.exports = mongoose.model("Tag", tagSchema);

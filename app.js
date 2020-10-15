@@ -39,11 +39,13 @@ const boardRoutes = require("./routes/board");
 const tagRoutes = require("./routes/tag");
 const taskRoutes = require("./routes/task");
 const columnRoutes = require("./routes/column");
+const membersRoute = require("./routes/members");
 require("./configs/passport-jwt")(passport);
 app
 	.use("/api", authRoutes)
 	.use("/api/user", userRoutes)
 	.use("/api/board", boardRoutes)
+	.use("/api/board", membersRoute)
 	.use("/api/board/:boardId/tag", tagRoutes)
 	.use("/api/board/:boardId/column", columnRoutes)
 	.use("/api/board/:boardId/task", taskRoutes);

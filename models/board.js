@@ -47,16 +47,10 @@ const boardSchema = new Schema({
 			],
 		},
 	],
+	timeCreated: {
+		type: Date,
+		default: new Date()
+    },
 });
 
-const Board = mongoose.model("Board", boardSchema);
-
-Board.processErrors = (err) => {
-	const msg = {};
-	for (const key in err.errors) {
-		msg[key] = err.errors[key].message;
-	}
-	return msg;
-};
-
-module.exports = Board;
+module.exports = mongoose.model("Board", boardSchema);
