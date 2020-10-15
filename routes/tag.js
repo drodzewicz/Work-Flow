@@ -9,16 +9,18 @@ const {
     updateTag
 } = require("../service/http/tag");
 
+const { isBoardMember, isBoardAdmin } = require("../middleware/boardMiddleware")
+
 const authJWT = passport.authenticate("jwt", { session: false });
 
 router.route("/")
-    .get(authJWT, getBoardTags)
-    .post(authJWT, createNewTag)
+    .get(authJWT, isBoardMember, getBoardTags)
+    .post(authJWT, isBoardAdmin, createNewTag)
 
 
 router.route("/:tagId")
-    .delete(authJWT, deleteTag)
-    .post(authJWT, updateTag)
+    .delete(authJWT, isBoardAdmin, deleteTag)
+    .post(authJWT, isBoardAdmin, updateTag)
 
 
 module.exports = router;

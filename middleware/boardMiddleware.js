@@ -30,9 +30,24 @@ boardMiddleWare.isBoardMember = async (req, res, next) => {
     const indexOfMember = members.findIndex(({ user }) => user.toLocaleString() === id.toLocaleString());
     if (indexOfMember < 0)
         return res.status(403).json({ message: "you are not a member of this board" })
-  
 
     return next();
+}
+
+boardMiddleWare.isBoardAdmin = async (req, res, next) => {
+    const { boardId } = req.params;
+    const { id } = req.user;
+
+    const { members } = await getBoard(boardId, "members");
+    const indexOfMember = members.findIndex(({ user }) => user.toLocaleString() === id.toLocaleString());
+    console.log(members[indexOfMember].role);
+
+    if (indexOfMember < 0)
+        return res.status(403).json({ message: "you are not a member of this board" })
+    else if (members[indexOfMember].role === "admin" || members[indexOfMember].role === "owner")
+        return next();
+    return res.status(401).json({ message: "you are not a authorized" })
+   
 }
 
 module.exports = boardMiddleWare;

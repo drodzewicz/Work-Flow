@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 const passport = require("passport");
 
 const {
@@ -8,14 +8,16 @@ const {
 
 } = require("../service/http/column");
 
+const { isBoardMember, isBoardAdmin } = require("../middleware/boardMiddleware")
+
 const authJWT = passport.authenticate("jwt", { session: false });
 
 
 router.route("/")
-    .get(authJWT, getBoardColumns)
+    .get(authJWT, isBoardMember, getBoardColumns)
 
 router.route("/:columnId")
-    .patch(authJWT, editColumnName)
+    .patch(authJWT, isBoardAdmin, editColumnName)
 
 
 module.exports = router;
