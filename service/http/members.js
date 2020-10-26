@@ -1,7 +1,9 @@
 
 const Board = require("../../models/board");
+const User = require("../../models/user");
 const paginateConetnt = require("../../helper/pagination");
 const processErrors = require("../../helper/errorHandler");
+const { findOne } = require("../../models/board");
 
 const boardMemberService = {};
 
@@ -67,12 +69,12 @@ boardMemberService.removeUserFromBoard = async (req, res) => {
 boardMemberService.addNewUser = async (req, res) => {
 	const { boardId } = req.params;
 	const { userId } = req.query;
-
 	try {
-		const foundBoard = await Board.findOne({ _id: boardId }, "_id members");
-		foundBoard.members.push({ user: userId });
-		foundBoard.save();
-		return res.status(200).json({ message: "user added to the board", boardMembers: foundBoard.members });
+		await Board.findOneAndUpdate({ _id: boardId }, { $push: { members: { user: userId } } }, { useFindAndModify: false });
+		const foundBoard = await Board.findOne({ _id: boardId}, "name")
+		const notification = { title: foundBoard.name, info: "you have been added to the board", url: `/board/${boardId}` }
+		await User.findOneAndUpdate({ "_id": userId }, { $push: { notifications:  notification} })
+		return res.status(200).json({ message: "user added to the board" });
 	} catch (error) {
 		return res.status(400).json({
 			message: processErrors(error),
@@ -88,13 +90,16 @@ boardMemberService.changeUserRole = async (req, res) => {
 	}
 
 	try {
-		const foundBoard = await Board.findOne({ _id: boardId }, "_id members");
+		const foundBoard = await Board.findOne({ _id: boardId }, "_id members name");
+		const foundUSer = await User.findOne({ _id: userId }, "_id notifications");
 		foundBoard.members.forEach(({ user }, index) => {
 			if (user._id.toLocaleString() === userId.toLocaleString()) {
 				foundBoard.members[index].role = newRole;
 			}
 		});
-		foundBoard.save();
+		await foundBoard.save();
+		foundUSer.notifications.push({ title: foundBoard.name, info: `assigned new role - ${newRole}` })
+		await foundUSer.save();
 		return res.status(200).json({ message: "role changed", role: newRole });
 	} catch (error) {
 		return res.status(400).json({

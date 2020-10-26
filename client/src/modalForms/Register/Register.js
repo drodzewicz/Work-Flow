@@ -29,7 +29,7 @@ const Register = () => {
 				/>}
 			{registerStage === 2 &&
 				<RegisterStage2
-					changeStage={setRegisterStage}
+						changeStage={setRegisterStage}
 					initialFieldValues={registerFormField}
 				/>}
 		</div>

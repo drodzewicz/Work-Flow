@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./NewColumn.scss";
 import PropTypes from "prop-types";
 
-// import { ws } from "socket";
 import { emitWS } from "helper/socketData";
 
 const NewColumn = ({ boardId }) => {
@@ -21,9 +20,12 @@ const NewColumn = ({ boardId }) => {
 				roomId: boardId,
 				eventName: "createNewColumn",
 				token: true,
-				payload: { name: columnName }
+				payload: { name: columnName },
+				res: (response) => {
+					if(!response.error) setColumnName("")
+				}
 			});
-			setColumnName("");
+			
 		}
 	};
 	return (

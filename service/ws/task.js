@@ -1,5 +1,6 @@
 const Board = require("../../models/board");
 const Task = require("../../models/task");
+const User = require("../../models/user");
 const processErrors = require("../../helper/errorHandler");
 
 const taskSocketService = {};
@@ -7,7 +8,7 @@ const taskSocketService = {};
 taskSocketService.createTask = async (data) => {
 	const { columnId, boardId, title, description, tags, people, authorId } = data;
 	try {
-		const foundBoard = await Board.findOne({ _id: boardId }, "columns");
+		const foundBoard = await Board.findOne({ _id: boardId }, "_id name columns");
 		const newTask = new Task({ title, description, tags, people, author: authorId });
 		const savedTask = await newTask.save();
 		const columnIndex = foundBoard.columns.findIndex(({ _id }) => {
@@ -16,6 +17,12 @@ taskSocketService.createTask = async (data) => {
 		foundBoard.columns[columnIndex].tasks.push(savedTask._id);
 		const task = await savedTask.populate("people tags author").execPopulate();
 		await foundBoard.save();
+
+		const newNotification = { title: foundBoard.name, info: `assigned new task: ${title}`, url: `/board/${foundBoard._id}` };
+		await User.updateMany(
+			{ "_id": { "$in": people } },
+			{ $push: { notifications: newNotification } }
+		)
 		return {
 			success: true,
 			message: "created task",
@@ -24,7 +31,8 @@ taskSocketService.createTask = async (data) => {
 	} catch (error) {
 		return {
 			error: true,
-			message: Task.processErrors(error),
+			message: processErrors(error),
+			errors: error
 		};
 	}
 };
@@ -50,7 +58,7 @@ taskSocketService.deleteTask = async (data) => {
 	} catch (error) {
 		return {
 			error: true,
-			message: Task.processErrors(error),
+			message: processErrors(error),
 		};
 	}
 };
@@ -65,14 +73,14 @@ taskSocketService.moveTask = async (data) => {
 		return {
 			success: true,
 			message: "tasked moved",
-			source, 
+			source,
 			destination,
 			taskId
 		};
 	} catch (error) {
 		return {
 			errro: true,
-			message: Task.processErrors(error),
+			message: processErrors(error),
 		};
 	}
 };

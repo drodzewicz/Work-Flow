@@ -10,6 +10,7 @@ import Footer from "components/Footer/Footer";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 import fetchData from "helper/fetchData";
 
+
 function App() {
 	const [{ authStatus, theme }, dispatchUser] = useContext(UserContext);
 	const [authLoading, setAuthLoading] = useState(true);
@@ -26,12 +27,12 @@ function App() {
 		};
 		checkUserAuthentication();
 
-		return () => {};
+		return () => { };
 	}, [dispatchUser]);
 
 	useEffect(() => {
 		if (authStatus === "success" || authStatus === "failed") setAuthLoading(false);
-		return () => {};
+		return () => { };
 	}, [authStatus]);
 
 	return (

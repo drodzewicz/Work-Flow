@@ -4,12 +4,9 @@ import { TaskContext } from "context/TaskContext";
 import NewColumn from "components/NewColumn/NewColumn";
 import PropTypes from "prop-types";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { useHistory } from "react-router-dom"
-
 import { ws } from "socket";
 
 const TaskBoard = ({ boardId }) => {
-	const history = useHistory();
 	const [tasks, setTasks] = useContext(TaskContext);
 
 
@@ -47,7 +44,7 @@ const TaskBoard = ({ boardId }) => {
 			}
 		}
 		const deleteTask = (data) => {
-			const { success, error, index } = data;
+			const { success, index } = data;
 			if (success) {
 				setTasks((tasks) => {
 					const newTasks = [...tasks];

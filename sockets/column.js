@@ -12,23 +12,21 @@ module.exports = (io, socket) => {
 		call(response);
 	});
 
-	socket.on("deleteColumn", async (data, call) => {
+	socket.on("deleteColumn", async (data) => {
 		const { roomId, token, payload } = data;
 
 		const response = await deleteColumn({ boardId: roomId, ...payload });
 		if (!response.error) {
 			io.in(roomId).emit("deleteColumn", response);
 		}
-		call(response);
 	});
 
-	socket.on("moveColumn", async (data, call) => {
+	socket.on("moveColumn", async (data) => {
 		const { roomId, token, payload } = data;
 
 		const response = await moveColumn({ boardId: roomId, ...payload });
 		if (!response.error) {
 			io.in(roomId).emit("moveColumn", response);
 		}
-		call(response);
 	});
 };
