@@ -46,6 +46,13 @@ const userSchema = new Schema({
 			ref: "Board",
 		},
 	],
+	notifications: [
+		{
+			title: String,
+			info: String,
+			url: String
+		},
+	],
 });
 
 userSchema.plugin(uniqueValidator, { message: "{VALUE} is not available" });

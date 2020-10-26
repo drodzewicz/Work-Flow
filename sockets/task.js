@@ -21,13 +21,12 @@ module.exports = (io, socket) => {
 		call(response);
 	});
 
-	socket.on("moveTask", async (data, call) => {
+	socket.on("moveTask", async (data) => {
 		const { roomId, token, payload } = data;
 
 		const response = await moveTask({ boardId: roomId, ...payload });
 		if (!response.error) {
 			io.in(roomId).emit("moveTask", response);
 		}
-		call(response);
 	});
 };

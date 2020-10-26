@@ -1,4 +1,3 @@
-import fetchData from "helper/fetchData";
 import { emitWS } from "helper/socketData";
 
 const handleMoveColumn = async (boardId, setTasks, sourceIndex, destinationIndex) => {
@@ -34,7 +33,8 @@ const handleMoveTask = async (boardId, setTasks, tasks, source, destination) => 
 			payload: {
 				source: sourceIndexes,
 				destination: destinationIndexes,
-			},
+			}
+		
 		});
 	}
 

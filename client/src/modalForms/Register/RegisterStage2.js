@@ -59,7 +59,7 @@ const RegisterStage2 = ({ initialFieldValues, changeStage }) => {
         >
             {({isSubmitting, isValid, errors }) => (
                 <>
-                    <LoadingOverlay show={!isSubmitting} opacity={0.5} />
+                    <LoadingOverlay show={isSubmitting} opacity={0.5} />
                     <Form>
                         {
                             Object.entries(fieldTypes).map(([fieldName, fieldType]) =>

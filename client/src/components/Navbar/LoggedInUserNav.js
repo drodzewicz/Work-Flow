@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import NavItem from "components/Navbar/NavItem";
 import SwitchButton from "components/SwitchButton/SwitchButton";
 import Notification from "components/Notification/Notification";
@@ -8,19 +8,27 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import Badge from "@material-ui/core/Badge";
 import { useHistory, Link } from "react-router-dom";
 import { UserContext } from "context/UserContext";
+import fetchData from "helper/fetchData";
 
 const LoggedInUserNav = () => {
 	const history = useHistory();
 
 	const [{ user, theme }, dispatchUser] = useContext(UserContext);
-	const [notifications, setNotification] = useState([
-		{ board: "wix websiite", message: "you have been added to the board" },
-		{
-			board: "learing wordpress with friends",
-			message: "you have been added to the boardyou have been addeddwd dwdwd dwdwd",
-		},
-		{ board: "making apython game", message: "you got a new task" },
-	]);
+	const [notifications, setNotification] = useState([]);
+
+	const handlGetMyNotifications = async () => {
+		const { data } = await fetchData({
+			url: "/notification",
+			token: true,
+			method: "GET",
+		});
+		if (!!data) setNotification(data.notifications);
+	}
+
+	useEffect(() => {
+		handlGetMyNotifications();
+		return () => { }
+	}, [])
 
 	const goToHomePage = () => {
 		history.push("/");
@@ -32,12 +40,18 @@ const LoggedInUserNav = () => {
 	const toggleTheme = () => {
 		dispatchUser({ type: "THEME_TOGGLE" });
 	};
-	const removeMessage = (index) => {
-		setNotification((notifications) => {
+	const removeMessage = async (index) => {
+		const { status } = await fetchData({
+			url: `/notification/${notifications[index]._id}`,
+			token: true,
+			method: "DELETE",
+		});
+		if (status) setNotification((notifications) => {
 			const newNotification = [...notifications];
 			newNotification.splice(index, 1);
 			return newNotification;
 		});
+
 	};
 
 	return (
@@ -56,6 +70,7 @@ const LoggedInUserNav = () => {
 				</button>
 			</NavItem>
 			<NavItem
+				clicked={handlGetMyNotifications}
 				offset={{ x: -20, y: 10 }}
 				classes={["notification-nav"]}
 				dropDownScrollableAt={400}
@@ -66,11 +81,12 @@ const LoggedInUserNav = () => {
 					</Badge>
 				}
 			>
-				{notifications.map((data, index) => (
+				{notifications.map(({ _id, title, info, url }, index) => (
 					<Notification
-						key={data.board}
-						message={data.message}
-						boardTitle={data.board}
+						key={_id}
+						message={info}
+						boardTitle={title}
+						url={url}
 						removeNotification={() => removeMessage(index)}
 					/>
 				))}

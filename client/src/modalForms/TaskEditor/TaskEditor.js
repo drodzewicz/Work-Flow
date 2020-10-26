@@ -75,7 +75,7 @@ const TaskEditor = ({ buttonName, action, updateTask, initialValues, boardId, ta
 				}
 			});
 		} else if (action === "UPDATE") {
-			const { data } = await fetchData({
+			await fetchData({
 				method: "POST",
 				url: `/board/${boardId}/task/${taskId}`,
 				token: true,
