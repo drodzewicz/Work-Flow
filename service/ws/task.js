@@ -15,7 +15,7 @@ taskSocketService.createTask = async (data) => {
 			return _id.toLocaleString() === columnId.toLocaleString();
 		});
 		foundBoard.columns[columnIndex].tasks.push(savedTask._id);
-		const task = await savedTask.populate("people tags author").execPopulate();
+		const task = await savedTask.populate("people tags author", "username avatarImageURL name colorCode").execPopulate();
 		await foundBoard.save();
 
 		const newNotification = { title: foundBoard.name, info: `assigned new task: ${title}`, url: `/board/${foundBoard._id}` };

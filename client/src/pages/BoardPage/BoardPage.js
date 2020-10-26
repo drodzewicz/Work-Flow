@@ -7,6 +7,7 @@ import Button from "components/Button/Button";
 import TaskBoard from "./TaskBoard";
 import PeopleIcon from "@material-ui/icons/People";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { ModalContext } from "context/ModalContext";
 import { UserContext } from "context/UserContext";
 import { BoardMembers, Tags } from "modalForms";
@@ -26,7 +27,7 @@ const BoardPage = ({ boardId }) => {
 	const [tasks, setTasks] = useState([]);
 	const [isTaskLoading, setTaskLoading] = useState(false);
 	const [, modalDispatch] = useContext(ModalContext);
-	const [{ user }, userDispatch] = useContext(UserContext);
+	const [{ user, currentBoard }, userDispatch] = useContext(UserContext);
 	const history = useHistory();
 
 	useEffect(() => {
@@ -79,6 +80,18 @@ const BoardPage = ({ boardId }) => {
 		});
 	};
 
+	const leaveBoard = async () => {
+		const shouldDelete = window.confirm("are you sure you want to leave this board?")
+		if (shouldDelete) {
+			const { status } = await fetchData({
+				method: "DELETE",
+				url: `/board/${boardId}/leave_board`,
+				token: true,
+			});
+			if (status === 200) history.replace("/");
+		}
+	}
+
 	return (
 		<div className="board-page-wrapper">
 			<LoadingOverlay show={isTaskLoading} opacity={0} classes={["task-loading"]}>
@@ -95,6 +108,10 @@ const BoardPage = ({ boardId }) => {
 							<LocalOfferIcon />
 							<span>Tags</span>
 						</Button>
+						{currentBoard.role !== "owner" && <Button classes={["leave-board-btn"]} clicked={leaveBoard}>
+							<ExitToAppIcon />
+							<span>Leave Board</span>
+						</Button>}
 					</div>
 					<DragDropContext onDragEnd={(result) => onDragEnd(boardId, result, tasks, setTasks)}>
 						<TaskProvider values={[tasks, setTasks]}>

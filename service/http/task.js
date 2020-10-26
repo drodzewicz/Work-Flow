@@ -20,8 +20,9 @@ taskService.updateTask = async (req, res) => {
 	const { taskId } = req.params;
 	const { title, description, tags, people } = req.body;
 	try {
-		const updatedTask = await Task.findOneAndUpdate({ _id: taskId }, { title, description, tags, people }, { new: true });
-		return res.status(200).json({ message: "task updated", task: updatedTask });
+		const updatedTask = await Task.findOneAndUpdate({ _id: taskId }, { title, description, tags, people }, { new: true, useFindAndModify: false });
+		const task = await updatedTask.populate("people tags author", "username avatarImageURL name colorCode").execPopulate();
+		return res.status(200).json({ message: "task updated", task: task });
 	} catch (error) {
 		return res.status(400).json({
 			message: Task.processErrors(error),
