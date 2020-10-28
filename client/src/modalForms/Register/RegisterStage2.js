@@ -6,6 +6,7 @@ import TextInput from "components/TextInput/TextInput";
 import Button from "components/Button/Button";
 import fetchData from "helper/fetchData";
 import { ModalContext } from "context/ModalContext";
+import { WarningNotificationContext } from "context/WarningNotificationContext";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 
 
@@ -28,6 +29,7 @@ const fieldTypes = {
 const RegisterStage2 = ({ initialFieldValues, changeStage }) => {
 
     const [, modalDispatch] = useContext(ModalContext);
+    const [, warningNotificationDispatch] = useContext(WarningNotificationContext);
 
     const handleGoBackStage = () => {
         changeStage(stage => stage - 1);
@@ -41,43 +43,49 @@ const RegisterStage2 = ({ initialFieldValues, changeStage }) => {
 
 
     const submitRegistrationForm = async (submittedData, { setErrors, setSubmitting }) => {
-        const { data, error } = await fetchData({
+        const { error, status } = await fetchData({
             method: "POST",
             url: "/register",
             setLoading: setSubmitting,
-            payload: {...initialFieldValues, ...submittedData},
+            payload: { ...initialFieldValues, ...submittedData },
         });
-        if (!!data) modalDispatch({ type: "CLOSE" });
-        else if (!!error) setErrors(error.message);
+        if (status === 201) { 
+            warningNotificationDispatch({ type: "SUCCESS", payload: { message: "successfuly registered!" } })
+            modalDispatch({ type: "CLOSE" }); 
+        }
+        else if(status === 500) warningNotificationDispatch({ type: "WARNING", payload: { message: "server error" } })
+        if (!!error) setErrors(error.message);
     }
 
     return (
-        <Formik
-            validationSchema={validationSchema}
-            initialValues={createFields()}
-            onSubmit={submitRegistrationForm}
-        >
-            {({isSubmitting, isValid, errors }) => (
-                <>
-                    <LoadingOverlay show={isSubmitting} opacity={0.5} />
-                    <Form>
-                        {
-                            Object.entries(fieldTypes).map(([fieldName, fieldType]) =>
-                                <Field
-                                    key={fieldName}
-                                    hasErrors={!!errors[fieldName]}
-                                    helperText={errors[fieldName]}
-                                    label={fieldName}
-                                    name={fieldName}
-                                    type={fieldType}
-                                    as={TextInput} />)
-                        }
-                        <Button classes={["register-stage-controll-btn stage-back"]} clicked={handleGoBackStage} >Go back</Button>
-                        <Button classes={["btn-accent"]} disabled={!isValid} type="submit">Finish</Button>
-                    </Form>
-                </>
-            )}
-        </Formik>
+        <>
+            <Formik
+                validationSchema={validationSchema}
+                initialValues={createFields()}
+                onSubmit={submitRegistrationForm}
+            >
+                {({ isSubmitting, isValid, errors }) => (
+                    <>
+                        <LoadingOverlay show={isSubmitting} opacity={0.5} />
+                        <Form>
+                            {
+                                Object.entries(fieldTypes).map(([fieldName, fieldType]) =>
+                                    <Field
+                                        key={fieldName}
+                                        hasErrors={!!errors[fieldName]}
+                                        helperText={errors[fieldName]}
+                                        label={fieldName}
+                                        name={fieldName}
+                                        type={fieldType}
+                                        as={TextInput} />)
+                            }
+                            <Button classes={["register-stage-controll-btn stage-back"]} clicked={handleGoBackStage} >Go back</Button>
+                            <Button classes={["btn-accent"]} disabled={!isValid} type="submit">Finish</Button>
+                        </Form>
+                    </>
+                )}
+            </Formik>
+        </>
     )
 }
 

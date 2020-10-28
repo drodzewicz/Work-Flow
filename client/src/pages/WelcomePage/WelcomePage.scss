@@ -46,3 +46,15 @@
     font-family: 'Secular One', sans-serif;
   }
 }
+
+.theme-dark {
+  .welcome-section {
+    .home-page-title {
+      color: $text-primary-dark;
+    }
+    .home-page-description {
+      color: darken($text-secondary-dark, 20%);
+    }
+    
+  }
+}

@@ -14,7 +14,7 @@ boardService.createNewBoard = async (req, res) => {
 		await newBoard.save();
 		return res.json({
 			success: true,
-			message: "created",
+			message: "new board successfuly created",
 			board: newBoard
 		});
 	} catch (error) {
@@ -28,9 +28,10 @@ boardService.updateBoard = async (req, res) => {
 	const { name, description } = req.body;
 	const { boardId } = req.params;
 	try {
-		await Board.findOneAndUpdate({_id: boardId}, {name, description})
+		await Board.findOneAndUpdate({ _id: boardId }, { name, description })
 		return res.json({
-			message: "updated",
+			board: { _id: boardId },
+			message: "board successfuly updated",
 			success: true
 		});
 	} catch (error) {

@@ -29,7 +29,7 @@ LoadingOverlay.defaultProps = {
 	show: true,
 	opacity: 1,
 	classes: [""],
-	color: undefined,
+	color: { light: "255, 255, 255", dark: "83, 86, 87" },
 };
 
 LoadingOverlay.propTypes = {

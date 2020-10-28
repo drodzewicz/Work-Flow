@@ -3,16 +3,23 @@ import Navbar from "components/Navbar/Navbar";
 import Modal from "components/Modal/Modal";
 import "./App.scss";
 import { UserContext } from "context/UserContext";
+import { WarningNotificationContext } from "context/WarningNotificationContext";
 
 import Routes from "routes/Routes";
 
 import Footer from "components/Footer/Footer";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 import fetchData from "helper/fetchData";
+import WarningNotification from "components/WarningNotification/WarningNotification";
 
 
 function App() {
 	const [{ authStatus, theme }, dispatchUser] = useContext(UserContext);
+	const [{
+		type: WarningNotificationType,
+		message: WarningNotificationMessage,
+		show: WarningNotificationShow
+	}] = useContext(WarningNotificationContext);
 	const [authLoading, setAuthLoading] = useState(true);
 
 	useEffect(() => {
@@ -37,6 +44,7 @@ function App() {
 
 	return (
 		<div className={`App ${theme ? "theme-light" : "theme-dark"}`}>
+			<WarningNotification show={WarningNotificationShow} message={WarningNotificationMessage} type={WarningNotificationType} />
 			<Modal />
 			<Navbar isAuth={authStatus === "success"} />
 			<LoadingOverlay classes={["authentication-loading"]} show={authLoading} opacity={0}>

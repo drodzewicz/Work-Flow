@@ -1,0 +1,62 @@
+
+.warning-notification {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 1000;
+    position: absolute;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.2rem;
+    transition: all ease-in-out 0.5s;
+    height: 2rem;
+    overflow: hidden;
+    top: -2rem;
+
+    @keyframes moveOpen {
+        from { 
+            transform: translate(0,-100px); 
+        }
+        10% { transform: translate(0,1.65rem); }
+        12% { transform: translate(0,1.78rem); }
+        16% { transform: translate(0,1.65rem); }
+        80% { transform: translate(0,1.65rem); }
+        85% { transform: translate(0, 1.97rem); }
+        to { 
+            transform: translate(0,-100px); 
+        }
+    }
+    animation: moveOpen 4s;
+
+    .notification-body-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        height: 1.2rem;
+    }
+
+    &.success {
+        background: rgb(35, 136, 35);
+        color: white;
+    }
+    &.warning {
+        background: rgb(243, 178, 39);
+        color: #222222;
+    }
+    &.error {
+        background: rgb(187, 39, 39);
+        color: white;
+    }
+    .MuiSvgIcon-root {
+        $icon-size: 0.9rem;
+        height: $icon-size;
+        width: $icon-size;
+        margin-right: 0.2rem;
+    }
+    .warning-body {
+        font-size: 0.9rem;
+
+    }
+}

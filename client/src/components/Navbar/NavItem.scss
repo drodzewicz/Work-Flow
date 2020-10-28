@@ -2,6 +2,7 @@
 
 .nav-item {
   list-style-type: none;
+  outline: none;
   a {
     display: flex;
     justify-content: center;
@@ -9,6 +10,7 @@
     color: #222222;
   }
   .icon-button {
+    outline: none;
     font-family: "Secular One", sans-serif;
     border-radius: 5px;
     padding: 0.35rem 0.65rem;

@@ -6,6 +6,9 @@
 	display: flex;
 	flex-direction: row;
 	position: relative;
+	.loading-overlay {
+		position: absolute;
+	}
 	& > form {
 		display: flex;
 		flex-direction: column;

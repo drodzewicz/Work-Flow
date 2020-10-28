@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
 import * as Yup from "yup";
 import "./BoardEditor.scss";
-import { ReactComponent as Spinner } from "assets/spinners/Infinity-1s-200px.svg";
 import Button from "components/Button/Button";
 import { Formik, Field, Form } from "formik";
 import TextInput from "components/TextInput/TextInput";
 import { ModalContext } from "context/ModalContext";
+import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 
 import fetchData from "helper/fetchData";
 import { useHistory } from "react-router-dom";
+import { WarningNotificationContext } from "context/WarningNotificationContext";
 
-// import { userList_DATA } from "data";
 
 const validationSchema = Yup.object({
 	name: Yup.string().max(25, "board name is too long").required("field is required"),
@@ -19,6 +19,8 @@ const validationSchema = Yup.object({
 
 const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
 	const [, dispatchModal] = useContext(ModalContext);
+    const [, warningNotificationDispatch] = useContext(WarningNotificationContext);
+
 
 	const history = useHistory();
 
@@ -38,6 +40,7 @@ const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
 		if (!!data) {
 			dispatchModal({ type: "CLOSE" });
 			const boardId = data.board._id;
+            warningNotificationDispatch({ type: "SUCCESS", payload: { message: data.message } })
 			history.push(`/board/${boardId}`);
 		}
 	};
@@ -51,11 +54,7 @@ const BoardEditor = ({ submitDataURL, buttonName, initialValues }) => {
 			>
 				{({ isSubmitting, isValid, errors }) => (
 					<>
-						{isSubmitting && (
-							<div className="spinner-overlay">
-								<Spinner />
-							</div>
-						)}
+						<LoadingOverlay show={isSubmitting} opacity={0.5} />
 						<Form>
 							<div className="fields">
 								<Field

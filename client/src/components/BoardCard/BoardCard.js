@@ -44,12 +44,16 @@ const BoardCard = ({ boardInfo, boardId, isPinned, pinBoard, removeBoard, isAuth
 	};
 
 	const deleteBoardHandler = async () => {
-		const { error } = await fetchData({
-			method: "DELETE",
-			url: `/board/${boardId}`,
-			token: true,
-		});
-		if (!error) removeBoard(boardId);
+		const shouldDelete = window.confirm("are you sure you want to delete this board?")
+		if(shouldDelete){
+			const { error } = await fetchData({
+				method: "DELETE",
+				url: `/board/${boardId}`,
+				token: true,
+			});
+			if (!error) removeBoard(boardId);
+		} 
+		
 	};
 	const leavingEvent = async () => {
 		const { error } = await fetchData({

@@ -15,10 +15,6 @@ userMiddleWare.getUserFromToken = (req, res, next) => {
         } catch (e) {
             console.log("ERROR ======: ", e);
         }
-        // var userId = decoded.id;
-        // User.findOne({_id: userId}).then(function(user){
-        //     return res.send(200);
-        // });
     }
     return next();
 }

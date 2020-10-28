@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import * as Yup from "yup";
 import "./TaskEditor.scss";
 import TextInput from "components/TextInput/TextInput";
-import { UserContext } from "context/UserContext";
 import { ModalContext } from "context/ModalContext";
 
 import Button from "components/Button/Button";
@@ -12,6 +11,8 @@ import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 import { emitWS } from "helper/socketData";
 import TagChoiceControll from "./TagChoiceControll";
 import UserListManager from "./UserListManager";
+import { WarningNotificationContext } from "context/WarningNotificationContext";
+
 
 // import { userList_DATA, tags_DATA } from "data";
 
@@ -21,9 +22,8 @@ const validationSchema = Yup.object({
 });
 
 const TaskEditor = ({ buttonName, action, updateTask, initialValues, boardId, taskId, columnId }) => {
-	// REOMVE this user and verify on backend using token
-	const [{ user }] = useContext(UserContext);
 	const [, modalDispatch] = useContext(ModalContext);
+    const [, warningNotificationDispatch] = useContext(WarningNotificationContext);
 
 	const initialVals = {
 		title: initialValues ? initialValues.name : "",
@@ -61,23 +61,34 @@ const TaskEditor = ({ buttonName, action, updateTask, initialValues, boardId, ta
 				eventName: "createTask",
 				token: true,
 				payload: {
-					authorId: user._id,
 					...submittingTask,
 					columnId,
 				},
 				res: (res) => {
-					if (res.success) modalDispatch({ type: "CLOSE" });
+					if (res.success) {
+						warningNotificationDispatch({ type: "SUCCESS", payload: { message: "new task created" } })
+						modalDispatch({ type: "CLOSE" });
+					} else if(res.error) {
+						warningNotificationDispatch({ type: "ERROR", payload: { message: "error - while creating new task" } })
+						
+					}
 				}
 			});
 		} else if (action === "UPDATE") {
-			const { data } = await fetchData({
+			const { data, error } = await fetchData({
 				method: "POST",
 				url: `/board/${boardId}/task/${taskId}`,
 				token: true,
 				setLoading: setSubmitting,
 				payload: submittingTask,
 			});
-			if (!!data) updateTask(data.task)
+			if (!!data){ 
+				warningNotificationDispatch({ type: "SUCCESS", payload: { message: "successfuly updated task" } })
+				updateTask(data.task)
+			} else if(!!error) {
+				warningNotificationDispatch({ type: "ERROR", payload: { message: "error - while updating new task" } })
+
+			}
 		}
 	};
 
@@ -107,7 +118,7 @@ const TaskEditor = ({ buttonName, action, updateTask, initialValues, boardId, ta
 			>
 				{({ isSubmitting, isValid, errors }) => (
 					<>
-						<LoadingOverlay show={isSubmitting} ></LoadingOverlay>
+						<LoadingOverlay opacity={0.5} show={isSubmitting} ></LoadingOverlay>
 						<Form>
 							<div className="fields">
 								<Field
@@ -130,7 +141,6 @@ const TaskEditor = ({ buttonName, action, updateTask, initialValues, boardId, ta
 							</div>
 							<UserListManager
 								users={users}
-								user={user}
 								setUsers={setUsers}
 								boardId={boardId}
 							/>
