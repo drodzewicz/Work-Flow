@@ -88,15 +88,17 @@
 			.MuiSvgIcon-root {
 				height: 1rem;
 			}
-			.leave-board-btn {
-				margin-left: auto;
-				margin-right: 0;
-				background: darken($gray-bg, 2%);
-				color: darken($gray-bg, 50%);
-				box-shadow: none;
-				&:hover {
-					color: darken($gray-bg, 30%);
+			.board-options {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				.MuiSvgIcon-root {
+					height: 1.4rem;
+					width: 1.4rem;
+					color: #222222;
+					cursor: pointer;
 				}
+
 			}
 		}
 	}
@@ -137,12 +139,11 @@
 			}
 		}
 	}
-	.board-button-group .leave-board-btn {
-		background: lighten($gray-bg-dark, 2%);
-		color: lighten($gray-bg-dark, 50%);
-		&:hover {
-			color: lighten($gray-bg-dark, 30%);
+	.board-button-group {
+		.board-options {
+			.MuiSvgIcon-root {
+				color: lighten(#222222, 30%);
+			}
 		}
-	
 	}
 }

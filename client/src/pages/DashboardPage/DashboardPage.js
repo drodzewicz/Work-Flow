@@ -57,7 +57,7 @@ function DashboardPage() {
 		modalDispatch({
 			type: "OPEN",
 			payload: {
-				render: <BoardEditor submitDataURL="/board" buttonName="Create" />,
+				render: <BoardEditor submitType="Create" />,
 				title: "New Board",
 			},
 		});

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import PropTypes from "prop-types";
 import "./BoardPage.scss";
@@ -6,6 +6,7 @@ import ExpandText from "components/ExpandText/ExpandText";
 import Button from "components/Button/Button";
 import TaskBoard from "./TaskBoard";
 import PeopleIcon from "@material-ui/icons/People";
+import BoardOptions from "components/BoardCard/BoardOptions";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { ModalContext } from "context/ModalContext";
@@ -28,10 +29,13 @@ const BoardPage = ({ boardId }) => {
 	const [isTaskLoading, setTaskLoading] = useState(false);
 	const [, modalDispatch] = useContext(ModalContext);
 	const [{ user, currentBoard }, userDispatch] = useContext(UserContext);
+
 	const history = useHistory();
+	const moreOptionsAnchor = useRef();
 
 	useEffect(() => {
 		let _isMounted = true;
+
 		const getLoggedInUserRole = async () => {
 			const { data, status } = await fetchData({
 				method: "GET",
@@ -79,17 +83,8 @@ const BoardPage = ({ boardId }) => {
 			payload: { render: <Tags boardId={boardId} />, title: "Board Tags" },
 		});
 	};
-
-	const leaveBoard = async () => {
-		const shouldDelete = window.confirm("are you sure you want to leave this board?")
-		if (shouldDelete) {
-			const { status } = await fetchData({
-				method: "DELETE",
-				url: `/board/${boardId}/leave_board`,
-				token: true,
-			});
-			if (status === 200) history.replace("/");
-		}
+	const redirectToDashboard = () => {
+		history.replace("/")
 	}
 
 	return (
@@ -108,10 +103,11 @@ const BoardPage = ({ boardId }) => {
 							<LocalOfferIcon />
 							<span>Tags</span>
 						</Button>
-						{currentBoard.role !== "owner" && <Button classes={["leave-board-btn"]} clicked={leaveBoard}>
-							<ExitToAppIcon />
-							<span>Leave Board</span>
-						</Button>}
+						<BoardOptions
+							boardId={boardId}
+							removeBoardCallback={redirectToDashboard}
+							isAuthor={currentBoard.role === "owner"}
+						/>
 					</div>
 					<DragDropContext onDragEnd={(result) => onDragEnd(boardId, result, tasks, setTasks)}>
 						<TaskProvider values={[tasks, setTasks]}>

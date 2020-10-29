@@ -99,17 +99,24 @@ boardService.getMyPinnedBoards = async (req, res) => {
 };
 boardService.getBoardById = async (req, res) => {
 	const { boardId } = req.params;
+	const { short } = req.query;
 	try {
-		const foundBoard = await Board.findOne({ _id: boardId }, "_id name description author columns").populate({
-			path: "columns",
-			populate: {
-				path: "tasks",
+		let foundBoard;
+		if (short === "true") {
+			foundBoard = await Board.findOne({ _id: boardId }, "_id name description author");
+		} else {
+			foundBoard = await Board.findOne({ _id: boardId }, "_id name description author columns").populate({
+				path: "columns",
 				populate: {
-					path: "people tags",
-					select: "_id username avatarImageURL colorCode name",
+					path: "tasks",
+					populate: {
+						path: "people tags",
+						select: "_id username avatarImageURL colorCode name",
+					},
 				},
-			},
-		});
+			});
+		}
+
 		return res.status(200).json(foundBoard);
 	} catch (error) {
 		return res.status(404).json({
