@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import PropTypes from "prop-types";
 import "./BoardPage.scss";
@@ -8,7 +8,6 @@ import TaskBoard from "./TaskBoard";
 import PeopleIcon from "@material-ui/icons/People";
 import BoardOptions from "components/BoardCard/BoardOptions";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { ModalContext } from "context/ModalContext";
 import { UserContext } from "context/UserContext";
 import { BoardMembers, Tags } from "modalForms";
@@ -31,7 +30,6 @@ const BoardPage = ({ boardId }) => {
 	const [{ user, currentBoard }, userDispatch] = useContext(UserContext);
 
 	const history = useHistory();
-	const moreOptionsAnchor = useRef();
 
 	useEffect(() => {
 		let _isMounted = true;

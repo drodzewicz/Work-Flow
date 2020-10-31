@@ -26,7 +26,7 @@ module.exports = (io, socket) => {
 
 		const response = await moveColumn({ boardId: roomId, ...payload });
 		if (!response.error) {
-			io.in(roomId).emit("moveColumn", response);
+			socket.to(roomId).emit("moveColumn", response);
 		}
 	});
 };

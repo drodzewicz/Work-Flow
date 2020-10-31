@@ -18,7 +18,7 @@ const userSchema = new Schema({
 	},
 	password: {
 		type: String,
-		minlength: [4, "must not be less that 4 charatcters"],
+		minlength: [5, "must not be less that 5 charatcters"],
 		required: [true, "password is required"],
 	},
 	name: {
@@ -27,7 +27,6 @@ const userSchema = new Schema({
 	},
 	surname: {
 		type: String,
-		minlength: [4, "must not be less that 4 charatcters"],
 		required: [true, "surname is required"],
 	},
 	email: {

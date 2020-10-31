@@ -10,7 +10,7 @@ const boardSchema = new Schema({
 	},
 	description: {
 		type: String,
-		maxlength: [40, "must not be longer than 40 characters"],
+		maxlength: [200, "must not be longer than 200 characters"],
 	},
 	author: {
 		type: mongoose.Schema.Types.ObjectId,

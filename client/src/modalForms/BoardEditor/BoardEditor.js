@@ -44,7 +44,7 @@ const BoardEditor = ({ boardId, submitType }) => {
 		}
 		if (submitType === "Update") getBoardInfo();
 		return () => {}
-	}, [])
+	}, [boardId, submitType])
 
 	const submitButtonClick = async (submittedData, { setSubmitting }) => {
 		const { data } = await fetchData({

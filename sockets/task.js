@@ -38,7 +38,7 @@ module.exports = (io, socket) => {
 		if(verified) {
 			const response = await moveTask({ boardId: roomId, ...payload });
 			if (!response.error) {
-				io.in(roomId).emit("moveTask", response);
+				socket.to(roomId).emit("moveTask", response);
 			}
 		}
 		

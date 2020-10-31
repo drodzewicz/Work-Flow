@@ -54,17 +54,13 @@ const TaskBoard = ({ boardId }) => {
 			}
 		}
 		const moveTask = (data) => {
-			const { success, source, destination, taskId } = data;
+			const { success, source, destination } = data;
 			if (success) {
 				setTasks((taskColumns) => {
-					if (taskColumns[destination.columnIndex]?.tasks[destination.taskIndex]?._id === taskId) {
-						return taskColumns;
-					} else {
-						const tempTasks = [...taskColumns];
-						const movingTask = tempTasks[source.columnIndex].tasks.splice(source.taskIndex, 1)[0];
-						tempTasks[destination.columnIndex].tasks.splice(destination.taskIndex, 0, movingTask);
-						return tempTasks;
-					}
+					const tempTasks = [...taskColumns];
+					const movingTask = tempTasks[source.columnIndex].tasks.splice(source.taskIndex, 1)[0];
+					tempTasks[destination.columnIndex].tasks.splice(destination.taskIndex, 0, movingTask);
+					return tempTasks;
 				});
 			}
 
