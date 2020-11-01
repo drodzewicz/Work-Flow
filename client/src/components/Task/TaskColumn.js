@@ -7,6 +7,7 @@ import Task from "./Task";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import { ModalContext } from "context/ModalContext";
 import { TaskContext } from "context/TaskContext";
+import { UserContext } from "context/UserContext";
 import ColumnNameInput from "./ColumnNameInput";
 import fetchData from "helper/fetchData";
 import { emitWS } from "helper/socketData";
@@ -18,6 +19,7 @@ import { TaskEditor } from "modalForms";
 const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks }) => {
 	const [, modalDispatch] = useContext(ModalContext);
 	const [, setTasks] = useContext(TaskContext);
+	const [{ currentBoard }] = useContext(UserContext);
 
 	const [showTitleInput, setShowTitleInput] = useState(false);
 
@@ -41,12 +43,15 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
 	};
 
 	const removeColumn = async () => {
-		emitWS({
-			roomId: boardId,
-			eventName: "deleteColumn",
-			token: true,
-			payload: { columnId, columnIndex },
-		});
+		const shouldDelete = window.confirm("are you sure you want to delete this column?")
+		if (shouldDelete) {
+			emitWS({
+				roomId: boardId,
+				eventName: "deleteColumn",
+				token: true,
+				payload: { columnId, columnIndex },
+			});
+		}
 	};
 
 	const activateColumnNameEditInput = () => {
@@ -76,6 +81,12 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
 		}
 	};
 
+	const isAuthorized = () => {
+		const { role } = currentBoard;
+		return role === "admin" || role === "owner";
+	}
+
+
 	return (
 		<Droppable droppableId={columnId} type="droppableTaskToColumn">
 			{(provided, snapshot) => {
@@ -93,16 +104,24 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
 								onEnter={changeColumnNameOnKeyPressEnter}
 								editTitle={showTitleInput}
 							/>
-							<button onClick={openBoardTagsModal} className="add-new-task-btn">
-								<PlaylistAddIcon />
-							</button>
-							<button ref={anchorElement} className="more-options">
-								<MoreVertIcon />
-							</button>
-							<DropdownMenu anchorEl={anchorElement}>
-								<span onClick={removeColumn}>delete</span>
-								<span onClick={activateColumnNameEditInput}>edit</span>
-							</DropdownMenu>
+							{
+								currentBoard.role !== "guest" &&
+								<button onClick={openBoardTagsModal} className="add-new-task-btn">
+									<PlaylistAddIcon />
+								</button>
+							}
+
+							{
+								isAuthorized() &&
+								<>
+									<button ref={anchorElement} className="more-options">
+										<MoreVertIcon />
+									</button>
+									<DropdownMenu anchorEl={anchorElement}>
+										<span onClick={removeColumn}>delete</span>
+										<span onClick={activateColumnNameEditInput}>edit</span>
+									</DropdownMenu>
+								</>}
 						</div>
 						<div className={"task-container"}>
 							{listOfTasks &&

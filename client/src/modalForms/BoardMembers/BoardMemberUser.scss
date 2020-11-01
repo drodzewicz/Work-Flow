@@ -16,20 +16,25 @@
     .user-option-menu {
       transform: translate(-1rem, 0);
     }
-    .user-roles {
-      right: 3rem;
-      .drop-down-menu-item {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        svg {
-          margin-right: 0.5rem;
-        }
-        span {
-          font-weight: bold;
-        }
-      }
+
+  }
+}
+
+.drop-down-menu.user-roles {
+  margin-left: 4px;
+  .drop-down-menu-item {
+    padding: 0.2rem 0.4rem;
+    & > div {
+      justify-content: flex-start;
+    }
+    svg {
+      $icon-size: 1rem;
+      width: $icon-size;
+      height: $icon-size;
+      margin-right: 0.5rem;
+    }
+    span {
+      font-weight: bold;
     }
   }
 }

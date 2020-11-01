@@ -1,5 +1,7 @@
 const Board = require("../../models/board");
 const User = require("../../models/user");
+const Task = require("../../models/task");
+const Tag = require("../../models/tag");
 const paginateConetnt = require("../../helper/pagination");
 const processErrors = require("../../helper/errorHandler");
 
@@ -154,10 +156,14 @@ boardService.deleteBoard = async (req, res) => {
 	const { boardId } = req.params;
 
 	try {
-		const { author } = await Board.findById(boardId);
+		const { author, tags } = await Board.findById(boardId);
 		if (author.toLocaleString() !== id.toLocaleString()) {
 			return res.status(401).json({ message: "you are not the author of this Board" });
 		}
+		// delete tasks
+		await Task.deleteMany({ "board": boardId });
+		// delete tags
+		await Tag.deleteMany({ "_id": { "$in": tags } });
 		// delete board
 		await Board.findByIdAndDelete(boardId);
 
