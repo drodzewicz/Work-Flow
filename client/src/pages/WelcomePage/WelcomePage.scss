@@ -1,6 +1,65 @@
 @import "../../assets/styles/colors";
 @import "../../assets/styles/mediaQueries";
 
+@keyframes element-pop {
+  0% {
+    font-size: 0;
+    opacity: 0;
+    
+  }
+  80%{
+    font-size: 1.6vw;
+    @include mq-2 {
+      font-size: 3.1vw;
+    }
+    @include mobile {
+      font-size: 1.6rem;
+    }
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    font-size: 1.5vw;
+    @include mq-2 {
+      font-size: 3vw;
+    }
+    @include mobile {
+      font-size: 1.5rem;
+    }
+
+  }
+}
+@keyframes element-slide-left {
+  0% {
+    opacity: 0;
+    transform: translateX(20%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes element-slide-right {
+  0% {
+    opacity: 0;
+    transform: translateX(-20%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes element-apear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+}
+
 .welcome-section {
   margin: 2rem 1rem;
   .introduction-section {
@@ -17,6 +76,9 @@
     .person-image {
       margin: 0 auto;
       width: 75%;
+      opacity: 0;
+      animation: element-slide-left 1s ease-out forwards;
+      animation-delay: 1.5s;
       &.hide {
         display: none;
       }
@@ -27,6 +89,7 @@
     .text-subsection {
       margin-left: 5%;
       min-height: 500px;
+      overflow: hidden;
       @include mobile {
         margin-top: 1.5rem;
         min-height: 450px;
@@ -35,6 +98,9 @@
         font-size: 5vw;
         margin: 0;
         color: #222222;
+        opacity: 0;
+        animation: element-slide-left 1s ease-out forwards;
+        animation-delay: 1s;
         @include mq-2 {
           font-size: 6vw;
         }
@@ -47,6 +113,9 @@
         margin-top: 1rem;
         font-size: 3vw;
         color: #3f3f3f;
+        opacity: 0;
+        animation: element-slide-left 1s ease-out forwards;
+        animation-delay: 1.5s;
         @include mq-2 {
           font-size: 4vw;
         }
@@ -59,6 +128,9 @@
         margin-top: 1rem;
         font-size: 1.4vw;
         color: #6e6e6e;
+        opacity: 0;
+        animation: element-apear 1s ease-out forwards;
+        animation-delay: 2.5s;
         @include mq-2 {
           font-size: 2.5vw;
         }
@@ -69,6 +141,10 @@
       .join-now {
         font-size: 1.5vw;
         margin: 2rem auto;
+        animation: element-pop 0.5s ease-in forwards;
+        font-size: 0;
+        opacity: 0;
+        animation-delay: 2s;
         @include mq-2 {
           font-size: 3vw;
         }
@@ -92,6 +168,9 @@
     }
     .task-columns-img {
       width: 100%;
+      opacity: 0;
+      animation: element-slide-right 1s ease-out forwards;
+      animation-delay: 3.7s;
       &.hide {
         display: none;
       }
@@ -104,6 +183,9 @@
       flex-direction: column;
       width: 90%;
       margin: 0 auto;
+      opacity: 0;
+      animation: element-slide-right 1s ease-out forwards;
+      animation-delay: 3.5s;
       h1 {
         font-size: 3vw;
         margin: 0;
