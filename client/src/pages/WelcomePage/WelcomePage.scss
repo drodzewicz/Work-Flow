@@ -2,122 +2,164 @@
 @import "../../assets/styles/mediaQueries";
 
 .welcome-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  @include mq-1 {
-    flex-direction: column;
-    align-items: center;
-  }
-  & > * {
-    margin: 1rem;
-  }
-
-
-  .task-column-section {
-    display: flex;
-    place-items: center;
-
-    .task-text {
+  margin: 2rem 1rem;
+  .introduction-section {
+    margin: 2rem;
+    display: grid;
+    grid-template-columns: 30% auto;
+    @include mq-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+    @include mobile {
+      grid-template-columns: 1fr;
+      margin: 0.5rem;
+    }
+    .person-image {
+      margin: 0 auto;
+      width: 75%;
+      &.hide {
+        display: none;
+      }
+      @include mobile {
+        max-width: 20rem;
+      }
+    }
+    .text-subsection {
+      margin-left: 5%;
+      min-height: 500px;
+      @include mobile {
+        margin-top: 1.5rem;
+        min-height: 450px;
+      }
       h1 {
-        font-size: 3rem;
-        color: #222222;
+        font-size: 5vw;
         margin: 0;
-        margin-bottom: 1rem;
+        color: #222222;
+        @include mq-2 {
+          font-size: 6vw;
+        }
+        @include mobile {
+          font-size: 4rem;
+        }
       }
       h2 {
         margin: 0;
-        font-size: 2rem;
-        color: #555555;
-        
+        margin-top: 1rem;
+        font-size: 3vw;
+        color: #3f3f3f;
+        @include mq-2 {
+          font-size: 4vw;
+        }
+        @include mobile {
+          font-size: 2rem;
+        }
       }
-    }
-
-    .task-columns-img {
-      $image-size: 40rem;
-      width: $image-size;
-      height: $image-size;
+      p {
+        margin: 0;
+        margin-top: 1rem;
+        font-size: 1.4vw;
+        color: #6e6e6e;
+        @include mq-2 {
+          font-size: 2.5vw;
+        }
+        @include mobile {
+          font-size: 1rem;
+        }
+      }
+      .join-now {
+        font-size: 1.5vw;
+        margin: 2rem auto;
+        @include mq-2 {
+          font-size: 3vw;
+        }
+        @include mobile {
+          font-size: 1.5rem;
+        }
+      }
     }
   }
 
-  .introduction-section {
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: row;
-
-    .text-subsection {
-      margin-left: 1rem;
+  .task-column-section {
+    margin: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    @include mq-2 {
+      grid-template-columns: 3fr 4fr;
+    }
+    @include mobile {
+      margin: 0.5rem;
+      grid-template-columns: 1fr;
+    }
+    .task-columns-img {
+      width: 100%;
+      &.hide {
+        display: none;
+      }
+      @include mobile {
+        margin-top: 2rem;
+      }
+    }
+    .task-text {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      .main-text {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        
-        .home-page-title {
-          font-size: 4rem;
-          margin: 0;
-        }
-        h2 {
-          margin: 0;
-          font-size: 3rem;
-
-        }
-      }
-  
-      .home-page-description {
-        color: $text-secondary;
-        text-align: center;
+      width: 90%;
+      margin: 0 auto;
+      h1 {
+        font-size: 3vw;
         margin: 0;
-        max-width: 700px;
-      }
-      .call-to-action {
-        margin-top: 3rem;
-        display: flex;
-        flex-direction: row;
-        place-items: center;
-        .call-toaction-text {
-          margin: 0;
-          font-size: 1.5rem;
-          margin-right: 0.5rem;
+        color: #222222;
+        @include mq-2 {
+          font-size: 4vw;
         }
-        .btn-accent {
-          font-size: 1.2rem;
+        @include mobile {
+          font-size: 2rem;
         }
-      }
      
-    }
-    .home-page-title, .home-page-description {
-      font-family: 'Secular One', sans-serif;
-    }
-    #person-image {
-      $image-size: 25rem;
-      width: $image-size;
-      height: $image-size;
-      @include mq-1 {
-        $image-size: 16rem;
-        width: $image-size;
-        height: $image-size;
       }
+      h2 {
+        margin: 0;
+        margin-top: 1rem;
+        font-size: 1.5vw;
+        @include mq-2 {
+          font-size: 2.5vw;
+        }
+        @include mobile {
+          font-size: 1rem;
+        }
+        color: #3f3f3f;
+        }
     }
-  }
-
-
-  .task-columns-img {
-
   }
 
 }
 
+
 .theme-dark {
   .welcome-section {
-    .home-page-title {
-      color: $text-primary-dark;
+    .introduction-section {
+      .text-subsection {
+        h1 {
+          color: #ffffff;
+        }
+        h2 {
+          color: #c0c0c0;
+        }
+        p {
+          color: #838383;
+        }
+      }
     }
-    .home-page-description {
-      color: darken($text-secondary-dark, 20%);
-    }
-    
   }
+  
+    .task-column-section {
+      .task-text {
+        h1 {
+          color: #ffffff;
+        }
+        h2 {
+          color: #838383;
+          }
+    }
+  }
+  
 }
