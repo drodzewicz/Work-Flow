@@ -25,7 +25,7 @@ const BoardMembers = ({ boardId }) => {
 				url: `/board/${boardId}/members?limit=${USER_LIMIT}&page=${page.currentPage}`,
 				token: true,
 			});
-			if( _isMounted) setPageLoading(false);
+			if (_isMounted) setPageLoading(false);
 			if (!!data && _isMounted) {
 				const { totalPageCount, items } = data;
 				setPage((pages) => ({ ...pages, amountOfPages: totalPageCount }));
@@ -90,26 +90,29 @@ const BoardMembers = ({ boardId }) => {
 	};
 	const changeUserRole = async (userId, newRole) => {
 		const foundUserIndex = members.findIndex(({ user }) => user._id === userId);
-		const { data, error } = await fetchData({
+		const { status } = await fetchData({
 			method: "PATCH",
 			url: `/board/${boardId}/members/${userId}?newRole=${newRole}`,
 			token: true,
 		});
-		console.log(data, error);
-		setMembers((members) => {
-			const newMembers = [...members];
-			newMembers[foundUserIndex].role = newRole;
-			return newMembers;
-		});
+		if (status === 200) {
+			setMembers((members) => {
+				const newMembers = [...members];
+				newMembers[foundUserIndex].role = newRole;
+				return newMembers;
+			});
+		}
+
 	};
 
-	const isAuthenticated = () => {
-		return currentBoard.role === "owner" || currentBoard.role === "admin";
+	const isAuthorized = () => {
+		const { role } = currentBoard;
+		return role === "owner" || role === "admin";
 	};
 
 	return (
 		<div className="board-members-modal">
-			{isAuthenticated() && (
+			{isAuthorized() && (
 				<AutoCompleteInput
 					execMethod={dynamicSearchHandler}
 					timeout={500}

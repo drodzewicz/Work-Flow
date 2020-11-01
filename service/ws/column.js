@@ -1,4 +1,5 @@
 const Board = require("../../models/board");
+const Task = require("../../models/task");
 const processErrors = require("../../helper/errorHandler");
 
 const columnSocketService = {};
@@ -23,8 +24,12 @@ columnSocketService.createColumn = async (data) => {
 columnSocketService.deleteColumn = async (data) => {
 	const { boardId, columnId, columnIndex } = data;
 	try {
+		const { columns } = await Board.findOne({ _id: boardId }, "columns");
 		await Board.findOneAndUpdate({ _id: boardId }, { $pull: { columns: { _id: columnId } } });
+		await Task.deleteMany({ "_id": { "$in": columns[columnIndex].tasks } })
+
 		return { message: "deleted column", index: columnIndex };
+
 	} catch (error) {
 		return {
 			error: true,

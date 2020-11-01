@@ -9,7 +9,7 @@ taskSocketService.createTask = async (data) => {
 	const { columnId, boardId, title, description, tags, people, authorId } = data;
 	try {
 		const foundBoard = await Board.findOne({ _id: boardId }, "_id name columns");
-		const newTask = new Task({ title, description, tags, people, author: authorId });
+		const newTask = new Task({ title, description, tags, people, author: authorId, board: boardId });
 		const savedTask = await newTask.save();
 		const columnIndex = foundBoard.columns.findIndex(({ _id }) => {
 			return _id.toLocaleString() === columnId.toLocaleString();

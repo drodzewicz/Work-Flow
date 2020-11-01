@@ -5,6 +5,7 @@ import Image from "components/Image/Image";
 import { TaskDisplay } from "modalForms";
 import { ModalContext } from "context/ModalContext";
 import { TaskContext } from "context/TaskContext";
+import { UserContext } from "context/UserContext";
 import Tooltip from "components/Tooltip/Tooltip";
 
 import { Draggable } from "react-beautiful-dnd";
@@ -12,6 +13,7 @@ import { Draggable } from "react-beautiful-dnd";
 const Task = ({ taskId, title, indexes, tags, people }) => {
 	const [, modalDispatch] = useContext(ModalContext);
 	const [, setTasks] = useContext(TaskContext);
+	const [{ currentBoard }] = useContext(UserContext);
 
 	const poepleAnchorElement = useRef();
 	const tagsAnchorElement = useRef();
@@ -60,7 +62,7 @@ const Task = ({ taskId, title, indexes, tags, people }) => {
 	};
 
 	return (
-		<Draggable draggableId={taskId} index={taskIndex}>
+		<Draggable draggableId={taskId} index={taskIndex} isDragDisabled={currentBoard.role === "guest"}>
 			{(provided, snapshot) => (
 				<div
 					ref={provided.innerRef}

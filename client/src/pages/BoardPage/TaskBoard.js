@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import TaskColumn from "components/Task/TaskColumn";
 import { TaskContext } from "context/TaskContext";
+import { UserContext } from "context/UserContext";
 import NewColumn from "components/NewColumn/NewColumn";
 import PropTypes from "prop-types";
 import { Droppable, Draggable } from "react-beautiful-dnd";
@@ -8,6 +9,7 @@ import { ws } from "socket";
 
 const TaskBoard = ({ boardId }) => {
 	const [tasks, setTasks] = useContext(TaskContext);
+	const [{ currentBoard }] = useContext(UserContext);
 
 
 	useEffect(() => {
@@ -81,10 +83,14 @@ const TaskBoard = ({ boardId }) => {
 		};
 	}, [setTasks]);
 
+	const isAuthorized = () => {
+		const { role } = currentBoard;
+		return role === "owner" || role === "admin";
+	}
 
 	const DraggableTaskColumn = (id, name, tasks, index) => {
 		return (
-			<Draggable key={id} draggableId={id} index={index}>
+			<Draggable key={id} draggableId={id} index={index} isDragDisabled={currentBoard.role === "guest"}>
 				{(provided, snapshot) => {
 					return (
 						<div
@@ -122,7 +128,7 @@ const TaskBoard = ({ boardId }) => {
 				}}
 			</Droppable>
 			<div>
-				<NewColumn boardId={boardId} />
+				{isAuthorized() && <NewColumn boardId={boardId} />}
 			</div>
 		</div>
 	);

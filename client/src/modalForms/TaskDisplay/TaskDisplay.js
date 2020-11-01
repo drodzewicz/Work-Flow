@@ -16,7 +16,7 @@ import { emitWS } from "helper/socketData";
 
 const TaskDisplay = ({ taskId, updateTask }) => {
 	const [, dispatchModal] = useContext(ModalContext);
-	const [{ currentBoard }] = useContext(UserContext);
+	const [{ currentBoard, user }] = useContext(UserContext);
 
 	const [taskDetails, setTaskDetails] = useState({
 		title: "",
@@ -96,19 +96,25 @@ const TaskDisplay = ({ taskId, updateTask }) => {
 		});
 	};
 
+	const isAuthorizedToEdit = () => {
+		const { role } = currentBoard;
+		return taskDetails.taskAuthor._id === user._id || role === "owner" || role === "admin";
+	}
+
 	return (
 		<div className="display-task-wrapper">
 			<LoadingOverlay show={isTaskLoading} opacity={0}>
 				<div className="display-task">
 					<div className="text-details">
-						<div className="info-header">
-							<Button classes={["edit-btn delete-btn"]} clicked={deleteTask}>
-								delete
-							</Button>
-							<Button classes={["edit-btn"]} clicked={openTaskEditModal}>
-								edit
-							</Button>
-						</div>
+						{isAuthorizedToEdit() &&
+							<div className="info-header">
+								<Button classes={["edit-btn delete-btn"]} clicked={deleteTask}>
+									delete
+								</Button>
+								<Button classes={["edit-btn"]} clicked={openTaskEditModal}>
+									edit
+								</Button>
+							</div>}
 
 						<h1 className="task-title">{taskDetails.title}</h1>
 						<p className="task-description">{taskDetails.description}</p>

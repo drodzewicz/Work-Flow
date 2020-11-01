@@ -40,7 +40,6 @@ boardMiddleWare.isBoardAdmin = async (req, res, next) => {
 
     const { members } = await getBoard(boardId, "members");
     const indexOfMember = members.findIndex(({ user }) => user.toLocaleString() === id.toLocaleString());
-    console.log(members[indexOfMember].role);
 
     if (indexOfMember < 0)
         return res.status(403).json({ message: "you are not a member of this board" })

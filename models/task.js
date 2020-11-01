@@ -8,6 +8,10 @@ const taskSchema = new Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "User",
 	},
+	board: { 
+		type: mongoose.Schema.Types.ObjectId ,
+		ref: "Board",
+	},
 	people: [
 		{
 			type: mongoose.Schema.Types.ObjectId,

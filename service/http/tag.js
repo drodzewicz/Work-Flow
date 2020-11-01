@@ -36,6 +36,7 @@ tagService.deleteTag = async (req, res) => {
 	const { boardId } = req.params;
 	const { tagId } = req.params;
 	try {
+		await Tag.findOneAndDelete({ _id: tagId});
 		await Board.findOneAndUpdate({ _id: boardId }, { $pull: { tags: tagId } });
 		return res.status(200).json({ message: "tag deleted" });
 	} catch (error) {
