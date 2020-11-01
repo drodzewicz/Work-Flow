@@ -6,14 +6,18 @@ import "./Footer.scss";
 const Footer = () => {
 	return (
 		<footer className="app-footer">
-			<p className="footer-item source-code">
+			<a
+				href="https://github.com/DaRoTP/Task-Manager_node-react"
+				className="footer-item source-code">
 				<CodeIcon />
 				<span>source code</span>
-			</p>
-			<p className="footer-item author">
+			</a>
+			<a
+				href="https://github.com/DaRoTP"
+				className="footer-item author">
 				<AccountCircleIcon />
 				<span>Author: @DaRo</span>
-			</p>
+			</a>
 		</footer>
 	);
 };

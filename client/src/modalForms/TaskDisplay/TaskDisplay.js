@@ -98,7 +98,12 @@ const TaskDisplay = ({ taskId, updateTask }) => {
 
 	const isAuthorizedToEdit = () => {
 		const { role } = currentBoard;
-		return taskDetails.taskAuthor._id === user._id || role === "owner" || role === "admin";
+		if (role === "guest") {
+			return false;
+		} else {
+			return taskDetails.taskAuthor._id === user._id || role === "owner" || role === "admin";
+		}
+
 	}
 
 	return (

@@ -3,8 +3,8 @@
 
 .welcome-section {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   @include mq-1 {
     flex-direction: column;
     align-items: center;
@@ -12,39 +12,102 @@
   & > * {
     margin: 1rem;
   }
-  #person-image {
-    $image-size: 20rem;
-    width: $image-size;
-    height: $image-size;
-    @include mq-1 {
-      $image-size: 16rem;
+
+
+  .task-column-section {
+    display: flex;
+    place-items: center;
+
+    .task-text {
+      h1 {
+        font-size: 3rem;
+        color: #222222;
+        margin: 0;
+        margin-bottom: 1rem;
+      }
+      h2 {
+        margin: 0;
+        font-size: 2rem;
+        color: #555555;
+        
+      }
+    }
+
+    .task-columns-img {
+      $image-size: 40rem;
       width: $image-size;
       height: $image-size;
     }
-    
-    
   }
-  .text-subsection {
+
+  .introduction-section {
+    margin-top: 2rem;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    .home-page-title {
-      font-size: 3rem;
-      margin: 0;
+    flex-direction: row;
+
+    .text-subsection {
+      margin-left: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .main-text {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        
+        .home-page-title {
+          font-size: 4rem;
+          margin: 0;
+        }
+        h2 {
+          margin: 0;
+          font-size: 3rem;
+
+        }
+      }
+  
+      .home-page-description {
+        color: $text-secondary;
+        text-align: center;
+        margin: 0;
+        max-width: 700px;
+      }
+      .call-to-action {
+        margin-top: 3rem;
+        display: flex;
+        flex-direction: row;
+        place-items: center;
+        .call-toaction-text {
+          margin: 0;
+          font-size: 1.5rem;
+          margin-right: 0.5rem;
+        }
+        .btn-accent {
+          font-size: 1.2rem;
+        }
+      }
+     
     }
-    .home-page-description {
-      color: $text-secondary;
-      text-align: center;
-      margin: 0;
-      max-width: 700px;
+    .home-page-title, .home-page-description {
+      font-family: 'Secular One', sans-serif;
     }
-    .btn-accent {
-      margin-top: 2rem;
+    #person-image {
+      $image-size: 25rem;
+      width: $image-size;
+      height: $image-size;
+      @include mq-1 {
+        $image-size: 16rem;
+        width: $image-size;
+        height: $image-size;
+      }
     }
   }
-  .home-page-title, .home-page-description {
-    font-family: 'Secular One', sans-serif;
+
+
+  .task-columns-img {
+
   }
+
 }
 
 .theme-dark {
