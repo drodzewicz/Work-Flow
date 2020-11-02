@@ -12,7 +12,7 @@ const validationSchema = Yup.object({
 });
 
 const fields = {
-	newPassword: { initialVal: "", type: "password" },
+	newPassword: { initialVal: "", type: "password", label: "new password" },
 	matchPassword: { initialVal: "", type: "password", label: "match password" },
 };
 

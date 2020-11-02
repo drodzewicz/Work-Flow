@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./TaskDisplay.scss";
 import User from "components/User/User";
@@ -17,6 +18,8 @@ import { emitWS } from "helper/socketData";
 const TaskDisplay = ({ taskId, updateTask }) => {
 	const [, dispatchModal] = useContext(ModalContext);
 	const [{ currentBoard, user }] = useContext(UserContext);
+
+	const history = useHistory();
 
 	const [taskDetails, setTaskDetails] = useState({
 		title: "",
@@ -40,6 +43,9 @@ const TaskDisplay = ({ taskId, updateTask }) => {
 			});
 			if (_isMounted) setTaskLoading(false);
 			if (!!data && _isMounted) {
+				history.push({
+					search: `?task=${taskId}`
+				  })
 				setTaskDetails({
 					title: data.task.title,
 					description: data.task.description,
@@ -51,9 +57,12 @@ const TaskDisplay = ({ taskId, updateTask }) => {
 		};
 		getTaskInfo();
 		return () => {
+			history.push({
+				search: ""
+			  })
 			_isMounted = false;
 		};
-	}, [currentBoard.id, taskId]);
+	}, [currentBoard.id, taskId, history]);
 
 	const deleteTask = async () => {
 		const shouldDelete = window.confirm("are you sure you want to delete this task?")

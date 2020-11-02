@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { WelcomePage, ProfilePage, BoardPage, DashboardPage, ErrorPage } from "pages";
 import ProtectedRoute from "./ProtectedRoute";
 import { UserContext } from "context/UserContext";
+import queryString from "query-string";
 
 const Routes = () => {
 	const [{ authStatus }] = useContext(UserContext);
@@ -14,7 +15,7 @@ const Routes = () => {
 			<ProtectedRoute
 				auth={authStatus === "success"}
 				path="/board/:id"
-				render={({ match }) => <BoardPage boardId={match.params.id} />}
+				render={({ match, location }) => <BoardPage boardId={match.params.id} query={queryString.parse(location.search)} />}
 			/>
 			<Route exact path="/error/:code" render={({match}) => <ErrorPage errorCode={match.params.code} />} />
 			<Route render={() => <Redirect to="/" />} />

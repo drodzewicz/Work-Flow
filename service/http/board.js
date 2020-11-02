@@ -118,7 +118,6 @@ boardService.getBoardById = async (req, res) => {
 				},
 			});
 		}
-
 		return res.status(200).json(foundBoard);
 	} catch (error) {
 		return res.status(404).json({

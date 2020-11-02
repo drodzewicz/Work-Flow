@@ -2,6 +2,7 @@
 
 //  MuiInputLabel-shrink MuiInputLabel-marginDense MuiFormLabel-filled
 
+
 .workflow-textfield {
 	margin-bottom: 1rem;
 
@@ -11,7 +12,6 @@
 		}
 		&.MuiFormLabel-filled {
 			transform: translate(0, 0) scale(0.8);
-			// border-color: $blue-accent;
 		}
 		&.Mui-focused {
 			color: $blue-accent;

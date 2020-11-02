@@ -12,6 +12,7 @@ import { ModalContext } from "context/ModalContext";
 import { UserContext } from "context/UserContext";
 import { BoardMembers, Tags } from "modalForms";
 import { TaskProvider } from "context/TaskContext";
+import { TaskDisplay } from "modalForms";
 import fetchData from "helper/fetchData";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 import { onDragEnd } from "./dragHelper";
@@ -19,7 +20,7 @@ import { useHistory } from "react-router-dom";
 
 import { ws } from "socket";
 
-const BoardPage = ({ boardId }) => {
+const BoardPage = ({ boardId, query }) => {
 	const [boardInfo, setBoardInfo] = useState({
 		name: "",
 		description: "",
@@ -33,6 +34,20 @@ const BoardPage = ({ boardId }) => {
 
 	useEffect(() => {
 		let _isMounted = true;
+		const updateTaskHandler = () => {};
+		console.log("something")
+		const openTask = () => {
+			modalDispatch({
+				type: "OPEN",
+				payload: {
+					render: <TaskDisplay taskId={query.task} updateTask={updateTaskHandler} />,
+					title: "Task Details",
+				},
+			})
+		}
+		if (!!query && !!query.task) {
+			setTimeout(openTask, 1000);
+		}
 
 		const getLoggedInUserRole = async () => {
 			const { data, status } = await fetchData({
@@ -64,10 +79,11 @@ const BoardPage = ({ boardId }) => {
 		!!user && getLoggedInUserRole();
 
 		return () => {
+			clearTimeout(openTask);
 			ws.emit("leaveBoardRoom", { room: boardId });
 			_isMounted = false;
 		};
-	}, [user, boardId, userDispatch, history]);
+	}, [user, boardId, userDispatch, history, modalDispatch]);
 
 	const openBoardMembersModal = () => {
 		modalDispatch({
@@ -118,7 +134,12 @@ const BoardPage = ({ boardId }) => {
 	);
 };
 
+BoardPage.defaultProps = {
+	query: undefined
+}
+
 BoardPage.propTypes = {
+	query: PropTypes.object,
 	boardId: PropTypes.string.isRequired,
 };
 

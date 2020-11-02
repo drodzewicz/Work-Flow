@@ -9,7 +9,7 @@ const validationSchema = Yup.object({
 });
 
 const fields = {
-	imageLink: { initialVal: "", type: "text" },
+	imageLink: { initialVal: "", type: "text", label: "avatar image URL" },
 };
 
 const ChangeProfilePicture = ({ changeProfilePic }) => {

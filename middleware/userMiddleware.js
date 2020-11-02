@@ -10,10 +10,9 @@ userMiddleWare.getUserFromToken = (req, res, next) => {
             decoded;
         try {
             decoded = jwt.verify(authorization, SECRET_KEY);
-            console.log("SUCCESS ======: ", decoded);
 
-        } catch (e) {
-            console.log("ERROR ======: ", e);
+        } catch (error) {
+            console.log(error);
         }
     }
     return next();

@@ -18,7 +18,7 @@ taskSocketService.createTask = async (data) => {
 		const task = await savedTask.populate("people tags author", "username avatarImageURL name colorCode").execPopulate();
 		await foundBoard.save();
 
-		const newNotification = { title: foundBoard.name, info: `assigned new task: ${title}`, url: `/board/${foundBoard._id}` };
+		const newNotification = { title: foundBoard.name, info: `assigned new task: ${title}`, url: `/board/${foundBoard._id}?task=${task._id}` };
 		await User.updateMany(
 			{ "_id": { "$in": people } },
 			{ $push: { notifications: newNotification } }
