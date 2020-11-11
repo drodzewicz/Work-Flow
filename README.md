@@ -2,6 +2,8 @@
 
 **Work-Flow** is a web-based Kanban-style list making application used to manage work at personal or organizational level. Using this application organizing your work will be easy.
 
+![](https://github.com/DaRoTP/Task-Manager_node-react/blob/master/images/application_screenshot.png?raw=true)
+
 ### Application fetures:
 
 ### Install dependencies
