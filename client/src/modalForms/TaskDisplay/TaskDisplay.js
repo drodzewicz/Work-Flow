@@ -7,6 +7,7 @@ import Tag from "components/Tag/Tag";
 import Button from "components/Button/Button";
 
 import { ModalContext } from "context/ModalContext";
+import { WarningNotificationContext } from "context/WarningNotificationContext";
 import { UserContext } from "context/UserContext";
 
 import TaskEditor from "modalForms/TaskEditor/TaskEditor";
@@ -17,6 +18,7 @@ import { emitWS } from "helper/socketData";
 
 const TaskDisplay = ({ taskId, updateTask }) => {
 	const [, dispatchModal] = useContext(ModalContext);
+	const [, dispatchWarningNotification] = useContext(WarningNotificationContext);
 	const [{ currentBoard, user }] = useContext(UserContext);
 
 	const history = useHistory();
@@ -36,16 +38,20 @@ const TaskDisplay = ({ taskId, updateTask }) => {
 	useEffect(() => {
 		let _isMounted = true;
 		const getTaskInfo = async () => {
-			const { data } = await fetchData({
+			const { data, status } = await fetchData({
 				method: "GET",
 				url: `/board/${currentBoard.id}/task/${taskId}`,
 				token: true,
 			});
+
 			if (_isMounted) setTaskLoading(false);
-			if (!!data && _isMounted) {
+			if (status === 400) {
+				dispatchWarningNotification({ type: "WARNING", payload: { message: "Task not found" } })
+				dispatchModal({ type: "CLOSE" })
+			} else if (!!data && _isMounted) {
 				history.push({
 					search: `?task=${taskId}`
-				  })
+				})
 				setTaskDetails({
 					title: data.task.title,
 					description: data.task.description,
@@ -59,10 +65,10 @@ const TaskDisplay = ({ taskId, updateTask }) => {
 		return () => {
 			history.push({
 				search: ""
-			  })
+			})
 			_isMounted = false;
 		};
-	}, [currentBoard.id, taskId, history]);
+	}, [currentBoard.id, taskId, history, dispatchModal, dispatchWarningNotification]);
 
 	const deleteTask = async () => {
 		const shouldDelete = window.confirm("are you sure you want to delete this task?")

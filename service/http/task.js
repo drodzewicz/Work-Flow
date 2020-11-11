@@ -1,4 +1,5 @@
 const Task = require("../../models/task");
+const processErrors = require("../../helper/errorHandler");
 
 const taskService = {};
 
@@ -12,7 +13,7 @@ taskService.getTaskbyId = async (req, res) => {
 		return res.status(200).json({ task: foundTask });
 	} catch (error) {
 		return res.status(400).json({
-			message: Task.processErrors(error),
+			message: processErrors(error),
 		});
 	}
 };
@@ -25,7 +26,7 @@ taskService.updateTask = async (req, res) => {
 		return res.status(200).json({ message: "task updated", task: task });
 	} catch (error) {
 		return res.status(400).json({
-			message: Task.processErrors(error),
+			message: processErrors(error),
 		});
 	}
 };

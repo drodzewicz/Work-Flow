@@ -14,7 +14,7 @@ import { WarningNotificationContext } from "context/WarningNotificationContext";
 
 const validationSchema = Yup.object({
 	name: Yup.string().max(25, "board name is too long").required("field is required"),
-	description: Yup.string().max(200, "description is too long"),
+	description: Yup.string().max(400, "description is too long"),
 });
 
 const BoardEditor = ({ boardId, submitType }) => {

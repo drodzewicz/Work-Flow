@@ -25,7 +25,7 @@ export const WarningNotificationProvider = ({ children }) => {
     const closeNotification = () => {
       dispatch({ type: "CLOSE" })
     }
-    if(state.show) setTimeout(closeNotification, 4100);
+    if(state.show) setTimeout(closeNotification, 5000);
     else clearTimeout(closeNotification);
     return () => {
       clearTimeout(closeNotification)

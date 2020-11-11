@@ -10,7 +10,7 @@ const callAPI = async ({ url, method, token, payload, setLoading }) => {
 		return { data: res.data, error: null, status: res.status };
 	} catch (error) {
 		!!setLoading && setLoading(false);
-		return { data: null, error: error.response.data, status: error.response.status };
+		return { data: null, error: error.response?.data, status: error.response?.status };
 	}
 };
 

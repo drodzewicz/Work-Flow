@@ -1,62 +1,66 @@
+@import "../../assets/styles/colors";
+
+$warning-width: 16rem;
 
 .warning-notification {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-end;
-    z-index: 1000;
-    position: absolute;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0.2rem;
-    transition: all ease-in-out 0.5s;
-    height: 2rem;
-    overflow: hidden;
-    top: -2rem;
+ display: flex;
+ position: fixed;
+ z-index: 1000;
+ background-color: $white-1;
+ color: black;
+ width: $warning-width;
+ height: 4rem;
+ bottom: 1rem;
+ right: 1rem;
+ border-radius: 5px;
+ box-shadow: 0px 2px 3px rgba(0, 1px, 0, 0.25);
 
-    @keyframes moveOpen {
-        from { 
-            transform: translate(0,-100px); 
-        }
-        10% { transform: translate(0,1.65rem); }
-        12% { transform: translate(0,1.78rem); }
-        16% { transform: translate(0,1.65rem); }
-        80% { transform: translate(0,1.65rem); }
-        85% { transform: translate(0, 1.97rem); }
-        to { 
-            transform: translate(0,-100px); 
-        }
+ @keyframes moveOpen {
+    from { 
+        transform: translate($warning-width + 1rem,0); 
     }
-    animation: moveOpen 4s;
+    10% { transform: translate(-5px ,0);   }
+    12% { transform: translate(-7px ,0);   }
+    16% { transform: translate(0 ,0);  }
+    80% {transform: translate(0 ,0);  }
+    85% { transform: translate(-10px ,0); }
+    to { 
+        transform: translate($warning-width + 1rem, 0); 
+    }
+}
+animation: moveOpen 5s forwards;
 
-    .notification-body-wrapper {
+ &.success {
+    background: rgb(137, 255, 137);
+    color: #222222;
+}
+&.warning {
+    background: rgb(255, 207, 104);
+    color: #222222;
+}
+&.error {
+    background: rgb(255, 137, 137);
+    color: #222222;
+}
+ .notification-body-wrapper {
+    display: flex;
+    align-items: stretch;
+    margin: 0.2rem 0.4rem;
+
+    .MuiSvgIcon-root  {
+        height: 100%;
         display: flex;
-        flex-direction: row;
         align-items: center;
         justify-content: center;
-        height: 1.2rem;
-    }
-
-    &.success {
-        background: rgb(35, 136, 35);
-        color: white;
-    }
-    &.warning {
-        background: rgb(243, 178, 39);
-        color: #222222;
-    }
-    &.error {
-        background: rgb(187, 39, 39);
-        color: white;
-    }
-    .MuiSvgIcon-root {
-        $icon-size: 0.9rem;
-        height: $icon-size;
-        width: $icon-size;
-        margin-right: 0.2rem;
+        margin: 0 0.2rem;
     }
     .warning-body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
         font-size: 0.9rem;
-
     }
+
+ }
 }

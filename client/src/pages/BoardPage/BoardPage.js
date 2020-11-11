@@ -35,7 +35,6 @@ const BoardPage = ({ boardId, query }) => {
 	useEffect(() => {
 		let _isMounted = true;
 		const updateTaskHandler = () => {};
-		console.log("something")
 		const openTask = () => {
 			modalDispatch({
 				type: "OPEN",

@@ -17,8 +17,8 @@ import { WarningNotificationContext } from "context/WarningNotificationContext";
 // import { userList_DATA, tags_DATA } from "data";
 
 const validationSchema = Yup.object({
-	title: Yup.string().max(25, "task title is too long").required("field is required"),
-	description: Yup.string().max(200, "description is too long"),
+	title: Yup.string().max(100, "task title is too long").required("field is required"),
+	description: Yup.string().max(500, "description is too long"),
 });
 
 const TaskEditor = ({ buttonName, action, updateTask, initialValues, boardId, taskId, columnId }) => {
