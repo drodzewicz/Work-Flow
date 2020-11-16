@@ -53,6 +53,12 @@ app
 	.use("/api/board/:boardId/column", columnRoutes)
 	.use("/api/board/:boardId/task", taskRoutes);
 
+
+if (ENVIROMENT === "production") {
+    app.use(express.static(__dirname + "/public/"));
+    app.get("*", (req, res) => res.sendFile(__dirname + "/public/index.html"));
+}
+
 // bad request - catches all non existing routes
 app.use((req, res) => {
 	res.status(404).json({
