@@ -1,5 +1,5 @@
 import io from "socket.io-client";
 
-const ws = io.connect("http://localhost:8080/")
+const ws = io.connect("/")
 
 export { ws }
