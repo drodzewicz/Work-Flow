@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const userService = {};
 
-const { SECRET_KEY } = process.env || "veri $ecret K#y";
+const SECRET_KEY = process.env.SECRET_KEY || "veri $ecret K#y";
 
 userService.registerUser = async (req, res) => {
 	const { username, password, name, surname, email } = req.body;
