@@ -1,6 +1,9 @@
-# WorkFlow - Kanban board
+# Work-Flow - Kanban board
 
-**Work-Flow** is a web-based Kanban-style list making application used to manage work at personal or organizational level. Using this application organizing your work will be easy.
+**Work-Flow** is a web-based Kanban-style list making application used to manage work at personal or organizational level. Using this application organizing your work will be easy. Inspiration for this project came from such applications like: [Github Projects](https://github.com/features/project-management/) and [Trello](https://trello.com/).
+This project was build using technologies like *React* on frontend and and *Express* and *mongodb* on backend. This application is also using *websockets* so that when working with a team all chages can be seen without refreshing the page.
+
+![](https://github.com/DaRoTP/Task-Manager_node-react/blob/master/images/application_screenshot.png?raw=true)
 
 ### Application fetures:
 
