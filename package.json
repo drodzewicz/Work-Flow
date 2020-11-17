@@ -7,8 +7,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "client-install": "cd client && npm install",
+    "start": "SET NODE_ENV=production && node app.js",
+    "server": "SET NODE_ENV=development && nodemon app.js",
+    "client": "npm start --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "DaRo",

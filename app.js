@@ -14,12 +14,10 @@ const io = socketIO(server);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-let { PORT, ENVIROMENT } = process.env;
+let { PORT, NODE_ENV } = process.env;
 PORT = PORT || 3000;
-ENVIROMENT = ENVIROMENT || "development";
-
 // morgan logger setup
-if (ENVIROMENT === "development") {
+if (NODE_ENV === "development") {
 	app.use(logger("dev"));
 	app.use(errorHandler());
 } else {
@@ -54,7 +52,7 @@ app
 	.use("/api/board/:boardId/task", taskRoutes);
 
 
-if (ENVIROMENT === "production") {
+if (NODE_ENV === "production") {
     app.use(express.static(__dirname + "/public/"));
     app.get("*", (req, res) => res.sendFile(__dirname + "/public/index.html"));
 }
@@ -78,5 +76,5 @@ io.on("connection", (socket) => {
 });
 
 server.listen(PORT, () => {
-	console.log(`server running on PORT: [${PORT}] in [${ENVIROMENT}]`);
+	console.log(`server running on PORT: [${PORT}] in [${NODE_ENV}]`);
 });
