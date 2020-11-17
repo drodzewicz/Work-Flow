@@ -9,7 +9,7 @@ This project was build using technologies like *React* on frontend and and *Expr
 
 ### Application fetures:
 
-### Install dependencies
+### Run application
 
 ```sh
 # install server dependencies
@@ -29,18 +29,14 @@ npm run client-build
 # run app
 npm start
 ```
-
-### Running app
-
-```sh
-npm run dev
-```
+### Enviroment variables
+## Client
 > application requires a **.env** file which has to contain:
-<br> DBURI: *Database URI*
-<br> PORT: *clinet port*
-<br> SERVER_PORT: *babckend server port*
-<br> APP_SECRET: *secret that will be used to encrypt passwords and tokens*
-<br> NODE_ENV: *[ production | development ]*
+<br> DBURI: *database URI*
+<br> PORT: *server port*
+<br> SECRET_KEY: *secret that will be used to encrypt passwords and tokens*
+## Server
+<br> REACT_APP_API_URI: *backend server port*
 
 ## Used Technologies
 ### Backend
