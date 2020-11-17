@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const { SECRET_KEY } = process.env || "veri $ecret K#y";
+const SECRET_KEY = process.env.SECRET_KEY || "veri $ecret K#y";
 
 const userMiddleWare = {};
 
