@@ -41,7 +41,7 @@ const BoardMembers = ({ boardId }) => {
 	const dynamicSearchHandler = async (username) => {
 		const { data } = await fetchData({
 			method: "GET",
-			url: `user/find_user?username=${username}`,
+			url: `/user/find_user?username=${username}`,
 			token: true,
 		});
 		if (!!data) {
@@ -58,7 +58,7 @@ const BoardMembers = ({ boardId }) => {
 	const removeUserFromBoard = async (memberId) => {
 		const { data } = await fetchData({
 			method: "DELETE",
-			url: `board/${boardId}/members/${memberId}`,
+			url: `/board/${boardId}/members/${memberId}`,
 			token: true,
 		});
 		if (!!data) {
@@ -74,7 +74,7 @@ const BoardMembers = ({ boardId }) => {
 		setSearchRes([]);
 		const { data } = await fetchData({
 			method: "PATCH",
-			url: `board/${boardId}/members?userId=${user._id}`,
+			url: `/board/${boardId}/members?userId=${user._id}`,
 			token: true,
 		});
 		if (!!data && members.length < USER_LIMIT) {
