@@ -29,14 +29,14 @@ npm run client-build
 # run app
 npm start
 ```
-### Enviroment variables
-## Client
+## Enviroment variables
+### Client
 > application requires a **.env** file which has to contain:
 <br> DBURI: *database URI*
 <br> PORT: *server port*
 <br> SECRET_KEY: *secret that will be used to encrypt passwords and tokens*
-## Server
-<br> REACT_APP_API_URI: *backend server port*
+### Server
+> REACT_APP_API_URI: *backend server port*
 
 ## Used Technologies
 ### Backend
