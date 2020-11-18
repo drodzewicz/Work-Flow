@@ -40,13 +40,13 @@ npm run client-build
 npm start
 ```
 ## Enviroment variables
-### Client
-> application requires a **.env** file which has to contain:
-<br> DBURI: *database URI*
-<br> PORT: *server port*
-<br> SECRET_KEY: *secret that will be used to encrypt passwords and tokens*
+*application requires a **.env** file which contains:*
 ### Server
-> REACT_APP_API_URI: *backend server port*
+> **DBURI**: *database URI* - **is required**
+<br> **PORT**: *server port* - **default is 8080**
+<br> **SECRET_KEY**: *secret that will be used to encrypt passwords and tokens* - **default is "veri $ecret K#y"**
+### Client
+> **REACT_APP_API_URI**: *backend server port* - **is required**
 
 ## Used Technologies
 ### Backend
