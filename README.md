@@ -7,7 +7,17 @@ This project was build using technologies like *React* on frontend and and *Expr
 
 ![](https://github.com/DaRoTP/Task-Manager_node-react/blob/master/images/application_screenshot.png?raw=true)
 
-### Application fetures:
+### Application functionality:
+- User registration
+- User auhentication using JWT
+- Profile managment
+- Board creation
+- Pinning boards to main page
+- 4 available roles [guest, owner, admin, regular]
+- Custom tag creation
+- Create tasks, assign people to them and add tags
+- Real time task and column moving using beautifulDnD and socket.io
+
 
 ### Run application
 
