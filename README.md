@@ -13,10 +13,10 @@ This project was build using technologies like *React* on frontend and and *Expr
 - Profile managment
 - Board creation
 - Pinning boards to main page
-- 4 available roles [guest, owner, admin, regular]
+- 4 available roles *[guest, owner, admin, regular]*
 - Custom tag creation
 - Create tasks, assign people to them and add tags
-- Real time task and column moving using beautifulDnD and socket.io
+- Real time task and column moving using *beautifulDnD* and *socket.io*
 
 
 ### Run application
@@ -46,7 +46,9 @@ npm start
 <br> **PORT**: *server port* - **default is 8080**
 <br> **SECRET_KEY**: *secret that will be used to encrypt passwords and tokens* - **default is "veri $ecret K#y"**
 ### Client
-> **REACT_APP_API_URI**: *backend server port* - **is required**
+> **REACT_APP_API_URI**: 
+  * **DEVELOPMENT**: *required*
+  * **PRODUCTION**: *default is '/'*
 
 ## Used Technologies
 ### Backend
