@@ -11,7 +11,8 @@
     "start": "SET NODE_ENV=production && node app.js",
     "server": "SET NODE_ENV=development && nodemon app.js",
     "client": "npm start --prefix client",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client-build": "npm run build --prefix client"
   },
   "author": "DaRo",
   "license": "ISC",
