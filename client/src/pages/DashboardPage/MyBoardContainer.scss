@@ -13,6 +13,9 @@
 	@include mobile {
 		width: 15rem;
     }
+	.pagination-container {
+		margin-top: 1rem;
+	}
     .empty-board {
         color: darken($light-blue-1, 15%);
         grid-column: 2/4;
@@ -58,11 +61,9 @@
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
 		grid-row: 1;
-		.pagination-container {
-            grid-column: 1/5;
-            height: 2rem;
-            align-self: end;
-		}
+		align-items: center;
+		justify-content: center;
+		grid-gap: 1rem;
 
 		@include mq-2 {
 			grid-template-columns: repeat(3, 1fr);

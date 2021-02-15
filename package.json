@@ -8,11 +8,11 @@
   "main": "app.js",
   "scripts": {
     "client-install": "cd client && npm install",
-    "start": "SET NODE_ENV=production && node app.js",
-    "server": "SET NODE_ENV=development && nodemon app.js",
+    "start": "SET NODE_ENV=production&&node app.js",
+    "server": "SET NODE_ENV=development&&nodemon app.js",
     "client": "npm start --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "client-build": "npm run build --prefix client"
+    "client-build": "npm run build --prefix client && rm -rf public && cd client && mv build ../public"
   },
   "author": "DaRo",
   "license": "ISC",
