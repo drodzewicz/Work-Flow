@@ -1,29 +1,54 @@
 # Work-Flow - Kanban board
 
+[**Live Preview**](https://workflowtasks.herokuapp.com/)
+
 **Work-Flow** is a web-based Kanban-style list making application used to manage work at personal or organizational level. Using this application organizing your work will be easy. Inspiration for this project came from such applications like: [Github Projects](https://github.com/features/project-management/) and [Trello](https://trello.com/).
 This project was build using technologies like *React* on frontend and and *Express* and *mongodb* on backend. This application is also using *websockets* so that when working with a team all chages can be seen without refreshing the page.
 
 ![](https://github.com/DaRoTP/Task-Manager_node-react/blob/master/images/application_screenshot.png?raw=true)
 
-### Application fetures:
+### Application functionality:
+- User registration
+- User auhentication using JWT
+- Profile managment
+- Board creation
+- Pinning boards to main page
+- 4 available roles *[guest, owner, admin, regular]*
+- Custom tag creation
+- Create tasks, assign people to them and add tags
+- Real time task and column moving using *beautifulDnD* and *socket.io*
 
-### Install dependencies
+
+### Run application
 
 ```sh
+# install server dependencies
 npm install
-```
+# install client dependencies
+npm run client-install
 
-### Running app
+# DEVELOPMENT
+# run server
+npm run server
+# run client
+npm run client
 
-```sh
-npm run dev
+# PRODUCTION
+# build client
+npm run client-build
+# run app
+npm start
 ```
-> application requires a **.env** file which has to contain:
-<br> DBURI: *Database URI*
-<br> PORT: *clinet port*
-<br> SERVER_PORT: *babckend server port*
-<br> APP_SECRET: *secret that will be used to encrypt passwords and tokens*
-<br> NODE_ENV: *[ production | development ]*
+## Enviroment variables
+*application requires a **.env** file which contains:*
+### Server
+> **DBURI**: *database URI* - **is required**
+<br> **PORT**: *server port* - **default is 8080**
+<br> **SECRET_KEY**: *secret that will be used to encrypt passwords and tokens* - **default is "veri $ecret K#y"**
+### Client
+> **REACT_APP_API_URI**: 
+  * **DEVELOPMENT**: *required*
+  * **PRODUCTION**: *default is '/'*
 
 ## Used Technologies
 ### Backend
