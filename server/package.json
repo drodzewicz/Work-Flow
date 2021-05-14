@@ -7,8 +7,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "SET NODE_ENV=production&&node app.js",
-    "dev": "SET NODE_ENV=development&&nodemon app.js",
+    "start": "set NODE_ENV=production&&node app.js",
+    "dev": "set NODE_ENV=development&&nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "DaRo",
