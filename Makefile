@@ -31,3 +31,7 @@ run_client: ;@echo "${PROJECT} Running Client....."; \
 build: ;@echo "Building ${PROJECT}....."; \
 	cd client && npm run build
 
+env_template: ;@echo ".ENV ${PROJECT}....."; \
+	cd server && cp .env.example .env
+	cd client && cp .env.example .env
+

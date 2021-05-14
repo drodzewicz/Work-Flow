@@ -31,7 +31,8 @@ This project was build using technologies like *React* on frontend and and *Expr
 - **run_client** - *runs client in deevelopment*
 - **update** - *pulls updates from repo and install dependancies*
 - **build** - *builds client and puts it in server/public directory*
-- **clean** - *deletes node_module folder*
+- **clean** - *deletes **node_module** folder*
+- **env_template** - *use **.env.example** as template to create **.env** *
 
 ## Enviroment variables
 *application requires a **.env** file which contains:*
