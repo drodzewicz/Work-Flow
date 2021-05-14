@@ -19,26 +19,20 @@ This project was build using technologies like *React* on frontend and and *Expr
 - Real time task and column moving using *beautifulDnD* and *socket.io*
 
 
-### Run application
+### Makefile scripts
+*example:*
+`make install`
+> 
+- **install** - *installs server and client dependencies*
+- **install_server** - *installs server dependencies*
+- **install_client** - *installs client dependencies*
+- **run** - *run app in production*
+- **run_server** - *runs server in development*
+- **run_client** - *runs client in deevelopment*
+- **update** - *pulls updates from repo and install dependancies*
+- **build** - *builds client and puts it in server/public directory*
+- **clean** - *deletes node_module folder*
 
-```sh
-# install server dependencies
-npm install
-# install client dependencies
-npm run client-install
-
-# DEVELOPMENT
-# run server
-npm run server
-# run client
-npm run client
-
-# PRODUCTION
-# build client
-npm run client-build
-# run app
-npm start
-```
 ## Enviroment variables
 *application requires a **.env** file which contains:*
 ### Server
@@ -47,8 +41,8 @@ npm start
 <br> **SECRET_KEY**: *secret that will be used to encrypt passwords and tokens* - **default is "veri $ecret K#y"**
 ### Client
 > **REACT_APP_API_URI**: 
-  * **DEVELOPMENT**: *required*
-  * **PRODUCTION**: *default is '/'*
+>> **DEVELOPMENT**: *required* <br>
+>> **PRODUCTION**: *default is '/'*
 
 ## Used Technologies
 ### Backend
