@@ -11,9 +11,12 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server, {
   cors: {
-	credentials: true,
     origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true,
+    transports: ["websocket", "polling"],
   },
+  allowEIO3: true
 });
 
 app.use(express.urlencoded({ extended: false }));
