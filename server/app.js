@@ -9,7 +9,12 @@ const socketIO = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = socketIO(server, {
+  cors: {
+	credentials: true,
+    origin: "http://localhost:3000",
+  },
+});
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
