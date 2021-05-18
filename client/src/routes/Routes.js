@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { WelcomePage, ProfilePage, BoardPage, DashboardPage, ErrorPage } from "pages";
+import { WelcomePage, ProfilePage, BoardPage, DashboardPage, ErrorPage } from "views";
 import ProtectedRoute from "./ProtectedRoute";
 import { UserContext } from "context/UserContext";
 import queryString from "query-string";

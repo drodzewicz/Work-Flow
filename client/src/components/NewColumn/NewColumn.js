@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./NewColumn.scss";
 import PropTypes from "prop-types";
 
-import { emitWS } from "helper/socketData";
+import { emitWS } from "service/socketData";
 
 const NewColumn = ({ boardId }) => {
 	const [columnName, setColumnName] = useState("");

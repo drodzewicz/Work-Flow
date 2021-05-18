@@ -13,12 +13,12 @@ import { UserContext } from "context/UserContext";
 import { BoardMembers, Tags } from "modalForms";
 import { TaskProvider } from "context/TaskContext";
 import { TaskDisplay } from "modalForms";
-import fetchData from "helper/fetchData";
+import { getLoggedInUserBoardRole, getBoard } from "service/services";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 import { onDragEnd } from "./dragHelper";
 import { useHistory } from "react-router-dom";
 
-import { ws } from "socket";
+import { ws } from "config/socket.conf";
 
 const BoardPage = ({ boardId, query }) => {
 	const [boardInfo, setBoardInfo] = useState({
@@ -49,24 +49,15 @@ const BoardPage = ({ boardId, query }) => {
 		}
 
 		const getLoggedInUserRole = async () => {
-			const { data, status } = await fetchData({
-				method: "GET",
-				url: `/board/${boardId}/members/${user._id}`,
-				token: true,
-			});
+			const { data, status } = await getLoggedInUserBoardRole({ boardId, userId: user._id });
 			if (_isMounted && status === 200) {
 				ws.emit("joinBoardRoom", { room: boardId });
 				userDispatch({ type: "SET_ROLE", payload: { role: data.member.role, boardId } });
 			}
 		};
 
-		const getBoardTasks = async () => {
-			const { data, status } = await fetchData({
-				method: "GET",
-				url: `/board/${boardId}`,
-				token: true,
-				setLoading: setTaskLoading,
-			});
+		const getBoardTaskss = async () => {
+			const { data, status } = await getBoard({ boardId, setLoading: setTaskLoading });
 			if (status === 200) {
 				setTasks(data.columns);
 				setBoardInfo({ name: data.name, description: data.description });
@@ -74,7 +65,7 @@ const BoardPage = ({ boardId, query }) => {
 				history.replace(`/error/${status}`);
 			}
 		};
-		getBoardTasks();
+		getBoardTaskss();
 		!!user && getLoggedInUserRole();
 
 		return () => {

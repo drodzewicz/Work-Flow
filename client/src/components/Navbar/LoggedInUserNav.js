@@ -8,7 +8,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import Badge from "@material-ui/core/Badge";
 import { useHistory, Link } from "react-router-dom";
 import { UserContext } from "context/UserContext";
-import fetchData from "helper/fetchData";
+import { getNotifications, removeNotification } from "service/services";
 
 const LoggedInUserNav = () => {
 	const history = useHistory();
@@ -17,11 +17,7 @@ const LoggedInUserNav = () => {
 	const [notifications, setNotification] = useState([]);
 
 	const handlGetMyNotifications = async () => {
-		const { data } = await fetchData({
-			url: "/notification",
-			token: true,
-			method: "GET",
-		});
+		const { data } = await getNotifications();
 		if (!!data) setNotification(data.notifications);
 	}
 
@@ -41,11 +37,7 @@ const LoggedInUserNav = () => {
 		dispatchUser({ type: "THEME_TOGGLE" });
 	};
 	const removeMessage = async (index) => {
-		const { status } = await fetchData({
-			url: `/notification/${notifications[index]._id}`,
-			token: true,
-			method: "DELETE",
-		});
+		const { status } = await removeNotification({ notificationId: notifications[index]._id }); 
 		if (status) setNotification((notifications) => {
 			const newNotification = [...notifications];
 			newNotification.splice(index, 1);

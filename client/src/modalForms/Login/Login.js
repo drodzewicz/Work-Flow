@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import "./Login.scss";
 import { UserContext } from "context/UserContext";
 import { ModalContext } from "context/ModalContext";
-import fetchData from "helper/fetchData";
+import { login } from "service/services";
 import SimpleForm from "components/SimpleForm/SimpleForm";
 
 const validationSchema = Yup.object({
@@ -21,12 +21,7 @@ const Login = () => {
 	const [, modalDispatch] = useContext(ModalContext);
 
 	const handleSubmit = async (submittedData, { setSubmitting, setErrors }) => {
-		const { data, error } = await fetchData({
-			method: "POST",
-			url: "/login",
-			setLoading: setSubmitting,
-			payload: submittedData,
-		});
+		const { data, error } = await login({ setLoading: setSubmitting, payload: submittedData });
 		if (!!data) {
 			const { token, user } = data;
 			userDispatch({ type: "LOGIN_SUCCESS", payload: { user, token } });

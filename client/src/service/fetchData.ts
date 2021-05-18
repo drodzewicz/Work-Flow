@@ -1,11 +1,28 @@
-import axios, { Method } from "axios";
+import axios, { Method, AxiosResponse } from "axios";
 
-interface callAPIParams {
+export interface callAPIParams {
   url: string;
   method: Method;
   token?: boolean;
   payload?: any;
   setLoading?: (state: boolean) => void;
+}
+
+const responseHandler = (response: AxiosResponse<any>) => {
+  return {
+    data: response.data,
+    error: null,
+    status: response.status,
+  };
+};
+
+
+const errorHandler = (error: any) => {
+  return {
+    data: null,
+    error: error.response?.data,
+    status: error.response?.status,
+  };
 }
 
 const callAPI = async ({ url, method, token, payload, setLoading }: callAPIParams) => {
@@ -15,10 +32,10 @@ const callAPI = async ({ url, method, token, payload, setLoading }: callAPIParam
   try {
     const res = await axios({ method, url: `/api${url}`, data: payload, headers });
     !!setLoading && setLoading(false);
-    return { data: res.data, error: null, status: res.status };
+    return responseHandler(res);
   } catch (error) {
     !!setLoading && setLoading(false);
-    return { data: null, error: error.response?.data, status: error.response?.status };
+    return errorHandler(error);
   }
 };
 

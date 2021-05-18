@@ -1,16 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import "./index.scss";
 import App from "./App/App";
 import * as serviceWorker from "./serviceWorker";
 import { ModalProvider } from "./context/ModalContext";
 import { UserProvider } from "./context/UserContext";
 import { WarningNotificationProvider } from "./context/WarningNotificationContext";
 import { BrowserRouter as Router } from "react-router-dom";
+import { BASE_URL, ENVIROMENTS } from "config/default.conf";
 
-const BASE_API_URI = process.env.REACT_APP_API_URI || "http://localhost:8080"
-const API_URI = process.env.NODE_ENV === "production" ? "/" : BASE_API_URI
+const BASE_API_URI = process.env.REACT_APP_API_URI || BASE_URL;
+const API_URI = process.env.NODE_ENV === ENVIROMENTS.PROD ? "/" : BASE_API_URI;
 
 axios.defaults.baseURL = API_URI;
 

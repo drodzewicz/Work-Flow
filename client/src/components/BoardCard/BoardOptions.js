@@ -2,7 +2,7 @@ import React, { useRef, useContext } from "react";
 import PropTypes from "prop-types";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import fetchData from "helper/fetchData";
+import { leaveBoard, deleteBoard } from "service/services";
 import BoardEditor from "modalForms/BoardEditor/BoardEditor";
 import { ModalContext } from "context/ModalContext";
 
@@ -13,36 +13,23 @@ const BoardOptions = ({ boardId, removeBoardCallback, isAuthor }) => {
 
     const editEventModal = () => {
         modalDispatch({
-            type: "OPEN",
-            payload: {
-                render: (
-                    <BoardEditor
-                        boardId={boardId}
-                        submitType="Update"
-                    />
-                ),
-                title: "Edit Board",
-            },
+          type: "OPEN",
+          payload: {
+            title: "Edit Board",
+            render: <BoardEditor boardId={boardId} submitType="Update" />,
+          },
         });
     };
 
     const leavingEvent = async () => {
-        const { error } = await fetchData({
-            method: "DELETE",
-            url: `/board/${boardId}/leave_board`,
-            token: true,
-        });
+        const { error } = await leaveBoard({boardId});
         if (!error) removeBoardCallback(boardId);
     };
 
     const deleteBoardHandler = async () => {
         const shouldDelete = window.confirm("are you sure you want to delete this board?")
         if (shouldDelete) {
-            const { error } = await fetchData({
-                method: "DELETE",
-                url: `/board/${boardId}`,
-                token: true,
-            });
+            const { error } = await deleteBoard({boardId});
             if (!error) removeBoardCallback(boardId);
         }
 

@@ -9,8 +9,8 @@ import Routes from "routes/Routes";
 
 import Footer from "components/Footer/Footer";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
-import fetchData from "helper/fetchData";
 import WarningNotification from "components/WarningNotification/WarningNotification";
+import { isUserAuthenticated } from "service/services";
 
 const App: React.FC = () => {
   const [{ authStatus, theme }, dispatchUser] = useContext(UserContext);
@@ -25,11 +25,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const checkUserAuthentication = async () => {
-      const { data, status } = await fetchData({
-        url: "/isAuth",
-        token: true,
-        method: "GET",
-      });
+      const { data, status } = await isUserAuthenticated();
       if (status === 401) dispatchUser({ type: "LOGIN_FAIL" });
       if (!!data) dispatchUser({ type: "LOGIN_SUCCESS", payload: { user: data.user } });
     };

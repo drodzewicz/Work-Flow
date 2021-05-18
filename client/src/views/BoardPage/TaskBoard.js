@@ -5,7 +5,7 @@ import { UserContext } from "context/UserContext";
 import NewColumn from "components/NewColumn/NewColumn";
 import PropTypes from "prop-types";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { ws } from "socket";
+import { ws } from "config/socket.conf";
 
 const TaskBoard = ({ boardId }) => {
 	const [tasks, setTasks] = useContext(TaskContext);

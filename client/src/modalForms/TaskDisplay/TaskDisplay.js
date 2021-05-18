@@ -11,9 +11,9 @@ import { WarningNotificationContext } from "context/WarningNotificationContext";
 import { UserContext } from "context/UserContext";
 
 import TaskEditor from "modalForms/TaskEditor/TaskEditor";
-import fetchData from "helper/fetchData";
+import { getBoardTask } from "service/services";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
-import { emitWS } from "helper/socketData";
+import { emitWS } from "service/socketData";
 
 
 const TaskDisplay = ({ taskId, updateTask }) => {
@@ -38,12 +38,7 @@ const TaskDisplay = ({ taskId, updateTask }) => {
 	useEffect(() => {
 		let _isMounted = true;
 		const getTaskInfo = async () => {
-			const { data, status } = await fetchData({
-				method: "GET",
-				url: `/board/${currentBoard.id}/task/${taskId}`,
-				token: true,
-			});
-
+			const { data, status } = await getBoardTask({ boardId: currentBoard.id, taskId });
 			if (_isMounted) setTaskLoading(false);
 			if (status === 400) {
 				dispatchWarningNotification({ type: "WARNING", payload: { message: "Task not found" } })

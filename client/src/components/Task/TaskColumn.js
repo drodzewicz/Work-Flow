@@ -9,8 +9,8 @@ import { ModalContext } from "context/ModalContext";
 import { TaskContext } from "context/TaskContext";
 import { UserContext } from "context/UserContext";
 import ColumnNameInput from "./ColumnNameInput";
-import fetchData from "helper/fetchData";
-import { emitWS } from "helper/socketData";
+import { updateBoardColumn } from "service/services";
+import { emitWS } from "service/socketData";
 
 import { Droppable } from "react-beautiful-dnd";
 
@@ -62,13 +62,10 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
 	};
 
 	const changeColumnNameOnKeyPressEnter = async (newName) => {
-		const { status } = await fetchData({
-			method: "PATCH",
-			url: `/board/${boardId}/column/${columnId}`,
-			token: true,
-			payload: {
+		const { status } = await updateBoardColumn({
+			boardId, columnId, payload: {
 				name: newName,
-			},
+			}
 		});
 		if (status === 200) {
 			setTasks((tasks) => {

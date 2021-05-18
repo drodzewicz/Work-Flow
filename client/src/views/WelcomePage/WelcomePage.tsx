@@ -9,7 +9,7 @@ import { Register } from "modalForms";
 import taskColumns from "assets/images/task_columns.svg";
 import taskColumnsDark from "assets/images/task_columns_dark.svg";
 
-const WelcomePage = () => {
+const WelcomePage: React.FC = () => {
 	const [, modalDispatch] = useContext(ModalContext);
 	const [{theme}] = useContext(UserContext);
 

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
 import User from "components/User/User";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
-import fetchData from "helper/fetchData";
+import { searchUserInBoard } from "service/services";
 
 
 const UserListManager = ({ users, setUsers, boardId }) => {
@@ -11,11 +11,7 @@ const UserListManager = ({ users, setUsers, boardId }) => {
     const [userSearchResult, setUserSearchResult] = useState([]);
 
     const searchUser = async (username) => {
-        const { data } = await fetchData({
-            method: "GET",
-            url: `/board/${boardId}/members?username=${username}`,
-            token: true,
-        });
+        const { data } = await searchUserInBoard({ boardId, username });
         setUserSearchResult(
             data
                 .filter(({ user }) => users.findIndex(({ _id }) => _id === user._id) < 0)

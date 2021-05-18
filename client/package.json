@@ -12,6 +12,7 @@
     "@types/node": "^15.3.0",
     "@types/react": "^17.0.5",
     "@types/react-dom": "^17.0.5",
+    "@types/yup": "^0.29.11",
     "axios": ">=0.21.1",
     "formik": "^2.1.5",
     "node-sass": "^4.14.1",
