@@ -2,7 +2,7 @@ import React, { useRef, useContext } from "react";
 import PropTypes from "prop-types";
 import DropdownMenu from "components/DropdownMenu/DropdownMenu";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { leaveBoard, deleteBoard } from "service/services";
+import { leaveBoard, deleteBoard } from "service";
 import BoardEditor from "modalForms/BoardEditor/BoardEditor";
 import { ModalContext } from "context/ModalContext";
 

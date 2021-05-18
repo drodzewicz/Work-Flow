@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import * as Yup from "yup";
 import SimpleForm from "components/SimpleForm/SimpleForm";
 import { ModalContext } from "context/ModalContext";
-import { changeAvatar } from "service/services";
+import { changeAvatar } from "service";
 
 const validationSchema = Yup.object({
   imageLink: Yup.string().url().required("image link is required"),

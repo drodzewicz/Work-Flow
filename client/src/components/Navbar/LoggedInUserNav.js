@@ -8,7 +8,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import Badge from "@material-ui/core/Badge";
 import { useHistory, Link } from "react-router-dom";
 import { UserContext } from "context/UserContext";
-import { getNotifications, removeNotification } from "service/services";
+import { getNotifications, removeNotification } from "service";
 
 const LoggedInUserNav = () => {
 	const history = useHistory();

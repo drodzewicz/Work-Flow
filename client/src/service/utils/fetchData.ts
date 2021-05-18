@@ -8,6 +8,10 @@ export interface callAPIParams {
   setLoading?: (state: boolean) => void;
 }
 
+export interface serviceParams {
+  setLoading?: (state: boolean) => void;
+}
+
 const responseHandler = (response: AxiosResponse<any>) => {
   return {
     data: response.data,
@@ -15,7 +19,6 @@ const responseHandler = (response: AxiosResponse<any>) => {
     status: response.status,
   };
 };
-
 
 const errorHandler = (error: any) => {
   return {

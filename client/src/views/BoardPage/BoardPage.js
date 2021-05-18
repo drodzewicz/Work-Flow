@@ -13,7 +13,7 @@ import { UserContext } from "context/UserContext";
 import { BoardMembers, Tags } from "modalForms";
 import { TaskProvider } from "context/TaskContext";
 import { TaskDisplay } from "modalForms";
-import { getLoggedInUserBoardRole, getBoard } from "service/services";
+import { getLoggedInUserBoardRole, getBoard } from "service";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 import { onDragEnd } from "./dragHelper";
 import { useHistory } from "react-router-dom";

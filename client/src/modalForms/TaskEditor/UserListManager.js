@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
 import User from "components/User/User";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
-import { searchUserInBoard } from "service/services";
+import { searchUserInBoard } from "service";
 
 
 const UserListManager = ({ users, setUsers, boardId }) => {

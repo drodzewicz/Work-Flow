@@ -10,7 +10,7 @@ import Routes from "routes/Routes";
 import Footer from "components/Footer/Footer";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 import WarningNotification from "components/WarningNotification/WarningNotification";
-import { isUserAuthenticated } from "service/services";
+import { isUserAuthenticated } from "service";
 
 const App: React.FC = () => {
   const [{ authStatus, theme }, dispatchUser] = useContext(UserContext);

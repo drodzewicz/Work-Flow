@@ -10,7 +10,7 @@ import { ModalContext } from "context/ModalContext";
 import { UserContext } from "context/UserContext";
 import { ChangePassword, ChangeProfilePicture } from "modalForms";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
-import { updateCredentials } from "service/services";
+import { updateCredentials } from "service";
 
 const validationSchema = Yup.object({
   username: Yup.string().max(25, "username is too long").required("field is required"),

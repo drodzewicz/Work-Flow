@@ -6,14 +6,11 @@ import { ModalContext } from "context/ModalContext";
 
 import Button from "components/Button/Button";
 import { Formik, Field, Form } from "formik";
-import { getBoardTags, updateBoardTask } from "service/services";
+import { getBoardTags, updateBoardTask, createTask } from "service";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
-import { emitWS } from "service/socketData";
 import TagChoiceControll from "./TagChoiceControll";
 import UserListManager from "./UserListManager";
 import { WarningNotificationContext } from "context/WarningNotificationContext";
-
-// import { userList_DATA, tags_DATA } from "data";
 
 const validationSchema = Yup.object({
   title: Yup.string().max(100, "task title is too long").required("field is required"),
@@ -60,10 +57,8 @@ const TaskEditor = ({
       tags: chosenBoardTags.map(({ _id }) => _id),
     };
     if (action === "CREATE") {
-      emitWS({
-        roomId: boardId,
-        eventName: "createTask",
-        token: true,
+      createTask({
+        boardId,
         payload: {
           ...submittingTask,
           columnId,

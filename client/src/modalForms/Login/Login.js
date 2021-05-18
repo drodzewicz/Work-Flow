@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import "./Login.scss";
 import { UserContext } from "context/UserContext";
 import { ModalContext } from "context/ModalContext";
-import { login } from "service/services";
+import { login } from "service";
 import SimpleForm from "components/SimpleForm/SimpleForm";
 
 const validationSchema = Yup.object({

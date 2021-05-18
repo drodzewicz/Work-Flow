@@ -9,8 +9,8 @@ import { ModalContext } from "context/ModalContext";
 import { TaskContext } from "context/TaskContext";
 import { UserContext } from "context/UserContext";
 import ColumnNameInput from "./ColumnNameInput";
-import { updateBoardColumn } from "service/services";
-import { emitWS } from "service/socketData";
+import { updateBoardColumn } from "service";
+import { deleteColumn } from "service";
 
 import { Droppable } from "react-beautiful-dnd";
 
@@ -45,12 +45,7 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
 	const removeColumn = async () => {
 		const shouldDelete = window.confirm("are you sure you want to delete this column?")
 		if (shouldDelete) {
-			emitWS({
-				roomId: boardId,
-				eventName: "deleteColumn",
-				token: true,
-				payload: { columnId, columnIndex },
-			});
+			deleteColumn({ boardId, payload: { columnId, columnIndex } });
 		}
 	};
 

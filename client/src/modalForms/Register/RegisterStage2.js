@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
 import TextInput from "components/TextInput/TextInput";
 import Button from "components/Button/Button";
-import { register } from "service/services";
+import { register } from "service";
 import { ModalContext } from "context/ModalContext";
 import { WarningNotificationContext } from "context/WarningNotificationContext";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";

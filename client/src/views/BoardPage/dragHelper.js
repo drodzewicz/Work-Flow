@@ -1,54 +1,56 @@
-import { emitWS } from "service/socketData";
+import { moveColumn, moveTask } from "service";
 
 const handleMoveColumn = async (boardId, setTasks, sourceIndex, destinationIndex) => {
-	if (sourceIndex !== destinationIndex) {
-		setTasks((tasks) => {
-			const tempTasks = [...tasks];
-			const movingColumn = tempTasks.splice(sourceIndex, 1)[0];
-			tempTasks.splice(destinationIndex, 0, movingColumn);
-			return tempTasks;
-		});
-		emitWS({
-			roomId: boardId,
-			eventName: "moveColumn",
-			token: true,
-			payload: {
-				sourceIndex,
-				destinationIndex,
-			},
-		});
-	}
+  if (sourceIndex !== destinationIndex) {
+    setTasks((tasks) => {
+      const tempTasks = [...tasks];
+      const movingColumn = tempTasks.splice(sourceIndex, 1)[0];
+      tempTasks.splice(destinationIndex, 0, movingColumn);
+      return tempTasks;
+    });
+    moveColumn({
+      boardId,
+      payload: {
+        sourceIndex,
+        destinationIndex,
+      },
+    });
+  }
 };
 
 const handleMoveTask = async (boardId, setTasks, tasks, source, destination) => {
-	const indexOfSourceColumn = tasks.findIndex(({ _id }) => _id === source.droppableId);
-	const indexOfDestinationColumn = tasks.findIndex(({ _id }) => _id === destination.droppableId);
-	setTasks((taskColumns) => {
-		const tempTasks = [...taskColumns];
-		const movingTask = tempTasks[indexOfSourceColumn].tasks.splice(source.index, 1)[0];
-		tempTasks[indexOfDestinationColumn].tasks.splice(destination.index, 0, movingTask);
-		return tempTasks;
-	});
-	const sourceIndexes = { columnIndex: indexOfSourceColumn, taskIndex: source.index }
-	const destinationIndexes = { columnIndex: indexOfDestinationColumn, taskIndex: destination.index }
-	if (sourceIndexes.columnIndex !== destinationIndexes.columnIndex || sourceIndexes.taskIndex !== destinationIndexes.taskIndex) {
-		emitWS({
-			roomId: boardId,
-			eventName: "moveTask",
-			token: true,
-			payload: {
-				source: sourceIndexes,
-				destination: destinationIndexes,
-			}
-		
-		});
-	}
-
+  const indexOfSourceColumn = tasks.findIndex(({ _id }) => _id === source.droppableId);
+  const indexOfDestinationColumn = tasks.findIndex(({ _id }) => _id === destination.droppableId);
+  setTasks((taskColumns) => {
+    const tempTasks = [...taskColumns];
+    const movingTask = tempTasks[indexOfSourceColumn].tasks.splice(source.index, 1)[0];
+    tempTasks[indexOfDestinationColumn].tasks.splice(destination.index, 0, movingTask);
+    return tempTasks;
+  });
+  const sourceIndexes = { columnIndex: indexOfSourceColumn, taskIndex: source.index };
+  const destinationIndexes = {
+    columnIndex: indexOfDestinationColumn,
+    taskIndex: destination.index,
+  };
+  if (
+    sourceIndexes.columnIndex !== destinationIndexes.columnIndex ||
+    sourceIndexes.taskIndex !== destinationIndexes.taskIndex
+  ) {
+    moveTask({
+      boardId,
+      payload: {
+        source: sourceIndexes,
+        destination: destinationIndexes,
+      },
+    });
+  }
 };
 
 export const onDragEnd = (boardId, result, tasks, setTasks) => {
-	if (!result.destination) return;
-	const { source, destination, type } = result;
-	if (type === "droppableTaskToColumn") handleMoveTask(boardId, setTasks, tasks, source, destination);
-	else if (type === "droppableColumn") handleMoveColumn(boardId, setTasks, source.index, destination.index);
+  if (!result.destination) return;
+  const { source, destination, type } = result;
+  if (type === "droppableTaskToColumn")
+    handleMoveTask(boardId, setTasks, tasks, source, destination);
+  else if (type === "droppableColumn")
+    handleMoveColumn(boardId, setTasks, source.index, destination.index);
 };

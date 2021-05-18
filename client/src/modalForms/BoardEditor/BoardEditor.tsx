@@ -6,7 +6,7 @@ import TextInput from "components/TextInput/TextInput";
 import { ModalContext } from "context/ModalContext";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 
-import { getBoardInformation, createBoard, updateBoard } from "service/services";
+import { getBoard, createBoard, updateBoard } from "service";
 import { useHistory } from "react-router-dom";
 import { WarningNotificationContext } from "context/WarningNotificationContext";
 import { validationSchema, BoardEditorProps } from "./";
@@ -25,7 +25,7 @@ const BoardEditor: React.FC<BoardEditorProps> = ({ boardId, submitType }) => {
   useEffect(() => {
     const getBoardInfo = async () => {
       setLoadingBoardInfo(true);
-      const { data } = await getBoardInformation({ boardId: boardId as number });
+      const { data } = await getBoard({ boardId: boardId as number, short: true });
       if (!!data) {
         const { name, description } = data;
         setInitialVals({ name, description });

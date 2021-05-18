@@ -7,7 +7,7 @@ import Button from "components/Button/Button";
 import BoardEditor from "modalForms/BoardEditor/BoardEditor";
 import ContainerBox from "components/ContainerBox/ContainerBox";
 import { ModalContext } from "context/ModalContext";
-import { getPinnedBoards, getMyBoards, togglePinBoard } from "service/services";
+import { getPinnedBoards, getMyBoards, togglePinBoard } from "service";
 
 import MyBoardContainer from "./MyBoardContainer";
 

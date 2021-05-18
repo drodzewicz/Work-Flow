@@ -11,7 +11,7 @@ import {
   removeUserFromBoard,
   addUserToBoard,
   changeBoardUserRole,
-} from "service/services";
+} from "service";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 
 const BoardMembers = ({ boardId }) => {

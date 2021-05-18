@@ -8,6 +8,10 @@ interface emitWSParams {
 	res: any;
 }
 
+export interface socketServiceParams {
+  res?: (response: any) => void;
+}
+
 const emitWS = async ({ roomId, eventName, token, payload, res }: emitWSParams) => {
   let userToken = undefined;
   if (!!token) userToken = localStorage.getItem("token");

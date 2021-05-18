@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import * as Yup from "yup";
 import SimpleForm from "components/SimpleForm/SimpleForm";
 import { ModalContext } from "context/ModalContext";
-import { changePassword } from "service/services";
+import { changePassword } from "service";
 
 const validationSchema = Yup.object({
   newPassword: Yup.string().min(5, "must be at least 5 characters").required("field is required"),

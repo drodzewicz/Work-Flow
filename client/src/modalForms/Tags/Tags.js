@@ -5,7 +5,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import DeleteIcon from "@material-ui/icons/Delete";
 import TagButton from "components/Tag/TagButton";
 import "./Tags.scss";
-import { getBoardTags, updateBoardTag, createBoardTag, deleteBoardTag } from "service/services";
+import { getBoardTags, updateBoardTag, createBoardTag, deleteBoardTag } from "service";
 import PropTypes from "prop-types";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 import { UserContext } from "context/UserContext";
