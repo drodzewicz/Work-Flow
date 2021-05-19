@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
+import SearchInput from "components/SearchInput";
 import User from "components/User/User";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import { searchUserInBoard } from "service";
@@ -40,29 +40,26 @@ const UserListManager = ({ users, setUsers, boardId }) => {
 	};
 
     return (
-        <div className="user-container">
-            <AutoCompleteInput
-                execMethod={searchUser}
-                timeout={700}
-                searchResult={userSearchResult}
-                clickResult={addUserToList}
-                clearResults={clearUserSearchResults}
-            />
-            <div
-                className={`user-card-container ${users.length > 4 ? "overflow-scroll" : ""
-                    }`}
-            >
-                {users.map(({ _id, username, avatarImageURL }, index) => (
-                    <User key={_id} username={username} imageURL={avatarImageURL}>
-                        <RemoveCircleOutlineIcon
-                            className="remove-user-icon"
-                            onClick={() => removeUserFromList(index)}
-                        />
-                    </User>
-                ))}
-            </div>
+      <div className="user-container">
+        <SearchInput
+          search={searchUser}
+          debouceTimeout={700}
+          result={userSearchResult}
+          clickResult={addUserToList}
+          clear={clearUserSearchResults}
+        />
+        <div className={`user-card-container ${users.length > 4 ? "overflow-scroll" : ""}`}>
+          {users.map(({ _id, username, avatarImageURL }, index) => (
+            <User key={_id} username={username} imageURL={avatarImageURL}>
+              <RemoveCircleOutlineIcon
+                className="remove-user-icon"
+                onClick={() => removeUserFromList(index)}
+              />
+            </User>
+          ))}
         </div>
-    )
+      </div>
+    );
 }
 
 UserListManager.propTypes = {

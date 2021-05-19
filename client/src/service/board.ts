@@ -1,6 +1,10 @@
 import fetchData, { serviceParams } from "./utils/fetchData";
 
 // MY BOARDS - GET
+interface getMyBoardsParams extends serviceParams {
+  page?: number;
+  limit?: number;
+}
 export const getMyBoards = async (
   { page, limit, setLoading }: getMyBoardsParams = { page: 1, limit: 8 }
 ) => {
@@ -96,10 +100,6 @@ export const getPinnedBoards = async ({ setLoading }: serviceParams = {}) => {
     setLoading,
   });
 };
-interface getMyBoardsParams extends serviceParams {
-  page?: number;
-  limit?: number;
-}
 // BOARD PINNED - PATCH
 interface togglePinBoardParams extends serviceParams {
   boardId: number;

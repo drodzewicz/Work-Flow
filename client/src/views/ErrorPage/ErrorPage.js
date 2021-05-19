@@ -3,10 +3,10 @@ import "./ErrorPage.scss";
 import PropTypes from "prop-types";
 import costam from "assets/images/drawkit-nature-man-colour.svg";
 
-function ErrorPage({ errorCode }) {
+function ErrorPage({ match }) {
 
   const translateErrorCode = () => {
-    switch (errorCode) {
+    switch (match.params.code) {
       case "400":
         return "BAD REQUEST";
       case "401":
@@ -19,21 +19,21 @@ function ErrorPage({ errorCode }) {
         return "INTERNAL SERVER ERROR";
       case "502":
         return "BAD GATEWAY";
-    
+
       default:
         return "UKNOWN ERROR";
     }
   }
 
 	return (
-		<div className="error-page-wrapper">
+    <div className="error-page-wrapper">
       <div className="error-container">
-      <img src={costam} alt="error-page-guy" id="error-page-image" />{" "}
-			<h2 className="error-title">{`ERROR: ${errorCode}`}</h2>
-			<p className="error-detail">{translateErrorCode()}</p>
+        <img src={costam} alt="error-page-guy" id="error-page-image" />{" "}
+        <h2 className="error-title">{`ERROR: ${match.params.code}`}</h2>
+        <p className="error-detail">{translateErrorCode()}</p>
       </div>
-		</div>
-	);
+    </div>
+  );
 }
 
 ErrorPage.defaultProps = {

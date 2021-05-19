@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "context/UserContext";
-import AutoCompleteInput from "components/AutoCompleteInput/AutoCompleteInput";
+import SearchInput from "components/SearchInput";
 import BoardMemberUser from "./BoardMemberUser";
 import Pagination from "components/Pagination/Pagination";
 import "./BoardMembers.scss";
@@ -103,14 +103,14 @@ const BoardMembers = ({ boardId }) => {
   return (
     <div className="board-members-modal">
       {isAuthorized() && (
-        <AutoCompleteInput
-          execMethod={dynamicSearchHandler}
-          timeout={500}
-          searchResult={searchRes.filter(
+        <SearchInput
+          search={dynamicSearchHandler}
+          debouceTimeout={500}
+          result={searchRes.filter(
             ({ _id }) => members.findIndex(({ user }) => user._id === _id) < 0
           )}
           clickResult={addUserToBoardHandler}
-          clearResults={clearSearchResults}
+          clear={clearSearchResults}
         />
       )}
       <LoadingOverlay show={isPageLoading} opacity={0}>

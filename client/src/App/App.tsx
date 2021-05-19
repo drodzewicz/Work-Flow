@@ -5,7 +5,7 @@ import "./App.scss";
 import { UserContext } from "context/UserContext";
 import { WarningNotificationContext } from "context/WarningNotificationContext";
 
-import Routes from "routes/Routes";
+import Routes from "views/Routes";
 
 import Footer from "components/Footer/Footer";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";

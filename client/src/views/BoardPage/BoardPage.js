@@ -17,10 +17,13 @@ import { getLoggedInUserBoardRole, getBoard } from "service";
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
 import { onDragEnd } from "./dragHelper";
 import { useHistory } from "react-router-dom";
+import queryString from "query-string";
 
 import { ws } from "config/socket.conf";
 
-const BoardPage = ({ boardId, query }) => {
+const BoardPage = ({ match, location }) => {
+	const boardId = match.params.id;
+	const query = queryString.parse(location.search);
 	const [boardInfo, setBoardInfo] = useState({
 		name: "",
 		description: "",
