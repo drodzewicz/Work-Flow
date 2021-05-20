@@ -95,36 +95,36 @@ const BoardPage = ({ match, location }) => {
 	}
 
 	return (
-		<div className="board-page-wrapper">
-			<LoadingOverlay show={isTaskLoading} opacity={0} classes={["task-loading"]}>
-				<div className="board-page">
-					<ExpandText classes={["board-title"]} text={boardInfo.name}>
-						<div>{boardInfo.description}</div>
-					</ExpandText>
-					<div className="board-button-group">
-						<Button clicked={openBoardMembersModal}>
-							<PeopleIcon />
-							<span>Peolpe</span>
-						</Button>
-						<Button clicked={openBoardTagsModal}>
-							<LocalOfferIcon />
-							<span>Tags</span>
-						</Button>
-						<BoardOptions
-							boardId={boardId}
-							removeBoardCallback={redirectToDashboard}
-							isAuthor={currentBoard.role === "owner"}
-						/>
-					</div>
-					<DragDropContext onDragEnd={(result) => onDragEnd(boardId, result, tasks, setTasks)}>
-						<TaskProvider values={[tasks, setTasks]}>
-							<TaskBoard boardId={boardId} />
-						</TaskProvider>
-					</DragDropContext>
-				</div>
-			</LoadingOverlay>
-		</div>
-	);
+    <div className="board-page-wrapper">
+      <LoadingOverlay show={isTaskLoading} opacity={0} classes={["task-loading"]}>
+        <div className="board-page">
+          <ExpandText classes={["board-title"]} text={boardInfo.name}>
+            <div>{boardInfo.description}</div>
+          </ExpandText>
+          <div className="board-button-group">
+            <Button onClick={openBoardMembersModal}>
+              <PeopleIcon />
+              <span>Peolpe</span>
+            </Button>
+            <Button onClick={openBoardTagsModal}>
+              <LocalOfferIcon />
+              <span>Tags</span>
+            </Button>
+            <BoardOptions
+              boardId={boardId}
+              removeBoardCallback={redirectToDashboard}
+              isAuthor={currentBoard.role === "owner"}
+            />
+          </div>
+          <DragDropContext onDragEnd={(result) => onDragEnd(boardId, result, tasks, setTasks)}>
+            <TaskProvider values={[tasks, setTasks]}>
+              <TaskBoard boardId={boardId} />
+            </TaskProvider>
+          </DragDropContext>
+        </div>
+      </LoadingOverlay>
+    </div>
+  );
 };
 
 BoardPage.defaultProps = {

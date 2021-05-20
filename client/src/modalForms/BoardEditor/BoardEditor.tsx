@@ -92,7 +92,7 @@ const BoardEditor: React.FC<BoardEditorProps> = ({ boardId, submitType }) => {
                   </div>
                   <Button
                     disabled={isSubmitting || !isValid}
-                    classes={["btn-accent", "btn-submit"]}
+                    className="btn-accent btn-submit"
                     type="submit">
                     {submitType as String}
                   </Button>

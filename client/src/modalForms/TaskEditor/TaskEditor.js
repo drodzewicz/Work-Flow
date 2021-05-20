@@ -155,7 +155,7 @@ const TaskEditor = ({
               />
               <Button
                 disabled={isSubmitting || !isValid}
-                classes={["btn-accent btn-submit"]}
+                className="btn-accent btn-submit"
                 type="submit">
                 {buttonName}
               </Button>

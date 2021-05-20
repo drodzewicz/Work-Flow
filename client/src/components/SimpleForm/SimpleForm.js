@@ -24,40 +24,38 @@ const SimpleForm = ({
 	loadingOverlayColor,
 }) => {
 	return (
-		<div className={`simple-form-container ${classes.join(" ")}`}>
-			<Formik
-				validationSchema={validationSchema}
-				initialValues={createInitialValueObject(fields)}
-				onSubmit={handleSubmit}
-			>
-				{({ isSubmitting, isValid, errors }) => (
-					<>
-						<LoadingOverlay show={isSubmitting} opacity={0.5} color={loadingOverlayColor} />
-						<Form>
-							{Object.entries(fields).map(([field]) => (
-								<Field
-									key={field}
-									hasErrors={!!errors[field]}
-									helperText={errors[field]}
-									label={fields[field].label}
-									name={field}
-									type={fields[field].type}
-									as={TextInput}
-								/>
-							))}
-							<Button
-								classes={["btn-accent", "btn-submit"]}
-								type="submit"
-								disabled={isSubmitting || !isValid}
-							>
-								{submitButtonName}
-							</Button>
-						</Form>
-					</>
-				)}
-			</Formik>
-		</div>
-	);
+    <div className={`simple-form-container ${classes.join(" ")}`}>
+      <Formik
+        validationSchema={validationSchema}
+        initialValues={createInitialValueObject(fields)}
+        onSubmit={handleSubmit}>
+        {({ isSubmitting, isValid, errors }) => (
+          <>
+            <LoadingOverlay show={isSubmitting} opacity={0.5} color={loadingOverlayColor} />
+            <Form>
+              {Object.entries(fields).map(([field]) => (
+                <Field
+                  key={field}
+                  hasErrors={!!errors[field]}
+                  helperText={errors[field]}
+                  label={fields[field].label}
+                  name={field}
+                  type={fields[field].type}
+                  as={TextInput}
+                />
+              ))}
+              <Button
+                className="btn-accent btn-submit"
+                type="submit"
+                disabled={isSubmitting || !isValid}>
+                {submitButtonName}
+              </Button>
+            </Form>
+          </>
+        )}
+      </Formik>
+    </div>
+  );
 };
 
 SimpleForm.defaultProps = {

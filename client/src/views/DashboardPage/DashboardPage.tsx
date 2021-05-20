@@ -132,7 +132,7 @@ const DashboardPage: React.FC = () => {
         togglePinBoard={(index) => togglePinBoardHandler(-1, index)}
         emptyMessage={"you have no pinned boards"}
       />
-      <Button clicked={openCreateNewBoardModal} classes={["new-board-btn"]}>
+      <Button onClick={openCreateNewBoardModal} className="new-board-btn">
         <AddBoxIcon />
         New Board
       </Button>

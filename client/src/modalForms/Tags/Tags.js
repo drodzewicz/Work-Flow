@@ -139,12 +139,12 @@ const Tags = ({ boardId }) => {
                 value={inputTagName}
               />
               <Button
-                classes={["check-btn"]}
+                className="check-btn"
                 disabled={!inputTagName || !selectedColor}
-                clicked={createNewTag}>
+                onClick={createNewTag}>
                 <CheckIcon />
               </Button>
-              <Button disabled={canDeleteTag()} clicked={deleteTag}>
+              <Button disabled={canDeleteTag()} onClick={deleteTag}>
                 <DeleteIcon />
               </Button>
             </div>

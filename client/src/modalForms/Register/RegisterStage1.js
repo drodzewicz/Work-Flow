@@ -29,29 +29,33 @@ const RegisterStage1 = ({ changeFieldVals, initialFieldValues, changeStage }) =>
     }
 
     return (
-        <Formik
-            validationSchema={validationSchema}
-            initialValues={createFields()}
-            onSubmit={nextStage}
-        >
-            {({ isValid, errors }) => (
-                <Form>
-                    {
-                        Object.entries(fieldTypes).map(([fieldName, fieldType]) =>
-                            <Field
-                                key={fieldName}
-                                hasErrors={!!errors[fieldName]}
-                                helperText={errors[fieldName]}
-                                label={fieldName}
-                                name={fieldName}
-                                type={fieldType}
-                                as={TextInput} />)
-                    }
-                    <Button classes={["register-stage-controll-btn stage-next"]} disabled={!isValid} type="submit">Next</Button>
-                </Form>
-            )}
-        </Formik>
-    )
+      <Formik
+        validationSchema={validationSchema}
+        initialValues={createFields()}
+        onSubmit={nextStage}>
+        {({ isValid, errors }) => (
+          <Form>
+            {Object.entries(fieldTypes).map(([fieldName, fieldType]) => (
+              <Field
+                key={fieldName}
+                hasErrors={!!errors[fieldName]}
+                helperText={errors[fieldName]}
+                label={fieldName}
+                name={fieldName}
+                type={fieldType}
+                as={TextInput}
+              />
+            ))}
+            <Button
+              className="register-stage-controll-btn stage-next"
+              disabled={!isValid}
+              type="submit">
+              Next
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    );
 }
 
 RegisterStage1.propTypes = {

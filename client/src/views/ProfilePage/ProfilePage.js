@@ -97,7 +97,7 @@ const ProfilePage = () => {
             fields={profileInfo}
             loadingOverlayColor={{ light: "245, 249, 250", dark: "51, 54, 55" }}
           />
-          <Button clicked={changePasswordModalOpen} classes={["change-password"]}>
+          <Button onCLick={changePasswordModalOpen} className="change-password">
             change password
           </Button>
         </div>

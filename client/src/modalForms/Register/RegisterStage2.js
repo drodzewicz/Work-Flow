@@ -82,11 +82,11 @@ const RegisterStage2 = ({ initialFieldValues, changeStage }) => {
                 />
               ))}
               <Button
-                classes={["register-stage-controll-btn stage-back"]}
+                className="register-stage-controll-btn stage-back"
                 clicked={handleGoBackStage}>
                 Go back
               </Button>
-              <Button classes={["btn-accent"]} disabled={!isValid} type="submit">
+              <Button className="btn-accent" disabled={!isValid} type="submit">
                 Finish
               </Button>
             </Form>

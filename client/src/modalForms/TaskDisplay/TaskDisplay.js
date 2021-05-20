@@ -118,10 +118,10 @@ const TaskDisplay = ({ taskId, updateTask }) => {
           <div className="text-details">
             {isAuthorizedToEdit() && (
               <div className="info-header">
-                <Button classes={["edit-btn delete-btn"]} clicked={deleteTask}>
+                <Button classes="edit-btn delete-btn" onClick={deleteTask}>
                   delete
                 </Button>
-                <Button classes={["edit-btn"]} clicked={openTaskEditModal}>
+                <Button classes="edit-btn" onClick={openTaskEditModal}>
                   edit
                 </Button>
               </div>

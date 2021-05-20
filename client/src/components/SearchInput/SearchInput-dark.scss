@@ -11,12 +11,12 @@
 
   &__results {
     background: $dark-1;
-  }
-  &__result-item {
-    color: white;
-    &:hover {
-      background: $dark-2;
-      color: $blue-accent-dark;
+    &__item {
+      color: white;
+      &:hover {
+        background: $dark-2;
+        color: $blue-accent-dark;
+      }
     }
   }
 }
