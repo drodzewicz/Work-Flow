@@ -5,15 +5,8 @@
   z-index: 900;
   left: 0;
   top: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgb(0, 0, 0);
   transition: 0.2s all;
   opacity: 0;
-}
-
-.backdrop-open{
-  opacity: 1;
-}
-
-body .backdrop-open{
   overflow:hidden;
 }
