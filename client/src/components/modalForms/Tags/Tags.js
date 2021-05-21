@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import TextInput from "components/general/TextInput/TextInput";
+import TextInput from "components/general/TextInput";
 import Button from "components/general/Button/Button";
 import CheckIcon from "@material-ui/icons/Check";
 import DeleteIcon from "@material-ui/icons/Delete";

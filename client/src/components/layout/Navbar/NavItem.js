@@ -29,7 +29,7 @@ const NavItem = ({
           offset={offset}
           className={classes.join(" ")}
           anchorEl={anchorElement}>
-          <DropdownMenuItem>{children}</DropdownMenuItem>
+          {children}
         </DropdownMenu>
       )}
     </li>

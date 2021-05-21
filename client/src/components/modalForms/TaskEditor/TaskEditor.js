@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import * as Yup from "yup";
 import "./TaskEditor.scss";
-import TextInput from "components/general/TextInput/TextInput";
+import TextInput from "components/general/TextInput";
 import { ModalContext } from "context/ModalContext";
 
 import Button from "components/general/Button/Button";
@@ -134,11 +134,11 @@ const TaskEditor = ({
                   name={"title"}
                   hasErrors={!!errors["title"]}
                   helperText={errors["title"]}
-                  classes={["board-name-field"]}
+                  className="board-name-field"
                   as={TextInput}
                 />
                 <Field
-                  classes={["board-description-field"]}
+                  className="board-description-field"
                   name={"description"}
                   hasErrors={!!errors["description"]}
                   helperText={errors["description"]}

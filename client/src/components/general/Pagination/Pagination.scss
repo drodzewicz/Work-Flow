@@ -1,13 +1,13 @@
 @import "../../../assets/styles/colors";
-.pagination-container {
+.pagination {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 
   $pagination-item-size: 1.5rem;
-  .pagination-item {
-    font-family: 'Secular One', sans-serif;
+  &__item {
+    font-family: "Secular One", sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,12 +19,12 @@
     height: $pagination-item-size;
     border-radius: 5px;
     cursor: pointer;
-    &.current-page {
-      background-color: $blue-accent;
-      color: white;
-    }
   }
-  .three-dots {
+  &__current-page {
+    background-color: $blue-accent;
+    color: white;
+  }
+  &__dots {
     width: 0.8rem;
     transition: all 0.3s ease-in-out;
     overflow: hidden;
@@ -39,19 +39,4 @@
     width: $pagination-item-size + $pagination-item-size + 2rem;
     height: $pagination-item-size;
   }
-}
-
-.theme-dark .pagination-container {
-  .pagination-item {
-    color: $text-primary-dark;
-
-    &.current-page {
-      background-color: $blue-accent-dark;
-      color: black;
-    }
-  }
-  .three-dots {
-    color: $text-primary-dark;
-  }
-
 }

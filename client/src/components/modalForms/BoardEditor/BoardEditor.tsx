@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import "./BoardEditor.scss";
 import Button from "components/general/Button/Button";
 import { Formik, Field, Form } from "formik";
-import TextInput from "components/general/TextInput/TextInput";
+import TextInput from "components/general/TextInput";
 import { ModalContext } from "context/ModalContext";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 
@@ -78,12 +78,11 @@ const BoardEditor: React.FC<BoardEditorProps> = ({ boardId, submitType }) => {
                       name="name"
                       hasErrors={!!errors["name"]}
                       helperText={errors["name"]}
-                      classes={["board-name-field"]}
                       as={TextInput}
                     />
                     <Field
                       name={"description"}
-                      classes={["board-description-field"]}
+                      className="board-description-field"
                       multiline={{ rows: 7, max: 7 }}
                       hasErrors={!!errors["description"]}
                       helperText={errors["description"]}

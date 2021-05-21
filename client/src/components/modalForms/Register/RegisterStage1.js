@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
-import TextInput from "components/general/TextInput/TextInput";
+import TextInput from "components/general/TextInput";
 import Button from "components/general/Button/Button";
 
 const validationSchema = Yup.object({

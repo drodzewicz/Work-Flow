@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Formik, Field, Form } from "formik";
 import Button from "components/general/Button/Button";
 import * as Yup from "yup";
-import TextInput from "components/general/TextInput/TextInput";
+import TextInput from "components/general/TextInput";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 
 const createInitialValueObject = (fieldObject) => {
