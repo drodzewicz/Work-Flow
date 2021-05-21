@@ -1,4 +1,4 @@
-.tool-tip-wrapper {
+.tooltip {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -11,7 +11,7 @@
 	z-index: 1003;
 	box-sizing: border-box;
 }
-.theme-dark.tool-tip-wrapper {
+.theme-dark.tooltip {
 	background: rgba(241, 241, 241, 0.7);
 	color: black;
 }

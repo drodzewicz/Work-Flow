@@ -3,12 +3,11 @@ import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
 import "./SearchInput.scss";
 import "./SearchInput-dark.scss";
-import { useClickOutside } from "Hooks/useClickOutside";
 import { SearchInputProps } from ".";
 import SearchResult from "./SearchResult";
 
 const SearchInput: React.FC<SearchInputProps> = ({
-  debouceTimeout,
+  debounceTimeout,
   search,
   result,
   clickResult,
@@ -30,7 +29,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
     if (watingTimeout) clearTimeout(watingTimeout);
     watingTimeout = setTimeout(() => {
       if (searchString.length > 0) search(searchString);
-    }, debouceTimeout);
+    }, debounceTimeout);
   };
 
   const clearInputSearch = () => {

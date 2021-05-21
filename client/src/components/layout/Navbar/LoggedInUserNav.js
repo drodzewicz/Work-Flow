@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import NavItem from "components/layout/Navbar/NavItem";
-import SwitchButton from "components/general/SwitchButton/SwitchButton";
+import SwitchButton from "components/general/SwitchButton";
 import Notification from "components/general/Notification/Notification";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import HomeIcon from "@material-ui/icons/Home";
@@ -47,44 +47,42 @@ const LoggedInUserNav = () => {
 	};
 
 	return (
-		<>
-			<SwitchButton toggle={toggleTheme} isOn={!theme} />
-			<NavItem clicked={goToHomePage} icon={<HomeIcon />} />
-			<NavItem
-				offset={{ x: -60, y: 10 }}
-				icon={<AccountBoxIcon />}
-				navName={user.username}
-				classes={["profile-nav"]}
-			>
-				<Link to="/profile">Profile</Link>
-				<button className="logout-btn" onClick={logOutUser}>
-					logout
-				</button>
-			</NavItem>
-			<NavItem
-				clicked={handlGetMyNotifications}
-				offset={{ x: -20, y: 10 }}
-				classes={["notification-nav"]}
-				dropDownScrollableAt={400}
-				dropDownOnClickClose={false}
-				icon={
-					<Badge color="secondary" variant="dot" invisible={notifications.length < 1}>
-						<NotificationsIcon />
-					</Badge>
-				}
-			>
-				{notifications.map(({ _id, title, info, url }, index) => (
-					<Notification
-						key={_id}
-						message={info}
-						boardTitle={title}
-						url={url}
-						removeNotification={() => removeMessage(index)}
-					/>
-				))}
-			</NavItem>
-		</>
-	);
+    <>
+      <SwitchButton toggle={toggleTheme} value={!theme} />
+      <NavItem clicked={goToHomePage} icon={<HomeIcon />} />
+      <NavItem
+        offset={{ x: -60, y: 10 }}
+        icon={<AccountBoxIcon />}
+        navName={user.username}
+        classes={["profile-nav"]}>
+        <Link to="/profile">Profile</Link>
+        <button className="logout-btn" onClick={logOutUser}>
+          logout
+        </button>
+      </NavItem>
+      <NavItem
+        clicked={handlGetMyNotifications}
+        offset={{ x: -20, y: 10 }}
+        classes={["notification-nav"]}
+        dropDownScrollableAt={400}
+        dropDownOnClickClose={false}
+        icon={
+          <Badge color="secondary" variant="dot" invisible={notifications.length < 1}>
+            <NotificationsIcon />
+          </Badge>
+        }>
+        {notifications.map(({ _id, title, info, url }, index) => (
+          <Notification
+            key={_id}
+            message={info}
+            boardTitle={title}
+            url={url}
+            removeNotification={() => removeMessage(index)}
+          />
+        ))}
+      </NavItem>
+    </>
+  );
 };
 
 export default LoggedInUserNav;

@@ -105,7 +105,7 @@ const BoardMembers = ({ boardId }) => {
       {isAuthorized() && (
         <SearchInput
           search={dynamicSearchHandler}
-          debouceTimeout={500}
+          debounceTimeout={500}
           result={searchRes.filter(
             ({ _id }) => members.findIndex(({ user }) => user._id === _id) < 0
           )}

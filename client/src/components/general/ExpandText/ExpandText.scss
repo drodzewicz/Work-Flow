@@ -1,27 +1,29 @@
-.expand-text-container {
-  .expand-text-header {
+.expand-text {
+  &__header {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    .text-title {
+    &__title {
       margin: 0;
+      color: inherit;
     }
-    .MuiSvgIcon-root {
+    & > &__icon {
       height: 2rem;
       width: 2rem;
       cursor: pointer;
       transition: 0.3s all ease-in-out;
-      &.open {
+      color: inherit;
+      &--open {
         transform: rotate(180deg);
       }
     }
   }
-  .expand-content {
+  &__content {
     max-height: 10rem;
     overflow-y: hidden;
     transition: 0.5s all ease-in-out;
-    &.close {
+    &--close {
       max-height: 0;
     }
   }

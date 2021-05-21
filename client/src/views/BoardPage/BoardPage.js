@@ -97,7 +97,7 @@ const BoardPage = ({ match, location }) => {
     <div className="board-page-wrapper">
       <LoadingOverlay show={isTaskLoading} opacity={0} classes={["task-loading"]}>
         <div className="board-page">
-          <ExpandText classes={["board-title"]} text={boardInfo.name}>
+          <ExpandText className="board-title" title={boardInfo.name}>
             <div>{boardInfo.description}</div>
           </ExpandText>
           <div className="board-button-group">

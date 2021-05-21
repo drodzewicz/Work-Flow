@@ -43,7 +43,7 @@ const UserListManager = ({ users, setUsers, boardId }) => {
       <div className="user-container">
         <SearchInput
           search={searchUser}
-          debouceTimeout={700}
+          debounceTimeout={700}
           result={userSearchResult}
           clickResult={addUserToList}
           clear={clearUserSearchResults}

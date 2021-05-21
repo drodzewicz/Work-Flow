@@ -1,6 +1,6 @@
 
 export interface SearchInputProps {
-  debouceTimeout?: number;
+  debounceTimeout?: number;
   search: (searchString: string) => void;
   result: any[];
   clickResult: (data: any) => void;

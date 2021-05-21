@@ -6,7 +6,7 @@ import { TaskDisplay } from "components/modalForms";
 import { ModalContext } from "context/ModalContext";
 import { TaskContext } from "context/TaskContext";
 import { UserContext } from "context/UserContext";
-import Tooltip from "components/general/Tooltip/Tooltip";
+import Tooltip from "components/general/Tooltip";
 
 import { Draggable } from "react-beautiful-dnd";
 

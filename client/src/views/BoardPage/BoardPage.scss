@@ -13,12 +13,8 @@
 		flex-direction: column;
 		.board-title {
 			margin: 2rem 1rem;
-			.text-title {
-				font-family: "Secular One", sans-serif;
-			}
-			.expand-content {
-				color: $text-secondary;
-			}
+			font-family: "Secular One", sans-serif;
+			color: $text-secondary;
 		}
 		.add-new-column {
 			display: flex;
@@ -117,15 +113,7 @@
 		}
 	}
 	.board-page .board-title {
-		svg {
-			color: $text-primary-dark;
-		}
-		.text-title {
-			color: $text-primary-dark;
-		}
-		.expand-content {
-			color: $text-secondary-dark;
-		}
+		color: $text-primary-dark;
 	}
 	.add-new-column {
 		background-color: $dark-1;
