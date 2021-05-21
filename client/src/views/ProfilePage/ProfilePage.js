@@ -3,13 +3,13 @@ import * as Yup from "yup";
 import "./ProfilePage.scss";
 import ImageIcon from "@material-ui/icons/Image";
 import SimpleForm from "components/SimpleForm/SimpleForm";
-import Image from "components/Image/Image";
-import Button from "components/Button/Button";
-import ContainerBox from "components/ContainerBox/ContainerBox";
+import Image from "components/general/Image";
+import Button from "components/general/Button";
+import ContainerBox from "components/layout/ContainerBox/ContainerBox";
 import { ModalContext } from "context/ModalContext";
 import { UserContext } from "context/UserContext";
-import { ChangePassword, ChangeProfilePicture } from "modalForms";
-import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
+import { ChangePassword, ChangeProfilePicture } from "components/modalForms";
+import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 import { updateCredentials } from "service";
 
 const validationSchema = Yup.object({
@@ -77,11 +77,11 @@ const ProfilePage = () => {
   };
 
   return (
-    <ContainerBox classes={[""]}>
+    <ContainerBox>
       <LoadingOverlay classes={["profile-page-loading-overlay"]} show={isProfileLoaded} opacity={0}>
         <div className="profile-page-container">
           <div className="profile-image">
-            <Image imageURL={profilePicture} />
+            <Image src={profilePicture} />
             <button onClick={changeImageModalOpen} className="change-image-btn">
               <ImageIcon />
             </button>
@@ -97,7 +97,7 @@ const ProfilePage = () => {
             fields={profileInfo}
             loadingOverlayColor={{ light: "245, 249, 250", dark: "51, 54, 55" }}
           />
-          <Button onCLick={changePasswordModalOpen} className="change-password">
+          <Button onClick={changePasswordModalOpen} className="change-password">
             change password
           </Button>
         </div>

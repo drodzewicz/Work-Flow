@@ -1,0 +1,73 @@
+@import "../../../assets/styles/colors";
+
+//  MuiInputLabel-shrink MuiInputLabel-marginDense MuiFormLabel-filled
+
+
+.workflow-textfield {
+	margin-bottom: 1rem;
+
+	.MuiFormLabel-root {
+		&.MuiInputLabel-marginDense {
+			transform: translate(5px, 27px) scale(1);
+		}
+		&.MuiFormLabel-filled {
+			transform: translate(0, 0) scale(0.8);
+		}
+		&.Mui-focused {
+			color: $blue-accent;
+			&.MuiInputLabel-marginDense {
+				transform: translate(0, 0) scale(0.8);
+			}
+			&.Mui-error {
+				color: #f44336;
+			}
+		}
+	}
+	.MuiInput-underline {
+		padding: 6px;
+		background: rgba($blue-secondary-overlay, 0.5);
+		&:before {
+			border-color: rgba($blue-accent, 0.5);
+		}
+		&:hover:not(.Mui-disabled):before {
+			border-color: $blue-accent;
+		}
+
+		&.Mui-error:after {
+			border-color: #f44336;
+		}
+		&:after {
+			border-bottom-color: $blue-accent;
+		}
+	}
+}
+
+.theme-dark .workflow-textfield {
+	.MuiFormLabel-root.Mui-focused {
+		color: $blue-accent-dark;
+
+		&.Mui-error {
+			color: #f44336;
+		}
+	}
+	.MuiFormLabel-root {
+		color: mix($blue-accent-dark, white, 50%);
+	}
+	.MuiInput-underline {
+		background: rgba($dark-3, 0.5);
+		color: white;
+		&:before {
+			border-color: rgba($blue-accent-dark, 0.5);
+		}
+		&:hover:not(.Mui-disabled):before {
+			border-color: $blue-accent-dark;
+		}
+
+		&.Mui-error:after {
+			border-color: #f44336;
+		}
+		&:after {
+			border-bottom-color: $blue-accent-dark;
+		}
+	}
+}

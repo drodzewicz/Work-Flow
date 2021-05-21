@@ -1,15 +1,15 @@
 import React, { useContext, useState, useEffect } from "react";
-import Navbar from "components/Navbar/Navbar";
-import Modal from "components/Modal/Modal";
+import Navbar from "components/layout/Navbar/Navbar";
+import Modal from "components/layout/Modal/Modal";
 import "./App.scss";
 import { UserContext } from "context/UserContext";
 import { WarningNotificationContext } from "context/WarningNotificationContext";
 
 import Routes from "views/Routes";
 
-import Footer from "components/Footer/Footer";
-import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
-import WarningNotification from "components/WarningNotification/WarningNotification";
+import Footer from "components/layout/Footer/Footer";
+import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
+import WarningNotification from "components/general/WarningNotification/WarningNotification";
 import { isUserAuthenticated } from "service";
 
 const App: React.FC = () => {

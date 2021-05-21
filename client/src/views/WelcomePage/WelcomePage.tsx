@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import "./WelcomePage.scss";
-import Button from "components/Button/Button";
+import Button from "components/general/Button";
 import { ModalContext } from "context/ModalContext";
 import { UserContext } from "context/UserContext";
 import workflowPerson from "assets/images/workflow-person.svg";
 import workflowPersonDark from "assets/images/workflow-person_dark.svg";
-import { Register } from "modalForms";
+import { Register } from "components/modalForms";
 import taskColumns from "assets/images/task_columns.svg";
 import taskColumnsDark from "assets/images/task_columns_dark.svg";
 
@@ -38,7 +38,7 @@ const WelcomePage: React.FC = () => {
             personal or organizational level. Using this application organizing your work will be
             easy.
           </p>
-          <Button onClick={openRegisterModal} className="btn-accent join-now">
+          <Button onClick={openRegisterModal} variant="glow" className="join-now">
             Join us Now
           </Button>
         </div>

@@ -3,9 +3,9 @@ import { ReactComponent as Pin } from "assets/images/pin-full.svg";
 import "./DashboardPage.scss";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import Button from "components/Button/Button";
-import BoardEditor from "modalForms/BoardEditor/BoardEditor";
-import ContainerBox from "components/ContainerBox/ContainerBox";
+import Button from "components/general/Button";
+import BoardEditor from "components/modalForms/BoardEditor/BoardEditor";
+import ContainerBox from "components/layout/ContainerBox/ContainerBox";
 import { ModalContext } from "context/ModalContext";
 import { getPinnedBoards, getMyBoards, togglePinBoard } from "service";
 
@@ -121,7 +121,7 @@ const DashboardPage: React.FC = () => {
 	};
 
 	return (
-    <ContainerBox classes={["dashboard-container"]}>
+    <ContainerBox className="dashboard-container">
       <MyBoardContainer
         classes={["pinned-boards"]}
         title={"Pinned"}

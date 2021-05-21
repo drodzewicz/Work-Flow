@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
-import Pagination from "components/Pagination/Pagination";
-import BoardCard from "components/BoardCard/BoardCard";
+import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
+import Pagination from "components/general/Pagination/Pagination";
+import BoardCard from "components/board/BoardCard/BoardCard";
 import "./MyBoardContainer.scss";
 
 const MyBoardContainer = ({

@@ -2,10 +2,10 @@ import React from "react";
 import "./SimpleForm.scss";
 import PropTypes from "prop-types";
 import { Formik, Field, Form } from "formik";
-import Button from "components/Button/Button";
+import Button from "components/general/Button/Button";
 import * as Yup from "yup";
-import TextInput from "components/TextInput/TextInput";
-import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
+import TextInput from "components/general/TextInput/TextInput";
+import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 
 const createInitialValueObject = (fieldObject) => {
 	let initialValues = {};
@@ -45,7 +45,8 @@ const SimpleForm = ({
                 />
               ))}
               <Button
-                className="btn-accent btn-submit"
+                variant="glow"
+                className="btn-submit"
                 type="submit"
                 disabled={isSubmitting || !isValid}>
                 {submitButtonName}

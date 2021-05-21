@@ -1,0 +1,143 @@
+@import "../../../assets/styles/colors";
+@import "../../../assets/styles/mediaQueries";
+.task-column {
+	display: flex;
+	flex-direction: column;
+	background-color: $blue-primary-overlay;
+	border-radius: 10px;
+	margin: 0 0.5rem;
+	padding: 0.2rem 0.5rem;
+	font-family: "Secular One", sans-serif;
+	border: 2px solid transparent;
+	box-shadow: 0 0 3px transparent;
+	transition: all 0.2s ease-in-out;
+	height: 100%;
+
+	.task-column-wrapper {
+		height: 100%;
+	}
+	&.active {
+		background: mix($blue-accent, $blue-primary-overlay, 10%);
+	}
+
+	.task-container {
+		width: 16.5rem;
+		max-height: 500px;
+		overflow-y: scroll;
+		&.block-scroll {
+			overflow-y: hidden;
+		}
+
+		&::-webkit-scrollbar {
+			width: 0.5em;
+		}
+
+		&::-webkit-scrollbar-track {
+			background: darken($blue-primary-overlay, 5%);
+			border-radius: 5px;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background-color: darken($gray-1, 5%);
+			border-radius: 10px;
+		}
+	}
+
+	.task-column-header {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		margin: 0.2rem 0;
+		position: relative;
+		.task-count {
+			color: darken($blue-primary-overlay, 50%);
+			background: darken($blue-primary-overlay, 11%);
+			border-radius: 3px;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			min-width: 1rem;
+			height: 1rem;
+			font-size: 0.8rem;
+			margin-right: 0.2rem;
+		}
+		.column-name-input {
+			background: transparent;
+			font-family: "Secular One", sans-serif;
+			border: dashed 1px darken($blue-primary-overlay, 60%);
+			flex-grow: 1;
+			outline: none;
+			color: darken($blue-primary-overlay, 60%);
+		}
+		.drop-down-menu {
+			right: -4rem;
+			top: 0;
+		}
+		.task-column-name {
+			margin: 0;
+			margin-left: 0;
+			margin-right: auto;
+			font-size: 1rem;
+			margin-left: 0.5rem;
+			color: darken($blue-primary-overlay, 60%);
+		}
+		.add-new-task-btn,
+		.more-options {
+			border: none;
+			color: darken($blue-primary-overlay, 50%);
+			font-size: 1.4rem;
+			font-family: "Secular One", sans-serif;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			cursor: pointer;
+			margin: 0 3px;
+			border-radius: 5px;
+			height: 1.5rem;
+			width: 1.5rem;
+			background-color: transparent;
+			svg {
+				$icon-size: 1.2rem;
+				width: $icon-size;
+				height: $icon-size;
+			}
+		}
+		.add-new-task-btn {
+			background: darken($blue-primary-overlay, 11%);
+		}
+	}
+}
+
+.theme-dark .task-column {
+	background-color: $dark-1;
+	&.active {
+		background: $dark-2;
+	}
+	.task-container {
+		&::-webkit-scrollbar-track {
+			background: $dark-2;
+		}
+		&::-webkit-scrollbar-thumb {
+			background-color: $dark-3;
+		}
+	}
+	.task-column-header {
+		.task-count, .add-new-task-btn  {
+			color: white;
+			background: $dark-3;
+		}
+		.more-options {
+			color: $white-1;
+		}
+		.task-column-name {
+			color: white;
+		}
+		.column-name-input {
+			border-color: $dark-3;
+			color: $white-1;
+		}
+	}
+	
+}
