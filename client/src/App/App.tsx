@@ -13,7 +13,7 @@ import WarningNotification from "components/general/WarningNotification";
 import { isUserAuthenticated } from "service";
 
 const App: React.FC = () => {
-  const [{ authStatus, theme }, dispatchUser] = useContext(UserContext);
+  const [{ authStatus }, dispatchUser] = useContext(UserContext);
   const [
     {
       type: WarningNotificationType,
@@ -40,7 +40,7 @@ const App: React.FC = () => {
   }, [authStatus]);
 
   return (
-    <div className={`App ${theme ? "theme-light" : "theme-dark"}`}>
+    <div className="App">
       <WarningNotification
         show={WarningNotificationShow}
         message={WarningNotificationMessage}

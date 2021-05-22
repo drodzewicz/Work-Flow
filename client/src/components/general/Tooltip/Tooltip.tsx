@@ -1,8 +1,7 @@
-import React, { useRef, useState, useContext, useEffect, RefObject } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./Tooltip.scss";
 import Portal from "HOC/Portal";
 import { TooltipPorps } from "./index";
-import { UserContext } from "context/UserContext";
 
 const Tooltip: React.FC<TooltipPorps> = ({
   className,
@@ -14,7 +13,6 @@ const Tooltip: React.FC<TooltipPorps> = ({
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
   const [cords, setCords] = useState<{ left: number; top: number }>({ left: 0, top: 0 });
   const toolTipRef = useRef<HTMLDivElement>(null);
-  const [{ theme }] = useContext(UserContext);
 
   useEffect(() => {
     let waitingTimout: ReturnType<typeof setTimeout> | null = null;
@@ -50,7 +48,6 @@ const Tooltip: React.FC<TooltipPorps> = ({
 	
 	const computeClassName = () => {
 		const classes: string[] = ["tooltip"];
-		classes.push(theme ? "theme-light" : "theme-dark");
 		classes.push(className || "");
 		return classes.join(" ");
 	}

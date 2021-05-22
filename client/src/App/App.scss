@@ -24,9 +24,7 @@ code {
 .App {
   	min-height: 100%;
 	background-color: $gray-bg;
-	&.theme-dark {
-		background-color: $gray-bg-dark;
-	}
+
 
 	.main-content {
 		display: flex;
@@ -38,4 +36,6 @@ code {
 	}
 }
 
-
+.theme-dark .App {
+	background-color: $gray-bg-dark;
+}

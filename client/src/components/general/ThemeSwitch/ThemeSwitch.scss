@@ -10,7 +10,7 @@
   padding: 0 0.1rem;
   transition: all ease-in-out 0.3s;
   cursor: pointer;
-  &--on {
+  &--dark {
     background: $blue-accent;
     .switch-button__circle {
       transform: translateX(23px);

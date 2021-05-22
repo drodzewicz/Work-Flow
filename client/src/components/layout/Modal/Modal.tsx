@@ -7,11 +7,9 @@ import Portal from "HOC/Portal";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { ModalContext } from "context/ModalContext";
-import { UserContext } from "context/UserContext";
 
 const Modal: React.FC = () => {
   const [{ show, title, render }, modalDispatch] = useContext(ModalContext);
-  const [{ theme }] = useContext(UserContext);
 
   const closeModal = () => {
     modalDispatch({ type: "CLOSE" });
@@ -21,7 +19,7 @@ const Modal: React.FC = () => {
     return (
       <Portal mountTo="root-modal">
         <>
-          <div className={`modal-wrapper ${theme ? "theme-light" : "theme-dark"}`}>
+          <div className="modal-wrapper">
             <aside className={`modal modal-open`}>
               <header className="modal__header">
                 <h2 className="modal__header__title">{title}</h2>

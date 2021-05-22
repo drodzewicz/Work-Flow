@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import NavItem from "components/layout/Navbar/NavItem";
-import SwitchButton from "components/general/SwitchButton";
+import ThemeSwitch from "components/general/ThemeSwitch";
 import Notification from "components/general/Notification";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import HomeIcon from "@material-ui/icons/Home";
@@ -34,9 +34,6 @@ const LoggedInUserNav = () => {
   const logOutUser = () => {
     dispatchUser({ type: "LOGOUT" });
   };
-  const toggleTheme = () => {
-    dispatchUser({ type: "THEME_TOGGLE" });
-  };
   const removeMessage = async (index) => {
     const { status } = await removeNotification({ notificationId: notifications[index]._id });
     if (status)
@@ -49,7 +46,7 @@ const LoggedInUserNav = () => {
 
   return (
     <>
-      <SwitchButton toggle={toggleTheme} value={!theme} />
+      <ThemeSwitch />
       <NavItem clicked={goToHomePage} icon={<HomeIcon />} />
       <NavItem
         offset={{ x: -60, y: 10 }}
