@@ -7,9 +7,9 @@ import { WarningNotificationContext } from "context/WarningNotificationContext";
 
 import Routes from "views/Routes";
 
-import Footer from "components/layout/Footer/Footer";
+import Footer from "components/layout/Footer";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
-import WarningNotification from "components/general/WarningNotification/WarningNotification";
+import WarningNotification from "components/general/WarningNotification";
 import { isUserAuthenticated } from "service";
 
 const App: React.FC = () => {
