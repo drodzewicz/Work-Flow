@@ -12,7 +12,7 @@ export const getNotifications = async ({ setLoading }: serviceParams = {}) => {
 
 // NOTIFICATION - DELETE
 interface removeNotificationParams extends serviceParams {
-  notificationId: number;
+  notificationId: string;
 }
 export const removeNotification = async ({
   setLoading,

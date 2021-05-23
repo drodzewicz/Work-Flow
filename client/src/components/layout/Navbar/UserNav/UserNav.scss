@@ -1,0 +1,18 @@
+
+@import "../../../../assets/styles/mediaQueries";
+
+.notification-nav.drop-down-menu {
+  transform: translate(-16.5rem, 2rem);
+  width: 18rem;
+}
+
+.profile-nav {
+  @include mobile {
+    .navbar__item__label {
+      display: none;
+    }
+  }
+  &.drop-down-menu {
+    transform: translate(-1rem, 2rem);
+  }
+}

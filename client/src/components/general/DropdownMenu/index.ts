@@ -10,7 +10,7 @@ export interface DropdownMenuProps {
   onClickClose?: boolean;
   scrollableAt?: number;
   anchorEl: any;
-  className: string,
+  className?: string,
 }
 
 export interface DropdownMenuItemProps extends React.ComponentProps<"li"> {

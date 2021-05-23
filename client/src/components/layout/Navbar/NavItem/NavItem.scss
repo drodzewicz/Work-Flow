@@ -1,16 +1,9 @@
-@import "../../../assets/styles/colors";
+@import "../../../../assets/styles/colors";
 
-.nav-item {
+.navbar__item {
   list-style-type: none;
-  outline: none;
-  a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #222222;
-  }
-  .icon-button {
-    outline: none;
+
+  &__button {
     font-family: "Secular One", sans-serif;
     border-radius: 5px;
     padding: 0.35rem 0.65rem;
@@ -27,23 +20,31 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
     position: relative;
 
+    &:focus {
+      outline-color: $blue-accent;
+      outline-width: 2px;
+      outline-offset: 2px;
+    }
+
     &:hover {
       background: $white-1;
       color: #3d3d3d;
     }
   }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+  }
 }
 
-.theme-dark .nav-item  {
-  a {
-    color: $white-1;
-  }
-  .icon-button {
+.theme-dark .navbar__item {
+  &__button {
     color: $white-1;
     background: darken($dark-1, 10%);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
     &:hover {
-      background: darken($dark-1, 7%);;
+      background: darken($dark-1, 7%);
       color: $white-1;
     }
   }

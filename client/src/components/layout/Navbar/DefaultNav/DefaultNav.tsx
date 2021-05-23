@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import NavItem from "components/layout/Navbar/NavItem";
+import NavItem from "components/layout/Navbar/NavItem/NavItem";
 import { Login, Register } from "components/modalForms";
 import { ModalContext } from "context/ModalContext";
+import "./DefaultNav.scss";
 
-const DefaultNav = () => {
+const DefaultNav: React.FC = () => {
 	const [, modalDispatch] = useContext(ModalContext);
 
 	const openLoginModal = () => {
@@ -20,11 +21,11 @@ const DefaultNav = () => {
 	};
 
 	return (
-		<>
-			<NavItem navName="Login" clicked={openLoginModal} />
-			<NavItem navName="Register" clicked={openRegisterModal} />
-		</>
-	);
+    <>
+      <NavItem label="Login" onClick={openLoginModal} />
+      <NavItem label="Register" onClick={openRegisterModal} />
+    </>
+  );
 };
 
 export default DefaultNav;

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import Navbar from "components/layout/Navbar/Navbar";
+import Navbar from "components/layout/Navbar";
 import Modal from "components/layout/Modal/Modal";
 import "./App.scss";
 import { UserContext } from "context/UserContext";

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import NavItem from "components/layout/Navbar/NavItem";
 import ThemeSwitch from "components/general/ThemeSwitch";
-import Notification from "components/general/Notification";
+import Notification, { NotificationResponse } from "components/general/Notification";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import HomeIcon from "@material-ui/icons/Home";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -10,12 +10,13 @@ import { useHistory, Link } from "react-router-dom";
 import { UserContext } from "context/UserContext";
 import { getNotifications, removeNotification } from "service";
 import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
+import "./UserNav.scss";
 
-const LoggedInUserNav = () => {
+const UserNav: React.FC = () => {
   const history = useHistory();
 
-  const [{ user, theme }, dispatchUser] = useContext(UserContext);
-  const [notifications, setNotification] = useState([]);
+  const [{ user }, dispatchUser] = useContext(UserContext);
+  const [notifications, setNotification] = useState<NotificationResponse[]>([]);
 
   const handlGetMyNotifications = async () => {
     const { data } = await getNotifications();
@@ -34,7 +35,7 @@ const LoggedInUserNav = () => {
   const logOutUser = () => {
     dispatchUser({ type: "LOGOUT" });
   };
-  const removeMessage = async (index) => {
+  const removeMessage = async (index: number) => {
     const { status } = await removeNotification({ notificationId: notifications[index]._id });
     if (status)
       setNotification((notifications) => {
@@ -47,25 +48,27 @@ const LoggedInUserNav = () => {
   return (
     <>
       <ThemeSwitch />
-      <NavItem clicked={goToHomePage} icon={<HomeIcon />} />
+      <NavItem name="home" onClick={goToHomePage} icon={<HomeIcon />} />
       <NavItem
+        name="profile"
         offset={{ x: -60, y: 10 }}
         icon={<AccountBoxIcon />}
-        navName={user.username}
-        classes={["profile-nav"]}>
+        label={user.username}
+        className="profile-nav">
         <DropdownMenuItem>
           <Link to="/profile">Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <button className="logout-btn" onClick={logOutUser}>
+          <span className="logout-btn" onClick={logOutUser}>
             logout
-          </button>
+          </span>
         </DropdownMenuItem>
       </NavItem>
       <NavItem
-        clicked={handlGetMyNotifications}
+        name="notiications"
+        onClick={handlGetMyNotifications}
         offset={{ x: -20, y: 10 }}
-        classes={["notification-nav"]}
+        className="notification-nav"
         dropDownScrollableAt={400}
         dropDownOnClickClose={false}
         icon={
@@ -88,4 +91,4 @@ const LoggedInUserNav = () => {
   );
 };
 
-export default LoggedInUserNav;
+export default UserNav;
