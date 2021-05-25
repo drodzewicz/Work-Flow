@@ -25,7 +25,7 @@ const BoardEditor: React.FC<BoardEditorProps> = ({ boardId, submitType }) => {
   useEffect(() => {
     const getBoardInfo = async () => {
       setLoadingBoardInfo(true);
-      const { data } = await getBoard({ boardId: boardId as number, short: true });
+      const { data } = await getBoard({ boardId: boardId as string, short: true });
       if (!!data) {
         const { name, description } = data;
         setInitialVals({ name, description });

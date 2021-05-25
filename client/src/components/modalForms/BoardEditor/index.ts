@@ -9,7 +9,7 @@ export const validationSchema = Yup.object({
 export type submitType = "Update" | "Create";
 
 export interface BoardEditorProps {
-  boardId?: number;
+  boardId?: string;
   submitType?: submitType;
 }
 

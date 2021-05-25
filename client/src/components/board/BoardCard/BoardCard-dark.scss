@@ -1,0 +1,32 @@
+@import "../../../assets/styles/colors";
+
+.theme-dark .board-card {
+  background-color: $dark-2;
+  &:hover {
+    background-color: lighten($dark-2, 2%);
+    .board-card__columns {
+      &__column {
+        background: $dark-3;
+      }
+    }
+  }
+  &__columns {
+    &__column {
+      background: lighten($dark-2, 3%);
+    }
+  }
+  &__content {
+    &__title {
+      color: $text-primary-dark;
+    }
+    &__menu {
+      svg {
+      color: $text-primary-dark;
+      fill: $text-primary-dark;
+      &:hover {
+        background: darken($dark-3, 5%);
+      }
+    }
+    }
+  }
+}

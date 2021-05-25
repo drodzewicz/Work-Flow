@@ -3,14 +3,14 @@ import { emitWS, socketServiceParams } from "./utils/socketData";
 
 // COLUMN - CREATE
 interface createColumnParams extends socketServiceParams {
-  boardId: number | string;
+  boardId: string;
   payload: {
     name: string;
   };
 }
 export const createColumn = ({ boardId, payload, res }: createColumnParams) => {
   emitWS({
-    roomId: boardId as string,
+    roomId: boardId,
     eventName: "createNewColumn",
     token: true,
     payload,
@@ -20,15 +20,15 @@ export const createColumn = ({ boardId, payload, res }: createColumnParams) => {
 
 // COLUMN - DELETE
 interface deleteColumnParams extends socketServiceParams {
-  boardId: number | string;
+  boardId: string;
   payload: {
-    columnId: number,
-    columnIndex: number
+    columnId: number;
+    columnIndex: number;
   };
 }
 export const deleteColumn = ({ boardId, payload, res }: deleteColumnParams) => {
   emitWS({
-    roomId: boardId as string,
+    roomId: boardId,
     eventName: "deleteColumn",
     token: true,
     payload,
@@ -38,8 +38,8 @@ export const deleteColumn = ({ boardId, payload, res }: deleteColumnParams) => {
 
 // COLUMN - PATCH
 interface updateBoardColumnParams extends serviceParams {
-  boardId: number;
-  columnId: number;
+  boardId: string;
+  columnId: string;
   payload?: {
     name?: string;
   };
@@ -61,15 +61,15 @@ export const updateBoardColumn = async ({
 
 // COLUMN - MOVE
 interface moveColumnParams extends socketServiceParams {
-  boardId: number | string;
+  boardId: string;
   payload: {
-    sourceIndex: number,
-    destinationIndex: number
+    sourceIndex: number;
+    destinationIndex: number;
   };
 }
 export const moveColumn = ({ boardId, payload, res }: moveColumnParams) => {
   emitWS({
-    roomId: boardId as string,
+    roomId: boardId,
     eventName: "moveColumn",
     token: true,
     payload,

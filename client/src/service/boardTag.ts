@@ -2,7 +2,7 @@ import fetchData, { serviceParams } from "./utils/fetchData";
 
 // TAGS - GET
 interface getBoardTagsParams extends serviceParams {
-  boardId: number;
+  boardId: string;
 }
 export const getBoardTags = async ({ boardId, setLoading }: getBoardTagsParams) => {
   return await fetchData({
@@ -15,7 +15,7 @@ export const getBoardTags = async ({ boardId, setLoading }: getBoardTagsParams) 
 
 // TAG - POST
 interface createBoardTagParams extends serviceParams {
-  boardId: number;
+  boardId: string;
   payload: {
     name: string;
     colorCode: string;
@@ -33,8 +33,8 @@ export const createBoardTag = async ({ boardId, payload, setLoading }: createBoa
 
 // TAG UPDATE - POST
 interface updateBoardTagParams extends serviceParams {
-  boardId: number;
-  tagId: number;
+  boardId: string;
+  tagId: string;
   payload: {
     name: string;
     colorCode: string;
@@ -52,8 +52,8 @@ export const updateBoardTag = async ({ boardId, payload, setLoading }: updateBoa
 
 // TAG - DELETE
 interface deleteBoardTagParams extends serviceParams {
-  boardId: number;
-  tagId: number;
+  boardId: string;
+  tagId: string;
 }
 export const deleteBoardTag = async ({ boardId, tagId, setLoading }: deleteBoardTagParams) => {
   return await fetchData({

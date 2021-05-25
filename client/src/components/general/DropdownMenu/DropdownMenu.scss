@@ -17,24 +17,14 @@
     overflow-y: hidden;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: 0.2s all ease-in-out;
     user-select: none;
+    color: #222222;
     &:hover {
       background: $blue-secondary-overlay;
-    }
-    & > * {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    a {
-      color: #222222;
-      text-decoration: none;
     }
   }
 }

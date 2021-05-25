@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 import Pagination from "components/general/Pagination/Pagination";
-import BoardCard from "components/board/BoardCard/BoardCard";
+import BoardCard from "components/board/BoardCard";
 import "./MyBoardContainer.scss";
 
 const MyBoardContainer = ({

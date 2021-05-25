@@ -2,7 +2,7 @@ import fetchData, { serviceParams } from "./utils/fetchData";
 
 // MEMBERS - GET
 interface getBoardMembersParams extends serviceParams {
-  boardId: number;
+  boardId: string;
   limit?: number;
   page?: number;
 }
@@ -22,8 +22,8 @@ export const getBoardMembers = async ({
 
 // MEMBER - DELETE
 interface removeUserFromBoardParams extends serviceParams {
-  boardId: number;
-  userId: number;
+  boardId: string;
+  userId: string;
 }
 export const removeUserFromBoard = async ({
   boardId,
@@ -40,8 +40,8 @@ export const removeUserFromBoard = async ({
 
 // MEMBER - PATCH
 interface addUserToBoardParams extends serviceParams {
-  boardId: number;
-  userId: number;
+  boardId: string;
+  userId: string;
 }
 export const addUserToBoard = async ({ boardId, userId, setLoading }: addUserToBoardParams) => {
   return await fetchData({
@@ -54,8 +54,8 @@ export const addUserToBoard = async ({ boardId, userId, setLoading }: addUserToB
 
 // MEMBER ROLE - PATCH
 interface changeBoardUserRoleParams extends serviceParams {
-  boardId: number;
-  userId: number;
+  boardId: string;
+  userId: string;
   newRole: string;
 }
 export const changeBoardUserRole = async ({
@@ -74,8 +74,8 @@ export const changeBoardUserRole = async ({
 
 // LOGGEDIN USER ROLE - GET
 interface getLoggedInUserBoardRoleParams extends serviceParams {
-  boardId: number;
-  userId: number;
+  boardId: string;
+  userId: string;
 }
 export const getLoggedInUserBoardRole = async ({
   boardId,
@@ -92,7 +92,7 @@ export const getLoggedInUserBoardRole = async ({
 
 // MEMBER SEARCH - GET
 interface searchUserInBoardParams extends serviceParams {
-  boardId: number;
+  boardId: string;
   username: string;
 }
 export const searchUserInBoard = async ({

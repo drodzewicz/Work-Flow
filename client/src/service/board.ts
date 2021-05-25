@@ -18,7 +18,7 @@ export const getMyBoards = async (
 
 // BOARD - DELETE
 interface deleteBoardParams extends serviceParams {
-  boardId: number;
+  boardId: string;
 }
 export const deleteBoard = async ({ boardId, setLoading }: deleteBoardParams) => {
   return await fetchData({
@@ -48,7 +48,7 @@ export const createBoard = async ({ setLoading, payload }: createBoardParams) =>
 
 // BOARD - GET
 interface getBoardParams extends serviceParams {
-  boardId: number;
+  boardId: string;
   short?: boolean;
 }
 export const getBoard = async ({ short = false, boardId, setLoading }: getBoardParams) => {
@@ -62,7 +62,7 @@ export const getBoard = async ({ short = false, boardId, setLoading }: getBoardP
 
 // BOARD LEAVE - DELETE
 interface leaveBoardParams extends serviceParams {
-  boardId: number;
+  boardId: string;
 }
 export const leaveBoard = async ({ boardId, setLoading }: leaveBoardParams) => {
   return await fetchData({
@@ -75,7 +75,7 @@ export const leaveBoard = async ({ boardId, setLoading }: leaveBoardParams) => {
 
 // BOARD UPDATE - POST
 interface updateBoardParams extends serviceParams {
-  boardId: number;
+  boardId: string;
   payload: {
     name?: string;
     description?: string;
@@ -102,7 +102,7 @@ export const getPinnedBoards = async ({ setLoading }: serviceParams = {}) => {
 };
 // BOARD PINNED - PATCH
 interface togglePinBoardParams extends serviceParams {
-  boardId: number;
+  boardId: string;
 }
 export const togglePinBoard = async ({ boardId, setLoading }: togglePinBoardParams) => {
   return await fetchData({

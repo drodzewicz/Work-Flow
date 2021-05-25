@@ -4,8 +4,8 @@ import { emitWS, socketServiceParams } from "./utils/socketData";
 
 // TASKS - GET
 interface getBoardTaskParams extends serviceParams {
-  boardId: number;
-  taskId: number;
+  boardId: string;
+  taskId: string;
 }
 export const getBoardTask = async ({ boardId, taskId, setLoading }: getBoardTaskParams) => {
   return await fetchData({
@@ -18,8 +18,8 @@ export const getBoardTask = async ({ boardId, taskId, setLoading }: getBoardTask
 
 // TASK UPDATE - POST
 interface updateBoardTaskParams extends serviceParams {
-  boardId: number;
-  taskId: number;
+  boardId: string;
+  taskId: string;
   payload: any;
 }
 export const updateBoardTask = async ({
@@ -39,14 +39,14 @@ export const updateBoardTask = async ({
 
 // TASK - DELETE
 interface deleteTaskParams extends socketServiceParams {
-  boardId: number | string;
+  boardId: string;
   payload: {
     taskId: number;
   };
 }
 export const deleteTask = ({ boardId, payload, res }: deleteTaskParams) => {
   emitWS({
-    roomId: boardId as string,
+    roomId: boardId,
     eventName: "deleteTask",
     token: true,
     payload,
@@ -56,7 +56,7 @@ export const deleteTask = ({ boardId, payload, res }: deleteTaskParams) => {
 
 // TASK - MOVE
 interface moveTaskParams extends socketServiceParams {
-  boardId: number | string;
+  boardId: string;
   payload: {
     sourceIndex: number;
     destinationIndex: number;
@@ -64,7 +64,7 @@ interface moveTaskParams extends socketServiceParams {
 }
 export const moveTask = ({ boardId, payload, res }: moveTaskParams) => {
   emitWS({
-    roomId: boardId as string,
+    roomId: boardId,
     eventName: "moveTask",
     token: true,
     payload,
@@ -74,12 +74,12 @@ export const moveTask = ({ boardId, payload, res }: moveTaskParams) => {
 
 // TASK - POST
 interface createTaskParams extends socketServiceParams {
-  boardId: number | string;
+  boardId: string;
   payload: any;
 }
 export const createTask = ({ boardId, payload, res }: createTaskParams) => {
   emitWS({
-    roomId: boardId as string,
+    roomId: boardId,
     eventName: "createTask",
     token: true,
     payload,

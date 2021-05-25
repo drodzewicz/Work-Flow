@@ -16,20 +16,51 @@
   position: relative;
   text-decoration: none;
   transition: 0.3s ease-in-out all;
-  &:hover {
+  &:hover & {
     background-color: lighten($light-blue-1, 2%);
-    .bg-columns > .column {
-      background: darken($light-blue-1, 5%);
-      &:nth-of-type(3){
+    &__columns {
+      &__column {
+        background: darken($light-blue-1, 5%);
+        &:nth-of-type(3) {
+          height: 60px;
+        }
+        &:nth-of-type(4) {
+          height: 30px;
+        }
+        &:nth-of-type(1) {
+          height: 50px;
+        }
+        &:nth-of-type(2) {
+          height: 70px;
+        }
+      }
+    }
+  }
+
+  &__columns {
+    position: absolute;
+    z-index: 0;
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    align-items: flex-start;
+    &__column {
+      background: $light-blue-1;
+      width: 35px;
+      height: 70px;
+      margin: 0 7px;
+      border-radius: 5px;
+      transition: all ease-in-out 0.3s;
+      &:nth-of-type(1) {
         height: 60px;
       }
-      &:nth-of-type(4){
+      &:nth-of-type(2) {
         height: 30px;
       }
-      &:nth-of-type(1){
+      &:nth-of-type(3) {
         height: 50px;
       }
-      &:nth-of-type(2){
+      &:nth-of-type(4) {
         height: 70px;
       }
     }
@@ -37,14 +68,14 @@
   .drop-down-menu {
     transform: translate($card-width / 2 + 1.2rem, $card-height - 2.5rem);
   }
-  .board-card-body {
+  &__content {
     z-index: 1;
     display: flex;
     flex-direction: column;
     height: 100%;
     width: 95%;
-    .board-title {
-      font-family: 'Secular One', sans-serif;
+    &__title {
+      font-family: "Secular One", sans-serif;
       font-size: 1rem;
       width: 100%;
       color: $text-primary;
@@ -52,15 +83,12 @@
       justify-self: flex-start;
       cursor: default;
     }
-    .board-menu{
+    &__menu {
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
       align-items: center;
-      .pin-icon {
-        height: 1rem;
-      }
-      svg{
+      svg {
         cursor: pointer;
         height: 1.2rem;
         width: 1.2rem;
@@ -71,60 +99,8 @@
         transition: all ease-in-out 0.2s;
         &:hover {
           background: darken($light-blue-1, 5%);
-
         }
       }
     }
-  }
-  .bg-columns {
-    position: absolute;
-    z-index: 0;
-    display: flex;
-    flex-direction: row;
-    height: 70px;
-    align-items: flex-start;
-    .column {
-      background: $light-blue-1;
-      width: 35px;
-      height: 70px;
-      margin: 0 7px;
-      border-radius: 5px;
-      transition: all ease-in-out 0.3s;
-      &:nth-of-type(1){
-        height: 60px;
-      }
-      &:nth-of-type(2){
-        height: 30px;
-      }
-      &:nth-of-type(3){
-        height: 50px;
-      }
-      &:nth-of-type(4){
-        height: 70px;
-      }
-    }
-  }
-}
-
-.theme-dark .board-card {
-  background-color: $dark-2;
-  &:hover {
-    background-color: lighten($dark-2, 2%);
-    .bg-columns > .column {
-      background: $dark-3;
-    }
-  }
-  .board-title { 
-    color: $text-primary-dark;
-  }
-  .board-menu svg{
-    color: $text-primary-dark;
-    fill: $text-primary-dark;
-    &:hover {
-      background: darken($dark-3, 5%);
-    }
-  }
-  .bg-columns .column{ 
-    background: lighten($dark-2, 3%);
   }
 }
