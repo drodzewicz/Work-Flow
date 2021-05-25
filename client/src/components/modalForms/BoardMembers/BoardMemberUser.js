@@ -7,7 +7,7 @@ import { ReactComponent as Admin } from "assets/images/Admin.svg";
 import { ReactComponent as Crown } from "assets/images/crown.svg";
 import { ReactComponent as Visitor } from "assets/images/visitor.svg";
 import { ReactComponent as RegularUser } from "assets/images/regular-user.svg";
-import User from "components/board/User/User";
+import User from "components/board/User";
 import { UserContext } from "context/UserContext";
 import "./BoardMemberUser.scss";
 

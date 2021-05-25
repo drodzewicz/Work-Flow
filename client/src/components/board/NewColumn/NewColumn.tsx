@@ -1,20 +1,21 @@
-import React, { useState } from "react";
-import "./NewColumn.scss";
-import PropTypes from "prop-types";
+import React, { ChangeEvent, useState } from "react";
 
 import { createColumn } from "service";
+import { NewColumnProps } from "./";
+import "./NewColumn.scss";
+import "./NewColumn-dark.scss";
 
-const NewColumn = ({ boardId }) => {
-  const [columnName, setColumnName] = useState("");
+const NewColumn: React.FC<NewColumnProps> = ({ boardId }) => {
+  const [columnName, setColumnName] = useState<string>("");
 
-  const handleNewColumnChange = (event) => {
+  const handleNewColumnChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newColumnName = event.target.value;
     if (newColumnName.length < 20) {
       setColumnName(newColumnName);
     }
   };
 
-  const createNewColumn = async (event) => {
+  const createNewColumn = async (event: React.KeyboardEvent) => {
     if (event.key === "Enter" && columnName.trim() !== "") {
       createColumn({
         boardId,
@@ -36,10 +37,6 @@ const NewColumn = ({ boardId }) => {
       />
     </div>
   );
-};
-
-NewColumn.propTypes = {
-  boardId: PropTypes.string.isRequired,
 };
 
 export default NewColumn;

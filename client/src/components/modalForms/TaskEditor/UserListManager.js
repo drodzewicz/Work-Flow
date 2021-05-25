@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import SearchInput from "components/general/SearchInput";
-import User from "components/board/User/User";
+import User from "components/board/User";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import { searchUserInBoard } from "service";
 

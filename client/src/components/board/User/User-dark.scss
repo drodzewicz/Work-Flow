@@ -1,0 +1,13 @@
+@import "../../../assets/styles/colors";
+
+
+.theme-dark .user-card {
+  background: lighten($dark-3, 10%);
+  &__username {
+    color: $white-1;
+  }
+  &__buttons {
+    fill: $white-1;
+    color: $white-1;
+  }
+}

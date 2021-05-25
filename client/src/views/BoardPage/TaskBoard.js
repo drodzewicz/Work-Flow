@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import TaskColumn from "components/board/Task/TaskColumn";
 import { TaskContext } from "context/TaskContext";
 import { UserContext } from "context/UserContext";
-import NewColumn from "components/board/NewColumn/NewColumn";
+import NewColumn from "components/board/NewColumn";
 import PropTypes from "prop-types";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { ws } from "config/socket.conf";

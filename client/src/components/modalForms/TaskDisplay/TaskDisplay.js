@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./TaskDisplay.scss";
-import User from "components/board/User/User";
+import User from "components/board/User";
 import Tag from "components/board/Tag/Tag";
 import Button from "components/general/Button/Button";
 
