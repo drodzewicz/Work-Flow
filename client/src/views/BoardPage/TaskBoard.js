@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import TaskColumn from "components/board/Task/TaskColumn";
+import Column from "components/board/Column";
 import { TaskContext } from "context/TaskContext";
 import { UserContext } from "context/UserContext";
 import NewColumn from "components/board/NewColumn";
@@ -93,21 +93,17 @@ const TaskBoard = ({ boardId }) => {
 			<Draggable key={id} draggableId={id} index={index} isDragDisabled={currentBoard.role === "guest"}>
 				{(provided, snapshot) => {
 					return (
-						<div
-							ref={provided.innerRef}
-							{...provided.draggableProps}
-							{...provided.dragHandleProps}
-						>
-							<TaskColumn
-								key={id}
-								columnId={id}
-								columnIndex={index}
-								columnName={name}
-								listOfTasks={tasks}
-								boardId={boardId}
-							/>
-						</div>
-					);
+            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+              <Column
+                key={id}
+                columnId={id}
+                columnIndex={index}
+                columnName={name}
+                listOfTasks={tasks}
+                boardId={boardId}
+              />
+            </div>
+          );
 				}}
 			</Draggable>
 		);

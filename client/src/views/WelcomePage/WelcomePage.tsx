@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import "./WelcomePage.scss";
 import Button from "components/general/Button";
 import { ModalContext } from "context/ModalContext";
-import { UserContext } from "context/UserContext";
 import workflowPerson from "assets/images/workflow-person.svg";
 import workflowPersonDark from "assets/images/workflow-person_dark.svg";
 import { Register } from "components/modalForms";
@@ -10,25 +9,22 @@ import taskColumns from "assets/images/task_columns.svg";
 import taskColumnsDark from "assets/images/task_columns_dark.svg";
 
 const WelcomePage: React.FC = () => {
-	const [, modalDispatch] = useContext(ModalContext);
-	const [{theme}] = useContext(UserContext);
+  const [, modalDispatch] = useContext(ModalContext);
+  const appTheme = localStorage.getItem("theme");
+  console.log(appTheme);
+  if(appTheme) document.body.className = `theme-${appTheme}`;
 
-	const openRegisterModal = () => {
-		modalDispatch({ type: "OPEN", payload: { render: <Register />, title: "Register" } });
-	};
+  const openRegisterModal = () => {
+    modalDispatch({ type: "OPEN", payload: { render: <Register />, title: "Register" } });
+  };
 
-	return (
+  return (
     <div className="welcome-section">
       <section className="introduction-section">
         <img
-          src={workflowPerson}
+          src={appTheme === "dark" ? workflowPersonDark : workflowPerson}
           alt="person-task"
-          className={`person-image ${theme ? "" : "hide"}`}
-        />
-        <img
-          src={workflowPersonDark}
-          alt="person-task"
-          className={`person-image ${theme ? "hide" : ""}`}
+          className="person-image"
         />
         <div className="text-subsection">
           <h1>Work-Flow</h1>
@@ -52,14 +48,9 @@ const WelcomePage: React.FC = () => {
           </h2>
         </div>
         <img
-          src={taskColumns}
+          src={appTheme === "dark" ? taskColumnsDark : taskColumns}
           alt="task-columns"
-          className={`task-columns-img ${theme ? "" : "hide"}`}
-        />
-        <img
-          src={taskColumnsDark}
-          alt="task-columns"
-          className={`task-columns-img ${theme ? "hide" : ""}`}
+          className="task-columns-img"
         />
       </section>
     </div>

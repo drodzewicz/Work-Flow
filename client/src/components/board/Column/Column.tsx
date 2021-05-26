@@ -1,9 +1,8 @@
 import React, { useState, useContext, useRef } from "react";
-import PropTypes from "prop-types";
-import "./TaskColumn.scss";
+import "./Column.scss";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
-import Task from "./Task";
+import Task from "components/board/Task";
 import DropdownMenu from "components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
 import { ModalContext } from "context/ModalContext";
@@ -16,15 +15,16 @@ import { deleteColumn } from "service";
 import { Droppable } from "react-beautiful-dnd";
 
 import { TaskEditor } from "components/modalForms";
+import { ColumnProps } from "./";
 
-const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks }) => {
+const Column: React.FC<ColumnProps> = ({ columnName, columnId, columnIndex, boardId, listOfTasks }) => {
   const [, modalDispatch] = useContext(ModalContext);
   const [, setTasks] = useContext(TaskContext);
   const [{ currentBoard }] = useContext(UserContext);
 
-  const [showTitleInput, setShowTitleInput] = useState(false);
+  const [showTitleInput, setShowTitleInput] = useState<boolean>(false);
 
-  const anchorElement = useRef();
+  const anchorElement = useRef(null);
 
   const openBoardTagsModal = () => {
     modalDispatch({
@@ -52,7 +52,7 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
     setShowTitleInput(false);
   };
 
-  const changeColumnNameOnKeyPressEnter = async (newName) => {
+  const changeColumnNameOnKeyPressEnter = async (newName: string) => {
     const { status } = await updateBoardColumn({
       boardId,
       columnId,
@@ -61,7 +61,7 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
       },
     });
     if (status === 200) {
-      setTasks((tasks) => {
+      setTasks((tasks: any) => {
         const tempTasks = [...tasks];
         const foundColumnIndex = tempTasks.findIndex(({ _id }) => _id === columnId);
         tempTasks[foundColumnIndex].name = newName;
@@ -83,9 +83,9 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className={`task-column ${snapshot.isDraggingOver ? "active" : ""}`}>
-            <div className="task-column-header">
-              <span className="task-count">{listOfTasks.length}</span>
+            className={`task-column ${snapshot.isDraggingOver ? "task-column--active" : ""}`}>
+            <header className="task-column__header">
+              <span className="task-column__header__task-count">{listOfTasks.length}</span>
               <ColumnNameInput
                 hideInput={dissableColumnNameEditInput}
                 initialVal={columnName}
@@ -93,14 +93,14 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
                 editTitle={showTitleInput}
               />
               {currentBoard.role !== "guest" && (
-                <button onClick={openBoardTagsModal} className="add-new-task-btn">
+                <button onClick={openBoardTagsModal} className="task-column__header__new-task-btn">
                   <PlaylistAddIcon />
                 </button>
               )}
 
               {isAuthorized() && (
                 <>
-                  <button ref={anchorElement} className="more-options">
+                  <button ref={anchorElement} className="task-column__header__more-options">
                     <MoreVertIcon />
                   </button>
                   <DropdownMenu anchorEl={anchorElement}>
@@ -113,14 +113,13 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
                   </DropdownMenu>
                 </>
               )}
-            </div>
-            <div className={"task-container"}>
+            </header>
+            <div className="task-column__container scrollbar">
               {listOfTasks &&
                 listOfTasks.map(({ _id, title, tags, people }, index) => (
                   <Task
                     key={_id}
                     taskId={_id}
-                    boardId={boardId}
                     title={title}
                     tags={tags}
                     people={people}
@@ -136,11 +135,5 @@ const TaskColumn = ({ columnName, columnId, columnIndex, boardId, listOfTasks })
   );
 };
 
-TaskColumn.propTypes = {
-  columnName: PropTypes.string.isRequired,
-  columnId: PropTypes.string.isRequired,
-  listOfTasks: PropTypes.array.isRequired,
-  columnIndex: PropTypes.number.isRequired,
-};
 
-export default TaskColumn;
+export default Column;

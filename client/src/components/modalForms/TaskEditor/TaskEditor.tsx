@@ -11,13 +11,14 @@ import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 import TagChoiceControll from "./TagChoiceControll";
 import UserListManager from "./UserListManager";
 import { WarningNotificationContext } from "context/WarningNotificationContext";
+import { TaskEditorProps } from ".";
 
 const validationSchema = Yup.object({
   title: Yup.string().max(100, "task title is too long").required("field is required"),
   description: Yup.string().max(500, "description is too long"),
 });
 
-const TaskEditor = ({
+const TaskEditor: React.FC<TaskEditorProps> = ({
   buttonName,
   action,
   updateTask,
@@ -50,7 +51,10 @@ const TaskEditor = ({
     return () => {};
   }, [boardId]);
 
-  const submitOnButtonClick = async (submittedData, { setSubmitting }) => {
+  const submitOnButtonClick = async (
+    submittedData: any,
+    { setSubmitting }: { setSubmitting: (state: boolean) => void }
+  ) => {
     const submittingTask = {
       ...submittedData,
       people: users.map(({ _id }) => _id),
@@ -81,7 +85,7 @@ const TaskEditor = ({
     } else if (action === "UPDATE") {
       const { data, error } = await updateBoardTask({
         boardId,
-        taskId,
+        taskId: taskId as string,
         setLoading: setSubmitting,
         payload: submittingTask,
       });
@@ -90,7 +94,7 @@ const TaskEditor = ({
           type: "SUCCESS",
           payload: { message: "successfuly updated task" },
         });
-        updateTask(data.task);
+        if (updateTask) updateTask(data.task);
       } else if (!!error) {
         warningNotificationDispatch({
           type: "ERROR",
@@ -101,7 +105,7 @@ const TaskEditor = ({
   };
 
   // TAGS
-  const addTagToList = (tagId) => {
+  const addTagToList = (tagId: string) => {
     const foundTag = availableTags.find(({ _id }) => _id === tagId);
     setChosenBoardTags((tags) => {
       const newTags = [...tags];
@@ -109,7 +113,7 @@ const TaskEditor = ({
       return newTags;
     });
   };
-  const removeTagFromList = (tagIndex) => {
+  const removeTagFromList = (tagIndex: number) => {
     setChosenBoardTags((tags) => {
       const newTags = [...tags];
       newTags.splice(tagIndex, 1);
@@ -129,12 +133,11 @@ const TaskEditor = ({
             <Form>
               <div className="fields">
                 <Field
-                  className="new-task-input"
+                  className="new-task-input board-name-field"
                   label={"task title"}
                   name={"title"}
                   hasErrors={!!errors["title"]}
                   helperText={errors["title"]}
-                  className="board-name-field"
                   as={TextInput}
                 />
                 <Field

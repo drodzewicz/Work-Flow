@@ -10,7 +10,7 @@ const TagChoiceControll = ({ availableTags, chosenBoardTags, removeTagFromList, 
 
   return (
     <div className="list-of-tags">
-      <Button ref={tagChoiceButton}>Choose Tags</Button>
+      <Button ref={tagChoiceButton} type="button">Choose Tags</Button>
       <DropdownMenu
         offset={{ x: -102, y: 35 }}
         scrollableAt={160}

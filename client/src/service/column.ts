@@ -22,7 +22,7 @@ export const createColumn = ({ boardId, payload, res }: createColumnParams) => {
 interface deleteColumnParams extends socketServiceParams {
   boardId: string;
   payload: {
-    columnId: number;
+    columnId: string;
     columnIndex: number;
   };
 }
