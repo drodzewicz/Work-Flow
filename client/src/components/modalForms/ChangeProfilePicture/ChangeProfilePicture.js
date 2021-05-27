@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import * as Yup from "yup";
 import SimpleForm from "components/SimpleForm/SimpleForm";
-import { ModalContext } from "context/ModalContext";
+import { ModalContext, ModalActionType } from "context/ModalContext";
 import { changeAvatar } from "service";
 
 const validationSchema = Yup.object({
@@ -13,7 +13,7 @@ const fields = {
 };
 
 const ChangeProfilePicture = ({ changeProfilePic }) => {
-  const [, modalDispatch] = useContext(ModalContext);
+  const { modalDispatch } = useContext(ModalContext);
 
   const handleSubmit = async (submittedData, { setSubmitting }) => {
     const { data } = await changeAvatar({
@@ -21,7 +21,7 @@ const ChangeProfilePicture = ({ changeProfilePic }) => {
       setLoading: setSubmitting,
     });
     if (!!data) {
-      modalDispatch({ type: "CLOSE" });
+      modalDispatch({ type: ModalActionType.CLOSE });
       changeProfilePic(submittedData.imageLink);
     }
   };

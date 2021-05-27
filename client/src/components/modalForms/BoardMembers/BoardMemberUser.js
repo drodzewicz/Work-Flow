@@ -14,7 +14,9 @@ import "./BoardMemberUser.scss";
 const BoardMemberUser = ({ username, userId, imageURL, userType, removeUser, changeUserRole }) => {
   const userRoleAnchorElement = useRef();
   const optionsAnchorElement = useRef();
-  const [{ currentBoard }] = useContext(UserContext);
+  const {
+    userState: { currentBoard },
+  } = useContext(UserContext);
 
   const userTypeIcon = (type) => {
     switch (type) {

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import * as Yup from "yup";
 import "./TaskEditor.scss";
 import TextInput from "components/general/TextInput";
-import { ModalContext } from "context/ModalContext";
+import { ModalContext, ModalActionType } from "context/ModalContext";
 
 import Button from "components/general/Button/Button";
 import { Formik, Field, Form } from "formik";
@@ -27,7 +27,7 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
   taskId,
   columnId,
 }) => {
-  const [, modalDispatch] = useContext(ModalContext);
+  const { modalDispatch } = useContext(ModalContext);
   const [, warningNotificationDispatch] = useContext(WarningNotificationContext);
 
   const initialVals = {
@@ -73,7 +73,7 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
               type: "SUCCESS",
               payload: { message: "new task created" },
             });
-            modalDispatch({ type: "CLOSE" });
+            modalDispatch({ type: ModalActionType.CLOSE });
           } else if (res.error) {
             warningNotificationDispatch({
               type: "ERROR",

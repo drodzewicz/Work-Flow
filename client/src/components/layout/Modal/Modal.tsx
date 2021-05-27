@@ -6,13 +6,16 @@ import Portal from "HOC/Portal";
 
 import CloseIcon from "@material-ui/icons/Close";
 
-import { ModalContext } from "context/ModalContext";
+import { ModalContext, ModalActionType } from "context/ModalContext";
 
 const Modal: React.FC = () => {
-  const [{ show, title, render }, modalDispatch] = useContext(ModalContext);
+  const {
+    modalState: { show, title, render },
+    modalDispatch,
+  } = useContext(ModalContext);
 
   const closeModal = () => {
-    modalDispatch({ type: "CLOSE" });
+    modalDispatch({ type: ModalActionType.CLOSE });
   };
 
   if (show) {

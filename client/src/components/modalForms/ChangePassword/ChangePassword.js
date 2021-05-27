@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import * as Yup from "yup";
 import SimpleForm from "components/SimpleForm/SimpleForm";
-import { ModalContext } from "context/ModalContext";
+import { ModalContext, ModalActionType } from "context/ModalContext";
 import { changePassword } from "service";
 
 const validationSchema = Yup.object({
@@ -17,7 +17,7 @@ const fields = {
 };
 
 const ChangePassword = () => {
-  const [, modalDispatch] = useContext(ModalContext);
+  const { modalDispatch } = useContext(ModalContext);
 
   const handleSubmit = async (submittedData, { setSubmitting, setErrors }) => {
     const { data, error } = await changePassword({
@@ -25,7 +25,7 @@ const ChangePassword = () => {
       payload: submittedData,
     });
     if (!!data) {
-      modalDispatch({ type: "CLOSE" });
+      modalDispatch({ type: ModalActionType.CLOSE });
     } else if (!!error) {
       setErrors(error.message);
     }

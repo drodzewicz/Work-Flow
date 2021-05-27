@@ -27,7 +27,9 @@ const Tags = ({ boardId }) => {
   const [selectedColor, setSelectedColor] = useState("");
   const [boardTags, setBoardTags] = useState([]);
   const [isTagLoading, setTagLoading] = useState(true);
-  const [{ currentBoard }] = useContext(UserContext);
+  const {
+    userState: { currentBoard },
+  } = useContext(UserContext);
 
   useEffect(() => {
     let _isMounted = true;
@@ -153,7 +155,7 @@ const Tags = ({ boardId }) => {
             {boardTags.map(({ color, id, name }, index) => (
               <TagButton
                 key={color}
-                clicked={() => selectTag(index)}
+                onClick={() => selectTag(index)}
                 selected={selectedColor === color}
                 showIcon={id !== ""}
                 color={color}

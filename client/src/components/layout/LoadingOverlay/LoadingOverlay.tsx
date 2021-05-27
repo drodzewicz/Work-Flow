@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import { ReactComponent as Spinner } from "assets/spinners/Rolling-1s-200px.svg";
 import "./LoadingOverlay.scss";
-import { UserContext } from "context/UserContext";
 import { LoadingOverlayProps } from ".";
 
 const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
@@ -12,10 +11,9 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   children,
 }) => {
 	
-  const [{ theme }] = useContext(UserContext);
-  let overlayColor = theme ? "255, 255, 255" : "71, 74, 75";
+  let overlayColor = true ? "255, 255, 255" : "71, 74, 75";
   if (!!color) {
-    overlayColor = theme ? color.light : color.dark;
+    overlayColor = true ? color.light : color.dark;
   }
 
   if (show) {

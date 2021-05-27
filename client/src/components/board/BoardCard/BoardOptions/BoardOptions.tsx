@@ -5,17 +5,17 @@ import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { leaveBoard, deleteBoard } from "service";
 import BoardEditor from "components/modalForms/BoardEditor/BoardEditor";
-import { ModalContext } from "context/ModalContext";
+import { ModalContext, ModalActionType } from "context/ModalContext";
 import { BoardOptionsProps  } from "./";
 
 
 const BoardOptions: React.FC<BoardOptionsProps> = ({ boardId, removeBoardCallback, isAuthor }) => {
   const moreOptionsAnchor = useRef(null);
-  const [, modalDispatch] = useContext(ModalContext);
+  const { modalDispatch } = useContext(ModalContext);
 
   const editEventModal = () => {
     modalDispatch({
-      type: "OPEN",
+      type: ModalActionType.OPEN,
       payload: {
         title: "Edit Board",
         render: <BoardEditor boardId={boardId} submitType="Update" />,

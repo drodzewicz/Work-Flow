@@ -20,7 +20,9 @@ const BoardMembers = ({ boardId }) => {
   const [page, setPage] = useState({ currentPage: 1, amountOfPages: 1 });
   const [isPageLoading, setPageLoading] = useState(true);
   const [searchRes, setSearchRes] = useState([]);
-  const [{ currentBoard }] = useContext(UserContext);
+  const {
+    userState: { currentBoard },
+  } = useContext(UserContext);
 
   useEffect(() => {
     let _isMounted = true;
@@ -58,7 +60,7 @@ const BoardMembers = ({ boardId }) => {
     setPage((pages) => ({ ...pages, currentPage: pageNumber }));
   };
   const removeUserFromBoardd = async (memberId) => {
-	  const { data } = await removeUserFromBoard({ userId: memberId, boardId });
+    const { data } = await removeUserFromBoard({ userId: memberId, boardId });
     if (!!data) {
       setMembers((members) => {
         const tempMembers = [...members];
@@ -70,8 +72,8 @@ const BoardMembers = ({ boardId }) => {
   };
   const addUserToBoardHandler = async (user) => {
     setSearchRes([]);
-	  const { data } = await addUserToBoard({ boardId, userId: user._id });
-		  
+    const { data } = await addUserToBoard({ boardId, userId: user._id });
+
     if (!!data && members.length < USER_LIMIT) {
       setMembers((members) => {
         const tempUsers = [...members];
@@ -85,7 +87,7 @@ const BoardMembers = ({ boardId }) => {
   };
   const changeUserRole = async (userId, newRole) => {
     const foundUserIndex = members.findIndex(({ user }) => user._id === userId);
-	  const { status } = await changeBoardUserRole({ boardId, userId, newRole });
+    const { status } = await changeBoardUserRole({ boardId, userId, newRole });
     if (status === 200) {
       setMembers((members) => {
         const newMembers = [...members];

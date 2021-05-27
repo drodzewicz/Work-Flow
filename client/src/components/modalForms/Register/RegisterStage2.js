@@ -5,7 +5,7 @@ import { Field, Form, Formik } from "formik";
 import TextInput from "components/general/TextInput";
 import Button from "components/general/Button/Button";
 import { register } from "service";
-import { ModalContext } from "context/ModalContext";
+import { ModalContext, ModalActionType } from "context/ModalContext";
 import { WarningNotificationContext } from "context/WarningNotificationContext";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 
@@ -29,7 +29,7 @@ const fieldTypes = {
 };
 
 const RegisterStage2 = ({ initialFieldValues, changeStage }) => {
-  const [, modalDispatch] = useContext(ModalContext);
+  const { modalDispatch } = useContext(ModalContext);
   const [, warningNotificationDispatch] = useContext(WarningNotificationContext);
 
   const handleGoBackStage = () => {
@@ -54,7 +54,7 @@ const RegisterStage2 = ({ initialFieldValues, changeStage }) => {
         type: "SUCCESS",
         payload: { message: "successfuly registered!" },
       });
-      modalDispatch({ type: "CLOSE" });
+      modalDispatch({ type: ModalActionType.CLOSE });
     } else if (status === 500)
       warningNotificationDispatch({ type: "WARNING", payload: { message: "server error" } });
     if (!!error) setErrors(error.message);

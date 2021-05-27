@@ -6,7 +6,7 @@ import User from "components/board/User";
 import Tag from "components/board/Tag/Tag";
 import Button from "components/general/Button/Button";
 
-import { ModalContext } from "context/ModalContext";
+import { ModalContext, ModalActionType } from "context/ModalContext";
 import { WarningNotificationContext } from "context/WarningNotificationContext";
 import { UserContext } from "context/UserContext";
 
@@ -15,9 +15,11 @@ import { getBoardTask, deleteTask } from "service";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 
 const TaskDisplay = ({ taskId, updateTask }) => {
-  const [, dispatchModal] = useContext(ModalContext);
+  const { modalDispatch } = useContext(ModalContext);
   const [, dispatchWarningNotification] = useContext(WarningNotificationContext);
-  const [{ currentBoard, user }] = useContext(UserContext);
+  const {
+    userState: { currentBoard, user },
+  } = useContext(UserContext);
 
   const history = useHistory();
 
@@ -40,7 +42,7 @@ const TaskDisplay = ({ taskId, updateTask }) => {
       if (_isMounted) setTaskLoading(false);
       if (status === 400) {
         dispatchWarningNotification({ type: "WARNING", payload: { message: "Task not found" } });
-        dispatchModal({ type: "CLOSE" });
+        modalDispatch({ type: ModalActionType.CLOSE });
       } else if (!!data && _isMounted) {
         history.push({
           search: `?task=${taskId}`,
@@ -61,7 +63,7 @@ const TaskDisplay = ({ taskId, updateTask }) => {
       });
       _isMounted = false;
     };
-  }, [currentBoard.id, taskId, history, dispatchModal, dispatchWarningNotification]);
+  }, [currentBoard.id, taskId, history, modalDispatch, dispatchWarningNotification]);
 
   const deleteTask = async () => {
     const shouldDelete = window.confirm("are you sure you want to delete this task?");
@@ -72,15 +74,15 @@ const TaskDisplay = ({ taskId, updateTask }) => {
           taskId,
         },
         res: (res) => {
-          if (res.success) dispatchModal({ type: "CLOSE" });
+          if (res.success) modalDispatch({ type: ModalActionType.CLOSE });
         },
       });
     }
   };
 
   const openTaskEditModal = () => {
-    dispatchModal({
-      type: "OPEN",
+    modalDispatch({
+      type: ModalActionType.OPEN,
       payload: {
         title: "Edit Task",
         render: (

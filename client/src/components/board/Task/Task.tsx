@@ -2,7 +2,7 @@ import React, { useContext, useRef } from "react";
 import "./Task.scss";
 import Image from "components/general/Image";
 import { TaskDisplay } from "components/modalForms";
-import { ModalContext } from "context/ModalContext";
+import { ModalContext, ModalActionType } from "context/ModalContext";
 import { TaskContext } from "context/TaskContext";
 import { UserContext } from "context/UserContext";
 import Tooltip from "components/general/Tooltip";
@@ -12,9 +12,11 @@ import { TaskProps } from "./";
 import TagMini from "components/board/Tag/TagMini";
 
 const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people = [] }) => {
-  const [, modalDispatch] = useContext(ModalContext);
+  const { modalDispatch } = useContext(ModalContext);
   const [, setTasks] = useContext(TaskContext);
-  const [{ currentBoard }] = useContext(UserContext);
+  const {
+    userState: { currentBoard },
+  } = useContext(UserContext);
 
   const poepleAnchorElement = useRef(null);
   const tagsAnchorElement = useRef(null);
@@ -27,12 +29,12 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
       tempTasks[columnIndex].tasks[taskIndex] = updatedTask;
       return tempTasks;
     });
-    modalDispatch({ type: "CLOSE" });
+    modalDispatch({ type: ModalActionType.CLOSE });
   };
 
   const openTaskDetailsModal = () => {
     modalDispatch({
-      type: "OPEN",
+      type: ModalActionType.OPEN,
       payload: {
         render: <TaskDisplay taskId={taskId} updateTask={updateTask} />,
         title: "Task Details",

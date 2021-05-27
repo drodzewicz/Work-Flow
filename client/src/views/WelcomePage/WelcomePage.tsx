@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "./WelcomePage.scss";
 import Button from "components/general/Button";
-import { ModalContext } from "context/ModalContext";
+import { ModalContext, ModalActionType } from "context/ModalContext";
 import workflowPerson from "assets/images/workflow-person.svg";
 import workflowPersonDark from "assets/images/workflow-person_dark.svg";
 import { Register } from "components/modalForms";
@@ -9,13 +9,16 @@ import taskColumns from "assets/images/task_columns.svg";
 import taskColumnsDark from "assets/images/task_columns_dark.svg";
 
 const WelcomePage: React.FC = () => {
-  const [, modalDispatch] = useContext(ModalContext);
+  const { modalDispatch } = useContext(ModalContext);
   const appTheme = localStorage.getItem("theme");
   console.log(appTheme);
-  if(appTheme) document.body.className = `theme-${appTheme}`;
+  if (appTheme) document.body.className = `theme-${appTheme}`;
 
   const openRegisterModal = () => {
-    modalDispatch({ type: "OPEN", payload: { render: <Register />, title: "Register" } });
+    modalDispatch({
+      type: ModalActionType.OPEN,
+      payload: { render: <Register />, title: "Register" },
+    });
   };
 
   return (

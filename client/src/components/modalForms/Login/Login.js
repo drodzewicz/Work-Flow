@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import * as Yup from "yup";
 import "./Login.scss";
-import { UserContext } from "context/UserContext";
-import { ModalContext } from "context/ModalContext";
+import { UserContext, UserActionType } from "context/UserContext";
+import { ModalContext, ModalActionType } from "context/ModalContext";
 import { login } from "service";
 import SimpleForm from "components/SimpleForm/SimpleForm";
 
@@ -17,15 +17,15 @@ const fields = {
 };
 
 const Login = () => {
-	const [, userDispatch] = useContext(UserContext);
-	const [, modalDispatch] = useContext(ModalContext);
+	const { userDispatch } = useContext(UserContext);
+	const { modalDispatch} = useContext(ModalContext);
 
 	const handleSubmit = async (submittedData, { setSubmitting, setErrors }) => {
 		const { data, error } = await login({ setLoading: setSubmitting, payload: submittedData });
 		if (!!data) {
 			const { token, user } = data;
-			userDispatch({ type: "LOGIN_SUCCESS", payload: { user, token } });
-			modalDispatch({ type: "CLOSE" });
+			userDispatch({ type: UserActionType.LOGIN_SUCCESS, payload: { user, token } });
+			modalDispatch({ type: ModalActionType.CLOSE });
 		} else if (!!error) {
 			setErrors({ username: "bad username", password: "bad password" });
 		}

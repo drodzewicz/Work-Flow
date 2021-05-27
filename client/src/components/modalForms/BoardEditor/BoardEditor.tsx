@@ -3,7 +3,7 @@ import "./BoardEditor.scss";
 import Button from "components/general/Button/Button";
 import { Formik, Field, Form } from "formik";
 import TextInput from "components/general/TextInput";
-import { ModalContext } from "context/ModalContext";
+import { ModalContext, ModalActionType } from "context/ModalContext";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 
 import { getBoard, createBoard, updateBoard } from "service";
@@ -12,7 +12,7 @@ import { WarningNotificationContext } from "context/WarningNotificationContext";
 import { validationSchema, BoardEditorProps } from "./";
 
 const BoardEditor: React.FC<BoardEditorProps> = ({ boardId, submitType }) => {
-  const [, dispatchModal] = useContext(ModalContext);
+  const { modalDispatch } = useContext(ModalContext);
   const [, warningNotificationDispatch] = useContext(WarningNotificationContext);
   const [loadingBoardInfo, setLoadingBoardInfo] = useState(false);
   const [initialVals, setInitialVals] = useState({
@@ -52,7 +52,7 @@ const BoardEditor: React.FC<BoardEditorProps> = ({ boardId, submitType }) => {
       }
       const { data } = response;
     if (!!data) {
-      dispatchModal({ type: "CLOSE" });
+      modalDispatch({ type: ModalActionType.CLOSE });
       const boardId = data.board._id;
       warningNotificationDispatch({ type: "SUCCESS", payload: { message: data.message } });
       history.push(`/board/${boardId}`);

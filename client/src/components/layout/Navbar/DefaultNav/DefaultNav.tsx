@@ -1,26 +1,26 @@
 import React, { useContext } from "react";
 import NavItem from "components/layout/Navbar/NavItem/NavItem";
 import { Login, Register } from "components/modalForms";
-import { ModalContext } from "context/ModalContext";
+import { ModalContext, ModalActionType } from "context/ModalContext";
 import "./DefaultNav.scss";
 
 const DefaultNav: React.FC = () => {
-	const [, modalDispatch] = useContext(ModalContext);
+  const { modalDispatch } = useContext(ModalContext);
 
-	const openLoginModal = () => {
-		modalDispatch({
-			type: "OPEN",
-			payload: { render: <Login />, title: "Login" },
-		});
-	};
-	const openRegisterModal = () => {
-		modalDispatch({
-			type: "OPEN",
-			payload: { render: <Register />, title: "Register" },
-		});
-	};
+  const openLoginModal = () => {
+    modalDispatch({
+      type: ModalActionType.OPEN,
+      payload: { render: <Login />, title: "Login" },
+    });
+  };
+  const openRegisterModal = () => {
+    modalDispatch({
+      type: ModalActionType.OPEN,
+      payload: { render: <Register />, title: "Register" },
+    });
+  };
 
-	return (
+  return (
     <>
       <NavItem label="Login" onClick={openLoginModal} />
       <NavItem label="Register" onClick={openRegisterModal} />

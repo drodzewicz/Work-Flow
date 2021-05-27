@@ -10,7 +10,7 @@ import ErrorPage from "./ErrorPage";
 import { UserContext } from "context/UserContext";
 
 interface ProtectedRouteProps extends RouteProps {
-  auth: string;
+  auth: string | null;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ auth, ...props }) => {
@@ -18,7 +18,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ auth, ...props }) => {
 };
 
 const Routes: React.FC = () => {
-  const [{ authStatus }] = useContext(UserContext);
+  const {
+    userState: { authStatus },
+  } = useContext(UserContext);
 
   return (
     <Switch>

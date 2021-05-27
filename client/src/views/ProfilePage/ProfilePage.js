@@ -6,7 +6,7 @@ import SimpleForm from "components/SimpleForm/SimpleForm";
 import Image from "components/general/Image";
 import Button from "components/general/Button";
 import ContainerBox from "components/layout/ContainerBox/ContainerBox";
-import { ModalContext } from "context/ModalContext";
+import { ModalContext, ModalActionType } from "context/ModalContext";
 import { UserContext } from "context/UserContext";
 import { ChangePassword, ChangeProfilePicture } from "components/modalForms";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
@@ -20,8 +20,10 @@ const validationSchema = Yup.object({
 });
 
 const ProfilePage = () => {
-  const [, modalDispatch] = useContext(ModalContext);
-  const [{ user }] = useContext(UserContext);
+  const { modalDispatch } = useContext(ModalContext);
+  const {
+    userState: { user },
+  } = useContext(UserContext);
 
   const [profileInfo, setProfileInfo] = useState({
     username: { initialVal: "", type: "text" },
@@ -59,7 +61,7 @@ const ProfilePage = () => {
   };
   const changeImageModalOpen = () => {
     modalDispatch({
-      type: "OPEN",
+      type: ModalActionType.OPEN,
       payload: {
         render: <ChangeProfilePicture changeProfilePic={setProfilePicture} />,
         title: "Change profile picture",
@@ -68,7 +70,7 @@ const ProfilePage = () => {
   };
   const changePasswordModalOpen = () => {
     modalDispatch({
-      type: "OPEN",
+      type: ModalActionType.OPEN,
       payload: {
         render: <ChangePassword />,
         title: "Change password",

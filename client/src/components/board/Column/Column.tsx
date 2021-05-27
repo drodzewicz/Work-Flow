@@ -5,7 +5,7 @@ import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 import Task from "components/board/Task";
 import DropdownMenu from "components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
-import { ModalContext } from "context/ModalContext";
+import { ModalContext, ModalActionType } from "context/ModalContext";
 import { TaskContext } from "context/TaskContext";
 import { UserContext } from "context/UserContext";
 import ColumnNameInput from "./ColumnNameInput";
@@ -17,10 +17,18 @@ import { Droppable } from "react-beautiful-dnd";
 import { TaskEditor } from "components/modalForms";
 import { ColumnProps } from "./";
 
-const Column: React.FC<ColumnProps> = ({ columnName, columnId, columnIndex, boardId, listOfTasks }) => {
-  const [, modalDispatch] = useContext(ModalContext);
+const Column: React.FC<ColumnProps> = ({
+  columnName,
+  columnId,
+  columnIndex,
+  boardId,
+  listOfTasks,
+}) => {
+  const { modalDispatch } = useContext(ModalContext);
   const [, setTasks] = useContext(TaskContext);
-  const [{ currentBoard }] = useContext(UserContext);
+  const {
+    userState: { currentBoard },
+  } = useContext(UserContext);
 
   const [showTitleInput, setShowTitleInput] = useState<boolean>(false);
 
@@ -28,7 +36,7 @@ const Column: React.FC<ColumnProps> = ({ columnName, columnId, columnIndex, boar
 
   const openBoardTagsModal = () => {
     modalDispatch({
-      type: "OPEN",
+      type: ModalActionType.OPEN,
       payload: {
         render: (
           <TaskEditor columnId={columnId} boardId={boardId} action="CREATE" buttonName="Create" />
@@ -134,6 +142,5 @@ const Column: React.FC<ColumnProps> = ({ columnName, columnId, columnIndex, boar
     </Droppable>
   );
 };
-
 
 export default Column;

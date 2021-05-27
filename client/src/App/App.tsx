@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import Navbar from "components/layout/Navbar";
 import Modal from "components/layout/Modal/Modal";
 import "./App.scss";
-import { UserContext } from "context/UserContext";
+import { UserContext, UserActionType } from "context/UserContext";
 import { WarningNotificationContext } from "context/WarningNotificationContext";
 
 import Routes from "views/Routes";
@@ -13,7 +13,10 @@ import WarningNotification from "components/general/WarningNotification";
 import { isUserAuthenticated } from "service";
 
 const App: React.FC = () => {
-  const [{ authStatus }, dispatchUser] = useContext(UserContext);
+  const {
+    userDispatch,
+    userState: { authStatus },
+  } = useContext(UserContext);
   const [
     {
       type: WarningNotificationType,
@@ -26,13 +29,13 @@ const App: React.FC = () => {
   useEffect(() => {
     const checkUserAuthentication = async () => {
       const { data, status } = await isUserAuthenticated();
-      if (status === 401) dispatchUser({ type: "LOGIN_FAIL" });
-      if (!!data) dispatchUser({ type: "LOGIN_SUCCESS", payload: { user: data.user } });
+      if (status === 401) userDispatch({ type: UserActionType.LOGIN_FAIL });
+      if (!!data) userDispatch({ type: UserActionType.LOGIN_SUCCESS, payload: { user: data.user } });
     };
     checkUserAuthentication();
 
     return () => {};
-  }, [dispatchUser]);
+  }, [userDispatch]);
 
   useEffect(() => {
     if (authStatus === "success" || authStatus === "failed") setAuthLoading(false);

@@ -7,7 +7,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import Badge from "@material-ui/core/Badge";
 import { useHistory, Link } from "react-router-dom";
-import { UserContext } from "context/UserContext";
+import { UserContext, UserActionType } from "context/UserContext";
 import { getNotifications, removeNotification } from "service";
 import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
 import "./UserNav.scss";
@@ -15,7 +15,10 @@ import "./UserNav.scss";
 const UserNav: React.FC = () => {
   const history = useHistory();
 
-  const [{ user }, dispatchUser] = useContext(UserContext);
+  const {
+    userState: { user },
+    userDispatch,
+  } = useContext(UserContext);
   const [notifications, setNotification] = useState<NotificationResponse[]>([]);
 
   const handlGetMyNotifications = async () => {
@@ -33,7 +36,7 @@ const UserNav: React.FC = () => {
   };
 
   const logOutUser = () => {
-    dispatchUser({ type: "LOGOUT" });
+    userDispatch({ type: UserActionType.LOGOUT });
   };
   const removeMessage = async (index: number) => {
     const { status } = await removeNotification({ notificationId: notifications[index]._id });
