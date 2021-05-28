@@ -11,7 +11,7 @@ import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { UserContext, UserActionType } from "context/UserContext";
 import { BoardMembers, Tags, TaskDisplay } from "components/modalForms";
-import { TaskProvider } from "context/TaskContext";
+import { TaskContext, TasksActionType } from "context/TaskContext";
 import { getLoggedInUserBoardRole, getBoard } from "service";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 import { onDragEnd } from "./dragHelper";
@@ -27,7 +27,7 @@ const BoardPage = ({ match, location }) => {
     name: "",
     description: "",
   });
-  const [tasks, setTasks] = useState([]);
+  const { tasksState, tasksDispatch } = useContext(TaskContext);
   const [isTaskLoading, setTaskLoading] = useState(false);
   const { modalDispatch } = useContext(ModalContext);
   const {
@@ -64,7 +64,7 @@ const BoardPage = ({ match, location }) => {
     const getBoardTaskss = async () => {
       const { data, status } = await getBoard({ boardId, setLoading: setTaskLoading });
       if (status === 200) {
-        setTasks(data.columns);
+        tasksDispatch({ type: TasksActionType.SET_TASKS, payload: { columns: data.columns } });
         setBoardInfo({ name: data.name, description: data.description });
       } else {
         history.replace(`/error/${status}`);
@@ -118,10 +118,9 @@ const BoardPage = ({ match, location }) => {
               isAuthor={currentBoard.role === "owner"}
             />
           </div>
-          <DragDropContext onDragEnd={(result) => onDragEnd(boardId, result, tasks, setTasks)}>
-            <TaskProvider values={{ tasks, setTasks }}>
-              <TaskBoard boardId={boardId} />
-            </TaskProvider>
+          <DragDropContext
+            onDragEnd={(result) => onDragEnd(boardId, result, tasksState, tasksDispatch)}>
+            <TaskBoard boardId={boardId} />
           </DragDropContext>
         </div>
       </LoadingOverlay>
@@ -131,11 +130,6 @@ const BoardPage = ({ match, location }) => {
 
 BoardPage.defaultProps = {
   query: undefined,
-};
-
-BoardPage.propTypes = {
-  query: PropTypes.object,
-  boardId: PropTypes.string.isRequired,
 };
 
 export default BoardPage;

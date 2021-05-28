@@ -3,7 +3,7 @@ import "./Task.scss";
 import Image from "components/general/Image";
 import { TaskDisplay } from "components/modalForms";
 import { ModalContext, ModalActionType } from "context/ModalContext";
-import { TaskContext } from "context/TaskContext";
+import { TaskContext, TasksActionType } from "context/TaskContext";
 import { UserContext } from "context/UserContext";
 import Tooltip from "components/general/Tooltip";
 
@@ -13,7 +13,7 @@ import TagMini from "components/board/Tag/TagMini";
 
 const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people = [] }) => {
   const { modalDispatch } = useContext(ModalContext);
-  const [, setTasks] = useContext(TaskContext);
+  const { tasksDispatch } = useContext(TaskContext);
   const {
     userState: { currentBoard },
   } = useContext(UserContext);
@@ -24,10 +24,9 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
   const { taskIndex, columnIndex } = indexes;
 
   const updateTask = (updatedTask: any) => {
-    setTasks((tasks: any) => {
-      const tempTasks = [...tasks];
-      tempTasks[columnIndex].tasks[taskIndex] = updatedTask;
-      return tempTasks;
+    tasksDispatch({
+      type: TasksActionType.UPDATE_TASK,
+      payload: { columnIndex, taskIndex, updatedTask },
     });
     modalDispatch({ type: ModalActionType.CLOSE });
   };

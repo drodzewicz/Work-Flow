@@ -1,12 +1,11 @@
 import { moveColumn, moveTask } from "service";
+import { TasksActionType } from "context/TaskContext";
 
-const handleMoveColumn = async (boardId, setTasks, sourceIndex, destinationIndex) => {
+const handleMoveColumn = async (boardId, tasksDispatch, sourceIndex, destinationIndex) => {
   if (sourceIndex !== destinationIndex) {
-    setTasks((tasks) => {
-      const tempTasks = [...tasks];
-      const movingColumn = tempTasks.splice(sourceIndex, 1)[0];
-      tempTasks.splice(destinationIndex, 0, movingColumn);
-      return tempTasks;
+    tasksDispatch({
+      type: TasksActionType.MOVE_COLUMN,
+      payload: { sourceIndex, destinationIndex },
     });
     moveColumn({
       boardId,
@@ -18,14 +17,21 @@ const handleMoveColumn = async (boardId, setTasks, sourceIndex, destinationIndex
   }
 };
 
-const handleMoveTask = async (boardId, setTasks, tasks, source, destination) => {
+const handleMoveTask = async (boardId, tasksDispatch, tasks, source, destination) => {
   const indexOfSourceColumn = tasks.findIndex(({ _id }) => _id === source.droppableId);
   const indexOfDestinationColumn = tasks.findIndex(({ _id }) => _id === destination.droppableId);
-  setTasks((taskColumns) => {
-    const tempTasks = [...taskColumns];
-    const movingTask = tempTasks[indexOfSourceColumn].tasks.splice(source.index, 1)[0];
-    tempTasks[indexOfDestinationColumn].tasks.splice(destination.index, 0, movingTask);
-    return tempTasks;
+  tasksDispatch({
+    type: TasksActionType.MOVE_TASK,
+    payload: {
+      column: {
+        sourceIndex: indexOfSourceColumn,
+        destinationIndex: indexOfDestinationColumn,
+      },
+      task: {
+        sourceIndex: source.index,
+        destinationIndex: destination.index,
+      },
+    },
   });
   const sourceIndexes = { columnIndex: indexOfSourceColumn, taskIndex: source.index };
   const destinationIndexes = {
@@ -46,11 +52,11 @@ const handleMoveTask = async (boardId, setTasks, tasks, source, destination) => 
   }
 };
 
-export const onDragEnd = (boardId, result, tasks, setTasks) => {
+export const onDragEnd = (boardId, result, tasks, tasksDispatch) => {
   if (!result.destination) return;
   const { source, destination, type } = result;
   if (type === "droppableTaskToColumn")
-    handleMoveTask(boardId, setTasks, tasks, source, destination);
+    handleMoveTask(boardId, tasksDispatch, tasks, source, destination);
   else if (type === "droppableColumn")
-    handleMoveColumn(boardId, setTasks, source.index, destination.index);
+    handleMoveColumn(boardId, tasksDispatch, source.index, destination.index);
 };

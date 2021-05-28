@@ -6,7 +6,7 @@ import Task from "components/board/Task";
 import DropdownMenu from "components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
 import { ModalContext, ModalActionType } from "context/ModalContext";
-import { TaskContext } from "context/TaskContext";
+import { TaskContext, TasksActionType } from "context/TaskContext";
 import { UserContext } from "context/UserContext";
 import ColumnNameInput from "./ColumnNameInput";
 import { updateBoardColumn } from "service";
@@ -25,7 +25,7 @@ const Column: React.FC<ColumnProps> = ({
   listOfTasks,
 }) => {
   const { modalDispatch } = useContext(ModalContext);
-  const [, setTasks] = useContext(TaskContext);
+  const { tasksDispatch } = useContext(TaskContext);
   const {
     userState: { currentBoard },
   } = useContext(UserContext);
@@ -69,11 +69,12 @@ const Column: React.FC<ColumnProps> = ({
       },
     });
     if (status === 200) {
-      setTasks((tasks: any) => {
-        const tempTasks = [...tasks];
-        const foundColumnIndex = tempTasks.findIndex(({ _id }) => _id === columnId);
-        tempTasks[foundColumnIndex].name = newName;
-        return tempTasks;
+      tasksDispatch({
+        type: TasksActionType.CHANGE_COLUMN_NAME,
+        payload: {
+          columnId,
+          newName,
+        },
       });
       setShowTitleInput(false);
     }
