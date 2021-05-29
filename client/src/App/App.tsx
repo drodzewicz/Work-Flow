@@ -3,7 +3,8 @@ import Navbar from "components/layout/Navbar";
 import Modal from "components/layout/Modal/Modal";
 import "./App.scss";
 import { UserContext, UserActionType } from "context/UserContext";
-import { WarningNotificationContext } from "context/WarningNotificationContext";
+// import { WarningNotificationContext } from "context/WarningNotificationContext";
+import { AlertContext } from "context/AlertContext";
 
 import Routes from "views/Routes";
 
@@ -17,13 +18,14 @@ const App: React.FC = () => {
     userDispatch,
     userState: { authStatus },
   } = useContext(UserContext);
-  const [
-    {
-      type: WarningNotificationType,
-      message: WarningNotificationMessage,
-      show: WarningNotificationShow,
-    },
-  ] = useContext(WarningNotificationContext);
+  // const [
+  //   {
+  //     type: WarningNotificationType,
+  //     message: WarningNotificationMessage,
+  //     show: WarningNotificationShow,
+  //   },
+  // ] = useContext(WarningNotificationContext);
+  const { alertState } = useContext(AlertContext);
   const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
@@ -44,11 +46,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <WarningNotification
-        show={WarningNotificationShow}
-        message={WarningNotificationMessage}
-        type={WarningNotificationType}
-      />
+      <WarningNotification show={alertState.show} message={alertState.message} type={alertState.type} />
       <Modal />
       <Navbar isAuth={authStatus === "success"} />
       <LoadingOverlay classes={["authentication-loading"]} show={authLoading} opacity={0}>

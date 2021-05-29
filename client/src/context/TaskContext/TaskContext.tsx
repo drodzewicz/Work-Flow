@@ -1,10 +1,10 @@
-import React, { createContext, Dispatch, Reducer, useReducer } from "react";
+import React, { createContext, Reducer, useReducer } from "react";
 import { tasksState, TasksActionType } from ".";
-import { TaskAction } from "./TaskActions";
+import { TaskActions } from "./TaskActions";
 
 const initialState: tasksState[] = [];
 
-const reducer: Reducer<tasksState[], TaskAction> = (state, action) => {
+const reducer: Reducer<tasksState[], TaskActions> = (state, action) => {
   switch (action.type) {
     case TasksActionType.SET_TASKS:
       return action.payload.columns;
@@ -66,7 +66,7 @@ const reducer: Reducer<tasksState[], TaskAction> = (state, action) => {
 
 export const TaskContext = createContext<{
   tasksState: tasksState[];
-  tasksDispatch: React.Dispatch<TaskAction>;
+  tasksDispatch: React.Dispatch<TaskActions>;
 }>({
   tasksState: initialState,
   tasksDispatch: () => undefined,

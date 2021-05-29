@@ -8,12 +8,14 @@ import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 
 import { getBoard, createBoard, updateBoard } from "service";
 import { useHistory } from "react-router-dom";
-import { WarningNotificationContext } from "context/WarningNotificationContext";
+// import { WarningNotificationContext } from "context/WarningNotificationContext";
+import { AlertContext, AlertActionType } from "context/AlertContext";
 import { validationSchema, BoardEditorProps } from "./";
 
 const BoardEditor: React.FC<BoardEditorProps> = ({ boardId, submitType }) => {
   const { modalDispatch } = useContext(ModalContext);
-  const [, warningNotificationDispatch] = useContext(WarningNotificationContext);
+  // const [, warningNotificationDispatch] = useContext(WarningNotificationContext);
+  const { alertDispatch } = useContext(AlertContext);
   const [loadingBoardInfo, setLoadingBoardInfo] = useState(false);
   const [initialVals, setInitialVals] = useState({
     name: "",
@@ -54,7 +56,7 @@ const BoardEditor: React.FC<BoardEditorProps> = ({ boardId, submitType }) => {
     if (!!data) {
       modalDispatch({ type: ModalActionType.CLOSE });
       const boardId = data.board._id;
-      warningNotificationDispatch({ type: "SUCCESS", payload: { message: data.message } });
+      alertDispatch({ type: AlertActionType.SUCCESS, payload: { message: data.message } });
       history.push(`/board/${boardId}`);
     }
   };

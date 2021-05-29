@@ -88,6 +88,7 @@ const TaskBoard = ({ boardId }) => {
       ws.removeListener("moveColumn", moveSocketColumn);
       ws.removeListener("createTask", createTask);
       ws.removeListener("moveTask", moveTask);
+      ws.removeListener("deleteTask", deleteTask);
     };
   }, []);
 

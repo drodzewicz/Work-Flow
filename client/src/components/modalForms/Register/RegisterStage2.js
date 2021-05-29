@@ -6,7 +6,8 @@ import TextInput from "components/general/TextInput";
 import Button from "components/general/Button/Button";
 import { register } from "service";
 import { ModalContext, ModalActionType } from "context/ModalContext";
-import { WarningNotificationContext } from "context/WarningNotificationContext";
+// import { WarningNotificationContext } from "context/WarningNotificationContext";
+import { AlertContext, AlertActionType } from "context/AlertContext";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 
 const validationSchema = Yup.object({
@@ -30,7 +31,8 @@ const fieldTypes = {
 
 const RegisterStage2 = ({ initialFieldValues, changeStage }) => {
   const { modalDispatch } = useContext(ModalContext);
-  const [, warningNotificationDispatch] = useContext(WarningNotificationContext);
+  // const [, warningNotificationDispatch] = useContext(WarningNotificationContext);
+  const { alertDispatch } = useContext(AlertContext);
 
   const handleGoBackStage = () => {
     changeStage((stage) => stage - 1);
@@ -50,13 +52,13 @@ const RegisterStage2 = ({ initialFieldValues, changeStage }) => {
       payload: { ...initialFieldValues, ...submittedData },
     });
     if (status === 201) {
-      warningNotificationDispatch({
-        type: "SUCCESS",
+      alertDispatch({
+        type: AlertActionType.SUCCESS,
         payload: { message: "successfuly registered!" },
       });
       modalDispatch({ type: ModalActionType.CLOSE });
     } else if (status === 500)
-      warningNotificationDispatch({ type: "WARNING", payload: { message: "server error" } });
+      alertDispatch({ type: AlertActionType.WARNING, payload: { message: "server error" } });
     if (!!error) setErrors(error.message);
   };
 

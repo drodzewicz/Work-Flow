@@ -7,16 +7,17 @@ import * as serviceWorker from "./serviceWorker";
 import { ModalProvider } from "./context/ModalContext";
 import { UserProvider } from "./context/UserContext";
 import { WarningNotificationProvider } from "./context/WarningNotificationContext";
+import { AlertProvider } from "./context/AlertContext";
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
   <ModalProvider>
     <UserProvider>
-      <WarningNotificationProvider>
+      <AlertProvider>
         <Router>
           <App />
         </Router>
-      </WarningNotificationProvider>
+      </AlertProvider>
     </UserProvider>
   </ModalProvider>,
   document.getElementById("root")

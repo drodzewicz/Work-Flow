@@ -15,5 +15,4 @@ export enum TasksActionType {
   MOVE_COLUMN = "MOVE_COLUMN",
 }
 
-
 export * from "./TaskContext";

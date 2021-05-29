@@ -11,6 +11,7 @@ import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 import TagChoiceControll from "./TagChoiceControll";
 import UserListManager from "./UserListManager";
 import { WarningNotificationContext } from "context/WarningNotificationContext";
+import { AlertContext, AlertActionType } from "context/AlertContext";
 import { TaskEditorProps } from ".";
 
 const validationSchema = Yup.object({
@@ -28,7 +29,7 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
   columnId,
 }) => {
   const { modalDispatch } = useContext(ModalContext);
-  const [, warningNotificationDispatch] = useContext(WarningNotificationContext);
+  const { alertDispatch } = useContext(AlertContext);
 
   const initialVals = {
     title: initialValues ? initialValues.name : "",
@@ -69,14 +70,14 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
         },
         res: (res) => {
           if (res.success) {
-            warningNotificationDispatch({
-              type: "SUCCESS",
+            alertDispatch({
+              type: AlertActionType.SUCCESS,
               payload: { message: "new task created" },
             });
             modalDispatch({ type: ModalActionType.CLOSE });
           } else if (res.error) {
-            warningNotificationDispatch({
-              type: "ERROR",
+            alertDispatch({
+              type: AlertActionType.ERROR,
               payload: { message: "error - while creating new task" },
             });
           }
@@ -90,14 +91,14 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
         payload: submittingTask,
       });
       if (!!data) {
-        warningNotificationDispatch({
-          type: "SUCCESS",
+        alertDispatch({
+          type: AlertActionType.SUCCESS,
           payload: { message: "successfuly updated task" },
         });
         if (updateTask) updateTask(data.task);
       } else if (!!error) {
-        warningNotificationDispatch({
-          type: "ERROR",
+        alertDispatch({
+          type: AlertActionType.ERROR,
           payload: { message: "error - while updating new task" },
         });
       }

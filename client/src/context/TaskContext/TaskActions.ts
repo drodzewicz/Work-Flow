@@ -6,7 +6,6 @@ export interface SetTasks {
     columns: tasksState[];
   };
 }
-
 export interface ChangeColumnName {
   type: TasksActionType.CHANGE_COLUMN_NAME;
   payload: {
@@ -22,7 +21,6 @@ export interface UpdateTask {
     updatedTask: any;
   };
 }
-
 export interface MoveColumn {
   type: TasksActionType.MOVE_COLUMN;
   payload: {
@@ -30,7 +28,6 @@ export interface MoveColumn {
     destinationIndex: number;
   };
 }
-
 export interface MoveTask {
   type: TasksActionType.MOVE_TASK;
   payload: {
@@ -71,13 +68,13 @@ export interface CreateColumn {
   };
 }
 
-export type TaskAction =
+export type TaskActions =
   | SetTasks
-  | ChangeColumnName
   | UpdateTask
-  | MoveColumn
   | DeleteTask
   | CreateTask
+  | MoveTask
+  | MoveColumn
+  | ChangeColumnName
   | DeleteColumn
-  | CreateColumn
-  | MoveTask;
+  | CreateColumn;
