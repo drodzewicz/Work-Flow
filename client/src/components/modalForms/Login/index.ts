@@ -7,7 +7,7 @@ export const validationSchema = Yup.object({
   password: Yup.string().min(5, "must be at least 5 characters").required("field is required"),
 });
 
-export const fields = {
-  username: { initialVal: "", type: "text" },
-  password: { initialVal: "", type: "password" },
-};
+export interface FormValues {
+  username: string;
+  password: string;
+}

@@ -20,7 +20,6 @@ const BoardEditorForm: React.FC<BoardEditorFormProps & FormikProps<FormValues>> 
       alertDispatch({ type: AlertActionType.SUCCESS, payload: { message: status.message } });
       history.push(`/board/${status.boardId}`)
     }
-   
     return () => {};
   }, [status]);
 
@@ -29,7 +28,6 @@ const BoardEditorForm: React.FC<BoardEditorFormProps & FormikProps<FormValues>> 
       <Field
         name="name"
         className="board-description-field"
-        multiline={{ rows: 7, max: 7 }}
         hasErrors={!!errors["name"]}
         helperText={errors["name"]}
         as={TextInput}

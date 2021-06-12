@@ -1,39 +1,66 @@
-import React, { useContext } from "react";
-import "./Login.scss";
+import React, { useContext, useEffect } from "react";
+import { FormikProps, Form, Field, withFormik } from "formik";
+import { FormValues, validationSchema } from ".";
+import TextInput from "components/general/TextInput";
+import Button from "components/general/Button";
 import { UserContext, UserActionType } from "context/UserContext";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { login } from "service";
-import SimpleForm from "components/SimpleForm/SimpleForm";
-import { validationSchema, fields } from "./";
 
-const Login = () => {
-  const { userDispatch } = useContext(UserContext);
+const LoginForm: React.FC<FormikProps<FormValues>> = (props) => {
+  const { errors, isSubmitting, isValid, status, setErrors } = props;
   const { modalDispatch } = useContext(ModalContext);
+  const { userDispatch } = useContext(UserContext);
 
-  const handleSubmit = async (
-    submittedData: any,
-    { setSubmitting, setErrors }: { setSubmitting: any; setErrors: any }
-  ) => {
-    const { data, error } = await login({ setLoading: setSubmitting, payload: submittedData });
-    if (!!data) {
-      const { token, user } = data;
-      userDispatch({ type: UserActionType.LOGIN_SUCCESS, payload: { user, token } });
+  useEffect(() => {
+    if (status?.submitStatus === "SUCCESS") {
+      userDispatch({
+        type: UserActionType.LOGIN_SUCCESS,
+        payload: { user: status?.user, token: status?.token },
+      });
       modalDispatch({ type: ModalActionType.CLOSE });
-    } else if (!!error) {
+    } else if (status?.submitStatus === "ERROR") {
       setErrors({ username: "bad username", password: "bad password" });
     }
-  };
+    return () => {};
+  }, [status]);
 
   return (
-    <div className={`simple-form-container login-form`}>
-      <SimpleForm
-        submitButtonName="LogIn"
-        validationSchema={validationSchema}
-        handleSubmit={handleSubmit}
-        fields={fields}
+    <Form>
+      <Field
+        name="username"
+        hasErrors={!!errors["username"]}
+        helperText={errors["username"]}
+        as={TextInput}
       />
-    </div>
+      <Field
+        name="password"
+        hasErrors={!!errors["password"]}
+        helperText={errors["password"]}
+        type="password"
+        as={TextInput}
+      />
+      <Button
+        disabled={isSubmitting || !isValid}
+        variant="glow"
+        className="btn-submit"
+        type="submit">
+        Log In
+      </Button>
+    </Form>
   );
 };
 
-export default Login;
+const LoginWithFormik = withFormik<{}, FormValues>({
+  validationSchema: validationSchema,
+  handleSubmit: async (submittedData, { setSubmitting, setStatus }) => {
+    const { data, error } = await login({ setLoading: setSubmitting, payload: submittedData });
+    if (!!data) {
+      setStatus({ submitStatus: "SUCCESS", token: data.token, user: data.user });
+    } else if (!!error) {
+      setStatus({ submitStatus: "ERROR", boardId: data.board._id, message: data.message });
+    }
+  },
+})(LoginForm);
+
+export default LoginWithFormik;

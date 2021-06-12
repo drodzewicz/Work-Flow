@@ -10,7 +10,7 @@ const BoardUpdate: React.FC<BoardEditorProps & FormikProps<FormValues>> = (props
   return <BoardEditorForm {...props} submitType="Update" />;
 };
 
-const BoardUpdateWrapper = withFormik<BoardEditorProps, FormValues>({
+const BoardUpdateWithFormik = withFormik<BoardEditorProps, FormValues>({
   mapPropsToValues: (props) => {
     return {
       name: props.initialValues?.name || "",
@@ -32,7 +32,7 @@ const BoardUpdateWrapper = withFormik<BoardEditorProps, FormValues>({
   },
 })(BoardUpdate);
 
-const BoardUpdateSecond: React.FC<BoardEditorProps> = (props) => {
+const BoardUpdateWrapper: React.FC<BoardEditorProps> = (props) => {
   const [loadingBoardInfo, setLoadingBoardInfo] = useState<boolean>(false);
   const [initialVals, setInitialVals] = useState<FormValues>({
     name: "",
@@ -55,9 +55,9 @@ const BoardUpdateSecond: React.FC<BoardEditorProps> = (props) => {
 
   return (
     <LoadingOverlay show={loadingBoardInfo} opacity={0}>
-      <BoardUpdateWrapper {...props} initialValues={initialVals} />
+      <BoardUpdateWithFormik {...props} initialValues={initialVals} />
     </LoadingOverlay>
   );
 };
 
-export default BoardUpdateSecond;
+export default BoardUpdateWrapper;
