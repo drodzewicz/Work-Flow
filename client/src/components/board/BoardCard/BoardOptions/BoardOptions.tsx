@@ -1,10 +1,10 @@
 import React, { useRef, useContext } from "react";
-import PropTypes from "prop-types";
 import DropdownMenu from "components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { leaveBoard, deleteBoard } from "service";
-import BoardEditor from "components/modalForms/BoardEditor/BoardEditor";
+// import BoardEditor from "components/modalForms/BoardEditor/BoardEditor";
+import BoardUpdate from "components/modalForms/BoardEditor/BoardUpdate";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { BoardOptionsProps  } from "./";
 
@@ -18,7 +18,7 @@ const BoardOptions: React.FC<BoardOptionsProps> = ({ boardId, removeBoardCallbac
       type: ModalActionType.OPEN,
       payload: {
         title: "Edit Board",
-        render: <BoardEditor boardId={boardId} submitType="Update" />,
+        render: <BoardUpdate boardId={boardId} />,
       },
     });
   };

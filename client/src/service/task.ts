@@ -69,7 +69,6 @@ interface moveTaskParams extends socketServiceParams {
   };
 }
 export const moveTask = ({ boardId, payload, res }: moveTaskParams) => {
-  console.log("payload ==> ", payload);
   emitWS({
     roomId: boardId,
     eventName: "moveTask",

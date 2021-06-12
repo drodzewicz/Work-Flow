@@ -2,7 +2,8 @@ import BoardMembers from "./BoardMembers/BoardMembers";
 import ChangePassword from "./ChangePassword/ChangePassword.js";
 import ChangeProfilePicture from "./ChangeProfilePicture/ChangeProfilePicture.js";
 import Login from "./Login/Login";
-import BoardEditor from "./BoardEditor/BoardEditor";
+import BoardCreate from "./BoardEditor/BoardCreate";
+import BoardUpdate from "./BoardEditor/BoardUpdate";
 import Register from "./Register/Register";
 import Tags from "./Tags/Tags";
 import TaskDisplay from "./TaskDisplay/TaskDisplay";
@@ -12,7 +13,8 @@ export {
   Register,
   BoardMembers,
   Tags,
-  BoardEditor,
+  BoardCreate,
+  BoardUpdate,
   TaskEditor,
   TaskDisplay,
   ChangePassword,

@@ -85,7 +85,7 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
       ws.emit("leaveBoardRoom", { room: boardId });
       _isMounted = false;
     };
-  }, [user, boardId, userDispatch, history, modalDispatch]);
+  }, [user, boardId, userDispatch, history, modalDispatch, tasksDispatch]);
 
   const openBoardMembersModal = () => {
     modalDispatch({

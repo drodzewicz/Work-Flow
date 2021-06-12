@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from "react";
+import React, { createContext, useReducer } from "react";
 import { AlertActionType, AlertState } from ".";
 import { AlertActions } from "./AlertActions";
 import { Warning } from "components/general/WarningNotification";

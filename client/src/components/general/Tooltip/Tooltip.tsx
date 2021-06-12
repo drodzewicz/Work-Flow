@@ -38,13 +38,12 @@ const Tooltip: React.FC<TooltipPorps> = ({
     const tooltipAnchorElement = anchorEl.current;
     tooltipAnchorElement.addEventListener("mouseenter", showToolTiphandler);
     tooltipAnchorElement.addEventListener("mouseleave", hideToolTipHandler);
-
     return () => {
       if (waitingTimout) clearTimeout(waitingTimout);
       tooltipAnchorElement.removeEventListener("mouseenter", showToolTiphandler);
       tooltipAnchorElement.removeEventListener("mouseleave", hideToolTipHandler);
     };
-  }, [offset, anchorEl]);
+  }, [offset, anchorEl, debounceTimeout]);
 	
 	const computeClassName = () => {
 		const classes: string[] = ["tooltip"];

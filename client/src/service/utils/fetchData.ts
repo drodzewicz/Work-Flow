@@ -5,7 +5,7 @@ export interface callAPIParams {
   method: Method;
   token?: boolean;
   payload?: any;
-  setLoading?: (state: boolean) => void;
+  setLoading: ((state: boolean) => void) | undefined;
 }
 
 export interface serviceParams {

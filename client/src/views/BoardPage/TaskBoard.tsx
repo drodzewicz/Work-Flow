@@ -89,7 +89,7 @@ const TaskBoard: React.FC<{ boardId: string }> = ({ boardId }) => {
       ws.removeListener("moveTask", moveTask);
       ws.removeListener("deleteTask", deleteTask);
     };
-  }, []);
+  }, [tasksDispatch]);
 
   const isAuthorized = () => {
     const { role } = currentBoard;
