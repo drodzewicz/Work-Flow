@@ -58,11 +58,18 @@ export const deleteTask = ({ boardId, payload, res }: deleteTaskParams) => {
 interface moveTaskParams extends socketServiceParams {
   boardId: string;
   payload: {
-    sourceIndex: number;
-    destinationIndex: number;
+    source: {
+      columnIndex: number;
+      taskIndex: number;
+    };
+    destination: {
+      columnIndex: number;
+      taskIndex: number;
+    };
   };
 }
 export const moveTask = ({ boardId, payload, res }: moveTaskParams) => {
+  console.log("payload ==> ", payload);
   emitWS({
     roomId: boardId,
     eventName: "moveTask",

@@ -46,10 +46,14 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <WarningNotification show={alertState.show} message={alertState.message} type={alertState.type} />
+      <WarningNotification
+        show={alertState.show}
+        message={alertState.message}
+        type={alertState.type}
+      />
       <Modal />
       <Navbar isAuth={authStatus === "success"} />
-      <LoadingOverlay classes={["authentication-loading"]} show={authLoading} opacity={0}>
+      <LoadingOverlay className="authentication-loading" show={authLoading} opacity={0}>
         <Routes />
       </LoadingOverlay>
       <Footer />

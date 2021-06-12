@@ -2,16 +2,16 @@ import React, { useContext } from "react";
 import "./WelcomePage.scss";
 import Button from "components/general/Button";
 import { ModalContext, ModalActionType } from "context/ModalContext";
-import workflowPerson from "assets/images/workflow-person.svg";
-import workflowPersonDark from "assets/images/workflow-person_dark.svg";
 import { Register } from "components/modalForms";
-import taskColumns from "assets/images/task_columns.svg";
-import taskColumnsDark from "assets/images/task_columns_dark.svg";
+
+import { ReactComponent as Person } from "assets/images/workflow-person.svg";
+import { ReactComponent as PersonDark } from "assets/images/workflow-person_dark.svg";
+import { ReactComponent as TaskColumns } from "assets/images/task_columns.svg";
+import { ReactComponent as TaskColumnsDark } from "assets/images/task_columns_dark.svg";
 
 const WelcomePage: React.FC = () => {
   const { modalDispatch } = useContext(ModalContext);
   const appTheme = localStorage.getItem("theme");
-  console.log(appTheme);
   if (appTheme) document.body.className = `theme-${appTheme}`;
 
   const openRegisterModal = () => {
@@ -23,13 +23,14 @@ const WelcomePage: React.FC = () => {
 
   return (
     <div className="welcome-section">
-      <section className="introduction-section">
-        <img
-          src={appTheme === "dark" ? workflowPersonDark : workflowPerson}
-          alt="person-task"
-          className="person-image"
-        />
-        <div className="text-subsection">
+      <section className="welcome-section__introduction">
+        {appTheme === "dark" ? (
+          <PersonDark role="presentation" name="person_task_board" className="person-image" />
+        ) : (
+          <Person role="presentation" name="person_task_board" className="person-image" />
+        )}
+
+        <div className="welcome-section__text-subsection">
           <h1>Work-Flow</h1>
           <h2>work more collaboratively and get more done.</h2>
           <p>
@@ -42,19 +43,19 @@ const WelcomePage: React.FC = () => {
           </Button>
         </div>
       </section>
-      <section className="task-column-section">
-        <div className="task-text">
+      <section className="welcome-section__explainer">
+        <div className="welcome-section__text-subsection">
           <h1>Tasks</h1>
           <h2>
             Create tasks and assign them to your teammates - add custom tags to differentiate tasks
             at a glance
           </h2>
         </div>
-        <img
-          src={appTheme === "dark" ? taskColumnsDark : taskColumns}
-          alt="task-columns"
-          className="task-columns-img"
-        />
+        {appTheme === "dark" ? (
+          <TaskColumnsDark className="task-columns-image" />
+        ) : (
+          <TaskColumns className="task-columns-image" />
+        )}
       </section>
     </div>
   );

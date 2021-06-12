@@ -10,7 +10,6 @@ import { getBoardTags, updateBoardTask, createTask } from "service";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 import TagChoiceControll from "./TagChoiceControll";
 import UserListManager from "./UserListManager";
-import { WarningNotificationContext } from "context/WarningNotificationContext";
 import { AlertContext, AlertActionType } from "context/AlertContext";
 import { TaskEditorProps } from ".";
 

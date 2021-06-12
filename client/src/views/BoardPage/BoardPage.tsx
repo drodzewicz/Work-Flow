@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import PropTypes from "prop-types";
 import "./BoardPage.scss";
+import "./BoardPage-dark.scss";
 import ExpandText from "components/general/ExpandText/ExpandText";
 import Button from "components/general/Button/Button";
 import TaskBoard from "./TaskBoard";
@@ -17,18 +17,23 @@ import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 import { onDragEnd } from "./dragHelper";
 import { useHistory } from "react-router-dom";
 import queryString from "query-string";
+import { BoardPageProps } from ".";
 
 import { ws } from "config/socket.conf";
 
-const BoardPage = ({ match, location }) => {
-  const boardId = match.params.id;
+const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
+  const boardId: string = match.params.id;
   const query = queryString.parse(location.search);
-  const [boardInfo, setBoardInfo] = useState({
+
+  const [boardInfo, setBoardInfo] = useState<{
+    name: string;
+    description: string;
+  }>({
     name: "",
     description: "",
   });
   const { tasksState, tasksDispatch } = useContext(TaskContext);
-  const [isTaskLoading, setTaskLoading] = useState(false);
+  const [isTaskLoading, setTaskLoading] = useState<boolean>(false);
   const { modalDispatch } = useContext(ModalContext);
   const {
     userState: { user, currentBoard },
@@ -39,18 +44,20 @@ const BoardPage = ({ match, location }) => {
 
   useEffect(() => {
     let _isMounted = true;
+    let waitingTimout: ReturnType<typeof setTimeout> | null = null;
+
     const updateTaskHandler = () => {};
     const openTask = () => {
       modalDispatch({
         type: ModalActionType.OPEN,
         payload: {
-          render: <TaskDisplay taskId={query.task} updateTask={updateTaskHandler} />,
+          render: <TaskDisplay taskId={query.task as string} updateTask={updateTaskHandler} />,
           title: "Task Details",
         },
       });
     };
     if (!!query && !!query.task) {
-      setTimeout(openTask, 1000);
+      waitingTimout = setTimeout(openTask, 1000);
     }
 
     const getLoggedInUserRole = async () => {
@@ -74,7 +81,7 @@ const BoardPage = ({ match, location }) => {
     !!user && getLoggedInUserRole();
 
     return () => {
-      clearTimeout(openTask);
+      if (waitingTimout) clearTimeout(waitingTimout);
       ws.emit("leaveBoardRoom", { room: boardId });
       _isMounted = false;
     };
@@ -97,39 +104,33 @@ const BoardPage = ({ match, location }) => {
   };
 
   return (
-    <div className="board-page-wrapper">
-      <LoadingOverlay show={isTaskLoading} opacity={0} classes={["task-loading"]}>
-        <div className="board-page">
-          <ExpandText className="board-title" title={boardInfo.name}>
-            <div>{boardInfo.description}</div>
-          </ExpandText>
-          <div className="board-button-group">
-            <Button onClick={openBoardMembersModal}>
-              <PeopleIcon />
-              <span>Peolpe</span>
-            </Button>
-            <Button onClick={openBoardTagsModal}>
-              <LocalOfferIcon />
-              <span>Tags</span>
-            </Button>
-            <BoardOptions
-              boardId={boardId}
-              removeBoardCallback={redirectToDashboard}
-              isAuthor={currentBoard.role === "owner"}
-            />
-          </div>
-          <DragDropContext
-            onDragEnd={(result) => onDragEnd(boardId, result, tasksState, tasksDispatch)}>
-            <TaskBoard boardId={boardId} />
-          </DragDropContext>
+    <LoadingOverlay show={isTaskLoading} opacity={0} className="task-loading">
+      <div className="board-page">
+        <ExpandText className="board-page__title" title={boardInfo.name}>
+          <div>{boardInfo.description}</div>
+        </ExpandText>
+        <div className="board-page__controlls">
+          <Button onClick={openBoardMembersModal}>
+            <PeopleIcon />
+            <span>Peolpe</span>
+          </Button>
+          <Button onClick={openBoardTagsModal}>
+            <LocalOfferIcon />
+            <span>Tags</span>
+          </Button>
+          <BoardOptions
+            boardId={boardId}
+            removeBoardCallback={redirectToDashboard}
+            isAuthor={currentBoard.role === "owner"}
+          />
         </div>
-      </LoadingOverlay>
-    </div>
+        <DragDropContext
+          onDragEnd={(result) => onDragEnd(boardId, result, tasksState, tasksDispatch)}>
+          <TaskBoard boardId={boardId} />
+        </DragDropContext>
+      </div>
+    </LoadingOverlay>
   );
-};
-
-BoardPage.defaultProps = {
-  query: undefined,
 };
 
 export default BoardPage;

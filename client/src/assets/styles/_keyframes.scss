@@ -1,0 +1,59 @@
+
+@keyframes element-pop {
+  0% {
+    font-size: 0;
+    opacity: 0;
+    
+  }
+  80%{
+    font-size: 1.6vw;
+    @include mq-2 {
+      font-size: 3.1vw;
+    }
+    @include mobile {
+      font-size: 1.6rem;
+    }
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    font-size: 1.5vw;
+    @include mq-2 {
+      font-size: 3vw;
+    }
+    @include mobile {
+      font-size: 1.5rem;
+    }
+
+  }
+}
+@keyframes element-slide-left {
+  0% {
+    opacity: 0;
+    transform: translateX(20%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes element-slide-right {
+  0% {
+    opacity: 0;
+    transform: translateX(-20%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes element-apear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+}

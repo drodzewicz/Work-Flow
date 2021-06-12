@@ -1,4 +1,5 @@
 export type tasksState = {
+  _id: string,
   name: string;
   tasks: any[];
 };

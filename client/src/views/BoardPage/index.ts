@@ -1,6 +1,5 @@
-import { Location } from "history";
-import { RouteComponentProps, match } from "react-router-dom";
-
-export { default } from "./BoardPage";
+import { RouteComponentProps } from "react-router-dom";
 
 export interface BoardPageProps extends RouteComponentProps<{ id: string }> {}
+
+export { default } from "./BoardPageWrapper";

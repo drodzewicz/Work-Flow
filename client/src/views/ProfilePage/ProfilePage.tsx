@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import * as Yup from "yup";
 import "./ProfilePage.scss";
 import ImageIcon from "@material-ui/icons/Image";
 import SimpleForm from "components/SimpleForm/SimpleForm";
@@ -11,15 +10,9 @@ import { UserContext } from "context/UserContext";
 import { ChangePassword, ChangeProfilePicture } from "components/modalForms";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 import { updateCredentials } from "service";
+import { validationSchema } from "./";
 
-const validationSchema = Yup.object({
-  username: Yup.string().max(25, "username is too long").required("field is required"),
-  email: Yup.string().email().required("field is required"),
-  name: Yup.string().max(25, "name is too long").required("field is required"),
-  surname: Yup.string().max(25, "surname is too long").required("field is required"),
-});
-
-const ProfilePage = () => {
+const ProfilePage: React.FC = () => {
   const { modalDispatch } = useContext(ModalContext);
   const {
     userState: { user },
@@ -49,7 +42,13 @@ const ProfilePage = () => {
     return () => {};
   }, [user]);
 
-  const handleSaveChanges = async (submittedData, { setSubmitting, setErrors }) => {
+  const handleSaveChanges = async (
+    submittedData: any,
+    {
+      setSubmitting,
+      setErrors,
+    }: { setSubmitting: (state: boolean) => void; setErrors: (error: any) => void }
+  ) => {
     const { error } = await updateCredentials({
       setLoading: setSubmitting,
       payload: submittedData,
@@ -80,7 +79,7 @@ const ProfilePage = () => {
 
   return (
     <ContainerBox>
-      <LoadingOverlay classes={["profile-page-loading-overlay"]} show={isProfileLoaded} opacity={0}>
+      <LoadingOverlay className="profile-page-loading-overlay" show={isProfileLoaded} opacity={0}>
         <div className="profile-page-container">
           <div className="profile-image">
             <Image src={profilePicture} />

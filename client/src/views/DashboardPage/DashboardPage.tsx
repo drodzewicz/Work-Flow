@@ -8,8 +8,7 @@ import BoardEditor from "components/modalForms/BoardEditor/BoardEditor";
 import ContainerBox from "components/layout/ContainerBox/ContainerBox";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { getPinnedBoards, getMyBoards, togglePinBoard } from "service";
-
-import MyBoardContainer from "./MyBoardContainer";
+import BoardContainer from "components/board/BoardContainer";
 
 const DashboardPage: React.FC = () => {
   const [page, setPage] = useState<{ currentPage: number; amountOfPages: number }>({
@@ -69,7 +68,7 @@ const DashboardPage: React.FC = () => {
     });
   };
 
-  const removeBoard = (boardId: number) => {
+  const removeBoard = (boardId: string) => {
     const indexOfBoardInBoardList = boards.items.findIndex(({ _id }: any) => _id === boardId);
     const indexOfBoardInPinnedBoardList = pinnedBoards.items.findIndex(
       ({ _id }: any) => _id === boardId
@@ -130,31 +129,29 @@ const DashboardPage: React.FC = () => {
 
   return (
     <ContainerBox className="dashboard-container">
-      <MyBoardContainer
-        classes={["pinned-boards"]}
-        title={"Pinned"}
-        renderIcon={<Pin className="pin-icon" />}
-        boardList={pinnedBoards.items}
+      <BoardContainer
+        className="pinned-boards"
+        title="Pinned"
+        boards={pinnedBoards.items}
         isLoading={pinnedBoards.isLoading}
         removeBoard={removeBoard}
         togglePinBoard={(index) => togglePinBoardHandler(-1, index)}
-        emptyMessage={"you have no pinned boards"}
+        noBoardsMessage="you have no pinned boards"
       />
       <Button onClick={openCreateNewBoardModal} className="new-board-btn">
         <AddBoxIcon />
         New Board
       </Button>
-      <MyBoardContainer
-        classes={["main-boards"]}
-        title={"Boards"}
-        renderIcon={<DashboardIcon className="board-icon" />}
-        boardList={boards.items}
+      <BoardContainer
+        className="main-boards"
+        title="Boards"
+        boards={boards.items}
         isLoading={boards.isLoading}
         removeBoard={removeBoard}
         changePage={changePage}
         page={page}
         togglePinBoard={(index) => togglePinBoardHandler(index, -1)}
-        emptyMessage={"you are not a part of any board"}
+        noBoardsMessage="you are not a part of any board"
       />
     </ContainerBox>
   );

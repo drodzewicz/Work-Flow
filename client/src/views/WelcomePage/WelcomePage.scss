@@ -1,248 +1,41 @@
 @import "../../assets/styles/colors";
 @import "../../assets/styles/mediaQueries";
-
-@keyframes element-pop {
-  0% {
-    font-size: 0;
-    opacity: 0;
-    
-  }
-  80%{
-    font-size: 1.6vw;
-    @include mq-2 {
-      font-size: 3.1vw;
-    }
-    @include mobile {
-      font-size: 1.6rem;
-    }
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    font-size: 1.5vw;
-    @include mq-2 {
-      font-size: 3vw;
-    }
-    @include mobile {
-      font-size: 1.5rem;
-    }
-
-  }
-}
-@keyframes element-slide-left {
-  0% {
-    opacity: 0;
-    transform: translateX(20%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-@keyframes element-slide-right {
-  0% {
-    opacity: 0;
-    transform: translateX(-20%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-@keyframes element-apear {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  
-}
+@import "../../assets/styles/keyframes";
 
 .welcome-section {
-  margin: 2rem 1rem;
-  .introduction-section {
-    margin: 2rem;
-    display: grid;
-    grid-template-columns: 30% auto;
-    @include mq-2 {
-      grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
+
+  & > section {
+    display: flex;
+    flex-direction: row;
+    gap: 5rem;
+  }
+
+  &__text-subsection {  
+    margin-left: 5%;
+    min-height: 500px;
+    overflow: hidden;
+    h1 {
+      font-size: 5vw;
+      margin: 0;
+      color: #222222;
     }
-    @include mobile {
-      grid-template-columns: 1fr;
-      margin: 0.5rem;
+    h2 {
+      margin: 0;
+      margin-top: 1rem;
+      font-size: 3vw;
+      color: #3f3f3f;
     }
-    .person-image {
-      margin: 0 auto;
-      width: 75%;
-      opacity: 0;
-      animation: element-slide-left 1s ease-out forwards;
-      animation-delay: 1.5s;
-      &.hide {
-        display: none;
-      }
-      @include mobile {
-        max-width: 20rem;
-      }
+    p {
+      margin: 0;
+      margin-top: 1rem;
+      font-size: 1.4vw;
+      color: #6e6e6e;
     }
-    .text-subsection {
-      margin-left: 5%;
-      min-height: 500px;
-      overflow: hidden;
-      @include mobile {
-        margin-top: 1.5rem;
-        min-height: 450px;
-      }
-      h1 {
-        font-size: 5vw;
-        margin: 0;
-        color: #222222;
-        opacity: 0;
-        animation: element-slide-left 1s ease-out forwards;
-        animation-delay: 1s;
-        @include mq-2 {
-          font-size: 6vw;
-        }
-        @include mobile {
-          font-size: 4rem;
-        }
-      }
-      h2 {
-        margin: 0;
-        margin-top: 1rem;
-        font-size: 3vw;
-        color: #3f3f3f;
-        opacity: 0;
-        animation: element-slide-left 1s ease-out forwards;
-        animation-delay: 1.5s;
-        @include mq-2 {
-          font-size: 4vw;
-        }
-        @include mobile {
-          font-size: 2rem;
-        }
-      }
-      p {
-        margin: 0;
-        margin-top: 1rem;
-        font-size: 1.4vw;
-        color: #6e6e6e;
-        opacity: 0;
-        animation: element-apear 1s ease-out forwards;
-        animation-delay: 2.5s;
-        @include mq-2 {
-          font-size: 2.5vw;
-        }
-        @include mobile {
-          font-size: 1rem;
-        }
-      }
-      .join-now {
-        padding: 0.4rem 1rem;
+    .join-now {
         font-size: 1.5vw;
-        margin: 2rem auto;
-        animation: element-pop 0.5s ease-in forwards;
-        font-size: 0;
-        opacity: 0;
-        animation-delay: 2s;
-        @include mq-2 {
-          font-size: 3vw;
-        }
-        @include mobile {
-          font-size: 1.5rem;
-        }
-      }
+      margin: 2rem auto;
     }
   }
-
-  .task-column-section {
-    margin: 2rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    @include mq-2 {
-      grid-template-columns: 3fr 4fr;
-    }
-    @include mobile {
-      margin: 0.5rem;
-      grid-template-columns: 1fr;
-    }
-    .task-columns-img {
-      width: 100%;
-      opacity: 0;
-      animation: element-slide-right 1s ease-out forwards;
-      animation-delay: 3.7s;
-      &.hide {
-        display: none;
-      }
-      @include mobile {
-        margin-top: 2rem;
-      }
-    }
-    .task-text {
-      display: flex;
-      flex-direction: column;
-      width: 90%;
-      margin: 0 auto;
-      opacity: 0;
-      animation: element-slide-right 1s ease-out forwards;
-      animation-delay: 3.5s;
-      h1 {
-        font-size: 3vw;
-        margin: 0;
-        color: #222222;
-        @include mq-2 {
-          font-size: 4vw;
-        }
-        @include mobile {
-          font-size: 2rem;
-        }
-     
-      }
-      h2 {
-        margin: 0;
-        margin-top: 1rem;
-        font-size: 1.5vw;
-        @include mq-2 {
-          font-size: 2.5vw;
-        }
-        @include mobile {
-          font-size: 1rem;
-        }
-        color: #3f3f3f;
-        }
-    }
-  }
-
-}
-
-
-.theme-dark {
-  .welcome-section {
-    .introduction-section {
-      .text-subsection {
-        h1 {
-          color: #ffffff;
-        }
-        h2 {
-          color: #c0c0c0;
-        }
-        p {
-          color: #838383;
-        }
-      }
-    }
-  }
-  
-    .task-column-section {
-      .task-text {
-        h1 {
-          color: #ffffff;
-        }
-        h2 {
-          color: #838383;
-          }
-    }
-  }
-  
 }

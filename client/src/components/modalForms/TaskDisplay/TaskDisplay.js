@@ -70,7 +70,6 @@ const TaskDisplay = ({ taskId, updateTask }) => {
   const deleteTaskk = async () => {
     const shouldDelete = window.confirm("are you sure you want to delete this task?");
     if (shouldDelete) {
-      console.log("yes");
       deleteTask({
         boardId: currentBoard.id,
         payload: {

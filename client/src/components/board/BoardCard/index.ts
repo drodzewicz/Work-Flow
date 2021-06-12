@@ -9,6 +9,6 @@ export interface BoardcardProps {
   boardId: string;
   isPinned?: boolean;
   pinBoard: () => void;
-  removeBoard: () => void;
+  removeBoard: (boardId: string) => void;
   isAuthor?: boolean;
 }

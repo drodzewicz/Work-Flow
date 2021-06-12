@@ -1,7 +1,15 @@
 import { moveColumn, moveTask } from "service";
 import { TasksActionType } from "context/TaskContext";
+import { DropResult, DraggableLocation } from "react-beautiful-dnd";
+import { tasksState } from "context/TaskContext/";
+import { TaskActions } from "context/TaskContext/TaskActions";
 
-const handleMoveColumn = async (boardId, tasksDispatch, sourceIndex, destinationIndex) => {
+const handleMoveColumn = async (
+  boardId: string,
+  tasksDispatch: React.Dispatch<TaskActions>,
+  sourceIndex: number,
+  destinationIndex: number
+) => {
   if (sourceIndex !== destinationIndex) {
     tasksDispatch({
       type: TasksActionType.MOVE_COLUMN,
@@ -17,9 +25,16 @@ const handleMoveColumn = async (boardId, tasksDispatch, sourceIndex, destination
   }
 };
 
-const handleMoveTask = async (boardId, tasksDispatch, tasks, source, destination) => {
+const handleMoveTask = async (
+  boardId: string,
+  tasksDispatch: React.Dispatch<TaskActions>,
+  tasks: tasksState[],
+  source: DraggableLocation,
+  destination: DraggableLocation
+) => {
   const indexOfSourceColumn = tasks.findIndex(({ _id }) => _id === source.droppableId);
   const indexOfDestinationColumn = tasks.findIndex(({ _id }) => _id === destination.droppableId);
+
   tasksDispatch({
     type: TasksActionType.MOVE_TASK,
     payload: {
@@ -33,6 +48,7 @@ const handleMoveTask = async (boardId, tasksDispatch, tasks, source, destination
       },
     },
   });
+
   const sourceIndexes = { columnIndex: indexOfSourceColumn, taskIndex: source.index };
   const destinationIndexes = {
     columnIndex: indexOfDestinationColumn,
@@ -52,8 +68,14 @@ const handleMoveTask = async (boardId, tasksDispatch, tasks, source, destination
   }
 };
 
-export const onDragEnd = (boardId, result, tasks, tasksDispatch) => {
+export const onDragEnd = (
+  boardId: string,
+  result: DropResult,
+  tasks: tasksState[],
+  tasksDispatch: React.Dispatch<TaskActions>
+) => {
   if (!result.destination) return;
+
   const { source, destination, type } = result;
   if (type === "droppableTaskToColumn")
     handleMoveTask(boardId, tasksDispatch, tasks, source, destination);

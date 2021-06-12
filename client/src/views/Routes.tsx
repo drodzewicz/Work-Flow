@@ -3,8 +3,7 @@ import { Switch, Route, Redirect, RouteProps } from "react-router-dom";
 
 import WelcomePage from "./WelcomePage";
 import ProfilePage from "./ProfilePage";
-// import BoardPage from "./BoardPage";
-import BoardPage from "./BoardPage/BoardPageWrapper";
+import BoardPage from "./BoardPage";
 import DashboardPage from "./DashboardPage";
 import ErrorPage from "./ErrorPage";
 

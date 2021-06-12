@@ -1,98 +1,55 @@
 @import "../../assets/styles/colors";
 @import "../../assets/styles/variables";
-.board-page-wrapper {
-	.task-loading {
-		position: relative;
-		background: red;
-		min-height: calc(100vh - #{$navbar-height} - #{$footer-height} - 3.5rem);
-	}
-	.board-page {
-		margin: 0 1rem;
-		min-height: calc(100vh - #{$navbar-height} - #{$footer-height} - 3.5rem);
-		display: flex;
-		flex-direction: column;
-		.board-title {
-			margin: 2rem 1rem;
-			font-family: "Secular One", sans-serif;
-			color: $text-secondary;
-		}
-
-		.board-page-container {
-			display: flex;
-			flex-direction: row;
-			overflow-x: scroll;
-			padding: 1rem 0;
-			flex-grow: 1;
-			flex-grow: 1;
-
-			&::-webkit-scrollbar {
-				height: 0.5em;
-			}
-
-			&::-webkit-scrollbar-track {
-				background: $gray-1;
-				border-radius: 5px;
-			}
-
-			&::-webkit-scrollbar-thumb {
-				background-color: darken($gray-1, 15%);
-				border-radius: 10px;
-			}
-
-			.board-page-flex {
-				display: flex;
-				flex-direction: row;
-				align-items: flex-start;
-				height: 100%;
-				& > div {
-					height: 100%;
-				}
-			}
-		}
-		.board-button-group {
-			margin: 1rem 0.5rem;
-			display: flex;
-			flex-direction: row;
-			.MuiSvgIcon-root {
-				height: 1rem;
-			}
-			.board-options {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				.MuiSvgIcon-root {
-					height: 1.4rem;
-					width: 1.4rem;
-					color: #222222;
-					cursor: pointer;
-				}
-
-			}
-		}
-	}
+.task-loading {
+  position: relative;
+  min-height: calc(100vh - #{$navbar-height} - #{$footer-height} - 3.5rem);
 }
+.board-page {
+  margin: 0 1rem;
+  min-height: calc(100vh - #{$navbar-height} - #{$footer-height} - 3.5rem);
+  display: flex;
+  flex-direction: column;
+  &__title {
+    margin: 2rem 1rem;
+    font-family: "Secular One", sans-serif;
+    color: $text-secondary;
+  }
+  &__controlls {
+    margin: 1rem 0.5rem;
+    display: flex;
+    flex-direction: row;
+    .MuiSvgIcon-root {
+      height: 1rem;
+    }
+    .board-options {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .MuiSvgIcon-root {
+        height: 1.4rem;
+        width: 1.4rem;
+        color: #222222;
+        cursor: pointer;
+      }
+    }
+  }
 
-.theme-dark .board-page-wrapper {
-	.board-page-container {
-		&::-webkit-scrollbar-track {
-			background: $dark-1;
-			border-radius: 5px;
-		}
+  .task-board {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    padding: 1rem 0;
+    flex-grow: 1;
+    flex-grow: 1;
 
-		&::-webkit-scrollbar-thumb {
-			background-color: $dark-3;
-			border-radius: 10px;
-		}
-	}
-	.board-page .board-title {
-		color: $text-primary-dark;
-	}
-
-	.board-button-group {
-		.board-options {
-			.MuiSvgIcon-root {
-				color: lighten(#222222, 30%);
-			}
-		}
-	}
+    &__task-row {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      height: 100%;
+      & > div {
+        height: 100%;
+      }
+    }
+  }
 }

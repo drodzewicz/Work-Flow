@@ -1,20 +1,19 @@
 import React, { useContext, useEffect } from "react";
-import Column from "components/board/Column";
+import DragableColumn from "components/board/Column/DraggableColumn/DragableColumn";
 import { TaskContext, TasksActionType } from "context/TaskContext";
 import { UserContext } from "context/UserContext";
 import NewColumn from "components/board/NewColumn";
-import PropTypes from "prop-types";
-import { Droppable, Draggable } from "react-beautiful-dnd";
+import { Droppable } from "react-beautiful-dnd";
 import { ws } from "config/socket.conf";
 
-const TaskBoard = ({ boardId }) => {
+const TaskBoard: React.FC<{ boardId: string }> = ({ boardId }) => {
   const { tasksState, tasksDispatch } = useContext(TaskContext);
   const {
     userState: { currentBoard },
   } = useContext(UserContext);
 
   useEffect(() => {
-    const createNewColumn = (newColumn) => {
+    const createNewColumn = (newColumn: string) => {
       tasksDispatch({
         type: TasksActionType.CREATE_COLUMN,
         payload: {
@@ -22,7 +21,7 @@ const TaskBoard = ({ boardId }) => {
         },
       });
     };
-    const deleteSocketColumn = (deleteResponse) => {
+    const deleteSocketColumn = (deleteResponse: any) => {
       tasksDispatch({
         type: TasksActionType.DELETE_COLUMN,
         payload: {
@@ -30,7 +29,7 @@ const TaskBoard = ({ boardId }) => {
         },
       });
     };
-    const moveSocketColumn = (moveResponse) => {
+    const moveSocketColumn = (moveResponse: any) => {
       tasksDispatch({
         type: TasksActionType.MOVE_COLUMN,
         payload: {
@@ -39,7 +38,7 @@ const TaskBoard = ({ boardId }) => {
         },
       });
     };
-    const createTask = (data) => {
+    const createTask = (data: any) => {
       const { success, task } = data;
       if (success) {
         tasksDispatch({
@@ -51,7 +50,7 @@ const TaskBoard = ({ boardId }) => {
         });
       }
     };
-    const deleteTask = (data) => {
+    const deleteTask = (data: any) => {
       const { success, index } = data;
       if (success) {
         tasksDispatch({
@@ -63,7 +62,7 @@ const TaskBoard = ({ boardId }) => {
         });
       }
     };
-    const moveTask = (data) => {
+    const moveTask = (data: any) => {
       const { success, source, destination } = data;
       if (success) {
         tasksDispatch({
@@ -97,40 +96,22 @@ const TaskBoard = ({ boardId }) => {
     return role === "owner" || role === "admin";
   };
 
-  const DraggableTaskColumn = (id, name, tasks, index) => {
-    return (
-      <Draggable
-        key={id}
-        draggableId={id}
-        index={index}
-        isDragDisabled={currentBoard.role === "guest"}>
-        {(provided, snapshot) => {
-          return (
-            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-              <Column
-                key={id}
-                columnId={id}
-                columnIndex={index}
-                columnName={name}
-                listOfTasks={tasks}
-                boardId={boardId}
-              />
-            </div>
-          );
-        }}
-      </Draggable>
-    );
-  };
-
   return (
-    <div className="board-page-container">
+    <div className="task-board scrollbar">
       <Droppable droppableId="droppable" type="droppableColumn" direction="horizontal">
-        {(provided, snapshot) => {
+        {(provided) => {
           return (
-            <div className="board-page-flex" ref={provided.innerRef}>
-              {tasksState.map(({ _id, name, tasks }, index) =>
-                DraggableTaskColumn(_id, name, tasks, index)
-              )}
+            <div className="task-board__task-row" ref={provided.innerRef}>
+              {tasksState.map(({ _id, name, tasks }, index) => (
+                <DragableColumn
+                  key={_id}
+                  boardId={boardId}
+                  columnId={_id}
+                  columnName={name}
+                  listOfTasks={tasks}
+                  columnIndex={index}
+                />
+              ))}
               {provided.placeholder}
             </div>
           );
@@ -139,10 +120,6 @@ const TaskBoard = ({ boardId }) => {
       <div>{isAuthorized() && <NewColumn boardId={boardId} />}</div>
     </div>
   );
-};
-
-TaskBoard.propTypes = {
-  boardId: PropTypes.string.isRequired,
 };
 
 export default TaskBoard;
