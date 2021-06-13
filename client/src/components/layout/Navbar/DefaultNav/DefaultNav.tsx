@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import NavItem from "components/layout/Navbar/NavItem/NavItem";
-import { Login, Register } from "components/modalForms";
+import Login from "components/modalForms/Login";
+import Register from "components/modalForms/Register/Register";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import "./DefaultNav.scss";
 

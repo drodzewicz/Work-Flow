@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import "./DashboardPage.scss";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import Button from "components/general/Button";
-// import BoardEditor from "components/modalForms/BoardEditor/BoardEditor";
 import BoardCreate from "components/modalForms/BoardEditor/BoardCreate";
 import ContainerBox from "components/layout/ContainerBox/ContainerBox";
 import { ModalContext, ModalActionType } from "context/ModalContext";

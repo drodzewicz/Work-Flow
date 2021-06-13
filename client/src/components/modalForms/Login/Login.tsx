@@ -1,11 +1,17 @@
 import React, { useContext, useEffect } from "react";
 import { FormikProps, Form, Field, withFormik } from "formik";
-import { FormValues, validationSchema } from ".";
+import { FormValues } from ".";
 import TextInput from "components/general/TextInput";
 import Button from "components/general/Button";
 import { UserContext, UserActionType } from "context/UserContext";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { login } from "service";
+import * as Yup from "yup";
+
+export const validationSchema = Yup.object({
+  username: Yup.string().max(25, "username is too long").required("field is required"),
+  password: Yup.string().min(5, "must be at least 5 characters").required("field is required"),
+});
 
 const LoginForm: React.FC<FormikProps<FormValues>> = (props) => {
   const { errors, isSubmitting, isValid, status, setErrors } = props;
@@ -52,6 +58,9 @@ const LoginForm: React.FC<FormikProps<FormValues>> = (props) => {
 };
 
 const LoginWithFormik = withFormik<{}, FormValues>({
+  mapPropsToValues: () => {
+    return { username: "", password: "" };
+  },
   validationSchema: validationSchema,
   handleSubmit: async (submittedData, { setSubmitting, setStatus }) => {
     const { data, error } = await login({ setLoading: setSubmitting, payload: submittedData });

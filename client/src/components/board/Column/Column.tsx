@@ -14,7 +14,7 @@ import { deleteColumn } from "service";
 
 import { Droppable } from "react-beautiful-dnd";
 
-import { TaskEditor } from "components/modalForms";
+import TaskEditor from "components/modalForms/TaskEditor";
 import { ColumnProps } from "./";
 
 const Column: React.FC<ColumnProps> = ({

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import "./WelcomePage.scss";
 import Button from "components/general/Button";
 import { ModalContext, ModalActionType } from "context/ModalContext";
-import { Register } from "components/modalForms";
+import Register from "components/modalForms/Register/Register";
 
 import { ReactComponent as Person } from "assets/images/workflow-person.svg";
 import { ReactComponent as PersonDark } from "assets/images/workflow-person_dark.svg";

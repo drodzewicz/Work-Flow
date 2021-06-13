@@ -3,7 +3,6 @@ import DropdownMenu from "components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { leaveBoard, deleteBoard } from "service";
-// import BoardEditor from "components/modalForms/BoardEditor/BoardEditor";
 import BoardUpdate from "components/modalForms/BoardEditor/BoardUpdate";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { BoardOptionsProps  } from "./";
