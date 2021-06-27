@@ -19,6 +19,7 @@ export enum UserActionType {
   LOGIN_FAIL = "LOGIN_FAIL",
   LOGOUT = "LOGOUT",
   ROLE = "ROLE",
+  UPDATE_AVATAR = "UPDATE_AVATAR"
 }
 
 export interface LoginSuccessAction {
@@ -45,7 +46,19 @@ export interface BoardRoleAction {
   };
 }
 
-type UserAction = LoginSuccessAction | LoginFailAction | LogoutAction | BoardRoleAction;
+export interface UpdateAvatarAction {
+  type: UserActionType.UPDATE_AVATAR;
+  payload: {
+    avatar: string;
+  };
+}
+
+type UserAction =
+  | LoginSuccessAction
+  | LoginFailAction
+  | LogoutAction
+  | BoardRoleAction
+  | UpdateAvatarAction;
 
 export const UserContext = createContext<{
   userState: UserState;
@@ -68,6 +81,8 @@ const reducer: Reducer<UserState, UserAction> = (state, action) => {
       return { ...state, user: null, authStatus: null, currentBoard: { role: null, id: null } };
     case UserActionType.ROLE:
       return { ...state, currentBoard: { role: action.payload.role, id: action.payload.boardId } };
+    case UserActionType.UPDATE_AVATAR:
+      return { ...state, user: { ...state.user, avatarImageURL: action.payload.avatar} };
     default:
       return state;
   }

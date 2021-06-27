@@ -10,7 +10,7 @@ const boardService = {};
 boardService.createNewBoard = async (req, res) => {
 	const { id: authorId } = req.user;
 	const { name, description } = req.body;
-	const members = [{ user: authorId, role: "owner" }];
+	const members = [{ user: authorId, role: "OWNER" }];
 	const newBoard = new Board({ name, description, members, author: authorId });
 	try {
 		await newBoard.save();

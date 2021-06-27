@@ -25,7 +25,7 @@ const boardSchema = new Schema({
 			},
 			role: {
 				type: String,
-				default: "regular",
+				default: "REGULAR",
 			},
 		},
 	],
