@@ -6,7 +6,6 @@ const {
     createNewTag,
     deleteTag,
     getBoardTags,
-    updateTag
 } = require("../service/http/tag");
 
 const { isBoardMember, isBoardAdmin } = require("../middleware/boardMiddleware")
@@ -18,9 +17,8 @@ router.route("/")
     .post(authJWT, isBoardAdmin, createNewTag)
 
 
-router.route("/:tagId")
+router.route("/:color")
     .delete(authJWT, isBoardAdmin, deleteTag)
-    .post(authJWT, isBoardAdmin, updateTag)
 
 
 module.exports = router;

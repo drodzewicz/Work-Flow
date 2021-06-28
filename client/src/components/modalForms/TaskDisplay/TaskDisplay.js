@@ -7,7 +7,6 @@ import Tag from "components/board/Tag/Tag";
 import Button from "components/general/Button/Button";
 
 import { ModalContext, ModalActionType } from "context/ModalContext";
-// import { WarningNotificationContext } from "context/WarningNotificationContext";
 import { AlertContext, AlertActionType } from "context/AlertContext";
 import { UserContext } from "context/UserContext";
 
@@ -17,7 +16,6 @@ import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 
 const TaskDisplay = ({ taskId, updateTask }) => {
   const { modalDispatch } = useContext(ModalContext);
-  // const [, dispatchWarningNotification] = useContext(WarningNotificationContext);
   const { alertDispatch } = useContext(AlertContext);
   const {
     userState: { currentBoard, user },

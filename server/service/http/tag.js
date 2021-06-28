@@ -7,7 +7,7 @@ const tagService = {};
 tagService.getBoardTags = async (req, res) => {
 	const { boardId } = req.params;
 	try {
-		const { tags } = await Board.findOne({ _id: boardId }, "tags").populate("tags");
+		const { tags } = await Board.findOne({ _id: boardId }, "tags");
 		return res.status(200).json({ tags });
 	} catch (error) {
 		return res.status(400).json({
@@ -17,43 +17,35 @@ tagService.getBoardTags = async (req, res) => {
 };
 tagService.createNewTag = async (req, res) => {
 	const { boardId } = req.params;
-	const { name, colorCode } = req.body;
+	const { name, color } = req.body;
 	try {
 		const foundBoard = await Board.findOne({ _id: boardId }, "tags");
 
-		const newTag = new Tag({ name, colorCode });
-		const saveTag = await newTag.save();
-		foundBoard.tags.push(saveTag);
+		const tagIndex = foundBoard.tags.findIndex(({ color: tagColor }) => tagColor === color);
+		const newTag = { color, name };
+		if (tagIndex > -1) {
+			foundBoard.tags[tagIndex] = newTag;
+		} else {
+			foundBoard.tags.push(newTag);
+		}
 		await foundBoard.save();
-		return res.status(200).json({ message: "created new tag", tag: saveTag });
-	} catch (error) {
-		return res.status(400).json({
-			message: Tag.processErrors(error),
-		});
-	}
-};
-tagService.deleteTag = async (req, res) => {
-	const { boardId } = req.params;
-	const { tagId } = req.params;
-	try {
-		await Tag.findOneAndDelete({ _id: tagId});
-		await Board.findOneAndUpdate({ _id: boardId }, { $pull: { tags: tagId } });
-		return res.status(200).json({ message: "tag deleted" });
+		return res.status(200).json({ message: "created new tag", tag: newTag });
 	} catch (error) {
 		return res.status(400).json({
 			message: processErrors(error),
 		});
 	}
 };
-tagService.updateTag = async (req, res) => {
-	const { tagId } = req.params;
-	const { name, colorCode } = req.body;
+tagService.deleteTag = async (req, res) => {
+	const { boardId, color } = req.params;
 	try {
-		const updatedTag = await Tag.findOneAndUpdate({_id: tagId}, {name, colorCode});
-		return res.status(200).json({ message: "tag updated", tag: updatedTag });
+		const foundBoard = await Board.findOne({ _id: boardId }, "tags");
+		foundBoard.tags = foundBoard.tags.filter((tag) => tag.color !== color);
+		await foundBoard.save();
+		return res.status(200).json({ message: "tag deleted" });
 	} catch (error) {
 		return res.status(400).json({
-			message: Tag.processErrors(error),
+			message: processErrors(error),
 		});
 	}
 };
