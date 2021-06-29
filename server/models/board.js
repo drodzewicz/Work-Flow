@@ -29,7 +29,12 @@ const boardSchema = new Schema({
       },
     },
   ],
-  tags: [{ color: String, name: String}],
+  tags: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Tag",
+    },
+  ],
   columns: [
     {
       name: String,

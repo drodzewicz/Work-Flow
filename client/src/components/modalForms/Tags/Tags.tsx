@@ -5,20 +5,25 @@ import CheckIcon from "@material-ui/icons/Check";
 import DeleteIcon from "@material-ui/icons/Delete";
 import TagButton from "components/board/Tag/TagButton";
 import "./Tags.scss";
-import { getBoardTags, createBoardTag, deleteBoardTag } from "service";
+import { getBoardTags, createBoardTag, deleteBoardTag, updateBoardTag } from "service";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 import { UserContext } from "context/UserContext";
 import { TagColors, TagI, BoardTag, TagsProps } from ".";
 import { UserBoardRoles } from "types";
 
 const Tags: React.FC<TagsProps> = ({ boardId }) => {
-  const [selectedTag, setSelectedTag] = useState<{ color: TagColors | ""; name: string }>({
+  const [selectedTag, setSelectedTag] = useState<{
+    color: TagColors | "";
+    name: string;
+    _id: string;
+  }>({
     color: "",
     name: "",
+    _id: "",
   });
 
-  const [boardTags, setBoardTags] = useState<BoardTag[]>(
-    Object.keys(TagColors).map((color) => ({ color: color as TagColors, name: "", saved: false }))
+  const [boardTags, setBoardTags] = useState<TagI[]>(
+    Object.keys(TagColors).map((color) => ({ color: color as TagColors, name: "", _id: "" }))
   );
   const [isTagLoading, setTagLoading] = useState<boolean>(true);
   const {
@@ -36,8 +41,7 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
         setBoardTags((tags) => {
           data.tags.forEach((tag: TagI) => {
             const tagIndex = tags.findIndex(({ color }) => color === tag.color);
-            tags[tagIndex].name = tag.name;
-            tags[tagIndex].saved = true;
+            tags[tagIndex] = tag;
           });
           return tags;
         });
@@ -50,16 +54,28 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
   }, [boardId]);
 
   const selectedTagHandler = async () => {
-    const { color, name } = selectedTag;
+    const { color, name, _id } = selectedTag;
     if (color === "" || name === "") return;
     let res = null;
-    res = await createBoardTag({
-      boardId,
-      payload: { color, name },
-    });
+    if (!_id) {
+      res = await createBoardTag({
+        boardId,
+        payload: { color, name },
+      });
+    } else {
+      res = await updateBoardTag({
+        boardId,
+        tagId: _id,
+        payload: { color, name },
+      });
+    }
     if (!!res.data) {
+      const { tag: savedTag } = res.data;
+      setSelectedTag({ ...savedTag });
       setBoardTags((tags) =>
-        tags.map((tag) => (tag.color === color ? { ...tag, name, saved: true } : tag))
+        tags.map((tag) =>
+          tag.color === color ? { ...tag, name: savedTag.name, _id: savedTag._id } : tag
+        )
       );
     }
   };
@@ -78,20 +94,19 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
   const selectTag = (color: TagColors) => {
     if (isAuthorized()) {
       const foundTag = boardTags.find(({ color: boardColr }) => boardColr === color);
-      setSelectedTag({ color, name: foundTag?.name || "" });
+      setSelectedTag({ color, name: foundTag?.name || "", _id: foundTag?._id || "" });
     }
   };
 
   const deleteTag = async () => {
-    const { color: selectedColor } = selectedTag;
-    if (selectedColor !== "") {
-      const tagIndex = boardTags.findIndex((tag) => tag.color === selectedColor);
-      const { status } = await deleteBoardTag({ boardId, color: selectedColor });
+    const { _id: selectedTagId } = selectedTag;
+    if (selectedTagId !== "") {
+      const tagIndex = boardTags.findIndex((tag) => tag._id === selectedTagId);
+      const { status } = await deleteBoardTag({ boardId, tagId: selectedTagId });
       if (status === 200)
         setBoardTags((tags) => {
-          tags[tagIndex].name = "";
-          tags[tagIndex].saved = false;
-          setSelectedTag({ name: "", color: "" });
+          tags[tagIndex] = { ...tags[tagIndex], _id: "", name: "" };
+          setSelectedTag({ name: "", color: "", _id: "" });
           return tags;
         });
     }
@@ -99,7 +114,7 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
 
   const canDeleteTag = () => {
     const tag = boardTags.find((tag) => tag.color === selectedTag.color);
-    return !tag?.saved;
+    return !tag?._id;
   };
 
   return (

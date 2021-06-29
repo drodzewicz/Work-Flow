@@ -31,16 +31,36 @@ export const createBoardTag = async ({ boardId, payload, setLoading }: createBoa
   });
 };
 
+// TAG - UPDATE
+interface updateBoardTagParams extends serviceParams {
+  boardId: string;
+  tagId: string;
+  payload: {
+    name: string;
+    color: string;
+  };
+}
+export const updateBoardTag = async ({ boardId, tagId, payload, setLoading }: updateBoardTagParams) => {
+  return await fetchData({
+    method: "POST",
+    url: `/board/${boardId}/tag/${tagId}`,
+    token: true,
+    payload,
+    setLoading,
+  });
+};
+
+
 
 // TAG - DELETE
 interface deleteBoardTagParams extends serviceParams {
   boardId: string;
-  color: string;
+  tagId: string;
 }
-export const deleteBoardTag = async ({ boardId, color, setLoading }: deleteBoardTagParams) => {
+export const deleteBoardTag = async ({ boardId, tagId, setLoading }: deleteBoardTagParams) => {
   return await fetchData({
     method: "DELETE",
-    url: `/board/${boardId}/tag/${color}`,
+    url: `/board/${boardId}/tag/${tagId}`,
     token: true,
     setLoading,
   });

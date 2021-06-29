@@ -19,6 +19,7 @@ export interface TagsProps {
 }
 
 export interface TagI {
+  _id: string,
   color: TagColors;
   name: string;
 }
