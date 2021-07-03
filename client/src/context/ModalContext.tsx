@@ -1,8 +1,10 @@
 import React, { createContext, Reducer, useReducer } from "react";
 
-type ModalState = { render: any; title: string; show: boolean };
+type ModalSizeType = "s" | "m" | "l";
 
-const initialState: ModalState = { render: null, title: "", show: false };
+type ModalState = { render: any; title: string; show: boolean; size: ModalSizeType };
+
+const initialState: ModalState = { render: null, title: "", show: false, size: "m" };
 
 export enum ModalActionType {
   OPEN = "OPEN",
@@ -14,6 +16,7 @@ export interface OpenModal {
   payload: {
     title: string;
     render: any;
+    size?: ModalSizeType;
   };
 }
 
@@ -34,9 +37,14 @@ export const ModalContext = createContext<{
 const reducer: Reducer<ModalState, ModalActions> = (state, action): ModalState => {
   switch (action.type) {
     case ModalActionType.OPEN:
-      return { render: action.payload.render, title: action.payload.title, show: true };
+      return {
+        render: action.payload.render,
+        title: action.payload.title,
+        show: true,
+        size: action.payload.size || "m",
+      };
     case ModalActionType.CLOSE:
-      return { render: null, title: "", show: false };
+      return { render: null, title: "", show: false, size: "m" };
     default:
       return state;
   }

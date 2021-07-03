@@ -1,0 +1,10 @@
+.user-manager {
+  display: flex;
+  flex-direction: column;
+  &__users {
+    display: flex;
+    flex-direction: column;
+    height: 155px;  
+    overflow: auto;
+  }
+}

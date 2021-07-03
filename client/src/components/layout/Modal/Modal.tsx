@@ -10,7 +10,7 @@ import { ModalContext, ModalActionType } from "context/ModalContext";
 
 const Modal: React.FC = () => {
   const {
-    modalState: { show, title, render },
+    modalState: { show, title, render, size },
     modalDispatch,
   } = useContext(ModalContext);
 
@@ -23,7 +23,7 @@ const Modal: React.FC = () => {
       <Portal mountTo="root-modal">
         <>
           <div className="modal-wrapper">
-            <aside className={`modal modal-open`}>
+            <aside className={`modal size-${size}`}>
               <header className="modal__header">
                 <h2 className="modal__header__title">{title}</h2>
                 <CloseIcon onClick={closeModal} className="modal__header__close-icon" />

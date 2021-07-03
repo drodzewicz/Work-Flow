@@ -18,13 +18,7 @@ const App: React.FC = () => {
     userDispatch,
     userState: { authStatus },
   } = useContext(UserContext);
-  // const [
-  //   {
-  //     type: WarningNotificationType,
-  //     message: WarningNotificationMessage,
-  //     show: WarningNotificationShow,
-  //   },
-  // ] = useContext(WarningNotificationContext);
+
   const { alertState } = useContext(AlertContext);
   const [authLoading, setAuthLoading] = useState(true);
 

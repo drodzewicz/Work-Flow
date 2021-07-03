@@ -8,7 +8,7 @@ import "./Tags.scss";
 import { getBoardTags, createBoardTag, deleteBoardTag, updateBoardTag } from "service";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 import { UserContext } from "context/UserContext";
-import { TagColors, TagI, BoardTag, TagsProps } from ".";
+import { TagColors, TagI, TagsProps } from ".";
 import { UserBoardRoles } from "types";
 
 const Tags: React.FC<TagsProps> = ({ boardId }) => {
@@ -142,12 +142,12 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
             </div>
           )}
           <div className="tag-color-container">
-            {boardTags.map(({ color, name }) => (
+            {boardTags.map(({ color, name,_id }) => (
               <TagButton
                 key={color}
                 onClick={() => selectTag(color)}
                 selected={selectedTag.color === color}
-                showIcon={true}
+                showIcon={_id !== ""}
                 color={color.toLocaleLowerCase()}
                 name={name}
               />

@@ -1,174 +1,123 @@
 import React, { useState, useEffect, useContext } from "react";
-import * as Yup from "yup";
 import "./TaskEditor.scss";
 import TextInput from "components/general/TextInput";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 
 import Button from "components/general/Button/Button";
-import { Formik, Field, Form } from "formik";
-import { getBoardTags, updateBoardTask, createTask } from "service";
-import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
-import TagChoiceControll from "./TagChoiceControll";
-import UserListManager from "./UserListManager";
+import { FormikProps, Form, Field } from "formik";
+import { getBoardTags, getBoardTask } from "service";
+import TagManager from "./TagManager/TagManager";
+import UserManager from "./UserManager/UserManager";
 import { AlertContext, AlertActionType } from "context/AlertContext";
-import { TaskEditorProps } from ".";
+import { TaskEditorFormProps, FormValues, TagI } from ".";
 
-const validationSchema = Yup.object({
-  title: Yup.string().max(100, "task title is too long").required("field is required"),
-  description: Yup.string().max(500, "description is too long"),
-});
+const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = (props) => {
+  const {
+    values,
+    setValues,
+    handleSubmit,
+    errors,
+    isSubmitting,
+    isValid,
+    submitType,
+    status,
+    boardId,
+  } = props;
 
-const TaskEditor: React.FC<TaskEditorProps> = ({
-  buttonName,
-  action,
-  updateTask,
-  initialValues,
-  boardId,
-  taskId,
-  columnId,
-}) => {
   const { modalDispatch } = useContext(ModalContext);
   const { alertDispatch } = useContext(AlertContext);
 
-  const initialVals = {
-    title: initialValues ? initialValues.name : "",
-    description: initialValues ? initialValues.description : "",
-  };
-  const [users, setUsers] = useState(initialValues ? [...initialValues.people] : []);
+  const [users, setUsers] = useState<any[]>([]);
 
-  const [availableTags, setAvailableTags] = useState([]);
-  const [chosenBoardTags, setChosenBoardTags] = useState(
-    initialValues ? [...initialValues.tags] : []
-  );
+  const [availableTags, setAvailableTags] = useState<TagI[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   useEffect(() => {
-    //  fetch all available tags at mount of  the component
-    const getBoardTagss = async () => {
-      const { data } = await getBoardTags({ boardId });
-      if (!!data) setAvailableTags(data.tags);
+    const initTask = async () => {
+      const { data: tagsData } = await getBoardTags({ boardId });
+      if (!!tagsData) setAvailableTags(tagsData.tags);
+      if (submitType === "Update") {
+        setSelectedTags(values.tags)
+        setUsers(values.people)
+      }
     };
-    getBoardTagss();
+    initTask();
     return () => {};
   }, [boardId]);
 
-  const submitOnButtonClick = async (
-    submittedData: any,
-    { setSubmitting }: { setSubmitting: (state: boolean) => void }
-  ) => {
-    const submittingTask = {
-      ...submittedData,
-      people: users.map(({ _id }) => _id),
-      tags: chosenBoardTags.map(({ _id }) => _id),
-    };
-    if (action === "CREATE") {
-      createTask({
-        boardId,
-        payload: {
-          ...submittingTask,
-          columnId,
-        },
-        res: (res) => {
-          if (res.success) {
-            alertDispatch({
-              type: AlertActionType.SUCCESS,
-              payload: { message: "new task created" },
-            });
-            modalDispatch({ type: ModalActionType.CLOSE });
-          } else if (res.error) {
-            alertDispatch({
-              type: AlertActionType.ERROR,
-              payload: { message: "error - while creating new task" },
-            });
-          }
-        },
-      });
-    } else if (action === "UPDATE") {
-      const { data, error } = await updateBoardTask({
-        boardId,
-        taskId: taskId as string,
-        setLoading: setSubmitting,
-        payload: submittingTask,
-      });
-      if (!!data) {
-        alertDispatch({
-          type: AlertActionType.SUCCESS,
-          payload: { message: "successfuly updated task" },
-        });
-        if (updateTask) updateTask(data.task);
-      } else if (!!error) {
-        alertDispatch({
-          type: AlertActionType.ERROR,
-          payload: { message: "error - while updating new task" },
-        });
-      }
+  useEffect(() => {
+    if (status?.submitStatus === "SUCCESS") {
+      modalDispatch({ type: ModalActionType.CLOSE });
+      alertDispatch({ type: AlertActionType.SUCCESS, payload: { message: status.message } });
     }
+    return () => {};
+  }, [status]);
+  const toggleSelectTag = (tagId: any) => {
+    const foundTagIndex = selectedTags.findIndex((tag) => tag === tagId);
+    if (foundTagIndex > -1) {
+      return setSelectedTags((tags) => {
+        const tempTags = [...tags];
+        tempTags.splice(foundTagIndex, 1);
+        return tempTags;
+      });
+    }
+    setSelectedTags((tags) => {
+      const tempTags = [...tags];
+      tempTags.push(tagId);
+      return tempTags;
+    });
   };
 
-  // TAGS
-  const addTagToList = (tagId: string) => {
-    const foundTag = availableTags.find(({ _id }) => _id === tagId);
-    setChosenBoardTags((tags) => {
-      const newTags = [...tags];
-      newTags.push(foundTag);
-      return newTags;
+  const filteredTags = () => {
+    return availableTags.map((tag) => {
+      const foundTag = selectedTags.find((_id) => _id === tag._id);
+      return { ...tag, checked: !!foundTag };
     });
   };
-  const removeTagFromList = (tagIndex: number) => {
-    setChosenBoardTags((tags) => {
-      const newTags = [...tags];
-      newTags.splice(tagIndex, 1);
-      return newTags;
-    });
+
+  const submitHandler = () => {
+    const people = users.map(({ _id }: { _id: any }) => _id);
+    setValues((vals) => ({
+      ...vals,
+      people,
+      tags: selectedTags,
+    }));
+    handleSubmit();
   };
 
   return (
-    <div className="new-task-container">
-      <Formik
-        validationSchema={validationSchema}
-        initialValues={initialVals}
-        onSubmit={submitOnButtonClick}>
-        {({ isSubmitting, isValid, errors }) => (
-          <>
-            <LoadingOverlay opacity={0.5} show={isSubmitting}></LoadingOverlay>
-            <Form>
-              <div className="fields">
-                <Field
-                  className="new-task-input board-name-field"
-                  label={"task title"}
-                  name={"title"}
-                  hasErrors={!!errors["title"]}
-                  helperText={errors["title"]}
-                  as={TextInput}
-                />
-                <Field
-                  className="board-description-field"
-                  name={"description"}
-                  hasErrors={!!errors["description"]}
-                  helperText={errors["description"]}
-                  multiline={{ rows: 7, max: 7 }}
-                  as={TextInput}
-                />
-              </div>
-              <UserListManager users={users} setUsers={setUsers} boardId={boardId} />
-              <TagChoiceControll
-                availableTags={availableTags}
-                chosenBoardTags={chosenBoardTags}
-                removeTagFromList={removeTagFromList}
-                addTagToList={addTagToList}
-              />
-              <Button
-                disabled={isSubmitting || !isValid}
-                variant="glow"
-                className="btn-submit"
-                type="submit">
-                {buttonName}
-              </Button>
-            </Form>
-          </>
-        )}
-      </Formik>
-    </div>
+    <section className="task-editor">
+      <Form className="task-editor__inputs">
+        <Field
+          name="title"
+          hasErrors={!!errors["title"]}
+          helperText={errors["title"]}
+          as={TextInput}
+        />
+        <Field
+          name="description"
+          hasErrors={!!errors["description"]}
+          helperText={errors["description"]}
+          as={TextInput}
+        />
+      </Form>
+      <div className="task-editor__sidebar">
+        <label>Users</label>
+        <UserManager boardId={boardId} setUsers={setUsers} users={users} />
+        <label>Tags</label>
+        <TagManager tags={filteredTags()} selectTagHandler={toggleSelectTag} />
+      </div>
+      <div className="task-editor__btn">
+        <Button
+          onClick={submitHandler}
+          disabled={isSubmitting || !isValid}
+          type="submit"
+          variant="glow">
+          {submitType as String}
+        </Button>
+      </div>
+    </section>
   );
 };
 
-export default TaskEditor;
+export default TaskEditorForm;

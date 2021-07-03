@@ -1,8 +1,7 @@
 import React from "react";
 import BoardEditorForm from "./BoardEditorForm";
-import { withFormik } from "formik";
+import { withFormik, FormikProps } from "formik";
 import { validationSchema, BoardEditorProps, FormValues } from "./";
-import { FormikProps } from "formik";
 import { createBoard } from "service";
 
 const BoardCreate: React.FC<BoardEditorProps & FormikProps<FormValues>> = (props) => {

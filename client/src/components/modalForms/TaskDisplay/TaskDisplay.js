@@ -10,7 +10,7 @@ import { ModalContext, ModalActionType } from "context/ModalContext";
 import { AlertContext, AlertActionType } from "context/AlertContext";
 import { UserContext } from "context/UserContext";
 
-import TaskEditor from "components/modalForms/TaskEditor/TaskEditor";
+import TaskUpdate from "components/modalForms/TaskEditor/TaskUpdate";
 import { getBoardTask, deleteTask } from "service";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 
@@ -85,31 +85,17 @@ const TaskDisplay = ({ taskId, updateTask }) => {
       type: ModalActionType.OPEN,
       payload: {
         title: "Edit Task",
-        render: (
-          <TaskEditor
-            buttonName="Update"
-            updateTask={updateTask}
-            boardId={currentBoard.id}
-            taskId={taskId}
-            action={"UPDATE"}
-            initialValues={{
-              name: taskDetails.title,
-              description: taskDetails.description,
-              tags: taskDetails.tags,
-              people: taskDetails.peopleAssigned,
-            }}
-          />
-        ),
+        render: <TaskUpdate taskId={taskId} boardId={currentBoard.id} />,
       },
     });
   };
 
   const isAuthorizedToEdit = () => {
     const { role } = currentBoard;
-    if (role === "guest") {
+    if (role === "GUEST") {
       return false;
     } else {
-      return taskDetails.taskAuthor._id === user._id || role === "owner" || role === "admin";
+      return taskDetails.taskAuthor._id === user._id || role === "OWNER" || role === "ADMIN";
     }
   };
 

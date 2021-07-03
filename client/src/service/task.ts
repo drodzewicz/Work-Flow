@@ -81,14 +81,18 @@ export const moveTask = ({ boardId, payload, res }: moveTaskParams) => {
 // TASK - POST
 interface createTaskParams extends socketServiceParams {
   boardId: string;
+  columnId: string;
   payload: any;
 }
-export const createTask = ({ boardId, payload, res }: createTaskParams) => {
+export const createTask = ({ boardId, columnId, payload, res }: createTaskParams) => {
   emitWS({
     roomId: boardId,
     eventName: "createTask",
     token: true,
-    payload,
+    payload: {
+      ...payload,
+      columnId
+    },
     res,
   });
 };

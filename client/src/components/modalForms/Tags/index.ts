@@ -1,5 +1,3 @@
-import { string } from "prop-types";
-
 export { default } from "./Tags";
 
 export enum TagColors {
@@ -22,8 +20,4 @@ export interface TagI {
   _id: string,
   color: TagColors;
   name: string;
-}
-
-export interface BoardTag extends TagI {
-    saved: boolean
 }

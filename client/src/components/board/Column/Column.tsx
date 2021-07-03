@@ -14,7 +14,7 @@ import { deleteColumn } from "service";
 
 import { Droppable } from "react-beautiful-dnd";
 
-import TaskEditor from "components/modalForms/TaskEditor";
+import TaskCreate from "components/modalForms/TaskEditor/TaskCreate";
 import { ColumnProps } from "./";
 
 const Column: React.FC<ColumnProps> = ({
@@ -38,10 +38,9 @@ const Column: React.FC<ColumnProps> = ({
     modalDispatch({
       type: ModalActionType.OPEN,
       payload: {
-        render: (
-          <TaskEditor columnId={columnId} boardId={boardId} action="CREATE" buttonName="Create" />
-        ),
+        render: <TaskCreate columnId={columnId} boardId={boardId} />,
         title: "New Task",
+        size: "l",
       },
     });
   };
@@ -82,7 +81,7 @@ const Column: React.FC<ColumnProps> = ({
 
   const isAuthorized = () => {
     const { role } = currentBoard;
-    return role === "admin" || role === "owner";
+    return role === "ADMIN" || role === "OWNER";
   };
 
   return (

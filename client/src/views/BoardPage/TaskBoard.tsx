@@ -93,7 +93,7 @@ const TaskBoard: React.FC<{ boardId: string }> = ({ boardId }) => {
 
   const isAuthorized = () => {
     const { role } = currentBoard;
-    return role === "owner" || role === "admin";
+    return role === "OWNER" || role === "ADMIN";
   };
 
   return (
