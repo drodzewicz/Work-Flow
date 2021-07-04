@@ -49,16 +49,16 @@ const ProfilePage: React.FC = () => {
   return (
     <ContainerBox>
       <LoadingOverlay className="profile-page-loading-overlay" show={isProfileLoaded} opacity={0}>
-        <div className="profile-page-container">
-          <div className="profile-image">
+        <div className="profile">
+          <div className="profile__image">
             <Image src={user.avatarImageURL} />
-            <button onClick={changeImageModalOpen} className="change-image-btn">
-              <ImageIcon />
+            <button onClick={changeImageModalOpen} className="profile__image__btn">
+              <ImageIcon className="profile__image__btn-icon" />
             </button>
           </div>
-          <div className="profile-info">
-            <h1 className="username">{`@${user.username}`}</h1>
-            <h3 className="name-surname">{`${user.name} ${user.surname}`}</h3>
+          <div className="profile__info">
+            <h1 className="profile__info__username">{`@${user.username}`}</h1>
+            <h3 className="profile__info__name-surname">{`${user.name} ${user.surname}`}</h3>
           </div>
           <ProfileFields
             name={user.name}
@@ -66,7 +66,7 @@ const ProfilePage: React.FC = () => {
             username={user.username}
             email={user.email}
           />
-          <Button onClick={changePasswordModalOpen} className="change-password">
+          <Button onClick={changePasswordModalOpen} className="profile__password-btn">
             change password
           </Button>
         </div>

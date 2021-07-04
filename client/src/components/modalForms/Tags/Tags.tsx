@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import TextInput from "components/general/TextInput";
-import Button from "components/general/Button/Button";
+import Button from "components/general/Button";
 import CheckIcon from "@material-ui/icons/Check";
 import DeleteIcon from "@material-ui/icons/Delete";
 import TagButton from "components/board/Tag/TagButton";
 import "./Tags.scss";
 import { getBoardTags, createBoardTag, deleteBoardTag, updateBoardTag } from "service";
-import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
+import LoadingOverlay from "components/layout/LoadingOverlay";
 import { UserContext } from "context/UserContext";
 import { TagColors, TagI, TagsProps } from ".";
 import { UserBoardRoles } from "types";
@@ -36,7 +36,6 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
     const setupBoardTags = async () => {
       const { data } = await getBoardTags({ boardId });
       if (_isMounted) setTagLoading(false);
-      console.log(data);
       if (!!data && _isMounted) {
         setBoardTags((tags) => {
           data.tags.forEach((tag: TagI) => {

@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import "./TaskDisplay.scss";
 import User from "components/board/User";
 import Tag from "components/board/Tag/Tag";
-import Button from "components/general/Button/Button";
+import Button from "components/general/Button";
 
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { AlertContext, AlertActionType } from "context/AlertContext";
@@ -11,7 +11,7 @@ import { UserContext } from "context/UserContext";
 
 import TaskUpdate from "components/modalForms/TaskEditor/TaskUpdate";
 import { getBoardTask, deleteTask } from "service";
-import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
+import LoadingOverlay from "components/layout/LoadingOverlay";
 import { TaskDisplayProps } from ".";
 
 const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
@@ -65,7 +65,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
       });
       _isMounted = false;
     };
-  }, [currentBoard.id, taskId, history, modalDispatch, alertDispatch]);
+  }, [currentBoard, taskId, history, modalDispatch, alertDispatch]);
 
   const deleteTaskk = async () => {
     const shouldDelete = window.confirm("are you sure you want to delete this task?");

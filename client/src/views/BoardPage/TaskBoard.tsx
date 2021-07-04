@@ -5,6 +5,7 @@ import { UserContext } from "context/UserContext";
 import NewColumn from "components/board/NewColumn";
 import { Droppable } from "react-beautiful-dnd";
 import { ws } from "config/socket.conf";
+import { UserBoardRoles } from "types";
 
 const TaskBoard: React.FC<{ boardId: string }> = ({ boardId }) => {
   const { tasksState, tasksDispatch } = useContext(TaskContext);
@@ -93,7 +94,7 @@ const TaskBoard: React.FC<{ boardId: string }> = ({ boardId }) => {
 
   const isAuthorized = () => {
     const { role } = currentBoard;
-    return role === "OWNER" || role === "ADMIN";
+    return role === UserBoardRoles.OWNER || role === UserBoardRoles.ADMIN;
   };
 
   return (

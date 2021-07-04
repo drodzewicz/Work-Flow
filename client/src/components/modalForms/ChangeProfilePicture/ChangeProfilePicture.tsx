@@ -20,7 +20,7 @@ const ChangeProfilePicture: React.FC<FormikProps<FormValues>> = (props) => {
       modalDispatch({ type: ModalActionType.CLOSE });
     }
     return () => {};
-  }, [status]);
+  }, [status, modalDispatch]);
 
   return (
     <Form>

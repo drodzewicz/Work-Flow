@@ -5,7 +5,7 @@ import { ModalContext, ModalActionType } from "context/ModalContext";
 
 import Button from "components/general/Button/Button";
 import { FormikProps, Form, Field } from "formik";
-import { getBoardTags, getBoardTask } from "service";
+import { getBoardTags } from "service";
 import TagManager from "./TagManager/TagManager";
 import UserManager from "./UserManager/UserManager";
 import { AlertContext, AlertActionType } from "context/AlertContext";
@@ -37,13 +37,13 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
       const { data: tagsData } = await getBoardTags({ boardId });
       if (!!tagsData) setAvailableTags(tagsData.tags);
       if (submitType === "Update") {
-        setSelectedTags(values.tags)
-        setUsers(values.people)
+        setSelectedTags(values.tags);
+        setUsers(values.people);
       }
     };
     initTask();
     return () => {};
-  }, [boardId]);
+  }, [boardId, submitType, values]);
 
   useEffect(() => {
     if (status?.submitStatus === "SUCCESS") {
@@ -51,7 +51,7 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
       alertDispatch({ type: AlertActionType.SUCCESS, payload: { message: status.message } });
     }
     return () => {};
-  }, [status]);
+  }, [status, modalDispatch, alertDispatch]);
   const toggleSelectTag = (tagId: any) => {
     const foundTagIndex = selectedTags.findIndex((tag) => tag === tagId);
     if (foundTagIndex > -1) {

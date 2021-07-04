@@ -3,6 +3,7 @@
 .scrollbar {
   &::-webkit-scrollbar {
     width: 0.5em;
+    height: 0.5em;
   }
 
   &::-webkit-scrollbar-track {
@@ -14,6 +15,7 @@
     border-radius: 5px;
   }
 }
+
 
 .theme-dark {
   .scrollbar {

@@ -18,10 +18,10 @@ const BoardEditorForm: React.FC<BoardEditorFormProps & FormikProps<FormValues>> 
     if (status?.submitStatus === "SUCCESS") {
       modalDispatch({ type: ModalActionType.CLOSE });
       alertDispatch({ type: AlertActionType.SUCCESS, payload: { message: status.message } });
-      history.push(`/board/${status.boardId}`)
+      history.push(`/board/${status.boardId}`);
     }
     return () => {};
-  }, [status]);
+  }, [status, modalDispatch, history, alertDispatch]);
 
   return (
     <Form>

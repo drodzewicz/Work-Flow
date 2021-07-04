@@ -3,7 +3,6 @@ import "./Task.scss";
 import Image from "components/general/Image";
 import TaskDisplay from "components/modalForms/TaskDisplay/TaskDisplay";
 import { ModalContext, ModalActionType } from "context/ModalContext";
-import { TaskContext, TasksActionType } from "context/TaskContext";
 import { UserContext } from "context/UserContext";
 import Tooltip from "components/general/Tooltip";
 
@@ -13,7 +12,6 @@ import TagMini from "components/board/Tag/TagMini";
 
 const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people = [] }) => {
   const { modalDispatch } = useContext(ModalContext);
-  const { tasksDispatch } = useContext(TaskContext);
   const {
     userState: { currentBoard },
   } = useContext(UserContext);
@@ -21,7 +19,7 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
   const poepleAnchorElement = useRef(null);
   const tagsAnchorElement = useRef(null);
 
-  const { taskIndex, columnIndex } = indexes;
+  const { taskIndex } = indexes;
 
   const openTaskDetailsModal = () => {
     modalDispatch({

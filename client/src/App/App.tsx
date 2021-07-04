@@ -3,7 +3,6 @@ import Navbar from "components/layout/Navbar";
 import Modal from "components/layout/Modal/Modal";
 import "./App.scss";
 import { UserContext, UserActionType } from "context/UserContext";
-// import { WarningNotificationContext } from "context/WarningNotificationContext";
 import { AlertContext } from "context/AlertContext";
 
 import Routes from "views/Routes";

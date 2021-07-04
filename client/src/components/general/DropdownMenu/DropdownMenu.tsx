@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./DropdownMenu.scss";
 import "./DropdownMenu-dark.scss";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Portal from "HOC/Portal";
+import Portal from "components/layout/Portal";
 import useWindowSize from "Hooks/useWindowSize";
 import { DropdownMenuProps } from ".";
 

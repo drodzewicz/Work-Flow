@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import "./Modal.scss";
 import "./Modal-dark.scss";
 import Backdrop from "../Backdrop";
-import Portal from "HOC/Portal";
+import Portal from "components/layout/Portal";
 
 import CloseIcon from "@material-ui/icons/Close";
 

@@ -5,6 +5,7 @@ import { FormValues, validationSchema, TaskUpdateProps, TaskUpdateFormik } from 
 import { getBoardTask, updateBoardTask } from "service/task";
 
 const TaskUpdate: React.FC<TaskUpdateProps> = (props) => {
+  const { boardId, taskId } = props;
   const [isLoading, setLoading] = useState<boolean>(true);
   const [task, setTask] = useState<FormValues>({
     title: "",
@@ -15,7 +16,6 @@ const TaskUpdate: React.FC<TaskUpdateProps> = (props) => {
 
   useEffect(() => {
     const getTaskDetails = async () => {
-      const { boardId, taskId } = props;
       setLoading(true);
       const { data } = await getBoardTask({
         boardId,
@@ -27,7 +27,7 @@ const TaskUpdate: React.FC<TaskUpdateProps> = (props) => {
     };
     getTaskDetails();
     return () => {};
-  }, []);
+  }, [boardId, taskId]);
   if (isLoading) {
     return <div>hello</div>;
   } else {

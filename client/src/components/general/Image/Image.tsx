@@ -7,7 +7,7 @@ const Image: React.FC<ImageProps> = ({ src = "", ...props}) => {
     e.currentTarget.src = defaultAvatar;
   };
 
-  return <img {...props} src={src} onError={fallback} />;
+  return <img {...props} src={src} onError={fallback} alt="" />;
 };
 
 export default Image;

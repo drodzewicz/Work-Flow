@@ -29,7 +29,7 @@ const LoginForm: React.FC<FormikProps<FormValues>> = (props) => {
       setErrors({ username: "bad username", password: "bad password" });
     }
     return () => {};
-  }, [status]);
+  }, [status, userDispatch, modalDispatch, setErrors]);
 
   return (
     <Form>

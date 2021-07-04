@@ -3,7 +3,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import "./BoardPage.scss";
 import "./BoardPage-dark.scss";
 import ExpandText from "components/general/ExpandText/ExpandText";
-import Button from "components/general/Button/Button";
+import Button from "components/general/Button";
 import TaskBoard from "./TaskBoard";
 import PeopleIcon from "@material-ui/icons/People";
 import BoardOptions from "components/board/BoardCard/BoardOptions";
@@ -20,12 +20,12 @@ import { onDragEnd } from "./dragHelper";
 import { useHistory } from "react-router-dom";
 import queryString from "query-string";
 import { BoardPageProps } from ".";
+import { UserBoardRoles } from "types";
 
 import { ws } from "config/socket.conf";
 
 const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
   const boardId: string = match.params.id;
-  const query = queryString.parse(location.search);
 
   const [boardInfo, setBoardInfo] = useState<{
     name: string;
@@ -47,6 +47,7 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
   useEffect(() => {
     let _isMounted = true;
     let waitingTimout: ReturnType<typeof setTimeout> | null = null;
+    const query = queryString.parse(location.search);
 
     const openTask = () => {
       modalDispatch({
@@ -86,6 +87,7 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
       ws.emit("leaveBoardRoom", { room: boardId });
       _isMounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, boardId, userDispatch, history, modalDispatch, tasksDispatch]);
 
   const openBoardMembersModal = () => {
@@ -122,7 +124,7 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
           <BoardOptions
             boardId={boardId}
             removeBoardCallback={redirectToDashboard}
-            isAuthor={currentBoard.role === "owner"}
+            isAuthor={currentBoard.role === UserBoardRoles.OWNER}
           />
         </div>
         <DragDropContext

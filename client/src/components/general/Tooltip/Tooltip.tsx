@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./Tooltip.scss";
-import Portal from "HOC/Portal";
+import Portal from "components/layout/Portal";
 import { TooltipPorps } from "./index";
 
 const Tooltip: React.FC<TooltipPorps> = ({

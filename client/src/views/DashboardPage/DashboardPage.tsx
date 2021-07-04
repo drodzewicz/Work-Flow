@@ -29,7 +29,6 @@ const DashboardPage: React.FC = () => {
   const setBoardsLoading = (loadingState: boolean) => {
     setBoards((prevState: any) => ({ ...prevState, isLoading: loadingState }));
   };
-
   useEffect(() => {
     const fetchBoards = async () => {
       const { data, status } = await getMyBoards({
@@ -45,6 +44,7 @@ const DashboardPage: React.FC = () => {
     };
     fetchBoards();
     return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page.current]);
 
   useEffect(() => {

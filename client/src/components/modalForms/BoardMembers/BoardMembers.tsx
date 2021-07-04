@@ -14,7 +14,7 @@ import {
   changeBoardUserRole,
 } from "service";
 
-import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
+import LoadingOverlay from "components/layout/LoadingOverlay";
 
 const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
   const USER_LIMIT = 5;
@@ -46,6 +46,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
     return () => {
       _isMounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [boardId, page.current]);
 
   const dynamicSearchHandler = async (username: string) => {

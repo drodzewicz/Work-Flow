@@ -1,5 +1,5 @@
 import React from "react";
-import Portal from "HOC/Portal";
+import Portal from "components/layout/Portal";
 import "./WarningNotification.scss";
 import { WarningNotificationProps, Warning } from "./";
 

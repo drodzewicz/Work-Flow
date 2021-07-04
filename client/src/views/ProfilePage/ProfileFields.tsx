@@ -22,10 +22,10 @@ interface ProfileFieldsProps {
 interface FormValues extends ProfileFieldsProps {}
 
 const ProfileFields: React.FC<FormikProps<FormValues>> = (props) => {
-  const { errors, isSubmitting, isValid, status, setErrors } = props;
+  const { errors, isSubmitting, isValid } = props;
 
   return (
-    <Form>
+    <Form className="profile__inputs">
       <Field
         name="username"
         hasErrors={!!errors["username"]}

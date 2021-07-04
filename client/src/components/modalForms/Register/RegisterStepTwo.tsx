@@ -26,7 +26,7 @@ const RegisterStage2: React.FC<RegisterStepProps & FormikProps<FormValues>> = (p
   useEffect(() => {
     if (serverErrors) setErrors(serverErrors);
     return () => {};
-  }, [serverErrors]);
+  }, [serverErrors, setErrors]);
 
   const handleGoBackStage = () => {
     changeStep(0, values);
