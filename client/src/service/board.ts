@@ -1,5 +1,6 @@
 import fetchData, { serviceParams } from "./utils/fetchData";
 
+
 // MY BOARDS - GET
 interface getMyBoardsParams extends serviceParams {
   page?: number;

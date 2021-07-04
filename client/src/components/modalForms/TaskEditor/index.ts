@@ -23,12 +23,12 @@ export interface FormValues {
   tags: any[];
 }
 
-export interface newTaskUpdateProps {
+export interface TaskUpdateProps {
   boardId: string;
   taskId: string;
 }
 
-export interface newTaskUpdate extends newTaskUpdateProps {
+export interface TaskUpdateFormik extends TaskUpdateProps {
   initialValues: FormValues;
   submitType: submitType;
 }
@@ -36,15 +36,6 @@ export interface newTaskUpdate extends newTaskUpdateProps {
 export interface TaskEditorFormProps {
   submitType: submitType;
   boardId: string;
-}
-
-
-
-
-
-export interface newTaskCreateProps {
-  boardId: string;
-  columnId: string;
 }
 
 

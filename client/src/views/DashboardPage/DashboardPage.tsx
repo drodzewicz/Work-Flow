@@ -7,148 +7,147 @@ import ContainerBox from "components/layout/ContainerBox/ContainerBox";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { getPinnedBoards, getMyBoards, togglePinBoard } from "service";
 import BoardContainer from "components/board/BoardContainer";
+import { BoardI } from "types";
+import { PaginationI } from "components/general/Pagination";
 
 const DashboardPage: React.FC = () => {
-  const [page, setPage] = useState<{ currentPage: number; amountOfPages: number }>({
-    currentPage: 1,
-    amountOfPages: 1,
-  });
-  const [pinnedBoards, setPinnedBoards] = useState<{ items: any; isLoading: boolean }>({
+  const [page, setPage] = useState<PaginationI>({ current: 1, total: 1 });
+  const [pinnedBoards, setPinnedBoards] = useState<{ items: BoardI[]; isLoading: boolean }>({
     items: [],
     isLoading: false,
   });
-  const [boards, setBoards] = useState<{ items: any; isLoading: boolean }>({
+  const [boards, setBoards] = useState<{ items: BoardI[]; isLoading: boolean }>({
     items: [],
     isLoading: false,
   });
   const { modalDispatch } = useContext(ModalContext);
 
-  const boardLoadingHandler = (setState: any, loadingState: any) => {
-    setState((prevState: any) => ({ ...prevState, isLoading: loadingState }));
+  const setPinnedBoardLoading = (loadingState: boolean) => {
+    setPinnedBoards((prevState: any) => ({ ...prevState, isLoading: loadingState }));
   };
 
-  const handelPinnedBoard = (loadingState: boolean) =>
-    boardLoadingHandler(setPinnedBoards, loadingState);
-  const handelBoard = (loadingState: boolean) => boardLoadingHandler(setBoards, loadingState);
+  const setBoardsLoading = (loadingState: boolean) => {
+    setBoards((prevState: any) => ({ ...prevState, isLoading: loadingState }));
+  };
 
   useEffect(() => {
-    const getPinnedBoardss = async () => {
-      const { data } = await getPinnedBoards({ setLoading: handelPinnedBoard });
-      if (!!data) setPinnedBoards((prevState) => ({ ...prevState, items: data }));
-    };
-    getPinnedBoardss();
-    return () => {};
-  }, []);
-
-  useEffect(() => {
-    const getMyBoardss = async () => {
-      const { data } = await getMyBoards({
-        page: page.currentPage,
+    const fetchBoards = async () => {
+      const { data, status } = await getMyBoards({
+        page: page.current,
         limit: 8,
-        setLoading: handelBoard,
+        setLoading: setBoardsLoading,
       });
-      if (!!data) {
-        setPage((prevState) => ({ ...prevState, amountOfPages: data.totalPageCount }));
-        setBoards((prevState) => ({ ...prevState, items: data.items }));
+      if (status === 200) {
+        const { totalPageCount, items } = data;
+        setPage((pageState) => ({ ...pageState, total: totalPageCount }));
+        setBoards((boardState) => ({ ...boardState, items }));
       }
     };
-    getMyBoardss();
+    fetchBoards();
     return () => {};
-  }, [page.currentPage]);
+  }, [page.current]);
+
+  useEffect(() => {
+    const fetchPinnedBoards = async () => {
+      const { data, status } = await getPinnedBoards({ setLoading: setPinnedBoardLoading });
+      if (status === 200) {
+        setPinnedBoards((prevState) => ({ ...prevState, items: data }));
+      }
+    };
+    fetchPinnedBoards();
+    return () => {};
+  }, []);
 
   const openCreateNewBoardModal = () => {
     modalDispatch({
       type: ModalActionType.OPEN,
       payload: {
         render: <BoardCreate />,
-        title: "New Board",
+        title: "Create new Board",
       },
     });
   };
 
   const removeBoard = (boardId: string) => {
-    const indexOfBoardInBoardList = boards.items.findIndex(({ _id }: any) => _id === boardId);
-    const indexOfBoardInPinnedBoardList = pinnedBoards.items.findIndex(
-      ({ _id }: any) => _id === boardId
-    );
+    setBoards((boards) => ({
+      ...boards,
+      items: boards.items.filter(({ _id }) => _id !== boardId),
+    }));
 
-    if (indexOfBoardInBoardList > -1) {
-      setBoards((boards) => {
-        const newBoards = [...boards.items];
-        newBoards.splice(indexOfBoardInBoardList, 1);
-        return { ...boards, items: newBoards };
-      });
-    }
-
-    if (indexOfBoardInPinnedBoardList > -1) {
-      setPinnedBoards((boards) => {
-        const newBoards = [...boards.items];
-        newBoards.splice(indexOfBoardInPinnedBoardList, 1);
-        return { ...boards, items: newBoards };
-      });
-    }
+    setPinnedBoards((boards) => ({
+      ...boards,
+      items: boards.items.filter(({ _id }) => _id !== boardId),
+    }));
   };
 
-  const togglePinBoardHandler = async (boardIndex: number, pinnedBoardIndex: number) => {
-    const foundPinnedBoardIndex =
-      pinnedBoardIndex > -1
-        ? pinnedBoardIndex
-        : pinnedBoards.items.findIndex((board: any) => board._id === boards.items[boardIndex]._id);
-    const foundBoardIndex =
-      boardIndex > -1
-        ? boardIndex
-        : boards.items.findIndex(
-            (board: any) => board._id === pinnedBoards.items[pinnedBoardIndex]._id
-          );
-    const { data } = await togglePinBoard({ boardId: boards.items[foundBoardIndex]._id });
-    if (!!data) {
-      setPinnedBoards((pinnedBoards) => {
-        const tempPinnedBoards = [...pinnedBoards.items];
+  const pinBoard = (boardId: string) => {
+    const boardIndex = boards.items.findIndex(({ _id }) => _id === boardId);
+    setPinnedBoards((pinnedBoards) => {
+      const tempPinnedBoards = [...pinnedBoards.items];
+      tempPinnedBoards.push(boards.items[boardIndex]);
+      return { ...pinnedBoards, items: tempPinnedBoards };
+    });
+    setBoards((boards) => {
+      const modifiedBoards = [...boards.items];
+      modifiedBoards[boardIndex].pinned = true;
+      return { ...boards, items: modifiedBoards };
+    });
+  };
 
-        if (boards.items[foundBoardIndex].pinned) {
-          tempPinnedBoards.splice(foundPinnedBoardIndex, 1);
-        } else {
-          tempPinnedBoards.push({ ...boards.items[foundBoardIndex], pinned: true });
-        }
-        return { ...pinnedBoards, items: tempPinnedBoards };
-      });
+  const unpinBoard = (boardId: string) => {
+    setPinnedBoards((boards) => ({
+      ...boards,
+      items: boards.items.filter(({ _id }) => _id !== boardId),
+    }));
+    setBoards((boards) => {
+      const modifiedBoards = boards.items.map((board) => ({
+        ...board,
+        pinned: board._id === boardId ? false : board.pinned,
+      }));
+      return { ...boards, items: modifiedBoards };
+    });
+  };
 
-      setBoards((boards) => {
-        const modifiedBoards = [...boards.items];
-        modifiedBoards[foundBoardIndex].pinned = !modifiedBoards[foundBoardIndex].pinned;
-        return { ...boards, items: modifiedBoards };
-      });
-    }
+  const togglePinBoardHandler = async (boardId: string) => {
+    const { data, status } = await togglePinBoard({ boardId });
+    if (status !== 200) return;
+
+    if (data.pinned) pinBoard(boardId);
+    else unpinBoard(boardId);
   };
 
   const changePage = (pageNumber: number) => {
-    setPage((pageState) => ({ ...pageState, currentPage: pageNumber }));
+    setPage((pageState) => ({ ...pageState, current: pageNumber }));
   };
 
   return (
-    <ContainerBox className="dashboard-container">
-      <BoardContainer
-        className="pinned-boards"
-        title="Pinned"
-        boards={pinnedBoards.items}
-        isLoading={pinnedBoards.isLoading}
-        removeBoard={removeBoard}
-        togglePinBoard={(index) => togglePinBoardHandler(-1, index)}
-        noBoardsMessage="you have no pinned boards"
-      />
-      <Button onClick={openCreateNewBoardModal} className="new-board-btn">
+    <ContainerBox className="board-dashboard">
+      {pinnedBoards.items.length > 0 && (
+        <BoardContainer
+          className="board-dashboard__pinned"
+          title="Pinned"
+          titleIcon="pinned"
+          boards={pinnedBoards.items}
+          isLoading={pinnedBoards.isLoading}
+          removeBoard={removeBoard}
+          togglePinBoard={togglePinBoardHandler}
+          noBoardsMessage="you have no pinned boards"
+        />
+      )}
+      <Button onClick={openCreateNewBoardModal} className="board-dashboard__new-btn">
         <AddBoxIcon />
         New Board
       </Button>
       <BoardContainer
-        className="main-boards"
+        className="board-dashboard__main"
         title="Boards"
+        titleIcon="board"
         boards={boards.items}
         isLoading={boards.isLoading}
         removeBoard={removeBoard}
         changePage={changePage}
         page={page}
-        togglePinBoard={(index) => togglePinBoardHandler(index, -1)}
+        togglePinBoard={togglePinBoardHandler}
         noBoardsMessage="you are not a part of any board"
       />
     </ContainerBox>

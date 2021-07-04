@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "context/UserContext";
 import SearchInput from "components/general/SearchInput";
 import BoardMemberUser from "./BoardMemberUser/BoardMemberUser";
-import Pagination from "components/general/Pagination/Pagination";
+import Pagination, {PaginationI }  from "components/general/Pagination";
 import "./BoardMembers.scss";
 import { BoardMembersProps, Member, SearchedUser } from "./";
 import { UserBoardRoles } from "types";
@@ -19,10 +19,7 @@ import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
   const USER_LIMIT = 5;
   const [members, setMembers] = useState<Member[]>([]);
-  const [page, setPage] = useState<{ currentPage: number; amountOfPages: number }>({
-    currentPage: 1,
-    amountOfPages: 1,
-  });
+  const [page, setPage] = useState<PaginationI>({current: 1,total: 1,});
   const [isPageLoading, setPageLoading] = useState(true);
   const [searchRes, setSearchRes] = useState<SearchedUser[]>([]);
   const {
@@ -36,12 +33,12 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
       const { data } = await getBoardMembers({
         boardId,
         limit: USER_LIMIT,
-        page: page.currentPage,
+        page: page.current,
       });
       if (_isMounted) setPageLoading(false);
       if (!!data && _isMounted) {
         const { totalPageCount, items } = data;
-        setPage((pages) => ({ ...pages, amountOfPages: totalPageCount }));
+        setPage((pages) => ({ ...pages, total: totalPageCount }));
         setMembers(items);
       }
     };
@@ -49,7 +46,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
     return () => {
       _isMounted = false;
     };
-  }, [boardId, page.currentPage]);
+  }, [boardId, page.current]);
 
   const dynamicSearchHandler = async (username: string) => {
     const { data } = await searchUsersByUsername({ username });
@@ -62,7 +59,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
     }
   };
   const changePageHandler = (pageNumber: number) => {
-    setPage((pages) => ({ ...pages, currentPage: pageNumber }));
+    setPage((pages) => ({ ...pages, current: pageNumber }));
   };
   const removeUserFromBoardd = async (memberId: string) => {
     const { data } = await removeUserFromBoard({ userId: memberId, boardId });
@@ -132,11 +129,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
         </div>
       </LoadingOverlay>
 
-      <Pagination
-        amountOfPages={page.amountOfPages}
-        currentPage={page.currentPage}
-        handleChange={changePageHandler}
-      />
+      <Pagination {...page} handleChange={changePageHandler} />
     </div>
   );
 };

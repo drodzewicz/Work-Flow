@@ -1,17 +1,16 @@
 import React from "react";
+import { PaginationI } from "components/general/Pagination";
 
 export { default } from "./BoardContainer";
 
 export interface BoardContainerProps {
   title: string | React.ReactNode;
+  titleIcon?: "pinned" | "board";
   boards: any[];
   isLoading?: boolean;
-  togglePinBoard: (index: number) => void;
+  togglePinBoard: (boardId: string) => void;
   removeBoard: (boardId: string) => void;
-  page?: {
-      amountOfPages: number;
-      currentPage: number;
-  };
+  page?: PaginationI;
   changePage?: (page: number) => void;
   className?: string;
   noBoardsMessage?: string;

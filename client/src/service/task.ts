@@ -41,7 +41,7 @@ export const updateBoardTask = async ({
 interface deleteTaskParams extends socketServiceParams {
   boardId: string;
   payload: {
-    taskId: number;
+    taskId: string;
   };
 }
 export const deleteTask = ({ boardId, payload, res }: deleteTaskParams) => {

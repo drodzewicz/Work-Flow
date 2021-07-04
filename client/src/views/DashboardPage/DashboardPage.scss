@@ -1,42 +1,10 @@
 @import "../../assets/styles/mediaQueries";
 @import "../../assets/styles/colors";
 
-.dashboard-container {
+.board-dashboard {
 	display: flex;
 	flex-direction: column;
+	justify-content: flex-start;
 	align-items: center;
-	.board-container {
-		position: relative;
-	}
-	.board-container-wrapper {
-		position: relative;
-		max-width: 970px;
-	}
-
-	.new-board-btn {
-		margin-left: 1rem;
-		margin-top: 1rem;
-		background-color: $black-1;
-		color: white;
-		font-size: 0.9rem;
-		padding: 3px 5px;
-		border-radius: 3px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		&:hover {
-			background: lighten($black-1, 10%);
-		}
-		.MuiSvgIcon-root {
-			height: 1.1rem;
-			width: 1.1rem;
-			margin-right: 0.2rem;
-		}
-	}
-
-	.pinned-boards .loading-overlay,
-	.main-boards .loading-overlay {
-		position: relative;
-	}
-
+	gap: 1rem;
 }

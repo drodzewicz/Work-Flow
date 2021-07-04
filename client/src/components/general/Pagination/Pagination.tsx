@@ -5,39 +5,37 @@ import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import { PaginationProps } from "./";
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, amountOfPages, handleChange }) => {
+const Pagination: React.FC<PaginationProps> = ({ current, total, handleChange }) => {
   const previousPage = () => {
-    handleChange(currentPage - 1);
+    handleChange(current - 1);
   };
   const nextPage = () => {
-    handleChange(currentPage + 1);
+    handleChange(current + 1);
   };
-  if (amountOfPages < 2) return null;
+  if (total < 2) return null;
   else
     return (
       <nav className="pagination">
-        {currentPage !== 1 ? (
+        {current !== 1 ? (
           <>
             <button onClick={previousPage} className=" pagination__item pagination__arrow">
               <KeyboardArrowLeftIcon />
             </button>
-            <div className={`pagination__dots ${currentPage - 1 === 1 ? "hide" : ""}`}>...</div>
+            <div className={`pagination__dots ${current - 1 === 1 ? "hide" : ""}`}>...</div>
             <button onClick={previousPage} className="pagination__item">
-              {currentPage - 1}
+              {current - 1}
             </button>
           </>
         ) : (
           <div className="empty"></div>
         )}
-        <button className="pagination__item pagination__current-page">{currentPage}</button>
-        {currentPage !== amountOfPages ? (
+        <button className="pagination__item pagination__current-page">{current}</button>
+        {current !== total ? (
           <>
             <button onClick={nextPage} className="pagination__item">
-              {currentPage + 1}
+              {current + 1}
             </button>
-            <div className={`pagination__dots ${currentPage + 1 === amountOfPages ? "hide" : ""}`}>
-              ...
-            </div>
+            <div className={`pagination__dots ${current + 1 === total ? "hide" : ""}`}>...</div>
             <button onClick={nextPage} className="pagination__item pagination__arrow">
               <KeyboardArrowRightIcon />
             </button>

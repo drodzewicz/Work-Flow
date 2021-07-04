@@ -48,12 +48,11 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
     let _isMounted = true;
     let waitingTimout: ReturnType<typeof setTimeout> | null = null;
 
-    const updateTaskHandler = () => {};
     const openTask = () => {
       modalDispatch({
         type: ModalActionType.OPEN,
         payload: {
-          render: <TaskDisplay taskId={query.task as string} updateTask={updateTaskHandler} />,
+          render: <TaskDisplay taskId={query.task as string} />,
           title: "Task Details",
         },
       });

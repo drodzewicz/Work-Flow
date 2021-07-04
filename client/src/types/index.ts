@@ -10,3 +10,18 @@ export enum UserBoardRoles {
   REGULAR = "REGULAR",
   GUEST = "GUEST",
 }
+
+export interface BoardUserI {
+  role: UserBoardRoles;
+  user: User;
+}
+
+export interface BoardI {
+  _id: string;
+  name: string;
+  description: string;
+  author: string;
+  isAuthor: boolean;
+  pinned: boolean;
+  members: BoardUserI;
+}

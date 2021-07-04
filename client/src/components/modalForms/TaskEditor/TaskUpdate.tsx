@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import TaskEditor from "./TaskEditor";
 import { withFormik } from "formik";
-import { FormValues, validationSchema, newTaskUpdateProps, newTaskUpdate } from ".";
+import { FormValues, validationSchema, TaskUpdateProps, TaskUpdateFormik } from ".";
 import { getBoardTask, updateBoardTask } from "service/task";
 
-const TaskUpdate: React.FC<newTaskUpdateProps> = (props) => {
+const TaskUpdate: React.FC<TaskUpdateProps> = (props) => {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [task, setTask] = useState<FormValues>({
     title: "",
@@ -35,7 +35,7 @@ const TaskUpdate: React.FC<newTaskUpdateProps> = (props) => {
   }
 };
 
-const TaskUpdateWrapper = withFormik<newTaskUpdate, FormValues>({
+const TaskUpdateWrapper = withFormik<TaskUpdateFormik, FormValues>({
   mapPropsToValues: (props) => {
     return { ...props.initialValues };
   },

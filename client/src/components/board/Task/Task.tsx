@@ -23,19 +23,11 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
 
   const { taskIndex, columnIndex } = indexes;
 
-  const updateTask = (updatedTask: any) => {
-    tasksDispatch({
-      type: TasksActionType.UPDATE_TASK,
-      payload: { columnIndex, taskIndex, updatedTask },
-    });
-    modalDispatch({ type: ModalActionType.CLOSE });
-  };
-
   const openTaskDetailsModal = () => {
     modalDispatch({
       type: ModalActionType.OPEN,
       payload: {
-        render: <TaskDisplay taskId={taskId} updateTask={updateTask} />,
+        render: <TaskDisplay taskId={taskId} />,
         title: "Task Details",
       },
     });
