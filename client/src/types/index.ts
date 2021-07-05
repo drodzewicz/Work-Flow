@@ -11,6 +11,12 @@ export enum UserBoardRoles {
   GUEST = "GUEST",
 }
 
+export interface TagI {
+  _id: string,
+  color: string,
+  name: string
+} 
+
 export interface BoardUserI {
   role: UserBoardRoles;
   user: User;
@@ -24,4 +30,14 @@ export interface BoardI {
   isAuthor: boolean;
   pinned: boolean;
   members: BoardUserI;
+}
+
+export interface TaskI {
+  _id: string;
+  title: string;
+  description: string;
+  author: string;
+  board: string;
+  people: User[];
+  tags: TagI[];
 }

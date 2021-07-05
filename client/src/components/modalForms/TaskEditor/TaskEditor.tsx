@@ -9,7 +9,8 @@ import { getBoardTags } from "service";
 import TagManager from "./TagManager/TagManager";
 import UserManager from "./UserManager/UserManager";
 import { AlertContext, AlertActionType } from "context/AlertContext";
-import { TaskEditorFormProps, FormValues, TagI } from ".";
+import { TaskEditorFormProps, FormValues } from ".";
+import { TagI, User } from "types"
 
 const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = (props) => {
   const {
@@ -27,10 +28,10 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
   const { modalDispatch } = useContext(ModalContext);
   const { alertDispatch } = useContext(AlertContext);
 
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
 
   const [availableTags, setAvailableTags] = useState<TagI[]>([]);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<TagI[]>([]);
 
   useEffect(() => {
     const initTask = async () => {
@@ -52,34 +53,28 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
     }
     return () => {};
   }, [status, modalDispatch, alertDispatch]);
-  const toggleSelectTag = (tagId: any) => {
-    const foundTagIndex = selectedTags.findIndex((tag) => tag === tagId);
-    if (foundTagIndex > -1) {
-      return setSelectedTags((tags) => {
-        const tempTags = [...tags];
-        tempTags.splice(foundTagIndex, 1);
-        return tempTags;
-      });
-    }
-    setSelectedTags((tags) => {
-      const tempTags = [...tags];
-      tempTags.push(tagId);
+  const toggleSelectTag = (selectedTag: TagI) => {
+    return setSelectedTags((tags) => {
+      let tempTags = [...tags];
+      tempTags = tempTags.filter(({ _id }) => _id !== selectedTag._id);
+      if (tempTags.length === tags.length) {
+        tempTags.push(selectedTag);
+      }
       return tempTags;
     });
   };
 
   const filteredTags = () => {
     return availableTags.map((tag) => {
-      const foundTag = selectedTags.find((_id) => _id === tag._id);
+      const foundTag = selectedTags.find(({_id}) => _id === tag._id);
       return { ...tag, checked: !!foundTag };
     });
   };
 
   const submitHandler = () => {
-    const people = users.map(({ _id }: { _id: any }) => _id);
     setValues((vals) => ({
       ...vals,
-      people,
+      people: users,
       tags: selectedTags,
     }));
     handleSubmit();

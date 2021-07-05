@@ -8,7 +8,7 @@ import BoardOptions from "./BoardOptions/BoardOptions";
 import { BoardcardProps } from "./";
 
 const BoardCard: React.FC<BoardcardProps> = ({
-  boardInfo,
+  boardName,
   boardId,
   pinBoard,
   removeBoard,
@@ -36,7 +36,7 @@ const BoardCard: React.FC<BoardcardProps> = ({
       </div>
       <div className="board-card__content">
         <h1 onClick={goToBoard} className="board-card__content__title">
-          {boardInfo.name}
+          {boardName}
         </h1>
         <div className="board-card__content__menu">
           <span className="board-card__content__menu__icon" onClick={togglePinBoard}>

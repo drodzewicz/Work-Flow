@@ -5,7 +5,7 @@ import BoardMemberUser from "./BoardMemberUser/BoardMemberUser";
 import Pagination, {PaginationI }  from "components/general/Pagination";
 import "./BoardMembers.scss";
 import { BoardMembersProps, Member, SearchedUser } from "./";
-import { UserBoardRoles } from "types";
+import { UserBoardRoles, User} from "types";
 import {
   getBoardMembers,
   searchUsersByUsername,
@@ -52,7 +52,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
   const dynamicSearchHandler = async (username: string) => {
     const { data } = await searchUsersByUsername({ username });
     if (!!data) {
-      const parsedResult = data.map((user: any) => ({
+      const parsedResult = data.map((user: User) => ({
         ...user,
         text: user.username,
       }));
@@ -73,7 +73,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
       });
     }
   };
-  const addUserToBoardHandler = async (user: any) => {
+  const addUserToBoardHandler = async (user: User) => {
     setSearchRes([]);
     const { data } = await addUserToBoard({ boardId, userId: user._id });
     if (!!data && members.length < USER_LIMIT) {

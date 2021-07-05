@@ -8,7 +8,7 @@ import { ModalContext, ModalActionType } from "context/ModalContext";
 import { AlertContext, AlertActionType } from "context/AlertContext";
 import { register } from "service";
 
-import { RegisterFields } from ".";
+import { RegisterFields, RegisterFieldsOr } from ".";
 
 const Register = () => {
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -27,7 +27,11 @@ const Register = () => {
 
   const [fieldErrors, setFieldErrors] = useState<Partial<RegisterFields>>({});
 
-  const changeStepHandler = async (step: number, newData: any, final: boolean = false) => {
+  const changeStepHandler = async (
+    step: number,
+    newData: RegisterFieldsOr,
+    final: boolean = false
+  ) => {
     setRegisterFormFields((data) => ({ ...data, ...newData }));
     if (final) {
       const { error, status } = await register({

@@ -11,7 +11,7 @@ const reducer: Reducer<tasksState[], TaskActions> = (state, action) => {
     case TasksActionType.CHANGE_COLUMN_NAME: {
       const tempTasks = [...state];
       const foundColumnIndex = tempTasks.findIndex(
-        ({ _id }: any) => _id === action.payload.columnId
+        ({ _id }) => _id === action.payload.columnId
       );
       tempTasks[foundColumnIndex].name = action.payload.newName;
       return tempTasks;

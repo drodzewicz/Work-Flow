@@ -4,7 +4,7 @@ import DropdownMenu from "components/general/DropdownMenu/DropdownMenu";
 import { NavItemProps } from "./";
 
 const NavItem: React.FC<NavItemProps> = ({
-  icon,
+  Icon,
   label,
   children,
   onClick,
@@ -19,7 +19,7 @@ const NavItem: React.FC<NavItemProps> = ({
   return (
     <li className={`navbar__item ${className || ""}`}>
       <button name={name} className="navbar__item__button" ref={anchorElement} onClick={onClick}>
-        <span className="navbar__item__icon">{!!icon && icon}</span>
+        <span className="navbar__item__icon">{!!Icon && <Icon />}</span>
         <span className="navbar__item__label">{label}</span>
       </button>
       {children && (

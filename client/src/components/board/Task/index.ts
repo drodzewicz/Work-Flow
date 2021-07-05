@@ -1,3 +1,5 @@
+import { User, TagI } from "types";
+
 export { default } from "./Task";
 
 export interface TaskProps {
@@ -7,6 +9,6 @@ export interface TaskProps {
     taskIndex: number;
     columnIndex: number;
   };
-  tags?: any[];
-  people?: any[];
+  tags?: TagI[];
+  people?: User[];
 }

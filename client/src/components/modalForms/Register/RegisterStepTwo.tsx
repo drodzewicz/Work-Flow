@@ -3,24 +3,12 @@ import { FormikProps, Form, Field, withFormik } from "formik";
 import TextInput from "components/general/TextInput";
 import Button from "components/general/Button";
 
-import * as Yup from "yup";
-import { RegisterStepProps, RegisterFields } from ".";
+import { RegisterStepProps, RegisterTwoFormValues, validationSchemaStepTwo } from ".";
 
-const validationSchema = Yup.object({
-  email: Yup.string().email().required("field is required"),
-  username: Yup.string()
-    .min(3, "username is too short")
-    .max(25, "username is too long")
-    .required("field is required"),
-  password: Yup.string().min(5, "must be at least 5 characters").required("field is required"),
-  matchPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "password does not match")
-    .required("Password confirm is required"),
-});
 
-type FormValues = Pick<RegisterFields, "email" | "username" | "password" | "matchPassword">;
 
-const RegisterStage2: React.FC<RegisterStepProps & FormikProps<FormValues>> = (props) => {
+
+const RegisterStage2: React.FC<RegisterStepProps & FormikProps<RegisterTwoFormValues>> = (props) => {
   const { values, errors, isSubmitting, isValid, changeStep, serverErrors, setErrors } = props;
 
   useEffect(() => {
@@ -78,12 +66,12 @@ const RegisterStage2: React.FC<RegisterStepProps & FormikProps<FormValues>> = (p
   );
 };
 
-const RegisterStage2WithFormik = withFormik<RegisterStepProps, FormValues>({
+const RegisterStage2WithFormik = withFormik<RegisterStepProps, RegisterTwoFormValues>({
   mapPropsToValues: (props) => {
     const { data } = props;
     return { ...data };
   },
-  validationSchema: validationSchema,
+  validationSchema: validationSchemaStepTwo,
   handleSubmit: async (submittedData, { props }) => {
     const { changeStep } = props;
     changeStep(1, submittedData, true);

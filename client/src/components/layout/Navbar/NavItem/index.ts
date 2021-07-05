@@ -1,7 +1,9 @@
-export { default } from "./NavItem";
+import { SvgIconComponent } from "@material-ui/icons"
+
+type svgIcon = React.FunctionComponent<React.SVGProps<SVGSVGElement>>
 
 export interface NavItemProps {
-  icon?: any;
+  Icon?: svgIcon | SvgIconComponent;
   label?: string;
   name?: string;
   onClick?: () => void;
@@ -10,3 +12,5 @@ export interface NavItemProps {
   dropDownOnClickClose?: boolean;
   dropDownScrollableAt?: number;
 }
+
+export { default } from "./NavItem";

@@ -12,7 +12,7 @@ columnService.getBoardColumns = async (req, res) => {
 				path: "tasks",
 				populate: {
 					path: "people tags",
-					select: "_id username avatarImageURL colorCode name",
+					select: "_id username avatarImageURL color name",
 				},
 			},
 		});

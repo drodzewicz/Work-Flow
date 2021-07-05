@@ -10,14 +10,14 @@ const TagChoiceControll: React.FC<TagManagerProps> = ({
 
   return (
     <div className="tag-manager scrollbar">
-      {tags.map(({ _id, color, name, checked }) => (
+      {tags.map((tag) => (
         <button
-          key={_id}
+          key={tag._id}
           type="button"
-          onClick={() => selectTagHandler(_id)}
-          className={`tag-manager__item tag-manager__item--${color.toLowerCase()}`}>
-          <span>{name}</span>
-          {checked && <RemoveCircleOutlineIcon className="tag-manager__item__remove-icon" />}
+          onClick={() => selectTagHandler(tag)}
+          className={`tag-manager__item tag-manager__item--${tag.color.toLowerCase()}`}>
+          <span>{tag.name}</span>
+          {tag.checked && <RemoveCircleOutlineIcon className="tag-manager__item__remove-icon" />}
         </button>
       ))}
     </div>

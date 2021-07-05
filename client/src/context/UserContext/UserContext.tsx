@@ -1,12 +1,8 @@
 import React, { useReducer, Reducer, createContext } from "react";
 import { UserAction } from "./UserActions";
-import { AuthStatus, UserActionType } from ".";
+import { UserActionType } from ".";
+import { UserState }from "."
 
-type UserState = {
-  authStatus: AuthStatus;
-  user: any | null;
-  currentBoard: { role: string | null; id: string | null };
-};
 
 const initialState: UserState = {
   authStatus: null,

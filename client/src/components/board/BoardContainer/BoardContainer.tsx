@@ -39,14 +39,14 @@ const BoardContainer: React.FC<BoardContainerProps> = ({
       </h1>
       <LoadingOverlay show={isLoading} opacity={0}>
         <section className="board-container__boards">
-          {boards.map(({ _id, pinned, name, description, members, isAuthor }) => (
+          {boards.map(({ _id, pinned, name, isAuthor }) => (
             <BoardCard
               key={_id}
               boardId={_id}
               isPinned={pinned}
               pinBoard={() => togglePinBoard(_id)}
               removeBoard={removeBoard}
-              boardInfo={{ name, description, members }}
+              boardName={name}
               isAuthor={isAuthor}
             />
           ))}

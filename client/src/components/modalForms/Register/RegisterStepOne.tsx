@@ -2,16 +2,10 @@ import React from "react";
 import { FormikProps, Form, Field, withFormik } from "formik";
 import TextInput from "components/general/TextInput";
 import Button from "components/general/Button";
-import * as Yup from "yup";
-import { RegisterStepProps, RegisterFields } from ".";
+import { RegisterStepProps, RegisterOneFormValues, validationSchemaStepOne } from ".";
 
-const validationSchema = Yup.object({
-  name: Yup.string().max(25, "name is too long").required("field is required"),
-  surname: Yup.string().max(25, "surname is too long").required("field is required"),
-});
-type FormValues = Pick<RegisterFields, "name" | "surname">;
 
-const RegisterStage1: React.FC<FormikProps<FormValues>> = (props) => {
+const RegisterStage1: React.FC<FormikProps<RegisterOneFormValues>> = (props) => {
   const { errors, isValid } = props;
 
   return (
@@ -30,12 +24,12 @@ const RegisterStage1: React.FC<FormikProps<FormValues>> = (props) => {
   );
 };
 
-const RegisterStage1WithFormik = withFormik<RegisterStepProps, FormValues>({
+const RegisterStage1WithFormik = withFormik<RegisterStepProps, RegisterOneFormValues>({
   mapPropsToValues: (props) => {
     const { data } = props;
     return { ...data };
   },
-  validationSchema: validationSchema,
+  validationSchema: validationSchemaStepOne,
   handleSubmit: async (submittedData, { props }) => {
     props.changeStep(1, submittedData);
   },

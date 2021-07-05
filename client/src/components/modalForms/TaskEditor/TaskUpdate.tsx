@@ -3,6 +3,7 @@ import TaskEditor from "./TaskEditor";
 import { withFormik } from "formik";
 import { FormValues, validationSchema, TaskUpdateProps, TaskUpdateFormik } from ".";
 import { getBoardTask, updateBoardTask } from "service/task";
+import LoadingOverlay from "components/layout/LoadingOverlay";
 
 const TaskUpdate: React.FC<TaskUpdateProps> = (props) => {
   const { boardId, taskId } = props;
@@ -28,11 +29,11 @@ const TaskUpdate: React.FC<TaskUpdateProps> = (props) => {
     getTaskDetails();
     return () => {};
   }, [boardId, taskId]);
-  if (isLoading) {
-    return <div>hello</div>;
-  } else {
-    return <TaskUpdateWrapper {...props} initialValues={task} submitType="Update" />;
-  }
+  return (
+    <LoadingOverlay show={isLoading}>
+      <TaskUpdateWrapper {...props} initialValues={task} submitType="Update" />
+    </LoadingOverlay>
+  );
 };
 
 const TaskUpdateWrapper = withFormik<TaskUpdateFormik, FormValues>({
@@ -41,12 +42,14 @@ const TaskUpdateWrapper = withFormik<TaskUpdateFormik, FormValues>({
   },
   validationSchema: validationSchema,
   handleSubmit: async (submittedData, { setStatus, props }) => {
+    console.log(submittedData);
+    const payload = {
+      ...submittedData,
+      people: submittedData.people.map(({ _id }) => _id),
+      tags: submittedData.tags.map(({ _id }) => _id),
+    };
     const { boardId, taskId } = props;
-    const res = await updateBoardTask({
-      boardId,
-      taskId,
-      payload: submittedData,
-    });
+    const res = await updateBoardTask({ boardId, taskId, payload });
     if (res.status === 200) {
       setStatus({
         submitStatus: "SUCCESS",

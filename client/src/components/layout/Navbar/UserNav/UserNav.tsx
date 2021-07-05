@@ -5,7 +5,6 @@ import Notification, { NotificationResponse } from "components/general/Notificat
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import HomeIcon from "@material-ui/icons/Home";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import Badge from "@material-ui/core/Badge";
 import { useHistory, Link } from "react-router-dom";
 import { UserContext, UserActionType } from "context/UserContext";
 import { getNotifications, removeNotification } from "service";
@@ -51,11 +50,11 @@ const UserNav: React.FC = () => {
   return (
     <>
       <ThemeSwitch />
-      <NavItem name="home" onClick={goToHomePage} icon={<HomeIcon />} />
+      <NavItem name="home" onClick={goToHomePage} Icon={HomeIcon} />
       <NavItem
         name="profile"
         offset={{ x: -60, y: 10 }}
-        icon={<AccountBoxIcon />}
+        Icon={AccountBoxIcon}
         label={user.username}
         className="profile-nav">
         <DropdownMenuItem>
@@ -74,11 +73,7 @@ const UserNav: React.FC = () => {
         className="notification-nav"
         dropDownScrollableAt={400}
         dropDownOnClickClose={false}
-        icon={
-          <Badge color="secondary" variant="dot" invisible={notifications.length < 1}>
-            <NotificationsIcon />
-          </Badge>
-        }>
+        Icon={NotificationsIcon}>
         {notifications.map(({ _id, title, info, url }, index) => (
           <DropdownMenuItem key={_id}>
             <Notification

@@ -38,7 +38,7 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
 
     return (
       <div ref={poepleAnchorElement} className="task-card__bottom__users">
-        {displayUsers.map(({ _id, avatarImageURL }: { _id: string; avatarImageURL: string }) => (
+        {displayUsers.map(({ _id, avatarImageURL }) => (
           <Image key={_id} className="task-card__avatar" src={avatarImageURL} />
         ))}
         {maxUserAmount - userAmount < 0 && (
@@ -53,8 +53,8 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
   const TaskTags: React.FC = () => {
     return (
       <div className="task-card__bottom__tags" ref={tagsAnchorElement}>
-        {tags.map(({ colorCode, _id }) => (
-          <TagMini colorCode={colorCode} key={_id} />
+        {tags.map(({ color, _id }) => (
+          <TagMini colorCode={color.toLowerCase()} key={_id} />
         ))}
       </div>
     );

@@ -49,13 +49,9 @@ boardService.getMyBoards = async (req, res) => {
   try {
     const foundMyBoards = await Board.find(
       { "members.user": id },
-      "description members name _id author"
-    )
-      .sort({ timeCreated: -1 })
-      .populate({
-        path: "members",
-        populate: { path: "user", select: "username avatarImageURL _id" },
-      });
+      "description name _id author"
+    ).sort({ timeCreated: -1 })
+
     let paginatedMyBoards = paginateConetnt(foundMyBoards, page, limit);
     const { pinnedBoards } = await User.findById(id);
     paginatedMyBoards.items = paginatedMyBoards.items.map((board) => {
@@ -85,11 +81,7 @@ boardService.getMyPinnedBoards = async (req, res) => {
   try {
     let { pinnedBoards } = await User.findById(id).populate({
       path: "pinnedBoards",
-      select: "description members name _id author",
-      populate: {
-        path: "members",
-        populate: { path: "user", select: "username avatarImageURL _id" },
-      },
+      select: "description name _id author",
     });
     pinnedBoards = pinnedBoards.map((board) => {
       let isAuthor = false;
@@ -121,7 +113,7 @@ boardService.getBoardById = async (req, res) => {
           path: "tasks",
           populate: {
             path: "people tags",
-            select: "_id username avatarImageURL colorCode name",
+            select: "_id username avatarImageURL color name",
           },
         },
       });

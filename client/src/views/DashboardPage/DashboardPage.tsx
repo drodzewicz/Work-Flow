@@ -23,11 +23,11 @@ const DashboardPage: React.FC = () => {
   const { modalDispatch } = useContext(ModalContext);
 
   const setPinnedBoardLoading = (loadingState: boolean) => {
-    setPinnedBoards((prevState: any) => ({ ...prevState, isLoading: loadingState }));
+    setPinnedBoards((prevState) => ({ ...prevState, isLoading: loadingState }));
   };
 
   const setBoardsLoading = (loadingState: boolean) => {
-    setBoards((prevState: any) => ({ ...prevState, isLoading: loadingState }));
+    setBoards((prevState) => ({ ...prevState, isLoading: loadingState }));
   };
   useEffect(() => {
     const fetchBoards = async () => {

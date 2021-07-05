@@ -1,6 +1,7 @@
 export { default } from "./TagManager";
+import { TagI } from "types"
 
 export interface TagManagerProps {
   tags: any[];
-  selectTagHandler: (id: string) => void;
+  selectTagHandler: (tag: TagI) => void;
 }

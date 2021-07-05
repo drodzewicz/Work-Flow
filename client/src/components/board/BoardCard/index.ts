@@ -1,11 +1,7 @@
 export { default } from "./BoardCard";
 
 export interface BoardcardProps {
-  boardInfo: {
-    name: string;
-    description: string;
-    members: any[];
-  };
+  boardName: string;
   boardId: string;
   isPinned?: boolean;
   pinBoard: () => void;
