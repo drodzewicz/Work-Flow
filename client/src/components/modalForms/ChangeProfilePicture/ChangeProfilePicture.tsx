@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { FormikProps, Form, Field, withFormik } from "formik";
-import TextInput from "components/general/TextInput";
+import { TextField } from "components/general/TextInput";
 import Button from "components/general/Button";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { changeAvatar } from "service";
@@ -27,9 +27,8 @@ const ChangeProfilePicture: React.FC<FormikProps<FormValues>> = (props) => {
       <Field
         name="imageLink"
         label="avatar image URL"
-        hasErrors={!!errors["imageLink"]}
-        helperText={errors["imageLink"]}
-        as={TextInput}
+        error={errors["imageLink"]}
+        as={TextField}
       />
       <Button
         disabled={isSubmitting || !isValid}

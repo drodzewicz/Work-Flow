@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import TextInput from "components/general/TextInput";
+import { TextField } from "components/general/TextInput";
 import Button from "components/general/Button";
 import CheckIcon from "@material-ui/icons/Check";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -122,11 +122,11 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
         <div className="tag-form">
           {isAuthorized() && (
             <div className="tag-name-input-wrappper">
-              <TextInput
+              <TextField
                 onChange={handleTagNameInput}
-                label={"tag name"}
-                name={"tagName"}
-                type={"text"}
+                label="tag name"
+                name="tagName"
+                type="text"
                 value={selectedTag.name}
               />
               <Button
@@ -141,7 +141,7 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
             </div>
           )}
           <div className="tag-color-container">
-            {boardTags.map(({ color, name,_id }) => (
+            {boardTags.map(({ color, name, _id }) => (
               <TagButton
                 key={color}
                 onClick={() => selectTag(color)}

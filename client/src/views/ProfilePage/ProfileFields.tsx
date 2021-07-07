@@ -1,6 +1,6 @@
 import React from "react";
 import { FormikProps, Form, Field, withFormik } from "formik";
-import TextInput from "components/general/TextInput";
+import { TextField } from "components/general/TextInput";
 import Button from "components/general/Button";
 import * as Yup from "yup";
 import { updateCredentials } from "service";
@@ -26,25 +26,10 @@ const ProfileFields: React.FC<FormikProps<FormValues>> = (props) => {
 
   return (
     <Form className="profile__inputs">
-      <Field
-        name="username"
-        hasErrors={!!errors["username"]}
-        helperText={errors["username"]}
-        as={TextInput}
-      />
-      <Field
-        name="email"
-        hasErrors={!!errors["email"]}
-        helperText={errors["email"]}
-        as={TextInput}
-      />
-      <Field name="name" hasErrors={!!errors["name"]} helperText={errors["name"]} as={TextInput} />
-      <Field
-        name="surname"
-        hasErrors={!!errors["surname"]}
-        helperText={errors["surname"]}
-        as={TextInput}
-      />
+      <Field name="username" error={errors["username"]} as={TextField} />
+      <Field name="email" error={errors["email"]} as={TextField} />
+      <Field name="name" error={errors["name"]} as={TextField} />
+      <Field name="surname" error={errors["surname"]} as={TextField} />
       <Button
         disabled={isSubmitting || !isValid}
         variant="glow"

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./TaskEditor.scss";
-import TextInput from "components/general/TextInput";
+import { TextField, TextAreaField } from "components/general/TextInput";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 
 import Button from "components/general/Button/Button";
@@ -83,18 +83,8 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
   return (
     <section className="task-editor">
       <Form className="task-editor__inputs">
-        <Field
-          name="title"
-          hasErrors={!!errors["title"]}
-          helperText={errors["title"]}
-          as={TextInput}
-        />
-        <Field
-          name="description"
-          hasErrors={!!errors["description"]}
-          helperText={errors["description"]}
-          as={TextInput}
-        />
+        <Field name="title" error={!!errors["title"]} as={TextField} />
+        <Field name="description" error={errors["description"]} as={TextAreaField} />
       </Form>
       <div className="task-editor__sidebar">
         <label>Users</label>

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { FormikProps, Form, Field, withFormik } from "formik";
-import TextInput from "components/general/TextInput";
+import { TextField } from "components/general/TextInput";
 import Button from "components/general/Button";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { changePassword } from "service";
@@ -31,17 +31,15 @@ const ChangePasswordForm: React.FC<FormikProps<FormValues>> = (props) => {
     <Form>
       <Field
         name="newPassword"
-        hasErrors={!!errors["newPassword"]}
-        helperText={errors["newPassword"]}
+        error={errors["newPassword"]}
         type="password"
-        as={TextInput}
+        as={TextField}
       />
       <Field
         name="matchPassword"
-        hasErrors={!!errors["matchPassword"]}
-        helperText={errors["matchPassword"]}
+        error={errors["matchPassword"]}
         type="password"
-        as={TextInput}
+        as={TextField}
       />
       <Button
         disabled={isSubmitting || !isValid}

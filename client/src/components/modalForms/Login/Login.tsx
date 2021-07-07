@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { FormikProps, Form, Field, withFormik } from "formik";
 import { FormValues } from ".";
-import TextInput from "components/general/TextInput";
+import {TextField} from "components/general/TextInput";
 import Button from "components/general/Button";
 import { UserContext, UserActionType } from "context/UserContext";
 import { ModalContext, ModalActionType } from "context/ModalContext";
@@ -33,19 +33,8 @@ const LoginForm: React.FC<FormikProps<FormValues>> = (props) => {
 
   return (
     <Form>
-      <Field
-        name="username"
-        hasErrors={!!errors["username"]}
-        helperText={errors["username"]}
-        as={TextInput}
-      />
-      <Field
-        name="password"
-        hasErrors={!!errors["password"]}
-        helperText={errors["password"]}
-        type="password"
-        as={TextInput}
-      />
+      <Field name="username" error={errors["username"]} as={TextField} />
+      <Field name="password" error={errors["password"]} type="password" as={TextField} />
       <Button
         disabled={isSubmitting || !isValid}
         variant="glow"

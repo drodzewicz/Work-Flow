@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { FormikProps, Form, Field, withFormik } from "formik";
-import TextInput from "components/general/TextInput";
+import { TextField } from "components/general/TextInput";
 import Button from "components/general/Button";
 
 import { RegisterStepProps, RegisterTwoFormValues, validationSchemaStepTwo } from ".";
@@ -22,32 +22,24 @@ const RegisterStage2: React.FC<RegisterStepProps & FormikProps<RegisterTwoFormVa
 
   return (
     <Form>
-      <Field
-        name="email"
-        hasErrors={!!errors["email"]}
-        helperText={errors["email"]}
-        as={TextInput}
-      />
+      <Field name="email" hasErrors={!!errors["email"]} error={errors["email"]} as={TextField} />
       <Field
         name="username"
-        hasErrors={!!errors["username"]}
-        helperText={errors["username"]}
-        as={TextInput}
+        error={errors["username"]}
+        as={TextField}
       />
       <Field
         name="password"
-        hasErrors={!!errors["password"]}
         helperText={errors["password"]}
         type="password"
-        as={TextInput}
+        as={TextField}
       />
       <Field
         label="match password"
         name="matchPassword"
-        hasErrors={!!errors["matchPassword"]}
-        helperText={errors["matchPassword"]}
+        error={errors["matchPassword"]}
         type="password"
-        as={TextInput}
+        as={TextField}
       />
       <Button
         type="button"
