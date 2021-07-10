@@ -1,4 +1,4 @@
-const { createTask, deleteTask, moveTask } = require("../service/ws/task");
+const { createTask, deleteTask, moveTask } = require("../controllers/ws/task");
 const getUserFromJWT = require("../helper/getUserFromJWT");
 
 module.exports = (io, socket) => {

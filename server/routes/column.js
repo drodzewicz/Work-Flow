@@ -2,11 +2,7 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 const passport = require("passport");
 
-const {
-    getBoardColumns,
-    editColumnName,
-
-} = require("../service/http/column");
+const { getBoardColumns, editColumnName } = require("../controllers/http/column");
 
 const { isBoardMember, isBoardAdmin } = require("../middleware/boardMiddleware")
 

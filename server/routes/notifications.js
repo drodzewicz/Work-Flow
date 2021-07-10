@@ -2,10 +2,7 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 const passport = require("passport");
 
-const {
-    getMyNotifications,
-    removeNotification
-} = require("../service/http/notification");
+const { getMyNotifications, removeNotification } = require("../controllers/http/notification");
 
 const authJWT = passport.authenticate("jwt", { session: false });
 

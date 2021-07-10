@@ -3,11 +3,11 @@ const router = express.Router();
 const passport = require("passport");
 
 const {
-	changePassword,
-	changeAvatarImage,
-	updateCredentials,
-	searchUserByRegex,
-} = require("../service/http/user");
+  changePassword,
+  changeAvatarImage,
+  updateCredentials,
+  searchUserByRegex,
+} = require("../controllers/http/user");
 
 const authJWT = passport.authenticate("jwt", { session: false });
 

@@ -1,4 +1,4 @@
-const { createColumn, deleteColumn, moveColumn } = require("../service/ws/column");
+const { createColumn, deleteColumn, moveColumn } = require("../controllers/ws/column");
 
 module.exports = (io, socket) => {
 

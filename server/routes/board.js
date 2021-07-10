@@ -3,15 +3,15 @@ const router = express.Router();
 const passport = require("passport");
 
 const {
-    createNewBoard,
-    getMyBoards,
-    getMyPinnedBoards,
-    getBoardById,
-    updateBoard,
-    togglePinBoard,
-    deleteBoard,
-    leaveBoard,
-} = require("../service/http/board");
+  createNewBoard,
+  getMyBoards,
+  getMyPinnedBoards,
+  getBoardById,
+  updateBoard,
+  togglePinBoard,
+  deleteBoard,
+  leaveBoard,
+} = require("../controllers/http/board");
 
 const { isBoardAuthor, isBoardMember } = require("../middleware/boardMiddleware")
 

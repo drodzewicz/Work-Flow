@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 
-const { registerUser, loginJWT, isAuthenticated } = require("../service/http/user");
+const { registerUser, loginJWT, isAuthenticated } = require("../controllers/http/user");
 
 require("../configs/passport-jwt")(passport);
 const authJWT = passport.authenticate("jwt", { session: false });

@@ -5,10 +5,9 @@ import Button from "components/general/Button";
 
 import { RegisterStepProps, RegisterTwoFormValues, validationSchemaStepTwo } from ".";
 
-
-
-
-const RegisterStage2: React.FC<RegisterStepProps & FormikProps<RegisterTwoFormValues>> = (props) => {
+const RegisterStage2: React.FC<RegisterStepProps & FormikProps<RegisterTwoFormValues>> = (
+  props
+) => {
   const { values, errors, isSubmitting, isValid, changeStep, serverErrors, setErrors } = props;
 
   useEffect(() => {
@@ -22,18 +21,9 @@ const RegisterStage2: React.FC<RegisterStepProps & FormikProps<RegisterTwoFormVa
 
   return (
     <Form>
-      <Field name="email" hasErrors={!!errors["email"]} error={errors["email"]} as={TextField} />
-      <Field
-        name="username"
-        error={errors["username"]}
-        as={TextField}
-      />
-      <Field
-        name="password"
-        helperText={errors["password"]}
-        type="password"
-        as={TextField}
-      />
+      <Field name="email" error={errors["email"]} as={TextField} />
+      <Field name="username" error={errors["username"]} as={TextField} />
+      <Field name="password" error={errors["password"]} type="password" as={TextField} />
       <Field
         label="match password"
         name="matchPassword"

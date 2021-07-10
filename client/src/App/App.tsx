@@ -34,6 +34,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (authStatus === "success" || authStatus === "failed") setAuthLoading(false);
+
+    console.log(authStatus);
     return () => {};
   }, [authStatus]);
 

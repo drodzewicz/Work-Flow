@@ -1,88 +1,50 @@
 require("dotenv").config();
+const ENV_CONF = require("./configs/env.conf");
 const express = require("express");
 const http = require("http");
 const logger = require("morgan");
 const errorHandler = require("errorhandler");
 const cors = require("cors");
-const passport = require("passport");
 const socketIO = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
+const routeErrorHandler = require("./error/errorHandler");
+
 const io = socketIO(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: ENV_CONF.CORS_ORIGIN,
     methods: ["GET", "POST"],
     credentials: true,
     transports: ["websocket", "polling"],
   },
-  allowEIO3: true
+  allowEIO3: true,
 });
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cors({ credentials: true, origin: ENV_CONF.CORS_ORIGIN }));
 
-let { PORT, NODE_ENV } = process.env;
-PORT = PORT || 3000;
-// morgan logger setup
-if (NODE_ENV === "development") {
-	app.use(logger("dev"));
-	app.use(errorHandler());
+if (ENV_CONF.NODE_ENV === "development") {
+  app.use(logger("dev"));
+  app.use(errorHandler());
 } else {
-	app.use(logger("short"));
+  app.use(logger("short"));
 }
 
+// ROUTES
+require("./routes/")(app);
 
-app.use(cors({
-    credentials: true,
-    origin: "http://localhost:3000"
-}));
-
-// HTTP REQUESTS
-const authRoutes = require("./routes/auth");
-const userRoutes = require("./routes/user");
-const boardRoutes = require("./routes/board");
-const tagRoutes = require("./routes/tag");
-const taskRoutes = require("./routes/task");
-const columnRoutes = require("./routes/column");
-const membersRoute = require("./routes/members");
-const notificationRoute = require("./routes/notifications");
-
-require("./configs/passport-jwt")(passport);
-app
-	.use("/api", authRoutes)
-	.use("/api/user", userRoutes)
-	.use("/api/notification", notificationRoute)
-	.use("/api/board", boardRoutes)
-	.use("/api/board", membersRoute)
-	.use("/api/board/:boardId/tag", tagRoutes)
-	.use("/api/board/:boardId/column", columnRoutes)
-	.use("/api/board/:boardId/task", taskRoutes);
-
-
-if (NODE_ENV === "production") {
-    app.use(express.static(__dirname + "/public/"));
-    app.get("*", (req, res) => res.sendFile(__dirname + "/public/index.html"));
+if (ENV_CONF.NODE_ENV === "production") {
+  app.use(express.static(__dirname + "/public/"));
+  app.get("*", (_, res) => res.sendFile(__dirname + "/public/index.html"));
 }
 
-// bad request - catches all non existing routes
-app.use((req, res) => {
-	res.status(404).json({
-		error: `Bad request: ${req.method} ${req.originalUrl}`,
-	});
-});
+app.use(routeErrorHandler);
 
 // WEB-SOCKETS
-const columnWS = require("./sockets/column");
-const taskWS = require("./sockets/task");
-const roomsWS = require("./sockets/rooms");
+require("./sockets")(io);
 
-io.on("connection", (socket) => {
-	roomsWS(io, socket);
-	columnWS(io, socket);
-	taskWS(io, socket);
-});
-
-server.listen(PORT, () => {
-	console.log(`server running on PORT: [${PORT}] in [${NODE_ENV}]`);
+server.listen(ENV_CONF.PORT, () => {
+  console.log(`server running on PORT: [${ENV_CONF.PORT}] in [${ENV_CONF.NODE_ENV}]`);
 });

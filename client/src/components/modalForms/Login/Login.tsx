@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { FormikProps, Form, Field, withFormik } from "formik";
 import { FormValues } from ".";
-import {TextField} from "components/general/TextInput";
+import { TextField } from "components/general/TextInput";
 import Button from "components/general/Button";
 import { UserContext, UserActionType } from "context/UserContext";
 import { ModalContext, ModalActionType } from "context/ModalContext";
@@ -26,7 +26,7 @@ const LoginForm: React.FC<FormikProps<FormValues>> = (props) => {
       });
       modalDispatch({ type: ModalActionType.CLOSE });
     } else if (status?.submitStatus === "ERROR") {
-      setErrors({ username: "bad username", password: "bad password" });
+      setErrors({ ...status?.message });
     }
     return () => {};
   }, [status, userDispatch, modalDispatch, setErrors]);
@@ -54,9 +54,10 @@ const LoginWithFormik = withFormik<{}, FormValues>({
   handleSubmit: async (submittedData, { setSubmitting, setStatus }) => {
     const { data, error } = await login({ setLoading: setSubmitting, payload: submittedData });
     if (!!data) {
-      setStatus({ submitStatus: "SUCCESS", token: data.token, user: data.user });
+      const { token, user } = data;
+      setStatus({ submitStatus: "SUCCESS", token, user });
     } else if (!!error) {
-      setStatus({ submitStatus: "ERROR", boardId: data.board._id, message: data.message });
+      setStatus({ submitStatus: "ERROR", message: error.message });
     }
   },
 })(LoginForm);

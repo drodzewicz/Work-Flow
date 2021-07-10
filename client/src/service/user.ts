@@ -1,8 +1,18 @@
-import fetchData, { serviceParams } from "./utils/fetchData";
+import fetchData, { serviceParams, callAPI2 } from "./utils/fetchData";
+import { User } from "types";
 
 // IS AUTHENTICATED
+interface fullUserI extends User {
+  name: string,
+  surname: string,
+  email: string
+}
+interface isAuthenticatedResponse {
+  authorized: boolean;
+  user: fullUserI;
+}
 export const isUserAuthenticated = async ({ setLoading }: serviceParams = {}) => {
-  return await fetchData({
+  return await callAPI2<isAuthenticatedResponse>({
     url: "/isAuth",
     token: true,
     method: "GET",
@@ -19,8 +29,11 @@ interface registerParams extends serviceParams {
     matchPassword: string;
   };
 }
+interface registerResponse {
+  message: string;
+}
 export const register = async ({ payload, setLoading }: registerParams) => {
-  return await fetchData({
+  return await callAPI2<registerResponse>({
     method: "POST",
     url: "/register",
     payload,
@@ -35,8 +48,12 @@ interface loginParams extends serviceParams {
     password: string;
   };
 }
+interface loginResponse {
+  token: string;
+  user: User;
+}
 export const login = async ({ payload, setLoading }: loginParams) => {
-  return await fetchData({
+  return await callAPI2<loginResponse>({
     method: "POST",
     url: "/login",
     payload,
@@ -70,8 +87,11 @@ interface changePasswrdParams extends serviceParams {
     matchPassword: string;
   };
 }
+interface changePasswordResponse {
+  message: string
+}
 export const changePassword = async ({ payload, setLoading }: changePasswrdParams) => {
-  return await fetchData({
+  return await callAPI2<changePasswordResponse>({
     method: "PATCH",
     url: "/user/change_password",
     token: true,
@@ -86,8 +106,11 @@ interface changeAvatarParams extends serviceParams {
     imageURL: string;
   };
 }
+interface changeAvatarResponse {
+  message: string;
+}
 export const changeAvatar = async ({ payload, setLoading }: changeAvatarParams) => {
-  return await fetchData({
+  return await callAPI2<changeAvatarResponse>({
     method: "PATCH",
     url: "/user/change_avatar",
     token: true,
@@ -100,15 +123,16 @@ export const changeAvatar = async ({ payload, setLoading }: changeAvatarParams) 
 interface searchUsersByUsernameParams extends serviceParams {
   username: string;
 }
+type searchUsersResponse = User[];
+
 export const searchUsersByUsername = async ({
   username,
   setLoading,
 }: searchUsersByUsernameParams) => {
-  return await fetchData({
+  return await callAPI2<searchUsersResponse>({
     method: "GET",
     url: `/user/find_user?username=${username}`,
     token: true,
     setLoading,
   });
 };
-

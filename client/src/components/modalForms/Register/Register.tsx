@@ -34,17 +34,17 @@ const Register = () => {
   ) => {
     setRegisterFormFields((data) => ({ ...data, ...newData }));
     if (final) {
-      const { error, status } = await register({
+      const { data, error } = await register({
         payload: { ...registerFormField, ...newData },
         setLoading,
       });
-      if (status === 201) {
+      if (!!data) {
         alertDispatch({
           type: AlertActionType.SUCCESS,
-          payload: { message: "successfuly registered!" },
+          payload: { message: data.message },
         });
         modalDispatch({ type: ModalActionType.CLOSE });
-      } else if (status === 400) {
+      } else if (!!error) {
         alertDispatch({ type: AlertActionType.ERROR, payload: { message: "validation error" } });
         setFieldErrors(error.message);
       }

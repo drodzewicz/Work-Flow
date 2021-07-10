@@ -65,7 +65,7 @@ const ChangePasswordWithFormik = withFormik<{}, FormValues>({
     if (!!data) {
       setStatus({ submitStatus: "SUCCESS" });
     } else if (!!error) {
-      setStatus({ submitStatus: "ERROR", message: data.message });
+      setStatus({ submitStatus: "ERROR", message: error.data.message });
     }
   },
 })(ChangePasswordForm);
