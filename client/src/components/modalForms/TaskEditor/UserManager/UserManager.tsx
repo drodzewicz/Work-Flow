@@ -2,20 +2,31 @@ import React, { useState } from "react";
 import SearchInput from "components/general/SearchInput";
 import User from "components/board/User";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
-import { searchUserInBoard } from "service";
+import { getBoardMembers } from "service";
 import "./UserManager.scss";
 import { UserManagerProps } from ".";
+import { BoardUserI } from "types";
+
+interface BoardUserSearchRes extends BoardUserI {
+  _id: string;
+  text: string;
+}
 
 const UserManager: React.FC<UserManagerProps> = ({ users, setUsers, boardId }) => {
-  const [userSearchResult, setUserSearchResult] = useState([]);
+  const [userSearchResult, setUserSearchResult] = useState<BoardUserSearchRes[]>([]);
 
   const searchUser = async (username: string) => {
-    const { data } = await searchUserInBoard({ boardId, username });
-    setUserSearchResult(
-      data
-        .filter(({ user }: { user: any }) => users.findIndex(({ _id }) => _id === user._id) < 0)
-        .map(({ user }: { user: any }) => ({ ...user, text: user.username }))
-    );
+    const { data } = await getBoardMembers({ boardId, username });
+    if (!!data) {
+      const { members } = data;
+      setUserSearchResult(
+        members.map((member) => ({
+          ...member,
+          text: member.user.username,
+          _id: member.user._id,
+        }))
+      );
+    }
   };
   const addUserToList = (user: any) => {
     setUsers((users: any) => {

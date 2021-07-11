@@ -15,15 +15,11 @@ boardService.createNewBoard = async (req, res) => {
   try {
     await newBoard.save();
     return res.json({
-      success: true,
       message: "new board successfuly created",
       board: newBoard,
     });
   } catch (error) {
-    return res.status(400).json({
-      error: true,
-      message: processErrors(error),
-    });
+    next(error);
   }
 };
 boardService.updateBoard = async (req, res) => {
@@ -32,48 +28,45 @@ boardService.updateBoard = async (req, res) => {
   try {
     await Board.findOneAndUpdate({ _id: boardId }, { name, description });
     return res.json({
-      board: { _id: boardId },
+      boardId,
       message: "board successfuly updated",
-      success: true,
     });
   } catch (error) {
-    return res.status(400).json({
-      error: true,
-      message: processErrors(error),
-    });
+    next(error);
   }
 };
 boardService.getMyBoards = async (req, res) => {
   const { id } = req.user;
   const { page, limit } = req.query;
   try {
-    const foundMyBoards = await Board.find(
+    let foundMyBoards = await Board.find(
       { "members.user": id },
       "description name _id author"
-    ).sort({ timeCreated: -1 })
+    ).sort({ timeCreated: -1 });
 
-    let paginatedMyBoards = paginateConetnt(foundMyBoards, page, limit);
-    const { pinnedBoards } = await User.findById(id);
-    paginatedMyBoards.items = paginatedMyBoards.items.map((board) => {
-      let isAuthor = false;
-      if (board.author.toLocaleString() === id.toLocaleString()) isAuthor = true;
-      if (
-        pinnedBoards.findIndex(
-          (boardId) => boardId.toLocaleString() === board._id.toLocaleString()
-        ) >= 0
-      ) {
-        return { ...board.toObject(), pinned: true, isAuthor };
-      } else {
-        return { ...board.toObject(), pinned: false, isAuthor };
-      }
+    let { pinnedBoards } = await User.findById(id).populate({
+      path: "pinnedBoards",
+      select: "_id",
     });
 
-    return res.json(paginatedMyBoards);
+    foundMyBoards = foundMyBoards.map((board) => {
+      const isAuthor = board.author.toLocaleString() === id.toLocaleString();
+      const pinned =
+        pinnedBoards.findIndex(({ _id }) => {
+          return _id.toLocaleString() === board._id.toLocaleString();
+        }) > -1;
+      return {
+        ...board.toObject(),
+        pinned,
+        isAuthor,
+      };
+    });
+
+    let { items: boards, prev, next, totalPageCount } = paginateConetnt(foundMyBoards, page, limit);
+
+    return res.json({ boards, prev, next, totalPageCount });
   } catch (error) {
-    return res.status(400).json({
-      error: true,
-      message: processErrors(error),
-    });
+    next(error);
   }
 };
 boardService.getMyPinnedBoards = async (req, res) => {
@@ -83,47 +76,41 @@ boardService.getMyPinnedBoards = async (req, res) => {
       path: "pinnedBoards",
       select: "description name _id author",
     });
-    pinnedBoards = pinnedBoards.map((board) => {
-      let isAuthor = false;
-      if (board.author.toLocaleString() === id.toLocaleString()) isAuthor = true;
-      return { ...board.toObject(), pinned: true, isAuthor };
-    });
-    return res.status(200).json(pinnedBoards);
+    pinnedBoards = pinnedBoards.map((board) => ({
+      ...board.toObject(),
+      pinned: true,
+      isAuthor: board.author.toLocaleString() === id.toLocaleString(),
+    }));
+
+    return res.status(200).json({ boards: pinnedBoards });
   } catch (error) {
-    return res.status(400).json({
-      errror: true,
-      message: processErrors(error),
-    });
+    next(error);
   }
 };
 boardService.getBoardById = async (req, res) => {
   const { boardId } = req.params;
   const { short } = req.query;
   try {
-    let foundBoard;
     if (short === "true") {
-      foundBoard = await Board.findOne({ _id: boardId }, "_id name description author");
-    } else {
-      foundBoard = await Board.findOne(
-        { _id: boardId },
-        "_id name description author columns"
-      ).populate({
-        path: "columns",
-        populate: {
-          path: "tasks",
-          populate: {
-            path: "people tags",
-            select: "_id username avatarImageURL color name",
-          },
-        },
-      });
+      const foundBoard = await Board.findOne({ _id: boardId }, "_id name description author");
+      return res.status(200).json(foundBoard);
     }
+    foundBoard = await Board.findOne(
+      { _id: boardId },
+      "_id name description author columns"
+    ).populate({
+      path: "columns",
+      populate: {
+        path: "tasks",
+        populate: {
+          path: "people tags",
+          select: "_id username avatarImageURL color name",
+        },
+      },
+    });
     return res.status(200).json(foundBoard);
   } catch (error) {
-    return res.status(404).json({
-      error: true,
-      message: processErrors(error),
-    });
+    next(error);
   }
 };
 boardService.togglePinBoard = async (req, res) => {
@@ -149,9 +136,7 @@ boardService.togglePinBoard = async (req, res) => {
         .json({ message: `pinned board with id: ${boardId}`, pinned: true, boardId });
     }
   } catch (error) {
-    return res.status(400).json({
-      message: User.processErrors(error),
-    });
+    next(error);
   }
 };
 boardService.deleteBoard = async (req, res) => {
@@ -184,9 +169,7 @@ boardService.deleteBoard = async (req, res) => {
     });
     return res.status(200).json({ message: `successfully deleted board with id: ${boardId}` });
   } catch (error) {
-    return res.status(400).json({
-      message: processErrors(error),
-    });
+    next(error);
   }
 };
 boardService.leaveBoard = async (req, res) => {
@@ -208,9 +191,7 @@ boardService.leaveBoard = async (req, res) => {
     foundUser.save();
     return res.status(200).json({ message: `successfully left board of id: ${boardId}` });
   } catch (error) {
-    return res.status(400).json({
-      message: processErrors(error),
-    });
+    next(error);
   }
 };
 

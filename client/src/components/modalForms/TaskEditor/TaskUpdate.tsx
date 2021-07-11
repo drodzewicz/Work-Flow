@@ -42,7 +42,6 @@ const TaskUpdateWrapper = withFormik<TaskUpdateFormik, FormValues>({
   },
   validationSchema: validationSchema,
   handleSubmit: async (submittedData, { setStatus, props }) => {
-    console.log(submittedData);
     const payload = {
       ...submittedData,
       people: submittedData.people.map(({ _id }) => _id),

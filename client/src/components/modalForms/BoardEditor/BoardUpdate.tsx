@@ -27,7 +27,8 @@ const BoardUpdateWithFormik = withFormik<BoardEditorProps, FormValues>({
     });
     const { data } = response;
     if (!!data) {
-      setStatus({ submitStatus: "SUCCESS", boardId: data.board._id, message: data.message });
+      const { boardId, message } = data;
+      setStatus({ submitStatus: "SUCCESS", boardId, message });
     }
   },
 })(BoardUpdate);

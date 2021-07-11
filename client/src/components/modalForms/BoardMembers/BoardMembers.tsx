@@ -13,12 +13,13 @@ import {
   addUserToBoard,
   changeBoardUserRole,
 } from "service";
+import { BoardUserI } from "types";
 
 import LoadingOverlay from "components/layout/LoadingOverlay";
 
 const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
   const USER_LIMIT = 5;
-  const [members, setMembers] = useState<Member[]>([]);
+  const [members, setMembers] = useState<BoardUserI[]>([]);
   const [page, setPage] = useState<PaginationI>({current: 1,total: 1,});
   const [isPageLoading, setPageLoading] = useState(true);
   const [searchRes, setSearchRes] = useState<SearchedUser[]>([]);
@@ -37,9 +38,11 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
       });
       if (_isMounted) setPageLoading(false);
       if (!!data && _isMounted) {
-        const { totalPageCount, items } = data;
-        setPage((pages) => ({ ...pages, total: totalPageCount }));
-        setMembers(items);
+        const { totalPageCount, members } = data;
+        if (!!totalPageCount) {
+          setPage((pages) => ({ ...pages, total: totalPageCount }));
+        } 
+        setMembers(members);
       }
     };
     fetchBoardMembers();

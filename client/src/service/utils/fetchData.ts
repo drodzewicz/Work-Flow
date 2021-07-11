@@ -5,6 +5,7 @@ export interface callAPIParams {
   method: Method;
   token?: boolean;
   payload?: any;
+  query?: object;
   setLoading: ((state: boolean) => void) | undefined;
 }
 
@@ -28,6 +29,18 @@ const errorHandler = (error: any) => {
   };
 };
 
+const parseQueryString = (query?: object) => {
+  let queryString = "";
+  if (!!query) {
+    queryString = Object.entries(query)
+      .filter(([_, val]) => val !== undefined)
+      .map(([key, val]) => `${key}=${val}`)
+      .join("&");
+    queryString = "?" + queryString;
+  }
+  return queryString;
+}
+
 const callAPI = async ({ url, method, token, payload, setLoading }: callAPIParams) => {
   let headers = {};
   if (!!token) headers = { Authorization: localStorage.getItem("token") };
@@ -42,12 +55,15 @@ const callAPI = async ({ url, method, token, payload, setLoading }: callAPIParam
   }
 };
 
-async function callAPI2<T>({ url, method, token, payload, setLoading }: callAPIParams) {
+async function callAPI2<T>({ url, method, query, token, payload, setLoading }: callAPIParams) {
   let headers = {};
   if (!!token) headers = { Authorization: localStorage.getItem("token") };
   !!setLoading && setLoading(true);
+
+  const queryString = parseQueryString(query);
+
   try {
-    const res = await axios({ method, url: `/api${url}`, data: payload, headers });
+    const res = await axios({ method, url: `/api${url}${queryString}`, data: payload, headers });
     !!setLoading && setLoading(false);
     return responseHandler<T>(res);
   } catch (error) {

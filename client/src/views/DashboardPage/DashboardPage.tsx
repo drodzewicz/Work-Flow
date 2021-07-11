@@ -31,15 +31,15 @@ const DashboardPage: React.FC = () => {
   };
   useEffect(() => {
     const fetchBoards = async () => {
-      const { data, status } = await getMyBoards({
+      const { data } = await getMyBoards({
         page: page.current,
         limit: 8,
         setLoading: setBoardsLoading,
       });
-      if (status === 200) {
-        const { totalPageCount, items } = data;
-        setPage((pageState) => ({ ...pageState, total: totalPageCount }));
-        setBoards((boardState) => ({ ...boardState, items }));
+      if (!!data) {
+        const { totalPageCount, boards } = data;
+        setPage((pageState) => ({ ...pageState, total: totalPageCount || 0 }));
+        setBoards((boardState) => ({ ...boardState, items: boards }));
       }
     };
     fetchBoards();
@@ -50,8 +50,9 @@ const DashboardPage: React.FC = () => {
   useEffect(() => {
     const fetchPinnedBoards = async () => {
       const { data, status } = await getPinnedBoards({ setLoading: setPinnedBoardLoading });
-      if (status === 200) {
-        setPinnedBoards((prevState) => ({ ...prevState, items: data }));
+      if (!!data) {
+        const {boards} = data;
+        setPinnedBoards((prevState) => ({ ...prevState, items: boards }));
       }
     };
     fetchPinnedBoards();
@@ -109,9 +110,8 @@ const DashboardPage: React.FC = () => {
   };
 
   const togglePinBoardHandler = async (boardId: string) => {
-    const { data, status } = await togglePinBoard({ boardId });
-    if (status !== 200) return;
-
+    const { data } = await togglePinBoard({ boardId });
+    if (!data) return;
     if (data.pinned) pinBoard(boardId);
     else unpinBoard(boardId);
   };

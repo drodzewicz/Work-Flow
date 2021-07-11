@@ -22,14 +22,37 @@ export interface BoardUserI {
   user: User;
 }
 
+export interface TaskI {
+  _id: string;
+  title: string;
+  description: string;
+  author: string;
+  people: User[];
+  tags: TagI[]
+}
+
+export interface ColumnI {
+  _id: string;
+  name: string;
+  tasks: TaskI[];
+} 
+
+export interface BoardFullI {
+  _id: string;
+  name: string;
+  description: string;
+  author: string;
+  columns: ColumnI[];
+}
+
 export interface BoardI {
   _id: string;
   name: string;
   description: string;
   author: string;
   isAuthor: boolean;
-  pinned: boolean;
-  members: BoardUserI;
+  pinned?: boolean;
+  members?: BoardUserI[];
 }
 
 export interface TaskI {
@@ -40,4 +63,10 @@ export interface TaskI {
   board: string;
   people: User[];
   tags: TagI[];
+}
+
+
+export interface PaginatedItems<T> {
+  totalPageCount: number,
+  items: T[]
 }

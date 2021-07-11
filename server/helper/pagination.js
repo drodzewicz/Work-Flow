@@ -2,7 +2,8 @@ const { response } = require("express");
 
 const paginateConetnt = (items, page, limit) => {
 	page = parseInt(page);
-	limit = parseInt(limit);
+    limit = parseInt(limit);
+    
 
     if(!isNaN(page) && !isNaN(limit)){
         const startIndex = (page - 1) * limit;

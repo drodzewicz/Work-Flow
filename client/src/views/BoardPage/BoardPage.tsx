@@ -66,15 +66,22 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
       const { data, status } = await getLoggedInUserBoardRole({ boardId, userId: user._id });
       if (_isMounted && status === 200) {
         ws.emit("joinBoardRoom", { room: boardId });
-        userDispatch({ type: UserActionType.ROLE, payload: { role: data.member.role, boardId } });
+        if (!!data) {
+          const { member } = data;
+          userDispatch({
+            type: UserActionType.ROLE,
+            payload: { role: member.role, boardId },
+          });
+        }
       }
     };
 
     const getBoardTaskss = async () => {
       const { data, status } = await getBoard({ boardId, setLoading: setTaskLoading });
-      if (status === 200) {
-        tasksDispatch({ type: TasksActionType.SET_TASKS, payload: { columns: data.columns } });
-        setBoardInfo({ name: data.name, description: data.description });
+      if (!!data) {
+        const { columns, name, description } = data; 
+        tasksDispatch({ type: TasksActionType.SET_TASKS, payload: { columns } });
+        setBoardInfo({ name, description });
       } else {
         history.replace(`/error/${status}`);
       }
