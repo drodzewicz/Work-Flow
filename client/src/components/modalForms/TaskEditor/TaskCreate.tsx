@@ -12,7 +12,14 @@ const TaskCreate: React.FC<Omit<TaskEditorFormProps, "submitType"> & FormikProps
 
 const TaskCreateWrapper = withFormik<TaskCreateProps, FormValues>({
   mapPropsToValues: () => {
-    return { title: "", description: "", people: [], tags: [] };
+    return {
+      _id: "",
+      title: "",
+      description: "",
+      people: [],
+      tags: [],
+      author: { _id: "", username: "" },
+    };
   },
   validationSchema: validationSchema,
   handleSubmit: async (submittedData, { setStatus, props }) => {

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import NavItem from "components/layout/Navbar/NavItem";
 import ThemeSwitch from "components/general/ThemeSwitch";
-import Notification, { NotificationResponse } from "components/general/Notification";
+import Notification from "components/general/Notification";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import HomeIcon from "@material-ui/icons/Home";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -10,6 +10,7 @@ import { UserContext, UserActionType } from "context/UserContext";
 import { getNotifications, removeNotification } from "service";
 import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
 import "./UserNav.scss";
+import { NotificationI } from "types";
 
 const UserNav: React.FC = () => {
   const history = useHistory();
@@ -18,7 +19,7 @@ const UserNav: React.FC = () => {
     userState: { user },
     userDispatch,
   } = useContext(UserContext);
-  const [notifications, setNotification] = useState<NotificationResponse[]>([]);
+  const [notifications, setNotification] = useState<NotificationI[]>([]);
 
   const handlGetMyNotifications = async () => {
     const { data } = await getNotifications();

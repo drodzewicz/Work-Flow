@@ -1,4 +1,4 @@
-import fetchData, { serviceParams } from "./utils/fetchData";
+import callAPI, { serviceParams } from "./utils/fetchData";
 import { emitWS, socketServiceParams } from "./utils/socketData";
 
 // COLUMN - CREATE
@@ -44,13 +44,16 @@ interface updateBoardColumnParams extends serviceParams {
     name?: string;
   };
 }
+interface updateBoardColumnResponse {
+  message: string
+}
 export const updateBoardColumn = async ({
   boardId,
   columnId,
   setLoading,
   payload,
 }: updateBoardColumnParams) => {
-  return await fetchData({
+  return await callAPI<updateBoardColumnResponse>({
     method: "PATCH",
     url: `/board/${boardId}/column/${columnId}`,
     token: true,

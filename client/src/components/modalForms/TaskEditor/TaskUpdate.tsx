@@ -9,6 +9,12 @@ const TaskUpdate: React.FC<TaskUpdateProps> = (props) => {
   const { boardId, taskId } = props;
   const [isLoading, setLoading] = useState<boolean>(true);
   const [task, setTask] = useState<FormValues>({
+    _id: "",
+    author: {
+      _id: "",
+      username: "",
+      avatarImageURL: ""
+    },
     title: "",
     description: "",
     people: [],
@@ -22,9 +28,11 @@ const TaskUpdate: React.FC<TaskUpdateProps> = (props) => {
         boardId,
         taskId: taskId || "",
       });
-      const { title, description, people, tags } = data.task;
-      setTask({ title, description, people, tags });
-      setLoading(false);
+      if (!!data) {
+         const { task } = data;
+         setTask(task);
+         setLoading(false);
+      }
     };
     getTaskDetails();
     return () => {};

@@ -8,7 +8,8 @@ import "./Tags.scss";
 import { getBoardTags, createBoardTag, deleteBoardTag, updateBoardTag } from "service";
 import LoadingOverlay from "components/layout/LoadingOverlay";
 import { UserContext } from "context/UserContext";
-import { TagColors, TagI, TagsProps } from ".";
+import { TagsProps } from ".";
+import { TagI, TagColors } from "types";
 import { UserBoardRoles } from "types";
 
 const Tags: React.FC<TagsProps> = ({ boardId }) => {

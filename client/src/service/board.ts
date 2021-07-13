@@ -1,4 +1,4 @@
-import fetchData, { serviceParams, callAPI2 } from "./utils/fetchData";
+import callAPI, { serviceParams } from "./utils/fetchData";
 import { BoardI, BoardFullI } from "types";
 
 // MY BOARDS - GET
@@ -15,7 +15,7 @@ interface getMyBoardsResponse {
 export const getMyBoards = async (
   { page, limit, setLoading }: getMyBoardsParams = { page: 1, limit: 8 }
 ) => {
-  return await callAPI2<getMyBoardsResponse>({
+  return await callAPI<getMyBoardsResponse>({
     method: "GET",
     url: `/board/user/my_boards`,
     query: {
@@ -35,7 +35,7 @@ interface deleteBoardResponse {
   message: string;
 }
 export const deleteBoard = async ({ boardId, setLoading }: deleteBoardParams) => {
-  return await callAPI2<deleteBoardResponse>({
+  return await callAPI<deleteBoardResponse>({
     method: "DELETE",
     url: `/board/${boardId}`,
     token: true,
@@ -55,7 +55,7 @@ interface createdBordResponse {
   message: string
 }
 export const createBoard = async ({ setLoading, payload }: createBoardParams) => {
-  return await callAPI2<createdBordResponse>({
+  return await callAPI<createdBordResponse>({
     method: "POST",
     url: `/board/`,
     token: true,
@@ -70,7 +70,7 @@ interface getBoardParams extends serviceParams {
   short?: boolean;
 }
 export const getBoard = async ({ short = false, boardId, setLoading }: getBoardParams) => {
-  return await callAPI2<BoardFullI>({
+  return await callAPI<BoardFullI>({
     method: "GET",
     url: `/board/${boardId}?short=${short}`,
     token: true,
@@ -86,7 +86,7 @@ interface leaveBoardResponse {
   message: string;
 }
 export const leaveBoard = async ({ boardId, setLoading }: leaveBoardParams) => {
-  return await callAPI2<leaveBoardResponse>({
+  return await callAPI<leaveBoardResponse>({
     method: "DELETE",
     url: `/board/${boardId}/leave_board`,
     token: true,
@@ -107,7 +107,7 @@ interface updateBoardresponse {
   boardId: string;
 }
 export const updateBoard = async ({ boardId, setLoading, payload }: updateBoardParams) => {
-  return await callAPI2<updateBoardresponse>({
+  return await callAPI<updateBoardresponse>({
     method: "POST",
     url: `/board/${boardId}`,
     token: true,
@@ -121,7 +121,7 @@ interface getPinnedBoardsResponse {
   boards: BoardI[];
 }
 export const getPinnedBoards = async ({ setLoading }: serviceParams = {}) => {
-  return await callAPI2<getPinnedBoardsResponse>({
+  return await callAPI<getPinnedBoardsResponse>({
     method: "GET",
     url: "/board/user/pined_boards",
     token: true,
@@ -138,7 +138,7 @@ interface togglePinBoardResponse {
   pinned: boolean;
 }
 export const togglePinBoard = async ({ boardId, setLoading }: togglePinBoardParams) => {
-  return await callAPI2<togglePinBoardResponse>({
+  return await callAPI<togglePinBoardResponse>({
     method: "PATCH",
     url: `/board/user/pined_boards`,
     query: {

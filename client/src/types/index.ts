@@ -4,6 +4,18 @@ export interface User {
   avatarImageURL?: string;
 }
 
+export enum TagColors {
+  RED = "RED",
+  YELLOW = "YELLOW",
+  GREEN = "GREEN",
+  TIEL = "TIEL",
+  PURPLE = "PURPLE",
+  MAJENTA = "MAJENTA",
+  PINK = "PINK",
+  BLACK = "BLACK",
+  WHITE = "WHITE",
+}
+
 export enum UserBoardRoles {
   OWNER = "OWNER",
   ADMIN = "ADMIN",
@@ -12,9 +24,9 @@ export enum UserBoardRoles {
 }
 
 export interface TagI {
-  _id: string,
-  color: string,
-  name: string
+  _id: string;
+  color: TagColors;
+  name: string;
 } 
 
 export interface BoardUserI {
@@ -29,6 +41,15 @@ export interface TaskI {
   author: string;
   people: User[];
   tags: TagI[]
+}
+
+export interface TaskI2 {
+  _id: string;
+  title: string;
+  description: string;
+  author: User;
+  people: User[];
+  tags: TagI[];
 }
 
 export interface ColumnI {
@@ -69,4 +90,11 @@ export interface TaskI {
 export interface PaginatedItems<T> {
   totalPageCount: number,
   items: T[]
+}
+
+export interface NotificationI {
+  info: string;
+  title: string;
+  url?: string;
+  _id: string;
 }

@@ -1,4 +1,4 @@
-import fetchData, { serviceParams, callAPI2 } from "./utils/fetchData";
+import callAPI, { serviceParams } from "./utils/fetchData";
 import { BoardUserI, UserBoardRoles } from "types";
 
 // MEMBERS - GET
@@ -21,7 +21,7 @@ export const getBoardMembers = async ({
   username,
   setLoading,
 }: getBoardMembersParams) => {
-  return await callAPI2<getBoardMembersResponse>({
+  return await callAPI<getBoardMembersResponse>({
     method: "GET",
     url: `/board/${boardId}/members`,
     query: {
@@ -47,7 +47,7 @@ export const removeUserFromBoard = async ({
   userId,
   setLoading,
 }: removeUserFromBoardParams) => {
-  return await callAPI2<removeUserFromBoardResponse>({
+  return await callAPI<removeUserFromBoardResponse>({
     method: "DELETE",
     url: `/board/${boardId}/members/${userId}`,
     token: true,
@@ -64,7 +64,7 @@ interface addUserToBoardResponse {
   message: string;
 }
 export const addUserToBoard = async ({ boardId, userId, setLoading }: addUserToBoardParams) => {
-  return await callAPI2<addUserToBoardResponse>({
+  return await callAPI<addUserToBoardResponse>({
     method: "PATCH",
     url: `/board/${boardId}/members?userId=${userId}`,
     token: true,
@@ -88,7 +88,7 @@ export const changeBoardUserRole = async ({
   newRole,
   setLoading,
 }: changeBoardUserRoleParams) => {
-  return await callAPI2<changeBoardUserRoleResponse>({
+  return await callAPI<changeBoardUserRoleResponse>({
     method: "PATCH",
     url: `/board/${boardId}/members/${userId}?newRole=${newRole}`,
     token: true,
@@ -112,7 +112,7 @@ export const getLoggedInUserBoardRole = async ({
   userId,
   setLoading,
 }: getLoggedInUserBoardRoleParams) => {
-  return await callAPI2<getLoggedInUserBoardRoleResponse>({
+  return await callAPI<getLoggedInUserBoardRoleResponse>({
     method: "GET",
     url: `/board/${boardId}/members/${userId}`,
     token: true,

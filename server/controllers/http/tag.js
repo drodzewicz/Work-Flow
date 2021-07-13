@@ -10,9 +10,7 @@ tagService.getBoardTags = async (req, res) => {
     const { tags } = await Board.findOne({ _id: boardId }, "tags").populate("tags");
     return res.status(200).json({ tags });
   } catch (error) {
-    return res.status(400).json({
-      message: processErrors(error),
-    });
+    next(error)
   }
 };
 
@@ -28,9 +26,7 @@ tagService.createNewTag = async (req, res) => {
     await foundBoard.save();
     return res.status(200).json({ message: "created new tag", tag: saveTag });
   } catch (error) {
-    return res.status(400).json({
-      message: processErrors(error),
-    });
+    next(error);
   }
 };
 
@@ -42,9 +38,7 @@ tagService.deleteTag = async (req, res) => {
     await Board.findOneAndUpdate({ _id: boardId }, { $pull: { tags: tagId } });
     return res.status(200).json({ message: "tag deleted" });
   } catch (error) {
-    return res.status(400).json({
-      message: processErrors(error),
-    });
+    next(error);
   }
 };
 
@@ -55,9 +49,7 @@ tagService.updateTag = async (req, res) => {
     const updatedTag = await Tag.findOneAndUpdate({ _id: tagId }, { name, color });
     return res.status(200).json({ message: "tag updated", tag: updatedTag });
   } catch (error) {
-    return res.status(400).json({
-      message: processErrors(error),
-    });
+    next(error);
   }
 };
 

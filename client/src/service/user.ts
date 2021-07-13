@@ -1,4 +1,4 @@
-import fetchData, { serviceParams, callAPI2 } from "./utils/fetchData";
+import callAPI, { serviceParams } from "./utils/fetchData";
 import { User } from "types";
 
 // IS AUTHENTICATED
@@ -12,7 +12,7 @@ interface isAuthenticatedResponse {
   user: fullUserI;
 }
 export const isUserAuthenticated = async ({ setLoading }: serviceParams = {}) => {
-  return await callAPI2<isAuthenticatedResponse>({
+  return await callAPI<isAuthenticatedResponse>({
     url: "/isAuth",
     token: true,
     method: "GET",
@@ -33,7 +33,7 @@ interface registerResponse {
   message: string;
 }
 export const register = async ({ payload, setLoading }: registerParams) => {
-  return await callAPI2<registerResponse>({
+  return await callAPI<registerResponse>({
     method: "POST",
     url: "/register",
     payload,
@@ -53,7 +53,7 @@ interface loginResponse {
   user: User;
 }
 export const login = async ({ payload, setLoading }: loginParams) => {
-  return await callAPI2<loginResponse>({
+  return await callAPI<loginResponse>({
     method: "POST",
     url: "/login",
     payload,
@@ -70,8 +70,11 @@ interface updateCredentialsParams extends serviceParams {
     email?: string;
   };
 }
+interface updateCredentialsResponse {
+  updated: boolean
+}
 export const updateCredentials = async ({ setLoading, payload }: updateCredentialsParams) => {
-  return await fetchData({
+  return await callAPI<updateCredentialsResponse>({
     method: "POST",
     url: "/user/update_credentials",
     token: true,
@@ -91,7 +94,7 @@ interface changePasswordResponse {
   message: string
 }
 export const changePassword = async ({ payload, setLoading }: changePasswrdParams) => {
-  return await callAPI2<changePasswordResponse>({
+  return await callAPI<changePasswordResponse>({
     method: "PATCH",
     url: "/user/change_password",
     token: true,
@@ -110,7 +113,7 @@ interface changeAvatarResponse {
   message: string;
 }
 export const changeAvatar = async ({ payload, setLoading }: changeAvatarParams) => {
-  return await callAPI2<changeAvatarResponse>({
+  return await callAPI<changeAvatarResponse>({
     method: "PATCH",
     url: "/user/change_avatar",
     token: true,
@@ -129,7 +132,7 @@ export const searchUsersByUsername = async ({
   username,
   setLoading,
 }: searchUsersByUsernameParams) => {
-  return await callAPI2<searchUsersResponse>({
+  return await callAPI<searchUsersResponse>({
     method: "GET",
     url: `/user/find_user?username=${username}`,
     token: true,

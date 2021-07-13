@@ -1,11 +1,15 @@
-import fetchData, { serviceParams } from "./utils/fetchData";
+import callAPI, { serviceParams } from "./utils/fetchData";
+import { TagI } from "types";
 
 // TAGS - GET
 interface getBoardTagsParams extends serviceParams {
   boardId: string;
 }
+interface getBoardTagsResponse {
+  tags: TagI[];
+}
 export const getBoardTags = async ({ boardId, setLoading }: getBoardTagsParams) => {
-  return await fetchData({
+  return await callAPI<getBoardTagsResponse>({
     method: "GET",
     url: `/board/${boardId}/tag/`,
     token: true,
@@ -21,8 +25,12 @@ interface createBoardTagParams extends serviceParams {
     color: string;
   };
 }
+interface getBoardTagsResponse {
+  message: string;
+  tag: TagI;
+}
 export const createBoardTag = async ({ boardId, payload, setLoading }: createBoardTagParams) => {
-  return await fetchData({
+  return await callAPI<getBoardTagsResponse>({
     method: "POST",
     url: `/board/${boardId}/tag`,
     token: true,
@@ -40,8 +48,12 @@ interface updateBoardTagParams extends serviceParams {
     color: string;
   };
 }
+interface updateBoardTagsResponse {
+  message: string;
+  tag: TagI;
+}
 export const updateBoardTag = async ({ boardId, tagId, payload, setLoading }: updateBoardTagParams) => {
-  return await fetchData({
+  return await callAPI<updateBoardTagsResponse>({
     method: "POST",
     url: `/board/${boardId}/tag/${tagId}`,
     token: true,
@@ -57,8 +69,11 @@ interface deleteBoardTagParams extends serviceParams {
   boardId: string;
   tagId: string;
 }
+interface deleteBoardTagResponse {
+  message: string
+}
 export const deleteBoardTag = async ({ boardId, tagId, setLoading }: deleteBoardTagParams) => {
-  return await fetchData({
+  return await callAPI<deleteBoardTagResponse>({
     method: "DELETE",
     url: `/board/${boardId}/tag/${tagId}`,
     token: true,

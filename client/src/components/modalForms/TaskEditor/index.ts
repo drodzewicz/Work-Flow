@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { TagI, User } from "types";
+import { TagI, User, TaskI2 } from "types";
 
 export { default } from "./TaskEditor";
 
@@ -10,12 +10,14 @@ export interface TaskCreateProps {
   columnId: string;
 }
 
-export interface FormValues {
-  title: string;
-  description: string;
-  people: User[];
-  tags: TagI[];
-}
+// export interface FormValues {
+//   title: string;
+//   description: string;
+//   people: User[];
+//   tags: TagI[];
+// }
+
+export interface FormValues extends TaskI2 {}
 
 export interface TaskUpdateProps {
   boardId: string;

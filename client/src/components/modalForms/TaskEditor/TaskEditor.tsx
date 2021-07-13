@@ -44,7 +44,7 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
     };
     initTask();
     return () => {};
-  }, [boardId, submitType, values]);
+  }, [boardId, submitType]);
 
   useEffect(() => {
     if (status?.submitStatus === "SUCCESS") {

@@ -1,14 +1,17 @@
-import fetchData, { serviceParams } from "./utils/fetchData";
+import callAPI, { serviceParams } from "./utils/fetchData";
 import { emitWS, socketServiceParams } from "./utils/socketData";
-
+import { TaskI2 } from "types";
 
 // TASKS - GET
 interface getBoardTaskParams extends serviceParams {
   boardId: string;
   taskId: string;
 }
+interface getTaskResponse {
+  task: TaskI2;
+}
 export const getBoardTask = async ({ boardId, taskId, setLoading }: getBoardTaskParams) => {
-  return await fetchData({
+  return await callAPI<getTaskResponse>({
     method: "GET",
     url: `/board/${boardId}/task/${taskId}`,
     token: true,
@@ -22,13 +25,16 @@ interface updateBoardTaskParams extends serviceParams {
   taskId: string;
   payload: any;
 }
+interface updateBoardTaskResponse {
+  message: string;
+}
 export const updateBoardTask = async ({
   boardId,
   taskId,
   payload,
   setLoading,
 }: updateBoardTaskParams) => {
-  return await fetchData({
+  return await callAPI<updateBoardTaskResponse>({
     method: "POST",
     url: `/board/${boardId}/task/${taskId}`,
     token: true,
@@ -91,7 +97,7 @@ export const createTask = ({ boardId, columnId, payload, res }: createTaskParams
     token: true,
     payload: {
       ...payload,
-      columnId
+      columnId,
     },
     res,
   });

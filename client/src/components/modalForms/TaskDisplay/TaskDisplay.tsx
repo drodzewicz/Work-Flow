@@ -13,6 +13,7 @@ import TaskUpdate from "components/modalForms/TaskEditor/TaskUpdate";
 import { getBoardTask, deleteTask } from "service";
 import LoadingOverlay from "components/layout/LoadingOverlay";
 import { TaskDisplayProps } from ".";
+import { TaskI2 } from "types";
 
 const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
   const { modalDispatch } = useContext(ModalContext);
@@ -23,16 +24,17 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
 
   const history = useHistory();
 
-  const [taskDetails, setTaskDetails] = useState({
+  const [taskDetails, setTaskDetails] = useState<TaskI2>({
+    _id: "",
     title: "",
     description: "",
-    tags: [],
-    taskAuthor: {
+    author: {
+      _id: "",
+      username: "",
       avatarImageURL: "",
-      _id: "loading",
-      username: "loading",
     },
-    peopleAssigned: [],
+    people: [],
+    tags: []
   });
   const [isTaskLoading, setTaskLoading] = useState(true);
 
@@ -48,14 +50,8 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
         history.push({
           search: `?task=${taskId}`,
         });
-        const { title, description, tags, author, people } = data.task;
-        setTaskDetails({
-          title,
-          description,
-          tags,
-          taskAuthor: author,
-          peopleAssigned: people,
-        });
+        const { task } = data;
+        setTaskDetails(task);
       }
     };
     getTaskInfo();
@@ -94,7 +90,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
 
   const isAuthorizedToEdit = () => {
     const { role } = currentBoard;
-     return taskDetails.taskAuthor._id === user._id || role === "OWNER" || role === "ADMIN";
+    return taskDetails.author._id === user._id || role === "OWNER" || role === "ADMIN";
   };
 
   return (
@@ -124,12 +120,12 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
           <div className="people-details">
             <h2 className="added-by user-title">Task Author</h2>
             <User
-              username={taskDetails.taskAuthor.username}
-              imageSrc={taskDetails.taskAuthor.avatarImageURL}
+              username={taskDetails.author.username}
+              imageSrc={taskDetails.author.avatarImageURL}
             />
             <h2 className="assigned-people-title user-title">People</h2>
             <div className="assigned-people-container">
-              {taskDetails.peopleAssigned.map(({ _id, username, avatarImageURL }) => (
+              {taskDetails.people.map(({ _id, username, avatarImageURL }) => (
                 <User key={_id} username={username} imageSrc={avatarImageURL} />
               ))}
             </div>
