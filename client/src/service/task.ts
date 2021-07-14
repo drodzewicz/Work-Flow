@@ -1,15 +1,15 @@
-import callAPI, { serviceParams } from "./utils/fetchData";
-import { emitWS, socketServiceParams } from "./utils/socketData";
-import { TaskI2 } from "types";
+import callAPI from "./utils/fetchData";
+import { emitWS } from "./utils/socketData";
+import {
+  getBoardTaskParams,
+  updateBoardTaskParams,
+  deleteTaskParams,
+  moveTaskParams,
+  createTaskParams,
+} from "types/service/request";
+import { getTaskResponse, GeneralResponse} from "types/service/response";
 
 // TASKS - GET
-interface getBoardTaskParams extends serviceParams {
-  boardId: string;
-  taskId: string;
-}
-interface getTaskResponse {
-  task: TaskI2;
-}
 export const getBoardTask = async ({ boardId, taskId, setLoading }: getBoardTaskParams) => {
   return await callAPI<getTaskResponse>({
     method: "GET",
@@ -20,21 +20,13 @@ export const getBoardTask = async ({ boardId, taskId, setLoading }: getBoardTask
 };
 
 // TASK UPDATE - POST
-interface updateBoardTaskParams extends serviceParams {
-  boardId: string;
-  taskId: string;
-  payload: any;
-}
-interface updateBoardTaskResponse {
-  message: string;
-}
 export const updateBoardTask = async ({
   boardId,
   taskId,
   payload,
   setLoading,
 }: updateBoardTaskParams) => {
-  return await callAPI<updateBoardTaskResponse>({
+  return await callAPI<GeneralResponse>({
     method: "POST",
     url: `/board/${boardId}/task/${taskId}`,
     token: true,
@@ -44,12 +36,6 @@ export const updateBoardTask = async ({
 };
 
 // TASK - DELETE
-interface deleteTaskParams extends socketServiceParams {
-  boardId: string;
-  payload: {
-    taskId: string;
-  };
-}
 export const deleteTask = ({ boardId, payload, res }: deleteTaskParams) => {
   emitWS({
     roomId: boardId,
@@ -61,19 +47,6 @@ export const deleteTask = ({ boardId, payload, res }: deleteTaskParams) => {
 };
 
 // TASK - MOVE
-interface moveTaskParams extends socketServiceParams {
-  boardId: string;
-  payload: {
-    source: {
-      columnIndex: number;
-      taskIndex: number;
-    };
-    destination: {
-      columnIndex: number;
-      taskIndex: number;
-    };
-  };
-}
 export const moveTask = ({ boardId, payload, res }: moveTaskParams) => {
   emitWS({
     roomId: boardId,
@@ -85,11 +58,6 @@ export const moveTask = ({ boardId, payload, res }: moveTaskParams) => {
 };
 
 // TASK - POST
-interface createTaskParams extends socketServiceParams {
-  boardId: string;
-  columnId: string;
-  payload: any;
-}
 export const createTask = ({ boardId, columnId, payload, res }: createTaskParams) => {
   emitWS({
     roomId: boardId,

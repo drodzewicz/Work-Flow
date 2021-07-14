@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { TagI, User, TaskI2 } from "types";
+import { TagI, User, TaskI2 } from "types/general";
 
 export { default } from "./TaskEditor";
 

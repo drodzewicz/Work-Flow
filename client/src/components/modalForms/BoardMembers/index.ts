@@ -1,4 +1,4 @@
-import { User, UserBoardRoles } from "types";
+import { User, UserBoardRoles } from "types/general";
 
 export { default } from "./BoardMembers";
 

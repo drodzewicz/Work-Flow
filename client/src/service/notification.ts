@@ -1,10 +1,9 @@
 import callAPI, { serviceParams } from "./utils/fetchData";
-import { NotificationI } from "types";
+import { removeNotificationParams } from "types/service/request";
+import { getNotificationsResponse, GeneralResponse} from "types/service/response";
 
 // NOTIFICATION - GET
-interface getNotificationsResponse {
-  notifications: NotificationI[];
-}
+
 export const getNotifications = async ({ setLoading }: serviceParams = {}) => {
   return await callAPI<getNotificationsResponse>({
     url: "/notification",
@@ -15,17 +14,11 @@ export const getNotifications = async ({ setLoading }: serviceParams = {}) => {
 };
 
 // NOTIFICATION - DELETE
-interface removeNotificationParams extends serviceParams {
-  notificationId: string;
-}
-interface removeNotificationResponse {
-  message: string;
-}
 export const removeNotification = async ({
   setLoading,
   notificationId,
 }: removeNotificationParams) => {
-  return await callAPI<removeNotificationResponse>({
+  return await callAPI<GeneralResponse>({
     url: `/notification/${notificationId}`,
     token: true,
     method: "DELETE",

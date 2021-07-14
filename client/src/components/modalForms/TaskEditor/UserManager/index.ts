@@ -1,5 +1,5 @@
 export { default } from "./UserManager";
-import { User } from "types";
+import { User } from "types/general";
 
 export interface UserManagerProps {
   users: User[];

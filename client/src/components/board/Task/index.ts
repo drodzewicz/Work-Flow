@@ -1,4 +1,4 @@
-import { User, TagI } from "types";
+import { User, TagI } from "types/general";
 
 export { default } from "./Task";
 

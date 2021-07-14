@@ -3,7 +3,7 @@ import { ColumnProps } from "../";
 import Column from "../Column";
 import { Draggable } from "react-beautiful-dnd";
 import { UserContext } from "context/UserContext"
-import { UserBoardRoles  } from "types";
+import { UserBoardRoles  } from "types/general";
 
 const DragableColumn: React.FC<ColumnProps> = (props) => {
   const { columnId, columnIndex } = props;

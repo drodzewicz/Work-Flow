@@ -1,6 +1,6 @@
 export { default } from "./BoardMemberUser";
 import { Member } from "../"
-import { UserBoardRoles } from "types";
+import { UserBoardRoles } from "types/general";
 
 export interface BoardMembersUserProps {
   member: Member;

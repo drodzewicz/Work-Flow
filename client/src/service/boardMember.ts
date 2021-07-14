@@ -1,19 +1,20 @@
-import callAPI, { serviceParams } from "./utils/fetchData";
-import { BoardUserI, UserBoardRoles } from "types";
+import callAPI from "./utils/fetchData";
+
+import {
+  getBoardMembersParams,
+  removeUserFromBoardParams,
+  addUserToBoardParams,
+  changeBoardUserRoleParams,
+  getLoggedInUserBoardRoleParams,
+} from "types/service/request";
+import {
+  getBoardMembersResponse,
+  GeneralResponse,
+  changeBoardUserRoleResponse,
+  getLoggedInUserBoardRoleResponse,
+} from "types/service/response";
 
 // MEMBERS - GET
-interface getBoardMembersParams extends serviceParams {
-  boardId: string;
-  limit?: number;
-  page?: number;
-  username?: string;
-}
-type getBoardMembersResponse = {
-  members: BoardUserI[];
-  next?: number;
-  prev?: number;
-  totalPageCount?: number;
-};
 export const getBoardMembers = async ({
   boardId,
   limit = 8,
@@ -35,19 +36,12 @@ export const getBoardMembers = async ({
 };
 
 // MEMBER - DELETE
-interface removeUserFromBoardParams extends serviceParams {
-  boardId: string;
-  userId: string;
-}
-interface removeUserFromBoardResponse {
-  message: string;
-}
 export const removeUserFromBoard = async ({
   boardId,
   userId,
   setLoading,
 }: removeUserFromBoardParams) => {
-  return await callAPI<removeUserFromBoardResponse>({
+  return await callAPI<GeneralResponse>({
     method: "DELETE",
     url: `/board/${boardId}/members/${userId}`,
     token: true,
@@ -56,15 +50,8 @@ export const removeUserFromBoard = async ({
 };
 
 // MEMBER - PATCH
-interface addUserToBoardParams extends serviceParams {
-  boardId: string;
-  userId: string;
-}
-interface addUserToBoardResponse {
-  message: string;
-}
 export const addUserToBoard = async ({ boardId, userId, setLoading }: addUserToBoardParams) => {
-  return await callAPI<addUserToBoardResponse>({
+  return await callAPI<GeneralResponse>({
     method: "PATCH",
     url: `/board/${boardId}/members?userId=${userId}`,
     token: true,
@@ -73,15 +60,6 @@ export const addUserToBoard = async ({ boardId, userId, setLoading }: addUserToB
 };
 
 // MEMBER ROLE - PATCH
-interface changeBoardUserRoleParams extends serviceParams {
-  boardId: string;
-  userId: string;
-  newRole: string;
-}
-interface changeBoardUserRoleResponse {
-  message: string;
-  role: UserBoardRoles;
-}
 export const changeBoardUserRole = async ({
   boardId,
   userId,
@@ -97,16 +75,6 @@ export const changeBoardUserRole = async ({
 };
 
 // LOGGEDIN USER ROLE - GET
-interface getLoggedInUserBoardRoleParams extends serviceParams {
-  boardId: string;
-  userId: string;
-}
-interface getLoggedInUserBoardRoleResponse {
-  member: {
-    role: UserBoardRoles;
-    user: string;
-  };
-}
 export const getLoggedInUserBoardRole = async ({
   boardId,
   userId,

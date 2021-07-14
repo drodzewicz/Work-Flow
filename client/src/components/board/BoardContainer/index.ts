@@ -1,5 +1,5 @@
 import React from "react";
-import { BoardI } from "types";
+import { BoardI } from "types/general";
 import { PaginationI } from "components/general/Pagination";
 
 export { default } from "./BoardContainer";

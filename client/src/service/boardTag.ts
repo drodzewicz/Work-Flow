@@ -1,13 +1,20 @@
 import callAPI, { serviceParams } from "./utils/fetchData";
-import { TagI } from "types";
+import { TagI } from "types/general";
+import {
+  getBoardTagsParams,
+  createBoardTagParams,
+  updateBoardTagParams,
+  deleteBoardTagParams,
+} from "types/service/request";
+import {
+  getBoardTagsResponse,
+  updateBoardTagsResponse,
+  createBoardTagResponse,
+  GeneralResponse
+} from "types/service/response";
 
 // TAGS - GET
-interface getBoardTagsParams extends serviceParams {
-  boardId: string;
-}
-interface getBoardTagsResponse {
-  tags: TagI[];
-}
+
 export const getBoardTags = async ({ boardId, setLoading }: getBoardTagsParams) => {
   return await callAPI<getBoardTagsResponse>({
     method: "GET",
@@ -18,19 +25,8 @@ export const getBoardTags = async ({ boardId, setLoading }: getBoardTagsParams) 
 };
 
 // TAG - POST
-interface createBoardTagParams extends serviceParams {
-  boardId: string;
-  payload: {
-    name: string;
-    color: string;
-  };
-}
-interface getBoardTagsResponse {
-  message: string;
-  tag: TagI;
-}
 export const createBoardTag = async ({ boardId, payload, setLoading }: createBoardTagParams) => {
-  return await callAPI<getBoardTagsResponse>({
+  return await callAPI<createBoardTagResponse>({
     method: "POST",
     url: `/board/${boardId}/tag`,
     token: true,
@@ -40,19 +36,12 @@ export const createBoardTag = async ({ boardId, payload, setLoading }: createBoa
 };
 
 // TAG - UPDATE
-interface updateBoardTagParams extends serviceParams {
-  boardId: string;
-  tagId: string;
-  payload: {
-    name: string;
-    color: string;
-  };
-}
-interface updateBoardTagsResponse {
-  message: string;
-  tag: TagI;
-}
-export const updateBoardTag = async ({ boardId, tagId, payload, setLoading }: updateBoardTagParams) => {
+export const updateBoardTag = async ({
+  boardId,
+  tagId,
+  payload,
+  setLoading,
+}: updateBoardTagParams) => {
   return await callAPI<updateBoardTagsResponse>({
     method: "POST",
     url: `/board/${boardId}/tag/${tagId}`,
@@ -62,18 +51,9 @@ export const updateBoardTag = async ({ boardId, tagId, payload, setLoading }: up
   });
 };
 
-
-
 // TAG - DELETE
-interface deleteBoardTagParams extends serviceParams {
-  boardId: string;
-  tagId: string;
-}
-interface deleteBoardTagResponse {
-  message: string
-}
 export const deleteBoardTag = async ({ boardId, tagId, setLoading }: deleteBoardTagParams) => {
-  return await callAPI<deleteBoardTagResponse>({
+  return await callAPI<GeneralResponse>({
     method: "DELETE",
     url: `/board/${boardId}/tag/${tagId}`,
     token: true,

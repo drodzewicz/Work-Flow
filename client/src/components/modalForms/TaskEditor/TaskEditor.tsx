@@ -10,7 +10,7 @@ import TagManager from "./TagManager/TagManager";
 import UserManager from "./UserManager/UserManager";
 import { AlertContext, AlertActionType } from "context/AlertContext";
 import { TaskEditorFormProps, FormValues } from ".";
-import { TagI, User } from "types"
+import { TagI, User } from "types/general"
 
 const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = (props) => {
   const {

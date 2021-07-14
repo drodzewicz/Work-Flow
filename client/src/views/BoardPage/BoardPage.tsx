@@ -20,7 +20,7 @@ import { onDragEnd } from "./dragHelper";
 import { useHistory } from "react-router-dom";
 import queryString from "query-string";
 import { BoardPageProps } from ".";
-import { UserBoardRoles } from "types";
+import { UserBoardRoles } from "types/general";
 
 import { ws } from "config/socket.conf";
 

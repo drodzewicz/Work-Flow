@@ -1,5 +1,5 @@
 import { UserActionType } from ".";
-import { User } from "types";
+import { User } from "types/general";
 
 export interface LoginSuccessAction {
   type: UserActionType.LOGIN_SUCCESS;

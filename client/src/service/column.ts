@@ -1,13 +1,15 @@
-import callAPI, { serviceParams } from "./utils/fetchData";
+import callAPI from "./utils/fetchData";
 import { emitWS, socketServiceParams } from "./utils/socketData";
+import {
+  createColumnParams,
+  deleteColumnParams,
+  updateBoardColumnParams,
+  moveColumnParams,
+} from "types/service/request";
+import { GeneralResponse } from "types/service/response"
 
 // COLUMN - CREATE
-interface createColumnParams extends socketServiceParams {
-  boardId: string;
-  payload: {
-    name: string;
-  };
-}
+
 export const createColumn = ({ boardId, payload, res }: createColumnParams) => {
   emitWS({
     roomId: boardId,
@@ -19,13 +21,6 @@ export const createColumn = ({ boardId, payload, res }: createColumnParams) => {
 };
 
 // COLUMN - DELETE
-interface deleteColumnParams extends socketServiceParams {
-  boardId: string;
-  payload: {
-    columnId: string;
-    columnIndex: number;
-  };
-}
 export const deleteColumn = ({ boardId, payload, res }: deleteColumnParams) => {
   emitWS({
     roomId: boardId,
@@ -37,23 +32,13 @@ export const deleteColumn = ({ boardId, payload, res }: deleteColumnParams) => {
 };
 
 // COLUMN - PATCH
-interface updateBoardColumnParams extends serviceParams {
-  boardId: string;
-  columnId: string;
-  payload?: {
-    name?: string;
-  };
-}
-interface updateBoardColumnResponse {
-  message: string
-}
 export const updateBoardColumn = async ({
   boardId,
   columnId,
   setLoading,
   payload,
 }: updateBoardColumnParams) => {
-  return await callAPI<updateBoardColumnResponse>({
+  return await callAPI<GeneralResponse>({
     method: "PATCH",
     url: `/board/${boardId}/column/${columnId}`,
     token: true,
@@ -63,13 +48,7 @@ export const updateBoardColumn = async ({
 };
 
 // COLUMN - MOVE
-interface moveColumnParams extends socketServiceParams {
-  boardId: string;
-  payload: {
-    sourceIndex: number;
-    destinationIndex: number;
-  };
-}
+
 export const moveColumn = ({ boardId, payload, res }: moveColumnParams) => {
   emitWS({
     roomId: boardId,

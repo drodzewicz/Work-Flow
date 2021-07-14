@@ -10,7 +10,7 @@ import { UserContext, UserActionType } from "context/UserContext";
 import { getNotifications, removeNotification } from "service";
 import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
 import "./UserNav.scss";
-import { NotificationI } from "types";
+import { NotificationI } from "types/general";
 
 const UserNav: React.FC = () => {
   const history = useHistory();

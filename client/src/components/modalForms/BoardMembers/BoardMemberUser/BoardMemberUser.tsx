@@ -10,7 +10,7 @@ import User from "components/board/User";
 import { UserContext } from "context/UserContext";
 import "./BoardMemberUser.scss";
 import { BoardMembersUserProps } from "./";
-import { UserBoardRoles } from "types";
+import { UserBoardRoles } from "types/general";
 
 const BoardMemberUser: React.FC<BoardMembersUserProps> = ({
   member,

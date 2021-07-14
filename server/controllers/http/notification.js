@@ -10,7 +10,7 @@ notificationService.getMyNotifications = async (req, res) => {
 	} catch (error) {
 		return res.status(400).json({
 			message: User.processErrors(error),
-		});
+		});``
 	}
 };
 notificationService.removeNotification = async (req, res) => {

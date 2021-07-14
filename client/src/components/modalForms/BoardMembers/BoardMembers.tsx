@@ -5,7 +5,7 @@ import BoardMemberUser from "./BoardMemberUser/BoardMemberUser";
 import Pagination, {PaginationI }  from "components/general/Pagination";
 import "./BoardMembers.scss";
 import { BoardMembersProps, Member, SearchedUser } from "./";
-import { UserBoardRoles, User} from "types";
+import { UserBoardRoles, User} from "types/general";
 import {
   getBoardMembers,
   searchUsersByUsername,
@@ -13,7 +13,7 @@ import {
   addUserToBoard,
   changeBoardUserRole,
 } from "service";
-import { BoardUserI } from "types";
+import { BoardUserI } from "types/general";
 
 import LoadingOverlay from "components/layout/LoadingOverlay";
 

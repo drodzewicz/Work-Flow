@@ -5,7 +5,7 @@ import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import { getBoardMembers } from "service";
 import "./UserManager.scss";
 import { UserManagerProps } from ".";
-import { BoardUserI } from "types";
+import { BoardUserI } from "types/general";
 
 interface BoardUserSearchRes extends BoardUserI {
   _id: string;

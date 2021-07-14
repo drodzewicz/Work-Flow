@@ -9,8 +9,8 @@ import { getBoardTags, createBoardTag, deleteBoardTag, updateBoardTag } from "se
 import LoadingOverlay from "components/layout/LoadingOverlay";
 import { UserContext } from "context/UserContext";
 import { TagsProps } from ".";
-import { TagI, TagColors } from "types";
-import { UserBoardRoles } from "types";
+import { TagI, TagColors } from "types/general";
+import { UserBoardRoles } from "types/general";
 
 const Tags: React.FC<TagsProps> = ({ boardId }) => {
   const [selectedTag, setSelectedTag] = useState<{

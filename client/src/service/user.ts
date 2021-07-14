@@ -1,16 +1,22 @@
 import callAPI, { serviceParams } from "./utils/fetchData";
-import { User } from "types";
+import {
+  isAuthenticatedResponse,
+  GeneralResponse,
+  loginResponse,
+  searchUsersResponse,
+} from "types/service/response";
+import {
+  registerParams,
+  loginParams,
+  updateCredentialsParams,
+  changePasswrdParams,
+  changeAvatarParams,
+  searchUsersByUsernameParams,
+} from "types/service/request";
+
+const ROUTE_PREFIX = "/user";
 
 // IS AUTHENTICATED
-interface fullUserI extends User {
-  name: string,
-  surname: string,
-  email: string
-}
-interface isAuthenticatedResponse {
-  authorized: boolean;
-  user: fullUserI;
-}
 export const isUserAuthenticated = async ({ setLoading }: serviceParams = {}) => {
   return await callAPI<isAuthenticatedResponse>({
     url: "/isAuth",
@@ -21,19 +27,8 @@ export const isUserAuthenticated = async ({ setLoading }: serviceParams = {}) =>
 };
 
 // REGISTER
-interface registerParams extends serviceParams {
-  payload: {
-    email: string;
-    username: string;
-    password: string;
-    matchPassword: string;
-  };
-}
-interface registerResponse {
-  message: string;
-}
 export const register = async ({ payload, setLoading }: registerParams) => {
-  return await callAPI<registerResponse>({
+  return await callAPI<GeneralResponse>({
     method: "POST",
     url: "/register",
     payload,
@@ -42,16 +37,6 @@ export const register = async ({ payload, setLoading }: registerParams) => {
 };
 
 // LOGIN
-interface loginParams extends serviceParams {
-  payload: {
-    username: string;
-    password: string;
-  };
-}
-interface loginResponse {
-  token: string;
-  user: User;
-}
 export const login = async ({ payload, setLoading }: loginParams) => {
   return await callAPI<loginResponse>({
     method: "POST",
@@ -62,21 +47,10 @@ export const login = async ({ payload, setLoading }: loginParams) => {
 };
 
 // PROFILE - POST
-interface updateCredentialsParams extends serviceParams {
-  payload: {
-    name?: string;
-    surname?: string;
-    username?: string;
-    email?: string;
-  };
-}
-interface updateCredentialsResponse {
-  updated: boolean
-}
 export const updateCredentials = async ({ setLoading, payload }: updateCredentialsParams) => {
-  return await callAPI<updateCredentialsResponse>({
+  return await callAPI<GeneralResponse>({
     method: "POST",
-    url: "/user/update_credentials",
+    url: `${ROUTE_PREFIX}/update_credentials`,
     token: true,
     setLoading,
     payload,
@@ -84,19 +58,10 @@ export const updateCredentials = async ({ setLoading, payload }: updateCredentia
 };
 
 // PASSWORD - UPDATE
-interface changePasswrdParams extends serviceParams {
-  payload: {
-    newPassword: string;
-    matchPassword: string;
-  };
-}
-interface changePasswordResponse {
-  message: string
-}
 export const changePassword = async ({ payload, setLoading }: changePasswrdParams) => {
-  return await callAPI<changePasswordResponse>({
+  return await callAPI<GeneralResponse>({
     method: "PATCH",
-    url: "/user/change_password",
+    url: `${ROUTE_PREFIX}/change_password`,
     token: true,
     payload,
     setLoading,
@@ -104,18 +69,10 @@ export const changePassword = async ({ payload, setLoading }: changePasswrdParam
 };
 
 // AVATAR - UPDATE
-interface changeAvatarParams extends serviceParams {
-  payload: {
-    imageURL: string;
-  };
-}
-interface changeAvatarResponse {
-  message: string;
-}
 export const changeAvatar = async ({ payload, setLoading }: changeAvatarParams) => {
-  return await callAPI<changeAvatarResponse>({
+  return await callAPI<GeneralResponse>({
     method: "PATCH",
-    url: "/user/change_avatar",
+    url: `${ROUTE_PREFIX}/change_avatar`,
     token: true,
     payload,
     setLoading,
@@ -123,18 +80,13 @@ export const changeAvatar = async ({ payload, setLoading }: changeAvatarParams) 
 };
 
 // USER SEARCH - GET
-interface searchUsersByUsernameParams extends serviceParams {
-  username: string;
-}
-type searchUsersResponse = User[];
-
 export const searchUsersByUsername = async ({
   username,
   setLoading,
 }: searchUsersByUsernameParams) => {
   return await callAPI<searchUsersResponse>({
     method: "GET",
-    url: `/user/find_user?username=${username}`,
+    url: `${ROUTE_PREFIX}/find_user?username=${username}`,
     token: true,
     setLoading,
   });

@@ -7,7 +7,7 @@ import ContainerBox from "components/layout/ContainerBox/ContainerBox";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { getPinnedBoards, getMyBoards, togglePinBoard } from "service";
 import BoardContainer from "components/board/BoardContainer";
-import { BoardI } from "types";
+import { BoardI } from "types/general";
 import { PaginationI } from "components/general/Pagination";
 
 const DashboardPage: React.FC = () => {

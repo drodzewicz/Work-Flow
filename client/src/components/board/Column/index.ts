@@ -1,5 +1,5 @@
 export { default } from "./Column";
-import { TaskI } from "types";
+import { TaskI } from "types/general";
 
 export interface ColumnProps {
   columnName: string;

@@ -1,5 +1,5 @@
 export { default } from "./TagManager";
-import { TagI } from "types"
+import { TagI } from "types/general"
 
 export interface TagManagerProps {
   tags: any[];
