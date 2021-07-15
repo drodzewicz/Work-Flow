@@ -1,4 +1,4 @@
-import { User, UserBoardRoles } from "types/general";
+import { UserShortI, UserBoardRoles } from "types/general";
 
 export { default } from "./BoardMembers";
 
@@ -6,11 +6,11 @@ export interface BoardMembersProps {
   boardId: string;
 }
 
-export interface SearchedUser extends User {
+export interface SearchedUser extends UserShortI {
   text: string;
 }
 
 export interface Member {
-  user: User;
+  user: UserShortI;
   role: UserBoardRoles;
 }

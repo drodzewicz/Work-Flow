@@ -1,5 +1,4 @@
-import { socketServiceParams } from "service/utils/socketData";
-import { serviceParams } from "service/utils/fetchData";
+import { serviceParams, socketServiceParams } from "./general";
 
 export interface createColumnParams extends socketServiceParams {
   boardId: string;

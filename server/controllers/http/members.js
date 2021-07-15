@@ -1,7 +1,6 @@
 const Board = require("../../models/board");
 const User = require("../../models/user");
 const paginateContent = require("../../helper/pagination");
-const processErrors = require("../../helper/errorHandler");
 
 const boardMemberService = {};
 
@@ -42,9 +41,7 @@ boardMemberService.getBoardMember = async (req, res) => {
     );
     return res.status(200).json({ member: foundMember });
   } catch (error) {
-    return res.status(400).json({
-      message: processErrors(error),
-    });
+    next(error);
   }
 };
 boardMemberService.removeUserFromBoard = async (req, res) => {
@@ -57,9 +54,7 @@ boardMemberService.removeUserFromBoard = async (req, res) => {
     foundBoard.save();
     return res.status(200).json({ message: "user removed from board" });
   } catch (error) {
-    return res.status(400).json({
-      message: processErrors(error),
-    });
+    next(error);
   }
 };
 boardMemberService.addNewUser = async (req, res) => {
@@ -80,9 +75,7 @@ boardMemberService.addNewUser = async (req, res) => {
     await User.findOneAndUpdate({ _id: userId }, { $push: { notifications: notification } });
     return res.status(200).json({ message: "user added to the board" });
   } catch (error) {
-    return res.status(400).json({
-      message: processErrors(error),
-    });
+    next(error);
   }
 };
 boardMemberService.changeUserRole = async (req, res) => {
@@ -109,9 +102,7 @@ boardMemberService.changeUserRole = async (req, res) => {
     await foundUSer.save();
     return res.status(200).json({ message: "role changed", role: newRole });
   } catch (error) {
-    return res.status(400).json({
-      message: processErrors(error),
-    });
+    next(error);
   }
 };
 

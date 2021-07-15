@@ -1,4 +1,4 @@
-import { serviceParams } from "service/utils/fetchData";
+import { serviceParams } from "./general";
 import { BoardI } from "types/general";
 
 export interface getMyBoardsParams extends serviceParams {

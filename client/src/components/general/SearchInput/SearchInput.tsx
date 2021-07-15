@@ -5,6 +5,7 @@ import "./SearchInput.scss";
 import "./SearchInput-dark.scss";
 import { SearchInputProps } from ".";
 import SearchResult from "./SearchResult";
+import { useClickOutside } from "Hooks/useClickOutside";
 
 const SearchInput: React.FC<SearchInputProps> = ({
   debounceTimeout,
@@ -14,9 +15,9 @@ const SearchInput: React.FC<SearchInputProps> = ({
   clear,
 }) => {
   const searchInputRef = useRef<HTMLInputElement>(null);
-  // useClickOutside(searchInputRef, anchorel, clearInputSearch);
 
   let watingTimeout: ReturnType<typeof setTimeout> | null = null;
+  useClickOutside(searchInputRef, clear);
 
   const searchHandler = (event: FormEvent) => {
     event.preventDefault();
@@ -33,9 +34,12 @@ const SearchInput: React.FC<SearchInputProps> = ({
   };
 
   const clearInputSearch = () => {
-    // searchInputRef.current?.value = "";
+    if (searchInputRef.current) {
+      searchInputRef.current.value = "";
+    }
     clear();
   };
+
 
   return (
     <div className="search-input">

@@ -1,4 +1,4 @@
-import { User, TagI } from "types/general";
+import { UserShortI, TagI } from "types/general";
 
 export { default } from "./Task";
 
@@ -10,5 +10,5 @@ export interface TaskProps {
     columnIndex: number;
   };
   tags?: TagI[];
-  people?: User[];
+  people?: UserShortI[];
 }

@@ -1,5 +1,5 @@
-import  { serviceParams } from "service/utils/fetchData";
-import { socketServiceParams } from "service/utils/socketData";
+import { serviceParams, socketServiceParams } from "./general";
+
 
 export interface getBoardTaskParams extends serviceParams {
   boardId: string;

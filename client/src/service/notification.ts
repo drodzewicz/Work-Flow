@@ -1,5 +1,6 @@
-import callAPI, { serviceParams } from "./utils/fetchData";
+import callAPI from "./utils/fetchData";
 import { removeNotificationParams } from "types/service/request";
+import { serviceParams } from "types/service/request";
 import { getNotificationsResponse, GeneralResponse} from "types/service/response";
 
 // NOTIFICATION - GET

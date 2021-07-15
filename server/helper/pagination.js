@@ -1,6 +1,6 @@
 const { response } = require("express");
 
-const paginateConetnt = (items, page, limit) => {
+const paginateContent = (items, page, limit) => {
 	page = parseInt(page);
     limit = parseInt(limit);
     
@@ -20,4 +20,4 @@ const paginateConetnt = (items, page, limit) => {
     return response;
 };
 
-module.exports = paginateConetnt;
+module.exports = paginateContent;

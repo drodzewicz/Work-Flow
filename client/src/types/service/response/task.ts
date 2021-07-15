@@ -1,5 +1,5 @@
-import { TaskI2 } from "types/general";
+import { TaskI } from "types/general";
 
 export interface getTaskResponse {
-  task: TaskI2;
+  task: TaskI;
 }

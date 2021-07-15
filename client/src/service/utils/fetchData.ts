@@ -9,10 +9,6 @@ export interface callAPIParams {
   setLoading: ((state: boolean) => void) | undefined;
 }
 
-export interface serviceParams {
-  setLoading?: (state: boolean) => void;
-}
-
 function responseHandler<T>(response: AxiosResponse<T>) {
   return {
     data: response.data,
@@ -39,8 +35,7 @@ const parseQueryString = (query?: object) => {
     queryString = "?" + queryString;
   }
   return queryString;
-}
-
+};
 
 async function callAPI<T>({ url, method, query, token, payload, setLoading }: callAPIParams) {
   let headers = {};

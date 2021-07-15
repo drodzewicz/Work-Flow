@@ -1,4 +1,6 @@
-import callAPI, { serviceParams } from "./utils/fetchData";
+import callAPI from "./utils/fetchData";
+import { serviceParams } from "types/service/request";
+
 import {
   isAuthenticatedResponse,
   GeneralResponse,

@@ -5,13 +5,12 @@ interface AlertPayload {
 }
 
 export interface AlertOpen {
-  type: AlertActionType;
+  type: AlertActionType.SUCCESS | AlertActionType.WARNING | AlertActionType.ERROR;
   payload: AlertPayload;
 }
 
 export interface AlertClose {
-  type: AlertActionType;
-  payload: AlertPayload;
+  type: AlertActionType.CLOSE;
 }
 
 export type AlertActions = AlertOpen | AlertClose;

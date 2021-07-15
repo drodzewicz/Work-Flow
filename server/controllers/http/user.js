@@ -2,9 +2,7 @@ const User = require("../../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const ENV_CONF = require("../../configs/env.conf");
-
 const { AuthError, ResponseError } = require("../../error/");
-
 const requiredValues = require("../../helper/requiredValues");
 
 const userService = {};

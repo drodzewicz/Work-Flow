@@ -15,9 +15,3 @@ export enum TagColors {
 export interface TagsProps {
   boardId: string;
 }
-
-export interface TagI {
-  _id: string,
-  color: TagColors;
-  name: string;
-}

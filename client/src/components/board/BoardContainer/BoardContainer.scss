@@ -2,14 +2,6 @@
 @import "../../../assets/styles/colors";
 
 .board-container {
-  &__title {
-    color: black;
-    display: flex;
-    align-items: center;
-    &-icon {
-      margin-right: 0.5rem;
-    }
-  }
   &__boards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -23,15 +15,6 @@
     }
     @include mobile {
       grid-template-columns: repeat(1, 1fr);
-    }
-  }
-}
-
-.theme-dark .board-container {
-  &__title {
-    color: white;
-    &-icon {
-      fill: white;
     }
   }
 }

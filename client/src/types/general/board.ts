@@ -1,5 +1,5 @@
 import { TagColors } from "./constants";
-import { User, BoardUserI } from "./user";
+import { UserShortI, BoardUserI } from "./user";
 
 export interface TagI {
   _id: string;
@@ -11,17 +11,8 @@ export interface TaskI {
   _id: string;
   title: string;
   description: string;
-  author: string;
-  people: User[];
-  tags: TagI[];
-}
-
-export interface TaskI2 {
-  _id: string;
-  title: string;
-  description: string;
-  author: User;
-  people: User[];
+  author: UserShortI;
+  people: UserShortI[];
   tags: TagI[];
 }
 
@@ -47,14 +38,4 @@ export interface BoardI {
   isAuthor: boolean;
   pinned?: boolean;
   members?: BoardUserI[];
-}
-
-export interface TaskI {
-  _id: string;
-  title: string;
-  description: string;
-  author: string;
-  board: string;
-  people: User[];
-  tags: TagI[];
 }

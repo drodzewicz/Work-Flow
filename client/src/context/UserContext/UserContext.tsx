@@ -1,8 +1,7 @@
 import React, { useReducer, Reducer, createContext } from "react";
 import { UserAction } from "./UserActions";
 import { UserActionType } from ".";
-import { UserState }from "."
-
+import { UserState } from ".";
 
 const initialState: UserState = {
   authStatus: null,

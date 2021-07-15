@@ -1,17 +1,12 @@
-import { User } from "types/general";
+import { UserShortI, UserI } from "types/general";
 
-export interface fullUserI extends User {
-  name: string;
-  surname: string;
-  email: string;
-}
 export interface isAuthenticatedResponse {
   authorized: boolean;
-  user: fullUserI;
+  user: UserI;
 }
 export interface loginResponse {
   token: string;
-  user: User;
+  user: UserShortI;
 }
 
-export type searchUsersResponse = User[];
+export type searchUsersResponse = UserShortI[];

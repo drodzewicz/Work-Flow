@@ -2,7 +2,7 @@ const Board = require("../../models/board");
 const User = require("../../models/user");
 const Task = require("../../models/task");
 const Tag = require("../../models/tag");
-const paginateConetnt = require("../../helper/pagination");
+const paginateContent = require("../../helper/pagination");
 
 const boardService = {};
 
@@ -61,7 +61,7 @@ boardService.getMyBoards = async (req, res) => {
       };
     });
 
-    let { items: boards, prev, next, totalPageCount } = paginateConetnt(foundMyBoards, page, limit);
+    let { items: boards, prev, next, totalPageCount } = paginateContent(foundMyBoards, page, limit);
 
     return res.json({ boards, prev, next, totalPageCount });
   } catch (error) {

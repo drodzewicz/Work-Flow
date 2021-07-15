@@ -1,8 +1,8 @@
 export { default } from "./UserManager";
-import { User } from "types/general";
+import { UserShortI } from "types/general";
 
 export interface UserManagerProps {
-  users: User[];
+  users: UserShortI[];
   setUsers: (newState: any) => void;
   boardId: string;
 }

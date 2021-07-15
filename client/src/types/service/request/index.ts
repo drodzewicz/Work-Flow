@@ -5,4 +5,5 @@ export * from "./boardTag";
 export * from "./task";
 export * from "./notification";
 export * from "./column";
+export * from "./general";
 

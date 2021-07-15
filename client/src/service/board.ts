@@ -1,5 +1,7 @@
-import callAPI, { serviceParams } from "./utils/fetchData";
-import { BoardI, BoardFullI } from "types/general";
+import callAPI from "./utils/fetchData";
+import { serviceParams } from "types/service/request";
+
+import { BoardFullI } from "types/general";
 import {
   getMyBoardsParams,
   deleteBoardParams,

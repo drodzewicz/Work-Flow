@@ -9,6 +9,10 @@ import { getPinnedBoards, getMyBoards, togglePinBoard } from "service";
 import BoardContainer from "components/board/BoardContainer";
 import { BoardI } from "types/general";
 import { PaginationI } from "components/general/Pagination";
+import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
+import { ReactComponent as Pined } from "assets/images/pin-full.svg";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+
 
 const DashboardPage: React.FC = () => {
   const [page, setPage] = useState<PaginationI>({ current: 1, total: 1 });
@@ -49,7 +53,7 @@ const DashboardPage: React.FC = () => {
 
   useEffect(() => {
     const fetchPinnedBoards = async () => {
-      const { data, status } = await getPinnedBoards({ setLoading: setPinnedBoardLoading });
+      const { data } = await getPinnedBoards({ setLoading: setPinnedBoardLoading });
       if (!!data) {
         const {boards} = data;
         setPinnedBoards((prevState) => ({ ...prevState, items: boards }));
@@ -123,33 +127,37 @@ const DashboardPage: React.FC = () => {
   return (
     <ContainerBox className="board-dashboard">
       {pinnedBoards.items.length > 0 && (
-        <BoardContainer
-          className="board-dashboard__pinned"
-          title="Pinned"
-          titleIcon="pinned"
-          boards={pinnedBoards.items}
-          isLoading={pinnedBoards.isLoading}
-          removeBoard={removeBoard}
-          togglePinBoard={togglePinBoardHandler}
-          noBoardsMessage="you have no pinned boards"
-        />
+        <LoadingOverlay show={pinnedBoards.isLoading} opacity={0}>
+          <h1 className="board-container__title">
+            <Pined /> Pinned
+          </h1>
+          <BoardContainer
+            className="board-dashboard__pinned"
+            boards={pinnedBoards.items}
+            removeBoard={removeBoard}
+            togglePinBoard={togglePinBoardHandler}
+            noBoardsMessage="you have no pinned boards"
+          />
+        </LoadingOverlay>
       )}
       <Button onClick={openCreateNewBoardModal} className="board-dashboard__new-btn">
         <AddBoxIcon />
         New Board
       </Button>
-      <BoardContainer
-        className="board-dashboard__main"
-        title="Boards"
-        titleIcon="board"
-        boards={boards.items}
-        isLoading={boards.isLoading}
-        removeBoard={removeBoard}
-        changePage={changePage}
-        page={page}
-        togglePinBoard={togglePinBoardHandler}
-        noBoardsMessage="you are not a part of any board"
-      />
+      <LoadingOverlay show={boards.isLoading} opacity={0}>
+        <h1 className="board-container__title">
+          <DashboardIcon /> Boards
+        </h1>
+        <BoardContainer
+          className="board-dashboard__main"
+          boards={boards.items}
+          removeBoard={removeBoard}
+          changePage={changePage}
+          page={page}
+          togglePinBoard={togglePinBoardHandler}
+          noBoardsMessage="you are not a part of any board"
+        />
+      </LoadingOverlay>
     </ContainerBox>
   );
 };

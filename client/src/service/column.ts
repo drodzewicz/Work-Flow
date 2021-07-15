@@ -1,12 +1,13 @@
 import callAPI from "./utils/fetchData";
-import { emitWS, socketServiceParams } from "./utils/socketData";
+import { emitWS } from "./utils/socketData";
+
 import {
   createColumnParams,
   deleteColumnParams,
   updateBoardColumnParams,
   moveColumnParams,
 } from "types/service/request";
-import { GeneralResponse } from "types/service/response"
+import { GeneralResponse } from "types/service/response";
 
 // COLUMN - CREATE
 

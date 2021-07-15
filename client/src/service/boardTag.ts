@@ -1,5 +1,4 @@
-import callAPI, { serviceParams } from "./utils/fetchData";
-import { TagI } from "types/general";
+import callAPI from "./utils/fetchData";
 import {
   getBoardTagsParams,
   createBoardTagParams,

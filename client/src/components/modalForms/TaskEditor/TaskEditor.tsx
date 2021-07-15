@@ -10,7 +10,7 @@ import TagManager from "./TagManager/TagManager";
 import UserManager from "./UserManager/UserManager";
 import { AlertContext, AlertActionType } from "context/AlertContext";
 import { TaskEditorFormProps, FormValues } from ".";
-import { TagI, User } from "types/general"
+import { TagI, UserShortI } from "types/general";
 
 const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = (props) => {
   const {
@@ -28,7 +28,7 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
   const { modalDispatch } = useContext(ModalContext);
   const { alertDispatch } = useContext(AlertContext);
 
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<UserShortI[]>([]);
 
   const [availableTags, setAvailableTags] = useState<TagI[]>([]);
   const [selectedTags, setSelectedTags] = useState<TagI[]>([]);
@@ -44,7 +44,7 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
     };
     initTask();
     return () => {};
-  }, [boardId, submitType]);
+  }, [boardId, submitType, values.tags, values.people]);
 
   useEffect(() => {
     if (status?.submitStatus === "SUCCESS") {

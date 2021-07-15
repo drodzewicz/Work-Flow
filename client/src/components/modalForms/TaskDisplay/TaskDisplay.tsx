@@ -13,7 +13,7 @@ import TaskUpdate from "components/modalForms/TaskEditor/TaskUpdate";
 import { getBoardTask, deleteTask } from "service";
 import LoadingOverlay from "components/layout/LoadingOverlay";
 import { TaskDisplayProps } from ".";
-import { TaskI2 } from "types/general";
+import { TaskI } from "types/general";
 
 const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
   const { modalDispatch } = useContext(ModalContext);
@@ -24,7 +24,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
 
   const history = useHistory();
 
-  const [taskDetails, setTaskDetails] = useState<TaskI2>({
+  const [taskDetails, setTaskDetails] = useState<TaskI>({
     _id: "",
     title: "",
     description: "",

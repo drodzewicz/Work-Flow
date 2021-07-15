@@ -25,7 +25,8 @@ const App: React.FC = () => {
     const checkUserAuthentication = async () => {
       const { data, status } = await isUserAuthenticated();
       if (status === 401) userDispatch({ type: UserActionType.LOGIN_FAIL });
-      if (!!data) userDispatch({ type: UserActionType.LOGIN_SUCCESS, payload: { user: data.user } });
+      if (!!data)
+        userDispatch({ type: UserActionType.LOGIN_SUCCESS, payload: { user: data.user } });
     };
     checkUserAuthentication();
 

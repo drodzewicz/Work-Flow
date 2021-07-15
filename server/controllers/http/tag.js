@@ -1,6 +1,5 @@
 const Board = require("../../models/board");
 const Tag = require("../../models/tag");
-const processErrors = require("../../helper/errorHandler");
 
 const tagService = {};
 
