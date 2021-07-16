@@ -16,3 +16,8 @@ export enum UserBoardRoles {
   REGULAR = "REGULAR",
   GUEST = "GUEST",
 }
+
+export enum theme {
+  LIGHT = "light",
+  DARK = "dark",
+}
