@@ -48,7 +48,7 @@ boardMiddleWare.isBoardAdmin = async (req, res, next) => {
         const indexOfMember = foundBoard.members.findIndex(({ user }) => user.toLocaleString() === id.toLocaleString());
         if (indexOfMember < 0)
             return res.status(403).json({ message: "you are not a member of this board" })
-        else if (foundBoard.members[indexOfMember].role === "admin" || foundBoard.members[indexOfMember].role === "owner")
+        else if (foundBoard.members[indexOfMember].role === "ADMIN" || foundBoard.members[indexOfMember].role === "OWNER")
             return next();
         return res.status(401).json({ message: "you are not a authorized" })
     }

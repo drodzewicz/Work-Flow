@@ -1,0 +1,10 @@
+@import "../../assets/styles/mediaQueries";
+@import "../../assets/styles/colors";
+
+.board-dashboard {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 1rem;
+}

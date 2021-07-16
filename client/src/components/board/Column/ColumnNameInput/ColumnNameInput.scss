@@ -1,0 +1,30 @@
+@import "../../../../assets/styles/colors";
+
+.column-name-input {
+  background: transparent;
+  font-family: "Secular One", sans-serif;
+  border: dashed 1px darken($blue-primary-overlay, 60%);
+  flex-grow: 1;
+  outline: none;
+  color: darken($blue-primary-overlay, 60%);
+}
+
+.task-column-name {
+  margin: 0;
+  margin-left: 0;
+  margin-right: auto;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  color: darken($blue-primary-overlay, 60%);
+}
+
+.theme-dark {
+  .column-name-input {
+    border-color: $dark-3;
+    color: $white-1;
+  }
+
+  .task-column-name {
+    color: white;
+  }
+}

@@ -1,0 +1,13 @@
+@import "../../../assets/styles/colors";
+
+.theme-dark .switch-button {
+  &--dark {
+    background: $blue-accent-dark;
+  } 
+  &__circle {
+    background-color: $dark-1;
+    svg { 
+      color: $blue-accent-dark;
+    }
+  }
+}

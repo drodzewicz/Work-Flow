@@ -1,0 +1,11 @@
+@import "../../../assets/styles/colors";
+
+.theme-dark .drop-down-menu {
+  background: $dark-3;
+  .drop-down-menu__item{
+    color: white;
+    &:hover {
+      background: lighten($dark-3, 10%);
+    }
+  }
+}

@@ -3,12 +3,12 @@ const router = express.Router();
 const passport = require("passport");
 
 const {
-    changeUserRole,
-    getBoardMembers,
-    getBoardMember,
-    addNewUser,
-    removeUserFromBoard,
-} = require("../service/http/members");
+  changeUserRole,
+  getBoardMembers,
+  getBoardMember,
+  addNewUser,
+  removeUserFromBoard,
+} = require("../controllers/http/members");
 
 const { isBoardMember, isBoardAdmin } = require("../middleware/boardMiddleware")
 

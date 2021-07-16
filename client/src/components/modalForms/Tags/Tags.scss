@@ -1,0 +1,39 @@
+@import "../../../assets/styles/colors";
+@import "../../../assets/styles/mediaQueries";
+
+.tag-form-wrapper .loading-overlay {
+	min-height: 14rem;
+} 
+.tag-form {
+	margin: 0 3rem 2rem;
+	max-width: 25rem;
+	@include mobile {
+		max-width: auto;
+		margin: 0;
+	}
+	.tag-name-input-wrappper {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 1rem;
+		height: 4rem;
+		padding: 0 0.7rem;
+
+		.btn-primary {
+			margin-top: 1rem;
+		}
+		.check-btn {
+			margin-left: 1rem
+		}
+
+		.MuiFormControl-root {
+			flex-grow: 1;
+		}
+	}
+	.tag-color-container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+}

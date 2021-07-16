@@ -1,0 +1,14 @@
+@import "../../../assets/styles/colors";
+
+.theme-dark .add-new-column {
+  background-color: $dark-1;
+  border-color: $dark-3;
+
+  input {
+    color: white;
+    background: transparent;
+    &::placeholder {
+      color: darken(white, 30%);
+    }
+  }
+}

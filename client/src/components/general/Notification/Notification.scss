@@ -1,0 +1,50 @@
+@import "../../../assets/styles/colors";
+
+.notification {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0.7rem 0.5rem;
+  width: 100%;
+  height: 100%;
+  &:hover {
+    &__content {
+      &__title {
+        color: $blue-accent;
+      }
+      &__message {
+        color: mix($blue-accent, white, 70%);
+      }
+    }
+    &__close-icon {
+      color: $blue-accent;
+    }
+  }
+  &__content {
+    flex-grow: 1;
+    margin-right: 0.5rem;
+    &__title {
+      font-size: 1rem;
+      padding: 0;
+      margin: 0;
+      white-space: nowrap; 
+      width: 14rem; 
+      overflow: hidden;
+      text-overflow: ellipsis; 
+    }
+    &__message {
+      font-size: 0.8rem;
+      padding: 0;
+      color: $text-secondary;
+      white-space: nowrap; 
+      width: 14rem; 
+      overflow: hidden;
+      text-overflow: ellipsis; 
+    }
+  }
+  &__close-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+}

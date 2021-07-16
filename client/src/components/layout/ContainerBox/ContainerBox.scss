@@ -1,0 +1,7 @@
+@import "../../../assets/styles/variables";
+.container-box {
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - #{$navbar-height} - #{$footer-height} - 2.1rem);
+  position: relative;
+}

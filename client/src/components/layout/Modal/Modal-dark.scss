@@ -1,0 +1,13 @@
+@import "../../../assets/styles/colors";
+
+.theme-dark .modal {
+  background-color: $dark-2;
+  border-color: $dark-3;
+  &__header {
+    background-color: $dark-1;
+    &__title,
+    &__close-icon {
+      color: white;
+    }
+  }
+}

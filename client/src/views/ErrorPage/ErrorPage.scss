@@ -1,0 +1,66 @@
+@import "../../assets/styles/variables";
+@import "../../assets/styles/colors";
+@import "../../assets/styles/mediaQueries";
+
+.error-page {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: calc(100vh - #{$navbar-height} - #{$footer-height} - 3.5rem);
+    position: relative;
+  }
+  & {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+
+    &__image {
+      height: 30rem;
+      position: absolute;
+      @include mq-1 {
+        margin-top: 1.2rem;
+        height: 20rem;
+      }
+    }
+    &__title {
+      font-size: 3rem;
+      margin: 0;
+      font-family: "Secular One", sans-serif;
+      color: $text-primary;
+      @include mq-1 {
+        font-size: 2.4rem;
+      }
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        background: lighten($text-secondary, 40%);
+      }
+    }
+    &__reason-phrase {
+      font-family: "Secular One", sans-serif;
+      margin: 0;
+      margin-top: 10px;
+      color: $text-secondary;
+    }
+  }
+}
+
+.theme-dark .error-page {
+  &__title {
+    color: $text-primary-dark;
+    &:after {
+      background: darken($text-secondary-dark, 40%);
+    }
+  }
+  &__reason-phrase {
+    color: darken($text-secondary-dark, 40%);
+  }
+}

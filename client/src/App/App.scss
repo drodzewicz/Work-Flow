@@ -1,11 +1,30 @@
 @import "../assets/styles/colors";
 @import "../assets/styles/mediaQueries";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Secular+One&display=swap');
+@import "../assets/styles/globalStyles";
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  overflow-y: scroll !important;
+}
+html, body {
+  height: 100%;
+}
+
+code {
+  font-family: 'Secular One', sans-serif;
+}
+
+#root {
+  height: 100%;
+}
 
 .App {
+  	min-height: 100%;
 	background-color: $gray-bg;
-	&.theme-dark {
-		background-color: $gray-bg-dark;
-	}
+
 
 	.main-content {
 		display: flex;
@@ -17,4 +36,6 @@
 	}
 }
 
-
+.theme-dark .App {
+	background-color: $gray-bg-dark;
+}

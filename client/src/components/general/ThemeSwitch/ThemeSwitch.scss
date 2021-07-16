@@ -1,0 +1,40 @@
+@import "../../../assets/styles/colors";
+.switch-button {
+  background-color: $gray-1;
+  width: 3rem;
+  height: 1.7rem;
+  border-radius: 7rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 0.1rem;
+  transition: all ease-in-out 0.3s;
+  cursor: pointer;
+  &--dark {
+    background: $blue-accent;
+    .switch-button__circle {
+      transform: translateX(23px);
+      svg {
+        color: $blue-accent;
+      }
+    }
+  }
+  &__circle {
+    background-color: white;
+    $circle_size: 1.6rem;
+    width: $circle_size;
+    height: $circle_size;
+    border-radius: 15rem;
+    transform: translateX(0);
+    transition: all ease-in-out 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      width: 0.9rem;
+      height: 0.9rem;
+      color: darken($gray-1, 15%);
+    }
+  }
+}

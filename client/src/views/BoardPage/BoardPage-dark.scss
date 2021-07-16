@@ -1,0 +1,17 @@
+@import "../../assets/styles/colors";
+@import "../../assets/styles/variables";
+
+.theme-dark {
+  .board-page {
+    &__title {
+      color: $text-primary-dark;
+    }
+    &__controlls {
+      .board-options {
+        .MuiSvgIcon-root {
+          color: lighten(#222222, 30%);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+@import "../../../assets/styles/colors";
+
+.theme-dark .notification {
+  &:hover {
+    &__content {
+      &__title {
+        color: $blue-accent-dark;
+      }
+      &__message {
+        color: mix($blue-accent-dark, white, 70%);
+      }
+    }
+    &__close-icon {
+      color: $blue-accent-dark;
+    }
+  }
+  &__content {
+    &__message {
+      color: $text-secondary-dark;
+    }
+  }
+}

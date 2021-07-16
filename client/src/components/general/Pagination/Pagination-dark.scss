@@ -1,0 +1,14 @@
+@import "../../../assets/styles/colors";
+
+.theme-dark .pagination {
+  &__item {
+    color: $text-primary-dark;
+  }
+  &__current-page {
+    background-color: $blue-accent-dark;
+    color: black;
+  }
+  &__dots {
+    color: $text-primary-dark;
+  }
+}
