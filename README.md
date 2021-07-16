@@ -13,7 +13,7 @@ This project was build using technologies like *React* on frontend and and *Expr
 - Profile managment
 - Board creation
 - Pinning boards to main page
-- 4 available roles *[guest, owner, admin, regular]*
+- 4 available roles *[ GUEST, OWNER, ADMIN, REGULAR]*
 - Custom tag creation
 - Create tasks, assign people to them and add tags
 - Real time task and column moving using *beautifulDnD* and *socket.io*
@@ -21,7 +21,9 @@ This project was build using technologies like *React* on frontend and and *Expr
 
 ### Makefile scripts
 *example:*
-`make install`
+```
+make install
+```
 > 
 - **install** - *installs server and client dependencies*
 - **install_server** - *installs server dependencies*
@@ -32,7 +34,7 @@ This project was build using technologies like *React* on frontend and and *Expr
 - **update** - *pulls updates from repo and install dependancies*
 - **build** - *builds client and puts it in server/public directory*
 - **clean** - *deletes **node_module** folder*
-- **env_template** - *use **.env.example** as template to create **.env** *
+- **env_template** - *use **.env.example** as template to create **.env***
 
 ## Enviroment variables
 *application requires a **.env** file which contains:*
