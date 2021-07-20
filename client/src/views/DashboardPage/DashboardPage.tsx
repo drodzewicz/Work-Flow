@@ -130,6 +130,7 @@ const DashboardPage: React.FC = () => {
           <h1 className="pinned-board-container-title">
             <Pined className="pinned-board-container-title__icon" /> Pinned
           </h1>
+          <hr className="break-line" />
           <BoardContainer
             className="board-dashboard__pinned"
             boards={pinnedBoards.items}
@@ -153,6 +154,7 @@ const DashboardPage: React.FC = () => {
             <FaPlus className="new-board-btn__icon" />
           </Button>
         </h1>
+        <hr className="break-line" />
         <BoardContainer
           className="board-dashboard__main"
           boards={boards.items}

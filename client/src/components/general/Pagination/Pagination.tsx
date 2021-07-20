@@ -1,8 +1,7 @@
 import React from "react";
 import "./Pagination.scss";
 import "./Pagination-dark.scss";
-import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import { PaginationProps } from "./";
 
 const Pagination: React.FC<PaginationProps> = ({ current, total, handleChange }) => {
@@ -19,7 +18,7 @@ const Pagination: React.FC<PaginationProps> = ({ current, total, handleChange })
         {current !== 1 ? (
           <>
             <button onClick={previousPage} className=" pagination__item pagination__arrow">
-              <KeyboardArrowLeftIcon />
+              <FaAngleLeft />
             </button>
             <div className={`pagination__dots ${current - 1 === 1 ? "hide" : ""}`}>...</div>
             <button onClick={previousPage} className="pagination__item">
@@ -37,7 +36,7 @@ const Pagination: React.FC<PaginationProps> = ({ current, total, handleChange })
             </button>
             <div className={`pagination__dots ${current + 1 === total ? "hide" : ""}`}>...</div>
             <button onClick={nextPage} className="pagination__item pagination__arrow">
-              <KeyboardArrowRightIcon />
+              <FaAngleRight />
             </button>
           </>
         ) : (

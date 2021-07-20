@@ -1,5 +1,5 @@
 import React from "react";
-import CloseIcon from "@material-ui/icons/Close";
+import { FaTimes } from "react-icons/fa";
 import "./Notification.scss";
 import "./Notification-dark.scss";
 import { useHistory } from "react-router-dom"
@@ -24,7 +24,7 @@ const Notification: React.FC<NotificationProps> = ({
         <h2 className="notification__content__title">{boardTitle}</h2>
         <p className="notification__content__message">{message}</p>
       </div>
-      <CloseIcon className="notification__close-icon" onClick={removeNotification} />
+      <FaTimes className="notification__close-icon" onClick={removeNotification} />
     </div>
   );
 };

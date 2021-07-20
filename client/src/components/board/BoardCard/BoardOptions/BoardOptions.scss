@@ -1,0 +1,13 @@
+.board-options {
+  &__menu {
+    .drop-down-menu {
+      &__item {
+        justify-content: flex-start;
+        svg {
+            margin-right: 0.4rem;
+            height: 0.8rem;
+        }
+      }
+    }
+  }
+}

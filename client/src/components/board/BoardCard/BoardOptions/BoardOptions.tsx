@@ -1,15 +1,15 @@
 import React, { useRef, useContext } from "react";
 import DropdownMenu from "components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { FaEllipsisV, FaEdit, FaTrashAlt, FaSignOutAlt } from "react-icons/fa";
 import { leaveBoard, deleteBoard } from "service";
 import BoardUpdate from "components/modalForms/BoardEditor/BoardUpdate";
 import { ModalContext, ModalActionType } from "context/ModalContext";
-import { BoardOptionsProps  } from "./";
-
+import { BoardOptionsProps } from "./";
+import "./BoardOptions.scss";
 
 const BoardOptions: React.FC<BoardOptionsProps> = ({ boardId, removeBoardCallback, isAuthor }) => {
-  const moreOptionsAnchor = useRef(null);
+  const moreOptionsAnchor = useRef<HTMLElement>(null);
   const { modalDispatch } = useContext(ModalContext);
 
   const editEventModal = () => {
@@ -37,14 +37,29 @@ const BoardOptions: React.FC<BoardOptionsProps> = ({ boardId, removeBoardCallbac
 
   return (
     <div className="board-options">
-      <MoreVertIcon ref={moreOptionsAnchor} />
-      <DropdownMenu anchorEl={moreOptionsAnchor}>
-        {isAuthor && <DropdownMenuItem onClick={editEventModal}>edit</DropdownMenuItem>}
-        {isAuthor && <DropdownMenuItem onClick={deleteBoardHandler}>delete</DropdownMenuItem>}
-        {!isAuthor && <DropdownMenuItem onClick={leavingEvent}>leave</DropdownMenuItem>}
+      <span ref={moreOptionsAnchor}>
+        <FaEllipsisV />
+      </span>
+      <DropdownMenu className="board-options__menu" anchorEl={moreOptionsAnchor}>
+        {isAuthor && (
+          <DropdownMenuItem onClick={editEventModal}>
+            <FaEdit /> Edit
+          </DropdownMenuItem>
+        )}
+        {isAuthor && (
+          <DropdownMenuItem onClick={deleteBoardHandler}>
+            <FaTrashAlt /> Delete
+          </DropdownMenuItem>
+        )}
+        {!isAuthor && (
+          <DropdownMenuItem onClick={leavingEvent}>
+            <FaSignOutAlt />
+            Leave
+          </DropdownMenuItem>
+        )}
       </DropdownMenu>
     </div>
   );
 };
 
-export default BoardOptions
+export default BoardOptions;
