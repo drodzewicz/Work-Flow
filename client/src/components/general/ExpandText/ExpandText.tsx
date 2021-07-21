@@ -6,9 +6,7 @@ import { ExpandTextProps } from "./";
 const ExpandText: React.FC<ExpandTextProps> = ({ title, children, isOpen = false, className }) => {
   const [show, setShow] = useState(isOpen);
 
-  const toggleExpand = () => {
-    setShow((isOpen) => !isOpen);
-  };
+  const toggleExpand = () => setShow((isOpen) => !isOpen);
 
   return (
     <div className={`expand-text ${className || ""}`}>

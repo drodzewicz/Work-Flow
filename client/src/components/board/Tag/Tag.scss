@@ -22,6 +22,7 @@
 		"pink" $tag-pink black,
 		"black" $tag-black white,
 		"white" $tag-white black,
+		"blue" $tag-blue rgb(255, 255, 255),
 	);
 
 	@each $name, $bg, $textColor in $colors {

@@ -3,7 +3,7 @@
 .tag-button {
   height: 3rem;
   width: 3rem;
-  margin: 0.5rem;
+  margin: 0;
   padding: 0;
   cursor: pointer;
   border: none;
@@ -29,6 +29,7 @@
     transition: all ease-in-out 0.3s;
     padding: 0.35rem;
     border-radius: 5px;
+    font-size: 1.4rem;
   }
 
   &--selected {
@@ -49,7 +50,8 @@
     "majenta" $tag-majenta rgb(240, 192, 225),
     "pink" $tag-pink rgb(161, 40, 77),
     "black" $tag-black rgb(227, 228, 236),
-    "white" $tag-white rgb(59, 62, 65)
+    "white" $tag-white rgb(59, 62, 65),
+    "blue" $tag-blue rgb(93, 151, 209)
   );
 
   @each $name, $color, $textColor in $colors {

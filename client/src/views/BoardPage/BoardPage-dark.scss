@@ -8,8 +8,9 @@
     }
     &__controlls {
       .board-options {
-        .MuiSvgIcon-root {
-          color: lighten(#222222, 30%);
+        color: lighten(#222222, 30%);
+        &:hover {
+          background-color: rgba($dark-1, 0.5);
         }
       }
     }

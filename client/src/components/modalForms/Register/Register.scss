@@ -19,6 +19,9 @@
             }
             &.stage-back {
                 align-self: flex-start;
+                svg {
+                    margin-right: 0.3rem;
+                }
             }
             
         }

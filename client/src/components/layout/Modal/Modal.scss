@@ -47,7 +47,7 @@
     border-radius: 0;
     top: 6rem;
     animation: auto;
-    min-width: auto;
+    min-width: auto !important;
   }
   &__header {
     background-color: $blue-secondary-overlay;
@@ -73,15 +73,19 @@
       align-self: flex-end;
       cursor: pointer;
       color: $black-1;
-      font-size: 1.4rem;
+      font-size: 0.9rem;
       height: 100%;
       z-index: 2;
     }
   }
   &__content {
-    padding: 1rem 2rem 2rem 2rem;
+    padding: 1rem 2rem 2rem;
     position: relative;
     overflow: auto;
+    height: 100%;
+    @include mobile {
+      padding: 1rem;
+    }
   }
 }
 

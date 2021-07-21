@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./Modal.scss";
 import "./Modal-dark.scss";
 import Backdrop from "../Backdrop";
 import Portal from "components/layout/Portal";
 
-import CloseIcon from "@material-ui/icons/Close";
+import { FaTimes } from "react-icons/fa";
 
 import { ModalContext, ModalActionType } from "context/ModalContext";
 
@@ -13,6 +13,16 @@ const Modal: React.FC = () => {
     modalState: { show, title, render, size },
     modalDispatch,
   } = useContext(ModalContext);
+
+  useEffect(() => {
+    const escKeyDown = (e: any) => {
+      if (e.code === "Escape") modalDispatch({ type: ModalActionType.CLOSE });
+    };
+    document.addEventListener("keydown", escKeyDown, false);
+    return () => {
+      document.removeEventListener("keydown", escKeyDown);
+    };
+  }, [modalDispatch]);
 
   const closeModal = () => {
     modalDispatch({ type: ModalActionType.CLOSE });
@@ -26,7 +36,7 @@ const Modal: React.FC = () => {
             <aside className={`modal size-${size}`}>
               <header className="modal__header">
                 <h2 className="modal__header__title">{title}</h2>
-                <CloseIcon onClick={closeModal} className="modal__header__close-icon" />
+                <FaTimes onClick={closeModal} className="modal__header__close-icon" />
               </header>
               <section className="modal__content scrollbar">{render}</section>
             </aside>

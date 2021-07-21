@@ -6,7 +6,7 @@ import Button from "components/general/Button";
 import { AlertContext, AlertActionType } from "context/AlertContext";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { useHistory } from "react-router-dom";
-
+import "./BoardEditor.scss";
 
 const BoardEditorForm: React.FC<BoardEditorFormProps & FormikProps<FormValues>> = (props) => {
   const { errors, isSubmitting, isValid, submitType, status } = props;
@@ -24,23 +24,23 @@ const BoardEditorForm: React.FC<BoardEditorFormProps & FormikProps<FormValues>> 
   }, [status, modalDispatch, history, alertDispatch]);
 
   return (
-    <Form>
+    <Form className="board-editor">
       <Field
         name="name"
-        className="board-description-field"
+        className="board-editor__field__name"
         error={errors["name"]}
         as={TextField}
       />
       <Field
         name="description"
-        className="board-description-field"
+        className="board-editor__field__description"
         error={errors["description"]}
         as={TextAreaField}
       />
       <Button
+        className="board-editor__btn"
         disabled={isSubmitting || !isValid}
         variant="glow"
-        className="btn-submit"
         type="submit">
         {submitType as String}
       </Button>

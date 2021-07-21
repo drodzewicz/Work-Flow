@@ -5,7 +5,6 @@
   flex-direction: column;
   background-color: $blue-primary-overlay;
   border-radius: 10px;
-  margin: 0 0.5rem;
   padding: 0.2rem 0.5rem;
   font-family: "Secular One", sans-serif;
   border: 2px solid transparent;
@@ -23,6 +22,7 @@
     align-items: center;
     justify-content: center;
     margin: 0.2rem 0;
+    margin-bottom: 0.4rem;
     position: relative;
     &__task-count {
       color: darken($blue-primary-overlay, 50%);
@@ -53,8 +53,9 @@
       height: 1.5rem;
       width: 1.5rem;
       background-color: transparent;
+
       svg {
-        $icon-size: 1.2rem;
+        $icon-size: 1rem;
         width: $icon-size;
         height: $icon-size;
       }
@@ -67,7 +68,19 @@
   &__container {
     width: 16.5rem;
     max-height: 500px;
-		overflow-y: scroll;
+    overflow-y: scroll;
+  }
+}
+
+.column-more-options {
+  .drop-down-menu__item {
+    padding: 0.2rem 0.6rem;
+    display: flex;
+    justify-content: flex-start;
+    svg {
+      font-size: 0.9rem;
+      margin-right: 0.3rem;
+    }
   }
 }
 
@@ -86,6 +99,5 @@
     &__more-options {
       color: $white-1;
     }
- 
   }
 }

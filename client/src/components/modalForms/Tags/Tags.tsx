@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { TextField } from "components/general/TextInput";
 import Button from "components/general/Button";
-import CheckIcon from "@material-ui/icons/Check";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { FaTrashAlt, FaCheck } from "react-icons/fa";
 import TagButton from "components/board/Tag/TagButton";
 import "./Tags.scss";
 import { getBoardTags, createBoardTag, deleteBoardTag, updateBoardTag } from "service";
@@ -38,11 +37,11 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
       if (_isMounted) setTagLoading(false);
       if (!!data && _isMounted) {
         setBoardTags((tags) => {
-          data.tags.forEach((tag: TagI) => {
-            const tagIndex = tags.findIndex(({ color }) => color === tag.color);
-            tags[tagIndex] = tag;
+          return tags.map((tag) => {
+            const foundTag = data.tags.find(({ color }) => color === tag.color);
+            if (foundTag) return foundTag;
+            return tag;
           });
-          return tags;
         });
       }
     };
@@ -117,44 +116,46 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
   };
 
   return (
-    <div className="tag-form-wrapper">
-      <LoadingOverlay show={isTagLoading} opacity={0}>
-        <div className="tag-form">
-          {isAuthorized() && (
-            <div className="tag-name-input-wrappper">
-              <TextField
-                onChange={handleTagNameInput}
-                label="tag name"
-                name="tagName"
-                type="text"
-                value={selectedTag.name}
-              />
-              <Button
-                className="check-btn"
-                disabled={!selectedTag.name || !selectedTag.color}
-                onClick={selectedTagHandler}>
-                <CheckIcon />
-              </Button>
-              <Button disabled={canDeleteTag()} onClick={deleteTag}>
-                <DeleteIcon />
-              </Button>
-            </div>
-          )}
-          <div className="tag-color-container">
-            {boardTags.map(({ color, name, _id }) => (
-              <TagButton
-                key={color}
-                onClick={() => selectTag(color)}
-                selected={selectedTag.color === color}
-                showIcon={_id !== ""}
-                color={color.toLocaleLowerCase()}
-                name={name}
-              />
-            ))}
+    <LoadingOverlay show={isTagLoading} opacity={0}>
+      <div className="tag-form">
+        {isAuthorized() && (
+          <div className="tag-form__controls">
+            <TextField
+              className="tag-form__controls__input"
+              onChange={handleTagNameInput}
+              label="tag name"
+              name="tagName"
+              type="text"
+              value={selectedTag.name}
+            />
+            <Button
+              className="tag-form__controls__btn"
+              disabled={!selectedTag.name || !selectedTag.color}
+              onClick={selectedTagHandler}>
+              <FaCheck />
+            </Button>
+            <Button
+              className="tag-form__controls__btn"
+              disabled={canDeleteTag()}
+              onClick={deleteTag}>
+              <FaTrashAlt />
+            </Button>
           </div>
+        )}
+        <div className="tag-form__tag-container">
+          {boardTags.map(({ color, name, _id }) => (
+            <TagButton
+              key={color}
+              onClick={() => selectTag(color)}
+              selected={selectedTag.color === color}
+              showIcon={_id !== ""}
+              color={color.toLocaleLowerCase()}
+              name={name}
+            />
+          ))}
         </div>
-      </LoadingOverlay>
-    </div>
+      </div>
+    </LoadingOverlay>
   );
 };
 

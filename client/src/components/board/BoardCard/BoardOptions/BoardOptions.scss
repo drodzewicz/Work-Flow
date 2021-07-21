@@ -1,4 +1,7 @@
 .board-options {
+  span svg {
+    color: inherit;
+  }
   &__menu {
     .drop-down-menu {
       &__item {

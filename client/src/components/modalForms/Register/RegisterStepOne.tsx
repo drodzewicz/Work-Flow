@@ -4,21 +4,16 @@ import { TextField } from "components/general/TextInput";
 import Button from "components/general/Button";
 import { RegisterStepProps, RegisterOneFormValues, validationSchemaStepOne } from ".";
 
-
 const RegisterStage1: React.FC<FormikProps<RegisterOneFormValues>> = (props) => {
   const { errors, isValid } = props;
 
   return (
     <Form>
-      <Field name="name" error={errors["name"]} as={TextField} />
-      <Field
-        name="surname"
-        error={errors["surname"]}
-        as={TextField}
-      />
       <Button className="register-stage-controll-btn stage-next" disabled={!isValid} type="submit">
         Next
       </Button>
+      <Field name="name" error={errors["name"]} as={TextField} />
+      <Field name="surname" error={errors["surname"]} as={TextField} />
     </Form>
   );
 };

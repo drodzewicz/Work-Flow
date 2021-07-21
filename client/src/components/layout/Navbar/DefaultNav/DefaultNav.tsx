@@ -11,13 +11,13 @@ const DefaultNav: React.FC = () => {
   const openLoginModal = () => {
     modalDispatch({
       type: ModalActionType.OPEN,
-      payload: { render: <Login />, title: "Login" },
+      payload: { render: <Login />, title: "Login", size: "s" },
     });
   };
   const openRegisterModal = () => {
     modalDispatch({
       type: ModalActionType.OPEN,
-      payload: { render: <Register />, title: "Register" },
+      payload: { render: <Register />, title: "Register", size: "s" },
     });
   };
 

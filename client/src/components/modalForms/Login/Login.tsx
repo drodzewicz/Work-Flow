@@ -7,6 +7,7 @@ import { UserContext, UserActionType } from "context/UserContext";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { login } from "service";
 import * as Yup from "yup";
+import "./Login.scss";
 
 export const validationSchema = Yup.object({
   username: Yup.string().max(25, "username is too long").required("field is required"),
@@ -32,13 +33,13 @@ const LoginForm: React.FC<FormikProps<FormValues>> = (props) => {
   }, [status, userDispatch, modalDispatch, setErrors]);
 
   return (
-    <Form>
+    <Form className="login-form">
       <Field name="username" error={errors["username"]} as={TextField} />
       <Field name="password" error={errors["password"]} type="password" as={TextField} />
       <Button
         disabled={isSubmitting || !isValid}
         variant="glow"
-        className="btn-submit"
+        className="login-form__btn"
         type="submit">
         Log In
       </Button>
