@@ -83,7 +83,7 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
   return (
     <section className="task-editor">
       <Form className="task-editor__inputs">
-        <Field name="title" error={!!errors["title"]} as={TextField} />
+        <Field name="title" error={errors["title"]} as={TextField} />
         <Field name="description" error={errors["description"]} as={TextAreaField} />
       </Form>
       <div className="task-editor__sidebar">

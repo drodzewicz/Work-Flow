@@ -37,11 +37,11 @@
     min-width: 550px;
   }
   &.size-l {
-    min-width: 80vw;
+    width: 80vw;
   }
 
   @include mobile {
-    width: 100%;
+    width: 100% !important;
     height: 100vh;
     position: absolute;
     border-radius: 0;

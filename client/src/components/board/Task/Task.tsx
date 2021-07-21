@@ -27,6 +27,7 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
       payload: {
         render: <TaskDisplay taskId={taskId} />,
         title: "Task Details",
+        size: "l"
       },
     });
   };

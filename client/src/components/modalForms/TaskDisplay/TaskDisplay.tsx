@@ -14,6 +14,7 @@ import { getBoardTask, deleteTask } from "service";
 import LoadingOverlay from "components/layout/LoadingOverlay";
 import { TaskDisplayProps } from ".";
 import { TaskI } from "types/general";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
   const { modalDispatch } = useContext(ModalContext);
@@ -34,7 +35,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
       avatarImageURL: "",
     },
     people: [],
-    tags: []
+    tags: [],
   });
   const [isTaskLoading, setTaskLoading] = useState(true);
 
@@ -63,7 +64,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
     };
   }, [currentBoard, taskId, history, modalDispatch, alertDispatch]);
 
-  const deleteTaskk = async () => {
+  const deleteTaskHandler = async () => {
     const shouldDelete = window.confirm("are you sure you want to delete this task?");
     if (shouldDelete) {
       deleteTask({
@@ -94,45 +95,49 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
   };
 
   return (
-    <div className="display-task-wrapper">
-      <LoadingOverlay show={isTaskLoading} opacity={0}>
-        <div className="display-task">
-          <div className="text-details">
-            {isAuthorizedToEdit() && (
-              <div className="info-header">
-                <Button className="edit-btn delete-btn" onClick={deleteTaskk}>
-                  delete
-                </Button>
-                <Button className="edit-btn" onClick={openTaskEditModal}>
-                  edit
-                </Button>
-              </div>
-            )}
-
-            <h1 className="task-title">{taskDetails.title}</h1>
-            <p className="task-description">{taskDetails.description}</p>
-            <div className="tag-container">
+    <LoadingOverlay show={isTaskLoading} opacity={0}>
+      <section className="task-display">
+        <header className="task-display__header">
+          {isAuthorizedToEdit() && (
+            <div className="task-display__header__controls">
+              <Button className="task-display__header__controls__btn" onClick={deleteTaskHandler}>
+                <FaTrashAlt /> Delete
+              </Button>
+              <Button className="task-display__header__controls__btn" onClick={openTaskEditModal}>
+                <FaEdit /> Edit
+              </Button>
+            </div>
+          )}
+          <h1 className="task-display__header__title">{taskDetails.title}</h1>
+        </header>
+        <hr className="break-line" />
+        <article className="task-display__body">
+          <div className="task-display__body__content">
+            <div className="task-display__body__content__tags">
               {taskDetails.tags.map(({ _id, color, name }) => (
                 <Tag key={_id} colorCode={color} tagName={name} />
               ))}
             </div>
+            <p className="task-display__body__content__description">{taskDetails.description}</p>
           </div>
-          <div className="people-details">
-            <h2 className="added-by user-title">Task Author</h2>
-            <User
-              username={taskDetails.author.username}
-              imageSrc={taskDetails.author.avatarImageURL}
-            />
-            <h2 className="assigned-people-title user-title">People</h2>
-            <div className="assigned-people-container">
+          <aside className="task-display__body__people">
+            <div className="task-display__body__people__author">
+              <label className="task-display__body__people__label">Task Author</label>
+              <User
+                username={taskDetails.author.username}
+                imageSrc={taskDetails.author.avatarImageURL}
+              />
+            </div>
+            <label className="task-display__body__people__label">Asignees</label>
+            <div className="task-display__body__people__asignees scrollbar">
               {taskDetails.people.map(({ _id, username, avatarImageURL }) => (
                 <User key={_id} username={username} imageSrc={avatarImageURL} />
               ))}
             </div>
-          </div>
-        </div>
-      </LoadingOverlay>
-    </div>
+          </aside>
+        </article>
+      </section>
+    </LoadingOverlay>
   );
 };
 

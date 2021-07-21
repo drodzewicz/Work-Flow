@@ -54,6 +54,7 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
         payload: {
           render: <TaskDisplay taskId={query.task as string} />,
           title: "Task Details",
+          size: "l"
         },
       });
     };

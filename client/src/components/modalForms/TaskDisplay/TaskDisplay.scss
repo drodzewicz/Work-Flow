@@ -1,103 +1,62 @@
 @import "../../../assets/styles/mediaQueries";
 @import "../../../assets/styles/colors";
 
-.display-task-wrapper {
-	.loading-overlay {
-		width: 624px;
-		height: 10rem;
-		@include mq-1 {
-			width: 25rem;
-		}
-	}
-}
-
-.display-task {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	box-sizing: border-box;
+.task-display {
+  &__header {
+    &__controls {
+      display: flex;
+      justify-content: flex-end;
+      &__btn {
+        svg {
+          margin-right: 0.2rem;
+        }
+      }
+    }
+    &__title {
+      font-size: 1.5rem;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      overflow: hidden;
+      margin: 0.2rem;
+    }
+  }
+  &__body {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
 	@include mobile {
-		flex-direction: column;
+		 grid-template-columns: 1fr;
 	}
-	& > * {
-		margin: 0 1rem;
-	}
-
-	.text-details {
-		display: flex;
-		flex-direction: column;
-		max-width: 25rem;
-
-		.info-header {
-			display: flex;
-      align-items: center;
-      span {
-        margin-right: auto;
+    gap: 1rem;
+    &__content {
+      &__tags {
+        display: flex;
+        flex-wrap: wrap;
       }
-      
-      .edit-btn {
-        padding: 3px 4px;
-		border-radius: 2px;
-		&.delete-btn {
-			margin-left: auto;
-		}
+      &__description {
+        min-height: 5rem;
+        word-break: break-all;
       }
-		}
-		.task-title {
-			margin: 0.3rem 0;
-			font-size: 1.8rem;
-		}
-		.task-description {
-			margin: 0;
-			margin-top: 1rem;
-			width: 25rem;
-			@include mq-1 {
-				width: 15rem;
-			}
-		}
-		.tag-container {
-			display: flex;
-			flex-direction: row;
-			margin-top: 1rem;
-			.task-tag {
-				min-width: 1.2rem;
-				height: 1.2rem;
-				background: transparent;
-				border-radius: 5px;
-				border: 2px solid black;
-				padding: 0.2rem;
-				margin: 0 0.2rem;
-				font-size: 0.8rem;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-			}
-		}
-	}
-	.people-details {
-		min-width: 10rem;
-		.user-title {
-			font-family: "Secular One", sans-serif;
-			margin: 0;
-			font-size: 1rem;
-			&.assigned-people-title {
-				margin-top: 1rem;
-			}
-		}
-		.user-card {
-			margin: 0.2rem 0;
-		}
-	}
-}
+    }
 
-.theme-dark .display-task{
-	.task-title {
-		color: $text-primary-dark;
-	}
-	.task-description {
-		color: $text-secondary-dark;
-	}
-	.user-title {
-		color: $text-primary-dark;
-	}
+    &__people {
+      display: flex;
+      flex-direction: column;
+      &__author {
+        margin-bottom: 1rem;
+      }
+      &__asignees {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+		height: 7.5rem;
+		overflow: auto;
+      }
+      &__label {
+        font-size: 0.8rem;
+        margin-bottom: 0.2rem;
+        color: $text-primary;
+        font-weight: bold;
+      }
+    }
+  }
 }
