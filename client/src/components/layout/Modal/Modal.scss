@@ -38,6 +38,7 @@
   }
   &.size-l {
     width: 80vw;
+    max-width: 950px;
   }
 
   @include mobile {

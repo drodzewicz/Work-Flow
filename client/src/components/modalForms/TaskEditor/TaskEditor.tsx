@@ -11,6 +11,7 @@ import UserManager from "./UserManager/UserManager";
 import { AlertContext, AlertActionType } from "context/AlertContext";
 import { TaskEditorFormProps, FormValues } from ".";
 import { TagI, UserShortI } from "types/general";
+import { FaTags, FaUserFriends } from "react-icons/fa";
 
 const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = (props) => {
   const {
@@ -66,7 +67,7 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
 
   const filteredTags = () => {
     return availableTags.map((tag) => {
-      const foundTag = selectedTags.find(({_id}) => _id === tag._id);
+      const foundTag = selectedTags.find(({ _id }) => _id === tag._id);
       return { ...tag, checked: !!foundTag };
     });
   };
@@ -83,13 +84,29 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
   return (
     <section className="task-editor">
       <Form className="task-editor__inputs">
-        <Field name="title" error={errors["title"]} as={TextField} />
-        <Field name="description" error={errors["description"]} as={TextAreaField} />
+        <Field
+          className="task-editor__inputs__field"
+          name="title"
+          error={errors["title"]}
+          as={TextField}
+        />
+        <Field
+          className="task-editor__inputs__textArea"
+          name="description"
+          error={errors["description"]}
+          as={TextAreaField}
+        />
       </Form>
       <div className="task-editor__sidebar">
-        <label>Users</label>
+        <p className="task-editor__sidebar__label">
+          <FaUserFriends />
+          <label>Users</label>
+        </p>
         <UserManager boardId={boardId} setUsers={setUsers} users={users} />
-        <label>Tags</label>
+        <p className="task-editor__sidebar__label">
+          <FaTags />
+          <label>Tags</label>
+        </p>
         <TagManager tags={filteredTags()} selectTagHandler={toggleSelectTag} />
       </div>
       <div className="task-editor__btn">

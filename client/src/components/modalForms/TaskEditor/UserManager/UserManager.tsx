@@ -19,8 +19,13 @@ const UserManager: React.FC<UserManagerProps> = ({ users, setUsers, boardId }) =
     const { data } = await getBoardMembers({ boardId, username });
     if (!!data) {
       const { members } = data;
+      const filteredMembers = members.filter(({ user }) => {
+        const foundUser = users.find(({ _id }) => _id === user._id);
+        return !foundUser;
+      });
+
       setUserSearchResult(
-        members.map((member) => ({
+        filteredMembers.map((member) => ({
           ...member,
           text: member.user.username,
           _id: member.user._id,
@@ -28,10 +33,10 @@ const UserManager: React.FC<UserManagerProps> = ({ users, setUsers, boardId }) =
       );
     }
   };
-  const addUserToList = (user: any) => {
+  const addUserToList = (boardUser: any) => {
     setUsers((users: any) => {
       const newUsers = [...users];
-      newUsers.push(user);
+      newUsers.push(boardUser.user);
       return newUsers;
     });
     setUserSearchResult([]);
@@ -67,6 +72,9 @@ const UserManager: React.FC<UserManagerProps> = ({ users, setUsers, boardId }) =
             />
           </User>
         ))}
+        {users.length < 1 && (
+          <i className="user-manager__no-content-msg">No user has been assinged</i>
+        )}
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ const TextAreaField: React.FC<TextAreaFieldProps> = (props) => {
     <div className="text-field">
       <textarea
         name={name}
-        className={`text-field__textarea ${className || ""}`}
+        className={`text-field__textarea scrollbar ${className || ""}`}
          {...fieldProps}></textarea>
       <div className="text-field__line"></div>
       <label

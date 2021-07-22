@@ -19,7 +19,9 @@ boardMemberService.getBoardMembers = async (req, res) => {
     });
 
     if (members.length > 0 && !!searchUsername) {
-      members = members.filter(({ user }) => user.username.includes(searchUsername));
+      members = members.filter(({ user }) =>
+        user.username.toLowerCase().includes(searchUsername.toLowerCase())
+      );
     }
 
     if (!!page && !!limit) {
