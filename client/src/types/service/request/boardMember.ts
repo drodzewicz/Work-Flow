@@ -7,6 +7,11 @@ export interface getBoardMembersParams extends serviceParams {
   username?: string;
 }
 
+export interface getBoardMemberParams extends serviceParams {
+  boardId: string;
+  userId: string
+}
+
 export interface removeUserFromBoardParams extends serviceParams {
   boardId: string;
   userId: string;

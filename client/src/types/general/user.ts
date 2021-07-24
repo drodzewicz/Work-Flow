@@ -15,3 +15,8 @@ export interface BoardUserI {
   role: UserBoardRoles;
   user: UserShortI;
 }
+
+export interface BoardUserFullI {
+  role: UserBoardRoles;
+  user: UserI;
+}

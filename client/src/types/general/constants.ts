@@ -1,13 +1,13 @@
 export enum TagColors {
-  RED = "RED",
-  YELLOW = "YELLOW",
-  GREEN = "GREEN",
-  TIEL = "TIEL",
+  BLACK = "BLACK",
   BLUE = "BLUE",
+  TIEL = "TIEL",
   PURPLE = "PURPLE",
+  GREEN = "GREEN",
+  RED = "RED",
   MAJENTA = "MAJENTA",
   PINK = "PINK",
-  BLACK = "BLACK",
+  YELLOW = "YELLOW",
   WHITE = "WHITE",
 }
 

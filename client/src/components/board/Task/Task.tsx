@@ -9,6 +9,7 @@ import Tooltip from "components/general/Tooltip";
 import { Draggable } from "react-beautiful-dnd";
 import { TaskProps } from "./";
 import TagMini from "components/board/Tag/TagMini";
+import { UserBoardRoles } from "types/general";
 
 const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people = [] }) => {
   const { modalDispatch } = useContext(ModalContext);
@@ -65,7 +66,7 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
     <Draggable
       draggableId={taskId}
       index={taskIndex}
-      isDragDisabled={currentBoard.role === "guest"}>
+      isDragDisabled={currentBoard.role === UserBoardRoles.GUEST}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}

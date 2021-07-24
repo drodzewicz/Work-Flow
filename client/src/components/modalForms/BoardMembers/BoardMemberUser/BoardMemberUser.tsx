@@ -1,94 +1,56 @@
-import React, { useRef, useContext } from "react";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import DropdownMenu from "components/general/DropdownMenu/DropdownMenu";
-import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
-import { ReactComponent as Admin } from "assets/images/Admin.svg";
-import { ReactComponent as Crown } from "assets/images/crown.svg";
-import { ReactComponent as Visitor } from "assets/images/visitor.svg";
-import { ReactComponent as RegularUser } from "assets/images/regular-user.svg";
+import React, { useRef, useContext, useState } from "react";
+import { FaShieldAlt, FaUserAlt, FaRegAddressCard, FaCrown } from "react-icons/fa";
+
 import User from "components/board/User";
 import { UserContext } from "context/UserContext";
 import "./BoardMemberUser.scss";
 import { BoardMembersUserProps } from "./";
 import { UserBoardRoles } from "types/general";
+import UserInfo from "./UserInfo";
+import { useClickOutside } from "Hooks/useClickOutside";
 
-const BoardMemberUser: React.FC<BoardMembersUserProps> = ({
-  member,
-  removeUser,
-  changeUserRole,
-}) => {
-  const userRoleAnchorElement = useRef<HTMLDivElement | null>(null);
-  const optionsAnchorElement = useRef<HTMLElement | null>(null);
+const BoardMemberUser: React.FC<BoardMembersUserProps> = ({ member, ...actions }) => {
+  const userInfoCardRef = useRef<HTMLDivElement | null>(null);
   const {
     userState: { currentBoard },
   } = useContext(UserContext);
+  const [showUserInfo, setShowUserInfo] = useState<boolean>(false);
 
   const userTypeIcon = (type: string) => {
     switch (type) {
       case UserBoardRoles.OWNER:
-        return <Crown className="owner-icon" />;
+        return <FaCrown className="board-user__role-icon board-user__role-icon--owner" />;
       case UserBoardRoles.ADMIN:
-        return <Admin />;
+        return <FaShieldAlt className="board-user__role-icon" />;
       case UserBoardRoles.REGULAR:
-        return <RegularUser />;
+        return <FaUserAlt className="board-user__role-icon" />;
       case UserBoardRoles.GUEST:
-        return <Visitor />;
+        return <FaRegAddressCard className="board-user__role-icon" />;
       default:
         return null;
     }
   };
 
-  const isAuthorized = () => {
-    if (currentBoard.role === UserBoardRoles.OWNER) return true;
-    if (
-      currentBoard.role === UserBoardRoles.ADMIN &&
-      member.role !== UserBoardRoles.OWNER &&
-      member.role !== UserBoardRoles.ADMIN
-    )
-      return true;
-  };
-
-  const roleList = [
-    { roleName: "Admin", role: UserBoardRoles.ADMIN, icon: <Admin /> },
-    { roleName: "Regular", role: UserBoardRoles.REGULAR, icon: <RegularUser /> },
-    { roleName: "Guest", role: UserBoardRoles.GUEST, icon: <Visitor /> },
-  ];
+  const showUserInfoCard = () => setShowUserInfo(true);
+  const hideShowUserInfoCard = () => setShowUserInfo(false);
+  useClickOutside(userInfoCardRef, hideShowUserInfoCard);
 
   return (
-    <div className="board-user">
-      <User username={member.user.username} imageSrc={member.user.avatarImageURL}>
-        <div className="user-type" ref={userRoleAnchorElement}>
-          {userTypeIcon(member.role)}
-        </div>
-        {member.role !== UserBoardRoles.OWNER && isAuthorized() && (
-          <span ref={optionsAnchorElement}>
-            <MoreVertIcon className="option-more" />
-          </span>
-        )}
-        {member.role !== UserBoardRoles.OWNER && isAuthorized() && (
-          <DropdownMenu className="user-roles" anchorEl={userRoleAnchorElement}>
-            {roleList
-              .filter(({ role }) => role !== member.role)
-              .map(({ roleName, role, icon }) => (
-                <DropdownMenuItem key={role}>
-                  <div onClick={() => changeUserRole(member.user._id, role)}>
-                    {icon}
-                    <span>{roleName}</span>
-                  </div>
-                </DropdownMenuItem>
-              ))}
-          </DropdownMenu>
-        )}
-          {member.role !== UserBoardRoles.OWNER && isAuthorized() && (
-          <DropdownMenu
-            onClickClose={true}
-            className="user-option-menu"
-            anchorEl={optionsAnchorElement}>
-            <span onClick={() => removeUser(member.user._id)}>remove</span>
-          </DropdownMenu>
-        )}
-      </User>
-    </div>
+    <User
+      className="board-user"
+      username={member.user.username}
+      imageSrc={member.user.avatarImageURL}
+      onClick={showUserInfoCard}>
+      {userTypeIcon(member.role)}
+      {showUserInfo && (
+        <UserInfo
+          {...actions}
+          ref={userInfoCardRef}
+          currentRole={currentBoard.role!}
+          userId={member.user._id}
+        />
+      )}
+    </User>
   );
 };
 

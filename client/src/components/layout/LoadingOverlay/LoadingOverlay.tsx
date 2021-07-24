@@ -27,7 +27,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
       </div>
     );
   } else {
-    return <div>{children}</div>;
+    return <div className={className}>{children}</div>;
   }
 };
 

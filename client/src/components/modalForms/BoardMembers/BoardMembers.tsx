@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "context/UserContext";
 import SearchInput from "components/general/SearchInput";
 import BoardMemberUser from "./BoardMemberUser/BoardMemberUser";
-import Pagination, {PaginationI }  from "components/general/Pagination";
+import Pagination, { PaginationI } from "components/general/Pagination";
 import "./BoardMembers.scss";
 import { BoardMembersProps, SearchedUser } from "./";
 import { UserBoardRoles, UserShortI } from "types/general";
@@ -18,9 +18,9 @@ import { BoardUserI } from "types/general";
 import LoadingOverlay from "components/layout/LoadingOverlay";
 
 const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
-  const USER_LIMIT = 5;
+  const USER_LIMIT = 10;
   const [members, setMembers] = useState<BoardUserI[]>([]);
-  const [page, setPage] = useState<PaginationI>({current: 1,total: 1,});
+  const [page, setPage] = useState<PaginationI>({ current: 1, total: 1 });
   const [isPageLoading, setPageLoading] = useState(true);
   const [searchRes, setSearchRes] = useState<SearchedUser[]>([]);
   const {
@@ -31,17 +31,11 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
     let _isMounted = true;
 
     const fetchBoardMembers = async () => {
-      const { data } = await getBoardMembers({
-        boardId,
-        limit: USER_LIMIT,
-        page: page.current,
-      });
+      const { data } = await getBoardMembers({ boardId });
       if (_isMounted) setPageLoading(false);
       if (!!data && _isMounted) {
-        const { totalPageCount, members } = data;
-        if (!!totalPageCount) {
-          setPage((pages) => ({ ...pages, total: totalPageCount }));
-        } 
+        const { members } = data;
+        setPage((pages) => ({ ...pages, total: Math.ceil(members.length / USER_LIMIT) }));
         setMembers(members);
       }
     };
@@ -50,15 +44,18 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
       _isMounted = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [boardId, page.current]);
+  }, [boardId]);
 
   const dynamicSearchHandler = async (username: string) => {
+    if (username.length < 3) return;
     const { data } = await searchUsersByUsername({ username });
     if (!!data) {
-      const parsedResult = data.map((user: UserShortI) => ({
-        ...user,
-        text: user.username,
-      }));
+      const parsedResult = data
+        .filter(({ _id }) => !members.find(({ user }) => user._id === _id))
+        .map((user: UserShortI) => ({
+          ...user,
+          text: user.username,
+        }));
       setSearchRes(parsedResult);
     }
   };
@@ -101,38 +98,35 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
       });
     }
   };
-
   const isAuthorized = () => {
     const { role } = currentBoard;
     return role === UserBoardRoles.OWNER || role === UserBoardRoles.ADMIN;
   };
+  const paginatedMembers = () => {
+    return members.slice(USER_LIMIT * (page.current - 1), USER_LIMIT * page.current);
+  };
 
   return (
-    <div className="board-members-modal">
+    <div className="board-members">
       {isAuthorized() && (
         <SearchInput
           search={dynamicSearchHandler}
           debounceTimeout={500}
-          result={searchRes.filter(
-            ({ _id }) => members.findIndex(({ user }) => user._id === _id) < 0
-          )}
+          result={searchRes}
           clickResult={addUserToBoardHandler}
           clear={clearSearchResults}
         />
       )}
-      <LoadingOverlay show={isPageLoading} opacity={0}>
-        <div className="user-container">
-          {members.map((member) => (
-            <BoardMemberUser
-              key={member.user._id}
-              member={member}
-              removeUser={removeUserFromBoardd}
-              changeUserRole={changeUserRole}
-            />
-          ))}
-        </div>
+      <LoadingOverlay className="board-members__members" show={isPageLoading} opacity={0}>
+        {paginatedMembers().map((member) => (
+          <BoardMemberUser
+            key={member.user._id}
+            member={member}
+            removeUser={removeUserFromBoardd}
+            changeUserRole={changeUserRole}
+          />
+        ))}
       </LoadingOverlay>
-
       <Pagination {...page} handleChange={changePageHandler} />
     </div>
   );

@@ -15,6 +15,7 @@ import { Droppable } from "react-beautiful-dnd";
 
 import TaskCreate from "components/modalForms/TaskEditor/TaskCreate";
 import { ColumnProps } from "./";
+import { UserBoardRoles } from "types/general";
 
 const Column: React.FC<ColumnProps> = ({
   columnName,
@@ -99,7 +100,7 @@ const Column: React.FC<ColumnProps> = ({
                 onEnter={changeColumnNameOnKeyPressEnter}
                 editTitle={showTitleInput}
               />
-              {currentBoard.role !== "guest" && (
+              {currentBoard.role !== UserBoardRoles.GUEST && (
                 <button onClick={openBoardTagsModal} className="task-column__header__new-task-btn">
                   <FaRegPlusSquare />
                 </button>

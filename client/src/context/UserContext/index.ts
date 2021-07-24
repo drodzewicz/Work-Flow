@@ -1,4 +1,6 @@
 
+import { UserBoardRoles } from "types/general";
+
 export * from "./UserContext";
 
 export type AuthStatus = "success" | "failed" | null;
@@ -14,5 +16,5 @@ export enum UserActionType {
 export type UserState = {
   authStatus: AuthStatus;
   user: any | null;
-  currentBoard: { role: string | null; id: string | null };
+  currentBoard: { role: UserBoardRoles | null; id: string | null };
 };

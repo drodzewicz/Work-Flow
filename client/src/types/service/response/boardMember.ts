@@ -1,10 +1,14 @@
-import { BoardUserI, UserBoardRoles } from "types/general"; 
+import { BoardUserI, BoardUserFullI, UserBoardRoles } from "types/general"; 
 
 export type getBoardMembersResponse = {
   members: BoardUserI[];
   next?: number;
   prev?: number;
   totalPageCount?: number;
+};
+
+export type getBoardMemberResponse = {
+  member: BoardUserFullI;
 };
 
 export interface changeBoardUserRoleResponse {
