@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormikProps, Form, Field, withFormik } from "formik";
 import { TextField } from "components/general/TextInput";
 import Button from "components/general/Button";
@@ -22,21 +22,39 @@ interface ProfileFieldsProps {
 interface FormValues extends ProfileFieldsProps {}
 
 const ProfileFields: React.FC<FormikProps<FormValues>> = (props) => {
-  const { errors, isSubmitting, isValid } = props;
+  const { errors, isSubmitting, isValid, resetForm } = props;
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  const editFormHandler = () => setIsEditing(true);
+  const cancelFormChangesHandler = () => {
+    resetForm();
+    setIsEditing(false);
+  };
 
   return (
     <Form className="profile__inputs">
-      <Field name="username" error={errors["username"]} as={TextField} />
-      <Field name="email" error={errors["email"]} as={TextField} />
-      <Field name="name" error={errors["name"]} as={TextField} />
-      <Field name="surname" error={errors["surname"]} as={TextField} />
-      <Button
-        disabled={isSubmitting || !isValid}
-        variant="glow"
-        className="btn-submit"
-        type="submit">
-        Update
-      </Button>
+      <Field disabled={!isEditing} name="username" error={errors["username"]} as={TextField} />
+      <Field disabled={!isEditing} name="email" error={errors["email"]} as={TextField} />
+      <Field disabled={!isEditing} name="name" error={errors["name"]} as={TextField} />
+      <Field disabled={!isEditing} name="surname" error={errors["surname"]} as={TextField} />
+      {isEditing ? (
+        <>
+          <Button
+            disabled={isSubmitting || !isValid}
+            variant="glow"
+          
+            type="submit">
+            Update
+          </Button>
+          <Button onClick={cancelFormChangesHandler} type="button">
+            Cancel
+          </Button>
+        </>
+      ) : (
+        <Button onClick={editFormHandler} className="btn-edit" type="button">
+          Edit
+        </Button>
+      )}
     </Form>
   );
 };

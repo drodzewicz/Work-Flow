@@ -30,8 +30,9 @@ const WelcomePage: React.FC = () => {
           <Person role="presentation" name="person_task_board" className="person-image" />
         )}
 
-        <div className="welcome-section__text-subsection">
+        <div className="welcome-section__introduction__text-subsection">
           <h1>Work-Flow</h1>
+          <hr className="line-break" />
           <h2>work more collaboratively and get more done.</h2>
           <p>
             Work-Flow is a web-based Kanban-style list making application used to manage work at
@@ -44,12 +45,14 @@ const WelcomePage: React.FC = () => {
         </div>
       </section>
       <section className="welcome-section__explainer">
-        <div className="welcome-section__text-subsection">
-          <h1>Tasks</h1>
-          <h2>
-            Create tasks and assign them to your teammates - add custom tags to differentiate tasks
-            at a glance
-          </h2>
+        <div className="welcome-section__explainer__text-subsection">
+          <h2>Tasks</h2>
+          <ul>
+            <li>Create tasks</li>
+            <li>assign them to your teammates</li>
+            <li>add custom tags to differentiate tasks at a glance</li>
+            <li>enjoy a smooth and organized workflow</li>
+          </ul>
         </div>
         {appTheme === "dark" ? (
           <TaskColumnsDark className="task-columns-image" />

@@ -1,11 +1,11 @@
 .board-members {
 	margin-top: 2rem;
 	margin-bottom: 6rem;
+	min-height: 25rem;
 	&__members {
 		margin: 0.5rem 0;
 		display: flex;
 		flex-direction: column;
 		gap: 0.1rem;
-		min-height: 14rem;
 	}
 }

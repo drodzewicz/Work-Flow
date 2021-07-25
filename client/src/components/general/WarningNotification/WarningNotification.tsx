@@ -3,21 +3,19 @@ import Portal from "components/layout/Portal";
 import "./WarningNotification.scss";
 import { WarningNotificationProps, Warning } from "./";
 
-import ErrorIcon from "@material-ui/icons/NotInterested";
-import WaringIcon from "@material-ui/icons/ReportProblem";
-import SuccessIcon from "@material-ui/icons/CheckCircle";
+import { FaCheck, FaExclamationTriangle, FaExclamationCircle } from "react-icons/fa";
 
 const WarningNotification: React.FC<WarningNotificationProps> = ({ message, type, show }) => {
   const warningIcon = () => {
     switch (type) {
       case Warning.SUCCESS:
-        return <SuccessIcon className="warning-notification__content__icon" />;
+        return <FaCheck className="warning-notification__content__icon" />;
       case Warning.ERROR:
-        return <ErrorIcon className="warning-notification__content__icon" />;
+        return <FaExclamationCircle className="warning-notification__content__icon" />;
       case Warning.WARNING:
-        return <WaringIcon className="warning-notification__content__icon" />;
+        return <FaExclamationTriangle className="warning-notification__content__icon" />;
       default:
-        return <ErrorIcon className="warning-notification__content__icon" />;
+        return <FaExclamationCircle className="warning-notification__content__icon" />;
     }
   };
   if (show) {

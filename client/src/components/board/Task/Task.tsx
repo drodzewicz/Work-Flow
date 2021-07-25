@@ -83,6 +83,7 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
                 <span key={_id}>{name}</span>
               ))}
             </Tooltip>
+            
             <AssignedUsers />
             <Tooltip anchorEl={poepleAnchorElement}>
               {people.map(({ _id, username }) => (

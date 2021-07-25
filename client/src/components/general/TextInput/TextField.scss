@@ -45,6 +45,10 @@
     width: 100%;
   }
 
+  &__input:disabled {
+    border-color: transparent;
+  }
+
   &__label {
     margin-bottom: 0.1rem;
     font-size: 1rem;

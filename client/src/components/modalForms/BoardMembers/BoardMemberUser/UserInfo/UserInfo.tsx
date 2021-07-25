@@ -8,7 +8,7 @@ import Image from "components/general/Image";
 import Button from "components/general/Button";
 import DropdownMenu from "components/general/DropdownMenu";
 import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
-import { FaShieldAlt, FaUserAlt, FaRegAddressCard, FaCrown } from "react-icons/fa";
+import { FaShieldAlt, FaUserAlt, FaRegAddressCard, FaCrown, FaUserSlash } from "react-icons/fa";
 
 const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
   ({ userId, currentRole, removeUser, changeUserRole }, ref) => {
@@ -19,15 +19,22 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
     });
     const [user, setUser] = useState<BoardUserFullI>({
       role: UserBoardRoles.REGULAR,
-      user: { _id: "", name: "", surname: "", username: "", email: "" },
+      user: {
+        _id: "",
+        name: "Loadind...",
+        surname: "",
+        username: "Loadind...",
+        email: "Loadind...",
+      },
     });
+    const [isLoading, setLoading] = useState<boolean>(true)
     const rolesAnchor = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
       const getBoardUserInfo = async () => {
         if (!match?.params) return;
         const { boardId } = match.params;
-        const { data } = await getBoardMember({ boardId, userId });
+        const { data } = await getBoardMember({ boardId, userId, setLoading });
         if (!!data) {
           const { member } = data;
           setUser(member);
@@ -36,7 +43,8 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
       getBoardUserInfo();
 
       return () => {};
-    }, []);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ userId]);
 
     const roleIcon = (role: UserBoardRoles) => {
       switch (role) {
@@ -88,10 +96,10 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
 
     return (
       <div ref={ref} className="user-info">
-        <h3 className="user-info__username">
-          @{user.user.username}
-          <hr className="break-line" />
-        </h3>
+        <header>
+          <h3 className="user-info__username">@{user.user.username}</h3>
+        </header>
+        <hr className="break-line" />
         <div className="user-info__main">
           <Image className="user-info__avatar" src={user.user.avatarImageURL} />
           <p className="user-info__info">
@@ -102,18 +110,16 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
           </p>
         </div>
         <div className="user-info__control-btn">
-          <Button disabled={user.role === UserBoardRoles.OWNER} ref={rolesAnchor}>
+          <Button disabled={user.role === UserBoardRoles.OWNER || isLoading} ref={rolesAnchor}>
             {roleIcon(user.role)}
           </Button>
-          <DropdownMenu
-            offset={{
-              x: -110,
-              y: 0,
-            }}
-            anchorEl={rolesAnchor}>
+          <DropdownMenu offset={{ x: -125, y: 0 }} anchorEl={rolesAnchor} className="role-options">
             {availableRoles()}
           </DropdownMenu>
-          <Button onClick={() => removeUser(userId)}>kick</Button>
+          <Button disabled={isLoading} onClick={() => removeUser(userId)}>
+            <FaUserSlash />
+            kick
+          </Button>
         </div>
       </div>
     );

@@ -1,3 +1,5 @@
+@import "../../../../assets/styles/colors";
+
 .user-manager {
   display: flex;
   flex-direction: column;
@@ -11,6 +13,14 @@
   }
   &__no-content-msg {
     color: #2222;
+  }
+  .remove-user-icon {
+    cursor: pointer;
+    color: $black-1;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      color: lighten($black-1, 20%);
+    }
   }
 }
 

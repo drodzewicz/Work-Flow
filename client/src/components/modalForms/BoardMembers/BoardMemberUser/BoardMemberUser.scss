@@ -11,3 +11,11 @@
     margin-right: 0.4rem;
   }
 }
+
+.theme-dark {
+  .board-user {
+    &:hover {
+      background-color: $dark-3;
+    }
+  }
+}

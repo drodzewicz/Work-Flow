@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SearchInput from "components/general/SearchInput";
 import User from "components/board/User";
-import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
+import { FaUserMinus } from "react-icons/fa";
 import { getBoardMembers } from "service";
 import "./UserManager.scss";
 import { UserManagerProps } from ".";
@@ -66,7 +66,7 @@ const UserManager: React.FC<UserManagerProps> = ({ users, setUsers, boardId }) =
       <div className="user-manager__users scrollbar">
         {users.map(({ _id, username, avatarImageURL }, index) => (
           <User key={_id} username={username} imageSrc={avatarImageURL}>
-            <RemoveCircleOutlineIcon
+            <FaUserMinus
               className="remove-user-icon"
               onClick={() => removeUserFromList(index)}
             />

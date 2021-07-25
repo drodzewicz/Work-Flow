@@ -11,6 +11,8 @@
     width: $avatar-size;
     height: $avatar-size;
     position: relative;
+    margin-bottom: 1rem;
+
     img {
       width: $avatar-size;
       height: $avatar-size;
@@ -54,8 +56,15 @@
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(2, 1fr);
-    .btn-submit {
+    .btn-edit {
       grid-column: 1/3;
+    }
+
+    @include mq-1 {
+      grid-template-columns: 1fr;
+      .btn-edit {
+        grid-column: auto;
+      }
     }
   }
 }
