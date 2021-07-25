@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import "./DashboardPage.scss";
 import Button from "components/general/Button";
-import BoardCreate from "components/modalForms/BoardEditor/BoardCreate";
+import BoardCreate from "dialogs/BoardEditor/BoardCreate";
 import ContainerBox from "components/layout/ContainerBox/ContainerBox";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { getPinnedBoards, getMyBoards, togglePinBoard } from "service";

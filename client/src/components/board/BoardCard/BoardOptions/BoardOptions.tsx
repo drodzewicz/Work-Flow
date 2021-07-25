@@ -3,7 +3,7 @@ import DropdownMenu from "components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
 import { FaEllipsisV, FaEdit, FaTrashAlt, FaSignOutAlt } from "react-icons/fa";
 import { leaveBoard, deleteBoard } from "service";
-import BoardUpdate from "components/modalForms/BoardEditor/BoardUpdate";
+import BoardUpdate from "dialogs/BoardEditor/BoardUpdate";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { BoardOptionsProps } from "./";
 import "./BoardOptions.scss";

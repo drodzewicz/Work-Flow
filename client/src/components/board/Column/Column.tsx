@@ -13,7 +13,7 @@ import { deleteColumn } from "service";
 
 import { Droppable } from "react-beautiful-dnd";
 
-import TaskCreate from "components/modalForms/TaskEditor/TaskCreate";
+import TaskCreate from "dialogs/TaskEditor/TaskCreate";
 import { ColumnProps } from "./";
 import { UserBoardRoles } from "types/general";
 

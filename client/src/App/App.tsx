@@ -9,7 +9,7 @@ import Routes from "views/Routes";
 
 import Footer from "components/layout/Footer";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
-import WarningNotification from "components/general/WarningNotification";
+import WarningNotification from "components/general/Alert";
 import { isUserAuthenticated } from "service";
 
 const App: React.FC = () => {

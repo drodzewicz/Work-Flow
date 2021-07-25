@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import "./WelcomePage.scss";
 import Button from "components/general/Button";
 import { ModalContext, ModalActionType } from "context/ModalContext";
-import Register from "components/modalForms/Register/Register";
+import Register from "dialogs/Register/Register";
 
 import { ReactComponent as Person } from "assets/images/workflow-person.svg";
 import { ReactComponent as PersonDark } from "assets/images/workflow-person_dark.svg";
@@ -49,9 +49,9 @@ const WelcomePage: React.FC = () => {
           <h2>Tasks</h2>
           <ul>
             <li>Create tasks</li>
-            <li>assign them to your teammates</li>
-            <li>add custom tags to differentiate tasks at a glance</li>
-            <li>enjoy a smooth and organized workflow</li>
+            <li>Assign them to your teammates</li>
+            <li>Add custom tags to differentiate tasks at a glance</li>
+            <li>Enjoy a smooth and organized workflow</li>
           </ul>
         </div>
         {appTheme === "dark" ? (

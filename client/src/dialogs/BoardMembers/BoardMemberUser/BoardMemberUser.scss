@@ -1,0 +1,21 @@
+@import "../../..//assets/styles/colors";
+
+.board-user {
+  cursor: pointer;
+  &:hover {
+    background-color: #e2e2f3;
+  }
+  &__role-icon {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.4rem;
+  }
+}
+
+.theme-dark {
+  .board-user {
+    &:hover {
+      background-color: $dark-3;
+    }
+  }
+}

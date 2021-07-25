@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 import "./Task.scss";
 import Image from "components/general/Image";
-import TaskDisplay from "components/modalForms/TaskDisplay/TaskDisplay";
+import TaskDisplay from "dialogs/TaskDisplay/TaskDisplay";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { UserContext } from "context/UserContext";
 import Tooltip from "components/general/Tooltip";

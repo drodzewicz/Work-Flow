@@ -33,10 +33,9 @@ code {
   //   display: flex;
   //   flex-direction: row;
   // }
-  // .authentication-loading {
-  //   position: relative;
-  //   height: 80vh;
-  // }
+  .authentication-loading {
+    // min-height: 80vh;
+  }
 }
 
 .theme-dark .App {

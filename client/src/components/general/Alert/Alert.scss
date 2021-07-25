@@ -1,0 +1,76 @@
+@import "../../../assets/styles/colors";
+
+$warning-width: 16rem;
+
+@keyframes moveOpen {
+  from {
+    transform: translate($warning-width + 1rem, 0);
+  }
+  10% {
+    transform: translate(-5px, 0);
+  }
+  12% {
+    transform: translate(-7px, 0);
+  }
+  16% {
+    transform: translate(0, 0);
+  }
+  80% {
+    transform: translate(0, 0);
+  }
+  85% {
+    transform: translate(-10px, 0);
+  }
+  to {
+    transform: translate($warning-width + 1rem, 0);
+  }
+}
+
+.warning-notification {
+  display: flex;
+  position: fixed;
+  z-index: 1000;
+  background-color: $white-1;
+  color: black;
+  width: $warning-width;
+  height: 4rem;
+  bottom: 1rem;
+  right: 1rem;
+  border-radius: 5px;
+  box-shadow: 0px 2px 3px rgba(0, 1px, 0, 0.25);
+  animation: moveOpen 5s forwards;
+
+  &--success {
+    background: rgb(137, 255, 137);
+    color: #222222;
+  }
+  &--warning {
+    background: rgb(255, 207, 104);
+    color: #222222;
+  }
+  &--error {
+    background: rgb(255, 137, 137);
+    color: #222222;
+  }
+  &__content {
+    display: flex;
+    align-items: stretch;
+    margin: 0.2rem 0.4rem;
+
+    & > &__icon {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0.5rem;
+    }
+    & > &__message {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-size: 0.9rem;
+      color: inherit;
+    }
+  }
+}
