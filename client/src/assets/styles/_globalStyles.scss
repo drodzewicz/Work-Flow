@@ -16,7 +16,6 @@
   }
 }
 
-
 .theme-dark {
   .scrollbar {
     &::-webkit-scrollbar-track {
@@ -26,5 +25,17 @@
     &::-webkit-scrollbar-thumb {
       background-color: darken($dark-3, 5%);
     }
+  }
+}
+
+.break-line {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border: none;
+  border-top: 1px solid $gray-1;
+}
+.theme-dark {
+  .break-line {
+    border-top: 1px solid $dark-3;
   }
 }

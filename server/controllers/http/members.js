@@ -1,6 +1,7 @@
 const Board = require("../../models/board");
 const User = require("../../models/user");
 const paginateContent = require("../../helper/pagination");
+const { ResponseError } = require("../../error/");
 
 const boardMemberService = {};
 
@@ -19,7 +20,9 @@ boardMemberService.getBoardMembers = async (req, res) => {
     });
 
     if (members.length > 0 && !!searchUsername) {
-      members = members.filter(({ user }) => user.username.includes(searchUsername));
+      members = members.filter(({ user }) =>
+        user.username.toLowerCase().includes(searchUsername.toLowerCase())
+      );
     }
 
     if (!!page && !!limit) {
@@ -35,11 +38,20 @@ boardMemberService.getBoardMembers = async (req, res) => {
 boardMemberService.getBoardMember = async (req, res) => {
   const { boardId, userId } = req.params;
   try {
-    const foundBoard = await Board.findOne({ _id: boardId }, "_id members");
-    const foundMember = foundBoard.members.find(
-      ({ user }) => user.toLocaleString() === userId.toLocaleString()
+    let { members } = await Board.findOne({ _id: boardId }, "members").populate({
+      path: "members",
+      populate: {
+        path: "user",
+        select: "_id username avatarImageURL email name surname",
+      },
+    });
+    const member = members.find(
+      ({ user }) => user._id.toLocaleString() === userId.toLocaleString()
     );
-    return res.status(200).json({ member: foundMember });
+    if (!member) {
+      throw new ResponseError({ member: "member with given id is not a part of this board" }, 404);
+    }
+    return res.status(200).json({ member });
   } catch (error) {
     next(error);
   }

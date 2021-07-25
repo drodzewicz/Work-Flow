@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import NavItem from "components/layout/Navbar/NavItem/NavItem";
-import Login from "components/modalForms/Login";
-import Register from "components/modalForms/Register/Register";
+import Login from "dialogs/Login";
+import Register from "dialogs/Register/Register";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import "./DefaultNav.scss";
 
@@ -11,13 +11,13 @@ const DefaultNav: React.FC = () => {
   const openLoginModal = () => {
     modalDispatch({
       type: ModalActionType.OPEN,
-      payload: { render: <Login />, title: "Login" },
+      payload: { render: <Login />, title: "Login", size: "s" },
     });
   };
   const openRegisterModal = () => {
     modalDispatch({
       type: ModalActionType.OPEN,
-      payload: { render: <Register />, title: "Register" },
+      payload: { render: <Register />, title: "Register", size: "s" },
     });
   };
 

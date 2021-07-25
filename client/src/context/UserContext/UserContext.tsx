@@ -2,6 +2,7 @@ import React, { useReducer, Reducer, createContext } from "react";
 import { UserAction } from "./UserActions";
 import { UserActionType } from ".";
 import { UserState } from ".";
+import {UserBoardRoles} from "types/general";
 
 const initialState: UserState = {
   authStatus: null,
@@ -29,7 +30,10 @@ const reducer: Reducer<UserState, UserAction> = (state, action) => {
       localStorage.removeItem("token");
       return { ...state, user: null, authStatus: null, currentBoard: { role: null, id: null } };
     case UserActionType.ROLE:
-      return { ...state, currentBoard: { role: action.payload.role, id: action.payload.boardId } };
+      return {
+        ...state,
+        currentBoard: { role: action.payload.role as UserBoardRoles, id: action.payload.boardId },
+      };
     case UserActionType.UPDATE_AVATAR:
       return { ...state, user: { ...state.user, avatarImageURL: action.payload.avatar } };
     default:

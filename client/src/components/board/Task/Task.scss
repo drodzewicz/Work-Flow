@@ -34,13 +34,12 @@
     display: flex;
     flex-direction: row;
     cursor: default;
+    justify-content: space-between;
 
     &__tags {
       display: flex;
       flex-direction: row;
-      justify-content: flex-start;
       align-items: center;
-      flex-grow: 1;
     }
     &__users {
       display: flex;

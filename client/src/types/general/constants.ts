@@ -1,12 +1,13 @@
 export enum TagColors {
-  RED = "RED",
-  YELLOW = "YELLOW",
-  GREEN = "GREEN",
+  BLACK = "BLACK",
+  BLUE = "BLUE",
   TIEL = "TIEL",
   PURPLE = "PURPLE",
+  GREEN = "GREEN",
+  RED = "RED",
   MAJENTA = "MAJENTA",
   PINK = "PINK",
-  BLACK = "BLACK",
+  YELLOW = "YELLOW",
   WHITE = "WHITE",
 }
 
@@ -15,4 +16,9 @@ export enum UserBoardRoles {
   ADMIN = "ADMIN",
   REGULAR = "REGULAR",
   GUEST = "GUEST",
+}
+
+export enum theme {
+  LIGHT = "light",
+  DARK = "dark",
 }

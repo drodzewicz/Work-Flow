@@ -17,6 +17,7 @@
     "pink": $tag-pink,
     "black": $tag-black,
     "white": $tag-white,
+    "blue": $tag-blue,
   );
 
   @each $name, $bg in $colors {

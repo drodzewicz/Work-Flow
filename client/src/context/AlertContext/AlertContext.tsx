@@ -1,9 +1,9 @@
 import React, { createContext, useReducer, useEffect, useRef } from "react";
 import { AlertActionType, AlertState } from ".";
 import { AlertActions } from "./AlertActions";
-import { Warning } from "components/general/WarningNotification";
+import { AlertTypes } from "components/general/Alert";
 
-const initialState: AlertState = { type: Warning.SUCCESS, message: "", show: false };
+const initialState: AlertState = { type: AlertTypes.SUCCESS, message: "", show: false };
 
 export const AlertContext = createContext<{
   alertState: AlertState;
@@ -16,11 +16,11 @@ export const AlertContext = createContext<{
 const reducer: React.Reducer<AlertState, AlertActions> = (state, action): AlertState => {
   switch (action.type) {
     case AlertActionType.SUCCESS:
-      return { type: Warning.SUCCESS, message: action.payload.message, show: true };
+      return { type: AlertTypes.SUCCESS, message: action.payload.message, show: true };
     case AlertActionType.WARNING:
-      return { type: Warning.WARNING, message: action.payload.message, show: true };
+      return { type: AlertTypes.WARNING, message: action.payload.message, show: true };
     case AlertActionType.ERROR:
-      return { type: Warning.ERROR, message: action.payload.message, show: true };
+      return { type: AlertTypes.ERROR, message: action.payload.message, show: true };
     case AlertActionType.CLOSE:
       return { ...state, show: false };
     default:
@@ -40,10 +40,14 @@ export const AlertProvider: React.FC = ({ children }) => {
     };
     if (alertState.show && watingTimeout.current == null) {
       watingTimeout.current = setTimeout(closeAlert, 5000);
-    } else if (watingTimeout.current) clearTimeout(watingTimeout.current);
+    } else if (watingTimeout.current) {
+      clearTimeout(watingTimeout.current);
+      watingTimeout.current = null;
+    }
 
     return () => {
       if (watingTimeout.current) clearTimeout(watingTimeout.current);
+      watingTimeout.current = null;
     };
   }, [alertState.show]);
 

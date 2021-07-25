@@ -2,17 +2,16 @@ import React, { useState, useContext, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import "./BoardPage.scss";
 import "./BoardPage-dark.scss";
-import ExpandText from "components/general/ExpandText/ExpandText";
+import ExpandText from "components/general/ExpandText";
 import Button from "components/general/Button";
 import TaskBoard from "./TaskBoard";
-import PeopleIcon from "@material-ui/icons/People";
 import BoardOptions from "components/board/BoardCard/BoardOptions";
-import LocalOfferIcon from "@material-ui/icons/LocalOffer";
+import { FaUsers, FaTags } from "react-icons/fa";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { UserContext, UserActionType } from "context/UserContext";
-import Tags from "components/modalForms/Tags/Tags";
-import TaskDisplay from "components/modalForms/TaskDisplay/TaskDisplay";
-import BoardMembers from "components/modalForms/BoardMembers/BoardMembers";
+import Tags from "dialogs/Tags/Tags";
+import TaskDisplay from "dialogs/TaskDisplay/TaskDisplay";
+import BoardMembers from "dialogs/BoardMembers/BoardMembers";
 import { TaskContext, TasksActionType } from "context/TaskContext";
 import { getLoggedInUserBoardRole, getBoard } from "service";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
@@ -55,6 +54,7 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
         payload: {
           render: <TaskDisplay taskId={query.task as string} />,
           title: "Task Details",
+          size: "l"
         },
       });
     };
@@ -79,7 +79,7 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
     const getBoardTaskss = async () => {
       const { data, status } = await getBoard({ boardId, setLoading: setTaskLoading });
       if (!!data) {
-        const { columns, name, description } = data; 
+        const { columns, name, description } = data;
         tasksDispatch({ type: TasksActionType.SET_TASKS, payload: { columns } });
         setBoardInfo({ name, description });
       } else {
@@ -117,15 +117,15 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
     <LoadingOverlay show={isTaskLoading} opacity={0} className="task-loading">
       <div className="board-page">
         <ExpandText className="board-page__title" title={boardInfo.name}>
-          <div>{boardInfo.description}</div>
+          <p>{boardInfo.description}</p>
         </ExpandText>
         <div className="board-page__controlls">
           <Button onClick={openBoardMembersModal}>
-            <PeopleIcon />
+            <FaUsers />
             <span>Peolpe</span>
           </Button>
           <Button onClick={openBoardTagsModal}>
-            <LocalOfferIcon />
+            <FaTags />
             <span>Tags</span>
           </Button>
           <BoardOptions
@@ -134,6 +134,7 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
             isAuthor={currentBoard.role === UserBoardRoles.OWNER}
           />
         </div>
+        <hr className="break-line" style={{ width: "100%" }} />
         <DragDropContext
           onDragEnd={(result) => onDragEnd(boardId, result, tasksState, tasksDispatch)}>
           <TaskBoard boardId={boardId} />

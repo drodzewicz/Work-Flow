@@ -1,6 +1,5 @@
 import React, { ChangeEvent, FormEvent, useRef } from "react";
-import SearchIcon from "@material-ui/icons/Search";
-import ClearIcon from "@material-ui/icons/Clear";
+import { FaTimes, FaSearch } from "react-icons/fa";
 import "./SearchInput.scss";
 import "./SearchInput-dark.scss";
 import { SearchInputProps } from ".";
@@ -52,9 +51,9 @@ const SearchInput: React.FC<SearchInputProps> = ({
           onChange={searchOnChangeHandler}
         />
         {result.length > 0 ? (
-          <ClearIcon onClick={clearInputSearch} className="search-input__icon" />
+          <FaTimes onClick={clearInputSearch} className="search-input__icon" />
         ) : (
-          <SearchIcon onClick={searchHandler} className="search-input__icon" />
+          <FaSearch onClick={searchHandler} className="search-input__icon" />
         )}
       </form>
       <SearchResult data={result} onClick={clickResult} />

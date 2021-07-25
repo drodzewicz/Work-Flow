@@ -1,20 +1,20 @@
 @import "../../../assets/styles/colors";
 
 %field-style {
-    margin-top: 1.5rem;
-    background-color: $light-blue-1;
-    position: relative;
-    border: none;
-    font-size: 1rem;
-    padding: 0.7rem 0.5rem;
-    outline: none;
-    border-bottom: 2px solid rgba(0, 0, 255, 0);
-    border-radius: 0;
-    transition: all 0.2s ease-in-out;
-    &:focus,
-    &:hover {
-      border-color: $blue-accent;
-    }
+  margin-top: 1.5rem;
+  background-color: $light-blue-1;
+  position: relative;
+  border: none;
+  font-size: 1rem;
+  padding: 0.7rem 0.5rem;
+  outline: none;
+  border-bottom: 2px solid rgba(0, 0, 255, 0);
+  border-radius: 0;
+  transition: all 0.2s ease-in-out;
+  &:focus,
+  &:hover {
+    border-color: $blue-accent;
+  }
 }
 
 .text-field {
@@ -22,7 +22,7 @@
   flex-direction: column;
   position: relative;
 
-  &__textarea{
+  &__textarea {
     @extend %field-style;
     font-family: inherit;
     resize: none;
@@ -43,6 +43,10 @@
 
   &__input:focus + &__line {
     width: 100%;
+  }
+
+  &__input:disabled {
+    border-color: transparent;
   }
 
   &__label {
@@ -73,5 +77,34 @@
     font-size: 0.7rem;
     position: absolute;
     bottom: 0;
+  }
+}
+
+.theme-dark {
+  .text-field {
+    &__input,
+    &__textarea {
+      color: white;
+      background-color: $dark-1;
+      &:focus,
+      &:hover {
+        border-color: $blue-accent-dark;
+      }
+    }
+    &__line {
+      border-color: $blue-accent-dark;
+    }
+    &__label {
+      color: $text-primary-dark;
+    }
+    &__valid {
+      color: $blue-accent-dark;
+    }
+    &__input:focus + &__label {
+      color: $blue-accent-dark;
+    }
+    &__error {
+      color: rgb(255, 109, 109);
+    }
   }
 }

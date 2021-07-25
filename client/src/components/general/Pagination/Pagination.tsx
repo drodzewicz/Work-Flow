@@ -1,8 +1,7 @@
 import React from "react";
 import "./Pagination.scss";
 import "./Pagination-dark.scss";
-import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import { PaginationProps } from "./";
 
 const Pagination: React.FC<PaginationProps> = ({ current, total, handleChange }) => {
@@ -15,13 +14,20 @@ const Pagination: React.FC<PaginationProps> = ({ current, total, handleChange })
   if (total < 2) return null;
   else
     return (
-      <nav className="pagination">
+      <nav aria-label="Pagination" className="pagination">
         {current !== 1 ? (
           <>
-            <button onClick={previousPage} className=" pagination__item pagination__arrow">
-              <KeyboardArrowLeftIcon />
+            <button
+              aria-label="Previouse page arrow"
+              onClick={previousPage}
+              className=" pagination__item pagination__arrow">
+              <FaAngleLeft />
             </button>
-            <div className={`pagination__dots ${current - 1 === 1 ? "hide" : ""}`}>...</div>
+            <div
+              aria-label="Previouse page"
+              className={`pagination__dots ${current - 1 === 1 ? "hide" : ""}`}>
+              ...
+            </div>
             <button onClick={previousPage} className="pagination__item">
               {current - 1}
             </button>
@@ -29,15 +35,20 @@ const Pagination: React.FC<PaginationProps> = ({ current, total, handleChange })
         ) : (
           <div className="empty"></div>
         )}
-        <button className="pagination__item pagination__current-page">{current}</button>
+        <button aria-label="Current page" className="pagination__item pagination__current-page">
+          {current}
+        </button>
         {current !== total ? (
           <>
-            <button onClick={nextPage} className="pagination__item">
+            <button aria-label="Next page" onClick={nextPage} className="pagination__item">
               {current + 1}
             </button>
             <div className={`pagination__dots ${current + 1 === total ? "hide" : ""}`}>...</div>
-            <button onClick={nextPage} className="pagination__item pagination__arrow">
-              <KeyboardArrowRightIcon />
+            <button
+              aria-label="Next page arrow"
+              onClick={nextPage}
+              className="pagination__item pagination__arrow">
+              <FaAngleRight />
             </button>
           </>
         ) : (

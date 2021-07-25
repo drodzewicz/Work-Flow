@@ -1,15 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
 import "./ProfilePage.scss";
-import ImageIcon from "@material-ui/icons/Image";
 import Image from "components/general/Image";
 import Button from "components/general/Button";
 import ContainerBox from "components/layout/ContainerBox/ContainerBox";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { UserContext, UserActionType } from "context/UserContext";
-import ChangePassword from "components/modalForms/ChangePassword";
-import ChangeProfilePicture from "components/modalForms/ChangeProfilePicture/ChangeProfilePicture";
+import ChangePassword from "dialogs/ChangePassword";
+import ChangeProfilePicture from "dialogs/ChangeProfilePicture/ChangeProfilePicture";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 import ProfileFields from "./ProfileFields";
+import { FaRegImage  } from "react-icons/fa";
 
 const ProfilePage: React.FC = () => {
   const { modalDispatch } = useContext(ModalContext);
@@ -53,12 +53,8 @@ const ProfilePage: React.FC = () => {
           <div className="profile__image">
             <Image src={user.avatarImageURL} />
             <button onClick={changeImageModalOpen} className="profile__image__btn">
-              <ImageIcon className="profile__image__btn-icon" />
+              <FaRegImage className="profile__image__btn-icon" />
             </button>
-          </div>
-          <div className="profile__info">
-            <h1 className="profile__info__username">{`@${user.username}`}</h1>
-            <h3 className="profile__info__name-surname">{`${user.name} ${user.surname}`}</h3>
           </div>
           <ProfileFields
             name={user.name}

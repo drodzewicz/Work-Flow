@@ -1,7 +1,6 @@
 import React, { useState, useContext, useRef } from "react";
 import "./Column.scss";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
+import { FaRegPlusSquare, FaEllipsisV, FaTrashAlt, FaEdit } from "react-icons/fa";
 import Task from "components/board/Task";
 import DropdownMenu from "components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
@@ -14,8 +13,9 @@ import { deleteColumn } from "service";
 
 import { Droppable } from "react-beautiful-dnd";
 
-import TaskCreate from "components/modalForms/TaskEditor/TaskCreate";
+import TaskCreate from "dialogs/TaskEditor/TaskCreate";
 import { ColumnProps } from "./";
+import { UserBoardRoles } from "types/general";
 
 const Column: React.FC<ColumnProps> = ({
   columnName,
@@ -100,23 +100,25 @@ const Column: React.FC<ColumnProps> = ({
                 onEnter={changeColumnNameOnKeyPressEnter}
                 editTitle={showTitleInput}
               />
-              {currentBoard.role !== "guest" && (
+              {currentBoard.role !== UserBoardRoles.GUEST && (
                 <button onClick={openBoardTagsModal} className="task-column__header__new-task-btn">
-                  <PlaylistAddIcon />
+                  <FaRegPlusSquare />
                 </button>
               )}
 
               {isAuthorized() && (
                 <>
                   <button ref={anchorElement} className="task-column__header__more-options">
-                    <MoreVertIcon />
+                    <FaEllipsisV />
                   </button>
-                  <DropdownMenu anchorEl={anchorElement}>
-                    <DropdownMenuItem>
-                      <span onClick={removeColumn}>delete</span>
+                  <DropdownMenu anchorEl={anchorElement} className="column-more-options">
+                    <DropdownMenuItem onClick={removeColumn}>
+                      <FaTrashAlt />
+                      Delete
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <span onClick={activateColumnNameEditInput}>edit</span>
+                    <DropdownMenuItem onClick={activateColumnNameEditInput}>
+                      <FaEdit />
+                      Edit
                     </DropdownMenuItem>
                   </DropdownMenu>
                 </>

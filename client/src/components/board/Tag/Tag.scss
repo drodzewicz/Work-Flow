@@ -11,6 +11,7 @@
 	font-size: 0.8rem;
 	margin: 0.2rem;
 	padding: 2px 5px;
+	white-space: nowrap;
 
 	$colors: (
 		"red" $tag-red white,
@@ -22,6 +23,7 @@
 		"pink" $tag-pink black,
 		"black" $tag-black white,
 		"white" $tag-white black,
+		"blue" $tag-blue rgb(255, 255, 255),
 	);
 
 	@each $name, $bg, $textColor in $colors {

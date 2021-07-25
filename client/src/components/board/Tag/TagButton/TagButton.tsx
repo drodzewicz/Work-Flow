@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import LocalOfferIcon from "@material-ui/icons/LocalOffer";
+import { FaTag } from "react-icons/fa";
 import "./TagButton.scss";
 import Tooltip from "components/general/Tooltip";
 import { TagButtonProps } from ".";
@@ -14,7 +14,7 @@ const TagButton: React.FC<TagButtonProps> = ({ onClick, showIcon, color, name, s
         onClick={onClick}
         className={`tag-button ${color} ${selected ? "tag-button--selected" : ""}`}
         ref={anchorEl}>
-        {showIcon && <LocalOfferIcon />}
+        {showIcon && <FaTag />}
       </button>
       {name && (
         <Tooltip offset={{ x: 0, y: 20 }} anchorEl={anchorEl}>

@@ -88,7 +88,10 @@ export const searchUsersByUsername = async ({
 }: searchUsersByUsernameParams) => {
   return await callAPI<searchUsersResponse>({
     method: "GET",
-    url: `${ROUTE_PREFIX}/find_user?username=${username}`,
+    url: `${ROUTE_PREFIX}/find_user`,
+    query: {
+      username,
+    },
     token: true,
     setLoading,
   });

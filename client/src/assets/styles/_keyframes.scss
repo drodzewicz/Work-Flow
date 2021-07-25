@@ -6,23 +6,23 @@
     
   }
   80%{
-    font-size: 1.6vw;
+    font-size: 2.4vh;
     @include mq-2 {
-      font-size: 3.1vw;
+      font-size: 3.1vh;
     }
     @include mobile {
-      font-size: 1.6rem;
+      font-size: 2.4rem;
     }
     opacity: 1;
   }
   100% {
     opacity: 1;
-    font-size: 1.5vw;
+    font-size: 2vh;
     @include mq-2 {
-      font-size: 3vw;
+      font-size: 3vh;
     }
     @include mobile {
-      font-size: 1.5rem;
+      font-size: 2rem;
     }
 
   }

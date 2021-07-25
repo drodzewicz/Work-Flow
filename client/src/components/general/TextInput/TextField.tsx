@@ -1,13 +1,12 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import "./TextField.scss";
 import { TextFieldInputProps } from ".";
 
-
-const TextField: React.FC<TextFieldInputProps> = (props) => {
+const TextField = forwardRef<HTMLInputElement, TextFieldInputProps>((props, ref) => {
   const { label, className, error, name, ...fieldProps } = props;
   return (
-    <div className="text-field">
-      <input name={name} className={`text-field__input ${className || ""}`} {...fieldProps} />
+    <div className={`text-field ${className || ""}`}>
+      <input ref={ref} name={name} className="text-field__input" {...fieldProps} />
       <div className="text-field__line"></div>
       <label
         htmlFor={name}
@@ -17,6 +16,6 @@ const TextField: React.FC<TextFieldInputProps> = (props) => {
       {!!error && <span className="text-field__error">{error}</span>}
     </div>
   );
-};
+});
 
 export default TextField;

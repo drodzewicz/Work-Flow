@@ -1,0 +1,29 @@
+.register-form {
+    margin: 2rem 0;
+    position: relative;
+    .loading-overlay  {
+        position: absolute;
+    }
+    form {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        .MuiTextField-root {
+            min-height: 81px;
+        }
+        .register-stage-controll-btn {
+            &.stage-next {
+                align-self: flex-end;
+            }
+            &.stage-back {
+                align-self: flex-start;
+                svg {
+                    margin-right: 0.3rem;
+                }
+            }
+            
+        }
+    }
+}

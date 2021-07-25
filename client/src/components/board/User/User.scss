@@ -21,6 +21,8 @@
     margin-left: 7px;
     color: rgb(70, 70, 73);
     flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   &__buttons {
     display: flex;

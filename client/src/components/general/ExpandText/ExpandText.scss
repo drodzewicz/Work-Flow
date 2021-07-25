@@ -1,4 +1,5 @@
 .expand-text {
+  margin: 0.2rem;
   &__header {
     display: flex;
     flex-direction: row;
@@ -9,8 +10,8 @@
       color: inherit;
     }
     & > &__icon {
-      height: 2rem;
-      width: 2rem;
+      height: 1.2rem;
+      width: 1.2rem;
       cursor: pointer;
       transition: 0.3s all ease-in-out;
       color: inherit;

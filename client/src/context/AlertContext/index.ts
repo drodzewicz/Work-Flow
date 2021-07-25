@@ -1,4 +1,4 @@
-import { Warning } from "components/general/WarningNotification"
+import { AlertTypes } from "components/general/Alert";
 
 export enum AlertActionType {
   SUCCESS = "SUCCESS",
@@ -7,6 +7,6 @@ export enum AlertActionType {
   CLOSE = "CLOSE",
 }
 
-export type AlertState = { type: Warning; message: string; show: boolean };
+export type AlertState = { type: AlertTypes; message: string; show: boolean };
 
 export * from "./AlertContext";

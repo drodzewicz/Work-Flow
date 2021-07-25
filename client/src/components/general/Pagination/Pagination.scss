@@ -19,6 +19,7 @@
     height: $pagination-item-size;
     border-radius: 5px;
     cursor: pointer;
+     outline-color: $blue-accent;
   }
   &__current-page {
     background-color: $blue-accent;

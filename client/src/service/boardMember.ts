@@ -6,19 +6,21 @@ import {
   addUserToBoardParams,
   changeBoardUserRoleParams,
   getLoggedInUserBoardRoleParams,
+  getBoardMemberParams
 } from "types/service/request";
 import {
   getBoardMembersResponse,
   GeneralResponse,
   changeBoardUserRoleResponse,
   getLoggedInUserBoardRoleResponse,
+  getBoardMemberResponse,
 } from "types/service/response";
 
 // MEMBERS - GET
 export const getBoardMembers = async ({
   boardId,
-  limit = 8,
-  page = 1,
+  limit,
+  page,
   username,
   setLoading,
 }: getBoardMembersParams) => {
@@ -30,6 +32,19 @@ export const getBoardMembers = async ({
       page,
       username,
     },
+    token: true,
+    setLoading,
+  });
+};
+
+export const getBoardMember = async ({
+  boardId,
+  userId,
+  setLoading,
+}: getBoardMemberParams) => {
+  return await callAPI<getBoardMemberResponse>({
+    method: "GET",
+    url: `/board/${boardId}/members/${userId}`,
     token: true,
     setLoading,
   });

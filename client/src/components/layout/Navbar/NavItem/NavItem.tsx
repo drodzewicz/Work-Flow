@@ -19,8 +19,8 @@ const NavItem: React.FC<NavItemProps> = ({
   return (
     <li className={`navbar__item ${className || ""}`}>
       <button name={name} className="navbar__item__button" ref={anchorElement} onClick={onClick}>
-        <span className="navbar__item__icon">{!!Icon && <Icon />}</span>
-        <span className="navbar__item__label">{label}</span>
+        {!!Icon && <span className="navbar__item__icon">{!!Icon && <Icon />}</span>}
+        {!!label && <span className="navbar__item__label">{label}</span>}
       </button>
       {children && (
         <DropdownMenu
@@ -35,6 +35,5 @@ const NavItem: React.FC<NavItemProps> = ({
     </li>
   );
 };
-
 
 export default NavItem;

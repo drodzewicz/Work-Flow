@@ -1,8 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import "./DashboardPage.scss";
-import AddBoxIcon from "@material-ui/icons/AddBox";
 import Button from "components/general/Button";
-import BoardCreate from "components/modalForms/BoardEditor/BoardCreate";
+import BoardCreate from "dialogs/BoardEditor/BoardCreate";
 import ContainerBox from "components/layout/ContainerBox/ContainerBox";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { getPinnedBoards, getMyBoards, togglePinBoard } from "service";
@@ -11,8 +10,8 @@ import { BoardI } from "types/general";
 import { PaginationI } from "components/general/Pagination";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 import { ReactComponent as Pined } from "assets/images/pin-full.svg";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-
+import { FaPlus } from "react-icons/fa";
+import { FaColumns } from "react-icons/fa";
 
 const DashboardPage: React.FC = () => {
   const [page, setPage] = useState<PaginationI>({ current: 1, total: 1 });
@@ -55,7 +54,7 @@ const DashboardPage: React.FC = () => {
     const fetchPinnedBoards = async () => {
       const { data } = await getPinnedBoards({ setLoading: setPinnedBoardLoading });
       if (!!data) {
-        const {boards} = data;
+        const { boards } = data;
         setPinnedBoards((prevState) => ({ ...prevState, items: boards }));
       }
     };
@@ -128,9 +127,10 @@ const DashboardPage: React.FC = () => {
     <ContainerBox className="board-dashboard">
       {pinnedBoards.items.length > 0 && (
         <LoadingOverlay show={pinnedBoards.isLoading} opacity={0}>
-          <h1 className="board-container__title">
-            <Pined /> Pinned
+          <h1 className="pinned-board-container-title">
+            <Pined className="pinned-board-container-title__icon" /> Pinned
           </h1>
+          <hr className="break-line" />
           <BoardContainer
             className="board-dashboard__pinned"
             boards={pinnedBoards.items}
@@ -140,14 +140,20 @@ const DashboardPage: React.FC = () => {
           />
         </LoadingOverlay>
       )}
-      <Button onClick={openCreateNewBoardModal} className="board-dashboard__new-btn">
-        <AddBoxIcon />
-        New Board
-      </Button>
-      <LoadingOverlay show={boards.isLoading} opacity={0}>
-        <h1 className="board-container__title">
-          <DashboardIcon /> Boards
+      <div className="board-container">
+        <LoadingOverlay
+          color={{ light: "255, 255, 255", dark: "51, 54, 55" }}
+          className="board-container__loading"
+          show={boards.isLoading}
+        />
+        <h1 className="board-container-title">
+          <FaColumns className="board-container-title__icon" /> Boards
+          <Button onClick={openCreateNewBoardModal} className="new-board-btn">
+            <span className="new-board-btn__text">New Board</span>
+            <FaPlus className="new-board-btn__icon" />
+          </Button>
         </h1>
+        <hr className="break-line" />
         <BoardContainer
           className="board-dashboard__main"
           boards={boards.items}
@@ -157,7 +163,7 @@ const DashboardPage: React.FC = () => {
           togglePinBoard={togglePinBoardHandler}
           noBoardsMessage="you are not a part of any board"
         />
-      </LoadingOverlay>
+      </div>
     </ContainerBox>
   );
 };
