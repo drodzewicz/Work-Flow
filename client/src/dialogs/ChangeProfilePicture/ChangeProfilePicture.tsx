@@ -6,6 +6,7 @@ import { ModalContext, ModalActionType } from "context/ModalContext";
 import { changeAvatar } from "service";
 import { FormValues, ChangeProfilePictureProps } from ".";
 import * as Yup from "yup";
+import "./ChangeProfilePicture.scss";
 
 export const validationSchema = Yup.object({
   imageLink: Yup.string().url().required("image link is required"),
@@ -23,17 +24,12 @@ const ChangeProfilePicture: React.FC<FormikProps<FormValues>> = (props) => {
   }, [status, modalDispatch]);
 
   return (
-    <Form>
-      <Field
-        name="imageLink"
-        label="avatar image URL"
-        error={errors["imageLink"]}
-        as={TextField}
-      />
+    <Form className="change-profile-picture">
+      <Field name="imageLink" label="avatar image URL" error={errors["imageLink"]} as={TextField} />
       <Button
         disabled={isSubmitting || !isValid}
         variant="glow"
-        className="btn-submit"
+        className="change-profile-picture__update-btn"
         type="submit">
         Update
       </Button>

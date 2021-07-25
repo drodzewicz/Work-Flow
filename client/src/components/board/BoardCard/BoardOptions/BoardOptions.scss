@@ -1,14 +1,24 @@
+@import "../../../../assets/styles/colors";
 .board-options {
-  span svg {
-    color: inherit;
+  &__ellipsis {
+    background-color: transparent;
+    outline-color: $blue-accent;
+    border: none;
+    color: $dark-1;
+    padding: 0;
+    cursor: pointer;
+    svg {
+      color: inherit;
+    }
   }
+
   &__menu {
     .drop-down-menu {
       &__item {
         justify-content: flex-start;
         svg {
-            margin-right: 0.4rem;
-            height: 0.8rem;
+          margin-right: 0.4rem;
+          height: 0.8rem;
         }
       }
     }

@@ -27,7 +27,7 @@ const BoardCard: React.FC<BoardcardProps> = ({
   };
 
   return (
-    <div className="board-card">
+    <div aria-label="Board card" className="board-card">
       <div role="presentation" className="board-card__columns">
         <div className="board-card__columns__column"></div>
         <div className="board-card__columns__column"></div>

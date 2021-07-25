@@ -26,6 +26,7 @@ const BoardEditorForm: React.FC<BoardEditorFormProps & FormikProps<FormValues>> 
   return (
     <Form className="board-editor">
       <Field
+        autoFocus={true}
         name="name"
         className="board-editor__field__name"
         error={errors["name"]}

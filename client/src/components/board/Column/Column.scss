@@ -11,6 +11,7 @@
   box-shadow: 0 0 3px transparent;
   transition: all 0.2s ease-in-out;
   height: 100%;
+  outline: $blue-accent;
 
   &--active {
     background: mix($blue-accent, $blue-primary-overlay, 10%);

@@ -9,7 +9,7 @@ import { BoardOptionsProps } from "./";
 import "./BoardOptions.scss";
 
 const BoardOptions: React.FC<BoardOptionsProps> = ({ boardId, removeBoardCallback, isAuthor }) => {
-  const moreOptionsAnchor = useRef<HTMLElement>(null);
+  const moreOptionsAnchor = useRef<HTMLButtonElement>(null);
   const { modalDispatch } = useContext(ModalContext);
 
   const editEventModal = () => {
@@ -37,9 +37,9 @@ const BoardOptions: React.FC<BoardOptionsProps> = ({ boardId, removeBoardCallbac
 
   return (
     <div className="board-options">
-      <span ref={moreOptionsAnchor}>
+      <button className="board-options__ellipsis" ref={moreOptionsAnchor}>
         <FaEllipsisV />
-      </span>
+      </button>
       <DropdownMenu className="board-options__menu" anchorEl={moreOptionsAnchor}>
         {isAuthor && (
           <DropdownMenuItem onClick={editEventModal}>

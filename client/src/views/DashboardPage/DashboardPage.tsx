@@ -145,7 +145,6 @@ const DashboardPage: React.FC = () => {
           color={{ light: "255, 255, 255", dark: "51, 54, 55" }}
           className="board-container__loading"
           show={boards.isLoading}
-          opacity={0.5}
         />
         <h1 className="board-container-title">
           <FaColumns className="board-container-title__icon" /> Boards

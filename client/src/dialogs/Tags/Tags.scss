@@ -6,6 +6,12 @@
 	 flex-direction: column;
 	 max-width: 19rem;
 	 margin: 0 auto 2rem;
+	 position: relative;
+
+	 .loading-overlay  {
+		 position: absolute;
+		 width: 100%;
+	 }
 
 	 &__controls {
 		 display: flex;

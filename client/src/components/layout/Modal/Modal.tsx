@@ -36,7 +36,13 @@ const Modal: React.FC = () => {
             <aside className={`modal size-${size}`}>
               <header className="modal__header">
                 <h2 className="modal__header__title">{title}</h2>
-                <FaTimes onClick={closeModal} className="modal__header__close-icon" />
+                <FaTimes
+                  role="button"
+                  aria-label="Close"
+                  tabIndex={0}
+                  onClick={closeModal}
+                  className="modal__header__close-icon"
+                />
               </header>
               <section className="modal__content scrollbar">{render}</section>
             </aside>

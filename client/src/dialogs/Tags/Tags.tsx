@@ -116,46 +116,42 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
   };
 
   return (
-    <LoadingOverlay show={isTagLoading} opacity={0}>
-      <div className="tag-form">
-        {isAuthorized() && (
-          <div className="tag-form__controls">
-            <TextField
-              className="tag-form__controls__input"
-              onChange={handleTagNameInput}
-              label="tag name"
-              name="tagName"
-              type="text"
-              value={selectedTag.name}
-            />
-            <Button
-              className="tag-form__controls__btn"
-              disabled={!selectedTag.name || !selectedTag.color}
-              onClick={selectedTagHandler}>
-              <FaCheck />
-            </Button>
-            <Button
-              className="tag-form__controls__btn"
-              disabled={canDeleteTag()}
-              onClick={deleteTag}>
-              <FaTrashAlt />
-            </Button>
-          </div>
-        )}
-        <div className="tag-form__tag-container">
-          {boardTags.map(({ color, name, _id }) => (
-            <TagButton
-              key={color}
-              onClick={() => selectTag(color)}
-              selected={selectedTag.color === color}
-              showIcon={_id !== ""}
-              color={color.toLocaleLowerCase()}
-              name={name}
-            />
-          ))}
+    <div className="tag-form">
+      <LoadingOverlay show={isTagLoading} opacity={0.75} />
+      {isAuthorized() && (
+        <div className="tag-form__controls">
+          <TextField
+            className="tag-form__controls__input"
+            onChange={handleTagNameInput}
+            label="tag name"
+            name="tagName"
+            type="text"
+            value={selectedTag.name}
+          />
+          <Button
+            className="tag-form__controls__btn"
+            disabled={!selectedTag.name || !selectedTag.color}
+            onClick={selectedTagHandler}>
+            <FaCheck />
+          </Button>
+          <Button className="tag-form__controls__btn" disabled={canDeleteTag()} onClick={deleteTag}>
+            <FaTrashAlt />
+          </Button>
         </div>
+      )}
+      <div className="tag-form__tag-container">
+        {boardTags.map(({ color, name, _id }) => (
+          <TagButton
+            key={color}
+            onClick={() => selectTag(color)}
+            selected={selectedTag.color === color}
+            showIcon={_id !== ""}
+            color={color.toLocaleLowerCase()}
+            name={name}
+          />
+        ))}
       </div>
-    </LoadingOverlay>
+    </div>
   );
 };
 

@@ -1,5 +1,6 @@
 @import "../../../assets/styles/colors";
 .board-card {
+  outline: $blue-accent;
   $card-width: 14rem;
   $card-height: 6rem;
   background-color: white;

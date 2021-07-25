@@ -69,6 +69,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
         const tempMembers = [...members];
         const indexOfFoundMember = tempMembers.findIndex(({ user }) => user._id === memberId);
         tempMembers.splice(indexOfFoundMember, 1);
+        setPage((pages) => ({ ...pages, total: Math.ceil(tempMembers.length / USER_LIMIT) }));
         return tempMembers;
       });
     }
@@ -76,12 +77,14 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
   const addUserToBoardHandler = async (user: UserShortI) => {
     setSearchRes([]);
     const { data } = await addUserToBoard({ boardId, userId: user._id });
-    if (!!data && members.length < USER_LIMIT) {
+    if (!!data) {
       setMembers((members) => {
         const tempUsers = [...members];
         tempUsers.push({ user, role: UserBoardRoles.REGULAR });
+        setPage((pages) => ({ ...pages, total: Math.ceil(tempUsers.length / USER_LIMIT) }));
         return tempUsers;
       });
+    
     }
   };
   const clearSearchResults = () => {

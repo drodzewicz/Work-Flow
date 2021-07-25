@@ -34,7 +34,7 @@ const LoginForm: React.FC<FormikProps<FormValues>> = (props) => {
 
   return (
     <Form className="login-form">
-      <Field name="username" error={errors["username"]} as={TextField} />
+      <Field autoFocus={true} name="username" error={errors["username"]} as={TextField} />
       <Field name="password" error={errors["password"]} type="password" as={TextField} />
       <Button
         disabled={isSubmitting || !isValid}

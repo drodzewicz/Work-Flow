@@ -28,10 +28,8 @@ const BoardContainer: React.FC<BoardContainerProps> = ({
             isAuthor={isAuthor}
           />
         ))}
-        {boards.length < 1 && (
-          <div className="board-container__empty-message">{noBoardsMessage}</div>
-        )}
       </section>
+      {boards.length < 1 && <i className="board-container__empty-message">{noBoardsMessage}</i>}
       {!!page && <Pagination {...page} handleChange={changePage} />}
     </div>
   );

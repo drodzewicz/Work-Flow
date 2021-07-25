@@ -85,6 +85,7 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
     <section className="task-editor">
       <Form className="task-editor__inputs">
         <Field
+          autoFocus={true}
           className="task-editor__inputs__field"
           name="title"
           error={errors["title"]}

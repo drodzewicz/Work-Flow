@@ -29,7 +29,7 @@ const RegisterStage2: React.FC<RegisterStepProps & FormikProps<RegisterTwoFormVa
         <FaBackward />
         Go back
       </Button>
-      <Field name="email" error={errors["email"]} as={TextField} />
+      <Field autoFocus={true} name="email" error={errors["email"]} as={TextField} />
       <Field name="username" error={errors["username"]} as={TextField} />
       <Field name="password" error={errors["password"]} type="password" as={TextField} />
       <Field

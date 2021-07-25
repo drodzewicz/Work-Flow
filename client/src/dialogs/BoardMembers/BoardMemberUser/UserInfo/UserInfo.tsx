@@ -27,15 +27,28 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
         email: "Loadind...",
       },
     });
-    const [isLoading, setLoading] = useState<boolean>(true)
+    const [isLoading, setLoading] = useState<boolean>(true);
     const rolesAnchor = useRef<HTMLButtonElement>(null);
+    const isMounted = useRef<boolean>(false);
+
+    useEffect(() => {
+      isMounted.current = true;
+      return () => {
+        isMounted.current = false;
+      };
+    }, []);
+
+    const setLoadingMounted = (state: boolean) => {
+       if (isMounted.current === true) setLoading(state);
+    }
 
     useEffect(() => {
       const getBoardUserInfo = async () => {
         if (!match?.params) return;
         const { boardId } = match.params;
-        const { data } = await getBoardMember({ boardId, userId, setLoading });
-        if (!!data) {
+        const { data } = await getBoardMember({ boardId, userId, setLoading: setLoadingMounted });
+        
+        if (!!data && isMounted.current) {
           const { member } = data;
           setUser(member);
         }
@@ -44,7 +57,7 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
 
       return () => {};
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ userId]);
+    }, [userId]);
 
     const roleIcon = (role: UserBoardRoles) => {
       switch (role) {

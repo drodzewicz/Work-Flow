@@ -12,7 +12,7 @@ const RegisterStage1: React.FC<FormikProps<RegisterOneFormValues>> = (props) => 
       <Button className="register-stage-controll-btn stage-next" disabled={!isValid} type="submit">
         Next
       </Button>
-      <Field name="name" error={errors["name"]} as={TextField} />
+      <Field autoFocus={true} name="name" error={errors["name"]} as={TextField} />
       <Field name="surname" error={errors["surname"]} as={TextField} />
     </Form>
   );

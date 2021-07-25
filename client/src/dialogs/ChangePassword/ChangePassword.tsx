@@ -6,6 +6,7 @@ import { ModalContext, ModalActionType } from "context/ModalContext";
 import { changePassword } from "service";
 import { FormValues } from ".";
 import * as Yup from "yup";
+import "./ChangePassword.scss";
 
 const validationSchema = Yup.object({
   newPassword: Yup.string().min(5, "must be at least 5 characters").required("field is required"),
@@ -28,23 +29,13 @@ const ChangePasswordForm: React.FC<FormikProps<FormValues>> = (props) => {
   }, [status, modalDispatch, setErrors]);
 
   return (
-    <Form>
-      <Field
-        name="newPassword"
-        error={errors["newPassword"]}
-        type="password"
-        as={TextField}
-      />
-      <Field
-        name="matchPassword"
-        error={errors["matchPassword"]}
-        type="password"
-        as={TextField}
-      />
+    <Form className="change-password">
+      <Field name="newPassword" error={errors["newPassword"]} type="password" as={TextField} />
+      <Field name="matchPassword" error={errors["matchPassword"]} type="password" as={TextField} />
       <Button
         disabled={isSubmitting || !isValid}
         variant="glow"
-        className="btn-submit"
+        className="change-password__submit-btn"
         type="submit">
         Submit
       </Button>

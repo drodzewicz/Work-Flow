@@ -77,6 +77,8 @@
       font-size: 0.9rem;
       height: 100%;
       z-index: 2;
+      outline-color: $blue-accent;
+      outline-offset:  0.1em;
     }
   }
   &__content {
