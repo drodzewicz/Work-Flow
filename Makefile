@@ -35,3 +35,5 @@ env_template: ;@echo ".ENV ${PROJECT}....."; \
 	cd server && cp .env.example .env
 	cd client && cp .env.example .env
 
+deploy_heroku: ;@echo "Deploying ${PROJECT}....."; \
+	git subtree push --prefix server heroku master
