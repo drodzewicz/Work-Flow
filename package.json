@@ -1,0 +1,19 @@
+{
+  "name": "work-flow",
+  "version": "1.0.0",
+  "description": "workflow task managin app",
+  "main": "app.js",
+  "scripts": {
+    "start": "cd server && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaRoTP/Work-Flow.git"
+  },
+  "author": "DaRo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DaRoTP/Work-Flow/issues"
+  },
+  "homepage": "https://github.com/DaRoTP/Work-Flow#readme"
+}
