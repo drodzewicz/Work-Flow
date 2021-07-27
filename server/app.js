@@ -39,6 +39,12 @@ if (ENV_CONF.NODE_ENV === "production") {
   app.use(express.static(__dirname + "/public/"));
   app.get("*", (_, res) => res.sendFile(__dirname + "/public/index.html"));
 }
+app.use((req, res) => {
+  res.status(404).json({
+    error: true,
+    message: `Bad request - route does not exist: ${req.method} ${req.originalUrl}`,
+  });
+});
 
 app.use(routeErrorHandler);
 

@@ -21,11 +21,4 @@ module.exports = (app) => {
     .use("/api/board/:boardId/tag", tagRoutes)
     .use("/api/board/:boardId/column", columnRoutes)
     .use("/api/board/:boardId/task", taskRoutes);
-
-  app.use((req, res) => {
-    res.status(404).json({
-      error: true,
-      message: `Bad request - route does not exist: ${req.method} ${req.originalUrl}`,
-    });
-  });
 };
