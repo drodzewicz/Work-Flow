@@ -139,7 +139,7 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
           </Button>
         </div>
       )}
-      <div className="tag-form__tag-container">
+      <div className={`tag-form__tag-container ${!isAuthorized() ? "margin-top" : ""}`}>
         {boardTags.map(({ color, name, _id }) => (
           <TagButton
             key={color}

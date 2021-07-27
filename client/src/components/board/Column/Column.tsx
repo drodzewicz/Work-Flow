@@ -81,7 +81,7 @@ const Column: React.FC<ColumnProps> = ({
 
   const isAuthorized = () => {
     const { role } = currentBoard;
-    return role === "ADMIN" || role === "OWNER";
+    return role === UserBoardRoles.ADMIN || role === UserBoardRoles.OWNER;
   };
 
   return (

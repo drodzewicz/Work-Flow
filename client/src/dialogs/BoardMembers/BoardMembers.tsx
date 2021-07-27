@@ -62,7 +62,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
   const changePageHandler = (pageNumber: number) => {
     setPage((pages) => ({ ...pages, current: pageNumber }));
   };
-  const removeUserFromBoardd = async (memberId: string) => {
+  const removeUserFromBoarHandler = async (memberId: string) => {
     const { data } = await removeUserFromBoard({ userId: memberId, boardId });
     if (!!data) {
       setMembers((members) => {
@@ -125,7 +125,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
           <BoardMemberUser
             key={member.user._id}
             member={member}
-            removeUser={removeUserFromBoardd}
+            removeUser={removeUserFromBoarHandler}
             changeUserRole={changeUserRole}
           />
         ))}

@@ -10,7 +10,7 @@ import { FaUsers, FaTags } from "react-icons/fa";
 import { ModalContext, ModalActionType } from "context/ModalContext";
 import { UserContext, UserActionType } from "context/UserContext";
 import Tags from "dialogs/Tags/Tags";
-import TaskDisplay from "dialogs/TaskDisplay/TaskDisplay";
+import TaskDisplay from "dialogs/TaskDisplay";
 import BoardMembers from "dialogs/BoardMembers/BoardMembers";
 import { TaskContext, TasksActionType } from "context/TaskContext";
 import { getLoggedInUserBoardRole, getBoard } from "service";

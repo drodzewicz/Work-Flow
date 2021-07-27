@@ -3,6 +3,8 @@ import { ReactComponent as Spinner } from "assets/spinners/Rolling-1s-200px.svg"
 import "./LoadingOverlay.scss";
 import { LoadingOverlayProps } from ".";
 import { theme } from "types/general";
+import { getAppTheme } from "service/theme"; 
+
 
 const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   show = true,
@@ -11,7 +13,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   children,
   className,
 }) => {
-  const themeFromLocalStorage = localStorage.getItem("theme");
+  const themeFromLocalStorage = getAppTheme();
   const lightTheme = themeFromLocalStorage === theme.LIGHT;
   let overlayColor = lightTheme ? "255, 255, 255" : "71, 74, 75";
   if (!!color) {

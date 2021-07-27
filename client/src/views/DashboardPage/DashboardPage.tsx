@@ -142,7 +142,7 @@ const DashboardPage: React.FC = () => {
       )}
       <div className="board-container">
         <LoadingOverlay
-          color={{ light: "255, 255, 255", dark: "51, 54, 55" }}
+          color={{ light: "245, 249, 249", dark: "51, 54, 55" }}
           className="board-container__loading"
           show={boards.isLoading}
         />

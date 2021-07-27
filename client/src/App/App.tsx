@@ -40,7 +40,7 @@ const App: React.FC = () => {
   }, [authStatus]);
 
   return (
-    <div className="App">
+    <div className="App scrollbar">
       <WarningNotification
         show={alertState.show}
         message={alertState.message}

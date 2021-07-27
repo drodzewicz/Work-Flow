@@ -1,6 +1,10 @@
 @import "../../assets/styles/mediaQueries";
 @import "../../assets/styles/colors";
 
+.task-display-loader.loading-overlay {
+  min-height: 40vh;
+}
+
 .task-display {
   &__header {
     &__controls {
@@ -41,6 +45,10 @@
     &__people {
       display: flex;
       flex-direction: column;
+      &__message {
+        font-size: 0.9rem;  
+        color: $black-1;
+      }
       &__author {
         margin-bottom: 1rem;
       }
@@ -69,6 +77,9 @@
     &__body {
       &__people__label {
         color: white;
+      }
+      &__people__message{
+        color: rgb(156, 156, 156);
       }
       &__content__description {
         color: white;

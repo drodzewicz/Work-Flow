@@ -39,15 +39,15 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
     }, []);
 
     const setLoadingMounted = (state: boolean) => {
-       if (isMounted.current === true) setLoading(state);
-    }
+      if (isMounted.current === true) setLoading(state);
+    };
 
     useEffect(() => {
       const getBoardUserInfo = async () => {
         if (!match?.params) return;
         const { boardId } = match.params;
         const { data } = await getBoardMember({ boardId, userId, setLoading: setLoadingMounted });
-        
+
         if (!!data && isMounted.current) {
           const { member } = data;
           setUser(member);
@@ -107,6 +107,10 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
       ));
     };
 
+    const isAuthorizedAdmin = () => {
+      return currentRole === UserBoardRoles.OWNER || currentRole === UserBoardRoles.ADMIN;
+    };
+
     return (
       <div ref={ref} className="user-info">
         <header>
@@ -123,13 +127,15 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
           </p>
         </div>
         <div className="user-info__control-btn">
-          <Button disabled={user.role === UserBoardRoles.OWNER || isLoading} ref={rolesAnchor}>
+          <Button
+            disabled={user.role === UserBoardRoles.OWNER || isLoading}
+            ref={rolesAnchor}>
             {roleIcon(user.role)}
           </Button>
           <DropdownMenu offset={{ x: -125, y: 0 }} anchorEl={rolesAnchor} className="role-options">
             {availableRoles()}
           </DropdownMenu>
-          <Button disabled={isLoading} onClick={() => removeUser(userId)}>
+          <Button disabled={isLoading || !isAuthorizedAdmin()} onClick={() => removeUser(userId)}>
             <FaUserSlash />
             kick
           </Button>

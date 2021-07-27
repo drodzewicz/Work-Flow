@@ -32,7 +32,7 @@ userService.loginJWT = async (req, res, next) => {
 
     let foundUser = await User.findOne(
       { username: username },
-      "_id username name surname avatarImageURL password"
+      "_id username name surname email avatarImageURL password"
     );
     if (foundUser === null) {
       throw new ResponseError({ username: "user with such username does not exist" }, 404);

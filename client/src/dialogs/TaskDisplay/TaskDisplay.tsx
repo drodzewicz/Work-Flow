@@ -95,7 +95,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
   };
 
   return (
-    <LoadingOverlay show={isTaskLoading} opacity={0}>
+    <LoadingOverlay className="task-display-loader" show={isTaskLoading} opacity={0}>
       <section className="task-display">
         <header className="task-display__header">
           {isAuthorizedToEdit() && (
@@ -130,6 +130,9 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
             </div>
             <label className="task-display__body__people__label">Asignees</label>
             <div className="task-display__body__people__asignees scrollbar">
+              {taskDetails.people.length === 0 && (
+                <i className="task-display__body__people__message">No user has been assinged</i>
+              )}
               {taskDetails.people.map(({ _id, username, avatarImageURL }) => (
                 <User key={_id} username={username} imageSrc={avatarImageURL} />
               ))}

@@ -1,7 +1,7 @@
 @import "../../../assets//styles/colors";
 
 %btn {
-  font-family: 'Secular One', sans-serif;
+  font-family: "Secular One", sans-serif;
   border-radius: 5px;
   padding: 0.35rem 0.75rem;
   margin: 0.15rem 0.25rem;
@@ -16,7 +16,7 @@
   &:focus {
     outline-color: $blue-accent;
     outline-width: 2px;
-    outline-offset: 2px; 
+    outline-offset: 2px;
   }
 }
 
@@ -37,7 +37,7 @@
   }
 }
 
-.glow{
+.glow {
   @extend %btn;
   color: white;
   background: $blue-accent;

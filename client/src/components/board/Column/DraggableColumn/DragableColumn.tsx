@@ -8,11 +8,16 @@ import { UserBoardRoles  } from "types/general";
 const DragableColumn: React.FC<ColumnProps> = (props) => {
   const { columnId, columnIndex } = props;
   const { userState } = useContext(UserContext);
+
+  const isDraggable = () => {
+    return (
+      userState.currentBoard.role === UserBoardRoles.ADMIN ||
+      userState.currentBoard.role === UserBoardRoles.OWNER
+    );
+  }
+
   return (
-    <Draggable
-      draggableId={columnId}
-      index={columnIndex}
-      isDragDisabled={userState.currentBoard.role === UserBoardRoles.GUEST}>
+    <Draggable draggableId={columnId} index={columnIndex} isDragDisabled={!isDraggable()}>
       {(provided) => {
         return (
           <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>

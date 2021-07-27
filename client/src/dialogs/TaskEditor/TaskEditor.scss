@@ -1,6 +1,10 @@
 @import "../../assets/styles/mediaQueries";
 @import "../../assets/styles/colors";
 
+.update-task.loading-overlay {
+	height: 50vh;
+	width: 70vw;
+}
 
 .task-editor {
 	display: grid;

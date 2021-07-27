@@ -3,11 +3,13 @@ import "./ThemeSwitch.scss";
 import "./ThemeSwitch-dark.scss";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { theme } from "types/general";
+import { getAppTheme } from "service/theme"; 
+
 
 const ThemeSwitch: React.FC = () => {
   const [currentTheme, setCurrentTheme] = useState(false);
   useEffect(() => {
-    const themeFromLocalStorage = localStorage.getItem("theme");
+    const themeFromLocalStorage = getAppTheme();
     if (themeFromLocalStorage) {
       switch (themeFromLocalStorage) {
         case theme.LIGHT:

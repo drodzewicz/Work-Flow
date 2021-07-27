@@ -38,7 +38,7 @@ const TaskUpdate: React.FC<TaskUpdateProps> = (props) => {
     return () => {};
   }, [boardId, taskId]);
   return (
-    <LoadingOverlay show={isLoading}>
+    <LoadingOverlay className="update-task" show={isLoading}>
       <TaskUpdateWrapper {...props} initialValues={task} submitType="Update" />
     </LoadingOverlay>
   );
