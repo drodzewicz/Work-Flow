@@ -1,9 +1,10 @@
-const mongoose = require("../configs/mongoose");
+const mongoose = require("mongoose");
+const makeModel = require("./modelFactory");
 const Schema = mongoose.Schema;
 
 const tagSchema = new Schema({
-	name: String,
-	color: String,
+  name: String,
+  color: String,
 });
 
-module.exports = mongoose.model("Tag", tagSchema);
+module.exports = makeModel("Tag", tagSchema);

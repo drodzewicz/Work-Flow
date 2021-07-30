@@ -1,7 +1,9 @@
-const mongoose = require("../configs/mongoose");
+const mongoose = require("mongoose");
+const makeModel = require("./modelFactory");
 const uniqueValidator = require("mongoose-unique-validator");
-const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
+
+const Schema = mongoose.Schema;
 
 const validateEmail = (email) => {
   const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -60,4 +62,4 @@ userSchema.methods.isValidPassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-const User = (module.exports = mongoose.model("User", userSchema));
+module.exports = makeModel("User", userSchema);

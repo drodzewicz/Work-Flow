@@ -21,4 +21,12 @@ module.exports = (app) => {
     .use("/api/board/:boardId/tag", tagRoutes)
     .use("/api/board/:boardId/column", columnRoutes)
     .use("/api/board/:boardId/task", taskRoutes);
+  
+  app.get("/api/testing", (req, res) => {
+    return res.json({
+      message: "hello",
+    });
+  });
 };
+
+

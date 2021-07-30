@@ -1,4 +1,3 @@
-require("dotenv").config();
 const ENV_CONF = require("./configs/env.conf");
 const express = require("express");
 const http = require("http");
@@ -10,16 +9,6 @@ const socketIO = require("socket.io");
 const app = express();
 const server = http.createServer(app);
 const routeErrorHandler = require("./error/errorHandler");
-
-const io = socketIO(server, {
-  cors: {
-    origin: ENV_CONF.CORS_ORIGIN,
-    methods: ["GET", "POST"],
-    credentials: true,
-    transports: ["websocket", "polling"],
-  },
-  allowEIO3: true,
-});
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -50,8 +39,16 @@ app.use((req, res) => {
 app.use(routeErrorHandler);
 
 // WEB-SOCKETS
+const io = socketIO(server, {
+  cors: {
+    origin: ENV_CONF.CORS_ORIGIN,
+    methods: ["GET", "POST"],
+    credentials: true,
+    transports: ["websocket", "polling"],
+  },
+  allowEIO3: true,
+});
+
 require("./sockets")(io);
 
-server.listen(ENV_CONF.PORT, () => {
-  console.log(`server running on PORT: [${ENV_CONF.PORT}] in [${ENV_CONF.NODE_ENV}]`);
-});
+module.exports = server;

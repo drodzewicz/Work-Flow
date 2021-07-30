@@ -7,9 +7,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "set NODE_ENV=production&&node app.js",
-    "dev": "set NODE_ENV=development&&nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "set NODE_ENV=production&&node server.js",
+    "dev": "set NODE_ENV=development&&nodemon server.js",
+    "test": "jest"
   },
   "author": "DaRo",
   "license": "ISC",
@@ -30,5 +30,9 @@
     "passport-jwt": "^4.0.0",
     "passport.socketio": "^3.7.0",
     "socket.io": ">=2.4.0"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6",
+    "supertest": "^6.1.4"
   }
 }
