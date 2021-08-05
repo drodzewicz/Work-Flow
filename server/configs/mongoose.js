@@ -7,6 +7,7 @@ const ENV_CONF = require("../configs/env.conf");
       useUnifiedTopology: true,
       useNewUrlParser: true,
       useCreateIndex: true,
+      useFindAndModify: false,
     });
   } catch (err) {
     console.error(err);
