@@ -1,32 +1,12 @@
-const { createColumn, deleteColumn, moveColumn } = require("../controllers/ws/column");
+const makeColumnController = require("../controllers/ws/ColumnController");
 
 module.exports = (io, socket) => {
 
-	socket.on("createNewColumn", async (data, call) => {
-		const { roomId, token, payload } = data;
+	const columnController = makeColumnController(io, socket);
 
-		const response = await createColumn({ boardId: roomId, ...payload });
-		if (!response.error) {
-			io.in(roomId).emit("createNewColumn", response.newColumn);
-		}
-		call(response);
-	});
+	socket.on("createNewColumn", columnController.createColumn);
 
-	socket.on("deleteColumn", async (data) => {
-		const { roomId, token, payload } = data;
+	socket.on("deleteColumn", columnController.deleteColumn);
 
-		const response = await deleteColumn({ boardId: roomId, ...payload });
-		if (!response.error) {
-			io.in(roomId).emit("deleteColumn", response);
-		}
-	});
-
-	socket.on("moveColumn", async (data) => {
-		const { roomId, token, payload } = data;
-
-		const response = await moveColumn({ boardId: roomId, ...payload });
-		if (!response.error) {
-			socket.to(roomId).emit("moveColumn", response);
-		}
-	});
+	socket.on("moveColumn", columnController.moveColumn);
 };

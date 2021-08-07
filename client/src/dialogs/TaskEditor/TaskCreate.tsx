@@ -29,12 +29,13 @@ const TaskCreateWrapper = withFormik<TaskCreateProps, FormValues>({
       columnId,
       payload: submittedData,
       res: (res) => {
-        if (res.success) {
+        const { error } = res;
+        if (!error) {
           setStatus({
             submitStatus: "SUCCESS",
             message: "new task created",
           });
-        } else if (res.error) {
+        } else {
           setStatus({
             submitStatus: "ERROR",
             message: "error - while creating new task",

@@ -73,7 +73,8 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
           taskId,
         },
         res: (res) => {
-          if (res.success) modalDispatch({ type: ModalActionType.CLOSE });
+          const { error } = res;
+          if (!error) modalDispatch({ type: ModalActionType.CLOSE });
         },
       });
     }

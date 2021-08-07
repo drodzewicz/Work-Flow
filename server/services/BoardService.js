@@ -64,7 +64,7 @@ module.exports = (BoardRepository, TaskRepository, TagRepository) => {
     deleteBoard: async (boardId) => {
       const boardTags = await TagRepository.getBoardTags(boardId);
       const boardTagIds = boardTags.map(({ _id }) => _id);
-      await TaskRepository.deleteMany(boardId);
+      await TaskRepository.deleteBoardTasks(boardId);
       await TagRepository.deleteMany(boardTagIds);
       await BoardRepository.delete(boardId);
       await BoardRepository.removeBoardFromusersPinnedList(boardId);

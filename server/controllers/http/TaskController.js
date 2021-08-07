@@ -1,7 +1,9 @@
 const TaskRepository = require("../../repositories/TaskRepository");
+const BoardRepository = require("../../repositories/BoardRepository");
+const NotificationRepository = require("../../repositories/NotificationRepository");
 const makeTaskService = require("../../services/TaskService");
 
-const taskService = makeTaskService(TaskRepository);
+const taskService = makeTaskService(TaskRepository, BoardRepository, NotificationRepository);
 
 module.exports = {
   getTask: async (req, res, next) => {
