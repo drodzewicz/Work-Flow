@@ -1,13 +1,13 @@
-const makeMembersService = require("../../services/MembersService");
+const MembersService = require("../../services/MembersService");
 const MembersRepository = require("../../repositories/MembersRepository");
 const BoardRepository = require("../../repositories/BoardRepository");
 const NotificationRepository = require("../../repositories/NotificationRepository");
 
-const membersSrvice = makeMembersService(
+const membersSrvice = MembersService({
   MembersRepository,
   BoardRepository,
-  NotificationRepository
-);
+  NotificationRepository,
+});
 
 module.exports = {
   getBoardMembers: async (req, res, next) => {

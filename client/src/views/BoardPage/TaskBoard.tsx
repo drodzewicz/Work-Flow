@@ -31,6 +31,7 @@ const TaskBoard: React.FC<{ boardId: string }> = ({ boardId }) => {
       });
     };
     const moveSocketColumn = (moveResponse: any) => {
+      console.log(moveResponse);
       tasksDispatch({
         type: TasksActionType.MOVE_COLUMN,
         payload: {

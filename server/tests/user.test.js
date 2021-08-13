@@ -1,21 +1,38 @@
-const request = require("supertest");
-const app = require("../app");
-const mongoose = require("../configs/mongoose");
+const makeUserService = require("../services/UserService");
+const bcrypt = require("bcryptjs");
+const { PayloadValueError } = require("../error/");
 
-describe("GET /testing", () => {
-    describe("given a username and password", () => {
-        afterAll(async () => {
-            console.log("... Test Ended");
-            await mongoose.connection.close();
-            app.close();
-        });
-        test("should respond with 200 status code", async () => {
-            const response = await request(app).get("/api/testing")
-            expect(response.statusCode).toBe(200)
-        })
-        it("should return true", () => {
-            const res = 2 + 2;
-            expect(res).toBe(4)
-        })
-    })
-})
+const testUser = {
+  username: "test_username",
+  password: "test_password",
+  name: "test_name",
+  surname: "test_surname",
+  email: "test@mail.com",
+};
+
+const createUser = jest.fn();
+const userService = makeUserService({ createUser });
+
+describe("USER", () => {
+  describe("REGISTRATION", () => {
+    it("should pass: username, password, name, surname, email to database", async () => {
+      await userService.register(testUser);
+
+      const parsedUser = createUser.mock.calls[0][0];
+      expect(parsedUser).toHaveProperty("name");
+      expect(parsedUser).toHaveProperty("surname");
+      expect(parsedUser).toHaveProperty("email");
+      expect(parsedUser).toHaveProperty("username");
+      expect(parsedUser).toHaveProperty("password");
+    });
+
+    it("should hash password", async () => {
+      await userService.register(testUser);
+      const parsedUser = createUser.mock.calls[0][0];
+
+      expect(parsedUser).not.toHaveProperty("password", testUser.password);
+      const isPasswordMatch = await bcrypt.compare(testUser.password, parsedUser.password);
+      expect(isPasswordMatch).toBe(true);
+    });
+  });
+});

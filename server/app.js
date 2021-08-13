@@ -8,7 +8,7 @@ const socketIO = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
-const routeErrorHandler = require("./error/errorHandler");
+const errorMiddleware = require("./middleware/errorMiddleware");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -36,7 +36,7 @@ app.use((req, res) => {
   });
 });
 
-app.use(routeErrorHandler);
+app.use(errorMiddleware);
 
 // WEB-SOCKETS
 const io = socketIO(server, {

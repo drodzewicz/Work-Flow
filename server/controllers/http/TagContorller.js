@@ -1,7 +1,7 @@
 const TagRepository = require("../../repositories/TagRepository");
-const makeTagService = require("../../services/TagService");
+const TagService = require("../../services/TagService");
 
-const tagService = makeTagService(TagRepository);
+const tagService = TagService({ TagRepository });
 
 module.exports = {
   getBoardTags: async (req, res, next) => {

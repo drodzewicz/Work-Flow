@@ -1,7 +1,7 @@
-const makeUserService = require("../../services/UserService");
+const UserService = require("../../services/UserService");
 const UserRepository = require("../../repositories/UserRepository");
 
-const userService = makeUserService(UserRepository);
+const userService = UserService({ UserRepository });
 
 module.exports = {
   registerUser: async (req, res, next) => {

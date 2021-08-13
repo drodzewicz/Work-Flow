@@ -1,7 +1,7 @@
 const NotificationRepository = require("../../repositories/NotificationRepository");
-const makeNotificationService = require("../../services/NotificationService");
+const NotificationService = require("../../services/NotificationService");
 
-const notificationService = makeNotificationService(NotificationRepository);
+const notificationService = NotificationService({ NotificationRepository });
 
 module.exports = {
   getLoggedInUserNotifications: async (req, res, next) => {

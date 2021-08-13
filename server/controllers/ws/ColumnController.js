@@ -1,9 +1,9 @@
 const ColumnRepository = require("../../repositories/ColumnRepository");
 const BoardRepository = require("../../repositories/BoardRepository");
 const TaskRepository = require("../../repositories/TaskRepository");
-const makeColumnService = require("../../services/ColumnService");
+const ColumnService = require("../../services/ColumnService");
 
-const columnService = makeColumnService(ColumnRepository, TaskRepository, BoardRepository);
+const columnService = ColumnService({ ColumnRepository, TaskRepository, BoardRepository });
 
 module.exports = (io, socket) => {
   return {
@@ -28,15 +28,17 @@ module.exports = (io, socket) => {
     },
     moveColumn: async (data) => {
       const { roomId, payload } = data;
-      const { boardId, sourceIndex, destinationIndex } = payload;
+      const { sourceIndex, destinationIndex } = payload;
       try {
-        await columnService.moveColumn(boardId, sourceIndex, destinationIndex);
+        await columnService.moveColumn(roomId, sourceIndex, destinationIndex);
         socket.to(roomId).emit("moveColumn", {
           message: "moved column",
           source: sourceIndex,
           destination: destinationIndex,
         });
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     },
   };
 };

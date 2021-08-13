@@ -10,15 +10,4 @@ module.exports = (io, socket) => {
 
 	socket.on("moveTask", taskController.moveTask);
 
-	// socket.on("moveTask", async (data) => {
-	// 	const { roomId, token, payload } = data;
-	// 	const { verified } = await getUserFromJWT(token);
-	// 	if(verified) {
-	// 		const response = await moveTask({ boardId: roomId, ...payload });
-	// 		if (!response.error) {
-	// 			socket.to(roomId).emit("moveTask", response);
-	// 		}
-	// 	}
-		
-	// });
 };

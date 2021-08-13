@@ -1,9 +1,9 @@
-const makeColumnService = require("../../services/ColumnService");
+const ColumnService = require("../../services/ColumnService");
 const ColumnRepository = require("../../repositories/ColumnRepository");
 const BoardRepository = require("../../repositories/BoardRepository");
 const TaskRepository = require("../../repositories/TaskRepository");
 
-const columnService = makeColumnService(ColumnRepository,TaskRepository, BoardRepository);
+const columnService = ColumnService({ ColumnRepository, TaskRepository, BoardRepository });
 
 module.exports = {
   getBoardColumns: async (req, res, next) => {

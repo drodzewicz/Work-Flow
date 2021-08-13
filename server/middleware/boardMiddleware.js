@@ -1,57 +1,51 @@
-const boardMiddleWare = {};
-const Board = require("../models/board");
+const MembersService = require("../services/MembersService");
+const errorHandler = require("../error/errorHandler");
+const MembersRepository = require("../repositories/MembersRepository");
 
-const getBoard = async (boardId, fields) => {
+const membersService = MembersService({ MembersRepository });
+
+module.exports = {
+  isBoardAuthor: async function (req, res, next) {
+    const { boardId } = req.params;
+    const { id } = req.user;
     try {
-        const selectFields = fields !== "" ? fields : undefined;
-        const foundBoard = await Board.findOne({ _id: boardId }, selectFields);
-        return { success: true, foundBoard };
+      const member = await membersService.getBoardMember(id, boardId);
+      if (!member || member.role !== "OWNER") {
+        throw new AuthError();
+      }
+      next();
     } catch (error) {
-        return { message: "board not found", error: true };
+      const { status, message } = errorHandler(error);
+      return res.status(status).json({ message });
     }
-}
-
-boardMiddleWare.isBoardAuthor = async (req, res, next) => {
+  },
+  isBoardMember: async function (req, res, next) {
     const { boardId } = req.params;
     const { id } = req.user;
 
-    const { foundBoard, success, error, message } = await getBoard(boardId, "author");
-    if(error) return res.status(404).json({ message });
-    else if (success && foundBoard.author.toLocaleString() !== id.toLocaleString())
-        return res.status(401).json({ message: "you are not the author of this board" });
-
+    try {
+      const member = await membersService.getBoardMember(id, boardId);
+      if (!member) {
+        throw new AuthError();
+      }
+    } catch (error) {
+      const { status, message } = errorHandler(error);
+      return res.status(status).json({ message });
+    }
     return next();
-}
-
-boardMiddleWare.isBoardMember = async (req, res, next) => {
+  },
+  isBoardAdmin: async function (req, res, next) {
     const { boardId } = req.params;
     const { id } = req.user;
-
-    const { foundBoard, success, error, message } = await getBoard(boardId, "members");
-    if(error) return res.status(404).json({ message });
-    else if(success) {
-        const indexOfMember = foundBoard.members.findIndex(({ user }) => user.toLocaleString() === id.toLocaleString());
-        if (indexOfMember < 0)
-            return res.status(403).json({ message: "you are not a member of this board" })
+    try {
+      const member = await membersService.getBoardMember(id, boardId);
+      if (!member || !["ADMIN", "OWNER"].includes(member.role)) {
+        throw new AuthError();
+      }
+      next();
+    } catch (error) {
+      const { status, message } = errorHandler(error);
+      return res.status(status).json({ message });
     }
-
-    return next();
-}
-
-boardMiddleWare.isBoardAdmin = async (req, res, next) => {
-    const { boardId } = req.params;
-    const { id } = req.user;
-
-    const { foundBoard, success, error, message } = await getBoard(boardId, "members");
-    if(error) return res.status(404).json({ message });
-    else if(success) {
-        const indexOfMember = foundBoard.members.findIndex(({ user }) => user.toLocaleString() === id.toLocaleString());
-        if (indexOfMember < 0)
-            return res.status(403).json({ message: "you are not a member of this board" })
-        else if (foundBoard.members[indexOfMember].role === "ADMIN" || foundBoard.members[indexOfMember].role === "OWNER")
-            return next();
-        return res.status(401).json({ message: "you are not a authorized" })
-    }
-}
-
-module.exports = boardMiddleWare;
+  },
+};

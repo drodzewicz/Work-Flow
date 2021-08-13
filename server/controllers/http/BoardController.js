@@ -1,11 +1,11 @@
-const makeBoardService = require("../../services/BoardService");
-const makeMembersService = require("../../services/MembersService");
+const BoardService = require("../../services/BoardService");
+const MembersService = require("../../services/MembersService");
 const BoardRepository = require("../../repositories/BoardRepository");
 const TagRepository = require("../../repositories/TagRepository");
 const TaskRepository = require("../../repositories/TaskRepository");
 
-const boardService = makeBoardService(BoardRepository, TaskRepository, TagRepository);
-const membersService = makeMembersService(BoardRepository);
+const boardService = BoardService({ BoardRepository, TaskRepository, TagRepository });
+const membersService = MembersService({ BoardRepository });
 
 module.exports = {
   createBoard: async (req, res, next) => {
