@@ -4,6 +4,8 @@ import "./Pagination-dark.scss";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import { PaginationProps } from "./";
 
+// TODO create a usePagination hook for currentPage total and new page handler
+
 const Pagination: React.FC<PaginationProps> = ({ current, total, handleChange }) => {
   const previousPage = () => {
     handleChange(current - 1);

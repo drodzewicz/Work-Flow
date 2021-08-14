@@ -12,13 +12,11 @@ router.route("/")
 router.route("/user/my_boards")
     .get(authJWT, BoardController.getLoggednInUserBoards);
 
-router
-  .route("/user/pined_boards")
+router.route("/user/pined_boards")
   .get(authJWT, BoardController.getLoggednInUserPinnedBoards)
   .patch(authJWT, BoardController.togglePinBoard);
 
-router
-  .route("/:boardId")
+router.route("/:boardId")
   .get(authJWT, isBoardMember, BoardController.getBoard)
   .post(authJWT, isBoardAuthor, BoardController.updateBoard)
   .delete(authJWT, isBoardAuthor, BoardController.deleteBoard);

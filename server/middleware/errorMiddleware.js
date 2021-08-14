@@ -5,7 +5,7 @@ const apiErrorHandler = (err, req, res, next) => {
   if (status && message) {
     return res.status(status).json({ message });
   }
-  console.log(err);
+  console.log("ERRRR --- ", err);
   return res.json({ message: err });
 };
 

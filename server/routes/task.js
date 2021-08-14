@@ -5,8 +5,7 @@ const TaskController = require("../controllers/http/TaskController");
 
 const authJWT = passport.authenticate("jwt", { session: false });
 
-router
-  .route("/:taskId")
+router.route("/:taskId")
   .get(authJWT, TaskController.getTask)
   .post(authJWT, TaskController.updateTask);
 

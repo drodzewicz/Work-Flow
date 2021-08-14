@@ -9,28 +9,24 @@ module.exports = {
     const { boardId } = req.params;
     const { id } = req.user;
     try {
-      const member = await membersService.getBoardMember(id, boardId);
-      if (!member || member.role !== "OWNER") {
+      const member = await membersService.getBoardMember(boardId, id);
+      if (member.role !== "OWNER") {
         throw new AuthError();
       }
       next();
     } catch (error) {
       const { status, message } = errorHandler(error);
-      return res.status(status).json({ message });
+      return res.status(status || 400).json({ message });
     }
   },
   isBoardMember: async function (req, res, next) {
     const { boardId } = req.params;
     const { id } = req.user;
-
     try {
-      const member = await membersService.getBoardMember(id, boardId);
-      if (!member) {
-        throw new AuthError();
-      }
+      await membersService.getBoardMember(boardId, id);
     } catch (error) {
       const { status, message } = errorHandler(error);
-      return res.status(status).json({ message });
+      return res.status(status || 400).json({ message });
     }
     return next();
   },
@@ -39,13 +35,13 @@ module.exports = {
     const { id } = req.user;
     try {
       const member = await membersService.getBoardMember(id, boardId);
-      if (!member || !["ADMIN", "OWNER"].includes(member.role)) {
+      if (!["ADMIN", "OWNER"].includes(member.role)) {
         throw new AuthError();
       }
       next();
     } catch (error) {
       const { status, message } = errorHandler(error);
-      return res.status(status).json({ message });
+      return res.status(status || 400).json({ message });
     }
   },
 };
