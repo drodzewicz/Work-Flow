@@ -23,7 +23,7 @@ module.exports = function ({ UserRepository }) {
 
     let foundUser = await UserRepository.getUserByUsername(loginCredentials.username);
     if (foundUser === null) {
-      throw new ResponseError({ username: "user with such username does not exist" }, 404);
+      throw new ResponseError(404, { username: "user with such username does not exist" });
     }
     const { password, ...user } = foundUser.toObject();
 
@@ -39,7 +39,7 @@ module.exports = function ({ UserRepository }) {
     const userFields = "_id username name surname avatarImageURL email";
     const foundUser = await UserRepository.getUserById(userId, userFields);
     if (foundUser === null) {
-      throw new ResponseError("user with such id does not exist", 404);
+      throw new ResponseError(404, "user with such id does not exist");
     }
     return foundUser;
   }
@@ -49,7 +49,7 @@ module.exports = function ({ UserRepository }) {
 
     if (newPassword !== matchPassword) {
       const message = { matchPassword: "does not match password" };
-      throw new ResponseError(message, 400);
+      throw new ResponseError(400, message);
     }
 
     const salt = await bcrypt.genSalt(10);

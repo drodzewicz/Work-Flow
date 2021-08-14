@@ -1,5 +1,4 @@
 const paginateContent = require("../helper/pagination");
-const { ResponseError } = require("../error/");
 const requiredValues = require("../helper/requiredValues");
 
 module.exports = ({ MembersRepository, BoardRepository, NotificationRepository }) => {
@@ -24,7 +23,7 @@ module.exports = ({ MembersRepository, BoardRepository, NotificationRepository }
       ({ user }) => user._id.toLocaleString() === userId.toLocaleString()
     );
     if (!member) {
-      throw new ResponseError({ member: "member with given id is not a part of this board" }, 404);
+      // throw new ResponseError({ member: "member with given id is not a part of this board" }, 404);
     }
     return member;
   }

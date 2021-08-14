@@ -2,11 +2,7 @@ const errorHandler = require("../error/errorHandler");
 
 const apiErrorHandler = (err, req, res, next) => {
   const { message, status } = errorHandler(err);
-  if (status && message) {
-    return res.status(status).json({ message });
-  }
-  console.log("ERRRR --- ", err);
-  return res.json({ message: err });
+  return res.status(status).json({ message });
 };
 
 module.exports = apiErrorHandler;

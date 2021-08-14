@@ -1,4 +1,4 @@
-const { PayloadValueError } = require("../error/");
+const { RequiredFieldError } = require("../error/");
 
 module.exports = requiredValues = (keys, body) => {
   const requiredFields = [];
@@ -7,6 +7,6 @@ module.exports = requiredValues = (keys, body) => {
     if (!body[`${key}`]) requiredFields.push(key);
   });
   if (requiredFields.length > 0) {
-    throw PayloadValueError.requiredValues(requiredFields);
+    throw RequiredFieldError.requiredValues(requiredFields);
   }
 };
