@@ -19,6 +19,7 @@ module.exports = function ({ TaskRepository, BoardRepository, NotificationReposi
     const task = await TaskRepository.get(newTask._id);
     return { columnIndex, task };
   }
+
   async function deleteTask(boardId, taskId) {
     const foundBoard = await BoardRepository.get(boardId);
 
@@ -40,6 +41,7 @@ module.exports = function ({ TaskRepository, BoardRepository, NotificationReposi
 
     return { columnIndex, taskIndex };
   }
+
   async function moveTask(boardId, source, destination) {
     const foundBoard = await BoardRepository.get(boardId);
     const movingTask = foundBoard.columns[source.columnIndex].tasks.splice(source.taskIndex, 1)[0];
@@ -47,9 +49,11 @@ module.exports = function ({ TaskRepository, BoardRepository, NotificationReposi
     foundBoard.columns[destination.columnIndex].tasks.splice(destination.taskIndex, 0, movingTask);
     await foundBoard.save();
   }
+
   async function getTask(taskId) {
     return await TaskRepository.get(taskId);
   }
+  
   async function updateTask(taskId, taskData) {
     // TODO give this dtaa some validation maybe
     return await TaskRepository.update(taskId, taskData);
