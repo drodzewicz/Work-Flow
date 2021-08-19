@@ -3,23 +3,19 @@ const mockDatabase = require("../data");
 module.exports = function () {
   const create = jest.fn();
   const update = jest.fn();
-  const get = jest.fn();
-  const deleteBoard = jest.fn();
-  const removeBoardFromusersPinnedList = jest.fn();
-  const userBoards = jest.fn();
-  const userPinnedBoards = jest.fn();
-  const pinBoard = jest.fn();
-  const unpinBoard = jest.fn();
-
+  const deleteTag = jest.fn();
+  const getBoardTags = jest.fn().mockReturnValue(mockDatabase.tags);
+  const deleteMany = jest.fn();
+  const removeTagfromBoard = jest.fn();
+  const addTagToBoard = jest.fn();
+  
   return {
     create,
     update,
-    get,
-    delete: deleteBoard,
-    removeBoardFromusersPinnedList,
-    userBoards,
-    userPinnedBoards,
-    pinBoard,
-    unpinBoard,
+    delete: deleteTag,
+    getBoardTags,
+    deleteMany,
+    removeTagfromBoard,
+    addTagToBoard
   };
 };

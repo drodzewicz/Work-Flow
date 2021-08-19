@@ -1,7 +1,6 @@
 const paginateContent = require("../helper/pagination");
 
 module.exports = function ({ BoardRepository, TaskRepository, TagRepository }) {
-
   async function createBoard(boardData, authorId) {
     const { name, description } = boardData;
     const members = [{ user: authorId, role: "OWNER" }];
@@ -28,8 +27,11 @@ module.exports = function ({ BoardRepository, TaskRepository, TagRepository }) {
         isAuthor,
       };
     });
-    const { items: boards, ...paginationData } = paginateContent(parsedBoards, page, limit);
-    return { boards, ...paginationData };
+    if (page && limit) {
+      const { items: boards, ...paginationData } = paginateContent(parsedBoards, page, limit);
+      return { boards, ...paginationData };
+    }
+    return { boards: parsedBoards };
   }
 
   async function getUserPinnedBoards(userId) {
@@ -66,7 +68,7 @@ module.exports = function ({ BoardRepository, TaskRepository, TagRepository }) {
       return { pinned: true };
     }
   }
-  
+
   async function deleteBoard(boardId) {
     const boardTags = await TagRepository.getBoardTags(boardId);
     const boardTagIds = boardTags.map(({ _id }) => _id);

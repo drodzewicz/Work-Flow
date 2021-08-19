@@ -43,6 +43,61 @@ mockDatabase.users = [
   },
 ];
 
+mockDatabase.tags = [
+  { 
+    _id: "tag_1",
+    color: "RED",
+    name: "test_red_tag"
+  },
+  { 
+    _id: "tag_2",
+    color: "BLUE",
+    name: "test_blue_tag"
+  }
+]
+
+mockDatabase.tasks = [
+  {
+    _id: "task_1",
+    title: "task_title",
+    description: "task_description",
+    author: "",
+    board: "",
+    people: [
+      mockDatabase.users[0]
+    ],
+    tags: mockDatabase.tags
+  },
+  {
+    _id: "task_2",
+    title: "task_title",
+    description: "task_description",
+    author: "",
+    board: "",
+    people: [
+      mockDatabase.users[2],
+      mockDatabase.users[3]
+    ],
+    tags: mockDatabase.tags
+  }
+]
+
+mockDatabase.columns = [
+  {
+    _id: "column_id_1",
+    name: "column_one",
+    tasks: mockDatabase.tasks
+  }
+]
+
+mockDatabase.fullBoard = {
+  _id: "board_id",
+  name: "board name",
+  description: "booard description",
+  author: mockDatabase.users[0]._id,
+  columns: mockDatabase.columns
+}
+
 mockDatabase.boards = [
   {
     _id: "board_id_1",
