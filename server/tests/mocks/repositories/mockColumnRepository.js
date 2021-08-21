@@ -1,12 +1,12 @@
 const mockDatabase = require("../data");
-const { mongoObject } = require("../utils");
+const { mongoObject, deepCopy } = require("../utils");
 
 module.exports = function () {
   const create = jest.fn();
-  const get = jest.fn().mockReturnValue(mockDatabase.columns);
+  const get = jest.fn().mockReturnValue(deepCopy(mockDatabase.columns));
   const deleteColumn = jest.fn();
   const move = jest.fn();
-  const getColumnTasks = jest.fn().mockReturnValue(mockDatabase.tasks);
+  const getColumnTasks = jest.fn().mockReturnValue(deepCopy(mockDatabase.tasks));
   const getColumnupdateNameTasks = jest.fn();
  
   return {

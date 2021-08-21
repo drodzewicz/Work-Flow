@@ -1,7 +1,8 @@
 const mockDatabase = require("../data");
+const { deepCopy } = require("../utils");
 
 module.exports = function () {
-  const create = jest.fn().mockReturnValue(mockDatabase.tasks[0]);
+  const create = jest.fn().mockReturnValue(deepCopy(mockDatabase.tasks[0]));
   const get = jest.fn();
   const update = jest.fn();
   const deleteTask = jest.fn();
@@ -18,6 +19,6 @@ module.exports = function () {
     deleteMany,
     deleteBoardTasks,
     removeTaskFromColumn,
-    addTaskToColumn
+    addTaskToColumn,
   };
 };
