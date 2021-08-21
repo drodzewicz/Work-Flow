@@ -26,16 +26,16 @@ mockDatabase.users = [
     email: "test_user1@mail.com",
   },
   {
-    _id: "user3_id",
-    username: "test_user2",
+    _id: "test3_id",
+    username: "test_user3match",
     password: "test_password",
     name: "test_name",
     surname: "test_surname",
     email: "test_user1@mail.com",
   },
   {
-    _id: "user4_id",
-    username: "test_user2",
+    _id: "test4_id",
+    username: "test_user4_match",
     password: "test_password",
     name: "test_name",
     surname: "test_surname",
@@ -112,12 +112,32 @@ mockDatabase.columns = [
   }
 ]
 
+mockDatabase.members = [
+  {
+    role: "OWNER",
+    user: mockDatabase.users[0],
+  },
+  {
+    role: "GUEST",
+    user: mockDatabase.users[1],
+  },
+  {
+    role: "ADMIN",
+    user: mockDatabase.users[2],
+  },
+  {
+    role: "REGULAR",
+    user: mockDatabase.users[3],
+  },
+]
+
 mockDatabase.fullBoard = {
   _id: "board_id",
   name: "board name",
   description: "booard description",
   author: mockDatabase.users[0]._id,
-  columns: mockDatabase.columns
+  columns: mockDatabase.columns,
+  members: mockDatabase.members
 }
 
 mockDatabase.boards = [

@@ -18,12 +18,12 @@ module.exports = ({ MembersRepository, BoardRepository, NotificationRepository }
     return boardMembers;
   }
   async function getBoardMember(boardId, userId) {
-    const { members } = await MembersRepository.getMembers(boardId);
-    const member = members.find(
+    const boardMembers = await MembersRepository.getMembers(boardId);
+    const member = boardMembers.find(
       ({ user }) => user._id.toLocaleString() === userId.toLocaleString()
     );
     if (!member) {
-      // throw new ResponseError({ member: "member with given id is not a part of this board" }, 404);
+      // TODO throw new ResponseError({ member: "member with given id is not a part of this board" }, 404);
     }
     return member;
   }

@@ -2,13 +2,14 @@ const Board = require("../models/board");
 
 module.exports = {
   getMembers: async (boardId) => {
-    return await Board.findOne({ _id: boardId }, "members").populate({
+    const { members } = await Board.findOne({ _id: boardId }, "members").populate({
       path: "members",
       populate: {
         path: "user",
         select: "_id username avatarImageURL",
       },
     });
+    return members;
   },
   addMember: async (boardId, userId) => {
     await Board.findOneAndUpdate(
@@ -29,7 +30,7 @@ module.exports = {
   updateMemberRole: async (boardId, userId, newRole) => {
     const foundBoard = await Board.findById(boardId);
     const foundUserIndex = foundBoard.members.findIndex(
-      ({user}) => user.toLocaleString() === userId.toLocaleString()
+      ({ user }) => user.toLocaleString() === userId.toLocaleString()
     );
     if (foundUserIndex > -1) foundBoard.members[foundUserIndex].role = newRole;
     await foundBoard.save();
