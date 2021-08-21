@@ -100,9 +100,8 @@ describe("USER", () => {
     it("should pass avatarImageURL as a second parameter to updateUser", async () => {
       const imageURL = "test_image_url";
       await userService.changeAvatarImage("userId", imageURL);
-      const { avatarImageURL } = UserRepository.updateUser.mock.calls[0][1];
 
-      expect(avatarImageURL).toEqual(imageURL);
+      expect(UserRepository.updateUser).toHaveBeenCalledWith("userId", { avatarImageURL: imageURL });
     });
   });
 

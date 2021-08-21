@@ -13,7 +13,7 @@ module.exports = function ({ ColumnRepository, TaskRepository, BoardRepository }
     const foundBoard = await BoardRepository.get(boardId);
     const movedColumn = foundBoard.columns.splice(sourceIndex, 1)[0];
     foundBoard.columns.splice(destinationIndex, 0, movedColumn);
-    await foundBoard.save();
+    await BoardRepository.save(foundBoard);
   }
   async function getBoardColumns(boardId) {
     return await ColumnRepository.get(boardId);

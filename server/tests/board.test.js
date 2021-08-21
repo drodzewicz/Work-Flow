@@ -1,5 +1,4 @@
 const BoardService = require("../services/BoardService");
-const { RequiredFieldError, AuthError } = require("../error/");
 const mockBoardRepository = require("./mocks/repositories/mockBoardRepository");
 const mockTagRepository = require("./mocks/repositories/mockTagRepository");
 const mockTaskRepository = require("./mocks/repositories/mockTaskRepository");

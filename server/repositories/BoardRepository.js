@@ -25,6 +25,9 @@ module.exports = {
   delete: async (boardId) => {
     await Board.findByIdAndDelete(boardId);
   },
+  save: async (board) => {
+    await board.save();
+  },
   removeBoardFromusersPinnedList: async (boardId) => {
     await User.updateMany({ pinnedBoards: boardId }, { $pull: { pinnedBoards: boardId } });
   },

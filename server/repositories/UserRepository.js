@@ -22,6 +22,10 @@ module.exports = {
     return await newUser.save();
   },
 
+  save: async (user) => {
+    await user.save();
+  },
+
   updateUser: async (userId, newValues) => {
     return await User.findOneAndUpdate(
       { _id: userId },

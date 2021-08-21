@@ -16,6 +16,9 @@ module.exports = {
   delete: async (tagId) => {
     return await Tag.findOneAndDelete({ _id: tagId });
   },
+  save: async (tag) => {
+    await tag.save();
+  },
   deleteMany: async (tags) => {
     await Tag.deleteMany({ _id: { $in: tags } });
   },

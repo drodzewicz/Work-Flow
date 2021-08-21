@@ -25,6 +25,7 @@ module.exports = function ({ TaskRepository, BoardRepository, NotificationReposi
 
     let columnIndex = -1;
     let taskIndex = -1;
+    
     for (let col in foundBoard.columns) {
       for (let task in foundBoard.columns[col].tasks) {
         if (foundBoard.columns[col].tasks[task]._id.toLocaleString() === taskId.toLocaleString()) {
@@ -35,8 +36,10 @@ module.exports = function ({ TaskRepository, BoardRepository, NotificationReposi
       }
       if (columnIndex >= 0 && taskIndex >= 0) break;
     }
+    
     foundBoard.columns[columnIndex].tasks.splice(taskIndex, 1);
-    await foundBoard.save();
+    
+    await BoardRepository.save(foundBoard);
     await TaskRepository.delete(taskId);
 
     return { columnIndex, taskIndex };
@@ -45,9 +48,8 @@ module.exports = function ({ TaskRepository, BoardRepository, NotificationReposi
   async function moveTask(boardId, source, destination) {
     const foundBoard = await BoardRepository.get(boardId);
     const movingTask = foundBoard.columns[source.columnIndex].tasks.splice(source.taskIndex, 1)[0];
-    const taskId = movingTask._id;
     foundBoard.columns[destination.columnIndex].tasks.splice(destination.taskIndex, 0, movingTask);
-    await foundBoard.save();
+    await BoardRepository.save(foundBoard);
   }
 
   async function getTask(taskId) {
@@ -55,7 +57,6 @@ module.exports = function ({ TaskRepository, BoardRepository, NotificationReposi
   }
   
   async function updateTask(taskId, taskData) {
-    // TODO give this dtaa some validation maybe
     return await TaskRepository.update(taskId, taskData);
   }
   return {

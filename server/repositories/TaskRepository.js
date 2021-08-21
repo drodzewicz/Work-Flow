@@ -12,6 +12,9 @@ module.exports = {
       select: "name _id color avatarImageURL username",
     });
   },
+  save: async (task) => {
+    await task.save();
+  },
   addTaskToColumn: async (boardId, columnId, taskId) => {
     await Board.findOneAndUpdate(
       { _id: boardId, "columns._id": columnId },

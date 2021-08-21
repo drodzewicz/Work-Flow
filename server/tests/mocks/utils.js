@@ -10,4 +10,7 @@ utils.mongoObject = function (obj) {
   };
 };
 
+utils.deepCopy = function (item) {
+  return JSON.parse(JSON.stringify(item))
+}
 module.exports = utils;

@@ -79,6 +79,18 @@ mockDatabase.tasks = [
       mockDatabase.users[3]
     ],
     tags: mockDatabase.tags
+  },
+  {
+    _id: "task_3",
+    title: "task_title",
+    description: "task_description",
+    author: "",
+    board: "",
+    people: [
+      mockDatabase.users[2],
+      mockDatabase.users[3]
+    ],
+    tags: mockDatabase.tags
   }
 ]
 
@@ -86,7 +98,17 @@ mockDatabase.columns = [
   {
     _id: "column_id_1",
     name: "column_one",
-    tasks: mockDatabase.tasks
+    tasks: mockDatabase.tasks.slice(0, 2)
+  },
+  {
+    _id: "column_id_2",
+    name: "column_two",
+    tasks: mockDatabase.tasks.slice(2, 3)
+  },
+  {
+    _id: "column_id_3",
+    name: "column_three",
+    tasks: mockDatabase.tasks.slice(2, 3)
   }
 ]
 

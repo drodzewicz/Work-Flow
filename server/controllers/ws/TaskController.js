@@ -22,6 +22,8 @@ module.exports = (io, socket) => {
         socket.to(roomId).emit("moveTask", response);
         // call({ error });
       } catch (error) {
+        console.log(error);
+        
         // call({ error });
       }
     },
