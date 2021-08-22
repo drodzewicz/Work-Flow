@@ -38,7 +38,7 @@ const WelcomePage: React.FC = () => {
           <p>
             Work-Flow is a web-based Kanban-style list making application used to manage work at
             personal or organizational level. Using this application organizing your work will be
-            easy.
+            easy!!
           </p>
           <Button onClick={openRegisterModal} variant="glow" className="join-now">
             Join us Now
