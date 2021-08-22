@@ -36,8 +36,3 @@ jobs:
     - name: test server
       working-directory: server
       run: npm run test
-    - name: deploy
-      run: |
-       git remote add heroku https://heroku:${{secrets.HEROKU_API_KEY}}@git.heroku.com/work-flow-tasks.git
-       git push heroku `git subtree split --prefix server master`:master --force
-      
