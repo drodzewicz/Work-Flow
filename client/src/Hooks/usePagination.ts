@@ -31,7 +31,7 @@ const usePagination = <T>({
     }
 
     return () => {};
-  }, [currentPage]);
+  }, [currentPage, onPageChangeCallback, limit]);
 
   return { currentPage, totalPages, limit, setCurrentPage, setTotalPages, items, setItems };
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { UserContext } from "context/UserContext";
 import SearchInput from "components/general/SearchInput";
 import BoardMemberUser from "./BoardMemberUser/BoardMemberUser";
