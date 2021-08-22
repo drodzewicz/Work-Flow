@@ -37,5 +37,5 @@ jobs:
       working-directory: server
       run: npm run test
     - name: deploy
-      run: git subtree push --prefix server https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/work-flow-tasks.git master
+      run: git subtree push --prefix server https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/work-flow-tasks.git master --force
       
