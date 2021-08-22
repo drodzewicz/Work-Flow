@@ -3,6 +3,7 @@ const router = express.Router({ mergeParams: true });
 const passport = require("passport");
 const TagContorller = require("../controllers/http/TagContorller");
 const MembersRepository = require("../repositories/MembersRepository");
+const boardMiddleware = require("../middleware/boardMiddleware");
 
 const { isBoardMember, isBoardAdmin } = boardMiddleware({ MembersRepository });
 

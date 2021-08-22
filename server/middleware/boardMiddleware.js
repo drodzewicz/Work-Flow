@@ -35,7 +35,7 @@ module.exports = function ({ MembersRepository }) {
     const { boardId } = req.params;
     const { id } = req.user;
     try {
-      const member = await membersService.getBoardMember(id, boardId);
+      const member = await membersService.getBoardMember(boardId, id);
       if (!["ADMIN", "OWNER"].includes(member.role)) {
         throw new AuthError();
       }

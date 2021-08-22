@@ -8,5 +8,5 @@ module.exports = (err) => {
     }
     return { status: 400, message };
   }
-  return { status: err.status || 400, message: err.details || "something went wrong" };
+  return { status: err.status || 400, message: err.details || err.message };
 };
