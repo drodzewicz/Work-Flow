@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import { UserContext } from "context/UserContext";
 import SearchInput from "components/general/SearchInput";
 import BoardMemberUser from "./BoardMemberUser/BoardMemberUser";
@@ -19,49 +19,34 @@ import { usePagination } from "Hooks/usePagination";
 import LoadingOverlay from "components/layout/LoadingOverlay";
 
 const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
-  const isMounted = useRef<boolean>(false);
   const [isPageLoading, setPageLoading] = useState(true);
   const [searchRes, setSearchRes] = useState<SearchedUser[]>([]);
+  const [members, setMembers] = useState<BoardUserI[]>([]);
   const {
     userState: { currentBoard },
   } = useContext(UserContext);
-
-  const testfetchBoardMembers = async (page: number, limit: number) => {
-    setPageLoading(true);
-    const { data } = await getBoardMembers({ boardId, limit, page });
-    setPageLoading(false);
-    if (!!data) {
-      const { members, totalPageCount } = data;
-      return { items: members, totalPageCount: totalPageCount || 1 };
-    }
-    return { items: [], totalPageCount: 1 };
-  };
-
-  const {
-    currentPage,
-    totalPages,
-    limit,
-    setCurrentPage,
-    setTotalPages,
-    setItems: setMembers,
-    items: members,
-  } = usePagination<BoardUserI>({
+  const { currentPage, totalPages, limit, setCurrentPage, setTotalPages } = usePagination({
     initialPage: 1,
     limit: 10,
-    onPageChangeCallback: testfetchBoardMembers,
   });
 
-  const fetchBoardMembers = async () => {
+  const fetchBoardMembers = useCallback(async () => {
     setPageLoading(true);
     const { data } = await getBoardMembers({ boardId, limit, page: currentPage });
-    if (isMounted.current) setPageLoading(false);
+    setPageLoading(false);
 
-    if (!!data && isMounted.current) {
+    if (!!data) {
       const { members, totalPageCount } = data;
       setTotalPages(totalPageCount || 1);
       setMembers(members);
     }
-  };
+  }, [boardId, limit, currentPage, setTotalPages]);
+
+  useEffect(() => {
+    fetchBoardMembers();
+    return () => {};
+  }, [fetchBoardMembers]);
+
   const dynamicSearchHandler = async (username: string) => {
     if (username.length < 3) return;
     const { data } = await searchUsersByUsername({ username });

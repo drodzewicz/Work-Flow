@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import "./DashboardPage.scss";
 import Button from "components/general/Button";
 import BoardCreate from "dialogs/BoardEditor/BoardCreate";
@@ -7,18 +7,23 @@ import { ModalContext, ModalActionType } from "context/ModalContext";
 import { getPinnedBoards, getMyBoards, togglePinBoard } from "service";
 import BoardContainer from "components/board/BoardContainer";
 import { BoardI } from "types/general";
-import { PaginationI } from "components/general/Pagination";
 import LoadingOverlay from "components/layout/LoadingOverlay/LoadingOverlay";
 import { ReactComponent as Pined } from "assets/images/pin-full.svg";
 import { FaPlus } from "react-icons/fa";
 import { FaColumns } from "react-icons/fa";
+import { usePagination } from "Hooks/usePagination";
 
 const DashboardPage: React.FC = () => {
-  const [page, setPage] = useState<PaginationI>({ current: 1, total: 1 });
+  const { currentPage, totalPages, limit, setCurrentPage, setTotalPages } = usePagination({
+    initialPage: 1,
+    limit: 8,
+  });
+
   const [pinnedBoards, setPinnedBoards] = useState<{ items: BoardI[]; isLoading: boolean }>({
     items: [],
     isLoading: false,
   });
+
   const [boards, setBoards] = useState<{ items: BoardI[]; isLoading: boolean }>({
     items: [],
     isLoading: false,
@@ -32,23 +37,22 @@ const DashboardPage: React.FC = () => {
   const setBoardsLoading = (loadingState: boolean) => {
     setBoards((prevState) => ({ ...prevState, isLoading: loadingState }));
   };
+  const fetchBoards = useCallback(async () => {
+    const { data } = await getMyBoards({
+      page: currentPage,
+      limit,
+      setLoading: setBoardsLoading,
+    });
+    if (!!data) {
+      const { totalPageCount, boards } = data;
+      setTotalPages(totalPageCount || 1);
+      setBoards((boardState) => ({ ...boardState, items: boards }));
+    }
+  }, [currentPage, limit, setTotalPages]);
   useEffect(() => {
-    const fetchBoards = async () => {
-      const { data } = await getMyBoards({
-        page: page.current,
-        limit: 8,
-        setLoading: setBoardsLoading,
-      });
-      if (!!data) {
-        const { totalPageCount, boards } = data;
-        setPage((pageState) => ({ ...pageState, total: totalPageCount || 0 }));
-        setBoards((boardState) => ({ ...boardState, items: boards }));
-      }
-    };
     fetchBoards();
     return () => {};
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page.current]);
+  }, [fetchBoards]);
 
   useEffect(() => {
     const fetchPinnedBoards = async () => {
@@ -119,10 +123,6 @@ const DashboardPage: React.FC = () => {
     else unpinBoard(boardId);
   };
 
-  const changePage = (pageNumber: number) => {
-    setPage((pageState) => ({ ...pageState, current: pageNumber }));
-  };
-
   return (
     <ContainerBox className="board-dashboard">
       {pinnedBoards.items.length > 0 && (
@@ -159,8 +159,8 @@ const DashboardPage: React.FC = () => {
           className="board-dashboard__main"
           boards={boards.items}
           removeBoard={removeBoard}
-          changePage={changePage}
-          page={page}
+          changePage={setCurrentPage}
+          page={{ current: currentPage, total: totalPages }}
           togglePinBoard={togglePinBoardHandler}
           noBoardsMessage="you are not a part of any board"
         />
