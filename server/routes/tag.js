@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 const passport = require("passport");
 const TagContorller = require("../controllers/http/TagContorller");
-const { isBoardMember, isBoardAdmin } = require("../middleware/boardMiddleware");
+const MembersRepository = require("../repositories/MembersRepository");
+
+const { isBoardMember, isBoardAdmin } = boardMiddleware({ MembersRepository });
 
 const authJWT = passport.authenticate("jwt", { session: false });
 

@@ -1,7 +1,10 @@
 const express = require("express");
 const passport = require("passport");
 const ColumnContorller = require("../controllers/http/ColumnContorller");
-const { isBoardMember, isBoardAdmin } = require("../middleware/boardMiddleware")
+const boardMiddleware = require("../middleware/boardMiddleware");
+const MembersRepository = require("../repositories/MembersRepository");
+
+const { isBoardMember, isBoardAdmin } = boardMiddleware({ MembersRepository });
 
 const router = express.Router({ mergeParams: true });
 const authJWT = passport.authenticate("jwt", { session: false });

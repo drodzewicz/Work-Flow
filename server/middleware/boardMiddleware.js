@@ -1,11 +1,10 @@
 const MembersService = require("../services/MembersService");
 const errorHandler = require("../error/errorHandler");
-const MembersRepository = require("../repositories/MembersRepository");
 
-const membersService = MembersService({ MembersRepository });
+module.exports = function ({ MembersRepository }) {
+  const membersService = MembersService({ MembersRepository });
 
-module.exports = {
-  isBoardAuthor: async function (req, res, next) {
+  async function isBoardAuthor(req, res, next) {
     const { boardId } = req.params;
     const { id } = req.user;
     try {
@@ -18,8 +17,9 @@ module.exports = {
       const { status, message } = errorHandler(error);
       return res.status(status || 400).json({ message });
     }
-  },
-  isBoardMember: async function (req, res, next) {
+  }
+
+  async function isBoardMember(req, res, next) {
     const { boardId } = req.params;
     const { id } = req.user;
     try {
@@ -29,8 +29,9 @@ module.exports = {
       return res.status(status || 400).json({ message });
     }
     return next();
-  },
-  isBoardAdmin: async function (req, res, next) {
+  }
+
+  async function isBoardAdmin(req, res, next) {
     const { boardId } = req.params;
     const { id } = req.user;
     try {
@@ -43,5 +44,11 @@ module.exports = {
       const { status, message } = errorHandler(error);
       return res.status(status || 400).json({ message });
     }
-  },
+  }
+
+  return {
+    isBoardAuthor,
+    isBoardMember,
+    isBoardAdmin,
+  };
 };
