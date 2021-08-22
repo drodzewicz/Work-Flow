@@ -30,10 +30,10 @@ jobs:
       run: |
           npm ci
           npm run build --if-present
-      - name: npm ci server
+    - name: npm ci server
       working-directory: server
       run: npm ci
-      - name: test server
+    - name: test server
       working-directory: server
       run: npm run test
       
