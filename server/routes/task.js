@@ -1,14 +1,13 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const passport = require("passport");
-
-const { getTaskbyId, updateTask } = require("../controllers/http/task");
+const TaskController = require("../controllers/http/TaskController");
 
 const authJWT = passport.authenticate("jwt", { session: false });
 
 router.route("/:taskId")
-    .get(authJWT, getTaskbyId)
-    .post(authJWT, updateTask)
+  .get(authJWT, TaskController.getTask)
+  .post(authJWT, TaskController.updateTask);
 
 
 module.exports = router;

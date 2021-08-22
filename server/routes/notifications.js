@@ -1,15 +1,15 @@
 const express = require("express");
-const router = express.Router({ mergeParams: true });
 const passport = require("passport");
-
-const { getMyNotifications, removeNotification } = require("../controllers/http/notification");
+const NotificationController = require("../controllers/http/NotificationController");
 
 const authJWT = passport.authenticate("jwt", { session: false });
+const router = express.Router({ mergeParams: true });
 
 router.route("/")
-    .get(authJWT, getMyNotifications)
+  .get(authJWT, NotificationController.getLoggedInUserNotifications);
 
-router.route("/:notificationId")
-    .delete(authJWT, removeNotification)
+router
+  .route("/:notificationId")
+  .delete(authJWT, NotificationController.removeLoggedInUserNotification);
 
 module.exports = router;

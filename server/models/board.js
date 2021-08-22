@@ -1,4 +1,6 @@
-const mongoose = require("../configs/mongoose");
+const mongoose = require("mongoose");
+const makeModel = require("./modelFactory");
+
 const Schema = mongoose.Schema;
 
 const boardSchema = new Schema({
@@ -53,4 +55,4 @@ const boardSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Board", boardSchema);
+module.exports = makeModel("Board", boardSchema);

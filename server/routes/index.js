@@ -17,8 +17,11 @@ module.exports = (app) => {
     .use("/api/user", userRoutes)
     .use("/api/notification", notificationRoute)
     .use("/api/board", boardRoutes)
-    .use("/api/board", membersRoute)
+    .use("/api/board/:boardId/members", membersRoute)
     .use("/api/board/:boardId/tag", tagRoutes)
     .use("/api/board/:boardId/column", columnRoutes)
     .use("/api/board/:boardId/task", taskRoutes);
+  
 };
+
+

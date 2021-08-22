@@ -1,28 +1,22 @@
 const express = require("express");
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 const passport = require("passport");
+const MembersController = require("../controllers/http/MembersController");
+const boardMiddleware = require("../middleware/boardMiddleware");
+const MembersRepository = require("../repositories/MembersRepository");
 
-const {
-  changeUserRole,
-  getBoardMembers,
-  getBoardMember,
-  addNewUser,
-  removeUserFromBoard,
-} = require("../controllers/http/members");
-
-const { isBoardMember, isBoardAdmin } = require("../middleware/boardMiddleware")
+const { isBoardAdmin, isBoardMember } = boardMiddleware({ MembersRepository });
 
 const authJWT = passport.authenticate("jwt", { session: false });
 
+router.route("/")
+  .get(authJWT, isBoardMember, MembersController.getBoardMembers)
+  .patch(authJWT, isBoardAdmin, MembersController.addUserToBoard);
 
-router.route("/:boardId/members")
-    .get(authJWT, isBoardMember, getBoardMembers)
-    .patch(authJWT, isBoardAdmin, addNewUser)
-
-router.route("/:boardId/members/:userId")
-    .patch(authJWT, isBoardAdmin, changeUserRole)
-    .get(authJWT, isBoardMember, getBoardMember)
-    .delete(authJWT, isBoardAdmin, removeUserFromBoard);
+router.route("/:userId")
+  .patch(authJWT, isBoardAdmin, MembersController.changeUserRole)
+  .get(authJWT, isBoardMember, MembersController.getBoardMember)
+  .delete(authJWT, isBoardAdmin, MembersController.removeUserFromBoard);
 
 
 module.exports = router;

@@ -1,21 +1,20 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const passport = require("passport");
+const TagContorller = require("../controllers/http/TagContorller");
+const MembersRepository = require("../repositories/MembersRepository");
+const boardMiddleware = require("../middleware/boardMiddleware");
 
-const { createNewTag, deleteTag, getBoardTags, updateTag } = require("../controllers/http/tag");
-
-const { isBoardMember, isBoardAdmin } = require("../middleware/boardMiddleware");
+const { isBoardMember, isBoardAdmin } = boardMiddleware({ MembersRepository });
 
 const authJWT = passport.authenticate("jwt", { session: false });
 
-router
-  .route("/")
-  .get(authJWT, isBoardMember, getBoardTags)
-  .post(authJWT, isBoardAdmin, createNewTag);
+router.route("/")
+  .get(authJWT, isBoardMember, TagContorller.getBoardTags)
+  .post(authJWT, isBoardAdmin, TagContorller.createNewBoardTag);
 
-router
-  .route("/:tagId")
-  .delete(authJWT, isBoardAdmin, deleteTag)
-  .post(authJWT, isBoardAdmin, updateTag);
+router.route("/:tagId")
+  .delete(authJWT, isBoardAdmin, TagContorller.deleteBoardTag)
+  .post(authJWT, isBoardAdmin, TagContorller.updateTag);
 
 module.exports = router;

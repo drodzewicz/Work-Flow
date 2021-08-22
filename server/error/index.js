@@ -1,11 +1,11 @@
 const AuthError = require("./AuthError");
+const RequiredFieldError = require("./RequiredFieldError");
 const ResponseError = require("./ResponseError");
-const PayloadValueError = require("./PayloadValueError");
 
 const error = {};
 
 error.AuthError = AuthError;
+error.RequiredFieldError = RequiredFieldError;
 error.ResponseError = ResponseError;
-error.PayloadValueError = PayloadValueError;
 
 module.exports = error;

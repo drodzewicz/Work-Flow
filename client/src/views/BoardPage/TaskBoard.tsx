@@ -31,6 +31,7 @@ const TaskBoard: React.FC<{ boardId: string }> = ({ boardId }) => {
       });
     };
     const moveSocketColumn = (moveResponse: any) => {
+      console.log(moveResponse);
       tasksDispatch({
         type: TasksActionType.MOVE_COLUMN,
         payload: {
@@ -40,32 +41,32 @@ const TaskBoard: React.FC<{ boardId: string }> = ({ boardId }) => {
       });
     };
     const createTask = (data: any) => {
-      const { success, task } = data;
-      if (success) {
+      const { error, task, columnIndex } = data;
+      if (!error) {
         tasksDispatch({
           type: TasksActionType.CREATE_TASK,
           payload: {
-            columnIndex: task.columnIndex,
+            columnIndex,
             task,
           },
         });
       }
     };
     const deleteTask = (data: any) => {
-      const { success, index } = data;
-      if (success) {
+      const { error, columnIndex, taskIndex } = data;
+      if (!error) {
         tasksDispatch({
           type: TasksActionType.DELETE_TASK,
           payload: {
-            columnIndex: index.col,
-            taskIndex: index.task,
+            columnIndex,
+            taskIndex,
           },
         });
       }
     };
     const moveTask = (data: any) => {
-      const { success, source, destination } = data;
-      if (success) {
+      const { error, source, destination } = data;
+      if (!error) {
         tasksDispatch({
           type: TasksActionType.MOVE_TASK,
           payload: {
