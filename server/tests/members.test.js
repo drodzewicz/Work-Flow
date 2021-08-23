@@ -22,9 +22,9 @@ describe("TAG", () => {
     const boardId = "board_id";
 
     it("should return all board members", async () => {
-      const boardMembers = await membersService.getBoardMembers(boardId);
+      const { members } = await membersService.getBoardMembers(boardId);
       expect(MembersRepository.getMembers).toHaveBeenCalledWith(boardId);
-      expect(boardMembers.length).toBe(mockDatabase.members.length);
+      expect(members.length).toBe(mockDatabase.members.length);
     });
 
     it("should return a paginated board members list", async () => {
@@ -37,7 +37,7 @@ describe("TAG", () => {
     it("should return only members that match a given username", async () => {
       const username = "match";
 
-      const members = await membersService.getBoardMembers(boardId, null, username);
+      const { members } = await membersService.getBoardMembers(boardId, null, username);
       expect(members.length).toBe(2);
       members.forEach(({ user }) => {
         expect(user.username).toMatch(username);

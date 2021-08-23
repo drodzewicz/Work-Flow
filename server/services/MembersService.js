@@ -15,7 +15,7 @@ module.exports = ({ MembersRepository, BoardRepository, NotificationRepository }
       const { items, next, prev, totalPageCount } = paginateContent(boardMembers, page, limit);
       return { members: items, next, prev, totalPageCount };
     }
-    return boardMembers;
+    return { members: boardMembers };
   }
   async function getBoardMember(boardId, userId) {
     const boardMembers = await MembersRepository.getMembers(boardId);

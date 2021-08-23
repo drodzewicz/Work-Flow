@@ -51,6 +51,8 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
     if (status?.submitStatus === "SUCCESS") {
       modalDispatch({ type: ModalActionType.CLOSE });
       alertDispatch({ type: AlertActionType.SUCCESS, payload: { message: status.message } });
+    } else if(status?.submitStatus === "ERROR") {
+      alertDispatch({ type: AlertActionType.ERROR, payload: { message: status.message } });
     }
     return () => {};
   }, [status, modalDispatch, alertDispatch]);
