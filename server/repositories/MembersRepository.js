@@ -1,12 +1,13 @@
 const Board = require("../models/board");
 
 module.exports = {
-  getMembers: async (boardId) => {
+  getMembers: async (boardId, fields) => {
+    fields = fields || "_id username avatarImageURL";
     const { members } = await Board.findOne({ _id: boardId }, "members").populate({
       path: "members",
       populate: {
         path: "user",
-        select: "_id username avatarImageURL",
+        select: fields,
       },
     });
     return members;

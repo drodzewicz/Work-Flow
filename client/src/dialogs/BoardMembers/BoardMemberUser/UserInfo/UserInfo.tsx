@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useEffect, useState } from "react";
+import React, { forwardRef, useRef, useEffect, useState, useCallback } from "react";
 import { matchPath, useLocation } from "react-router-dom";
 import { UserInfoProps } from ".";
 import "./UserInfo.scss";
@@ -17,6 +17,7 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
       path: "/board/:boardId",
       exact: true,
     });
+    const boardId = match?.params?.boardId || "";
     const [user, setUser] = useState<BoardUserFullI>({
       role: UserBoardRoles.REGULAR,
       user: {
@@ -31,33 +32,26 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
     const rolesAnchor = useRef<HTMLButtonElement>(null);
     const isMounted = useRef<boolean>(false);
 
-    useEffect(() => {
-      isMounted.current = true;
-      return () => {
-        isMounted.current = false;
-      };
-    }, []);
-
     const setLoadingMounted = (state: boolean) => {
       if (isMounted.current === true) setLoading(state);
     };
 
-    useEffect(() => {
-      const getBoardUserInfo = async () => {
-        if (!match?.params) return;
-        const { boardId } = match.params;
-        const { data } = await getBoardMember({ boardId, userId, setLoading: setLoadingMounted });
+    const getBoardUserInfo = useCallback(async () => {
+      const { data } = await getBoardMember({ boardId, userId, setLoading: setLoadingMounted });
+      if (data && isMounted.current) {
+        const { member } = data;
+        setUser(member);
+      }
+    }, [boardId, userId]);
 
-        if (!!data && isMounted.current) {
-          const { member } = data;
-          setUser(member);
-        }
-      };
+    useEffect(() => {
+      isMounted.current = true;
       getBoardUserInfo();
 
-      return () => {};
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userId]);
+      return () => {
+        isMounted.current = false;
+      };
+    }, [getBoardUserInfo]);
 
     const roleIcon = (role: UserBoardRoles) => {
       switch (role) {
@@ -111,6 +105,13 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
       return currentRole === UserBoardRoles.OWNER || currentRole === UserBoardRoles.ADMIN;
     };
 
+    const kickUserHandler = () => {
+      const shouldKickUser = window.confirm(`are you sure you want to kick ${user.user.username}?`);
+      if (shouldKickUser) {
+        removeUser(userId);
+      }
+    };
+
     return (
       <div ref={ref} className="user-info">
         <header>
@@ -127,15 +128,13 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
           </p>
         </div>
         <div className="user-info__control-btn">
-          <Button
-            disabled={user.role === UserBoardRoles.OWNER || isLoading}
-            ref={rolesAnchor}>
+          <Button disabled={user.role === UserBoardRoles.OWNER || isLoading} ref={rolesAnchor}>
             {roleIcon(user.role)}
           </Button>
           <DropdownMenu offset={{ x: -125, y: 0 }} anchorEl={rolesAnchor} className="role-options">
             {availableRoles()}
           </DropdownMenu>
-          <Button disabled={isLoading || !isAuthorizedAdmin()} onClick={() => removeUser(userId)}>
+          <Button disabled={isLoading || !isAuthorizedAdmin()} onClick={kickUserHandler}>
             <FaUserSlash />
             kick
           </Button>
