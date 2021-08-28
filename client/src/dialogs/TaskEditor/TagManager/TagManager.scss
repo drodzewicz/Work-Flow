@@ -10,7 +10,8 @@ $colors: (
   "majenta" $tag-majenta black,
   "pink" $tag-pink black,
   "black" $tag-black white,
-  "white" $tag-white black
+  "white" $tag-white black,
+  "blue" $tag-blue white
 );
 
 .tag-manager {
@@ -20,7 +21,6 @@ $colors: (
   &__item {
     all: unset;
     height: 2rem;
-    background-color: rgb(218, 143, 143);
     padding: 0.56rem 0.4rem;
     font-weight: bold;
     margin: 1px;
