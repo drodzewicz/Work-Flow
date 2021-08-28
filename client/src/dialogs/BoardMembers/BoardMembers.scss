@@ -8,7 +8,7 @@
     flex-direction: column;
     gap: 0.1rem;
     &.loading-overlay {
-      height: 60vh;
+      min-height: 40vh;
     }
   }
 }
