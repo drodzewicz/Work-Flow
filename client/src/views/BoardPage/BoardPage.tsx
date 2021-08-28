@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef, useCallback } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import "./BoardPage.scss";
 import "./BoardPage-dark.scss";
@@ -20,7 +20,7 @@ import { useHistory } from "react-router-dom";
 import queryString from "query-string";
 import { BoardPageProps } from ".";
 import { UserBoardRoles } from "types/general";
-
+import axios, { CancelTokenSource } from "axios";
 import { ws } from "config/socket.conf";
 
 const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
@@ -35,6 +35,8 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
   });
   const { tasksState, tasksDispatch } = useContext(TaskContext);
   const [isTaskLoading, setTaskLoading] = useState<boolean>(false);
+  const watingTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const source = useRef<CancelTokenSource | null>(null);
   const { modalDispatch } = useContext(ModalContext);
   const {
     userState: { user, currentBoard },
@@ -42,60 +44,70 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
   } = useContext(UserContext);
 
   const history = useHistory();
+  const query = queryString.parse(location.search);
+
+  const getLoggedInUserRole = useCallback(async () => {
+    const { data, status } = await getLoggedInUserBoardRole({
+      boardId,
+      userId: user._id,
+      cancelToken: source.current?.token,
+    });
+    if (status === 200) {
+      ws.emit("joinBoardRoom", { room: boardId });
+      if (!!data) {
+        const { member } = data;
+        userDispatch({
+          type: UserActionType.ROLE,
+          payload: { role: member.role, boardId },
+        });
+      }
+    }
+  }, [boardId, user, userDispatch]);
+
+  const getBoardTasks = useCallback(async () => {
+    const { data, status } = await getBoard({
+      boardId,
+      setLoading: setTaskLoading,
+      cancelToken: source.current?.token,
+    });
+    if (!!data) {
+      const { columns, name, description } = data;
+      tasksDispatch({ type: TasksActionType.SET_TASKS, payload: { columns } });
+      setBoardInfo({ name, description });
+    } else {
+      history.replace(`/error/${status}`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [boardId, tasksDispatch]);
 
   useEffect(() => {
-    let _isMounted = true;
-    let waitingTimout: ReturnType<typeof setTimeout> | null = null;
-    const query = queryString.parse(location.search);
+    source.current = axios.CancelToken.source();
 
-    const openTask = () => {
+    const openTaskOnInit = () => {
       modalDispatch({
         type: ModalActionType.OPEN,
         payload: {
           render: <TaskDisplay taskId={query.task as string} />,
           title: "Task Details",
-          size: "l"
+          size: "l",
         },
       });
     };
+
     if (!!query && !!query.task) {
-      waitingTimout = setTimeout(openTask, 1000);
+      watingTimeout.current = setTimeout(openTaskOnInit, 1000);
     }
 
-    const getLoggedInUserRole = async () => {
-      const { data, status } = await getLoggedInUserBoardRole({ boardId, userId: user._id });
-      if (_isMounted && status === 200) {
-        ws.emit("joinBoardRoom", { room: boardId });
-        if (!!data) {
-          const { member } = data;
-          userDispatch({
-            type: UserActionType.ROLE,
-            payload: { role: member.role, boardId },
-          });
-        }
-      }
-    };
-
-    const getBoardTaskss = async () => {
-      const { data, status } = await getBoard({ boardId, setLoading: setTaskLoading });
-      if (!!data) {
-        const { columns, name, description } = data;
-        tasksDispatch({ type: TasksActionType.SET_TASKS, payload: { columns } });
-        setBoardInfo({ name, description });
-      } else {
-        history.replace(`/error/${status}`);
-      }
-    };
-    getBoardTaskss();
+    getBoardTasks();
     !!user && getLoggedInUserRole();
 
     return () => {
-      if (waitingTimout) clearTimeout(waitingTimout);
+      if (watingTimeout.current) clearTimeout(watingTimeout.current);
       ws.emit("leaveBoardRoom", { room: boardId });
-      _isMounted = false;
+      source.current?.cancel();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, boardId, userDispatch, history, modalDispatch, tasksDispatch]);
+  }, [boardId, user, getLoggedInUserRole, getBoardTasks, modalDispatch]);
 
   const openBoardMembersModal = () => {
     modalDispatch({

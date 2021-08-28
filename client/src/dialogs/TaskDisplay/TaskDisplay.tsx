@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import "./TaskDisplay.scss";
 import User from "components/board/User";
@@ -15,6 +15,7 @@ import LoadingOverlay from "components/layout/LoadingOverlay";
 import { TaskDisplayProps } from ".";
 import { TaskI } from "types/general";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import axios, { CancelTokenSource } from "axios";
 
 const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
   const { modalDispatch } = useContext(ModalContext);
@@ -24,6 +25,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
   } = useContext(UserContext);
 
   const history = useHistory();
+  const source = useRef<CancelTokenSource | null>(null);
 
   const [taskDetails, setTaskDetails] = useState<TaskI>({
     _id: "",
@@ -40,14 +42,24 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
   const [isTaskLoading, setTaskLoading] = useState(true);
 
   useEffect(() => {
-    let _isMounted = true;
+    source.current = axios.CancelToken.source();
+    return () => {
+      source.current?.cancel();
+    };
+  }, []);
+
+  useEffect(() => {
     const getTaskInfo = async () => {
-      const { data, status } = await getBoardTask({ boardId: currentBoard?.id || "", taskId });
-      if (_isMounted) setTaskLoading(false);
+      const { data, status } = await getBoardTask({
+        boardId: currentBoard?.id || "",
+        taskId,
+        setLoading: setTaskLoading,
+        cancelToken: source.current?.token,
+      });
       if (status === 400) {
         alertDispatch({ type: AlertActionType.WARNING, payload: { message: "Task not found" } });
         modalDispatch({ type: ModalActionType.CLOSE });
-      } else if (!!data && _isMounted) {
+      } else if (!!data) {
         history.push({
           search: `?task=${taskId}`,
         });
@@ -60,7 +72,6 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
       history.push({
         search: "",
       });
-      _isMounted = false;
     };
   }, [currentBoard, taskId, history, modalDispatch, alertDispatch]);
 
