@@ -51,7 +51,7 @@ async function callAPI<T>({
   !!setLoading && setLoading(true);
 
   const queryString = parseQueryString(query);
-
+  
   try {
     const res = await axios({
       method,

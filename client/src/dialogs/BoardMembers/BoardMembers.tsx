@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useCallback } from "react";
+import React, { useState, useContext, useEffect, useCallback, useRef } from "react";
 import { UserContext } from "context/UserContext";
 import SearchInput from "components/general/SearchInput";
 import BoardMemberUser from "./BoardMemberUser/BoardMemberUser";
@@ -15,13 +15,15 @@ import {
 } from "service";
 import { BoardUserI } from "types/general";
 import { usePagination } from "Hooks/usePagination";
-
+import axios, { CancelTokenSource } from "axios";
 import LoadingOverlay from "components/layout/LoadingOverlay";
 
 const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
   const [isPageLoading, setPageLoading] = useState(true);
   const [searchRes, setSearchRes] = useState<SearchedUser[]>([]);
   const [members, setMembers] = useState<BoardUserI[]>([]);
+  const source = useRef<CancelTokenSource | null>(null);
+
   const {
     userState: { currentBoard },
   } = useContext(UserContext);
@@ -31,9 +33,13 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
   });
 
   const fetchBoardMembers = useCallback(async () => {
-    setPageLoading(true);
-    const { data } = await getBoardMembers({ boardId, limit, page: currentPage });
-    setPageLoading(false);
+    const { data } = await getBoardMembers({
+      boardId,
+      limit,
+      page: currentPage,
+      cancelToken: source.current?.token,
+      setLoading: setPageLoading
+    });
 
     if (!!data) {
       const { members, totalPageCount } = data;
@@ -43,8 +49,11 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
   }, [boardId, limit, currentPage, setTotalPages]);
 
   useEffect(() => {
+    source.current = axios.CancelToken.source();
     fetchBoardMembers();
-    return () => {};
+    return () => {
+      source.current?.cancel();
+    };
   }, [fetchBoardMembers]);
 
   const dynamicSearchHandler = async (username: string) => {

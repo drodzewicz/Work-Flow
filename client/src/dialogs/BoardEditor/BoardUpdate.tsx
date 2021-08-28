@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import BoardEditorForm from "./BoardEditorForm";
 import { withFormik } from "formik";
 import { validationSchema, BoardEditorProps, FormValues } from ".";
 import { FormikProps } from "formik";
 import LoadingOverlay from "components/layout/LoadingOverlay";
 import { updateBoard, getBoard } from "service";
+import axios, { CancelTokenSource } from "axios";
 
 const BoardUpdate: React.FC<BoardEditorProps & FormikProps<FormValues>> = (props) => {
   return <BoardEditorForm {...props} submitType="Update" />;
@@ -39,11 +40,18 @@ const BoardUpdateWrapper: React.FC<BoardEditorProps> = (props) => {
     name: "",
     description: "",
   });
+  const source = useRef<CancelTokenSource | null>(null);
 
   useEffect(() => {
+    source.current = axios.CancelToken.source();
+
     const getBoardInfo = async () => {
       setLoadingBoardInfo(true);
-      const { data } = await getBoard({ boardId: props.boardId as string, short: true });
+      const { data } = await getBoard({
+        boardId: props.boardId as string,
+        short: true,
+        cancelToken: source.current?.token,
+      });
       if (!!data) {
         const { name, description } = data;
         setInitialVals({ name, description });
@@ -51,11 +59,13 @@ const BoardUpdateWrapper: React.FC<BoardEditorProps> = (props) => {
       }
     };
     getBoardInfo();
-    return () => {};
+    return () => {
+      source.current?.cancel();
+    };
   }, [props.boardId]);
 
   return (
-    <LoadingOverlay show={loadingBoardInfo} opacity={0}>
+    <LoadingOverlay show={loadingBoardInfo} opacity={0} className="board-editor">
       <BoardUpdateWithFormik {...props} initialValues={initialVals} />
     </LoadingOverlay>
   );

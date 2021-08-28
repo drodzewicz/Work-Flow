@@ -23,15 +23,18 @@
 .standard {
   @extend %btn;
   color: #222222;
+  stroke: #222222;
   background: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 
   &:hover {
     background: $white-1;
     color: #3d3d3d;
+    stroke: #3d3d3d;
   }
   &:disabled {
     box-shadow: none;
+    stroke: #c5c5c5;
     color: #c5c5c5;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
   }
@@ -56,6 +59,7 @@
     color: white;
     &:hover {
       color: white;
+      stroke: white;
     }
   }
 }
