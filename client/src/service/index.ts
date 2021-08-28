@@ -5,3 +5,4 @@ export * from "./boardTag";
 export * from "./task";
 export * from "./column";
 export * from "./notification";
+export * from "./utils/fetchData";

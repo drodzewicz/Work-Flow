@@ -9,6 +9,7 @@ import Button from "components/general/Button";
 import DropdownMenu from "components/general/DropdownMenu";
 import DropdownMenuItem from "components/general/DropdownMenu/DropdownMenuItem";
 import { FaShieldAlt, FaUserAlt, FaRegAddressCard, FaCrown, FaUserSlash } from "react-icons/fa";
+import axios, { CancelTokenSource } from "axios";
 
 const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
   ({ userId, currentRole, removeUser, changeUserRole }, ref) => {
@@ -30,26 +31,29 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
     });
     const [isLoading, setLoading] = useState<boolean>(true);
     const rolesAnchor = useRef<HTMLButtonElement>(null);
-    const isMounted = useRef<boolean>(false);
-
-    const setLoadingMounted = (state: boolean) => {
-      if (isMounted.current === true) setLoading(state);
-    };
+    const source = useRef<CancelTokenSource | null>(null);
 
     const getBoardUserInfo = useCallback(async () => {
-      const { data } = await getBoardMember({ boardId, userId, setLoading: setLoadingMounted });
-      if (data && isMounted.current) {
+
+      const { data } = await getBoardMember({
+        boardId,
+        userId,
+        setLoading,
+        cancelToken: source.current?.token,
+      });
+      if (data) {
         const { member } = data;
         setUser(member);
       }
     }, [boardId, userId]);
 
     useEffect(() => {
-      isMounted.current = true;
+      source.current = axios.CancelToken.source();
+
       getBoardUserInfo();
 
       return () => {
-        isMounted.current = false;
+        source.current?.cancel();
       };
     }, [getBoardUserInfo]);
 

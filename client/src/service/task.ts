@@ -10,12 +10,12 @@ import {
 import { getTaskResponse, GeneralResponse} from "types/service/response";
 
 // TASKS - GET
-export const getBoardTask = async ({ boardId, taskId, setLoading }: getBoardTaskParams) => {
+export const getBoardTask = async ({ boardId, taskId,  ...serviceProps }: getBoardTaskParams) => {
   return await callAPI<getTaskResponse>({
     method: "GET",
     url: `/board/${boardId}/task/${taskId}`,
     token: true,
-    setLoading,
+    ...serviceProps,
   });
 };
 
@@ -24,14 +24,14 @@ export const updateBoardTask = async ({
   boardId,
   taskId,
   payload,
-  setLoading,
+  ...serviceProps
 }: updateBoardTaskParams) => {
   return await callAPI<GeneralResponse>({
     method: "POST",
     url: `/board/${boardId}/task/${taskId}`,
     token: true,
-    setLoading,
     payload,
+    ...serviceProps
   });
 };
 
