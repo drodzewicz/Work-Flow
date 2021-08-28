@@ -18,7 +18,8 @@ module.exports = ({ MembersRepository, BoardRepository, NotificationRepository }
     return { members: boardMembers };
   }
   async function getBoardMember(boardId, userId) {
-    const boardMembers = await MembersRepository.getMembers(boardId);
+    const userFields = "_id username avatarImageURL name surnam email"
+    const boardMembers = await MembersRepository.getMembers(boardId, userFields);
     const member = boardMembers.find(
       ({ user }) => user._id.toLocaleString() === userId.toLocaleString()
     );
