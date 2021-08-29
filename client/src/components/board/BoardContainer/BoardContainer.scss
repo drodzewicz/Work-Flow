@@ -8,9 +8,6 @@
     gap: 1rem;
     margin-bottom: 1rem;
     width: 100%;
-    @include mq-2 {
-      grid-template-columns: repeat(3, 1fr);
-    }
     @include mq-1 {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -25,7 +22,7 @@
     color: $black-1;
   }
   &__loading.loading-overlay {
-    height: 70vh;
+    min-height: 20vh;
   }
 }
 

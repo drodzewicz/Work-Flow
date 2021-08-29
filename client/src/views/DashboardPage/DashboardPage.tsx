@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useCallback } from "react";
+import React, { useState, useContext, useEffect, useCallback, useRef } from "react";
 import "./DashboardPage.scss";
 import Button from "components/general/Button";
 import BoardCreate from "dialogs/BoardEditor/BoardCreate";
@@ -19,20 +19,14 @@ const DashboardPage: React.FC = () => {
     limit: 8,
   });
 
-  const [pinnedBoards, setPinnedBoards] = useState<{ items: BoardI[]; isLoading: boolean }>({
-    items: [],
-    isLoading: false,
-  });
+  const [pinnedBoards, setPinnedBoards] = useState<BoardI[]>([]);
 
   const [boards, setBoards] = useState<{ items: BoardI[]; isLoading: boolean }>({
     items: [],
     isLoading: false,
   });
+  const isFirstBoardLoaded = useRef<boolean>(true);
   const { modalDispatch } = useContext(ModalContext);
-
-  const setPinnedBoardLoading = (loadingState: boolean) => {
-    setPinnedBoards((prevState) => ({ ...prevState, isLoading: loadingState }));
-  };
 
   const setBoardsLoading = (loadingState: boolean) => {
     setBoards((prevState) => ({ ...prevState, isLoading: loadingState }));
@@ -48,7 +42,11 @@ const DashboardPage: React.FC = () => {
       setTotalPages(totalPageCount || 1);
       setBoards((boardState) => ({ ...boardState, items: boards }));
     }
+    if (isFirstBoardLoaded.current === true) {
+      isFirstBoardLoaded.current = false;
+    }
   }, [currentPage, limit, setTotalPages]);
+
   useEffect(() => {
     fetchBoards();
     return () => {};
@@ -56,10 +54,10 @@ const DashboardPage: React.FC = () => {
 
   useEffect(() => {
     const fetchPinnedBoards = async () => {
-      const { data } = await getPinnedBoards({ setLoading: setPinnedBoardLoading });
+      const { data } = await getPinnedBoards();
       if (!!data) {
         const { boards } = data;
-        setPinnedBoards((prevState) => ({ ...prevState, items: boards }));
+        setPinnedBoards(boards);
       }
     };
     fetchPinnedBoards();
@@ -76,24 +74,18 @@ const DashboardPage: React.FC = () => {
     });
   };
 
-  const removeBoard = (boardId: string) => {
-    setBoards((boards) => ({
-      ...boards,
-      items: boards.items.filter(({ _id }) => _id !== boardId),
-    }));
+  const removeBoard = async (boardId: string) => {
+    await fetchBoards();
 
-    setPinnedBoards((boards) => ({
-      ...boards,
-      items: boards.items.filter(({ _id }) => _id !== boardId),
-    }));
+    setPinnedBoards((boards) => boards.filter(({ _id }) => _id !== boardId));
   };
 
   const pinBoard = (boardId: string) => {
     const boardIndex = boards.items.findIndex(({ _id }) => _id === boardId);
     setPinnedBoards((pinnedBoards) => {
-      const tempPinnedBoards = [...pinnedBoards.items];
+      const tempPinnedBoards = [...pinnedBoards];
       tempPinnedBoards.push(boards.items[boardIndex]);
-      return { ...pinnedBoards, items: tempPinnedBoards };
+      return tempPinnedBoards;
     });
     setBoards((boards) => {
       const modifiedBoards = [...boards.items];
@@ -103,10 +95,7 @@ const DashboardPage: React.FC = () => {
   };
 
   const unpinBoard = (boardId: string) => {
-    setPinnedBoards((boards) => ({
-      ...boards,
-      items: boards.items.filter(({ _id }) => _id !== boardId),
-    }));
+    setPinnedBoards((boards) => boards.filter(({ _id }) => _id !== boardId));
     setBoards((boards) => {
       const modifiedBoards = boards.items.map((board) => ({
         ...board,
@@ -125,25 +114,25 @@ const DashboardPage: React.FC = () => {
 
   return (
     <ContainerBox className="board-dashboard">
-      {pinnedBoards.items.length > 0 && (
-        <LoadingOverlay show={pinnedBoards.isLoading} opacity={0}>
+      {pinnedBoards.length > 0 && (
+        <div>
           <h1 className="pinned-board-container-title">
             <Pined className="pinned-board-container-title__icon" /> Pinned
           </h1>
           <hr className="break-line" />
           <BoardContainer
             className="board-dashboard__pinned"
-            boards={pinnedBoards.items}
+            boards={pinnedBoards}
             removeBoard={removeBoard}
             togglePinBoard={togglePinBoardHandler}
             noBoardsMessage="you have no pinned boards"
           />
-        </LoadingOverlay>
+        </div>
       )}
       <div className="board-container">
         <LoadingOverlay
           color={{ light: "245, 249, 249", dark: "51, 54, 55" }}
-          opacity={0.7}
+          opacity={isFirstBoardLoaded.current ? 1 : 0.7}
           className="board-container__loading"
           show={boards.isLoading}
         />
