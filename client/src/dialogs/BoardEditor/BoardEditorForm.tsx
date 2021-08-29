@@ -30,12 +30,14 @@ const BoardEditorForm: React.FC<BoardEditorFormProps & FormikProps<FormValues>> 
         name="name"
         className="board-editor__field__name"
         error={errors["name"]}
+        disabled={isSubmitting}
         as={TextField}
       />
       <Field
         name="description"
         className="board-editor__field__description"
         error={errors["description"]}
+        disabled={isSubmitting}
         as={TextAreaField}
       />
       <Button

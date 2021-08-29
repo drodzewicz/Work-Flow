@@ -15,4 +15,7 @@
       margin: 0 auto;
       min-width: 8rem;
   }
+  &.loading-overlay {
+    min-height: 50vh;
+  }
 }

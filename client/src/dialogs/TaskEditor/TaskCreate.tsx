@@ -22,14 +22,16 @@ const TaskCreateWrapper = withFormik<TaskCreateProps, FormValues>({
     };
   },
   validationSchema: validationSchema,
-  handleSubmit: async (submittedData, { setStatus, props }) => {
+  handleSubmit: async (submittedData, { setStatus, setSubmitting, props }) => {
     const { boardId, columnId } = props;
+    setSubmitting(true);
     createTask({
       boardId,
       columnId,
       payload: submittedData,
       res: (res) => {
         const { error } = res;
+        setSubmitting(false);
         if (!error) {
           setStatus({
             submitStatus: "SUCCESS",

@@ -14,23 +14,23 @@ import {
 
 // TAGS - GET
 
-export const getBoardTags = async ({ boardId, setLoading }: getBoardTagsParams) => {
+export const getBoardTags = async ({ boardId,  ...serviceProps }: getBoardTagsParams) => {
   return await callAPI<getBoardTagsResponse>({
     method: "GET",
     url: `/board/${boardId}/tag/`,
     token: true,
-    setLoading,
+    ...serviceProps
   });
 };
 
 // TAG - POST
-export const createBoardTag = async ({ boardId, payload, setLoading }: createBoardTagParams) => {
+export const createBoardTag = async ({ boardId, payload,  ...serviceProps }: createBoardTagParams) => {
   return await callAPI<createBoardTagResponse>({
     method: "POST",
     url: `/board/${boardId}/tag`,
     token: true,
     payload,
-    setLoading,
+    ...serviceProps
   });
 };
 
@@ -39,23 +39,23 @@ export const updateBoardTag = async ({
   boardId,
   tagId,
   payload,
-  setLoading,
+  ...serviceProps
 }: updateBoardTagParams) => {
   return await callAPI<updateBoardTagsResponse>({
     method: "POST",
     url: `/board/${boardId}/tag/${tagId}`,
     token: true,
     payload,
-    setLoading,
+    ...serviceProps
   });
 };
 
 // TAG - DELETE
-export const deleteBoardTag = async ({ boardId, tagId, setLoading }: deleteBoardTagParams) => {
+export const deleteBoardTag = async ({ boardId, tagId,  ...serviceProps }: deleteBoardTagParams) => {
   return await callAPI<GeneralResponse>({
     method: "DELETE",
     url: `/board/${boardId}/tag/${tagId}`,
     token: true,
-    setLoading,
+    ...serviceProps
   });
 };

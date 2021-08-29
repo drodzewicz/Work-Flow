@@ -22,7 +22,7 @@ export const getBoardMembers = async ({
   limit,
   page,
   username,
-  setLoading,
+  ...serviceParams
 }: getBoardMembersParams) => {
   return await callAPI<getBoardMembersResponse>({
     method: "GET",
@@ -33,20 +33,20 @@ export const getBoardMembers = async ({
       username,
     },
     token: true,
-    setLoading,
+    ...serviceParams
   });
 };
 
 export const getBoardMember = async ({
   boardId,
   userId,
-  setLoading,
+  ...serviceParams
 }: getBoardMemberParams) => {
   return await callAPI<getBoardMemberResponse>({
     method: "GET",
     url: `/board/${boardId}/members/${userId}`,
     token: true,
-    setLoading,
+    ...serviceParams
   });
 };
 
@@ -54,23 +54,23 @@ export const getBoardMember = async ({
 export const removeUserFromBoard = async ({
   boardId,
   userId,
-  setLoading,
+  ...serviceParams
 }: removeUserFromBoardParams) => {
   return await callAPI<GeneralResponse>({
     method: "DELETE",
     url: `/board/${boardId}/members/${userId}`,
     token: true,
-    setLoading,
+    ...serviceParams
   });
 };
 
 // MEMBER - PATCH
-export const addUserToBoard = async ({ boardId, userId, setLoading }: addUserToBoardParams) => {
+export const addUserToBoard = async ({ boardId, userId,  ...serviceParams }: addUserToBoardParams) => {
   return await callAPI<GeneralResponse>({
     method: "PATCH",
     url: `/board/${boardId}/members?userId=${userId}`,
     token: true,
-    setLoading,
+    ...serviceParams
   });
 };
 
@@ -79,13 +79,13 @@ export const changeBoardUserRole = async ({
   boardId,
   userId,
   newRole,
-  setLoading,
+  ...serviceParams
 }: changeBoardUserRoleParams) => {
   return await callAPI<changeBoardUserRoleResponse>({
     method: "PATCH",
     url: `/board/${boardId}/members/${userId}?newRole=${newRole}`,
     token: true,
-    setLoading,
+    ...serviceParams
   });
 };
 
@@ -93,12 +93,12 @@ export const changeBoardUserRole = async ({
 export const getLoggedInUserBoardRole = async ({
   boardId,
   userId,
-  setLoading,
+  ...serviceParams
 }: getLoggedInUserBoardRoleParams) => {
   return await callAPI<getLoggedInUserBoardRoleResponse>({
     method: "GET",
     url: `/board/${boardId}/members/${userId}`,
     token: true,
-    setLoading,
+    ...serviceParams
   });
 };

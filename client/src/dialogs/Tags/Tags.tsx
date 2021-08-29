@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { TextField } from "components/general/TextInput";
 import Button from "components/general/Button";
 import { FaTrashAlt, FaCheck } from "react-icons/fa";
@@ -9,8 +9,10 @@ import LoadingOverlay from "components/layout/LoadingOverlay";
 import { UserContext } from "context/UserContext";
 import { TagsProps } from ".";
 import { TagI, TagColors, UserBoardRoles } from "types/general";
+import axios, { CancelTokenSource } from "axios";
 
 const Tags: React.FC<TagsProps> = ({ boardId }) => {
+  const source = useRef<CancelTokenSource | null>(null);
   const [selectedTag, setSelectedTag] = useState<{
     color: TagColors | "";
     name: string;
@@ -24,18 +26,22 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
   const [boardTags, setBoardTags] = useState<TagI[]>(
     Object.keys(TagColors).map((color) => ({ color: color as TagColors, name: "", _id: "" }))
   );
-  const [isTagLoading, setTagLoading] = useState<boolean>(true);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isTagLoading, setTagLoading] = useState<boolean>(false);
   const {
     userState: { currentBoard },
   } = useContext(UserContext);
 
   useEffect(() => {
-    let _isMounted = true;
+    source.current = axios.CancelToken.source();
 
     const setupBoardTags = async () => {
-      const { data } = await getBoardTags({ boardId });
-      if (_isMounted) setTagLoading(false);
-      if (!!data && _isMounted) {
+      const { data } = await getBoardTags({
+        boardId,
+        cancelToken: source.current?.token,
+        setLoading,
+      });
+      if (!!data) {
         setBoardTags((tags) => {
           return tags.map((tag) => {
             const foundTag = data.tags.find(({ color }) => color === tag.color);
@@ -47,7 +53,7 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
     };
     setupBoardTags();
     return () => {
-      _isMounted = false;
+      source.current?.cancel();
     };
   }, [boardId]);
 
@@ -59,12 +65,16 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
       res = await createBoardTag({
         boardId,
         payload: { color, name },
+        cancelToken: source.current?.token,
+        setLoading: setTagLoading,
       });
     } else {
       res = await updateBoardTag({
         boardId,
         tagId: _id,
         payload: { color, name },
+        cancelToken: source.current?.token,
+        setLoading: setTagLoading,
       });
     }
     if (!!res.data) {
@@ -117,7 +127,7 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
 
   return (
     <div className="tag-form">
-      <LoadingOverlay show={isTagLoading} opacity={0.75} />
+      <LoadingOverlay show={isLoading} opacity={0.75} />
       {isAuthorized() && (
         <div className="tag-form__controls">
           <TextField
@@ -130,10 +140,10 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
           />
           <Button
             className="tag-form__controls__btn"
-            disabled={!selectedTag.name || !selectedTag.color}
+            disabled={!(selectedTag.name && selectedTag.color) || isTagLoading}
             onClick={selectedTagHandler}>
-            <FaCheck />
-          </Button>
+              <FaCheck />
+            </Button>
           <Button className="tag-form__controls__btn" disabled={canDeleteTag()} onClick={deleteTag}>
             <FaTrashAlt />
           </Button>

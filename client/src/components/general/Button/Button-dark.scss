@@ -1,13 +1,16 @@
 @import "../../../assets/styles/colors";
 
 .theme-dark .standard{
+  stroke: white;
   color: white;
   background: $dark-1;
   &:hover {
     background: $dark-2;
+    stroke: $white-1;
     color: $white-1;
   }
   &:disabled {
+    stroke: $dark-3;
     color: $dark-3;
   }
 }

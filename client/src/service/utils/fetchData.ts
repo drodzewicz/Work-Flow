@@ -1,12 +1,12 @@
 import axios, { Method, AxiosResponse } from "axios";
+import { serviceParams } from "types/service/request/general";
 
-export interface callAPIParams {
+export interface callAPIParams extends serviceParams {
   url: string;
   method: Method;
   token?: boolean;
   payload?: any;
   query?: object;
-  setLoading: ((state: boolean) => void) | undefined;
 }
 
 function responseHandler<T>(response: AxiosResponse<T>) {
@@ -17,13 +17,13 @@ function responseHandler<T>(response: AxiosResponse<T>) {
   };
 }
 
-const errorHandler = (error: any) => {
+function errorHandler(error: any) {
   return {
     data: null,
     error: error.response?.data,
     status: error.response?.status,
   };
-};
+}
 
 const parseQueryString = (query?: object) => {
   let queryString = "";
@@ -37,19 +37,35 @@ const parseQueryString = (query?: object) => {
   return queryString;
 };
 
-async function callAPI<T>({ url, method, query, token, payload, setLoading }: callAPIParams) {
+async function callAPI<T>({
+  url,
+  method,
+  query,
+  token,
+  payload,
+  setLoading,
+  cancelToken,
+}: callAPIParams) {
   let headers = {};
   if (!!token) headers = { Authorization: localStorage.getItem("token") };
   !!setLoading && setLoading(true);
 
   const queryString = parseQueryString(query);
-
+  
   try {
-    const res = await axios({ method, url: `/api${url}${queryString}`, data: payload, headers });
+    const res = await axios({
+      method,
+      headers,
+      url: `/api${url}${queryString}`,
+      data: payload,
+      cancelToken,
+    });
     !!setLoading && setLoading(false);
     return responseHandler<T>(res);
   } catch (error) {
-    !!setLoading && setLoading(false);
+    if (!axios.isCancel(error)) {
+      !!setLoading && setLoading(false);
+    }
     return errorHandler(error);
   }
 }

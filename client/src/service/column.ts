@@ -10,7 +10,6 @@ import {
 import { GeneralResponse } from "types/service/response";
 
 // COLUMN - CREATE
-
 export const createColumn = ({ boardId, payload, res }: createColumnParams) => {
   emitWS({
     roomId: boardId,
@@ -36,20 +35,19 @@ export const deleteColumn = ({ boardId, payload, res }: deleteColumnParams) => {
 export const updateBoardColumn = async ({
   boardId,
   columnId,
-  setLoading,
   payload,
+  ...serviceProps
 }: updateBoardColumnParams) => {
   return await callAPI<GeneralResponse>({
     method: "PATCH",
     url: `/board/${boardId}/column/${columnId}`,
     token: true,
     payload,
-    setLoading,
+    ...serviceProps
   });
 };
 
 // COLUMN - MOVE
-
 export const moveColumn = ({ boardId, payload, res }: moveColumnParams) => {
   emitWS({
     roomId: boardId,

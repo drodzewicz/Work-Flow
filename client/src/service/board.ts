@@ -22,7 +22,7 @@ import {
 
 // MY BOARDS - GET
 export const getMyBoards = async (
-  { page, limit, setLoading }: getMyBoardsParams = { page: 1, limit: 8 }
+  { page, limit,  ...serviceProps }: getMyBoardsParams = { page: 1, limit: 8 }
 ) => {
   return await callAPI<getMyBoardsResponse>({
     method: "GET",
@@ -32,73 +32,73 @@ export const getMyBoards = async (
       limit,
     },
     token: true,
-    setLoading,
+    ...serviceProps
   });
 };
 
 // BOARD - DELETE
-export const deleteBoard = async ({ boardId, setLoading }: deleteBoardParams) => {
+export const deleteBoard = async ({ boardId,  ...serviceProps }: deleteBoardParams) => {
   return await callAPI<GeneralResponse>({
     method: "DELETE",
     url: `/board/${boardId}`,
     token: true,
-    setLoading,
+    ...serviceProps
   });
 };
 
 // BOARD - POST
-export const createBoard = async ({ setLoading, payload }: createBoardParams) => {
+export const createBoard = async ({ payload,  ...serviceProps }: createBoardParams) => {
   return await callAPI<createdBordResponse>({
     method: "POST",
     url: `/board/`,
     token: true,
-    setLoading,
     payload,
+    ...serviceProps
   });
 };
 
 // BOARD - GET
-export const getBoard = async ({ short = false, boardId, setLoading }: getBoardParams) => {
+export const getBoard = async ({ short = false, boardId,  ...serviceProps }: getBoardParams) => {
   return await callAPI<BoardFullI>({
     method: "GET",
     url: `/board/${boardId}?short=${short}`,
     token: true,
-    setLoading,
+    ...serviceProps
   });
 };
 
 // BOARD LEAVE - DELETE
-export const leaveBoard = async ({ boardId, setLoading }: leaveBoardParams) => {
+export const leaveBoard = async ({ boardId,  ...serviceProps }: leaveBoardParams) => {
   return await callAPI<GeneralResponse>({
     method: "DELETE",
     url: `/board/${boardId}/leave_board`,
     token: true,
-    setLoading,
+    ...serviceProps
   });
 };
 
 // BOARD UPDATE - POST
-export const updateBoard = async ({ boardId, setLoading, payload }: updateBoardParams) => {
+export const updateBoard = async ({ boardId, setLoading,  ...serviceProps }: updateBoardParams) => {
   return await callAPI<updateBoardresponse>({
     method: "POST",
     url: `/board/${boardId}`,
     token: true,
     setLoading,
-    payload,
+    ...serviceProps
   });
 };
 
 // BOARDS PINNED - GET
-export const getPinnedBoards = async ({ setLoading }: serviceParams = {}) => {
+export const getPinnedBoards = async ({  ...serviceProps }: serviceParams = {}) => {
   return await callAPI<getPinnedBoardsResponse>({
     method: "GET",
     url: "/board/user/pined_boards",
     token: true,
-    setLoading,
+    ...serviceProps
   });
 };
 // BOARD PINNED - PATCH
-export const togglePinBoard = async ({ boardId, setLoading }: togglePinBoardParams) => {
+export const togglePinBoard = async ({ boardId,  ...serviceProps }: togglePinBoardParams) => {
   return await callAPI<togglePinBoardResponse>({
     method: "PATCH",
     url: `/board/user/pined_boards`,
@@ -106,6 +106,6 @@ export const togglePinBoard = async ({ boardId, setLoading }: togglePinBoardPara
       boardId,
     },
     token: true,
-    setLoading,
+    ...serviceProps
   });
 };

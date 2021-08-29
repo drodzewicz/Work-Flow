@@ -5,24 +5,24 @@ import { getNotificationsResponse, GeneralResponse} from "types/service/response
 
 // NOTIFICATION - GET
 
-export const getNotifications = async ({ setLoading }: serviceParams = {}) => {
+export const getNotifications = async ({  ...serviceProps }: serviceParams = {}) => {
   return await callAPI<getNotificationsResponse>({
     url: "/notification",
     token: true,
     method: "GET",
-    setLoading,
+    ...serviceProps
   });
 };
 
 // NOTIFICATION - DELETE
 export const removeNotification = async ({
-  setLoading,
   notificationId,
+  ...serviceProps
 }: removeNotificationParams) => {
   return await callAPI<GeneralResponse>({
     url: `/notification/${notificationId}`,
     token: true,
     method: "DELETE",
-    setLoading,
+    ...serviceProps,
   });
 };
