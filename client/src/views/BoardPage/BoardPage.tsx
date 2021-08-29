@@ -74,7 +74,7 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
       const { columns, name, description } = data;
       tasksDispatch({ type: TasksActionType.SET_TASKS, payload: { columns } });
       setBoardInfo({ name, description });
-    } else {
+    } else if (!!status) {
       history.replace(`/error/${status}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
