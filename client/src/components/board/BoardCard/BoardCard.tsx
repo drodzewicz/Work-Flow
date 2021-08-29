@@ -27,7 +27,7 @@ const BoardCard: React.FC<BoardcardProps> = ({
   };
 
   return (
-    <div aria-label="Board card" className="board-card">
+    <div data-testid={boardId} aria-label="Board card" className="board-card">
       <div role="presentation" className="board-card__columns">
         <div className="board-card__columns__column"></div>
         <div className="board-card__columns__column"></div>
@@ -40,7 +40,11 @@ const BoardCard: React.FC<BoardcardProps> = ({
         </h1>
         <div className="board-card__content__menu">
           <span className="board-card__content__menu__icon" onClick={togglePinBoard}>
-            {isPinned ? <Pined /> : <Pin />}
+            {isPinned ? (
+              <Pined data-testid={`${boardId}-pinned`} />
+            ) : (
+              <Pin data-testid={`${boardId}-pin`} />
+            )}
           </span>
           <BoardOptions boardId={boardId} removeBoardCallback={removeBoard} isAuthor={isAuthor} />
         </div>
