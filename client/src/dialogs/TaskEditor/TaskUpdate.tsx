@@ -13,7 +13,7 @@ const TaskUpdate: React.FC<TaskUpdateProps> = (props) => {
     author: {
       _id: "",
       username: "",
-      avatarImageURL: ""
+      avatarImageURL: "",
     },
     title: "",
     description: "",
@@ -29,9 +29,9 @@ const TaskUpdate: React.FC<TaskUpdateProps> = (props) => {
         taskId: taskId || "",
       });
       if (!!data) {
-         const { task } = data;
-         setTask(task);
-         setLoading(false);
+        const { task } = data;
+        setTask(task);
+        setLoading(false);
       }
     };
     getTaskDetails();
@@ -49,14 +49,14 @@ const TaskUpdateWrapper = withFormik<TaskUpdateFormik, FormValues>({
     return { ...props.initialValues };
   },
   validationSchema: validationSchema,
-  handleSubmit: async (submittedData, { setStatus, props }) => {
+  handleSubmit: async (submittedData, { setStatus, setSubmitting, props }) => {
     const payload = {
       ...submittedData,
       people: submittedData.people.map(({ _id }) => _id),
       tags: submittedData.tags.map(({ _id }) => _id),
     };
     const { boardId, taskId } = props;
-    const res = await updateBoardTask({ boardId, taskId, payload });
+    const res = await updateBoardTask({ boardId, taskId, payload, setLoading: setSubmitting });
     if (res.status === 200) {
       setStatus({
         submitStatus: "SUCCESS",
