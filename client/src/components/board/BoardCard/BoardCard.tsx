@@ -39,14 +39,22 @@ const BoardCard: React.FC<BoardcardProps> = ({
           {boardName}
         </h1>
         <div className="board-card__content__menu">
-          <span className="board-card__content__menu__icon" onClick={togglePinBoard}>
+          <span
+            className="board-card__content__menu__icon"
+            role="button"
+            onClick={togglePinBoard}
+            data-testid={`${boardId}-pin-btn`}>
             {isPinned ? (
               <Pined data-testid={`${boardId}-pinned`} />
             ) : (
               <Pin data-testid={`${boardId}-pin`} />
             )}
           </span>
-          <BoardOptions boardId={boardId} removeBoardCallback={removeBoard} isAuthor={isAuthor} />
+          <BoardOptions
+            boardId={boardId}
+            removeBoardCallback={removeBoard}
+            isAuthor={isAuthor}
+          />
         </div>
       </div>
     </div>

@@ -37,10 +37,13 @@ const BoardOptions: React.FC<BoardOptionsProps> = ({ boardId, removeBoardCallbac
 
   return (
     <div className="board-options">
-      <button className="board-options__ellipsis" ref={moreOptionsAnchor}>
+      <button data-testid={`${boardId}-options`} className="board-options__ellipsis" ref={moreOptionsAnchor}>
         <FaEllipsisV />
       </button>
-      <DropdownMenu className="board-options__menu" anchorEl={moreOptionsAnchor}>
+      <DropdownMenu
+        data-testid="dropdown-menu"
+        className="board-options__menu"
+        anchorEl={moreOptionsAnchor}>
         {isAuthor && (
           <DropdownMenuItem onClick={editEventModal}>
             <FaEdit /> Edit
