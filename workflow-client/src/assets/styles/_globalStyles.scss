@@ -1,0 +1,41 @@
+@import "./colors";
+
+.scrollbar {
+  &::-webkit-scrollbar {
+    width: 0.5em;
+    height: 0.5em;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: darken($blue-primary-overlay, 5%);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: darken($gray-1, 5%);
+    border-radius: 5px;
+  }
+}
+
+.theme-dark {
+  .scrollbar {
+    &::-webkit-scrollbar-track {
+      background: darken($dark-1, 5%);
+      border-radius: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: darken($dark-3, 5%);
+    }
+  }
+}
+
+.break-line {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border: none;
+  border-top: 1px solid $gray-1;
+}
+.theme-dark {
+  .break-line {
+    border-top: 1px solid $dark-3;
+  }
+}

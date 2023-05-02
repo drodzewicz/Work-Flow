@@ -1,0 +1,70 @@
+@import "../../assets/styles/colors";
+@import "../../assets/styles/variables";
+@import "../../assets/styles/mediaQueries";
+.task-loading {
+  position: relative;
+  min-height: calc(100vh - #{$navbar-height} - #{$footer-height} - 3.5rem);
+}
+.board-page {
+  margin: 0 2rem;
+  min-height: calc(100vh - #{$navbar-height} - #{$footer-height} - 3.5rem);
+  display: flex;
+  flex-direction: column;
+  @include mobile {
+     margin: 0 0.8rem;
+  }
+  &__title {
+    margin: 2rem 1rem;
+    font-family: "Secular One", sans-serif;
+    color: $text-secondary;
+    p {
+      margin: 0;
+    }
+  }
+  &__controlls {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    .standard > svg  {
+      margin-right: 0.4rem;
+    }
+    .board-options__ellipsis {
+      border-radius: 0.2rem;
+      padding: 0.3rem 0.2rem;
+      margin-left: 0.1rem;
+      cursor: pointer;
+      color: $text-primary;
+      transition: background 0.15s ease-in;
+       svg {
+         transform: translateY(2px);
+       }
+      &:hover {
+        background-color: $blue-primary-overlay;
+      }
+      span {
+        display: grid;
+        place-items: center;
+        padding: 0.1rem;
+      }
+    }
+  }
+
+  .task-board {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    flex-grow: 1;
+    flex-grow: 1;
+
+    &__task-row {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      height: 100%;
+      gap: 1rem;
+      & > div {
+        height: 100%;
+      }
+    }
+  }
+}

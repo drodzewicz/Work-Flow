@@ -1,0 +1,85 @@
+@import "../../assets/styles/mediaQueries";
+@import "../../assets/styles/colors";
+
+.board-dashboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+
+  .board-container {
+	  position: relative;
+    &__loading {
+      position: absolute;
+    }
+  }
+
+  .pinned-board-container-title {
+    color: $black-1;
+    fill: $black-1;
+    &__icon {
+      height: 1.1rem;
+      width: 1.1rem;
+    }
+  }
+
+  .board-container-title {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    color: $black-1;
+    &__icon {
+      color: inherit;
+      margin-right: 0.5rem;
+      font-size: 1.3rem;
+    }
+  }
+
+  .new-board-btn {
+    margin-left: auto;
+    border-radius: 0.4rem;
+    padding: 0.4rem 0.6rem;
+    transition: background 0.2s ease-in-out;
+
+    &__icon {
+      transition: transform 0.3s ease-in-out;
+    }
+    &__text {
+      overflow: hidden;
+      white-space: nowrap;
+      width: 0;
+      justify-content: flex-start;
+      display: flex;
+      transition: width 0.3s ease-in-out;
+    }
+    &:hover,
+    &:active {
+      color: white;
+      background-color: $blue-accent;
+      box-shadow: 0 1px 5px rgba($blue-accent, 25%);
+      .new-board-btn__text {
+        width: 4.7rem;
+      }
+      .new-board-btn__icon {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.theme-dark {
+  .pinned-board-container-title,
+  .board-container-title {
+    color: white;
+    fill: white;
+  }
+  .new-board-btn {
+    &:hover,
+    &:active {
+      color: $dark-1;
+      background-color: $blue-accent-dark;
+      box-shadow: 0 1px 7px rgba($blue-accent-dark, 0.4);
+    }
+  }
+}

@@ -1,0 +1,62 @@
+@import "../../../../assets/styles/mediaQueries";
+@import "../../../../assets/styles/colors";
+
+.notification-nav.drop-down-menu {
+  transform: translate(-16.5rem, 2rem);
+  width: 18rem;
+}
+
+.profile-nav.drop-down-menu {
+  transform: translate(-2rem, 2rem);
+  .drop-down-menu__item {
+    padding: 0.4rem 0.8rem;
+    & > * {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    svg {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.navbar__item {
+  $nav-item: &;
+
+  &__button {
+    height: 2.5rem;
+  }
+  &.profile-nav {
+    @include mobile {
+      #{$nav-item}__label {
+        display: none;
+      }
+    }
+    #{$nav-item}__icon {
+      font-size: 0.8rem;
+    }
+  }
+  &.notification-nav.badge {
+    #{$nav-item}__icon::after {
+      content: "";
+      background-color: $blue-accent;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 5rem;
+      position: absolute;
+      transform: translate(15px, -5px);
+    }
+  }
+}
+
+.theme-dark {
+  .navbar__item {
+    $nav-item: &;
+    &.notification-nav.badge {
+      .navbar__item__icon::after {
+        background-color: $blue-accent-dark !important;
+      }
+    }
+  }
+}

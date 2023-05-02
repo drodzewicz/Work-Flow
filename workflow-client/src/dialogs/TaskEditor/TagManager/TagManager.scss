@@ -1,0 +1,83 @@
+@import "../../../assets/styles/colors";
+@import "../../../assets/styles/mediaQueries";
+
+$colors: (
+  "red" $tag-red white,
+  "yellow" $tag-yellow rgb(49, 30, 23),
+  "green" $tag-green white,
+  "tiel" $tag-tiel rgb(61, 61, 61),
+  "purple" $tag-purple white,
+  "majenta" $tag-majenta black,
+  "pink" $tag-pink black,
+  "black" $tag-black white,
+  "white" $tag-white black,
+  "blue" $tag-blue white
+);
+
+.tag-manager {
+  max-height: 8.3rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  &__item {
+    all: unset;
+    height: 2rem;
+    padding: 0.56rem 0.4rem;
+    font-weight: bold;
+    margin: 1px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    cursor: pointer;
+    width: 100%;
+    max-width: 15rem;
+    overflow: hidden;
+
+    $item: &;
+    &.checked {
+      #{$item}__check-icon {
+        transform: translateX(0);
+      }
+    }
+
+    &__check-icon {
+      transform: translateX(5rem);
+      margin: 0 0.2rem;
+      transition: transform 0.2s ease-in-out;
+    }
+    &:hover {
+      #{$item}__check-icon {
+        transform: translateX(0);
+      }
+    }
+
+    @include mobile {
+      max-width: unset;
+    }
+    span {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    @each $name, $bg, $textColor in $colors {
+      &--#{$name} {
+        background: $bg;
+        color: $textColor;
+      }
+      &--#{$name}:hover {
+        background: darken($bg, 10%);
+      }
+    }
+  }
+  &__no-content-msg {
+    color: #2222;
+  }
+}
+
+.theme-dark {
+  .tag-manager__no-content-msg {
+    color: rgb(156, 156, 156);
+  }
+}

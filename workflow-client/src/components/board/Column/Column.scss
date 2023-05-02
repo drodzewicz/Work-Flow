@@ -1,0 +1,104 @@
+@import "../../../assets/styles/colors";
+@import "../../../assets/styles/mediaQueries";
+.task-column {
+  display: flex;
+  flex-direction: column;
+  background-color: $blue-primary-overlay;
+  border-radius: 10px;
+  padding: 0.2rem 0.5rem;
+  font-family: "Secular One", sans-serif;
+  border: 2px solid transparent;
+  box-shadow: 0 0 3px transparent;
+  transition: all 0.2s ease-in-out;
+  height: 100%;
+  outline: $blue-accent;
+
+  &--active {
+    background: mix($blue-accent, $blue-primary-overlay, 10%);
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0.2rem 0;
+    margin-bottom: 0.4rem;
+    position: relative;
+    &__task-count {
+      color: darken($blue-primary-overlay, 50%);
+      background: darken($blue-primary-overlay, 11%);
+      border-radius: 3px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      min-width: 1rem;
+      height: 1rem;
+      font-size: 0.8rem;
+      margin-right: 0.2rem;
+    }
+
+    &__new-task-btn,
+    &__more-options {
+      border: none;
+      color: darken($blue-primary-overlay, 50%);
+      font-size: 1.4rem;
+      font-family: "Secular One", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      margin: 0 3px;
+      border-radius: 5px;
+      height: 1.5rem;
+      width: 1.5rem;
+      background-color: transparent;
+
+      svg {
+        $icon-size: 1rem;
+        width: $icon-size;
+        height: $icon-size;
+      }
+    }
+    &__new-task-btn {
+      background: darken($blue-primary-overlay, 11%);
+    }
+  }
+
+  &__container {
+    width: 16.5rem;
+    max-height: 500px;
+    overflow-y: scroll;
+  }
+}
+
+.column-more-options {
+  .drop-down-menu__item {
+    padding: 0.2rem 0.6rem;
+    display: flex;
+    justify-content: flex-start;
+    svg {
+      font-size: 0.9rem;
+      margin-right: 0.3rem;
+    }
+  }
+}
+
+.theme-dark .task-column {
+  background-color: $dark-1;
+  &--active {
+    background: $dark-2;
+  }
+
+  &__header {
+    &__task-count,
+    &__new-task-btn {
+      color: white;
+      background: $dark-3;
+    }
+    &__more-options {
+      color: $text-secondary;
+    }
+  }
+}

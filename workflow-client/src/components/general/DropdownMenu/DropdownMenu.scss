@@ -1,0 +1,36 @@
+@import "../../../assets/styles/colors";
+.drop-down-menu {
+  position: absolute;
+  color: #222222;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  margin-top: 0.2rem;
+  overflow: auto;
+  z-index: 1000;
+  padding: 0;
+
+  .drop-down-menu__item {
+    font-size: 1rem;
+    min-height: 2rem;
+    min-width: 4rem;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.2s all ease-in-out;
+    user-select: none;
+    color: #222222;
+    padding: 0.2rem 0.4rem;
+    &:hover {
+      background: $blue-secondary-overlay;
+    }
+    * {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+}
+

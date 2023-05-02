@@ -1,0 +1,33 @@
+@import "../../../assets/styles/colors";
+
+.theme-dark .standard{
+  stroke: white;
+  color: white;
+  background: $dark-1;
+  &:hover {
+    background: $dark-2;
+    stroke: $white-1;
+    color: $white-1;
+  }
+  &:disabled {
+    stroke: $dark-3;
+    color: $dark-3;
+  }
+}
+
+.theme-dark .glow {
+  color: rgb(94, 91, 109);
+  background: $blue-accent-dark;
+  &:hover {
+    background: $white-1;
+    color: $blue-accent;
+  }
+
+  &:disabled {
+    background: lighten($blue-accent-dark, 30%);
+    color: $dark-2;
+    &:hover {
+      color: $dark-2;
+    }
+  }
+}

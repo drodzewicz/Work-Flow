@@ -1,0 +1,70 @@
+@import "../../../assets/styles/colors";
+
+.search-input {
+  position: relative;
+
+  &__form {
+    z-index: 3;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    position: relative;
+    padding: 0.4rem 0.6rem;
+    background: $white-1;
+    border: 1px solid darken($white-1, 20%);
+    border-radius: 5px;
+  }
+
+  &__icon {
+    cursor: pointer;
+    color: darken($white-1, 20%);
+    transition: 0.2s all ease-in-out !important;
+    transform: translateY(3px);
+    &:hover {
+      color: darken($white-1, 40%);
+    }
+  }
+
+  &__input {
+    background: transparent;
+    border: none;
+    flex-grow: 1;
+    outline: none;
+    font-size: 1rem;
+
+    &::placeholder {
+      color: darken($white-1, 25%);
+    }
+  }
+
+  &__results {
+    background: $blue-secondary-overlay;
+    z-index: 2;
+    top: 2.5rem;
+    position: absolute;
+    width: 100%;
+    overflow: auto;
+    border-radius: 2px 2px 7px 7px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.493);
+    box-sizing: border-box;
+    max-height: 9rem;
+    margin: 0;
+    padding: 0;
+    &__item {
+      box-sizing: border-box;
+      padding: 0.4rem 0.6rem;
+      margin-bottom: 2px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s ease-in-out;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      &:hover {
+        background: $blue-primary-overlay;
+        color: $blue-accent;
+      }
+    }
+  }
+}

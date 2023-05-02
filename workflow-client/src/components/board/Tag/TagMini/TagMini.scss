@@ -1,0 +1,28 @@
+@import "../../../../assets/styles/colors";
+
+.tag-mini {
+  $tag-size: 0.7rem;
+  width: $tag-size;
+  height: $tag-size;
+  margin: 0 1px;
+  border-radius: 50%;
+
+  $colors: (
+    "red": $tag-red,
+    "yellow": $tag-yellow,
+    "green": $tag-green,
+    "tiel": $tag-tiel,
+    "purple": $tag-purple,
+    "majenta": $tag-majenta,
+    "pink": $tag-pink,
+    "black": $tag-black,
+    "white": $tag-white,
+    "blue": $tag-blue,
+  );
+
+  @each $name, $bg in $colors {
+    &.#{$name} {
+      background: $bg;
+    }
+  }
+}

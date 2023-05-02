@@ -1,0 +1,57 @@
+@import "../../assets/styles/mediaQueries";
+@import "../../assets/styles/colors";
+
+.update-task.loading-overlay {
+	height: 50vh;
+	width: 70vw;
+}
+
+.task-editor {
+	display: grid;
+	grid-template-columns: 5fr 1fr;
+	grid-gap: 1rem;
+	max-width: 1000px;
+	@include mq-1 {
+		grid-template-columns: 1fr;
+		max-width: auto;
+	}
+	&__inputs {
+		display: flex;
+		flex-direction: column;
+		margin: 0 1rem;
+		&__textArea {
+			min-height: 14.2rem;
+		}
+	}
+	&__btn {
+		grid-column: 1 / 3;
+		display: grid;
+		place-items: center	;
+		@include mq-1 {
+			grid-column: auto;
+		 }
+	}
+	&__sidebar {
+		&__label {
+			font-weight: bold;
+			margin-bottom: 0.3rem;
+			margin-top: 0;
+			display: flex;
+			align-items: center;
+			svg {
+				margin-right: 0.3rem;
+			}
+		}
+		.user-manager {
+			margin-bottom: 1rem;
+		}
+	}
+}
+
+.theme-dark {
+	.task-editor__sidebar {
+		&__label {
+			color: white;
+		}
+	}
+}

@@ -1,0 +1,33 @@
+@import "../../../assets/styles/colors";
+.user-card {
+  background: rgb(239, 239, 245);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 2px;
+  box-sizing: border-box;
+  padding: 5px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.247);
+  &__avatar {
+    $avatar-size: 1.5rem;
+    height: $avatar-size;
+    width: $avatar-size;
+    object-fit: cover;
+    border-radius: 3px;
+  }
+  &__username {
+    font-family: "Secular One", sans-serif;
+    margin-left: 7px;
+    color: rgb(70, 70, 73);
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    color: black;
+    fill: black;
+  }
+}

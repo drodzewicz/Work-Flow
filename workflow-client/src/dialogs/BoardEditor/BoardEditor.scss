@@ -1,0 +1,21 @@
+@import "../../assets/styles/mediaQueries";
+@import "../../assets/styles/colors";
+
+.board-editor {
+  height: 100%;
+  &__field {
+    &__description {
+      height: 10rem;
+      @include mobile {
+        height: 20rem;
+      }
+    }
+  }
+  &__btn {
+      margin: 0 auto;
+      min-width: 8rem;
+  }
+  &.loading-overlay {
+    min-height: 50vh;
+  }
+}

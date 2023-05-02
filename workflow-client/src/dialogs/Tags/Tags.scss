@@ -1,0 +1,37 @@
+@import "../../assets/styles/colors";
+@import "../../assets/styles/mediaQueries";
+
+.tag-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 19rem;
+  margin: 0 auto 2rem;
+  position: relative;
+
+  .loading-overlay {
+    position: absolute;
+    width: 100%;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+
+    &__input {
+      flex-grow: 1;
+      margin-right: 0.5rem;
+    }
+    &__btn {
+      height: 2.5rem;
+      width: 2.5rem;
+    }
+  }
+  &__tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    &.margin-top {
+      margin-top: 3rem;
+    }
+  }
+}

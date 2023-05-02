@@ -1,0 +1,24 @@
+@import "../../assets/styles/colors";
+@import "../../assets/styles/variables";
+
+.theme-dark {
+  .board-page {
+    &__title {
+      color: $text-primary-dark;
+    }
+    &__controlls {
+      .board-options__ellipsis {
+        color: $dark-3;
+        &:hover {
+          background-color: $dark-1;
+        }
+      }
+      .board-options {
+        color: lighten($black-1, 30%);
+        &:hover {
+          background-color: rgba($dark-1, 0.5);
+        }
+      }
+    }
+  }
+}

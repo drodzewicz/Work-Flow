@@ -1,0 +1,65 @@
+@import "../../../assets//styles/colors";
+
+%btn {
+  font-family: "Secular One", sans-serif;
+  border-radius: 5px;
+  padding: 0.35rem 0.75rem;
+  margin: 0.15rem 0.25rem;
+  cursor: pointer;
+  transition: 0.2s ease-in-out all;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  &:focus {
+    outline-color: $blue-accent;
+    outline-width: 2px;
+    outline-offset: 2px;
+  }
+}
+
+.standard {
+  @extend %btn;
+  color: #222222;
+  stroke: #222222;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+
+  &:hover {
+    background: $white-1;
+    color: #3d3d3d;
+    stroke: #3d3d3d;
+  }
+  &:disabled {
+    box-shadow: none;
+    stroke: #c5c5c5;
+    color: #c5c5c5;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.glow {
+  @extend %btn;
+  color: white;
+  background: $blue-accent;
+  box-shadow: 0 0 10px rgba($blue-accent, 0.5);
+  transition: 0.3s ease-in-out all;
+
+  &:hover {
+    background: $white-1;
+    color: $blue-accent;
+    box-shadow: 0 0 5px rgba($blue-accent, 0.75);
+  }
+
+  &:disabled {
+    box-shadow: none;
+    background: lighten($blue-accent, 30%);
+    color: white;
+    &:hover {
+      color: white;
+      stroke: white;
+    }
+  }
+}

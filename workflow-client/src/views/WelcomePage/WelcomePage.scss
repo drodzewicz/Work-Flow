@@ -1,0 +1,123 @@
+@import "../../assets/styles/colors";
+@import "../../assets/styles/mediaQueries";
+@import "../../assets/styles/keyframes";
+
+.welcome-section {
+  margin: 3rem 4rem 0;
+  @include mq-1 {
+    margin: 1rem;
+  }
+  &__introduction {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 90vh;
+    gap: 6vh;
+    @include mq-1 {
+      grid-template-columns: 1fr;
+    }
+    .person-image {
+      display: flex;
+      height: 70vh;
+      width: 70vh;
+      margin-right: 0;
+      margin-left: auto;
+      opacity: 0;
+      animation: element-apear 1.5s forwards 1.5s;
+      @include mq-2 {
+        height: 50vh;
+        width: 50vh;
+      }
+      @include mq-1 {
+        height: 90%;
+        width: 90%;
+        order: 1;
+        margin: 0 auto;
+      }
+    }
+    &__text-subsection {
+      h1 {
+        font-size: 7vh;
+        margin: 0;
+        color: $black-1;
+        opacity: 0;
+        animation: element-slide-left 2s forwards 1s;
+      }
+      hr {
+        opacity: 0;
+        animation: element-apear 1.5s forwards 1.5s;
+      }
+      h2 {
+        font-size: 4vh;
+        margin: 0;
+        color: $text-primary;
+        opacity: 0;
+        animation: element-apear 1.5s forwards 2s;
+      }
+      p {
+        font-size: 3vh;
+        max-width: 40wv;
+        color: $text-secondary;
+        opacity: 0;
+        animation: element-apear 1.5s forwards 2.5s;
+      }
+      .join-now {
+        margin: 0 auto;
+        margin-top: 2rem;
+        font-size: 2.5vh;
+        padding: 1.5vh 3vh;
+        opacity: 0;
+        animation: element-pop 0.7s forwards 2.5s;
+        @include mq-1 {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+  &__explainer {
+    gap: 6vh;
+    min-height: 80vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    animation: element-apear 1.5s forwards 1.5s;
+    @include mq-1 {
+      grid-template-columns: 1fr;
+    }
+    .task-columns-image {
+      display: flex;
+      height: 60vh;
+      width: 60vh;
+      margin: 0 auto;
+      @include mq-1 {
+        height: 40vh;
+        width: 40vh;
+      }
+    }
+    &__text-subsection {
+      h2 {
+        font-size: 7vh;
+        margin: 0;
+        color: $black-1;
+      }
+      ul {
+        padding-left: 4vh;
+        color: $text-primary;
+        li {
+          font-size: 3vh;
+          margin-top: 0.5rem;
+        }
+      }
+    }
+  }
+}
+
+.theme-dark {
+  h1 {
+    color: $white-1;
+  }
+  h2 {
+    color: $text-primary-dark;
+  }
+  p, ul {
+    color: $gray-1;
+  }
+}

@@ -1,0 +1,31 @@
+@import "../../../assets/styles/colors";
+
+.add-new-column {
+  display: flex;
+  flex-direction: column;
+  background-color: $blue-primary-overlay;
+  border-radius: 10px;
+  margin: 0 0.5rem;
+  padding: 0.2rem 0.5rem;
+  font-family: "Secular One", sans-serif;
+  width: 250px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 1px darken($blue-primary-overlay, 40%) dashed;
+
+  input {
+    outline: none;
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    border: none;
+    font-family: "Secular One", sans-serif;
+    margin: 0 0.5rem;
+    box-sizing: border-box;
+    &::placeholder {
+      color: darken($blue-primary-overlay, 30%);
+    }
+  }
+}

@@ -1,0 +1,46 @@
+@import "../../../assets/styles/colors";
+@import "../../../assets/styles/mediaQueries";
+
+.user-manager {
+  display: flex;
+  flex-direction: column;
+  &__users {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 120px;
+    overflow: auto;
+    gap: 0.1rem;
+
+    .user-card {
+      max-width: 15rem;
+      @include mobile {
+        max-width: unset;
+      }
+    }
+  }
+  &__no-content-msg {
+    color: $black-1;
+  }
+  .remove-user-icon {
+    cursor: pointer;
+    color: $black-1;
+    transition: all 0.2s ease-in-out;
+    margin: 0 0.2rem;
+    &:hover {
+      color: lighten($black-1, 20%);
+    }
+  }
+}
+
+.theme-dark {
+  .user-manager__no-content-msg {
+    color: rgb(156, 156, 156);
+  }
+  .remove-user-icon {
+    color: $white-1;
+    &:hover {
+      color: darken($white-1, 20%);
+    }
+  }
+}

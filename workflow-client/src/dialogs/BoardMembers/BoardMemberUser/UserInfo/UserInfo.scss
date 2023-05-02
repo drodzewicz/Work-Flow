@@ -1,0 +1,85 @@
+@import "../../../../assets/styles/colors";
+
+.user-info {
+  background-color: $white-1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  padding: 0.6rem 0.7rem;
+  border-radius: 5px;
+  position: absolute;
+  left: 20%;
+  z-index: 4;
+  width: 17rem;
+  cursor: default;
+  transform: translate(-2.5rem, -6rem);
+  &__info {
+    display: flex;
+    flex-direction: column;
+    p {
+      margin: 0;
+    }
+  }
+  &__avatar {
+    height: 4rem;
+    width: 4rem;
+    object-fit: cover;
+    border-radius: 3px;
+  }
+  & > header {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    svg {
+      position: absolute;
+      right: 0;
+      cursor: pointer;
+    }
+  }
+  &__username {
+    margin: 0;
+    margin-top: 0.2rem;
+    font-size: 1rem;
+    text-align: center;
+    grid-column: 1/3;
+    hr {
+      margin: 0.4rem 0;
+    }
+  }
+  &__email {
+    color: $text-secondary;
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
+    text-align: center;
+  }
+  &__main {
+    display: flex;
+    margin: 1rem 0;
+    gap: 1rem;
+  }
+  &__control-btn {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    button svg {
+      margin-right: 0.4rem;
+    }
+  }
+}
+
+.role-options {
+  .drop-down-menu__item {
+    padding: 0.4rem 0.8rem;
+    justify-content: flex-start;
+    svg {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.theme-dark {
+  .user-info {
+    background-color: $dark-2;
+    &__email {
+      color: $gray-1;
+    }
+  }
+}

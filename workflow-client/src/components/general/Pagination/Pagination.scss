@@ -1,0 +1,43 @@
+@import "../../../assets/styles/colors";
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  $pagination-item-size: 1.5rem;
+  &__item {
+    font-family: "Secular One", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    color: $text-primary;
+    border: none;
+    margin: 0.5rem;
+    width: $pagination-item-size;
+    height: $pagination-item-size;
+    border-radius: 5px;
+    cursor: pointer;
+     outline-color: $blue-accent;
+  }
+  &__current-page {
+    background-color: $blue-accent;
+    color: white;
+  }
+  &__dots {
+    width: 0.8rem;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    color: $text-primary;
+    cursor: default;
+    user-select: none;
+    &.hide {
+      width: 0;
+    }
+  }
+  .empty {
+    width: $pagination-item-size + $pagination-item-size + 2rem;
+    height: $pagination-item-size;
+  }
+}

@@ -1,0 +1,45 @@
+@import "../../../assets/styles/variables";
+@import "../../../assets/styles/colors";
+.app-footer {
+  background: transparent;
+  height: $footer-height;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-top: solid 1px $gray-1;
+
+  &__item {
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0 1rem;
+    font-family: "Roboto", sans-serif;
+    color: $gray-1;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: ease-in-out all $transition-speed;
+    font-weight: bold;
+    &:hover {
+      color: darken($gray-1, 20%);
+    }
+  }
+  &__icon {
+    height: 1rem;
+    width: 1rem;
+    margin-right: 5px;
+  }
+}
+
+.theme-dark .app-footer {
+  border-color: $dark-3;
+  &__item {
+    color: $dark-3;
+    &:hover {
+      color: lighten($dark-3, 20%);
+    }
+  }
+}

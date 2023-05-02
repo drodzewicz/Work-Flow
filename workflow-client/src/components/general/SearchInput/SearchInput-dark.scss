@@ -1,0 +1,22 @@
+@import "../../../assets/styles/colors";
+
+.theme-dark .search-input {
+  &__form {
+    background: $dark-1;
+    border-color: $dark-3;
+  }
+  &__input {
+    color: white;
+  }
+
+  &__results {
+    background: $dark-1;
+    &__item {
+      color: white;
+      &:hover {
+        background: $dark-2;
+        color: $blue-accent-dark;
+      }
+    }
+  }
+}

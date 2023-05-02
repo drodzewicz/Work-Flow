@@ -1,0 +1,108 @@
+@import "../../../assets/styles/mediaQueries";
+@import "../../../assets/styles/colors";
+
+.modal-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -6rem;
+  left: 0;
+  position: absolute;
+}
+
+.modal {
+  position: fixed;
+  z-index: 999;
+  background-color: white;
+  height: auto;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.445);
+  box-sizing: border-box;
+  border-radius: 10px;
+  top: 5%;
+  transition: all 0.3s ease-out;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 500px;
+  animation: open-modal-animation 0.4s ease-out forwards;
+  margin: 0;
+
+  &.size-s {
+    min-width: 400px;
+  }
+  &.size-m {
+    min-width: 550px;
+  }
+  &.size-l {
+    width: 80vw;
+    max-width: 950px;
+  }
+
+  @include mobile {
+    width: 100% !important;
+    height: 100vh;
+    position: absolute;
+    border-radius: 0;
+    top: 6rem;
+    animation: unset;
+    min-width: auto !important;
+  }
+  &__header {
+    background-color: $blue-secondary-overlay;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    padding: 0 1rem;
+    position: relative;
+    &__title {
+      margin: 0;
+      flex-grow: 1;
+      text-align: center;
+      font-family: "Secular One", sans-serif;
+      color: darken($blue-secondary-overlay, 80%);
+      font-size: 1.3rem;
+      box-sizing: border-box;
+      transform: translateX(18px);
+      z-index: 1;
+    }
+    & > &__close-icon {
+      align-self: flex-end;
+      cursor: pointer;
+      color: $black-1;
+      font-size: 0.9rem;
+      height: 100%;
+      z-index: 2;
+      outline-color: $blue-accent;
+      outline-offset:  0.1em;
+    }
+  }
+  &__content {
+    padding: 1rem 2rem 2rem;
+    position: relative;
+    overflow: auto;
+    height: 100%;
+    @include mobile {
+      padding: 1rem;
+    }
+  }
+}
+
+@keyframes open-modal-animation {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(6%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
