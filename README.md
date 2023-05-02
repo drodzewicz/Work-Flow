@@ -1,6 +1,11 @@
 # Work-Flow - Kanban board
 
-[**Live Preview**](https://workflowtasks.herokuapp.com/)
+[**Live Preview**](https://work-flow-tasks.herokuapp.com/)
+<br>**Test user:**
+```
+username: user1
+password: password
+```
 
 **Work-Flow** is a web-based Kanban-style list making application used to manage work at personal or organizational level. Using this application organizing your work will be easy. Inspiration for this project came from such applications like: [Github Projects](https://github.com/features/project-management/) and [Trello](https://trello.com/).
 This project was build using technologies like *React* on frontend and and *Express* and *mongodb* on backend. This application is also using *websockets* so that when working with a team all chages can be seen without refreshing the page.
