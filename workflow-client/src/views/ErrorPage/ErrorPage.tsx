@@ -1,15 +1,18 @@
 import React from "react";
-import "./ErrorPage.scss";
-import {  getReasonPhrase } from "http-status-codes";
+
+import { ErrorPageProps } from "./types";
+
 import { ReactComponent as PersonMountains } from "@/assets/images/drawkit-nature-man-colour.svg";
-import { ErrorPageProps } from "./";
+import { getReasonPhrase } from "http-status-codes";
+
+import "./ErrorPage.scss";
 
 const ErrorPage: React.FC<ErrorPageProps> = ({ match }) => {
   const translateErrorCode = () => {
     try {
       return getReasonPhrase(match.params.code);
     } catch (error) {
-      return "UKNOWN ERROR"
+      return "UKNOWN ERROR";
     }
   };
 

@@ -1,13 +1,17 @@
 import React, { useRef, useContext, useState } from "react";
+
+import { UserBoardRoles } from "@/types/general";
 import { FaShieldAlt, FaUserAlt, FaRegAddressCard, FaCrown } from "react-icons/fa";
 
-import User from "@/components/board/User";
 import { UserContext } from "@/context/UserContext";
-import "./BoardMemberUser.scss";
-import { BoardMembersUserProps } from ".";
-import { UserBoardRoles } from "@/types/general";
-import UserInfo from "./UserInfo";
+
 import { useClickOutside } from "@/Hooks/useClickOutside";
+
+import User from "@/components/board/User";
+
+import "./BoardMemberUser.scss";
+import UserInfo from "./UserInfo";
+import { BoardMembersUserProps } from "./types";
 
 const BoardMemberUser: React.FC<BoardMembersUserProps> = ({ member, ...actions }) => {
   const userInfoCardRef = useRef<HTMLDivElement | null>(null);
@@ -40,7 +44,8 @@ const BoardMemberUser: React.FC<BoardMembersUserProps> = ({ member, ...actions }
       className="board-user"
       username={member.user.username}
       imageSrc={member.user.avatarImageURL}
-      onClick={showUserInfoCard}>
+      onClick={showUserInfoCard}
+    >
       {userTypeIcon(member.role)}
       {showUserInfo && (
         <UserInfo

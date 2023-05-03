@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
+
 import { FormikProps, Form, Field, withFormik } from "formik";
-import { TextField } from "@/components/general/TextInput";
-import Button from "@/components/general/Button";
 import { FaBackward } from "react-icons/fa";
 
-import { RegisterStepProps, RegisterTwoFormValues, validationSchemaStepTwo } from ".";
+import Button from "@/components/general/Button";
+import { TextField } from "@/components/general/TextInput";
+
+import { validationSchemaStepTwo } from "./formSchema";
+import { RegisterStepProps, RegisterTwoFormValues } from "./types";
 
 const RegisterStage2: React.FC<RegisterStepProps & FormikProps<RegisterTwoFormValues>> = (
   props
@@ -24,7 +27,8 @@ const RegisterStage2: React.FC<RegisterStepProps & FormikProps<RegisterTwoFormVa
       <Button
         type="button"
         className="register-stage-controll-btn stage-back"
-        onClick={handleGoBackStage}>
+        onClick={handleGoBackStage}
+      >
         <FaBackward />
         Go back
       </Button>
@@ -42,7 +46,8 @@ const RegisterStage2: React.FC<RegisterStepProps & FormikProps<RegisterTwoFormVa
         disabled={isSubmitting || !isValid}
         variant="glow"
         className="btn-submit"
-        type="submit">
+        type="submit"
+      >
         Register
       </Button>
     </Form>

@@ -1,15 +1,21 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { TextField } from "@/components/general/TextInput";
-import Button from "@/components/general/Button";
-import { FaTrashAlt, FaCheck } from "react-icons/fa";
-import TagButton from "@/components/board/Tag/TagButton";
-import "./Tags.scss";
+
 import { getBoardTags, createBoardTag, deleteBoardTag, updateBoardTag } from "@/service";
-import LoadingOverlay from "@/components/layout/LoadingOverlay";
-import { UserContext } from "@/context/UserContext";
-import { TagsProps } from ".";
 import { TagI, TagColors, UserBoardRoles } from "@/types/general";
 import axios, { CancelTokenSource } from "axios";
+import { FaTrashAlt, FaCheck } from "react-icons/fa";
+
+import { UserContext } from "@/context/UserContext";
+
+import Button from "@/components/general/Button";
+import { TextField } from "@/components/general/TextInput";
+
+import LoadingOverlay from "@/components/layout/LoadingOverlay";
+
+import TagButton from "@/components/board/Tag/TagButton";
+
+import "./Tags.scss";
+import { TagsProps } from "./type";
 
 const Tags: React.FC<TagsProps> = ({ boardId }) => {
   const source = useRef<CancelTokenSource | null>(null);
@@ -141,9 +147,10 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
           <Button
             className="tag-form__controls__btn"
             disabled={!(selectedTag.name && selectedTag.color) || isTagLoading}
-            onClick={selectedTagHandler}>
-              <FaCheck />
-            </Button>
+            onClick={selectedTagHandler}
+          >
+            <FaCheck />
+          </Button>
           <Button className="tag-form__controls__btn" disabled={canDeleteTag()} onClick={deleteTag}>
             <FaTrashAlt />
           </Button>

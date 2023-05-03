@@ -1,15 +1,22 @@
 import React, { useState, useContext, useEffect } from "react";
-import "./ProfilePage.scss";
-import Image from "@/components/general/Image";
-import Button from "@/components/general/Button";
-import ContainerBox from "@/components/layout/ContainerBox/ContainerBox";
+
+import { FaRegImage } from "react-icons/fa";
+
 import { ModalContext, ModalActionType } from "@/context/ModalContext";
 import { UserContext, UserActionType } from "@/context/UserContext";
+
+import Button from "@/components/general/Button";
+import Image from "@/components/general/Image";
+
+import ContainerBox from "@/components/layout/ContainerBox/ContainerBox";
+import LoadingOverlay from "@/components/layout/LoadingOverlay/LoadingOverlay";
+
 import ChangePassword from "@/dialogs/ChangePassword";
 import ChangeProfilePicture from "@/dialogs/ChangeProfilePicture/ChangeProfilePicture";
-import LoadingOverlay from "@/components/layout/LoadingOverlay/LoadingOverlay";
+
+import "./ProfilePage.scss";
+
 import ProfileFields from "./ProfileFields";
-import { FaRegImage } from "react-icons/fa";
 
 const ProfilePage: React.FC = () => {
   const { modalDispatch } = useContext(ModalContext);

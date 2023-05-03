@@ -1,25 +1,14 @@
 import React, { useState } from "react";
-import { FormikProps, Form, Field, withFormik } from "formik";
-import { TextField } from "@/components/general/TextInput";
-import Button from "@/components/general/Button";
-import * as Yup from "yup";
+
+import { FormValues, ProfileFieldsProps } from "./types";
+
 import { updateCredentials } from "@/service";
+import { FormikProps, Form, Field, withFormik } from "formik";
 
-const validationSchema = Yup.object({
-  username: Yup.string().max(25, "username is too long").required("field is required"),
-  email: Yup.string().email().required("field is required"),
-  name: Yup.string().max(25, "name is too long").required("field is required"),
-  surname: Yup.string().max(25, "surname is too long").required("field is required"),
-});
+import Button from "@/components/general/Button";
+import { TextField } from "@/components/general/TextInput";
 
-interface ProfileFieldsProps {
-  username: string;
-  email: string;
-  name: string;
-  surname: string;
-}
-
-type FormValues = ProfileFieldsProps
+import { validationSchema } from "./formSchema";
 
 const ProfileFields: React.FC<FormikProps<FormValues>> = (props) => {
   const { errors, isSubmitting, isValid, resetForm } = props;
@@ -39,11 +28,7 @@ const ProfileFields: React.FC<FormikProps<FormValues>> = (props) => {
       <Field disabled={!isEditing} name="surname" error={errors["surname"]} as={TextField} />
       {isEditing ? (
         <>
-          <Button
-            disabled={isSubmitting || !isValid}
-            variant="glow"
-          
-            type="submit">
+          <Button disabled={isSubmitting || !isValid} variant="glow" type="submit">
             Update
           </Button>
           <Button onClick={cancelFormChangesHandler} type="button">

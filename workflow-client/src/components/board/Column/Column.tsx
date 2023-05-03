@@ -1,21 +1,28 @@
 import React, { useState, useContext, useRef } from "react";
-import "./Column.scss";
+
+import { UserBoardRoles } from "@/types/general";
+
+import { ColumnProps } from "./types";
+
+import { updateBoardColumn } from "@/service";
+import { deleteColumn } from "@/service";
+import { Droppable } from "react-beautiful-dnd";
 import { FaRegPlusSquare, FaEllipsisV, FaTrashAlt, FaEdit } from "react-icons/fa";
-import Task from "@/components/board/Task";
-import DropdownMenu from "@/components/general/DropdownMenu/DropdownMenu";
-import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
+
 import { ModalContext, ModalActionType } from "@/context/ModalContext";
 import { TaskContext, TasksActionType } from "@/context/TaskContext";
 import { UserContext } from "@/context/UserContext";
-import ColumnNameInput from "./ColumnNameInput";
-import { updateBoardColumn } from "@/service";
-import { deleteColumn } from "@/service";
 
-import { Droppable } from "react-beautiful-dnd";
+import DropdownMenu from "@/components/general/DropdownMenu/DropdownMenu";
+import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
+
+import Task from "@/components/board/Task";
 
 import TaskCreate from "@/dialogs/TaskEditor/TaskCreate";
-import { ColumnProps } from "./";
-import { UserBoardRoles } from "@/types/general";
+
+import "./Column.scss";
+
+import ColumnNameInput from "./ColumnNameInput";
 
 const Column: React.FC<ColumnProps> = ({
   columnName,
@@ -91,7 +98,8 @@ const Column: React.FC<ColumnProps> = ({
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className={`task-column ${snapshot.isDraggingOver ? "task-column--active" : ""}`}>
+            className={`task-column ${snapshot.isDraggingOver ? "task-column--active" : ""}`}
+          >
             <header className="task-column__header">
               <span className="task-column__header__task-count">{listOfTasks.length}</span>
               <ColumnNameInput

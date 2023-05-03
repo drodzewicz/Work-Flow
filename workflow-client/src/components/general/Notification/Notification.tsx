@@ -1,9 +1,12 @@
 import React from "react";
+
+import { NotificationProps } from "./types";
+
 import { FaTimes } from "react-icons/fa";
-import "./Notification.scss";
+import { useHistory } from "react-router-dom";
+
 import "./Notification-dark.scss";
-import { useHistory } from "react-router-dom"
-import { NotificationProps } from "./";
+import "./Notification.scss";
 
 const Notification: React.FC<NotificationProps> = ({
   boardTitle,

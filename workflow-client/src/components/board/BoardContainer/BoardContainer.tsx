@@ -1,7 +1,10 @@
 import React from "react";
+
+import { BoardContainerProps } from "./types";
+
 import Pagination from "@/components/general/Pagination/Pagination";
+
 import BoardCard from "@/components/board/BoardCard";
-import { BoardContainerProps } from "./";
 
 import "./BoardContainer.scss";
 

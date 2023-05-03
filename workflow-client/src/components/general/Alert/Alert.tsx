@@ -1,9 +1,12 @@
 import React from "react";
-import Portal from "@/components/layout/Portal";
-import "./Alert.scss";
-import { AlertProps, AlertTypes } from ".";
+
+import { AlertProps, AlertTypes } from "./types";
 
 import { FaCheck, FaExclamationTriangle, FaExclamationCircle } from "react-icons/fa";
+
+import Portal from "@/components/layout/Portal";
+
+import "./Alert.scss";
 
 const Alert: React.FC<AlertProps> = ({ message, type, show }) => {
   const warningIcon = () => {

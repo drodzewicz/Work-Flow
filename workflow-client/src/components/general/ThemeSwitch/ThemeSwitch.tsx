@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import "./ThemeSwitch.scss";
-import "./ThemeSwitch-dark.scss";
-import { FaMoon, FaSun } from "react-icons/fa";
+
 import { theme } from "@/types/general";
+
+import { FaMoon, FaSun } from "react-icons/fa";
+
 import { getAppTheme } from "@/service/theme";
+
+import "./ThemeSwitch-dark.scss";
+import "./ThemeSwitch.scss";
 
 const ThemeSwitch: React.FC = () => {
   const [currentTheme, setCurrentTheme] = useState(false);
@@ -42,7 +46,8 @@ const ThemeSwitch: React.FC = () => {
     <div
       role="button"
       onClick={toggleTheme}
-      className={`switch-button ${currentTheme ? "switch-button--dark" : "switch-button--light"}`}>
+      className={`switch-button ${currentTheme ? "switch-button--dark" : "switch-button--light"}`}
+    >
       <div className="switch-button__circle">{currentTheme ? <FaMoon /> : <FaSun />}</div>
     </div>
   );

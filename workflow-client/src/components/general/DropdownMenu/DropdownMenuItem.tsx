@@ -1,5 +1,6 @@
 import React from "react";
-import { DropdownMenuItemProps } from ".";
+
+import { DropdownMenuItemProps } from "./types";
 
 const DropdownMenuItem: React.FC<DropdownMenuItemProps> = (props) => {
   return (

@@ -1,8 +1,12 @@
 import React, { useRef } from "react";
+
+import { TagButtonProps } from "./types";
+
 import { FaTag } from "react-icons/fa";
-import "./TagButton.scss";
+
 import Tooltip from "@/components/general/Tooltip";
-import { TagButtonProps } from ".";
+
+import "./TagButton.scss";
 
 const TagButton: React.FC<TagButtonProps> = ({ onClick, showIcon, color, name, selected }) => {
   const anchorEl = useRef(null);
@@ -13,7 +17,8 @@ const TagButton: React.FC<TagButtonProps> = ({ onClick, showIcon, color, name, s
         type="button"
         onClick={onClick}
         className={`tag-button ${color} ${selected ? "tag-button--selected" : ""}`}
-        ref={anchorEl}>
+        ref={anchorEl}
+      >
         {showIcon && <FaTag />}
       </button>
       {name && (

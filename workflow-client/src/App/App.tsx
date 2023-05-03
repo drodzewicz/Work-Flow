@@ -1,16 +1,19 @@
-import React, { useContext, useState, useEffect } from "react";
-import Navbar from "@/components/layout/Navbar";
-import Modal from "@/components/layout/Modal/Modal";
-import "./App.scss";
-import { UserContext, UserActionType } from "@/context/UserContext";
-import { AlertContext } from "@/context/AlertContext";
+import React, { useContext, useEffect, useState } from "react";
 
+import { isUserAuthenticated } from "@/service";
 import Routes from "@/views/Routes";
 
-import Footer from "@/components/layout/Footer";
-import LoadingOverlay from "@/components/layout/LoadingOverlay/LoadingOverlay";
+import { AlertContext } from "@/context/AlertContext";
+import { UserActionType, UserContext } from "@/context/UserContext";
+
 import WarningNotification from "@/components/general/Alert";
-import { isUserAuthenticated } from "@/service";
+
+import Footer from "@/components/layout/Footer";
+import LoadingOverlay from "@/components/layout/LoadingOverlay";
+import Modal from "@/components/layout/Modal";
+import Navbar from "@/components/layout/Navbar";
+
+import "./App.scss";
 
 const App: React.FC = () => {
   const {
@@ -26,15 +29,16 @@ const App: React.FC = () => {
       const { data, status } = await isUserAuthenticated();
       if (status === 401) userDispatch({ type: UserActionType.LOGIN_FAIL });
       if (data)
-        userDispatch({ type: UserActionType.LOGIN_SUCCESS, payload: { user: data.user } });
+        userDispatch({
+          type: UserActionType.LOGIN_SUCCESS,
+          payload: { user: data.user },
+        });
     };
     checkUserAuthentication();
-
   }, [userDispatch]);
 
   useEffect(() => {
     if (authStatus === "success" || authStatus === "failed") setAuthLoading(false);
-
   }, [authStatus]);
 
   return (

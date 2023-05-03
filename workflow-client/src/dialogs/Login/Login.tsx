@@ -1,18 +1,17 @@
 import React, { useContext, useEffect } from "react";
-import { FormikProps, Form, Field, withFormik } from "formik";
-import { FormValues } from ".";
-import { TextField } from "@/components/general/TextInput";
-import Button from "@/components/general/Button";
-import { UserContext, UserActionType } from "@/context/UserContext";
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
-import { login } from "@/service";
-import * as Yup from "yup";
-import "./Login.scss";
 
-export const validationSchema = Yup.object({
-  username: Yup.string().max(25, "username is too long").required("field is required"),
-  password: Yup.string().min(5, "must be at least 5 characters").required("field is required"),
-});
+import { login } from "@/service";
+import { FormikProps, Form, Field, withFormik } from "formik";
+
+import { ModalContext, ModalActionType } from "@/context/ModalContext";
+import { UserContext, UserActionType } from "@/context/UserContext";
+
+import Button from "@/components/general/Button";
+import { TextField } from "@/components/general/TextInput";
+
+import "./Login.scss";
+import { validationSchema } from "./formSchema";
+import { FormValues } from "./types";
 
 const LoginForm: React.FC<FormikProps<FormValues>> = (props) => {
   const { errors, isSubmitting, isValid, status, setErrors } = props;
@@ -39,7 +38,8 @@ const LoginForm: React.FC<FormikProps<FormValues>> = (props) => {
         disabled={isSubmitting || !isValid}
         variant="glow"
         className="login-form__btn"
-        type="submit">
+        type="submit"
+      >
         Log In
       </Button>
     </Form>

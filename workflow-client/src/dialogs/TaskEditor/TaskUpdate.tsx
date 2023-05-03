@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
-import TaskEditor from "./TaskEditor";
+
 import { withFormik } from "formik";
-import { FormValues, validationSchema, TaskUpdateProps, TaskUpdateFormik } from ".";
+
 import { getBoardTask, updateBoardTask } from "@/service/task";
+
 import LoadingOverlay from "@/components/layout/LoadingOverlay";
+
+import TaskEditor from "./TaskEditor";
+import { validationSchema } from "./formSchema";
+import { FormValues, TaskUpdateProps, TaskUpdateFormik } from "./types";
 
 const TaskUpdate: React.FC<TaskUpdateProps> = (props) => {
   const { boardId, taskId } = props;

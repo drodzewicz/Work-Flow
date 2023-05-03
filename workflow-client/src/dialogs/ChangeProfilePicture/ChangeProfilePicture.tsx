@@ -1,16 +1,16 @@
 import React, { useContext, useEffect } from "react";
-import { FormikProps, Form, Field, withFormik } from "formik";
-import { TextField } from "@/components/general/TextInput";
-import Button from "@/components/general/Button";
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
-import { changeAvatar } from "@/service";
-import { FormValues, ChangeProfilePictureProps } from ".";
-import * as Yup from "yup";
-import "./ChangeProfilePicture.scss";
 
-export const validationSchema = Yup.object({
-  imageLink: Yup.string().url().required("image link is required"),
-});
+import { changeAvatar } from "@/service";
+import { FormikProps, Form, Field, withFormik } from "formik";
+
+import { ModalContext, ModalActionType } from "@/context/ModalContext";
+
+import Button from "@/components/general/Button";
+import { TextField } from "@/components/general/TextInput";
+
+import "./ChangeProfilePicture.scss";
+import { validationSchema } from "./formSchema";
+import { FormValues, ChangeProfilePictureProps } from "./types";
 
 const ChangeProfilePicture: React.FC<FormikProps<FormValues>> = (props) => {
   const { errors, isSubmitting, isValid, status } = props;
@@ -29,7 +29,8 @@ const ChangeProfilePicture: React.FC<FormikProps<FormValues>> = (props) => {
         disabled={isSubmitting || !isValid}
         variant="glow"
         className="change-profile-picture__update-btn"
-        type="submit">
+        type="submit"
+      >
         Update
       </Button>
     </Form>

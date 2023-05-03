@@ -1,19 +1,16 @@
 import React, { useContext, useEffect } from "react";
-import { FormikProps, Form, Field, withFormik } from "formik";
-import { TextField } from "@/components/general/TextInput";
-import Button from "@/components/general/Button";
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
-import { changePassword } from "@/service";
-import { FormValues } from ".";
-import * as Yup from "yup";
-import "./ChangePassword.scss";
 
-const validationSchema = Yup.object({
-  newPassword: Yup.string().min(5, "must be at least 5 characters").required("field is required"),
-  matchPassword: Yup.string()
-    .oneOf([Yup.ref("newPassword")], "password does not match")
-    .required("Password confirm is required"),
-});
+import { changePassword } from "@/service";
+import { FormikProps, Form, Field, withFormik } from "formik";
+
+import { ModalContext, ModalActionType } from "@/context/ModalContext";
+
+import Button from "@/components/general/Button";
+import { TextField } from "@/components/general/TextInput";
+
+import "./ChangePassword.scss";
+import { validationSchema } from "./formSchema";
+import { FormValues } from "./types";
 
 const ChangePasswordForm: React.FC<FormikProps<FormValues>> = (props) => {
   const { errors, isSubmitting, isValid, status, setErrors } = props;
@@ -35,7 +32,8 @@ const ChangePasswordForm: React.FC<FormikProps<FormValues>> = (props) => {
         disabled={isSubmitting || !isValid}
         variant="glow"
         className="change-password__submit-btn"
-        type="submit">
+        type="submit"
+      >
         Submit
       </Button>
     </Form>

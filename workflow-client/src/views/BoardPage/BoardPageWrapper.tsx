@@ -1,7 +1,10 @@
 import React from "react";
-import BoardPage from "./BoardPage";
+
+import { BoardPageProps } from "./types";
+
 import { TaskProvider } from "@/context/TaskContext/TaskContext";
-import { BoardPageProps } from ".";
+
+import BoardPage from "./BoardPage";
 
 const BoardPageWrapper: React.FC<BoardPageProps> = (props) => {
   return (

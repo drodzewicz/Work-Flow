@@ -1,7 +1,10 @@
 import React, { useRef } from "react";
-import "./NavItem.scss";
+
+import { NavItemProps } from "./types";
+
 import DropdownMenu from "@/components/general/DropdownMenu/DropdownMenu";
-import { NavItemProps } from "./";
+
+import "./NavItem.scss";
 
 const NavItem: React.FC<NavItemProps> = ({
   Icon,
@@ -28,7 +31,8 @@ const NavItem: React.FC<NavItemProps> = ({
           scrollableAt={dropDownScrollableAt}
           onClickClose={dropDownOnClickClose}
           offset={offset}
-          anchorEl={anchorElement}>
+          anchorEl={anchorElement}
+        >
           {children}
         </DropdownMenu>
       )}

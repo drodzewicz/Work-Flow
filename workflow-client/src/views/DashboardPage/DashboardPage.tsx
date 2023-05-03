@@ -1,17 +1,26 @@
 import React, { useState, useContext, useEffect, useCallback, useRef } from "react";
-import "./DashboardPage.scss";
-import Button from "@/components/general/Button";
-import BoardCreate from "@/dialogs/BoardEditor/BoardCreate";
-import ContainerBox from "@/components/layout/ContainerBox/ContainerBox";
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
-import { getPinnedBoards, getMyBoards, togglePinBoard } from "@/service";
-import BoardContainer from "@/components/board/BoardContainer";
+
 import { BoardI } from "@/types/general";
-import LoadingOverlay from "@/components/layout/LoadingOverlay/LoadingOverlay";
+
 import { ReactComponent as Pined } from "@/assets/images/pin-full.svg";
+import { getPinnedBoards, getMyBoards, togglePinBoard } from "@/service";
 import { FaPlus } from "react-icons/fa";
 import { FaColumns } from "react-icons/fa";
+
+import { ModalContext, ModalActionType } from "@/context/ModalContext";
+
 import { usePagination } from "@/Hooks/usePagination";
+
+import Button from "@/components/general/Button";
+
+import ContainerBox from "@/components/layout/ContainerBox/ContainerBox";
+import LoadingOverlay from "@/components/layout/LoadingOverlay/LoadingOverlay";
+
+import BoardContainer from "@/components/board/BoardContainer";
+
+import BoardCreate from "@/dialogs/BoardEditor/BoardCreate";
+
+import "./DashboardPage.scss";
 
 const DashboardPage: React.FC = () => {
   const { currentPage, totalPages, limit, setCurrentPage, setTotalPages } = usePagination({

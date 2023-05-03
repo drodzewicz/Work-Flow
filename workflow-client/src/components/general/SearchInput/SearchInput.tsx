@@ -1,10 +1,15 @@
 import React, { ChangeEvent, FormEvent, useRef } from "react";
+
+import { SearchInputProps } from "./types";
+
 import { FaTimes, FaSearch } from "react-icons/fa";
-import "./SearchInput.scss";
-import "./SearchInput-dark.scss";
-import { SearchInputProps } from ".";
-import SearchResult from "./SearchResult";
+
 import { useClickOutside } from "@/Hooks/useClickOutside";
+
+import "./SearchInput-dark.scss";
+import "./SearchInput.scss";
+
+import SearchResult from "./SearchResult";
 
 const SearchInput: React.FC<SearchInputProps> = ({
   debounceTimeout,

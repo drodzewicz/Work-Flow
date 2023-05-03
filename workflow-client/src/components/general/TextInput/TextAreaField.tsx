@@ -1,6 +1,8 @@
 import React from "react";
+
+import { TextAreaFieldProps } from "./types";
+
 import "./TextField.scss";
-import { TextAreaFieldProps } from ".";
 
 const TextAreaField: React.FC<TextAreaFieldProps> = (props) => {
   const { label, className, error, name, ...fieldProps } = props;
@@ -9,11 +11,13 @@ const TextAreaField: React.FC<TextAreaFieldProps> = (props) => {
       <textarea
         name={name}
         className={`text-field__textarea scrollbar ${className || ""}`}
-        {...fieldProps}></textarea>
+        {...fieldProps}
+      ></textarea>
       <div className="text-field__line"></div>
       <label
         htmlFor={name}
-        className={`text-field__label ${fieldProps.value !== "" ? "text-field__valid" : ""}`}>
+        className={`text-field__label ${fieldProps.value !== "" ? "text-field__valid" : ""}`}
+      >
         {label || name}
       </label>
       {!!error && <span className="text-field__error">{error}</span>}

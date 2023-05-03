@@ -1,6 +1,7 @@
 import { moveColumn, moveTask } from "@/service";
-import { TasksActionType } from "@/context/TaskContext";
 import { DropResult, DraggableLocation } from "react-beautiful-dnd";
+
+import { TasksActionType } from "@/context/TaskContext";
 import { tasksState } from "@/context/TaskContext/";
 import { TaskActions } from "@/context/TaskContext/TaskActions";
 

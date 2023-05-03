@@ -1,9 +1,14 @@
 import React, { useContext } from "react";
-import { ColumnProps } from "../";
-import Column from "../Column";
-import { Draggable } from "react-beautiful-dnd";
-import { UserContext } from "@/context/UserContext";
+
 import { UserBoardRoles } from "@/types/general";
+
+import { ColumnProps } from "../types";
+
+import { Draggable } from "react-beautiful-dnd";
+
+import { UserContext } from "@/context/UserContext";
+
+import Column from "../Column";
 
 const DragableColumn: React.FC<ColumnProps> = (props) => {
   const { columnId, columnIndex } = props;

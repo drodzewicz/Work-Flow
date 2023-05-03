@@ -1,14 +1,20 @@
 import React, { useContext, useState, useEffect } from "react";
-import NavItem from "@/components/layout/Navbar/NavItem";
-import ThemeSwitch from "@/components/general/ThemeSwitch";
-import Notification from "@/components/general/Notification";
-import { useHistory, Link } from "react-router-dom";
-import { UserContext, UserActionType } from "@/context/UserContext";
+
+import { NotificationI } from "@/types/general";
+
 import { getNotifications, removeNotification } from "@/service";
 import { FaSignOutAlt, FaUserAlt, FaHome, FaBell } from "react-icons/fa";
+import { useHistory, Link } from "react-router-dom";
+
+import { UserContext, UserActionType } from "@/context/UserContext";
+
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
+import Notification from "@/components/general/Notification";
+import ThemeSwitch from "@/components/general/ThemeSwitch";
+
+import NavItem from "@/components/layout/Navbar/NavItem";
+
 import "./UserNav.scss";
-import { NotificationI } from "@/types/general";
 
 const UserNav: React.FC = () => {
   const history = useHistory();
@@ -26,7 +32,6 @@ const UserNav: React.FC = () => {
 
   useEffect(() => {
     handlGetMyNotifications();
-    return () => {};
   }, []);
 
   const goToHomePage = () => {
@@ -55,7 +60,8 @@ const UserNav: React.FC = () => {
         offset={{ x: -60, y: 10 }}
         Icon={FaUserAlt}
         label={user.username}
-        className="profile-nav">
+        className="profile-nav"
+      >
         <DropdownMenuItem>
           <Link to="/profile">
             <FaUserAlt /> Profile
@@ -74,7 +80,8 @@ const UserNav: React.FC = () => {
         className={`notification-nav ${notifications.length > 0 ? "badge" : ""}`}
         dropDownScrollableAt={400}
         dropDownOnClickClose={false}
-        Icon={FaBell}>
+        Icon={FaBell}
+      >
         {notifications.map(({ _id, title, info, url }, index) => (
           <DropdownMenuItem key={_id}>
             <Notification

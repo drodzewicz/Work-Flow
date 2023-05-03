@@ -1,12 +1,15 @@
 import React, { useContext, useEffect } from "react";
-import "./Modal.scss";
-import "./Modal-dark.scss";
-import Backdrop from "../Backdrop";
-import Portal from "@/components/layout/Portal";
 
 import { FaTimes } from "react-icons/fa";
 
 import { ModalContext, ModalActionType } from "@/context/ModalContext";
+
+import Portal from "@/components/layout/Portal";
+
+import "./Modal-dark.scss";
+import "./Modal.scss";
+
+import Backdrop from "../Backdrop";
 
 const Modal: React.FC = () => {
   const {

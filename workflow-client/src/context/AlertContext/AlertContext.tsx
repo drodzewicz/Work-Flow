@@ -1,7 +1,9 @@
 import React, { createContext, useReducer, useEffect, useRef } from "react";
+
+import { AlertTypes } from "@/components/general/Alert/types";
+
 import { AlertActionType, AlertState } from ".";
 import { AlertActions } from "./AlertActions";
-import { AlertTypes } from "@/components/general/Alert";
 
 const initialState: AlertState = { type: AlertTypes.SUCCESS, message: "", show: false };
 

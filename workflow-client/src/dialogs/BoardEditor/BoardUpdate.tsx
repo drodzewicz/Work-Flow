@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import BoardEditorForm from "./BoardEditorForm";
-import { withFormik } from "formik";
-import { validationSchema, BoardEditorProps, FormValues } from ".";
-import { FormikProps } from "formik";
-import LoadingOverlay from "@/components/layout/LoadingOverlay";
+
 import { updateBoard, getBoard } from "@/service";
 import axios, { CancelTokenSource } from "axios";
+import { withFormik } from "formik";
+import { FormikProps } from "formik";
+
+import LoadingOverlay from "@/components/layout/LoadingOverlay";
+
+import BoardEditorForm from "./BoardEditorForm";
+import { validationSchema } from "./formSchema";
+import { BoardEditorProps, FormValues } from "./types";
 
 const BoardUpdate: React.FC<BoardEditorProps & FormikProps<FormValues>> = (props) => {
   return <BoardEditorForm {...props} submitType="Update" />;

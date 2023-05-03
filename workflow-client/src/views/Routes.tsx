@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
+
 import { Switch, Route, Redirect, RouteProps } from "react-router-dom";
 
-import WelcomePage from "./WelcomePage";
-import ProfilePage from "./ProfilePage";
+import { UserContext } from "@/context/UserContext";
+
 import BoardPage from "./BoardPage";
 import DashboardPage from "./DashboardPage";
 import ErrorPage from "./ErrorPage";
-
-import { UserContext } from "@/context/UserContext";
+import ProfilePage from "./ProfilePage";
+import WelcomePage from "./WelcomePage";
 
 interface ProtectedRouteProps extends RouteProps {
   auth: string | null;

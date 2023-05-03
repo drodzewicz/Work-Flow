@@ -1,4 +1,4 @@
-import { AlertTypes } from "@/components/general/Alert";
+import { AlertTypes } from "@/components/general/Alert/types";
 
 export enum AlertActionType {
   SUCCESS = "SUCCESS",

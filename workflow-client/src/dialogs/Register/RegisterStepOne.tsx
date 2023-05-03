@@ -1,8 +1,12 @@
 import React from "react";
+
 import { FormikProps, Form, Field, withFormik } from "formik";
-import { TextField } from "@/components/general/TextInput";
+
 import Button from "@/components/general/Button";
-import { RegisterStepProps, RegisterOneFormValues, validationSchemaStepOne } from ".";
+import { TextField } from "@/components/general/TextInput";
+
+import { validationSchemaStepOne } from "./formSchema";
+import { RegisterStepProps, RegisterOneFormValues } from "./types";
 
 const RegisterStage1: React.FC<FormikProps<RegisterOneFormValues>> = (props) => {
   const { errors, isValid } = props;

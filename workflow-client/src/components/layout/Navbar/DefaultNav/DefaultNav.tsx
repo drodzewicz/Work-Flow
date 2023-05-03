@@ -1,8 +1,12 @@
 import React, { useContext } from "react";
+
+import { ModalContext, ModalActionType } from "@/context/ModalContext";
+
 import NavItem from "@/components/layout/Navbar/NavItem/NavItem";
+
 import Login from "@/dialogs/Login";
 import Register from "@/dialogs/Register/Register";
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
+
 import "./DefaultNav.scss";
 
 const DefaultNav: React.FC = () => {

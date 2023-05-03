@@ -1,7 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
-import "./Tooltip.scss";
+
+import { TooltipPorps } from "./types";
+
 import Portal from "@/components/layout/Portal";
-import { TooltipPorps } from "./index";
+
+import "./Tooltip.scss";
 
 const Tooltip: React.FC<TooltipPorps> = ({
   className,
@@ -44,12 +47,12 @@ const Tooltip: React.FC<TooltipPorps> = ({
       tooltipAnchorElement.removeEventListener("mouseleave", hideToolTipHandler);
     };
   }, [offset, anchorEl, debounceTimeout]);
-	
-	const computeClassName = () => {
-		const classes: string[] = ["tooltip"];
-		classes.push(className || "");
-		return classes.join(" ");
-	}
+
+  const computeClassName = () => {
+    const classes: string[] = ["tooltip"];
+    classes.push(className || "");
+    return classes.join(" ");
+  };
 
   if (showTooltip) {
     return (
@@ -57,7 +60,8 @@ const Tooltip: React.FC<TooltipPorps> = ({
         <div
           ref={toolTipRef}
           style={{ top: cords.top, left: cords.left }}
-          className={computeClassName()}>
+          className={computeClassName()}
+        >
           {children}
         </div>
       </Portal>

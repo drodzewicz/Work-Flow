@@ -1,8 +1,12 @@
 import React from "react";
-import TaskEditor from "./TaskEditor";
+
 import { withFormik, FormikProps } from "formik";
-import { FormValues, TaskCreateProps, validationSchema, TaskEditorFormProps } from ".";
+
 import { createTask } from "@/service/task";
+
+import TaskEditor from "./TaskEditor";
+import { validationSchema } from "./formSchema";
+import { FormValues, TaskCreateProps, TaskEditorFormProps } from "./types";
 
 const TaskCreate: React.FC<Omit<TaskEditorFormProps, "submitType"> & FormikProps<FormValues>> = (
   props

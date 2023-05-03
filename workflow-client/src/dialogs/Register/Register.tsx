@@ -1,14 +1,16 @@
 import React, { useState, useContext } from "react";
+
+import { register } from "@/service";
+
+import { AlertContext, AlertActionType } from "@/context/AlertContext";
+import { ModalContext, ModalActionType } from "@/context/ModalContext";
+
+import LoadingOverlay from "@/components/layout/LoadingOverlay";
+
 import "./Register.scss";
 import RegisterStepOne from "./RegisterStepOne";
 import RegisterStepTwo from "./RegisterStepTwo";
-import LoadingOverlay from "@/components/layout/LoadingOverlay";
-
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
-import { AlertContext, AlertActionType } from "@/context/AlertContext";
-import { register } from "@/service";
-
-import { RegisterFields, RegisterFieldsOr } from ".";
+import { RegisterFields, RegisterFieldsOr } from "./types";
 
 const Register = () => {
   const [currentStep, setCurrentStep] = useState<number>(0);

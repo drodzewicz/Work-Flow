@@ -1,22 +1,28 @@
-import React, { useState, useContext, useEffect, useCallback, useRef } from "react";
-import { UserContext } from "@/context/UserContext";
-import SearchInput from "@/components/general/SearchInput";
-import BoardMemberUser from "./BoardMemberUser/BoardMemberUser";
-import Pagination from "@/components/general/Pagination";
-import "./BoardMembers.scss";
-import { BoardMembersProps, SearchedUser } from ".";
-import { UserBoardRoles, UserShortI } from "@/types/general";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+
 import {
-  getBoardMembers,
-  searchUsersByUsername,
-  removeUserFromBoard,
   addUserToBoard,
   changeBoardUserRole,
+  getBoardMembers,
+  removeUserFromBoard,
+  searchUsersByUsername,
 } from "@/service";
+import { UserBoardRoles, UserShortI } from "@/types/general";
 import { BoardUserI } from "@/types/general";
-import { usePagination } from "@/Hooks/usePagination";
 import axios, { CancelTokenSource } from "axios";
+
+import { UserContext } from "@/context/UserContext";
+
+import { usePagination } from "@/Hooks/usePagination";
+
+import Pagination from "@/components/general/Pagination";
+import SearchInput from "@/components/general/SearchInput";
+
 import LoadingOverlay from "@/components/layout/LoadingOverlay";
+
+import BoardMemberUser from "./BoardMemberUser/BoardMemberUser";
+import "./BoardMembers.scss";
+import { BoardMembersProps, SearchedUser } from "./types";
 
 const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
   const [isPageLoading, setPageLoading] = useState(true);

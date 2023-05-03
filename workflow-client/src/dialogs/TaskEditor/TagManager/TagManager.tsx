@@ -1,7 +1,9 @@
 import React from "react";
-import "./TagManager.scss";
-import { TagManagerProps } from ".";
+
 import { FaRegCheckSquare, FaRegSquare } from "react-icons/fa";
+
+import "./TagManager.scss";
+import { TagManagerProps } from "./types";
 
 const TagChoiceControll: React.FC<TagManagerProps> = ({ tags, selectTagHandler }) => {
   return (
@@ -13,7 +15,8 @@ const TagChoiceControll: React.FC<TagManagerProps> = ({ tags, selectTagHandler }
           onClick={() => selectTagHandler(tag)}
           className={`tag-manager__item tag-manager__item--${tag.color.toLowerCase()} ${
             tag.checked ? "checked" : ""
-          }`}>
+          }`}
+        >
           <span>{tag.name}</span>
           {tag.checked ? (
             <FaRegCheckSquare className="tag-manager__item__check-icon" />

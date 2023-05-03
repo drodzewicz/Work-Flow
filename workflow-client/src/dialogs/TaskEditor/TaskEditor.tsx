@@ -1,17 +1,23 @@
 import React, { useState, useEffect, useContext } from "react";
-import "./TaskEditor.scss";
-import { TextField, TextAreaField } from "@/components/general/TextInput";
+
+import { TagI, UserShortI } from "@/types/general";
+
+import { TaskEditorFormProps, FormValues } from "./types";
+
+import { getBoardTags } from "@/service";
+import { FormikProps, Form, Field } from "formik";
+import { FaTags, FaUserFriends } from "react-icons/fa";
+
+import { AlertContext, AlertActionType } from "@/context/AlertContext";
 import { ModalContext, ModalActionType } from "@/context/ModalContext";
 
 import Button from "@/components/general/Button/Button";
-import { FormikProps, Form, Field } from "formik";
-import { getBoardTags } from "@/service";
-import TagManager from "./TagManager/TagManager";
-import UserManager from "./UserManager/UserManager";
-import { AlertContext, AlertActionType } from "@/context/AlertContext";
-import { TaskEditorFormProps, FormValues } from ".";
-import { TagI, UserShortI } from "@/types/general";
-import { FaTags, FaUserFriends } from "react-icons/fa";
+import { TextField, TextAreaField } from "@/components/general/TextInput";
+
+import TagManager from "@/dialogs/TaskEditor/TagManager";
+import UserManager from "@/dialogs/TaskEditor/UserManager";
+
+import "./TaskEditor.scss";
 
 const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = (props) => {
   const {
@@ -50,7 +56,7 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
     if (status?.submitStatus === "SUCCESS") {
       modalDispatch({ type: ModalActionType.CLOSE });
       alertDispatch({ type: AlertActionType.SUCCESS, payload: { message: status.message } });
-    } else if(status?.submitStatus === "ERROR") {
+    } else if (status?.submitStatus === "ERROR") {
       alertDispatch({ type: AlertActionType.ERROR, payload: { message: status.message } });
     }
   }, [status, modalDispatch, alertDispatch]);
@@ -115,7 +121,8 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
           onClick={submitHandler}
           disabled={isSubmitting || !isValid}
           type="submit"
-          variant="glow">
+          variant="glow"
+        >
           {submitType}
         </Button>
       </div>

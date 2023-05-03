@@ -1,11 +1,15 @@
 import React, { MouseEvent } from "react";
-import { useHistory } from "react-router-dom";
+
+import { BoardcardProps } from "./types";
+
 import { ReactComponent as Pin } from "@/assets/images/pin-empty.svg";
 import { ReactComponent as Pined } from "@/assets/images/pin-full.svg";
-import "./BoardCard.scss";
+import { useHistory } from "react-router-dom";
+
 import "./BoardCard-dark.scss";
+import "./BoardCard.scss";
+
 import BoardOptions from "./BoardOptions/BoardOptions";
-import { BoardcardProps } from "./";
 
 const BoardCard: React.FC<BoardcardProps> = ({
   boardName,
@@ -43,18 +47,15 @@ const BoardCard: React.FC<BoardcardProps> = ({
             className="board-card__content__menu__icon"
             role="button"
             onClick={togglePinBoard}
-            data-testid={`${boardId}-pin-btn`}>
+            data-testid={`${boardId}-pin-btn`}
+          >
             {isPinned ? (
               <Pined data-testid={`${boardId}-pinned`} />
             ) : (
               <Pin data-testid={`${boardId}-pin`} />
             )}
           </span>
-          <BoardOptions
-            boardId={boardId}
-            removeBoardCallback={removeBoard}
-            isAuthor={isAuthor}
-          />
+          <BoardOptions boardId={boardId} removeBoardCallback={removeBoard} isAuthor={isAuthor} />
         </div>
       </div>
     </div>

@@ -1,21 +1,26 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { useHistory } from "react-router-dom";
-import "./TaskDisplay.scss";
-import User from "@/components/board/User";
-import Tag from "@/components/board/Tag/Tag";
-import Button from "@/components/general/Button";
 
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
+import { getBoardTask, deleteTask } from "@/service";
+import { TaskI } from "@/types/general";
+import axios, { CancelTokenSource } from "axios";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { useHistory } from "react-router-dom";
+
 import { AlertContext, AlertActionType } from "@/context/AlertContext";
+import { ModalContext, ModalActionType } from "@/context/ModalContext";
 import { UserContext } from "@/context/UserContext";
 
-import TaskUpdate from "@/dialogs/TaskEditor/TaskUpdate";
-import { getBoardTask, deleteTask } from "@/service";
+import Button from "@/components/general/Button";
+
 import LoadingOverlay from "@/components/layout/LoadingOverlay";
-import { TaskDisplayProps } from ".";
-import { TaskI } from "@/types/general";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import axios, { CancelTokenSource } from "axios";
+
+import Tag from "@/components/board/Tag/Tag";
+import User from "@/components/board/User";
+
+import TaskUpdate from "@/dialogs/TaskEditor/TaskUpdate";
+
+import "./TaskDisplay.scss";
+import { TaskDisplayProps } from "./types";
 
 const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
   const { modalDispatch } = useContext(ModalContext);

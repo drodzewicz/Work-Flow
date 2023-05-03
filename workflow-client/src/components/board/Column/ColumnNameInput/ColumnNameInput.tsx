@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, ChangeEvent } from "react";
-import { ColumnNameInputProps } from ".";
+
+import { ColumnNameInputProps } from "./types";
+
 import "./ColumnNameInput.scss";
 
 const ColumnNameInput: React.FC<ColumnNameInputProps> = ({

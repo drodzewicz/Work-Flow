@@ -1,9 +1,11 @@
 import React, { ChangeEvent, useState } from "react";
 
+import { NewColumnProps } from "./types";
+
 import { createColumn } from "@/service";
-import { NewColumnProps } from "./";
-import "./NewColumn.scss";
+
 import "./NewColumn-dark.scss";
+import "./NewColumn.scss";
 
 const NewColumn: React.FC<NewColumnProps> = ({ boardId }) => {
   const [columnName, setColumnName] = useState<string>("");

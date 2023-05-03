@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./DropdownMenu.scss";
-import "./DropdownMenu-dark.scss";
-import Portal from "@/components/layout/Portal";
-import useWindowSize from "@/Hooks/useWindowSize";
-import { DropdownMenuProps } from ".";
+
+import { DropdownMenuProps } from "./types";
+
 import { useClickOutside } from "@/Hooks/useClickOutside";
+import useWindowSize from "@/Hooks/useWindowSize";
+
+import Portal from "@/components/layout/Portal";
+
+import "./DropdownMenu-dark.scss";
+import "./DropdownMenu.scss";
 
 const DropdownMenu: React.FC<DropdownMenuProps> = ({
   className,
@@ -56,7 +60,8 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
           ref={dropDownMenuRef}
           style={{ top: cords.top, left: cords.left, maxHeight: scrollableAt }}
           onClick={onClickClose ? closeMenuClickHandler : undefined}
-          className={computeClassName()}>
+          className={computeClassName()}
+        >
           {children}
         </ul>
       </Portal>

@@ -1,5 +1,7 @@
 import React from "react";
+
 import { FaCode, FaUserCircle } from "react-icons/fa";
+
 import "./Footer.scss";
 
 const Footer = () => {
@@ -8,7 +10,8 @@ const Footer = () => {
       <a
         href="https://github.com/DaRoTP/Task-Manager_node-react"
         id="footer__source-code"
-        className="app-footer__item">
+        className="app-footer__item"
+      >
         <FaCode className="app-footer__icon" />
         <span>source code</span>
       </a>

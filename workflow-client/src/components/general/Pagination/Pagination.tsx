@@ -1,8 +1,11 @@
 import React from "react";
-import "./Pagination.scss";
-import "./Pagination-dark.scss";
+
+import { PaginationProps } from "./types";
+
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
-import { PaginationProps } from "./";
+
+import "./Pagination-dark.scss";
+import "./Pagination.scss";
 
 // TODO create a usePagination hook for currentPage total and new page handler
 
@@ -22,12 +25,14 @@ const Pagination: React.FC<PaginationProps> = ({ current, total, handleChange })
             <button
               aria-label="Previouse page arrow"
               onClick={previousPage}
-              className=" pagination__item pagination__arrow">
+              className=" pagination__item pagination__arrow"
+            >
               <FaAngleLeft />
             </button>
             <div
               aria-label="Previouse page"
-              className={`pagination__dots ${current - 1 === 1 ? "hide" : ""}`}>
+              className={`pagination__dots ${current - 1 === 1 ? "hide" : ""}`}
+            >
               ...
             </div>
             <button onClick={previousPage} className="pagination__item">
@@ -49,7 +54,8 @@ const Pagination: React.FC<PaginationProps> = ({ current, total, handleChange })
             <button
               aria-label="Next page arrow"
               onClick={nextPage}
-              className="pagination__item pagination__arrow">
+              className="pagination__item pagination__arrow"
+            >
               <FaAngleRight />
             </button>
           </>

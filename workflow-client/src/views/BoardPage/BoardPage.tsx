@@ -1,27 +1,38 @@
 import React, { useState, useContext, useEffect, useRef, useCallback } from "react";
+
+import { UserBoardRoles } from "@/types/general";
+
+import { BoardPageProps } from "./types";
+
+import { getLoggedInUserBoardRole, getBoard } from "@/service";
+import axios, { CancelTokenSource } from "axios";
+import queryString from "query-string";
 import { DragDropContext } from "react-beautiful-dnd";
-import "./BoardPage.scss";
-import "./BoardPage-dark.scss";
-import ExpandText from "@/components/general/ExpandText";
-import Button from "@/components/general/Button";
-import TaskBoard from "./TaskBoard";
-import BoardOptions from "@/components/board/BoardCard/BoardOptions";
 import { FaUsers, FaTags } from "react-icons/fa";
+import { useHistory } from "react-router-dom";
+
 import { ModalContext, ModalActionType } from "@/context/ModalContext";
+import { TaskContext, TasksActionType } from "@/context/TaskContext";
 import { UserContext, UserActionType } from "@/context/UserContext";
+
+import { ws } from "@/config/socket.conf";
+
+import Button from "@/components/general/Button";
+import ExpandText from "@/components/general/ExpandText";
+
+import LoadingOverlay from "@/components/layout/LoadingOverlay/LoadingOverlay";
+
+import BoardOptions from "@/components/board/BoardCard/BoardOptions";
+
+import BoardMembers from "@/dialogs/BoardMembers/BoardMembers";
 import Tags from "@/dialogs/Tags/Tags";
 import TaskDisplay from "@/dialogs/TaskDisplay";
-import BoardMembers from "@/dialogs/BoardMembers/BoardMembers";
-import { TaskContext, TasksActionType } from "@/context/TaskContext";
-import { getLoggedInUserBoardRole, getBoard } from "@/service";
-import LoadingOverlay from "@/components/layout/LoadingOverlay/LoadingOverlay";
+
+import "./BoardPage-dark.scss";
+import "./BoardPage.scss";
+
+import TaskBoard from "./TaskBoard";
 import { onDragEnd } from "./dragHelper";
-import { useHistory } from "react-router-dom";
-import queryString from "query-string";
-import { BoardPageProps } from ".";
-import { UserBoardRoles } from "@/types/general";
-import axios, { CancelTokenSource } from "axios";
-import { ws } from "@/config/socket.conf";
 
 const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
   const boardId: string = match.params.id;
@@ -148,7 +159,8 @@ const BoardPage: React.FC<BoardPageProps> = ({ match, location }) => {
         </div>
         <hr className="break-line" style={{ width: "100%" }} />
         <DragDropContext
-          onDragEnd={(result) => onDragEnd(boardId, result, tasksState, tasksDispatch)}>
+          onDragEnd={(result) => onDragEnd(boardId, result, tasksState, tasksDispatch)}
+        >
           <TaskBoard boardId={boardId} />
         </DragDropContext>
       </div>

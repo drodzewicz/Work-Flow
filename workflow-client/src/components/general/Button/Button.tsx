@@ -1,7 +1,9 @@
 import React, { forwardRef } from "react";
-import "./Button.scss";
+
+import { ButtonProps } from "./types";
+
 import "./Button-dark.scss";
-import { ButtonProps } from ".";
+import "./Button.scss";
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, children, variant, ...props }, ref) => {

@@ -1,9 +1,14 @@
 import React from "react";
-import { ReactComponent as Spinner } from "@/assets/spinners/Rolling-1s-200px.svg";
-import "./LoadingOverlay.scss";
-import { LoadingOverlayProps } from ".";
+
 import { theme } from "@/types/general";
+
+import { LoadingOverlayProps } from "./types";
+
+import { ReactComponent as Spinner } from "@/assets/spinners/Rolling-1s-200px.svg";
+
 import { getAppTheme } from "@/service/theme";
+
+import "./LoadingOverlay.scss";
 
 const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   show = true,
@@ -23,7 +28,8 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
     return (
       <div
         className={`loading-overlay ${className || ""}`}
-        style={{ backgroundColor: `rgba(${overlayColor}, ${opacity})` }}>
+        style={{ backgroundColor: `rgba(${overlayColor}, ${opacity})` }}
+      >
         <Spinner className="loading-overlay-spinner" />
       </div>
     );

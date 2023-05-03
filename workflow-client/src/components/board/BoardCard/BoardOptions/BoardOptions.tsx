@@ -1,11 +1,17 @@
 import React, { useRef, useContext } from "react";
+
+import { BoardOptionsProps } from "./types";
+
+import { leaveBoard, deleteBoard } from "@/service";
+import { FaEllipsisV, FaEdit, FaTrashAlt, FaSignOutAlt } from "react-icons/fa";
+
+import { ModalContext, ModalActionType } from "@/context/ModalContext";
+
 import DropdownMenu from "@/components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
-import { FaEllipsisV, FaEdit, FaTrashAlt, FaSignOutAlt } from "react-icons/fa";
-import { leaveBoard, deleteBoard } from "@/service";
+
 import BoardUpdate from "@/dialogs/BoardEditor/BoardUpdate";
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
-import { BoardOptionsProps } from "./";
+
 import "./BoardOptions.scss";
 
 const BoardOptions: React.FC<BoardOptionsProps> = ({ boardId, removeBoardCallback, isAuthor }) => {
@@ -37,13 +43,18 @@ const BoardOptions: React.FC<BoardOptionsProps> = ({ boardId, removeBoardCallbac
 
   return (
     <div className="board-options">
-      <button data-testid={`${boardId}-options`} className="board-options__ellipsis" ref={moreOptionsAnchor}>
+      <button
+        data-testid={`${boardId}-options`}
+        className="board-options__ellipsis"
+        ref={moreOptionsAnchor}
+      >
         <FaEllipsisV />
       </button>
       <DropdownMenu
         data-testid="dropdown-menu"
         className="board-options__menu"
-        anchorEl={moreOptionsAnchor}>
+        anchorEl={moreOptionsAnchor}
+      >
         {isAuthor && (
           <DropdownMenuItem onClick={editEventModal}>
             <FaEdit /> Edit

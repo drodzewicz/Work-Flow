@@ -1,5 +1,6 @@
 import React from "react";
-import { SearchResultI, SearchResultProps } from ".";
+
+import { SearchResultI, SearchResultProps } from "./types";
 
 const SearchResult: React.FC<SearchResultProps> = ({ onClick, data }) => {
   return (
@@ -10,7 +11,8 @@ const SearchResult: React.FC<SearchResultProps> = ({ onClick, data }) => {
           className="search-input__results__item"
           onClick={() => {
             onClick(el);
-          }}>
+          }}
+        >
           {el.text}
         </li>
       ))}

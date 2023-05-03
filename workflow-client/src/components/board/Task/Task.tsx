@@ -1,15 +1,22 @@
 import React, { useContext, useRef } from "react";
-import "./Task.scss";
-import Image from "@/components/general/Image";
-import TaskDisplay from "@/dialogs/TaskDisplay/TaskDisplay";
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
-import { UserContext } from "@/context/UserContext";
-import Tooltip from "@/components/general/Tooltip";
+
+import { UserBoardRoles } from "@/types/general";
+
+import { TaskProps } from "./types";
 
 import { Draggable } from "react-beautiful-dnd";
-import { TaskProps } from "./";
+
+import { ModalContext, ModalActionType } from "@/context/ModalContext";
+import { UserContext } from "@/context/UserContext";
+
+import Image from "@/components/general/Image";
+import Tooltip from "@/components/general/Tooltip";
+
 import TagMini from "@/components/board/Tag/TagMini";
-import { UserBoardRoles } from "@/types/general";
+
+import TaskDisplay from "@/dialogs/TaskDisplay/TaskDisplay";
+
+import "./Task.scss";
 
 const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people = [] }) => {
   const { modalDispatch } = useContext(ModalContext);
@@ -66,7 +73,8 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
     <Draggable
       draggableId={taskId}
       index={taskIndex}
-      isDragDisabled={currentBoard.role === UserBoardRoles.GUEST}>
+      isDragDisabled={currentBoard.role === UserBoardRoles.GUEST}
+    >
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
@@ -74,7 +82,8 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
           {...provided.dragHandleProps}
           className={`task-card ${snapshot.isDragging ? "task-card--dragging" : ""}`}
           onClick={openTaskDetailsModal}
-          style={{ ...provided.draggableProps.style }}>
+          style={{ ...provided.draggableProps.style }}
+        >
           <h3 className="task-card__title">{title}</h3>
           <div className="task-card__bottom">
             <TaskTags />
