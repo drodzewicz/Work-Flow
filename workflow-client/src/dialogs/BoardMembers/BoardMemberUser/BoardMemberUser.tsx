@@ -37,7 +37,7 @@ const BoardMemberUser: React.FC<BoardMembersUserProps> = ({ member, ...actions }
 
   const showUserInfoCard = () => setShowUserInfo(true);
   const hideShowUserInfoCard = () => setShowUserInfo(false);
-  useClickOutside(userInfoCardRef, hideShowUserInfoCard);
+  useClickOutside([userInfoCardRef], hideShowUserInfoCard);
 
   return (
     <User

@@ -21,7 +21,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   let watingTimeout: ReturnType<typeof setTimeout> | null = null;
-  useClickOutside(searchInputRef, clear);
+  useClickOutside([searchInputRef], clear);
 
   const searchHandler = (event: FormEvent) => {
     event.preventDefault();

@@ -20,12 +20,14 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
 }) => {
   const [width] = useWindowSize();
   const [cords, setCords] = useState<{ left: number; top: number }>({ left: 0, top: 0 });
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState<boolean>(false);
   const offsetRef = useRef(offset);
   const dropDownMenuRef = useRef<HTMLUListElement>(null);
 
-  const closeMenuClickHandler = () => setShow(false);
-  useClickOutside(dropDownMenuRef, closeMenuClickHandler);
+  const closeMenuClickHandler = () => {
+    setShow(false);
+  };
+  useClickOutside([dropDownMenuRef, anchorEl], closeMenuClickHandler);
 
   useEffect(() => {
     const dropDownMenuAnchorElement = anchorEl.current;
