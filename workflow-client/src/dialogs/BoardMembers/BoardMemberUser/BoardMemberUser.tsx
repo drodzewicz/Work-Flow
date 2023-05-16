@@ -5,7 +5,7 @@ import { FaShieldAlt, FaUserAlt, FaRegAddressCard, FaCrown } from "react-icons/f
 
 import { UserContext } from "@/context/UserContext";
 
-import { useClickOutside } from "@/Hooks/useClickOutside";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 import User from "@/components/board/User";
 

@@ -13,7 +13,7 @@ import axios, { CancelTokenSource } from "axios";
 
 import { UserContext } from "@/context/UserContext";
 
-import { usePagination } from "@/Hooks/usePagination";
+import { usePagination } from "@/hooks/usePagination";
 
 import Pagination from "@/components/general/Pagination";
 import SearchInput from "@/components/general/SearchInput";

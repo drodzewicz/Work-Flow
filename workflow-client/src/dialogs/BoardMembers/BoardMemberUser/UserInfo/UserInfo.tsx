@@ -1,6 +1,6 @@
 import React, { forwardRef, useRef, useEffect, useState, useCallback } from "react";
-import { matchPath, useLocation } from "react-router-dom";
-import { UserInfoProps } from ".";
+// import { matchPath, useLocation } from "react-router-dom";
+import { UserInfoProps } from "./types";
 import "./UserInfo.scss";
 import { getBoardMember } from "@/service";
 import { BoardUserFullI, UserBoardRoles } from "@/types/general";
@@ -13,12 +13,12 @@ import axios, { CancelTokenSource } from "axios";
 
 const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
   ({ userId, currentRole, removeUser, changeUserRole }, ref) => {
-    const { pathname } = useLocation();
-    const match = matchPath<{ boardId: string }>(pathname, {
-      path: "/board/:boardId",
-      exact: true,
-    });
-    const boardId = match?.params?.boardId || "";
+    // const { pathname } = useLocation();
+    // const match = matchPath<{ boardId: string }>(pathname, {
+    //   path: "/board/:boardId",
+    //   exact: true,
+    // });
+    // const boardId = match?.params?.boardId || "";
     const [user, setUser] = useState<BoardUserFullI>({
       role: UserBoardRoles.REGULAR,
       user: {
@@ -34,17 +34,17 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
     const source = useRef<CancelTokenSource | null>(null);
 
     const getBoardUserInfo = useCallback(async () => {
-      const { data } = await getBoardMember({
-        boardId,
-        userId,
-        setLoading,
-        cancelToken: source.current?.token,
-      });
-      if (data) {
-        const { member } = data;
-        setUser(member);
-      }
-    }, [boardId, userId]);
+      // const { data } = await getBoardMember({
+      //   "d"// boardId,
+      //   userId,
+      //   setLoading,
+      //   cancelToken: source.current?.token,
+      // });
+      // if (data) {
+      //   const { member } = data;
+      //   setUser(member);
+      // }
+    }, [userId]);
 
     useEffect(() => {
       source.current = axios.CancelToken.source();

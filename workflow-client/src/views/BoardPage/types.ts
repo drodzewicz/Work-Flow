@@ -1,3 +1,4 @@
-import { RouteComponentProps } from "react-router-dom";
+// import { RouteComponentProps } from "react-router-dom";
 
-export type BoardPageProps = RouteComponentProps<{ id: string }>;
+// export type BoardPageProps = RouteComponentProps<{ id: string }>;
+export type BoardPageProps = object;

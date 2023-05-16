@@ -4,7 +4,7 @@ import { getBoardTask, deleteTask } from "@/service";
 import { TaskI } from "@/types/general";
 import axios, { CancelTokenSource } from "axios";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
 import { AlertContext, AlertActionType } from "@/context/AlertContext";
 import { ModalContext, ModalActionType } from "@/context/ModalContext";
@@ -29,7 +29,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
     userState: { currentBoard, user },
   } = useContext(UserContext);
 
-  const history = useHistory();
+  // const history = useHistory();
   const source = useRef<CancelTokenSource | null>(null);
 
   const [taskDetails, setTaskDetails] = useState<TaskI>({
@@ -65,18 +65,18 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
         alertDispatch({ type: AlertActionType.WARNING, payload: { message: "Task not found" } });
         modalDispatch({ type: ModalActionType.CLOSE });
       } else if (data) {
-        history.push({
-          search: `?task=${taskId}`,
-        });
+        // history.push({
+        //   search: `?task=${taskId}`,
+        // });
         const { task } = data;
         setTaskDetails(task);
       }
     };
     getTaskInfo();
     return () => {
-      history.push({
-        search: "",
-      });
+      // history.push({
+      //   search: "",
+      // });
     };
   }, [currentBoard, taskId, history, modalDispatch, alertDispatch]);
 

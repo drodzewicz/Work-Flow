@@ -4,8 +4,9 @@ import { NotificationI } from "@/types/general";
 
 import { getNotifications, removeNotification } from "@/service";
 import { FaSignOutAlt, FaUserAlt, FaHome, FaBell } from "react-icons/fa";
-import { useHistory, Link } from "react-router-dom";
+import { useNavigate, useSubmit } from "react-router-dom";
 
+// import { useHistory, Link } from "react-router-dom";
 import { UserContext, UserActionType } from "@/context/UserContext";
 
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
@@ -14,10 +15,11 @@ import ThemeSwitch from "@/components/general/ThemeSwitch";
 
 import NavItem from "@/components/layout/Navbar/NavItem";
 
+import "../Navbar.scss";
 import "./UserNav.scss";
 
 const UserNav: React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const {
     userState: { user },
@@ -35,7 +37,7 @@ const UserNav: React.FC = () => {
   }, []);
 
   const goToHomePage = () => {
-    history.push("/");
+    navigate("/dashboard");
   };
 
   const logOutUser = () => {
@@ -52,7 +54,7 @@ const UserNav: React.FC = () => {
   };
 
   return (
-    <>
+    <nav className="navbar">
       <ThemeSwitch />
       <NavItem name="home" onClick={goToHomePage} Icon={FaHome} />
       <NavItem
@@ -63,9 +65,9 @@ const UserNav: React.FC = () => {
         className="profile-nav"
       >
         <DropdownMenuItem>
-          <Link to="/profile">
+          {/* <Link to="/profile">
             <FaUserAlt /> Profile
-          </Link>
+          </Link> */}
         </DropdownMenuItem>
         <DropdownMenuItem>
           <span className="logout-btn" onClick={logOutUser}>
@@ -93,7 +95,7 @@ const UserNav: React.FC = () => {
           </DropdownMenuItem>
         ))}
       </NavItem>
-    </>
+    </nav>
   );
 };
 

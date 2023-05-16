@@ -1,12 +1,4 @@
-import callAPI from "./utils/fetchData";
 import { serviceParams } from "@/types/service/request";
-
-import {
-  isAuthenticatedResponse,
-  GeneralResponse,
-  loginResponse,
-  searchUsersResponse,
-} from "@/types/service/response";
 import {
   registerParams,
   loginParams,
@@ -15,6 +7,16 @@ import {
   changeAvatarParams,
   searchUsersByUsernameParams,
 } from "@/types/service/request";
+import {
+  isAuthenticatedResponse,
+  GeneralResponse,
+  loginResponse,
+  searchUsersResponse,
+} from "@/types/service/response";
+
+import axios from "axios";
+
+import callAPI from "./utils/fetchData";
 
 const ROUTE_PREFIX = "/user";
 
@@ -29,55 +31,55 @@ export const isUserAuthenticated = async ({  ...serviceProps }: serviceParams = 
 };
 
 // REGISTER
-export const register = async ({ payload,  ...serviceProps }: registerParams) => {
+export const register = async ({ payload, ...serviceProps }: registerParams) => {
   return await callAPI<GeneralResponse>({
     method: "POST",
     url: "/register",
     payload,
-    ...serviceProps
+    ...serviceProps,
   });
 };
 
 // LOGIN
-export const login = async ({ payload,  ...serviceProps }: loginParams) => {
+export const login = async ({ payload, ...serviceProps }: loginParams) => {
   return await callAPI<loginResponse>({
     method: "POST",
     url: "/login",
     payload,
-    ...serviceProps
+    ...serviceProps,
   });
 };
 
 // PROFILE - POST
-export const updateCredentials = async ({ payload,  ...serviceProps }: updateCredentialsParams) => {
+export const updateCredentials = async ({ payload, ...serviceProps }: updateCredentialsParams) => {
   return await callAPI<GeneralResponse>({
     method: "POST",
     url: `${ROUTE_PREFIX}/update_credentials`,
     token: true,
     payload,
-    ...serviceProps
+    ...serviceProps,
   });
 };
 
 // PASSWORD - UPDATE
-export const changePassword = async ({ payload,  ...serviceProps }: changePasswrdParams) => {
+export const changePassword = async ({ payload, ...serviceProps }: changePasswrdParams) => {
   return await callAPI<GeneralResponse>({
     method: "PATCH",
     url: `${ROUTE_PREFIX}/change_password`,
     token: true,
     payload,
-    ...serviceProps
+    ...serviceProps,
   });
 };
 
 // AVATAR - UPDATE
-export const changeAvatar = async ({ payload,  ...serviceProps }: changeAvatarParams) => {
+export const changeAvatar = async ({ payload, ...serviceProps }: changeAvatarParams) => {
   return await callAPI<GeneralResponse>({
     method: "PATCH",
     url: `${ROUTE_PREFIX}/change_avatar`,
     token: true,
     payload,
-    ...serviceProps
+    ...serviceProps,
   });
 };
 
@@ -93,6 +95,6 @@ export const searchUsersByUsername = async ({
       username,
     },
     token: true,
-    ...serviceProps
+    ...serviceProps,
   });
 };

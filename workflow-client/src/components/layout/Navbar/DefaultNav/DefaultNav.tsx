@@ -1,34 +1,44 @@
-import React, { useContext } from "react";
+import React from "react";
 
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
+import { FaHome } from "react-icons/fa";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import NavItem from "@/components/layout/Navbar/NavItem/NavItem";
 
-import Login from "@/dialogs/Login";
-import Register from "@/dialogs/Register/Register";
+import Login from "@/dialogs/Login/Login";
 
+import "../Navbar.scss";
 import "./DefaultNav.scss";
 
+import Modal from "../../Modal/Modal";
+
 const DefaultNav: React.FC = () => {
-  const { modalDispatch } = useContext(ModalContext);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const openLoginModal = () => {
-    modalDispatch({
-      type: ModalActionType.OPEN,
-      payload: { render: <Login />, title: "Login", size: "s" },
-    });
+    navigate("/#login");
+  };
+  const closeLoginModal = () => {
+    navigate("/");
   };
   const openRegisterModal = () => {
-    modalDispatch({
-      type: ModalActionType.OPEN,
-      payload: { render: <Register />, title: "Register", size: "s" },
-    });
+    navigate("/register");
+  };
+  const goToHomePage = () => {
+    navigate("/");
   };
 
   return (
     <>
-      <NavItem label="Login" onClick={openLoginModal} />
-      <NavItem label="Register" onClick={openRegisterModal} />
+      <nav className="navbar">
+        <NavItem name="home" onClick={goToHomePage} Icon={FaHome} />
+        <NavItem label="Login" onClick={openLoginModal} />
+        <NavItem label="Register" onClick={openRegisterModal} />
+      </nav>
+      <Modal show={location.hash === "#login"} title="Login" size="s" onClose={closeLoginModal}>
+        <Login initialValues={location.state as { username?: string; password?: string }} />
+      </Modal>
     </>
   );
 };

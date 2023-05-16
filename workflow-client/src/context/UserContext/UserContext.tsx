@@ -5,7 +5,7 @@ import { UserState } from ".";
 import { UserBoardRoles } from "@/types/general";
 
 const initialState: UserState = {
-  authStatus: null,
+  authenticated: null,
   user: null,
   currentBoard: { role: null, id: null },
 };
@@ -22,13 +22,13 @@ const reducer: Reducer<UserState, UserAction> = (state, action) => {
   switch (action.type) {
     case UserActionType.LOGIN_SUCCESS:
       !!action.payload.token && localStorage.setItem("token", action.payload.token);
-      return { ...state, user: action.payload.user, authStatus: "success" };
+      return { ...state, user: action.payload.user, authenticated: true };
     case UserActionType.LOGIN_FAIL:
       localStorage.removeItem("token");
-      return { ...state, user: null, authStatus: "failed" };
+      return { ...state, user: null, authenticated: false };
     case UserActionType.LOGOUT:
       localStorage.removeItem("token");
-      return { ...state, user: null, authStatus: null, currentBoard: { role: null, id: null } };
+      return { ...state, user: null, authenticated: null, currentBoard: { role: null, id: null } };
     case UserActionType.ROLE:
       return {
         ...state,

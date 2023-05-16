@@ -3,7 +3,7 @@ import React from "react";
 import { NotificationProps } from "./types";
 
 import { FaTimes } from "react-icons/fa";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
 import "./Notification-dark.scss";
 import "./Notification.scss";
@@ -14,11 +14,11 @@ const Notification: React.FC<NotificationProps> = ({
   url,
   removeNotification,
 }) => {
-  const history = useHistory();
+  // const history = useHistory();
 
   const clickNotificationLink = () => {
     removeNotification();
-    if (url) history.push(url);
+    // if (url) history.push(url);
   };
 
   return (

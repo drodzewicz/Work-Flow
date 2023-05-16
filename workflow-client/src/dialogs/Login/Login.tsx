@@ -1,65 +1,74 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
+
+import { OnSubmitType } from "@/types/general/utils";
+
+import { LoginFormType } from "./types";
 
 import { login } from "@/service";
-import { FormikProps, Form, Field, withFormik } from "formik";
+import { Field, Form, Formik } from "formik";
 
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
 import { UserContext, UserActionType } from "@/context/UserContext";
 
 import Button from "@/components/general/Button";
 import { TextField } from "@/components/general/TextInput";
 
 import "./Login.scss";
-import { validationSchema } from "./formSchema";
-import { FormValues } from "./types";
 
-const LoginForm: React.FC<FormikProps<FormValues>> = (props) => {
-  const { errors, isSubmitting, isValid, status, setErrors } = props;
-  const { modalDispatch } = useContext(ModalContext);
+import { validationSchema } from "./formSchema";
+
+const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initialValues }) => {
+  const INITIAL_FORM_VALUES: LoginFormType = {
+    username: initialValues?.username || "",
+    password: initialValues?.password || "",
+  };
+
   const { userDispatch } = useContext(UserContext);
 
-  useEffect(() => {
-    if (status?.submitStatus === "SUCCESS") {
+  const onSubmitHandler: OnSubmitType<LoginFormType> = async (values, { setErrors }) => {
+    const { data, error } = await login({ payload: values });
+    if (error) {
+      return setErrors({ ...error?.message });
+    }
+    if (data?.token) {
       userDispatch({
         type: UserActionType.LOGIN_SUCCESS,
-        payload: { user: status?.user, token: status?.token },
+        payload: { user: data.user, token: data.token },
       });
-      modalDispatch({ type: ModalActionType.CLOSE });
-    } else if (status?.submitStatus === "ERROR") {
-      setErrors({ ...status?.message });
     }
-  }, [status, userDispatch, modalDispatch, setErrors]);
+  };
 
   return (
-    <Form className="login-form">
-      <Field autoFocus={true} name="username" error={errors["username"]} as={TextField} />
-      <Field name="password" error={errors["password"]} type="password" as={TextField} />
-      <Button
-        disabled={isSubmitting || !isValid}
-        variant="glow"
-        className="login-form__btn"
-        type="submit"
-      >
-        Log In
-      </Button>
-    </Form>
+    <Formik
+      initialValues={INITIAL_FORM_VALUES}
+      validationSchema={validationSchema}
+      onSubmit={onSubmitHandler}
+    >
+      {(props) => (
+        <Form>
+          <Field
+            name="username"
+            autoFocus={true}
+            error={props.touched.username && props.errors.username}
+            as={TextField}
+          />
+          <Field
+            name="password"
+            type="password"
+            error={props.touched.password && props.errors.password}
+            as={TextField}
+          />
+          <Button
+            // disabled={props.isSubmitting || !props.isValid}
+            variant="glow"
+            className="login-form__btn"
+            type="submit"
+          >
+            Log In
+          </Button>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
-const LoginWithFormik = withFormik<object, FormValues>({
-  mapPropsToValues: () => {
-    return { username: "", password: "" };
-  },
-  validationSchema: validationSchema,
-  handleSubmit: async (submittedData, { setSubmitting, setStatus }) => {
-    const { data, error } = await login({ setLoading: setSubmitting, payload: submittedData });
-    if (data) {
-      const { token, user } = data;
-      setStatus({ submitStatus: "SUCCESS", token, user });
-    } else if (error) {
-      setStatus({ submitStatus: "ERROR", message: error.message });
-    }
-  },
-})(LoginForm);
-
-export default LoginWithFormik;
+export default LoginForm;

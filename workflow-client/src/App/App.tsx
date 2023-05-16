@@ -1,45 +1,29 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 
-import { isUserAuthenticated } from "@/service";
-import Routes from "@/views/Routes";
+import { Outlet, useLoaderData } from "react-router-dom";
 
 import { AlertContext } from "@/context/AlertContext";
 import { UserActionType, UserContext } from "@/context/UserContext";
 
+import "@/config/api.conf";
+
 import WarningNotification from "@/components/general/Alert";
 
 import Footer from "@/components/layout/Footer";
-import LoadingOverlay from "@/components/layout/LoadingOverlay";
-import Modal from "@/components/layout/Modal";
-import Navbar from "@/components/layout/Navbar";
+import DefaultNav from "@/components/layout/Navbar/DefaultNav";
+import UserNav from "@/components/layout/Navbar/UserNav";
 
 import "./App.scss";
 
 const App: React.FC = () => {
-  const {
-    userDispatch,
-    userState: { authStatus },
-  } = useContext(UserContext);
-
   const { alertState } = useContext(AlertContext);
-  const [authLoading, setAuthLoading] = useState(true);
+  const { userState, userDispatch } = useContext(UserContext);
+  const data = useLoaderData() as { user: unknown; authorized: boolean };
 
   useEffect(() => {
-    const checkUserAuthentication = async () => {
-      const { data, status } = await isUserAuthenticated();
-      if (status === 401) userDispatch({ type: UserActionType.LOGIN_FAIL });
-      if (data)
-        userDispatch({
-          type: UserActionType.LOGIN_SUCCESS,
-          payload: { user: data.user },
-        });
-    };
-    checkUserAuthentication();
-  }, [userDispatch]);
-
-  useEffect(() => {
-    if (authStatus === "success" || authStatus === "failed") setAuthLoading(false);
-  }, [authStatus]);
+    console.log("dwd",data)
+    userDispatch({ type: UserActionType.LOGIN_SUCCESS, payload: { user: data.user } });
+  }, [data]);
 
   return (
     <div className="App scrollbar">
@@ -48,11 +32,8 @@ const App: React.FC = () => {
         message={alertState.message}
         type={alertState.type}
       />
-      <Modal />
-      <Navbar isAuth={authStatus === "success"} />
-      <LoadingOverlay className="authentication-loading" show={authLoading} opacity={0}>
-        <Routes />
-      </LoadingOverlay>
+      {userState.user ? <UserNav /> : <DefaultNav />}
+      <Outlet />
       <Footer />
     </div>
   );

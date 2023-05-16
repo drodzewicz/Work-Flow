@@ -1,31 +1,55 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useState } from "react";
+
+import { BoardFullI } from "@/types/general";
+import { OnSubmitType } from "@/types/general/utils";
 
 import { BoardOptionsProps } from "./types";
+import { BoardEditorType } from "@/dialogs/BoardEditor/types";
 
-import { leaveBoard, deleteBoard } from "@/service";
+import { leaveBoard, deleteBoard, updateBoard, getBoard } from "@/service";
 import { FaEllipsisV, FaEdit, FaTrashAlt, FaSignOutAlt } from "react-icons/fa";
 
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
+import { AlertActionType, AlertContext } from "@/context/AlertContext";
 
 import DropdownMenu from "@/components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
 
-import BoardUpdate from "@/dialogs/BoardEditor/BoardUpdate";
+import Modal from "@/components/layout/Modal";
+
+import BoardEditor from "@/dialogs/BoardEditor/BoardEditor";
 
 import "./BoardOptions.scss";
 
 const BoardOptions: React.FC<BoardOptionsProps> = ({ boardId, removeBoardCallback, isAuthor }) => {
   const moreOptionsAnchor = useRef<HTMLButtonElement>(null);
-  const { modalDispatch } = useContext(ModalContext);
+  const { alertDispatch } = useContext(AlertContext);
+  const [showEditBoardDialog, setShowEditBoardDialog] = useState<boolean>(false);
+  const [boardData, setBoardData] = useState<BoardFullI | null>(null);
 
-  const editEventModal = () => {
-    modalDispatch({
-      type: ModalActionType.OPEN,
-      payload: {
-        title: "Edit Board",
-        render: <BoardUpdate boardId={boardId} />,
-      },
+  const updateBoardHandler: OnSubmitType<BoardEditorType> = async (values) => {
+    const { data } = await updateBoard({
+      boardId: boardId,
+      payload: values,
     });
+    if (data) {
+      alertDispatch({ type: AlertActionType.SUCCESS, payload: { message: data.message } });
+      closeEditNewBoardModal();
+    }
+  };
+
+  const editEventModal = async () => {
+    const { data } = await getBoard({
+      boardId: boardId,
+      short: true,
+    });
+    if (data) {
+      setBoardData(data);
+      setShowEditBoardDialog(true);
+    }
+  };
+
+  const closeEditNewBoardModal = () => {
+    setShowEditBoardDialog(false);
   };
 
   const leavingEvent = async () => {
@@ -43,6 +67,17 @@ const BoardOptions: React.FC<BoardOptionsProps> = ({ boardId, removeBoardCallbac
 
   return (
     <div className="board-options">
+      <Modal
+        show={showEditBoardDialog}
+        title="Edit Board"
+        size="s"
+        onClose={closeEditNewBoardModal}
+      >
+        <BoardEditor
+          onSubmit={updateBoardHandler}
+          initialValues={{ name: boardData?.name, description: boardData?.description }}
+        />
+      </Modal>
       <button
         data-testid={`${boardId}-options`}
         className="board-options__ellipsis"

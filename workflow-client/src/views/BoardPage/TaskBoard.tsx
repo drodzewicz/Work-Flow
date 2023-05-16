@@ -7,7 +7,7 @@ import { Droppable } from "react-beautiful-dnd";
 import { TaskContext, TasksActionType } from "@/context/TaskContext";
 import { UserContext } from "@/context/UserContext";
 
-import { useWebSocketListener } from "@/Hooks/useWebSocketListener";
+import { useWebSocketListener } from "@/hooks/useWebSocketListener";
 
 import DragableColumn from "@/components/board/Column/DraggableColumn/DragableColumn";
 import NewColumn from "@/components/board/NewColumn";

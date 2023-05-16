@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { DropdownMenuProps } from "./types";
 
-import { useClickOutside } from "@/Hooks/useClickOutside";
-import useWindowSize from "@/Hooks/useWindowSize";
+import { useClickOutside } from "@/hooks/useClickOutside";
+import useWindowSize from "@/hooks/useWindowSize";
 
 import Portal from "@/components/layout/Portal";
 

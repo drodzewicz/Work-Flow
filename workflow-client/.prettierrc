@@ -6,7 +6,7 @@
     "<THIRD_PARTY_MODULES>",
     "^@/context/(.*)$",
     "^@/config/(.*)$",
-    "^@/Hooks/(.*)$",
+    "^@/hooks/(.*)$",
     "^@/service/(.*)$",
     "^@/components/general/(.*)$",
     "^@/components/layout/(.*)$",

@@ -18,7 +18,7 @@
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^6.11.0",
     "sass": "^1.62.1",
     "socket.io-client": "^4.6.1",
     "vite-plugin-svgr": "^2.4.0",

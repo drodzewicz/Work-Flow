@@ -4,7 +4,7 @@ import { SearchInputProps } from "./types";
 
 import { FaTimes, FaSearch } from "react-icons/fa";
 
-import { useClickOutside } from "@/Hooks/useClickOutside";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 import "./SearchInput-dark.scss";
 import "./SearchInput.scss";

@@ -1,5 +1,6 @@
-import axios, { Method, AxiosResponse } from "axios";
 import { serviceParams } from "@/types/service/request/general";
+
+import axios, { Method, AxiosResponse } from "axios";
 
 export interface callAPIParams extends serviceParams {
   url: string;
@@ -51,7 +52,6 @@ async function callAPI<T>({
   !!setLoading && setLoading(true);
 
   const queryString = parseQueryString(query);
-  
   try {
     const res = await axios({
       method,

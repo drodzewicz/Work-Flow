@@ -1,25 +1,21 @@
 import React from "react";
 
-import App from "@/App";
+import router from "@/router";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter as Router } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 
 import { AlertProvider } from "@/context/AlertContext";
 import { ModalProvider } from "@/context/ModalContext";
 import { UserProvider } from "@/context/UserContext";
 
-import "@/config/api.conf";
-
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <ModalProvider>
       <UserProvider>
         <AlertProvider>
-          <Router>
-            <App />
-          </Router>
+          <RouterProvider router={router} />
         </AlertProvider>
       </UserProvider>
     </ModalProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

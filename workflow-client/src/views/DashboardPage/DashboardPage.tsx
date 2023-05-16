@@ -1,114 +1,109 @@
-import React, { useState, useContext, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 import { BoardI } from "@/types/general";
+import { OnSubmitType } from "@/types/general/utils";
+
+import { BoardEditorType } from "@/dialogs/BoardEditor/types";
 
 import { ReactComponent as Pined } from "@/assets/images/pin-full.svg";
-import { getPinnedBoards, getMyBoards, togglePinBoard } from "@/service";
+import { createBoard, getMyBoards, getPinnedBoards, togglePinBoard } from "@/service";
 import { FaPlus } from "react-icons/fa";
 import { FaColumns } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
-
-import { usePagination } from "@/Hooks/usePagination";
+import { usePagination } from "@/hooks/usePagination";
 
 import Button from "@/components/general/Button";
 
 import ContainerBox from "@/components/layout/ContainerBox/ContainerBox";
-import LoadingOverlay from "@/components/layout/LoadingOverlay/LoadingOverlay";
+import Modal from "@/components/layout/Modal";
 
 import BoardContainer from "@/components/board/BoardContainer";
 
-import BoardCreate from "@/dialogs/BoardEditor/BoardCreate";
+import BoardEditor from "@/dialogs/BoardEditor/BoardEditor";
 
 import "./DashboardPage.scss";
 
 const DashboardPage: React.FC = () => {
+  const navigate = useNavigate();
+
   const { currentPage, totalPages, limit, setCurrentPage, setTotalPages } = usePagination({
     initialPage: 1,
+    initialTotal: 1,
     limit: 8,
   });
 
+  const [showCreateNewBoardDialog, setShowCreateNewBoardDialog] = useState<boolean>(false);
   const [pinnedBoards, setPinnedBoards] = useState<BoardI[]>([]);
+  const [boards, setBoards] = useState<BoardI[]>([]);
 
-  const [boards, setBoards] = useState<{ items: BoardI[]; isLoading: boolean }>({
-    items: [],
-    isLoading: false,
-  });
-  const isFirstBoardLoaded = useRef<boolean>(true);
-  const { modalDispatch } = useContext(ModalContext);
-
-  const setBoardsLoading = (loadingState: boolean) => {
-    setBoards((prevState) => ({ ...prevState, isLoading: loadingState }));
-  };
-  const fetchBoards = useCallback(async () => {
-    const { data } = await getMyBoards({
-      page: currentPage,
-      limit,
-      setLoading: setBoardsLoading,
+  const createBoardHandler: OnSubmitType<BoardEditorType> = async (values) => {
+    const { data } = await createBoard({
+      payload: { name: values.name, description: values.description || "" },
     });
     if (data) {
-      const { totalPageCount, boards } = data;
-      setTotalPages(totalPageCount || 1);
-      setBoards((boardState) => ({ ...boardState, items: boards }));
+      navigate(`/board/${data?.board._id}`);
     }
-    if (isFirstBoardLoaded.current === true) {
-      isFirstBoardLoaded.current = false;
-    }
-  }, [currentPage, limit, setTotalPages]);
-
-  useEffect(() => {
-    fetchBoards();
-  }, [fetchBoards]);
+  };
 
   useEffect(() => {
     const fetchPinnedBoards = async () => {
       const { data } = await getPinnedBoards();
-      if (data) {
-        const { boards } = data;
-        setPinnedBoards(boards);
-      }
+      setPinnedBoards(data?.boards ?? []);
     };
     fetchPinnedBoards();
   }, []);
 
-  const openCreateNewBoardModal = () => {
-    modalDispatch({
-      type: ModalActionType.OPEN,
-      payload: {
-        render: <BoardCreate />,
-        title: "Create new Board",
-      },
+  const fetchBoards = async () => {
+    const { data } = await getMyBoards({
+      page: currentPage,
+      limit,
     });
+    if (data) {
+      const { totalPageCount, boards } = data;
+      setTotalPages(totalPageCount || 1);
+      setBoards(boards);
+    }
+  };
+
+  useEffect(() => {
+    fetchBoards();
+  }, [currentPage, limit, setTotalPages]);
+
+  const openCreateNewBoardModal = () => {
+    setShowCreateNewBoardDialog(true);
+  };
+  const closeCreateNewBoardModal = () => {
+    setShowCreateNewBoardDialog(false);
   };
 
   const removeBoard = async (boardId: string) => {
     await fetchBoards();
-
     setPinnedBoards((boards) => boards.filter(({ _id }) => _id !== boardId));
   };
 
   const pinBoard = (boardId: string) => {
-    const boardIndex = boards.items.findIndex(({ _id }) => _id === boardId);
+    const boardIndex = boards.findIndex(({ _id }) => _id === boardId);
     setPinnedBoards((pinnedBoards) => {
       const tempPinnedBoards = [...pinnedBoards];
-      tempPinnedBoards.push(boards.items[boardIndex]);
+      tempPinnedBoards.push(boards[boardIndex]);
       return tempPinnedBoards;
     });
     setBoards((boards) => {
-      const modifiedBoards = [...boards.items];
+      const modifiedBoards = [...boards];
       modifiedBoards[boardIndex].pinned = true;
-      return { ...boards, items: modifiedBoards };
+      return modifiedBoards;
     });
   };
 
   const unpinBoard = (boardId: string) => {
     setPinnedBoards((boards) => boards.filter(({ _id }) => _id !== boardId));
     setBoards((boards) => {
-      const modifiedBoards = boards.items.map((board) => ({
+      const modifiedBoards = boards.map((board) => ({
         ...board,
         pinned: board._id === boardId ? false : board.pinned,
       }));
-      return { ...boards, items: modifiedBoards };
+      return modifiedBoards;
     });
   };
 
@@ -121,6 +116,14 @@ const DashboardPage: React.FC = () => {
 
   return (
     <ContainerBox className="board-dashboard">
+      <Modal
+        show={showCreateNewBoardDialog}
+        title="Create new Board"
+        size="s"
+        onClose={closeCreateNewBoardModal}
+      >
+        <BoardEditor onSubmit={createBoardHandler} />
+      </Modal>
       {pinnedBoards.length > 0 && (
         <div>
           <h1 className="pinned-board-container-title">
@@ -137,12 +140,6 @@ const DashboardPage: React.FC = () => {
         </div>
       )}
       <div className="board-container">
-        <LoadingOverlay
-          color={{ light: "245, 249, 249", dark: "51, 54, 55" }}
-          opacity={isFirstBoardLoaded.current ? 1 : 0.7}
-          className="board-container__loading"
-          show={boards.isLoading}
-        />
         <h1 className="board-container-title">
           <FaColumns className="board-container-title__icon" /> Boards
           <Button onClick={openCreateNewBoardModal} className="new-board-btn">
@@ -153,10 +150,13 @@ const DashboardPage: React.FC = () => {
         <hr className="break-line" />
         <BoardContainer
           className="board-dashboard__main"
-          boards={boards.items}
+          boards={boards}
           removeBoard={removeBoard}
           changePage={setCurrentPage}
-          page={{ current: currentPage, total: totalPages }}
+          page={{
+            current: currentPage,
+            total: totalPages,
+          }}
           togglePinBoard={togglePinBoardHandler}
           noBoardsMessage="you are not a part of any board"
         />

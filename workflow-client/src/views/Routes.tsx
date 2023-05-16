@@ -1,37 +1,38 @@
 import React, { useContext } from "react";
 
-import { Switch, Route, Redirect, RouteProps } from "react-router-dom";
+// import { Switch, Route, Redirect, RouteProps } from "react-router-dom";
 
-import { UserContext } from "@/context/UserContext";
+// import { UserContext } from "@/context/UserContext";
 
-import BoardPage from "./BoardPage";
-import DashboardPage from "./DashboardPage";
-import ErrorPage from "./ErrorPage";
-import ProfilePage from "./ProfilePage";
-import WelcomePage from "./WelcomePage";
+// import BoardPage from "./BoardPage";
+// import DashboardPage from "./DashboardPage";
+// import ErrorPage from "./ErrorPage";
+// import ProfilePage from "./ProfilePage";
+// import WelcomePage from "./WelcomePage";
 
-interface ProtectedRouteProps extends RouteProps {
-  auth: string | null;
-}
+// interface ProtectedRouteProps extends RouteProps {
+//   auth: string | null;
+// }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ auth, ...props }) => {
-  return auth === "success" ? <Route {...props} /> : <Redirect to="/" />;
-};
+// const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ auth, ...props }) => {
+//   return auth === "success" ? <Route {...props} /> : <Redirect to="/" />;
+// };
 
 const Routes: React.FC = () => {
-  const {
-    userState: { authStatus },
-  } = useContext(UserContext);
+  // const {
+  //   userState: { authStatus },
+  // } = useContext(UserContext);
 
-  return (
-    <Switch>
-      <Route exact path="/" component={authStatus === "success" ? DashboardPage : WelcomePage} />
-      <ProtectedRoute auth={authStatus} path="/profile" component={ProfilePage} />
-      <ProtectedRoute auth={authStatus} path="/board/:id" component={BoardPage} />
-      <Route exact path="/error/:code" component={ErrorPage} />
-      <Route render={() => <Redirect to="/" />} />
-    </Switch>
-  );
+  return <div>routes</div>
+  // return (
+  //   <Switch>
+  //     <Route exact path="/" component={authStatus === "success" ? DashboardPage : WelcomePage} />
+  //     <ProtectedRoute auth={authStatus} path="/profile" component={ProfilePage} />
+  //     <ProtectedRoute auth={authStatus} path="/board/:id" component={BoardPage} />
+  //     <Route exact path="/error/:code" component={ErrorPage} />
+  //     <Route render={() => <Redirect to="/" />} />
+  //   </Switch>
+  // );
 };
 
 export default Routes;

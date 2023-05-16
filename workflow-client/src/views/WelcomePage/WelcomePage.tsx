@@ -1,30 +1,24 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { ReactComponent as TaskColumns } from "@/assets/images/task_columns.svg";
 import { ReactComponent as TaskColumnsDark } from "@/assets/images/task_columns_dark.svg";
 import { ReactComponent as Person } from "@/assets/images/workflow-person.svg";
 import { ReactComponent as PersonDark } from "@/assets/images/workflow-person_dark.svg";
-
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
+import { useNavigate } from "react-router-dom";
 
 import { getAppTheme } from "@/service/theme";
 
 import Button from "@/components/general/Button";
 
-import Register from "@/dialogs/Register";
-
 import "./WelcomePage.scss";
 
 const WelcomePage: React.FC = () => {
-  const { modalDispatch } = useContext(ModalContext);
   const appTheme = getAppTheme();
   document.body.className = `theme-${appTheme}`;
+  const navigate = useNavigate();
 
   const openRegisterModal = () => {
-    modalDispatch({
-      type: ModalActionType.OPEN,
-      payload: { render: <Register />, title: "Register" },
-    });
+    navigate("/register");
   };
 
   return (

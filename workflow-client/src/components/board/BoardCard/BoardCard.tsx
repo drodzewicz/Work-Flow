@@ -4,8 +4,9 @@ import { BoardcardProps } from "./types";
 
 import { ReactComponent as Pin } from "@/assets/images/pin-empty.svg";
 import { ReactComponent as Pined } from "@/assets/images/pin-full.svg";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+// import { useHistory } from "react-router-dom";
 import "./BoardCard-dark.scss";
 import "./BoardCard.scss";
 
@@ -19,7 +20,8 @@ const BoardCard: React.FC<BoardcardProps> = ({
   isPinned = false,
   isAuthor = false,
 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
+  // const history = useHistory();
 
   const togglePinBoard = (e: MouseEvent) => {
     e.stopPropagation();
@@ -27,7 +29,8 @@ const BoardCard: React.FC<BoardcardProps> = ({
   };
 
   const goToBoard = () => {
-    history.push(`/board/${boardId}`);
+    navigate(`/board/${boardId}`);
+    // history.push(`/board/${boardId}`);
   };
 
   return (
