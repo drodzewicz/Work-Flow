@@ -29,6 +29,8 @@
     "concurrently": "^8.0.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "rimraf": "^5.0.0"
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^5.0.0",
+    "typedi": "^0.10.0"
   }
 }
