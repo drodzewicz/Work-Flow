@@ -19,6 +19,9 @@ export const env = {
     port: utils.getEnv("PORT", true),
     banner: utils.toBool(utils.getEnv("APP_BANNER", false, "true")),
   },
+  pagination: {
+    limit: utils.toNumber(utils.getEnv("PAGINATION_LIMIT", false, "10")),
+  },
   log: {
     level: utils.getEnv("LOG_LEVEL", false, "LOG"),
   },

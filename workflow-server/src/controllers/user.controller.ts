@@ -1,6 +1,7 @@
-import { Param, Get, Controller, QueryParam, NotFoundError } from "routing-controllers";
+import { Param, Get, Controller, QueryParams, NotFoundError } from "routing-controllers";
 import { UserService } from "../services/user.service.js";
 import { Container } from "typedi";
+import { UserListQueryParams } from "../types/queryParams.type.js";
 
 @Controller()
 export class UserController {
@@ -11,8 +12,14 @@ export class UserController {
   }
 
   @Get("/users")
-  getUser(@QueryParam("username") username: string) {
-    return this.userService.getUsersByMatchUsername(username);
+  getUser(@QueryParams() query: UserListQueryParams) {
+    const { limit, page } = query;
+
+    if (query.username) {
+      return this.userService.getUsersByMatchUsername(query.username, { limit, page });
+    } else {
+      return this.userService.getAllUsers({ limit, page });
+    }
   }
 
   @Get("/users/:id")
