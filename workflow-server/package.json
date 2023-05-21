@@ -2,7 +2,7 @@
   "name": "workflow-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
     "build": "rimraf dist && npx tsc",
@@ -33,6 +33,7 @@
     "mongoose": "^7.1.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^5.0.0",
+    "routing-controllers": "^0.7.6",
     "typedi": "^0.10.0"
   }
 }
