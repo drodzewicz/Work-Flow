@@ -1,13 +1,13 @@
-import User from "../models/user.model.js";
 import { Service } from "typedi";
 import { Document, Types } from "mongoose";
+import User from "../models/user.model.js";
 import { User as UserType } from "../types/index.js";
 import { InvalidMongooseIdError } from "../errors/InvalidMongooseIdError.js";
 import { PaginatedCollection } from "../types/utils.type.js";
 
 @Service()
 export class UserRepository {
-  async save(user: Document<UserType>) {
+  async save(user: Document<unknown>) {
     await user.save();
   }
 
@@ -28,6 +28,11 @@ export class UserRepository {
       .skip((settings.page - 1) * settings.limit);
 
     return { users, totalCount };
+  }
+
+  async getUserByUsername(username: string, settings?: { fields?: string }) {
+    const fields = settings?.fields || "_id username avatarImageURL";
+    return await User.findOne({ username }, fields);
   }
 
   async getUsersByMatchUsername(username: string, settings: PaginatedCollection) {

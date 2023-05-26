@@ -19,6 +19,10 @@ export const env = {
     port: utils.getEnv("PORT", true),
     banner: utils.toBool(utils.getEnv("APP_BANNER", false, "true")),
   },
+  jwt: {
+    accessTokenSecret: utils.getEnv("ACCESS_TOKE_SECRET", false, "accessTokenSecret"),
+    refreshTokenSecret: utils.getEnv("REFRESH_TOKE_SECRET", false, "refreshTokenSecret"),
+  },
   pagination: {
     limit: utils.toNumber(utils.getEnv("PAGINATION_LIMIT", false, "10")),
   },

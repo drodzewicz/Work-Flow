@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema({
     minlength: [5, "must not be less that 5 charatcters"],
     required: [true, "password is required"],
   },
+  refreshToken: {
+    type: String,
+  },
   name: {
     type: String,
     required: [true, "name is required"],
