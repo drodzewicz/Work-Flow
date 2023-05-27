@@ -1,4 +1,4 @@
-import { Param, Get, Controller, QueryParams, NotFoundError, UseBefore, CurrentUser } from "routing-controllers";
+import { Param, Get, Controller, QueryParams, NotFoundError, UseBefore } from "routing-controllers";
 import { UserService } from "../services/user.service.js";
 import { Container } from "typedi";
 import { UserListQueryParams } from "../types/queryParams.type.js";
@@ -14,9 +14,8 @@ export class UserController {
 
   @Get("/users")
   @UseBefore(JWTMiddleware)
-  getUser(@QueryParams() query: UserListQueryParams, @CurrentUser() user?: any) {
+  getUser(@QueryParams() query: UserListQueryParams) {
     const { limit, page } = query;
-    console.log("My user", user)
     if (query.username) {
       return this.userService.getUsersByMatchUsername(query.username, { limit, page });
     } else {

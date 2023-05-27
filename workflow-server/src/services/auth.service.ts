@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { env } from "../config/env.config.js";
 import { UserRepository } from "../repositories/user.repository.js";
 import { Service, Inject } from "typedi";
-import { HttpError, NotFoundError, UnauthorizedError } from "routing-controllers";
+import { NotFoundError, UnauthorizedError } from "routing-controllers";
 
 @Service()
 export class AuthService {
@@ -27,7 +27,9 @@ export class AuthService {
   }
 
   async login(credentials: { username: string; password: string }) {
-    const user = await this.userRepository.getUserByUsername(credentials.username, { fields: "_id username password" });
+    const user = await this.userRepository.getUserByUsername(credentials.username, {
+      fields: "_id username email name surname password",
+    });
     if (!user) {
       throw new NotFoundError("User does not exist");
     }
@@ -35,12 +37,54 @@ export class AuthService {
     if (!isPasswordMatched) {
       throw new UnauthorizedError("Bad Login");
     }
-    const accessToken = jwt.sign({ id: user._id }, env.jwt.accessTokenSecret, { expiresIn: '2min' });
-    const refreshToken = jwt.sign({ id: user._id }, env.jwt.refreshTokenSecret, { expiresIn: '1d' });
-    
-    user.refreshToken = refreshToken;
-    await this.userRepository.save(user);
+    return {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      name: user.name,
+      surname: user.surname,
+    };
+  }
 
-    return { user, refreshToken, accessToken };
+  async logout(token: string) {
+    if (!token) {
+      throw new UnauthorizedError("No refresh token provided");
+    }
+    const user = await this.userRepository.getUserByRefreshToken(token);
+    if (!user) {
+      return;
+    }
+    const decoded = jwt.verify(token, env.jwt.refreshToken.secret);
+    if (!user._id.equals(decoded.id)) {
+      throw new UnauthorizedError("Invalid Refresh token");
+    }
+    await this.userRepository.updateUser(user._id.toString(), { refreshToken: null });
+  }
+
+  async generateAccessJWT(user: any) {
+    return jwt.sign({ id: user._id }, env.jwt.accessToken.secret, { expiresIn: env.jwt.accessToken.lifespanSeconds });
+  }
+
+  async generateRefreshJWT(user: any) {
+    const token = jwt.sign({ id: user._id }, env.jwt.refreshToken.secret, {
+      expiresIn: env.jwt.refreshToken.lifespanSeconds,
+    });
+    await this.userRepository.updateUser(user._id, { refreshToken: token });
+    return token;
+  }
+
+  async handleRefreshToken(token: string) {
+    if (!token) {
+      throw new UnauthorizedError("No refresh token provided");
+    }
+    const user = await this.userRepository.getUserByRefreshToken(token);
+    if (!user) {
+      throw new UnauthorizedError("Invalid Refresh token 1");
+    }
+    const decoded = jwt.verify(token, env.jwt.refreshToken.secret);
+    if (!user._id.equals(decoded.id)) {
+      throw new UnauthorizedError("Invalid Refresh token 2");
+    }
+    return await this.generateAccessJWT(user);
   }
 }

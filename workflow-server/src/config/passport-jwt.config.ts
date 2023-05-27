@@ -6,7 +6,7 @@ import { UserRepository } from "../repositories/user.repository.js";
 export const usePassportJWT = () => {
   const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: env.jwt.accessTokenSecret,
+    secretOrKey: env.jwt.accessToken.secret,
   };
 
   const userRepository = new UserRepository();

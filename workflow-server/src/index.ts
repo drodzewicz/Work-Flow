@@ -1,13 +1,13 @@
 import { env } from "./config/env.config.js";
 import express, { Application } from "express";
-import cookieParser from "cookie-parser"
+import cookieParser from "cookie-parser";
 import "reflect-metadata";
 import { databaseConnect } from "./config/mongoose.config.js";
 import { usePassportJWT } from "./config/passport-jwt.config.js";
 import { createExpressServer } from "routing-controllers";
 import { UserController } from "./controllers/user.controller.js";
 import { AuthController } from "./controllers/auth.controller.js";
-import { HttpErrorHandler } from "./errors/HttpErrorHandler.js";
+import { HttpErrorHandler } from "./middleware/httpError.middleware.js";
 import { currentUserChecker } from "./middleware/auth.middleware.js";
 
 const app: Application = createExpressServer({

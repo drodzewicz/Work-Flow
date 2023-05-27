@@ -20,8 +20,16 @@ export const env = {
     banner: utils.toBool(utils.getEnv("APP_BANNER", false, "true")),
   },
   jwt: {
-    accessTokenSecret: utils.getEnv("ACCESS_TOKE_SECRET", false, "accessTokenSecret"),
-    refreshTokenSecret: utils.getEnv("REFRESH_TOKE_SECRET", false, "refreshTokenSecret"),
+    accessToken: {
+      secret: utils.getEnv("ACCESS_TOKE_SECRET", false, "accessTokenSecret"),
+      // lifespan in milliseconds 60 (s) = 1 min
+      lifespanSeconds: 60,
+    },
+    refreshToken: {
+      secret: utils.getEnv("REFRESH_TOKE_SECRET", false, "refreshTokenSecret"),
+      // lifespan in milliseconds 24(hours) * 60 (min) * 60 (s) = 1 day
+      lifespanSeconds: 24 * 60 * 60,
+    }
   },
   pagination: {
     limit: utils.toNumber(utils.getEnv("PAGINATION_LIMIT", false, "10")),

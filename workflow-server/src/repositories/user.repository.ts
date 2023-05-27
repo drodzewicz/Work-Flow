@@ -30,6 +30,11 @@ export class UserRepository {
     return { users, totalCount };
   }
 
+  async getUserByRefreshToken(token: string, settings?: { fields?: string }) {
+    const fields = settings?.fields || "_id username avatarImageURL";
+    return await User.findOne({ refreshToken: token }, fields);
+  }
+
   async getUserByUsername(username: string, settings?: { fields?: string }) {
     const fields = settings?.fields || "_id username avatarImageURL";
     return await User.findOne({ username }, fields);
@@ -51,7 +56,7 @@ export class UserRepository {
     return await newUser.save();
   }
 
-  async updateUser(userId: string, newValues: Partial<UserType>) {
+  async updateUser(userId: string, newValues: Partial<unknown>) {
     return await User.findOneAndUpdate({ _id: userId }, { ...newValues }, { runValidators: true, context: "query" });
   }
 }
