@@ -1,10 +1,11 @@
 import { Param, Get, Controller, QueryParams, NotFoundError, UseBefore } from "routing-controllers";
 import { UserService } from "../services/user.service.js";
 import { Container } from "typedi";
-import { UserListQueryParams } from "../types/queryParams.type.js";
+import { UserListQueryParams } from "../types/queryParams/user.type.js";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
 
-@Controller()
+@Controller("/users")
+@UseBefore(JWTMiddleware)
 export class UserController {
   userService: UserService;
 
@@ -12,8 +13,7 @@ export class UserController {
     this.userService = Container.get(UserService);
   }
 
-  @Get("/users")
-  @UseBefore(JWTMiddleware)
+  @Get("/")
   getUser(@QueryParams() query: UserListQueryParams) {
     const { limit, page } = query;
     if (query.username) {
@@ -23,7 +23,7 @@ export class UserController {
     }
   }
 
-  @Get("/users/:id")
+  @Get("/:id")
   async searchUser(@Param("id") id: string) {
     const user = await this.userService.getUser(id);
     if (!user) {

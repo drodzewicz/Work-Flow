@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Model } from "../types/model.type.js";
+import { Model } from "../types/utils.type.js";
 
 const boardSchema = new mongoose.Schema({
   name: {

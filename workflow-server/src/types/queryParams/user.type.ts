@@ -1,4 +1,4 @@
-import { Pagination } from "./utils.type.js";
+import { Pagination } from "../utils.type.js";
 
 export class PaginationQueryParams implements Pagination {
   limit: number;

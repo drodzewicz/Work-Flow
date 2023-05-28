@@ -22,8 +22,8 @@ export const env = {
   jwt: {
     accessToken: {
       secret: utils.getEnv("ACCESS_TOKE_SECRET", false, "accessTokenSecret"),
-      // lifespan in milliseconds 60 (s) = 1 min
-      lifespanSeconds: 60,
+      // lifespan in milliseconds 60 (min) * 60 (s) = 1 h
+      lifespanSeconds: 60 * 60,
     },
     refreshToken: {
       secret: utils.getEnv("REFRESH_TOKE_SECRET", false, "refreshTokenSecret"),

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Model } from "../types/model.type.js";
+import { Model } from "../types/utils.type.js";
 // const uniqueValidator = require("mongoose-unique-validator");
 // const bcrypt = require("bcryptjs");
 
