@@ -14,7 +14,7 @@ export const usePassportJWT = () => {
   passport.use(
     new Strategy(options, async function (jwtPayload, done) {
       try {
-        const user = await userRepository.getUserById(jwtPayload.id);
+        const user = await userRepository.getById(jwtPayload.id);
         if (user) {
           return done(null, { id: user._id, username: user.username });
         } else {

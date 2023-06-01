@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
-import { Model } from "../types/utils.type.js";
+import mongoose, { Model } from "mongoose";
+import { Model as ModelType } from "../types/utils.type.js";
+import { IUserModel } from "../types/database/user.type.js";
 // const uniqueValidator = require("mongoose-unique-validator");
 // const bcrypt = require("bcryptjs");
 
@@ -45,7 +46,7 @@ const userSchema = new mongoose.Schema({
     {
       _id: false,
       type: mongoose.Schema.Types.ObjectId,
-      ref: Model.Board,
+      ref: ModelType.Board,
     },
   ],
   notifications: [
@@ -63,4 +64,4 @@ const userSchema = new mongoose.Schema({
 //   return await bcrypt.compare(password, this.password);
 // };
 
-export default mongoose.model(Model.User, userSchema);
+export default mongoose.model(ModelType.User, userSchema) as Model<IUserModel>;

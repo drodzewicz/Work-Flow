@@ -1,62 +1,61 @@
 import { Service } from "typedi";
-import { Document, Types } from "mongoose";
-import User from "../models/user.model.js";
+import UserModel from "../models/user.model.js";
+import { IUserModel } from "../types/database/user.type.js";
 import { User as UserType } from "../types/index.js";
-import { InvalidMongooseIdError } from "../errors/InvalidMongooseIdError.js";
-import { PaginatedCollection } from "../types/utils.type.js";
+import { Pagination } from "../types/utils.type.js";
+import { UserFields } from "../types/database/user.type.js";
+import { GenericRepository } from "./generic.repository.js";
 
 @Service()
-export class UserRepository {
-  async save(user: Document<unknown>) {
-    await user.save();
+export class UserRepository extends GenericRepository<IUserModel, UserFields> {
+  constructor() {
+    super();
+    this.fields = ["_id", "username", "email", "name", "avatarImageURL", "password"];
+    this.model = UserModel;
   }
 
-  async getUserById(userId: string, fields?: string) {
-    if (!Types.ObjectId.isValid(userId)) {
-      throw new InvalidMongooseIdError("Provided invalid id for user");
-    }
-    fields = fields || "_id username name surname email avatarImageURL password";
-    return await User.findById(userId, fields);
-  }
-
-  async getAllUser(settings: PaginatedCollection) {
-    const fields = settings.fields || "_id username name surname email avatarImageURL password";
-
-    const totalCount = await User.count({});
-    const users = await User.find({}, fields)
+  async getAllUser(settings: Pagination): Promise<{ users: IUserModel[]; totalCount: number }> {
+    const totalCount = await this.model.count({});
+    const users = (await this.model
+      .find({}, this.fields.join(" "))
       .limit(settings.limit * 1)
-      .skip((settings.page - 1) * settings.limit);
+      .skip((settings.page - 1) * settings.limit)) as IUserModel[];
 
     return { users, totalCount };
   }
 
-  async getUserByRefreshToken(token: string, settings?: { fields?: string }) {
-    const fields = settings?.fields || "_id username avatarImageURL";
-    return await User.findOne({ refreshToken: token }, fields);
+  async getUserByRefreshToken(token: string): Promise<IUserModel> {
+    return await this.model.findOne({ refreshToken: token }, this.fields.join(" "));
   }
 
-  async getUserByUsername(username: string, settings?: { fields?: string }) {
-    const fields = settings?.fields || "_id username avatarImageURL";
-    return await User.findOne({ username }, fields);
+  async getUserByUsername(username: string): Promise<IUserModel> {
+    return await this.model.findOne({ username }, this.fields.join(" "));
   }
 
-  async getUsersByMatchUsername(username: string, settings: PaginatedCollection) {
-    const fields = settings.fields || "_id username avatarImageURL";
+  async getUsersByMatchUsername(
+    username: string,
+    settings: Pagination,
+  ): Promise<{ users: IUserModel[]; totalCount: number }> {
     const query = { username: { $regex: username, $options: "i" } };
-    const totalCount = await User.count(query);
-    const users = await User.find(query, fields)
+    const totalCount = await this.model.count(query);
+    const users = (await this.model
+      .find(query, this.fields.join(" "))
       .limit(settings.limit * 1)
-      .skip((settings.page - 1) * settings.limit);
+      .skip((settings.page - 1) * settings.limit)) as IUserModel[];
     return { users, totalCount };
   }
 
-  async createUser(userData: UserType) {
+  async createUser(userData: UserType): Promise<IUserModel> {
     const { username, password, name, surname, email } = userData;
-    const newUser = new User({ username, password, name, surname, email });
+    const newUser = new UserModel({ username, password, name, surname, email });
     return await newUser.save();
   }
 
-  async updateUser(userId: string, newValues: Partial<unknown>) {
-    return await User.findOneAndUpdate({ _id: userId }, { ...newValues }, { runValidators: true, context: "query" });
+  async updateUser(userId: string, newValues: Partial<unknown>): Promise<IUserModel> {
+    return await this.model.findOneAndUpdate(
+      { _id: userId },
+      { ...newValues },
+      { runValidators: true, context: "query" },
+    );
   }
 }
