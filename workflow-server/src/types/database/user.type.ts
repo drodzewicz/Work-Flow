@@ -1,8 +1,8 @@
-import { Document } from "mongoose";
+import { HydratedDocument, Model } from "mongoose";
 
 export type UserFields = "_id" | "username" | "email" | "name" | "surname" | "avatarImageURL" | "password";
 
-export interface IUserModel extends Document {
+export interface IUser {
   username: string;
   password: string;
   refreshToken?: string;
@@ -13,3 +13,12 @@ export interface IUserModel extends Document {
   pinnedBoards?: unknown[];
   notifications?: unknown[];
 }
+
+// Put all user instance methods in this interface:
+export interface IUserMethods {
+  isValidPassword: (password: string) => Promise<boolean>;
+}
+
+export type UserModel = Model<IUser, {}, IUserMethods>;
+
+export type UserDocument = HydratedDocument<IUser, IUserMethods>;

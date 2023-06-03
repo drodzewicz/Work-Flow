@@ -9,7 +9,7 @@ export abstract class GenericRepository<T, F> {
     await document.save();
   }
 
-  async getById(id: string): Promise<T> {
+  async getById(id: string): Promise<T|null> {
     if (!Types.ObjectId.isValid(id)) {
       throw new InvalidMongooseIdError("Provided invalid id");
     }

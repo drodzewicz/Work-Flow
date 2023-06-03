@@ -1,19 +1,19 @@
-import mongoose, { Model } from "mongoose";
+import mongoose from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
+import bcrypt from "bcryptjs";
 import { Model as ModelType } from "../types/utils.type.js";
-import { IUserModel } from "../types/database/user.type.js";
-// const uniqueValidator = require("mongoose-unique-validator");
-// const bcrypt = require("bcryptjs");
+import { UserModel, IUser, IUserMethods } from "../types/database/user.type.js";
 
 const emailValidator = (email) => {
   const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   return re.test(email);
 };
 
-const userSchema = new mongoose.Schema({
+const schema = new mongoose.Schema<IUser, UserModel, IUserMethods>({
   username: {
     type: String,
     required: [true, "username is required"],
-    unique: [true, "username is not available"],
+    unique: true,
     minlength: [3, "must not be less that 3 charatcters"],
     maxlength: [20, "must not be longer than 20 characters"],
   },
@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    unique: [true, "this email is registered to a different account"],
+    unique: true,
     required: [true, "email is required"],
     validate: [emailValidator, "please fill a valid email address"],
   },
@@ -58,10 +58,21 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
-// userSchema.plugin(uniqueValidator, { message: "{VALUE} is not available" });
+schema.plugin(uniqueValidator, { message: "{VALUE} is already used by another user" });
 
-// userSchema.methods.isValidPassword = async function (password) {
-//   return await bcrypt.compare(password, this.password);
-// };
+schema.pre("save", async function (next) {
+  const user = this;
 
-export default mongoose.model(ModelType.User, userSchema) as Model<IUserModel>;
+  // only hash the password if it has been modified (or is new)
+  if (user.isModified("password")) {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(user.password, salt);
+  }
+  next();
+});
+
+schema.methods.isValidPassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
+export default mongoose.model<IUser, UserModel>(ModelType.User, schema);

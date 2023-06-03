@@ -1,7 +1,7 @@
 import { UserDTO } from "../types/dto/user.dto.js";
-import { IUserModel } from "../types/database/user.type.js";
+import { UserDocument } from "../types/database/user.type.js";
 
-export const UserMapper = (data: IUserModel): UserDTO => {
+export const UserMapper = (data: UserDocument): UserDTO => {
   if (!data) {
     return null;
   }
