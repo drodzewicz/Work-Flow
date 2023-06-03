@@ -14,7 +14,6 @@ export interface IUser {
   notifications?: unknown[];
 }
 
-// Put all user instance methods in this interface:
 export interface IUserMethods {
   isValidPassword: (password: string) => Promise<boolean>;
 }

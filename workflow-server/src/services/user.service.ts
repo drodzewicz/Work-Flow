@@ -1,6 +1,6 @@
 import { UserRepository } from "../repositories/user.repository.js";
 import { Service, Inject } from "typedi";
-import { User as UserType } from "../types/index.js";
+import { IUser } from "../types/database/user.type.js";
 import { Pagination } from "../types/utils.type.js";
 import { getPaginationSettings } from "../utils/pagination.utils.js";
 import { UserMapper } from "../mappers/user.mapper.js";
@@ -38,7 +38,7 @@ export class UserService {
     };
   }
 
-  async updateUserInfo(userId: string, userData: UserType): Promise<UserDTO> {
+  async updateUserInfo(userId: string, userData: IUser): Promise<UserDTO> {
     const user = await this.userRepository.updateUser(userId, userData);
     return UserMapper(user);
   }

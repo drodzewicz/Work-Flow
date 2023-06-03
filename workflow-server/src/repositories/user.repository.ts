@@ -1,17 +1,15 @@
 import { Service } from "typedi";
-import UserModel from "../models/user.model.js";
-import { UserDocument } from "../types/database/user.type.js";
-import { User as UserType } from "../types/index.js";
+import User from "../models/user.model.js";
+import { UserDocument, IUser, UserFields } from "../types/database/user.type.js";
 import { Pagination } from "../types/utils.type.js";
-import { UserFields } from "../types/database/user.type.js";
 import { GenericRepository } from "./generic.repository.js";
 
 @Service()
-export class UserRepository extends GenericRepository<UserDocument, UserFields> {
+export class UserRepository extends GenericRepository<IUser, UserDocument, UserFields> {
   constructor() {
     super();
     this.fields = ["_id", "username", "email", "name", "avatarImageURL", "password"];
-    this.model = UserModel;
+    this.model = User;
   }
 
   async getAllUser(settings: Pagination): Promise<{ users: UserDocument[]; totalCount: number }> {
@@ -45,13 +43,7 @@ export class UserRepository extends GenericRepository<UserDocument, UserFields> 
     return { users, totalCount };
   }
 
-  async createUser(userData: UserType): Promise<UserDocument> {
-    const { username, password, name, surname, email } = userData;
-    const newUser = new UserModel({ username, password, name, surname, email });
-    return await newUser.save();
-  }
-
-  async updateUser(userId: string, newValues: Partial<unknown>): Promise<UserDocument> {
+  async updateUser(userId: string, newValues: Partial<IUser>): Promise<UserDocument> {
     return await this.model.findOneAndUpdate(
       { _id: userId },
       { ...newValues },

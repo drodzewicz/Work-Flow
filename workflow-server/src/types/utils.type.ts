@@ -15,3 +15,8 @@ export type Pagination = {
 export interface AuthRequest extends Request {
   user: string;
 }
+
+export class PaginationQueryParams implements Pagination {
+  limit: number;
+  page: number;
+}
