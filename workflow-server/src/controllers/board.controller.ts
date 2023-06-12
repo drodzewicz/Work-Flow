@@ -10,13 +10,14 @@ import {
   UseBefore,
   CurrentUser,
 } from "routing-controllers";
-import { BoardService } from "../services/board.service.js";
+import { BoardService } from "../services/index.js";
 import { Container } from "typedi";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
-import { PaginationQueryParams } from "../types/utils.type.js";
+import { Pagination } from "../types/utils.type.js";
 import { CreateBoardPayload } from "../types/request/board.type.js";
 import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
 import { boardPayloadValidator } from "../validators/board.validator.js";
+import { getPaginationSettings } from "../utils/pagination.utils.js";
 
 @Controller("/boards")
 @UseBefore(JWTMiddleware)
@@ -34,9 +35,9 @@ export class BoardController {
   }
 
   @Get("/")
-  getBoards(@QueryParams() query: PaginationQueryParams) {
-    const { limit, page } = query;
-    return this.boardService.getBoards({ limit, page });
+  getBoards(@QueryParams() query: Pagination) {
+    const options = getPaginationSettings(query);
+    return this.boardService.getBoards(options);
   }
 
   @Get("/:id")

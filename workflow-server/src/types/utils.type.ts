@@ -10,13 +10,13 @@ export enum Model {
 export type Pagination = {
   page: number;
   limit: number;
+};
+
+export interface PaginatedResult<T> {
+  totalCount: number;
+  data: T[];
 }
 
 export interface AuthRequest extends Request {
   user: string;
-}
-
-export class PaginationQueryParams implements Pagination {
-  limit: number;
-  page: number;
 }

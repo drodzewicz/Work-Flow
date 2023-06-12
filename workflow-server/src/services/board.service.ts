@@ -1,12 +1,8 @@
-import { UserRepository } from "../repositories/user.repository.js";
-import { BoardRepository } from "../repositories/board.repository.js";
+import { UserRepository, BoardRepository } from "../repositories/index.js";
 import { Service, Inject } from "typedi";
-import { IUser } from "../types/database/user.type.js";
-import { IBoard } from "../types/database/board.type.js";
 import { Pagination } from "../types/utils.type.js";
-import { getPaginationSettings } from "../utils/pagination.utils.js";
-import { BoardMapper, BoardSimpleViewMapper } from "../mappers/board.mapper.js";
-import { BoardDTO, BoardSimpleDTO } from "../types/dto/board.dto.js";
+import { BoardDTO, BoardSimpleDTO } from "../types/dto/index.js";
+import { BoardMapper, BoardSimpleViewMapper } from "../mappers/index.js";
 
 @Service()
 export class BoardService {
@@ -18,12 +14,12 @@ export class BoardService {
     this.userRepository = userRepository;
   }
 
-  async getBoard(boardId: string){
+  async getBoard(boardId: string): Promise<BoardDTO> {
     const board = await this.boardRepository.getById(boardId);
     return BoardMapper(board);
   }
 
-  async createBoard(board: any, user: any) {
+  async createBoard(board: any, user: any): Promise<BoardSimpleDTO>  {
     board.members = [{ user: user.id, role: "OWNER" }];
     const result = await this.boardRepository.create(board);
     return BoardSimpleViewMapper(result);
@@ -33,7 +29,7 @@ export class BoardService {
     const result = await this.boardRepository.getUserBoards(userId, options);
     return {
       ...result,
-      boards: result.boards.map(BoardSimpleViewMapper),
+      boards: result.data.map(BoardSimpleViewMapper),
     };
   }
 
@@ -41,11 +37,11 @@ export class BoardService {
     const result = await this.boardRepository.getAllBoards(options);
     return {
       ...result,
-      boards: result.boards.map(BoardSimpleViewMapper),
+      boards: result.data.map(BoardSimpleViewMapper),
     };
   }
 
-  async deleteBoard(boardId: string) {
+  async deleteBoard(boardId: string): Promise<void> {
     await this.boardRepository.delete(boardId);
   }
 }

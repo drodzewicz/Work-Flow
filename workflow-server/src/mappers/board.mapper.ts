@@ -1,5 +1,5 @@
-import { BoardDTO, BoardSimpleDTO } from "../types/dto/board.dto.js";
-import { BoardDocument } from "../types/database/board.type.js";
+import { BoardDTO, BoardSimpleDTO } from "../types/dto/index.js";
+import { BoardDocument } from "../types/database/index.js";
 
 export const BoardMapper = (data: BoardDocument): BoardDTO => {
   if (!data) {

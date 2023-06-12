@@ -1,10 +1,10 @@
 import { Param, Get, Put, Controller, QueryParams, NotFoundError, UseBefore } from "routing-controllers";
-import { UserService } from "../services/user.service.js";
-import { BoardService } from "../services/board.service.js";
+import { UserService, BoardService } from "../services/index.js";
 import { Container } from "typedi";
 import { UserListQueryParams } from "../types/queryParams/user.type.js";
-import { PaginationQueryParams } from "../types/utils.type.js";
+import { Pagination } from "../types/utils.type.js";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
+import { getPaginationSettings } from "../utils/pagination.utils.js";
 
 @Controller("/users")
 @UseBefore(JWTMiddleware)
@@ -19,11 +19,11 @@ export class UserController {
 
   @Get("/")
   getUser(@QueryParams() query: UserListQueryParams) {
-    const { limit, page } = query;
+    const options = getPaginationSettings(query);
     if (query.username) {
-      return this.userService.getUsersByMatchUsername(query.username, { limit, page });
+      return this.userService.getUsersByMatchUsername(query.username, options);
     } else {
-      return this.userService.getAllUsers({ limit, page });
+      return this.userService.getAllUsers(options);
     }
   }
 
@@ -37,9 +37,9 @@ export class UserController {
   }
 
   @Get("/:id/boards")
-  async userBoards(@Param("id") id: string, @QueryParams() query: PaginationQueryParams) {
-    const { limit, page } = query;
-    return this.boardService.getUserBoards(id, { limit, page });
+  async userBoards(@Param("id") id: string, @QueryParams() query: Pagination) {
+    const options = getPaginationSettings(query);
+    return this.boardService.getUserBoards(id, options);
   }
 
   @Get("/:id/pinnedBoards")

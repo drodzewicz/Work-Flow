@@ -1,5 +1,5 @@
-import { PaginationQueryParams } from "../utils.type.js";
+import { Pagination } from "../utils.type.js";
 
-export class UserListQueryParams extends PaginationQueryParams {
+export interface UserListQueryParams extends Pagination {
   username?: string;
 }

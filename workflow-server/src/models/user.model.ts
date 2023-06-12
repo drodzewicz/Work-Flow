@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
 import bcrypt from "bcryptjs";
 import { Model as ModelType } from "../types/utils.type.js";
-import { UserModel, IUser, IUserMethods } from "../types/database/user.type.js";
+import { UserModel, IUser, IUserMethods } from "../types/database/index.js";
 
 const emailValidator = (email) => {
   const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;

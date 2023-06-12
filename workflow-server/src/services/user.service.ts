@@ -1,13 +1,9 @@
-import { UserRepository } from "../repositories/user.repository.js";
+import { UserRepository } from "../repositories/index.js";
 import { Service, Inject } from "typedi";
-import { IUser } from "../types/database/user.type.js";
+import { IUser } from "../types/database/index.js";
 import { Pagination } from "../types/utils.type.js";
-import { getPaginationSettings } from "../utils/pagination.utils.js";
-import { UserMapper } from "../mappers/user.mapper.js";
-import { UserDTO } from "../types/dto/user.dto.js";
-import { BoardMapper } from "../mappers/board.mapper.js";
-import { BoardDTO } from "../types/dto/board.dto.js";
-import { BoardDocument } from "../types/database/board.type.js";
+import { UserDTO, BoardDTO } from "../types/dto/index.js";
+import { BoardMapper, UserMapper } from "../mappers/index.js";
 
 @Service()
 export class UserService {
@@ -23,10 +19,10 @@ export class UserService {
   }
 
   async getAllUsers(options: Pagination): Promise<{ totalCount: number; users: UserDTO[] }> {
-    const result = await this.userRepository.getAllUser({ ...getPaginationSettings(options) });
+    const result = await this.userRepository.getAllUser(options);
     return {
       ...result,
-      users: result.users.map(UserMapper),
+      users: result.data.map(UserMapper),
     };
   }
 
@@ -34,10 +30,10 @@ export class UserService {
     username: string,
     options: Pagination,
   ): Promise<{ totalCount: number; users: UserDTO[] }> {
-    const result = await this.userRepository.getUsersByMatchUsername(username, getPaginationSettings(options));
+    const result = await this.userRepository.getUsersByMatchUsername(username, options);
     return {
       ...result,
-      users: result.users.map(UserMapper),
+      users: result.data.map(UserMapper),
     };
   }
 
@@ -46,12 +42,12 @@ export class UserService {
     return UserMapper(user);
   }
 
-  async getUserPinnedBoards(userId: string) {
+  async getUserPinnedBoards(userId: string): Promise<BoardDTO[]> {
     const boards = await this.userRepository.getUserPinnedCollection(userId);
     return boards.map(BoardMapper);
   }
 
-  async togglePinBoard(userId: string, boardId: string) {
+  async togglePinBoard(userId: string, boardId: string): Promise<boolean> {
     const boards = await this.userRepository.getUserPinnedCollection(userId);
     if (boards.find(({ _id }) => _id.equals(boardId))) {
       await this.userRepository.removeBoardFromPinnedCollection(userId, boardId);

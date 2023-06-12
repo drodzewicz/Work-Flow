@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IBoard, BoardModel } from "../types/database/board.type.js"
+import { IBoard, BoardModel } from "../types/database/index.js"
 import { Model } from "../types/utils.type.js";
 
 const schema = new mongoose.Schema<IBoard, BoardModel>({

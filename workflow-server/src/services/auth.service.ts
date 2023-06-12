@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { env } from "../config/env.config.js";
-import { UserRepository } from "../repositories/user.repository.js";
-import { Service, Inject } from "typedi";
 import { NotFoundError, UnauthorizedError } from "routing-controllers";
-import { UserMapper } from "../mappers/user.mapper.js";
-import { UserDTO } from "../types/dto/user.dto.js";
+import { Service, Inject } from "typedi";
+import { env } from "../config/env.config.js";
+import { UserRepository } from "../repositories/index.js";
+import { UserDTO } from "../types/dto/index.js";
+import { UserMapper } from "../mappers/index.js";
 
 @Service()
 export class AuthService {

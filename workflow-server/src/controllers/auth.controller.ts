@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { Container } from "typedi";
 import { JsonController, Body, Post, Get, Res, CookieParam } from "routing-controllers";
-import { AuthService } from "../services/auth.service.js";
+import { AuthService } from "../services/index.js";
 import { env } from "../config/env.config.js";
 import { loginPayloadValidator, registerPayloadValidator } from "../validators/auth.validator.js";
 import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
