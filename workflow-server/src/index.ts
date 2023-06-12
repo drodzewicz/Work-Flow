@@ -8,6 +8,7 @@ import { databaseConnect } from "./config/mongoose.config.js";
 import { usePassportJWT } from "./config/passport-jwt.config.js";
 import { useExpressServer } from "routing-controllers";
 import { UserController } from "./controllers/user.controller.js";
+import { BoardController } from "./controllers/board.controller.js";
 import { AuthController } from "./controllers/auth.controller.js";
 import { HttpErrorHandler } from "./middleware/httpError.middleware.js";
 import { currentUserChecker } from "./middleware/auth.middleware.js";
@@ -23,7 +24,7 @@ useExpressServer(app, {
   routePrefix: env.app.routePrefix,
   classTransformer: false,
   defaultErrorHandler: false,
-  controllers: [UserController, AuthController],
+  controllers: [AuthController, UserController, BoardController],
   middlewares: [HttpErrorHandler],
   currentUserChecker,
 });

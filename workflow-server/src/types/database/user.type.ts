@@ -1,4 +1,5 @@
-import { HydratedDocument, Model } from "mongoose";
+import { HydratedDocument, Model, Types, PopulatedDoc } from "mongoose";
+import { BoardDocument } from "./board.type.js";
 
 export type UserFields = "_id" | "username" | "email" | "name" | "surname" | "avatarImageURL" | "password";
 
@@ -10,7 +11,7 @@ export interface IUser {
   surname: string;
   email: string;
   avatarImageURL?: string;
-  pinnedBoards?: unknown[];
+  pinnedBoards?: PopulatedDoc<BoardDocument>[];
   notifications?: unknown[];
 }
 

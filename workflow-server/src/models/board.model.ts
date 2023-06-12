@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
+import { IBoard, BoardModel } from "../types/database/board.type.js"
 import { Model } from "../types/utils.type.js";
 
-const boardSchema = new mongoose.Schema({
+const schema = new mongoose.Schema<IBoard, BoardModel>({
   name: {
     type: String,
     required: [true, "username is required"],
@@ -11,10 +12,6 @@ const boardSchema = new mongoose.Schema({
   description: {
     type: String,
     maxlength: [400, "must not be longer than 400 characters"],
-  },
-  author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: Model.User,
   },
   members: [
     {
@@ -53,4 +50,4 @@ const boardSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model(Model.Board, boardSchema);
+export default mongoose.model<IBoard, BoardModel>(Model.Board, schema);

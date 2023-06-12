@@ -1,15 +1,20 @@
 import { Service } from "typedi";
 import User from "../models/user.model.js";
 import { UserDocument, IUser, UserFields } from "../types/database/user.type.js";
+import { BoardDocument } from "../types/database/board.type.js";
+import { BoardFields } from "../types/database/board.type.js";
 import { Pagination } from "../types/utils.type.js";
 import { GenericRepository } from "./generic.repository.js";
 
 @Service()
 export class UserRepository extends GenericRepository<IUser, UserDocument, UserFields> {
+  private boardFields: BoardFields[];
+  
   constructor() {
     super();
     this.fields = ["_id", "username", "email", "name", "avatarImageURL", "password"];
     this.model = User;
+    this.boardFields = ["_id", "name", "description", "columns", "timeCreated"];
   }
 
   async getAllUser(settings: Pagination): Promise<{ users: UserDocument[]; totalCount: number }> {
@@ -49,5 +54,26 @@ export class UserRepository extends GenericRepository<IUser, UserDocument, UserF
       { ...newValues },
       { runValidators: true, context: "query" },
     );
+  }
+
+  async getUserPinnedCollection(userId: string) {
+    this.validateId(userId);
+    const { pinnedBoards } = await this.model.findById(userId).populate({
+      path: "pinnedBoards",
+      select: this.boardFields.join(" "),
+    });
+    return pinnedBoards;
+  }
+
+  async addBoardToPinnedCollection(userId: string, boardId: string) {
+    this.validateId(userId);
+    this.validateId(boardId);
+    await this.model.findOneAndUpdate({ _id: userId }, { $push: { pinnedBoards: boardId } });
+  }
+
+  async removeBoardFromPinnedCollection(userId: string, boardId: string) {
+    this.validateId(userId);
+    this.validateId(boardId);
+    await this.model.findOneAndUpdate({ _id: userId }, { $pull: { pinnedBoards: boardId } });
   }
 }

@@ -5,6 +5,9 @@ import { Pagination } from "../types/utils.type.js";
 import { getPaginationSettings } from "../utils/pagination.utils.js";
 import { UserMapper } from "../mappers/user.mapper.js";
 import { UserDTO } from "../types/dto/user.dto.js";
+import { BoardMapper } from "../mappers/board.mapper.js";
+import { BoardDTO } from "../types/dto/board.dto.js";
+import { BoardDocument } from "../types/database/board.type.js";
 
 @Service()
 export class UserService {
@@ -41,5 +44,21 @@ export class UserService {
   async updateUserInfo(userId: string, userData: IUser): Promise<UserDTO> {
     const user = await this.userRepository.updateUser(userId, userData);
     return UserMapper(user);
+  }
+
+  async getUserPinnedBoards(userId: string) {
+    const boards = await this.userRepository.getUserPinnedCollection(userId);
+    return boards.map(BoardMapper);
+  }
+
+  async togglePinBoard(userId: string, boardId: string) {
+    const boards = await this.userRepository.getUserPinnedCollection(userId);
+    if (boards.find(({ _id }) => _id.equals(boardId))) {
+      await this.userRepository.removeBoardFromPinnedCollection(userId, boardId);
+      return false;
+    } else {
+      await this.userRepository.addBoardToPinnedCollection(userId, boardId);
+      return true;
+    }
   }
 }
