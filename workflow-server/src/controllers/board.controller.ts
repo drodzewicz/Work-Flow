@@ -9,6 +9,7 @@ import {
   NotFoundError,
   UseBefore,
   CurrentUser,
+  Put,
 } from "routing-controllers";
 import { BoardService } from "../services/index.js";
 import { Container } from "typedi";
@@ -40,18 +41,18 @@ export class BoardController {
     return this.boardService.getBoards(options);
   }
 
-  @Get("/:id")
-  async getBoard(@Param("id") id: string) {
-    const board = await this.boardService.getBoard(id);
+  @Get("/:boardId")
+  async getBoard(@Param("boardId") boardId: string) {
+    const board = await this.boardService.getBoard(boardId);
     if (!board) {
       throw new NotFoundError("Board was not found.");
     }
     return board;
   }
 
-  @Delete("/:id")
-  async deleteBoard(@Param("id") id: string) {
-    await this.boardService.deleteBoard(id);
+  @Delete("/:boardId")
+  async deleteBoard(@Param("boardId") boardId: string) {
+    await this.boardService.deleteBoard(boardId);
 
     return { message: "Board was successfully deleted" };
   }

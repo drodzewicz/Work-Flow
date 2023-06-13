@@ -1,15 +1,20 @@
 import { env } from "./config/env.config.js";
 import express, { Application } from "express";
+import { useExpressServer } from "routing-controllers";
 import cookieParser from "cookie-parser";
-import { logger } from "./config/logger.config.js";
 import chalk from "chalk";
 import "reflect-metadata";
+import { logger } from "./config/logger.config.js";
 import { databaseConnect } from "./config/mongoose.config.js";
 import { usePassportJWT } from "./config/passport-jwt.config.js";
-import { useExpressServer } from "routing-controllers";
 import { UserController } from "./controllers/user.controller.js";
 import { BoardController } from "./controllers/board.controller.js";
 import { AuthController } from "./controllers/auth.controller.js";
+import { TaskController } from "./controllers/task.controller.js";
+import { TagController } from "./controllers/tag.controller.js";
+import { MemberController } from "./controllers/member.controller.js";
+import { ColumnController } from "./controllers/column.controller.js";
+
 import { HttpErrorHandler } from "./middleware/httpError.middleware.js";
 import { currentUserChecker } from "./middleware/auth.middleware.js";
 
@@ -24,7 +29,15 @@ useExpressServer(app, {
   routePrefix: env.app.routePrefix,
   classTransformer: false,
   defaultErrorHandler: false,
-  controllers: [AuthController, UserController, BoardController],
+  controllers: [
+    AuthController,
+    UserController,
+    BoardController,
+    ColumnController,
+    TaskController,
+    TagController,
+    MemberController,
+  ],
   middlewares: [HttpErrorHandler],
   currentUserChecker,
 });
