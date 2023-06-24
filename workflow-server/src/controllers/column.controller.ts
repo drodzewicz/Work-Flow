@@ -1,6 +1,7 @@
 import {
   Param,
   Get,
+  Body,
   Put,
   Post,
   Controller,
@@ -29,22 +30,34 @@ export class ColumnController {
   }
 
   @Post("/")
-  async createColumn(@Param("boardId") boardId: string) {
-    // TODO: add create column
+  async createColumn(@Param("boardId") boardId: string, @Body() columnData: { name: string }) {
+    await this.boardService.createColumn(boardId, columnData.name);
+    return this.boardService.getBoard(boardId);
   }
 
   @Put("/:columnId")
-  async updateColumn(@Param("boardId") boardId: string, @Param("columnId") columnId: string) {
-    // TODO: add update board
+  async updateColumn(
+    @Param("boardId") boardId: string,
+    @Param("columnId") columnId: string,
+    @Body() columnData: { name: string },
+  ) {
+    await this.boardService.updateColumn(boardId, columnId, columnData.name);
+    return this.boardService.getBoard(boardId);
   }
 
   @Patch("/:columnId")
-  async moveColumn(@Param("boardId") boardId: string, @Param("columnId") columnId: string) {
-    // TODO: (sordOrder and name)
+  async moveColumn(
+    @Param("boardId") boardId: string,
+    @Param("columnId") columnId: string,
+    @Body() columnData: { index: number },
+  ) {
+    await this.boardService.updateColumnOrder(boardId, columnId, columnData.index);
+    return this.boardService.getBoard(boardId);
   }
 
   @Delete("/:columnId")
   async deleteColumn(@Param("boardId") boardId: string, @Param("columnId") columnId: string) {
-    // TODO: add delete column (cascade delete tasks)
+    await this.boardService.deleteColumn(boardId, columnId);
+    return this.boardService.getBoard(boardId);
   }
 }

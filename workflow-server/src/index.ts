@@ -46,8 +46,7 @@ const routingControllersOptions = {
 }
 
 useExpressServer(app, routingControllersOptions);
-
-databaseConnect();
+ databaseConnect();
 usePassportJWT();
 useSwagger(app, routingControllersOptions);
 

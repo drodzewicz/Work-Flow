@@ -3,13 +3,17 @@ import { UserDocument } from "./user.type.js";
 
 export type BoardFields = "_id" | "name" | "description" | "members" | "tags" | "columns" | "timeCreated";
 
+export interface IColumn {
+  name: string;
+}
+
 export interface IBoard {
   name: string;
   description: string;
   timeCreated: Date;
   members: PopulatedDoc<UserDocument>[];
   tags: Types.ObjectId[];
-  columns: unknown[];
+  columns: HydratedDocument<IColumn>[];
 }
 
 export type BoardModel = Model<IBoard>;

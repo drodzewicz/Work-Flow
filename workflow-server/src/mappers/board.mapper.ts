@@ -10,7 +10,7 @@ export const BoardMapper = (data: BoardDocument): BoardDTO => {
     timeCreated: data.timeCreated,
     name: data.name,
     description: data.description,
-    columns: data.columns.map(({ _id, name }) => ({ _id, name })),
+    columns: data.columns.map(({ _id, name }) => ({ _id: _id.toString(), name })),
   };
 };
 
