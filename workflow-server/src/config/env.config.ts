@@ -47,8 +47,5 @@ export const env = {
   },
   swagger: {
     enabled: utils.toBool(utils.getEnv("SWAGGER_ENABLED")),
-    route: utils.getEnv("SWAGGER_ROUTE"),
-    username: utils.getEnv("SWAGGER_USERNAME"),
-    password: utils.getEnv("SWAGGER_PASSWORD"),
   },
 };

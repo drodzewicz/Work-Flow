@@ -42,7 +42,9 @@
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^5.0.0",
-    "routing-controllers": "^0.7.6",
+    "routing-controllers": "^0.8.0",
+    "routing-controllers-openapi": "^1.7.0",
+    "swagger-ui-express": "4.0.1",
     "typedi": "^0.10.0"
   }
 }
