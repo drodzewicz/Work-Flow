@@ -1,6 +1,6 @@
 import { UserRepository, BoardRepository } from "../repositories/index.js";
 import { Service, Inject } from "typedi";
-import { Pagination } from "../types/utils.type.js";
+import { Pagination, AuthUser } from "../types/utils.type.js";
 import { BoardDTO, BoardSimpleDTO } from "../types/dto/index.js";
 import { BoardMapper, BoardSimpleViewMapper } from "../mappers/index.js";
 import { NotFoundError } from "routing-controllers";
@@ -20,7 +20,7 @@ export class BoardService {
     return BoardMapper(board);
   }
 
-  async createBoard(board: any, user: any): Promise<BoardSimpleDTO> {
+  async createBoard(board: any, user: AuthUser): Promise<BoardSimpleDTO> {
     board.members = [{ user: user.id, role: "OWNER" }];
     const result = await this.boardRepository.create(board);
     return BoardSimpleViewMapper(result);

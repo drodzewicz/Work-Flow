@@ -1,49 +1,85 @@
-import { Param, Get, Put, Post, Controller, QueryParams, NotFoundError, UseBefore, Delete, Patch } from "routing-controllers";
-import { UserService, BoardService } from "../services/index.js";
+import {
+  Param,
+  Get,
+  Put,
+  Post,
+  Controller,
+  QueryParams,
+  UseBefore,
+  Delete,
+  Patch,
+  Body,
+  CurrentUser,
+} from "routing-controllers";
+import { TaskService } from "../services/index.js";
 import { Container } from "typedi";
-import { UserListQueryParams } from "../types/queryParams/user.type.js";
-import { Pagination } from "../types/utils.type.js";
+import { GetColumnTasksQueryParams } from "../types/queryParams/task.type.js";
+import { CreateTaskPayload, UpdateTaskPayload, MoveTaskPayload } from "../types/request/task.type.js";
+import { AuthUser } from "../types/utils.type.js";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
-import { getPaginationSettings } from "../utils/pagination.utils.js";
 
-@Controller("/boards/:boardId/columns/:columnId/tasks")
+@Controller("/tasks")
 @UseBefore(JWTMiddleware)
 export class TaskController {
-  userService: UserService;
-  boardService: BoardService;
+  taskService: TaskService;
 
   constructor() {
-    this.userService = Container.get(UserService);
-    this.boardService = Container.get(BoardService);
+    this.taskService = Container.get(TaskService);
   }
 
   @Post("/")
-  createTask(@QueryParams() query: UserListQueryParams) {
-    // TODO: create task
+  async createTask(@Body() payload: CreateTaskPayload, @CurrentUser() user: AuthUser) {
+    const { boardId, columnId, ...taskData } = payload;
+    const task = await this.taskService.createTask(taskData, boardId, user);
+    await this.taskService.addTaskToColumn(boardId, columnId, task._id.toString());
+    return task;
   }
 
   @Get("/")
-  getColumnTasks(@Param("boardId") boardId: string, @Param("columnId") columnId: string) {
-    // TODO: get column tasks with pagination
+  getColumnTasks(@QueryParams() query: GetColumnTasksQueryParams) {
+    return this.taskService.getAllColumnTasks(query.boardId, query.columnId);
   }
 
-  @Get("/:id")
-  getTask(@QueryParams() query: UserListQueryParams) {
-    // TODO: Get task
+  @Get("/:taskId")
+  getTask(@Param("taskId") taskId: string) {
+    return this.taskService.getTask(taskId);
   }
 
-  @Put("/:id")
-  updateTask(@QueryParams() query: UserListQueryParams) {
-    // TODO: update task
+  @Put("/:taskId")
+  updateTask(@Param("taskId") taskId: string, @Body() payload: UpdateTaskPayload) {
+    return this.taskService.updateTask(taskId, payload);
   }
 
-  @Patch("/:id")
-  moveTask(@QueryParams() query: UserListQueryParams) {
-    // TODO: move task rows and columns
+  @Delete("/:taskId")
+  async deleteTask(@Param("taskId") taskId: string) {
+    await this.taskService.deleteTask(taskId);
+    return { message: "Deleted task successfully" };
   }
 
-  @Delete("/:id")
-  deleteTask(@QueryParams() query: UserListQueryParams) {
-    // TODO: delete task
+  @Patch("/:taskId/move")
+  async moveTask(@Param("taskId") taskId: string, @Body() payload: MoveTaskPayload) {
+    const { boardId, columnId, rowIndex } = payload;
+    await this.taskService.moveTaskToColumn(taskId, boardId, columnId, rowIndex);
+    return this.taskService.getAllColumnTasks(boardId, columnId);
+  }
+
+  @Patch("/:taskId/tags")
+  addTag() {
+    // TODO: Add tag to task
+  }
+
+  @Delete("/:taskId/tags/:tagId")
+  removeTag() {
+    // TODO: remove tag from task
+  }
+
+  @Patch("/:taskId/assignees")
+  addAssignee() {
+    // TODO: Add assignee to task
+  }
+
+  @Delete("/:taskId/assignees/:userId")
+  removeAssignee() {
+    // TODO: remove tag from task
   }
 }

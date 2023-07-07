@@ -14,7 +14,7 @@ import {
 import { BoardService } from "../services/index.js";
 import { Container } from "typedi";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
-import { Pagination } from "../types/utils.type.js";
+import { Pagination, AuthUser } from "../types/utils.type.js";
 import { CreateBoardPayload } from "../types/request/board.type.js";
 import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
 import { boardPayloadValidator } from "../validators/board.validator.js";
@@ -30,7 +30,7 @@ export class BoardController {
   }
 
   @Post("/")
-  createBorad(@Body() board: CreateBoardPayload, @CurrentUser() user: any) {
+  createBorad(@Body() board: CreateBoardPayload, @CurrentUser() user: AuthUser) {
     fieldErrorsHandler(boardPayloadValidator(board));
     return this.boardService.createBoard(board, user);
   }

@@ -1,4 +1,5 @@
 import { Request } from "express";
+import { ObjectId } from "mongoose";
 
 export enum Model {
   User = "User",
@@ -17,6 +18,11 @@ export interface PaginatedResult<T> {
   data: T[];
 }
 
+export interface AuthUser {
+  id: ObjectId;
+  username: string;
+}
+
 export interface AuthRequest extends Request {
-  user: string;
+  user: AuthUser;
 }

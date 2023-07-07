@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import { Model } from "../types/utils.type.js";
+import { ITask, TaskModel } from "../types/database/task.type.js";
 
-const taskSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
   title: {
     type: String,
     maxlength: [100, "task title is too long"],
@@ -10,15 +11,15 @@ const taskSchema = new mongoose.Schema({
     type: String,
     maxlength: [500, "task description is too long"],
   },
-  author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: Model.User,
-  },
   board: {
     type: mongoose.Schema.Types.ObjectId,
     ref: Model.Board,
   },
-  people: [
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Model.User,
+  },
+  assignees: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: Model.User,
@@ -32,4 +33,4 @@ const taskSchema = new mongoose.Schema({
   ],
 });
 
-export default mongoose.model(Model.Task, taskSchema);
+export default mongoose.model<ITask, TaskModel>(Model.Task, schema);
