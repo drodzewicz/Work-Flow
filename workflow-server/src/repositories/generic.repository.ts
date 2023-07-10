@@ -11,8 +11,8 @@ export abstract class GenericRepository<T, D extends Document, F> {
     }
   }
 
-  async save(document: D) {
-    await document.save();
+  async save(document: D): Promise<D> {
+    return await document.save();
   }
 
   async getById(id: string): Promise<D | null> {

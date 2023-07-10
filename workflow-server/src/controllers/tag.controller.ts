@@ -1,39 +1,55 @@
-import { Param, Get, Put, Post, Controller, QueryParams, NotFoundError, UseBefore, Delete } from "routing-controllers";
-import { UserService, BoardService } from "../services/index.js";
+import {
+  Param,
+  Get,
+  Put,
+  Post,
+  Controller,
+  QueryParams,
+  NotFoundError,
+  UseBefore,
+  Delete,
+  Body,
+} from "routing-controllers";
+import { BoardService, TagService } from "../services/index.js";
 import { Container } from "typedi";
 import { UserListQueryParams } from "../types/queryParams/user.type.js";
 import { Pagination } from "../types/utils.type.js";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
+import { CreateTagPayload, UpdateTagPayload } from "../types/request/tag.type.js";
+
 import { getPaginationSettings } from "../utils/pagination.utils.js";
 
-@Controller("/boards/:id/tags")
+@Controller("/tags")
 @UseBefore(JWTMiddleware)
 export class TagController {
-  userService: UserService;
+  tagService: TagService;
   boardService: BoardService;
 
   constructor() {
-    this.userService = Container.get(UserService);
+    this.tagService = Container.get(TagService);
     this.boardService = Container.get(BoardService);
   }
 
   @Post("/")
-  createTag(@QueryParams() query: UserListQueryParams) {
-    // TODO: add create tag to the board
+  async createTag(@Body() payload: CreateTagPayload) {
+    const { boardId, ...otherData } = payload;
+    const board = await this.boardService.getBoard(boardId);
+    return this.tagService.createTag(board._id, otherData);
   }
 
   @Get("/")
-  getBoardTags(@QueryParams() query: UserListQueryParams) {
-    // TODO: add get all tags of the board
+  getBoardTags(@QueryParams() query: { boardId: string }) {
+    return this.tagService.getBoardTags(query.boardId);
   }
 
   @Delete("/:tagId")
-  deleteTag(@QueryParams() query: UserListQueryParams) {
-    // TODO: add delete tag 
+  async deleteTag(@Param("tagId") tagId: string): Promise<{ message: string }> {
+    await this.tagService.deleteTag(tagId);
+    return { message: "Tag was successfully deleted" };
   }
 
   @Put("/:tagId")
-  updateTag(@QueryParams() query: UserListQueryParams) {
-    // TODO: add update tag
+  async updateTag(@Param("tagId") tagId: string, @Body() payload: UpdateTagPayload) {
+    return this.tagService.updateTag(tagId, payload);
   }
 }

@@ -1,9 +1,14 @@
 import mongoose from "mongoose";
+import { ITag, TagModel } from "../types/database/index.js";
 import { Model } from "../types/utils.type.js";
 
-const tagSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
   name: String,
-  color: String,
+  key: String,
+  board: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Model.Board,
+  },
 });
 
-export default mongoose.model(Model.Tag, tagSchema);
+export default mongoose.model<ITag, TagModel>(Model.Tag, schema);
