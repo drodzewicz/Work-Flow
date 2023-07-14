@@ -4,6 +4,7 @@ import { Pagination, AuthUser } from "../types/utils.type.js";
 import { BoardDTO, BoardSimpleDTO } from "../types/dto/index.js";
 import { BoardMapper, BoardSimpleViewMapper } from "../mappers/index.js";
 import { NotFoundError } from "routing-controllers";
+import { RoleNames } from "../config/permissions.config.js"
 
 @Service()
 export class BoardService {
@@ -21,7 +22,7 @@ export class BoardService {
   }
 
   async createBoard(board: any, user: AuthUser): Promise<BoardSimpleDTO> {
-    board.members = [{ user: user.id, role: "OWNER" }];
+    board.members = [{ user: user.id, role: RoleNames.ADMIN }];
     const result = await this.boardRepository.create(board);
     return BoardSimpleViewMapper(result);
   }

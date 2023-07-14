@@ -1,23 +1,8 @@
-import {
-  Param,
-  Get,
-  Put,
-  Post,
-  Controller,
-  QueryParams,
-  NotFoundError,
-  UseBefore,
-  Delete,
-  Body,
-} from "routing-controllers";
+import { Param, Get, Put, Post, Controller, QueryParams, UseBefore, Delete, Body } from "routing-controllers";
 import { BoardService, TagService } from "../services/index.js";
 import { Container } from "typedi";
-import { UserListQueryParams } from "../types/queryParams/user.type.js";
-import { Pagination } from "../types/utils.type.js";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
 import { CreateTagPayload, UpdateTagPayload } from "../types/request/tag.type.js";
-
-import { getPaginationSettings } from "../utils/pagination.utils.js";
 
 @Controller("/tags")
 @UseBefore(JWTMiddleware)
@@ -43,7 +28,7 @@ export class TagController {
   }
 
   @Delete("/:tagId")
-  async deleteTag(@Param("tagId") tagId: string): Promise<{ message: string }> {
+  async deleteTag(@Param("tagId") tagId: string) {
     await this.tagService.deleteTag(tagId);
     return { message: "Tag was successfully deleted" };
   }

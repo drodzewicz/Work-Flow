@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { IBoard, BoardModel } from "../types/database/index.js"
 import { Model } from "../types/utils.type.js";
+import { RoleNames } from "../config/permissions.config.js"
 
 const schema = new mongoose.Schema<IBoard, BoardModel>({
   name: {
@@ -22,7 +23,7 @@ const schema = new mongoose.Schema<IBoard, BoardModel>({
       },
       role: {
         type: String,
-        default: "REGULAR",
+        default: RoleNames.VIEWER,
       },
     },
   ],

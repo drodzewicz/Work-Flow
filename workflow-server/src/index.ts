@@ -1,8 +1,6 @@
 import { env } from "./config/env.config.js";
 import express, { Application } from "express";
-import { useExpressServer, getMetadataArgsStorage } from "routing-controllers";
-import { routingControllersToSpec } from 'routing-controllers-openapi'
-import * as swaggerUiExpress from 'swagger-ui-express'
+import { useExpressServer } from "routing-controllers";
 import cookieParser from "cookie-parser";
 import chalk from "chalk";
 import "reflect-metadata";
@@ -17,6 +15,7 @@ import { TaskController } from "./controllers/task.controller.js";
 import { TagController } from "./controllers/tag.controller.js";
 import { MemberController } from "./controllers/member.controller.js";
 import { ColumnController } from "./controllers/column.controller.js";
+import { PermissionController } from "./controllers/permission.controller.js";
 
 import { HttpErrorHandler } from "./middleware/httpError.middleware.js";
 import { currentUserChecker } from "./middleware/auth.middleware.js";
@@ -40,13 +39,14 @@ const routingControllersOptions = {
     TaskController,
     TagController,
     MemberController,
+    PermissionController,
   ],
   middlewares: [HttpErrorHandler],
   currentUserChecker,
-}
+};
 
 useExpressServer(app, routingControllersOptions);
- databaseConnect();
+databaseConnect();
 usePassportJWT();
 useSwagger(app, routingControllersOptions);
 
