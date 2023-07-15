@@ -17,7 +17,8 @@ export class TagService {
 
   async deleteTag(tagId: string): Promise<void> {
     const tag = await this.tagRepository.getById(tagId);
-    await this.tagRepository.removeTagToBoard(tag.board.toString(), tagId);
+    await this.tagRepository.removeTagFromTasks(tag.board.toString(), tagId);
+    await this.tagRepository.removeTagFromBoard(tag.board.toString(), tagId);
     await this.tagRepository.delete(tagId);
   }
 
