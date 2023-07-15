@@ -1,5 +1,4 @@
 import { Service, Inject } from "typedi";
-import { NotFoundError } from "routing-controllers";
 import { TaskRepository, UserRepository, BoardRepository } from "../repositories/index.js";
 import { TaskMapper, ColumnTaskMapper } from "../mappers/index.js";
 import { TaskDTO, ColumnTaskDTO } from "../types/dto/index.js";
@@ -56,6 +55,11 @@ export class TaskService {
     return TaskMapper(task);
   }
 
+  async getTaskBoardId(taskId: string): Promise<string> {
+    const task = await this.taskRepository.getById(taskId);
+    return task.board.toString();
+  }
+
   async deleteTask(taskId: string): Promise<void> {
     const task = await this.taskRepository.getById(taskId);
     await this.taskRepository.delete(taskId);
@@ -65,5 +69,21 @@ export class TaskService {
   async updateTask(taskId: string, taskData: any) {
     // await this.taskRepository.
     // no opt
+  }
+
+  async addAssigneeToTask(taskId: string, userId: string): Promise<void> {
+    await this.taskRepository.addTaskAssignee(taskId, userId);
+  }
+
+  async removeAssigneeFromTask(taskId: string, userId: string): Promise<void> {
+    await this.taskRepository.removeTaskAssignee(taskId, userId);
+  }
+
+  async addTagToTask(taskId: string, tagsId: string): Promise<void> {
+    await this.taskRepository.addTaskTag(taskId, tagsId);
+  }
+
+  async removeTagFromTask(taskId: string, tagsId: string): Promise<void> {
+    await this.taskRepository.removeTaskTag(taskId, tagsId);
   }
 }

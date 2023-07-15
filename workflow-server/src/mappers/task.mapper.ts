@@ -1,6 +1,6 @@
 import { TaskDTO, ColumnTaskDTO } from "../types/dto/index.js";
 import { TaskDocument, UserDocument, ColumnDocument } from "../types/database/index.js";
-import { UserMapper } from "./user.mapper.js";
+import { UserMapper, TagMapper } from "./index.js";
 
 export const TaskMapper = (data: TaskDocument): TaskDTO => {
   if (!data) {
@@ -12,7 +12,7 @@ export const TaskMapper = (data: TaskDocument): TaskDTO => {
     description: data.description,
     title: data.title,
     assignees: data.assignees.map(UserMapper),
-    tags: data.tags,
+    tags: data.tags.map(TagMapper),
   };
 };
 

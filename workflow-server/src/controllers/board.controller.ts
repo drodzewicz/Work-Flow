@@ -9,7 +9,6 @@ import {
   NotFoundError,
   UseBefore,
   CurrentUser,
-  Put,
 } from "routing-controllers";
 import { BoardService } from "../services/index.js";
 import { Container } from "typedi";

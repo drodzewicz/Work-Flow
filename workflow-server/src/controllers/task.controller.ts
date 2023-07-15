@@ -10,8 +10,9 @@ import {
   Patch,
   Body,
   CurrentUser,
+  NotFoundError,
 } from "routing-controllers";
-import { TaskService } from "../services/index.js";
+import { TaskService, MemberService, TagService } from "../services/index.js";
 import { Container } from "typedi";
 import { GetColumnTasksQueryParams } from "../types/queryParams/task.type.js";
 import { CreateTaskPayload, UpdateTaskPayload, MoveTaskPayload } from "../types/request/task.type.js";
@@ -22,9 +23,13 @@ import { JWTMiddleware } from "../middleware/auth.middleware.js";
 @UseBefore(JWTMiddleware)
 export class TaskController {
   taskService: TaskService;
+  tagService: TagService;
+  memberService: MemberService;
 
   constructor() {
     this.taskService = Container.get(TaskService);
+    this.memberService = Container.get(MemberService);
+    this.tagService = Container.get(TagService);
   }
 
   @Post("/")
@@ -63,23 +68,43 @@ export class TaskController {
     return this.taskService.getAllColumnTasks(boardId, columnId);
   }
 
-  @Patch("/:taskId/tags")
-  addTag() {
-    // TODO: Add tag to task
+  @Patch("/:taskId/tags/:tagId")
+  async addTag(@Param("taskId") taskId: string, @Param("tagId") tagId: string): Promise<{ message: string }> {
+    const boardId = await this.taskService.getTaskBoardId(taskId);
+    const tags = await this.tagService.getBoardTags(boardId);
+    const tag = tags.find(({ _id }) => _id == tagId);
+    if (!tag) {
+      throw new NotFoundError("Tag does not exist on the board");
+    }
+    await this.taskService.addTagToTask(taskId, tagId);
+    return { message: "Tag added to the task" };
   }
 
   @Delete("/:taskId/tags/:tagId")
-  removeTag() {
-    // TODO: remove tag from task
+  async removeTag(@Param("taskId") taskId: string, @Param("tagId") tagId: string): Promise<{ message: string }> {
+    const boardId = await this.taskService.getTaskBoardId(taskId);
+    const tags = await this.tagService.getBoardTags(boardId);
+    const tag = tags.find(({ _id }) => _id == tagId);
+    if (!tag) {
+      throw new NotFoundError("Tag does not exist on the board");
+    }
+    await this.taskService.removeTagFromTask(taskId, tagId);
+    return { message: "Tag removed from the task" };
   }
 
-  @Patch("/:taskId/assignees")
-  addAssignee() {
-    // TODO: Add assignee to task
+  @Patch("/:taskId/assignees/:userId")
+  async addAssignee(@Param("taskId") taskId: string, @Param("userId") userId: string): Promise<{ message: string }> {
+    const boardId = await this.taskService.getTaskBoardId(taskId);
+    await this.memberService.getBoardMember(boardId, userId);
+    await this.taskService.addAssigneeToTask(taskId, userId);
+    return { message: "Assignee added to the task" };
   }
 
   @Delete("/:taskId/assignees/:userId")
-  removeAssignee() {
-    // TODO: remove tag from task
+  async removeAssignee(@Param("taskId") taskId: string, @Param("userId") userId: string): Promise<{ message: string }> {
+    const boardId = await this.taskService.getTaskBoardId(taskId);
+    await this.memberService.getBoardMember(boardId, userId);
+    await this.taskService.removeAssigneeFromTask(taskId, userId);
+    return { message: "Assignee removed from the task" };
   }
 }

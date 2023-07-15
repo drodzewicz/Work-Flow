@@ -1,16 +1,4 @@
-import {
-  Param,
-  Get,
-  Body,
-  Put,
-  Post,
-  Controller,
-  QueryParams,
-  NotFoundError,
-  UseBefore,
-  Delete,
-  Patch,
-} from "routing-controllers";
+import { Param, Body, Put, Post, Controller, UseBefore, Delete, Patch } from "routing-controllers";
 import { UserService, BoardService } from "../services/index.js";
 import { Container } from "typedi";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";

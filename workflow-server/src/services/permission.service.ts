@@ -1,9 +1,6 @@
 import { UserRepository, MemberRepository } from "../repositories/index.js";
 import { Service, Inject } from "typedi";
-import { IUser } from "../types/database/index.js";
-import { Pagination } from "../types/utils.type.js";
-import { UserDTO, BoardDTO } from "../types/dto/index.js";
-import { BoardMapper, UserMapper } from "../mappers/index.js";
+import { PermissionsDTO, RolesDTO } from "../types/dto/index.js";
 import { roles, permissions } from "../config/permissions.config.js";
 
 @Service()
@@ -16,11 +13,11 @@ export class PermissionService {
     this.memberRepository = memberRepository;
   }
 
-  async getBoardPermissions() {
+  async getBoardPermissions(): Promise<PermissionsDTO> {
     return permissions;
   }
 
-  async getBoardRoles() {
+  async getBoardRoles(): Promise<RolesDTO> {
     return roles;
   }
 }

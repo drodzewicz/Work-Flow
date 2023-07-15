@@ -32,6 +32,7 @@ export class BoardRepository extends GenericRepository<IBoard, BoardDocument, Bo
   }
 
   async getUserBoards(userId: string, settings: Pagination): Promise<PaginatedResult<BoardDocument>> {
+    this.validateId(userId);
     const totalCount = await this.model.count({});
     const data = (await this.model
       .find({ "members.user": userId }, this.fields.join(" "))

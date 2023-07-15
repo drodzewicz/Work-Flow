@@ -1,8 +1,4 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { NotFoundError, UnauthorizedError } from "routing-controllers";
 import { Service, Inject } from "typedi";
-import { env } from "../config/env.config.js";
 import { TagRepository } from "../repositories/index.js";
 import { TagDTO } from "../types/dto/index.js";
 import { TagMapper } from "../mappers/index.js";
@@ -25,12 +21,12 @@ export class TagService {
     await this.tagRepository.delete(tagId);
   }
 
-  async getBoardTags(boardId: string) {
+  async getBoardTags(boardId: string): Promise<TagDTO[]> {
     const tags = await this.tagRepository.getBoardTags(boardId);
     return tags.map(TagMapper);
   }
 
-  async updateTag(tagId: string, tagData: { key: string; name: string }) {
+  async updateTag(tagId: string, tagData: { key: string; name: string }): Promise<TagDTO> {
     const tag = await this.tagRepository.getById(tagId);
     tag.name = tagData.name || tag.name;
     tag.key = tagData.key || tag.key;

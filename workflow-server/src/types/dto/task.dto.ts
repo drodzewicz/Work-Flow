@@ -1,4 +1,4 @@
-import { UserDTO } from "./user.dto.js";
+import { UserDTO, TagDTO } from "./index.js";
 
 export interface TaskDTO {
   _id: string;
@@ -6,7 +6,7 @@ export interface TaskDTO {
   description: string;
   author: UserDTO;
   assignees: UserDTO[];
-  tags: unknown[];
+  tags: TagDTO[];
 }
 
 export interface ColumnTaskDTO {

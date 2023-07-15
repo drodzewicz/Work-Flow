@@ -4,7 +4,7 @@ import { Pagination, AuthUser } from "../types/utils.type.js";
 import { BoardDTO, BoardSimpleDTO } from "../types/dto/index.js";
 import { BoardMapper, BoardSimpleViewMapper } from "../mappers/index.js";
 import { NotFoundError } from "routing-controllers";
-import { RoleNames } from "../config/permissions.config.js"
+import { RoleNames } from "../config/permissions.config.js";
 
 @Service()
 export class BoardService {
@@ -52,33 +52,33 @@ export class BoardService {
     return this.getBoard(boardId);
   }
 
-  async updateColumn(boardId: string, columnId: string, name: string) {
+  async updateColumn(boardId: string, columnId: string, name: string): Promise<void> {
     const board = await this.boardRepository.getById(boardId);
-    const column = board.columns.find(column => column._id.equals(columnId))
+    const column = board.columns.find((column) => column._id.equals(columnId));
     if (!column) {
       throw new NotFoundError(`column with given id: ${columnId} was not found`);
     }
     column.name = name;
-    this.boardRepository.save(board);
+    await this.boardRepository.save(board);
   }
 
-  async updateColumnOrder(boardId: string, columnId: string, tragetIndex: number) {
+  async updateColumnOrder(boardId: string, columnId: string, tragetIndex: number): Promise<void> {
     const board = await this.boardRepository.getById(boardId);
-    const columnIndex = board.columns.findIndex(column => column._id.equals(columnId))
+    const columnIndex = board.columns.findIndex((column) => column._id.equals(columnId));
     if (columnIndex < 0) {
       throw new NotFoundError(`column with given id: ${columnId} was not found`);
     }
     const column = board.columns.splice(columnIndex, 1)[0];
     board.columns.splice(tragetIndex, 0, column);
-    this.boardRepository.save(board);
+    await this.boardRepository.save(board);
   }
 
-  async deleteColumn(boardId: string, columnId: string) {
+  async deleteColumn(boardId: string, columnId: string): Promise<void> {
     const board = await this.boardRepository.getById(boardId);
-    const columnIndex = board.columns.findIndex(column => column._id.equals(columnId))
+    const columnIndex = board.columns.findIndex((column) => column._id.equals(columnId));
     if (columnIndex < 0) {
       throw new NotFoundError(`column with given id: ${columnId} was not found`);
     }
-    this.boardRepository.deleteColumn(boardId, columnId);
+    await this.boardRepository.deleteColumn(boardId, columnId);
   }
 }
