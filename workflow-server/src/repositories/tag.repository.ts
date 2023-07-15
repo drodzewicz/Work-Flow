@@ -16,6 +16,10 @@ export class TagRepository extends GenericRepository<ITag, TagDocument, TagField
     this.taskModel = Task;
   }
 
+  async getTagByKey(boardId: string, key: string): Promise<TagDocument | null> {
+    return await this.model.findOne({ board: boardId, key }, this.fields.join(" "));
+  }
+
   async addTagToBoard(boardId: string, tagId: string): Promise<void> {
     await this.boardModel.findOneAndUpdate({ _id: boardId }, { $push: { tags: tagId } }, { new: true });
   }

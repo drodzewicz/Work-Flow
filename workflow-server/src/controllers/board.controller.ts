@@ -3,10 +3,10 @@ import {
   Body,
   Get,
   Post,
+  Put,
   Delete,
   Controller,
   QueryParams,
-  NotFoundError,
   UseBefore,
   CurrentUser,
 } from "routing-controllers";
@@ -14,9 +14,9 @@ import { BoardService } from "../services/index.js";
 import { Container } from "typedi";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
 import { Pagination, AuthUser } from "../types/utils.type.js";
-import { CreateBoardPayload } from "../types/request/board.type.js";
+import { CreateBoardPayload, UpdateBoardPayload } from "../types/request/board.type.js";
 import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
-import { boardPayloadValidator } from "../validators/board.validator.js";
+import { boardPayloadValidator, updateBoardPayloadValidator } from "../validators/board.validator.js";
 import { getPaginationSettings } from "../utils/pagination.utils.js";
 
 @Controller("/boards")
@@ -31,6 +31,7 @@ export class BoardController {
   @Post("/")
   createBorad(@Body() board: CreateBoardPayload, @CurrentUser() user: AuthUser) {
     fieldErrorsHandler(boardPayloadValidator(board));
+
     return this.boardService.createBoard(board, user);
   }
 
@@ -43,16 +44,22 @@ export class BoardController {
   @Get("/:boardId")
   async getBoard(@Param("boardId") boardId: string) {
     const board = await this.boardService.getBoard(boardId);
-    if (!board) {
-      throw new NotFoundError("Board was not found.");
-    }
     return board;
   }
 
   @Delete("/:boardId")
   async deleteBoard(@Param("boardId") boardId: string) {
+    await this.boardService.getBoard(boardId);
     await this.boardService.deleteBoard(boardId);
 
     return { message: "Board was successfully deleted" };
+  }
+
+  @Put("/:boardId")
+  async updateBoard(@Param("boardId") boardId: string, @Body() payload: UpdateBoardPayload) {
+    fieldErrorsHandler(updateBoardPayloadValidator(payload));
+
+    await this.boardService.getBoard(boardId);
+    return await this.boardService.updateBoard(boardId, payload);
   }
 }

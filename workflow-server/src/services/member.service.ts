@@ -23,9 +23,18 @@ export class MemberService {
   async getBoardMember(boardId: string, userId: string): Promise<MemberDTO> {
     const member = await this.memberRepository.getBoardMember(boardId, userId);
     if (!member) {
-      throw new NotFoundError("User is a not a member of the board");
+      throw new NotFoundError("User is not a member of the board");
     }
     return MemberMapper(member);
+  }
+
+  async isUserBoardMember(boardId: string, userId: string): Promise<boolean> {
+    try {
+      await this.getBoardMember(boardId, userId);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   async addUserToBoard(boardId: string, userId: string): Promise<MemberDTO> {

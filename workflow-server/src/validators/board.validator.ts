@@ -8,4 +8,33 @@ const BoardPayloadSchema = Joi.object({
 
 const boardPayloadValidator = validator(BoardPayloadSchema);
 
-export { boardPayloadValidator };
+const UpdateBoardPayloadSchema = Joi.object({
+  name: Joi.string(),
+  description: Joi.string(),
+});
+
+const updateBoardPayloadValidator = validator(UpdateBoardPayloadSchema);
+
+const CreateColumnPayloadSchema = Joi.object({
+  name: Joi.string().required(),
+});
+
+const createColumnPayloadValidator = validator(CreateColumnPayloadSchema);
+
+const UpdateColumnPayloadSchema = Joi.object({
+  name: Joi.string(),
+});
+
+const updateColumnPayloadValidator = validator(UpdateColumnPayloadSchema);
+
+const MoveColumnPayloadSchema = (columnCount: number) => Joi.object({
+  index: Joi.number().min(0).max(columnCount - 1),
+});
+
+export {
+  boardPayloadValidator,
+  updateBoardPayloadValidator,
+  createColumnPayloadValidator,
+  updateColumnPayloadValidator,
+  MoveColumnPayloadSchema
+};

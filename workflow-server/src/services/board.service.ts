@@ -18,6 +18,9 @@ export class BoardService {
 
   async getBoard(boardId: string): Promise<BoardDTO> {
     const board = await this.boardRepository.getById(boardId);
+    if (!board) {
+      throw new NotFoundError("Board was not found.");
+    }
     return BoardMapper(board);
   }
 
@@ -28,19 +31,27 @@ export class BoardService {
   }
 
   async getUserBoards(userId: string, options: Pagination): Promise<{ totalCount: number; boards: BoardSimpleDTO[] }> {
-    const result = await this.boardRepository.getUserBoards(userId, options);
+    const { totalCount, data } = await this.boardRepository.getUserBoards(userId, options);
     return {
-      ...result,
-      boards: result.data.map(BoardSimpleViewMapper),
+      totalCount,
+      boards: data.map(BoardSimpleViewMapper),
     };
   }
 
   async getBoards(options: Pagination): Promise<{ totalCount: number; boards: BoardSimpleDTO[] }> {
-    const result = await this.boardRepository.getAllBoards(options);
+    const { totalCount, data } = await this.boardRepository.getAllBoards(options);
     return {
-      ...result,
-      boards: result.data.map(BoardSimpleViewMapper),
+      totalCount,
+      boards: data.map(BoardSimpleViewMapper),
     };
+  }
+
+  async updateBoard(boardId: string, data: { name?: string; description?: string }) {
+    const board = await this.boardRepository.getById(boardId);
+    board.name = data.name ?? board.name;
+    board.description = data.description ?? board.description;
+    await this.boardRepository.save(board);
+    return BoardSimpleViewMapper(board);
   }
 
   async deleteBoard(boardId: string): Promise<void> {

@@ -1,10 +1,13 @@
-import { Param, Get, Put, Controller, QueryParams, NotFoundError, UseBefore } from "routing-controllers";
+import { Param, Get, Put, Controller, QueryParams, UseBefore, Body } from "routing-controllers";
 import { UserService, BoardService } from "../services/index.js";
 import { Container } from "typedi";
 import { UserListQueryParams } from "../types/queryParams/user.type.js";
 import { Pagination } from "../types/utils.type.js";
+import { UpdateUserPayload } from "../types/request/user.type.js";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
 import { getPaginationSettings } from "../utils/pagination.utils.js";
+import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
+import { updateUserPayloadValidator } from "../validators/user.validator.js";
 
 @Controller("/users")
 @UseBefore(JWTMiddleware)
@@ -18,7 +21,7 @@ export class UserController {
   }
 
   @Get("/")
-  getUser(@QueryParams() query: UserListQueryParams) {
+  getUsers(@QueryParams() query: UserListQueryParams) {
     const options = getPaginationSettings(query);
     if (query.username) {
       return this.userService.getUsersByMatchUsername(query.username, options);
@@ -28,12 +31,15 @@ export class UserController {
   }
 
   @Get("/:id")
-  async searchUser(@Param("id") id: string) {
-    const user = await this.userService.getUser(id);
-    if (!user) {
-      throw new NotFoundError("User was not found.");
-    }
-    return user;
+  async getUser(@Param("id") id: string) {
+    return await this.userService.getUser(id);
+  }
+
+  @Put("/:id")
+  async updatehUser(@Param("id") id: string, @Body() payload: UpdateUserPayload) {
+    fieldErrorsHandler(updateUserPayloadValidator(payload));
+
+    return await this.userService.updateUser(id, payload);
   }
 
   @Get("/:id/boards")

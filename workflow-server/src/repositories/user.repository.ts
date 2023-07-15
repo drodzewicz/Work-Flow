@@ -10,7 +10,7 @@ export class UserRepository extends GenericRepository<IUser, UserDocument, UserF
 
   constructor() {
     super();
-    this.fields = ["_id", "username", "email", "name", "avatarImageURL", "password"];
+    this.fields = ["_id", "username", "email", "name", "surname", "avatarImageURL", "password"];
     this.model = User;
     this.boardFields = ["_id", "name", "description", "columns", "timeCreated"];
   }
