@@ -11,13 +11,22 @@ import {
   Body,
   CurrentUser,
   NotFoundError,
+  HttpError,
 } from "routing-controllers";
-import { TaskService, MemberService, TagService } from "../services/index.js";
+import { TaskService, MemberService, TagService, BoardService } from "../services/index.js";
 import { Container } from "typedi";
 import { GetColumnTasksQueryParams } from "../types/queryParams/task.type.js";
 import { CreateTaskPayload, UpdateTaskPayload, MoveTaskPayload } from "../types/request/task.type.js";
 import { AuthUser } from "../types/utils.type.js";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
+import {
+  createTaskPayloadValidator,
+  updateTaskPayloadValidator,
+  moveTaskPayloadValidator,
+  MoveTaskIndexPayloadSchema,
+} from "../validators/task.validator.js";
+import { validator } from "../utils/payloadValidation.utils.js";
+import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
 
 @Controller("/tasks")
 @UseBefore(JWTMiddleware)
@@ -25,24 +34,36 @@ export class TaskController {
   taskService: TaskService;
   tagService: TagService;
   memberService: MemberService;
+  boardService: BoardService;
 
   constructor() {
     this.taskService = Container.get(TaskService);
     this.memberService = Container.get(MemberService);
     this.tagService = Container.get(TagService);
+    this.boardService = Container.get(BoardService);
   }
 
   @Post("/")
   async createTask(@Body() payload: CreateTaskPayload, @CurrentUser() user: AuthUser) {
+    fieldErrorsHandler(createTaskPayloadValidator(payload));
     const { boardId, columnId, ...taskData } = payload;
+
+    await this.boardService.getBoard(boardId);
     const task = await this.taskService.createTask(taskData, boardId, user);
     await this.taskService.addTaskToColumn(boardId, columnId, task._id.toString());
     return task;
   }
 
   @Get("/")
-  getColumnTasks(@QueryParams() query: GetColumnTasksQueryParams) {
-    return this.taskService.getAllColumnTasks(query.boardId, query.columnId);
+  async getColumnTasks(@QueryParams() query: GetColumnTasksQueryParams) {
+    if (!query.boardId) {
+      throw new HttpError(400, "query parameter boardId is required");
+    }
+    await this.boardService.getBoard(query.boardId);
+    if (query.columnId) {
+      return this.taskService.getColumnTasks(query.boardId, query.columnId);
+    }
+    return this.taskService.getAllColumnTasks(query.boardId);
   }
 
   @Get("/:taskId")
@@ -51,21 +72,30 @@ export class TaskController {
   }
 
   @Put("/:taskId")
-  updateTask(@Param("taskId") taskId: string, @Body() payload: UpdateTaskPayload) {
+  async updateTask(@Param("taskId") taskId: string, @Body() payload: UpdateTaskPayload) {
+    fieldErrorsHandler(updateTaskPayloadValidator(payload));
     return this.taskService.updateTask(taskId, payload);
   }
 
   @Delete("/:taskId")
   async deleteTask(@Param("taskId") taskId: string) {
+    await this.taskService.getTask(taskId);
     await this.taskService.deleteTask(taskId);
     return { message: "Deleted task successfully" };
   }
 
   @Patch("/:taskId/move")
   async moveTask(@Param("taskId") taskId: string, @Body() payload: MoveTaskPayload) {
+    fieldErrorsHandler(moveTaskPayloadValidator(payload));
     const { boardId, columnId, rowIndex } = payload;
+
+    const { tasks } = await this.taskService.getColumnTasks(boardId, columnId);
+    const moveTaskIndexPayloadValidator = validator(MoveTaskIndexPayloadSchema(tasks.length));
+    fieldErrorsHandler(moveTaskIndexPayloadValidator({ rowIndex }));
+
+    await this.taskService.getTask(taskId);
     await this.taskService.moveTaskToColumn(taskId, boardId, columnId, rowIndex);
-    return this.taskService.getAllColumnTasks(boardId, columnId);
+    return this.taskService.getColumnTasks(boardId, columnId);
   }
 
   @Patch("/:taskId/tags/:tagId")

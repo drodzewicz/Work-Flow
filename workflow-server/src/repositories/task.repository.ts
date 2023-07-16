@@ -23,7 +23,7 @@ export class TaskRepository extends GenericRepository<ITask, TaskDocument, TaskF
     const board = await this.boardModel.findById(boardId);
     const task = await this.model.findById(taskId);
     const column = board.columns.find((column) => column._id.equals(columnId));
-    if (!index || index >= board.columns.length) {
+    if (isNaN(index)) {
       column.tasks.push(task);
     } else {
       column.tasks.splice(index, 0, task);
