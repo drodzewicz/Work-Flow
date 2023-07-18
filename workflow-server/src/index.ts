@@ -18,7 +18,7 @@ import { ColumnController } from "./controllers/column.controller.js";
 import { PermissionController } from "./controllers/permission.controller.js";
 
 import { HttpErrorHandler } from "./middleware/httpError.middleware.js";
-import { currentUserChecker } from "./middleware/auth.middleware.js";
+import { currentUserChecker, authorizationChecker } from "./middleware/auth.middleware.js";
 
 const app: Application = express();
 
@@ -43,6 +43,7 @@ const routingControllersOptions = {
   ],
   middlewares: [HttpErrorHandler],
   currentUserChecker,
+  authorizationChecker,
 };
 
 useExpressServer(app, routingControllersOptions);

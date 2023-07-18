@@ -1,4 +1,4 @@
-import { Param, Body, Put, Post, Controller, UseBefore, Delete, Patch } from "routing-controllers";
+import { Param, Body, Put, Post, Controller, UseBefore, Delete, Patch, Authorized } from "routing-controllers";
 import { UserService, BoardService } from "../services/index.js";
 import { Container } from "typedi";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
@@ -9,6 +9,7 @@ import {
   MoveColumnPayloadSchema,
 } from "../validators/board.validator.js";
 import { validator } from "../utils/payloadValidation.utils.js";
+import { Permissions } from "../config/permissions.config.js";
 
 @Controller("/boards/:boardId/columns")
 @UseBefore(JWTMiddleware)
@@ -22,6 +23,7 @@ export class ColumnController {
   }
 
   @Post("/")
+  @Authorized(Permissions.COLUMN_CREATE)
   async createColumn(@Param("boardId") boardId: string, @Body() columnData: { name: string }) {
     fieldErrorsHandler(createColumnPayloadValidator(columnData));
 
@@ -31,6 +33,7 @@ export class ColumnController {
   }
 
   @Put("/:columnId")
+  @Authorized(Permissions.COLUMN_CREATE)
   async updateColumn(
     @Param("boardId") boardId: string,
     @Param("columnId") columnId: string,
@@ -43,6 +46,7 @@ export class ColumnController {
   }
 
   @Patch("/:columnId")
+  @Authorized(Permissions.COLUMN_MOVE)
   async moveColumn(
     @Param("boardId") boardId: string,
     @Param("columnId") columnId: string,
@@ -57,6 +61,7 @@ export class ColumnController {
   }
 
   @Delete("/:columnId")
+  @Authorized(Permissions.COLUMN_REMOVE)
   async deleteColumn(@Param("boardId") boardId: string, @Param("columnId") columnId: string) {
     await this.boardService.getBoard(boardId);
     await this.boardService.deleteColumn(boardId, columnId);

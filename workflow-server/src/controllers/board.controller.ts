@@ -9,6 +9,7 @@ import {
   QueryParams,
   UseBefore,
   CurrentUser,
+  Authorized,
 } from "routing-controllers";
 import { BoardService } from "../services/index.js";
 import { Container } from "typedi";
@@ -18,6 +19,7 @@ import { CreateBoardPayload, UpdateBoardPayload } from "../types/request/board.t
 import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
 import { boardPayloadValidator, updateBoardPayloadValidator } from "../validators/board.validator.js";
 import { getPaginationSettings } from "../utils/pagination.utils.js";
+import { Permissions } from "../config/permissions.config.js";
 
 @Controller("/boards")
 @UseBefore(JWTMiddleware)
@@ -42,12 +44,14 @@ export class BoardController {
   }
 
   @Get("/:boardId")
+  @Authorized()
   async getBoard(@Param("boardId") boardId: string) {
     const board = await this.boardService.getBoard(boardId);
     return board;
   }
 
   @Delete("/:boardId")
+  @Authorized(Permissions.BOARD_DELETE)
   async deleteBoard(@Param("boardId") boardId: string) {
     await this.boardService.getBoard(boardId);
     await this.boardService.deleteBoard(boardId);
@@ -56,6 +60,7 @@ export class BoardController {
   }
 
   @Put("/:boardId")
+  @Authorized(Permissions.BOARD_UPDATE)
   async updateBoard(@Param("boardId") boardId: string, @Body() payload: UpdateBoardPayload) {
     fieldErrorsHandler(updateBoardPayloadValidator(payload));
 

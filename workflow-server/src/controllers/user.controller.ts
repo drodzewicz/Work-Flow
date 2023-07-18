@@ -1,4 +1,4 @@
-import { Param, Get, Put, Controller, QueryParams, UseBefore, Body } from "routing-controllers";
+import { Authorized, Param, Get, Put, Controller, QueryParams, UseBefore, Body } from "routing-controllers";
 import { UserService, BoardService } from "../services/index.js";
 import { Container } from "typedi";
 import { UserListQueryParams } from "../types/queryParams/user.type.js";
@@ -8,6 +8,7 @@ import { JWTMiddleware } from "../middleware/auth.middleware.js";
 import { getPaginationSettings } from "../utils/pagination.utils.js";
 import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
 import { updateUserPayloadValidator } from "../validators/user.validator.js";
+import { Permissions } from "../config/permissions.config.js";
 
 @Controller("/users")
 @UseBefore(JWTMiddleware)
@@ -30,30 +31,34 @@ export class UserController {
     }
   }
 
-  @Get("/:id")
-  async getUser(@Param("id") id: string) {
-    return await this.userService.getUser(id);
+  @Get("/:userId")
+  async getUser(@Param("userId") userId: string) {
+    return await this.userService.getUser(userId);
   }
 
-  @Put("/:id")
-  async updatehUser(@Param("id") id: string, @Body() payload: UpdateUserPayload) {
+  @Put("/:userId")
+  @Authorized(Permissions.USER_SELF)
+  async updatehUser(@Param("userId") userId: string, @Body() payload: UpdateUserPayload) {
     fieldErrorsHandler(updateUserPayloadValidator(payload));
 
-    return await this.userService.updateUser(id, payload);
+    return await this.userService.updateUser(userId, payload);
   }
 
-  @Get("/:id/boards")
-  async userBoards(@Param("id") id: string, @QueryParams() query: Pagination) {
+  @Get("/:userId/boards")
+  @Authorized(Permissions.USER_SELF)
+  async userBoards(@Param("userId") userId: string, @QueryParams() query: Pagination) {
     const options = getPaginationSettings(query);
-    return this.boardService.getUserBoards(id, options);
+    return this.boardService.getUserBoards(userId, options);
   }
 
-  @Get("/:id/pinnedBoards")
-  async pinnedUserBoards(@Param("id") id: string) {
-    return this.userService.getUserPinnedBoards(id);
+  @Get("/:userId/pinnedBoards")
+  @Authorized(Permissions.USER_SELF)
+  async pinnedUserBoards(@Param("userId") userId: string) {
+    return this.userService.getUserPinnedBoards(userId);
   }
 
   @Put("/:userId/pinnedBoards/:boardId")
+  @Authorized(Permissions.USER_SELF)
   async togglePinBoard(@Param("userId") userId: string, @Param("boardId") boardId: string) {
     const isPinned = await this.userService.togglePinBoard(userId, boardId);
 

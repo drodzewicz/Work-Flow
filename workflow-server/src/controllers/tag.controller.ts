@@ -1,10 +1,22 @@
-import { Param, Get, Put, Post, Controller, QueryParams, UseBefore, Delete, Body } from "routing-controllers";
+import {
+  Param,
+  Get,
+  Put,
+  Post,
+  Controller,
+  QueryParams,
+  UseBefore,
+  Delete,
+  Body,
+  Authorized,
+} from "routing-controllers";
 import { BoardService, TagService } from "../services/index.js";
 import { Container } from "typedi";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
 import { CreateTagPayload, UpdateTagPayload } from "../types/request/tag.type.js";
 import { createTagPayloadValidator, updateTagPayloadValidator } from "../validators/tag.validator.js";
 import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
+import { Permissions } from "../config/permissions.config.js";
 
 @Controller("/tags")
 @UseBefore(JWTMiddleware)
@@ -17,7 +29,14 @@ export class TagController {
     this.boardService = Container.get(BoardService);
   }
 
+  @Get("/")
+  @Authorized()
+  getBoardTags(@QueryParams() query: { boardId: string }) {
+    return this.tagService.getBoardTags(query.boardId);
+  }
+
   @Post("/")
+  @Authorized(Permissions.TAG_ADD)
   async createTag(@Body() payload: CreateTagPayload) {
     fieldErrorsHandler(createTagPayloadValidator(payload));
 
@@ -26,18 +45,15 @@ export class TagController {
     return this.tagService.createTag(board._id, otherData);
   }
 
-  @Get("/")
-  getBoardTags(@QueryParams() query: { boardId: string }) {
-    return this.tagService.getBoardTags(query.boardId);
-  }
-
   @Get("/:tagId")
+  @Authorized()
   async getTag(@Param("tagId") tagId: string) {
     await this.tagService.getTag(tagId);
     return { message: "Tag was successfully deleted" };
   }
 
   @Delete("/:tagId")
+  @Authorized(Permissions.TAG_REMOVE)
   async deleteTag(@Param("tagId") tagId: string) {
     await this.tagService.getTag(tagId);
     await this.tagService.deleteTag(tagId);
@@ -45,6 +61,7 @@ export class TagController {
   }
 
   @Put("/:tagId")
+  @Authorized(Permissions.TAG_ADD)
   async updateTag(@Param("tagId") tagId: string, @Body() payload: UpdateTagPayload) {
     fieldErrorsHandler(updateTagPayloadValidator(payload));
     await this.tagService.getTag(tagId);

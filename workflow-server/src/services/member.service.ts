@@ -1,8 +1,6 @@
-import { NotFoundError } from "routing-controllers";
+import { UnauthorizedError } from "routing-controllers";
 import { Service, Inject } from "typedi";
 import { MemberRepository } from "../repositories/index.js";
-import { IUser } from "../types/database/index.js";
-import { Pagination } from "../types/utils.type.js";
 import { MemberDTO } from "../types/dto/index.js";
 import { MemberMapper } from "../mappers/index.js";
 import { RoleNames } from "../config/permissions.config.js";
@@ -23,7 +21,7 @@ export class MemberService {
   async getBoardMember(boardId: string, userId: string): Promise<MemberDTO> {
     const member = await this.memberRepository.getBoardMember(boardId, userId);
     if (!member) {
-      throw new NotFoundError("User is not a member of the board");
+      throw new UnauthorizedError("User is not a member of the board");
     }
     return MemberMapper(member);
   }

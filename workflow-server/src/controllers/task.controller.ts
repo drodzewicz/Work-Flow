@@ -12,6 +12,7 @@ import {
   CurrentUser,
   NotFoundError,
   HttpError,
+  Authorized,
 } from "routing-controllers";
 import { TaskService, MemberService, TagService, BoardService } from "../services/index.js";
 import { Container } from "typedi";
@@ -27,6 +28,7 @@ import {
 } from "../validators/task.validator.js";
 import { validator } from "../utils/payloadValidation.utils.js";
 import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
+import { Permissions } from "../config/permissions.config.js";
 
 @Controller("/tasks")
 @UseBefore(JWTMiddleware)
@@ -43,18 +45,8 @@ export class TaskController {
     this.boardService = Container.get(BoardService);
   }
 
-  @Post("/")
-  async createTask(@Body() payload: CreateTaskPayload, @CurrentUser() user: AuthUser) {
-    fieldErrorsHandler(createTaskPayloadValidator(payload));
-    const { boardId, columnId, ...taskData } = payload;
-
-    await this.boardService.getBoard(boardId);
-    const task = await this.taskService.createTask(taskData, boardId, user);
-    await this.taskService.addTaskToColumn(boardId, columnId, task._id.toString());
-    return task;
-  }
-
   @Get("/")
+  @Authorized()
   async getColumnTasks(@QueryParams() query: GetColumnTasksQueryParams) {
     if (!query.boardId) {
       throw new HttpError(400, "query parameter boardId is required");
@@ -66,18 +58,33 @@ export class TaskController {
     return this.taskService.getAllColumnTasks(query.boardId);
   }
 
+  @Post("/")
+  @Authorized(Permissions.TASK_CREATE)
+  async createTask(@Body() payload: CreateTaskPayload, @CurrentUser() user: AuthUser) {
+    fieldErrorsHandler(createTaskPayloadValidator(payload));
+    const { boardId, columnId, ...taskData } = payload;
+
+    await this.boardService.getBoard(boardId);
+    const task = await this.taskService.createTask(taskData, boardId, user);
+    await this.taskService.addTaskToColumn(boardId, columnId, task._id.toString());
+    return task;
+  }
+
   @Get("/:taskId")
+  @Authorized()
   getTask(@Param("taskId") taskId: string) {
     return this.taskService.getTask(taskId);
   }
 
   @Put("/:taskId")
+  @Authorized(Permissions.TASK_CREATE)
   async updateTask(@Param("taskId") taskId: string, @Body() payload: UpdateTaskPayload) {
     fieldErrorsHandler(updateTaskPayloadValidator(payload));
     return this.taskService.updateTask(taskId, payload);
   }
 
   @Delete("/:taskId")
+  @Authorized(Permissions.TASK_DELETE)
   async deleteTask(@Param("taskId") taskId: string) {
     await this.taskService.getTask(taskId);
     await this.taskService.deleteTask(taskId);
@@ -85,6 +92,7 @@ export class TaskController {
   }
 
   @Patch("/:taskId/move")
+  @Authorized(Permissions.TASK_MOVE)
   async moveTask(@Param("taskId") taskId: string, @Body() payload: MoveTaskPayload) {
     fieldErrorsHandler(moveTaskPayloadValidator(payload));
     const { boardId, columnId, rowIndex } = payload;
@@ -99,6 +107,7 @@ export class TaskController {
   }
 
   @Patch("/:taskId/tags/:tagId")
+  @Authorized(Permissions.TASK_CREATE)
   async addTag(@Param("taskId") taskId: string, @Param("tagId") tagId: string): Promise<{ message: string }> {
     const boardId = await this.taskService.getTaskBoardId(taskId);
     const tags = await this.tagService.getBoardTags(boardId);
@@ -111,6 +120,7 @@ export class TaskController {
   }
 
   @Delete("/:taskId/tags/:tagId")
+  @Authorized(Permissions.TASK_CREATE)
   async removeTag(@Param("taskId") taskId: string, @Param("tagId") tagId: string): Promise<{ message: string }> {
     const boardId = await this.taskService.getTaskBoardId(taskId);
     const tags = await this.tagService.getBoardTags(boardId);
@@ -123,6 +133,7 @@ export class TaskController {
   }
 
   @Patch("/:taskId/assignees/:userId")
+  @Authorized(Permissions.TASK_CREATE)
   async addAssignee(@Param("taskId") taskId: string, @Param("userId") userId: string): Promise<{ message: string }> {
     const boardId = await this.taskService.getTaskBoardId(taskId);
     await this.memberService.getBoardMember(boardId, userId);
@@ -131,6 +142,7 @@ export class TaskController {
   }
 
   @Delete("/:taskId/assignees/:userId")
+  @Authorized(Permissions.TASK_CREATE)
   async removeAssignee(@Param("taskId") taskId: string, @Param("userId") userId: string): Promise<{ message: string }> {
     const boardId = await this.taskService.getTaskBoardId(taskId);
     await this.memberService.getBoardMember(boardId, userId);

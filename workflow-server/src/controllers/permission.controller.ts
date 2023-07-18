@@ -1,4 +1,4 @@
-import { Get, Controller, UseBefore } from "routing-controllers";
+import { Get, Controller, UseBefore, Authorized } from "routing-controllers";
 import { PermissionService } from "../services/index.js";
 import { Container } from "typedi";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
@@ -13,11 +13,13 @@ export class PermissionController {
   }
 
   @Get("/boards/:boardId/permissions")
+  @Authorized()
   getBoardPermissions() {
     return this.permissionService.getBoardPermissions();
   }
 
   @Get("/boards/:boardId/roles")
+  @Authorized()
   getBoardRolePermissions() {
     return this.permissionService.getBoardRoles();
   }

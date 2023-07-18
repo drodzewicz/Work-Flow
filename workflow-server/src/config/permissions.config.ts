@@ -1,7 +1,8 @@
 export enum Permissions {
   BOARD_DELETE = "BOARD_DELETE",
+  BOARD_UPDATE = "BOARD_UPDATE",
   TASK_CREATE = "TASK_CREATE",
-  TASK_EDIT = "TASK_EDIT",
+  TASK_DELETE = "TASK_DELETE",
   TASK_MOVE = "TASK_MOVE",
   MEMBER_ADD = "MEMBER_ADD",
   MEMBER_REMOVE = "MEMBER_REMOVE",
@@ -11,6 +12,7 @@ export enum Permissions {
   COLUMN_CREATE = "COLUMN_CREATE",
   COLUMN_REMOVE = "COLUMN_REMOVE",
   COLUMN_MOVE = "COLUMN_MOVE",
+  USER_SELF = "USER_SELF",
 }
 
 export enum RoleNames {
@@ -26,8 +28,9 @@ export const roles: Record<RoleNames, { permissions: Permissions[] }> = {
   ADMIN: {
     permissions: [
       Permissions.BOARD_DELETE,
+      Permissions.BOARD_UPDATE,
       Permissions.TASK_CREATE,
-      Permissions.TASK_EDIT,
+      Permissions.TASK_DELETE,
       Permissions.TASK_MOVE,
       Permissions.MEMBER_ADD,
       Permissions.MEMBER_REMOVE,
@@ -42,7 +45,7 @@ export const roles: Record<RoleNames, { permissions: Permissions[] }> = {
   EDITOR: {
     permissions: [
       Permissions.TASK_CREATE,
-      Permissions.TASK_EDIT,
+      Permissions.TASK_DELETE,
       Permissions.TASK_MOVE,
       Permissions.TAG_ADD,
       Permissions.TAG_REMOVE,

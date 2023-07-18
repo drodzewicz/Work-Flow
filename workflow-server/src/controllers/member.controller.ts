@@ -1,10 +1,22 @@
-import { Param, Get, Patch, Post, Delete, Controller, Body, UseBefore, HttpError } from "routing-controllers";
+import {
+  Param,
+  Get,
+  Patch,
+  Post,
+  Delete,
+  Controller,
+  Body,
+  UseBefore,
+  HttpError,
+  Authorized,
+} from "routing-controllers";
 import { Container } from "typedi";
 import { MemberService, BoardService, UserService, PermissionService } from "../services/index.js";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
 import { UpdateMemberRolePayload } from "../types/request/member.type.js";
 import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
 import { memberRolePayloadValidator } from "../validators/member.validator.js";
+import { Permissions } from "../config/permissions.config.js";
 
 @Controller("/boards/:boardId/members")
 @UseBefore(JWTMiddleware)
@@ -22,12 +34,14 @@ export class MemberController {
   }
 
   @Get("/")
+  @Authorized()
   async getBoardMembers(@Param("boardId") boardId: string) {
     await this.boardService.getBoard(boardId);
     return this.memberService.getBoardMembers(boardId);
   }
 
   @Get("/:userId")
+  @Authorized()
   async getBoardMember(@Param("boardId") boardId: string, @Param("userId") userId: string) {
     await this.boardService.getBoard(boardId);
     await this.userService.getUser(userId);
@@ -35,6 +49,7 @@ export class MemberController {
   }
 
   @Post("/:userId")
+  @Authorized(Permissions.MEMBER_ADD)
   async addUserToBoard(@Param("boardId") boardId: string, @Param("userId") userId: string) {
     await this.boardService.getBoard(boardId);
     await this.userService.getUser(userId);
@@ -51,6 +66,7 @@ export class MemberController {
   }
 
   @Delete("/:userId")
+  @Authorized(Permissions.MEMBER_REMOVE)
   async RemoveUserToBoard(@Param("boardId") boardId: string, @Param("userId") userId: string) {
     await this.boardService.getBoard(boardId);
     await this.userService.getUser(userId);
@@ -61,6 +77,7 @@ export class MemberController {
   }
 
   @Patch("/:userId/role")
+  @Authorized(Permissions.ROLE_MODIFY)
   async updateBoardMemberRole(
     @Param("boardId") boardId: string,
     @Param("userId") userId: string,
