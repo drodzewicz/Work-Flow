@@ -3,7 +3,7 @@ import passport from "passport";
 import { ExpressMiddlewareInterface, UnauthorizedError, Action } from "routing-controllers";
 import { AuthRequest } from "../types/utils.type.js";
 import { roles, Permissions } from "../config/permissions.config.js";
-import { MemberService, TaskService } from "../services/index.js";
+import { MemberService, TaskService, BoardService } from "../services/index.js";
 import { MemberRepository, TaskRepository, UserRepository, BoardRepository } from "../repositories/index.js";
 import { AuthUser } from "../types/utils.type.js";
 
@@ -13,6 +13,7 @@ const userRepository = new UserRepository();
 const boardRepository = new BoardRepository();
 
 const memberService = new MemberService(memberRepository);
+const boardService = new BoardService(boardRepository, userRepository);
 const taskService = new TaskService(taskRepository, userRepository, boardRepository);
 
 export class JWTMiddleware implements ExpressMiddlewareInterface {
@@ -38,13 +39,13 @@ export const authorizationChecker = async (action: Action, authorizedPermissions
   const currentUser = action.request.user as AuthUser;
   let boardId = action.request.params?.boardId ?? action.request.body?.boardId;
   const taskId = action.request.params?.taskId;
-  const userId = action.request.params?.userId;
 
   if (taskId) {
     boardId = await taskService.getTaskBoardId(taskId);
   }
 
   if (boardId) {
+    await boardService.getBoard(boardId);
     const member = await memberService.getBoardMember(boardId, currentUser.id.toString());
 
     const { permissions } = roles[member.role];
@@ -56,9 +57,5 @@ export const authorizationChecker = async (action: Action, authorizedPermissions
     }
   }
 
-  // Current user must be the same user are provided by userId
-  if (authorizedPermissions.includes(Permissions.USER_SELF)) {
-    return currentUser.id.toString() === userId;
-  }
   return true;
 };

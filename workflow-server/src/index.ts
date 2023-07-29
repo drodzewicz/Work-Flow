@@ -16,6 +16,7 @@ import { TagController } from "./controllers/tag.controller.js";
 import { MemberController } from "./controllers/member.controller.js";
 import { ColumnController } from "./controllers/column.controller.js";
 import { PermissionController } from "./controllers/permission.controller.js";
+import { SelfController } from "./controllers/self.controller.js";
 
 import { HttpErrorHandler } from "./middleware/httpError.middleware.js";
 import { currentUserChecker, authorizationChecker } from "./middleware/auth.middleware.js";
@@ -40,6 +41,7 @@ const routingControllersOptions = {
     TagController,
     MemberController,
     PermissionController,
+    SelfController,
   ],
   middlewares: [HttpErrorHandler],
   currentUserChecker,

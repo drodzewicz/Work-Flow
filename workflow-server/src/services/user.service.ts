@@ -26,10 +26,10 @@ export class UserService {
   }
 
   async getAllUsers(options: Pagination): Promise<{ totalCount: number; users: UserDTO[] }> {
-    const result = await this.userRepository.getAllUser(options);
+    const { data, totalCount } = await this.userRepository.getAllUser(options);
     return {
-      ...result,
-      users: result.data.map(UserMapper),
+      totalCount,
+      users: data.map(UserMapper),
     };
   }
 
@@ -37,10 +37,10 @@ export class UserService {
     username: string,
     options: Pagination,
   ): Promise<{ totalCount: number; users: UserDTO[] }> {
-    const result = await this.userRepository.getUsersByMatchUsername(username, options);
+    const { data, totalCount } = await this.userRepository.getUsersByMatchUsername(username, options);
     return {
-      ...result,
-      users: result.data.map(UserMapper),
+      totalCount,
+      users: data.map(UserMapper),
     };
   }
 

@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { NotFoundError, UnauthorizedError } from "routing-controllers";
 import { Service, Inject } from "typedi";
@@ -13,10 +12,6 @@ export class AuthService {
   userRepository: UserRepository;
 
   async register(user: any): Promise<UserDTO> {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(user.password, salt);
-    user.password = hashedPassword;
-
     const newUser = await this.userRepository.create(user);
     return UserMapper(newUser);
   }

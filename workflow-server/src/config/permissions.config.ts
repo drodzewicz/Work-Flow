@@ -12,7 +12,6 @@ export enum Permissions {
   COLUMN_CREATE = "COLUMN_CREATE",
   COLUMN_REMOVE = "COLUMN_REMOVE",
   COLUMN_MOVE = "COLUMN_MOVE",
-  USER_SELF = "USER_SELF",
 }
 
 export enum RoleNames {

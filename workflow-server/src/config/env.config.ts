@@ -42,9 +42,6 @@ export const env = {
     password: utils.getEnv("DB_PASSWORD"),
     database: utils.getEnv("DB_URI", true),
   },
-  secret: {
-    secret: utils.getEnv("SECRET_KEY"),
-  },
   swagger: {
     enabled: utils.toBool(utils.getEnv("SWAGGER_ENABLED")),
   },
