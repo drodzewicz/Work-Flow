@@ -1,6 +1,6 @@
 import { UserRepository, BoardRepository } from "../repositories/index.js";
 import { Service, Inject } from "typedi";
-import { IUser } from "../types/database/index.js";
+import { IUser, INotification } from "../types/database/index.js";
 import { Pagination } from "../types/utils.type.js";
 import { UserDTO, BoardSimpleDTO } from "../types/dto/index.js";
 import { BoardSimpleViewMapper, UserMapper } from "../mappers/index.js";
@@ -79,5 +79,17 @@ export class UserService {
       await this.userRepository.addBoardToPinnedCollection(userId, boardId);
       return true;
     }
+  }
+
+  async getUserNotifications(userId: string) {
+    return await this.userRepository.getUserNotifications(userId);
+  }
+
+  async addUserNotifications(userId: string, notificationData: Pick<INotification, "title" | "attributes" | "description" | "key">) {
+    return await this.userRepository.addUserNotifications(userId, notificationData);
+  }
+
+  async removeUserNotifications(userId: string, notificationId: string) {
+    await this.userRepository.removeUserNotifications(userId, notificationId);
   }
 }

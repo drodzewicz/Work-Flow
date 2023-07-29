@@ -8,7 +8,7 @@ const schema = new mongoose.Schema<IBoard, BoardModel>({
     type: String,
     required: [true, "username is required"],
     minlength: [3, "must not be less that 3 charatcters"],
-    maxlength: [25, "must not be longer than 25 characters"],
+    maxlength: [50, "must not be longer than 50 characters"],
   },
   description: {
     type: String,

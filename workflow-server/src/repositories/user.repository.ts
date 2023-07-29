@@ -1,16 +1,27 @@
 import { Service } from "typedi";
 import { User } from "../models/index.js";
-import { UserDocument, IUser, UserFields, BoardDocument, BoardFields } from "../types/database/index.js";
+import {
+  UserDocument,
+  IUser,
+  UserFields,
+  BoardDocument,
+  BoardFields,
+  UserNotificationFields,
+  INotification,
+} from "../types/database/index.js";
 import { Pagination, PaginatedResult } from "../types/utils.type.js";
 import { GenericRepository } from "./generic.repository.js";
 
 @Service()
 export class UserRepository extends GenericRepository<IUser, UserDocument, UserFields> {
   private boardFields: BoardFields[];
+  private notificationFields: UserNotificationFields[];
 
   constructor() {
     super();
     this.fields = ["_id", "username", "email", "name", "surname", "avatarImageURL", "password"];
+    this.notificationFields = ["_id", "notifications"];
+    this;
     this.model = User;
     this.boardFields = ["_id", "name", "description", "columns", "timeCreated"];
   }
@@ -70,5 +81,31 @@ export class UserRepository extends GenericRepository<IUser, UserDocument, UserF
     this.validateId(userId);
     this.validateId(boardId);
     await this.model.findOneAndUpdate({ _id: userId }, { $pull: { pinnedBoards: boardId } });
+  }
+
+  async getUserNotifications(userId: string) {
+    this.validateId(userId);
+    const { notifications } = await this.model.findById(userId, this.notificationFields.join(" "));
+    return notifications;
+  }
+
+  async addUserNotifications(
+    userId: string,
+    data: Pick<INotification, "title" | "attributes" | "description" | "key">,
+  ) {
+    this.validateId(userId);
+    const { notifications } = await this.model.findOneAndUpdate(
+      { _id: userId },
+      { $push: { notifications: data } },
+      { new: true },
+    );
+    return notifications[notifications.length - 1];
+  }
+
+  async removeUserNotifications(userId: string, notificationId: string): Promise<void> {
+    this.validateId(userId);
+    this.validateId(notificationId);
+    console.log({ userId, notificationId });
+    await this.model.findOneAndUpdate({ _id: userId }, { $pull: { notifications: { _id: notificationId } } });
   }
 }

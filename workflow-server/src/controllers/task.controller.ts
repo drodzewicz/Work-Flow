@@ -14,7 +14,7 @@ import {
   HttpError,
   Authorized,
 } from "routing-controllers";
-import { TaskService, MemberService, TagService, BoardService } from "../services/index.js";
+import { TaskService, MemberService, TagService, BoardService, UserService } from "../services/index.js";
 import { Container } from "typedi";
 import { GetColumnTasksQueryParams } from "../types/queryParams/task.type.js";
 import { CreateTaskPayload, UpdateTaskPayload, MoveTaskPayload } from "../types/request/task.type.js";
@@ -37,12 +37,14 @@ export class TaskController {
   tagService: TagService;
   memberService: MemberService;
   boardService: BoardService;
+  userService: UserService;
 
   constructor() {
     this.taskService = Container.get(TaskService);
     this.memberService = Container.get(MemberService);
     this.tagService = Container.get(TagService);
     this.boardService = Container.get(BoardService);
+    this.userService = Container.get(UserService);
   }
 
   @Get("/")
@@ -86,8 +88,29 @@ export class TaskController {
   @Delete("/:taskId")
   @Authorized(Permissions.TASK_DELETE)
   async deleteTask(@Param("taskId") taskId: string) {
-    await this.taskService.getTask(taskId);
-    await this.taskService.deleteTask(taskId);
+    const { assignees, title } = await this.taskService.getTask(taskId);
+    const boardId = await this.taskService.getTaskBoardId(taskId);
+
+    const notification = {
+      title: "Task has been deleted",
+      description: `Task "${title}" which you were assigned to was deleted `,
+      key: "task.deleted",
+      attributes: {
+        taskId,
+        boardId,
+      },
+    };
+    const assigneesMessages = assignees.map((assignee) =>
+      this.userService.addUserNotifications(assignee._id, notification),
+    );
+
+    try {
+      await this.taskService.deleteTask(taskId);
+      await Promise.all(assigneesMessages);
+    } catch (error) {
+      throw error;
+    }
+
     return { message: "Deleted task successfully" };
   }
 
@@ -135,9 +158,26 @@ export class TaskController {
   @Patch("/:taskId/assignees/:userId")
   @Authorized(Permissions.TASK_CREATE)
   async addAssignee(@Param("taskId") taskId: string, @Param("userId") userId: string): Promise<{ message: string }> {
+    const { title } = await this.taskService.getTask(taskId);
     const boardId = await this.taskService.getTaskBoardId(taskId);
-    await this.memberService.getBoardMember(boardId, userId);
-    await this.taskService.addAssigneeToTask(taskId, userId);
+
+    const notification = {
+      title: "Assigned to task",
+      description: `You have been assigned to task "${title}"`,
+      key: "task.assignee.added",
+      attributes: {
+        taskId,
+        boardId,
+      },
+    };
+
+    try {
+      await this.taskService.addAssigneeToTask(taskId, userId);
+      await this.userService.addUserNotifications(userId, notification);
+    } catch (error) {
+      throw error;
+    }
+
     return { message: "Assignee added to the task" };
   }
 

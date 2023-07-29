@@ -1,4 +1,4 @@
-import { Param, Get, Put, Controller, QueryParams, UseBefore, Body, CurrentUser } from "routing-controllers";
+import { Param, Get, Put, Delete, Controller, QueryParams, UseBefore, Body, CurrentUser } from "routing-controllers";
 import { UserService, BoardService } from "../services/index.js";
 import { Container } from "typedi";
 import { Pagination, AuthUser } from "../types/utils.type.js";
@@ -47,5 +47,16 @@ export class SelfController {
     const isPinned = await this.userService.togglePinBoard(user.id.toString(), boardId);
 
     return { message: `Board was successfully ${isPinned ? "pinned" : "unpinned"}` };
+  }
+
+  @Get("/notifications")
+  async getNotifications(@CurrentUser() user: AuthUser) {
+    return this.userService.getUserNotifications(user.id.toString());
+  }
+
+  @Delete("/notifications/:notificationId")
+  async removeNotifications(@CurrentUser() user: AuthUser, @Param("notificationId") notificationId: string) {
+    await this.userService.removeUserNotifications(user.id.toString(), notificationId);
+    return { message: "notification removed succesfully" };
   }
 }

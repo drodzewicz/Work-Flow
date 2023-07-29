@@ -11,7 +11,7 @@ import {
   CurrentUser,
   Authorized,
 } from "routing-controllers";
-import { BoardService } from "../services/index.js";
+import { BoardService, MemberService, UserService } from "../services/index.js";
 import { Container } from "typedi";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
 import { Pagination, AuthUser } from "../types/utils.type.js";
@@ -25,9 +25,13 @@ import { Permissions } from "../config/permissions.config.js";
 @UseBefore(JWTMiddleware)
 export class BoardController {
   boardService: BoardService;
+  memberService: MemberService;
+  userService: UserService;
 
   constructor() {
     this.boardService = Container.get(BoardService);
+    this.memberService = Container.get(MemberService);
+    this.userService = Container.get(UserService);
   }
 
   @Post("/")
@@ -53,8 +57,27 @@ export class BoardController {
   @Delete("/:boardId")
   @Authorized(Permissions.BOARD_DELETE)
   async deleteBoard(@Param("boardId") boardId: string) {
-    await this.boardService.getBoard(boardId);
-    await this.boardService.deleteBoard(boardId);
+    const { name } = await this.boardService.getBoard(boardId);
+    const members = await this.memberService.getBoardMembers(boardId);
+
+    const notification = {
+      title: "Board has been deleted",
+      description: `Board "${name}" has been deleted `,
+      key: "board.deleted",
+      attributes: {
+        boardId,
+      },
+    };
+    const memberMessages = members.map(({ user }) =>
+      this.userService.addUserNotifications(user._id, notification),
+    );
+
+    try {
+      await this.boardService.deleteBoard(boardId);
+      await Promise.all(memberMessages);
+    } catch (error) {
+      throw error;
+    }
 
     return { message: "Board was successfully deleted" };
   }

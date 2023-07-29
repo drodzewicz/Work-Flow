@@ -52,8 +52,13 @@ const schema = new mongoose.Schema<IUser, UserModel, IUserMethods>({
   notifications: [
     {
       title: String,
-      info: String,
-      url: String,
+      description: String,
+      key: String,
+      attributes: Object,
+      timeStamp: {
+        type: Date,
+        default: new Date(),
+      },
     },
   ],
 });

@@ -51,7 +51,7 @@ export class MemberController {
   @Post("/:userId")
   @Authorized(Permissions.MEMBER_ADD)
   async addUserToBoard(@Param("boardId") boardId: string, @Param("userId") userId: string) {
-    await this.boardService.getBoard(boardId);
+    const { name } = await this.boardService.getBoard(boardId);
     await this.userService.getUser(userId);
 
     const isBoardMember = await this.memberService.isUserBoardMember(boardId, userId);
@@ -60,6 +60,15 @@ export class MemberController {
       throw new HttpError(400, "User is already a member of the board");
     } else {
       await this.memberService.addUserToBoard(boardId, userId);
+      const notification = {
+        title: "Added to the board",
+        description: `You were added to the board "${name}"`,
+        key: "board.user.added",
+        attributes: {
+          boardId,
+        },
+      };
+      await this.userService.addUserNotifications(userId, notification);
     }
 
     return { message: "User added to the board" };
@@ -68,11 +77,21 @@ export class MemberController {
   @Delete("/:userId")
   @Authorized(Permissions.MEMBER_REMOVE)
   async RemoveUserToBoard(@Param("boardId") boardId: string, @Param("userId") userId: string) {
-    await this.boardService.getBoard(boardId);
+    const { name } = await this.boardService.getBoard(boardId);
     await this.userService.getUser(userId);
     await this.memberService.getBoardMember(boardId, userId);
 
     await this.memberService.removeUserFromBoard(boardId, userId);
+    const notification = {
+      title: "Removed from the board",
+      description: `You were removed from the board "${name}"`,
+      key: "board.user.removed",
+      attributes: {
+        boardId,
+      },
+    };
+    await this.userService.addUserNotifications(userId, notification);
+
     return { message: "User removed from the board" };
   }
 
@@ -83,11 +102,22 @@ export class MemberController {
     @Param("userId") userId: string,
     @Body() payload: UpdateMemberRolePayload,
   ) {
-    await this.boardService.getBoard(boardId);
+    const { name } = await this.boardService.getBoard(boardId);
     await this.userService.getUser(userId);
 
     fieldErrorsHandler(memberRolePayloadValidator(payload));
     const { role } = payload;
+    const notification = {
+      title: "User role modified",
+      description: `You role on board "${name}" was modified to ${role}`,
+      key: "board.user.role",
+      attributes: {
+        boardId,
+        role,
+      },
+    };
+    await this.userService.addUserNotifications(userId, notification);
+
     return this.memberService.updateBoardMemberRole(boardId, userId, role);
   }
 }
