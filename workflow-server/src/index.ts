@@ -21,6 +21,7 @@ app.use(cookieParser());
 app.use(logger);
 
 const routingControllersOptions = {
+  cors: true,
   routePrefix: env.app.routePrefix,
   classTransformer: false,
   defaultErrorHandler: false,
@@ -31,6 +32,7 @@ const routingControllersOptions = {
 };
 
 useExpressServer(app, routingControllersOptions);
+
 databaseConnect();
 usePassportJWT();
 useSwagger(app, routingControllersOptions);
