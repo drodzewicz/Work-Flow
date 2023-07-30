@@ -1,5 +1,5 @@
-import { BoardDTO, BoardSimpleDTO } from "../types/dto/index.js";
-import { BoardDocument } from "../types/database/index.js";
+import { BoardDTO, BoardSimpleDTO, ColumnSimpleDTO } from "../types/dto/index.js";
+import { BoardDocument, ColumnDocument } from "../types/database/index.js";
 
 export const BoardMapper = (data: BoardDocument): BoardDTO => {
   if (!data) {
@@ -23,5 +23,15 @@ export const BoardSimpleViewMapper = (data: BoardDocument): BoardSimpleDTO => {
     timeCreated: data.timeCreated,
     name: data.name,
     description: data.description,
+  };
+};
+
+export const ColumnSimpleMapper = (data: ColumnDocument): ColumnSimpleDTO => {
+  if (!data) {
+    return null;
+  }
+  return {
+    _id: data._id.toString(),
+    name: data.name,
   };
 };

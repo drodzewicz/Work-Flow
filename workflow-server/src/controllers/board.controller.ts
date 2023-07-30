@@ -38,7 +38,7 @@ export class BoardController {
   createBorad(@Body() board: CreateBoardPayload, @CurrentUser() user: AuthUser) {
     fieldErrorsHandler(boardPayloadValidator(board));
 
-    return this.boardService.createBoard(board, user);
+    return this.boardService.createBoard(board, user.id.toString());
   }
 
   @Get("/")
@@ -68,9 +68,7 @@ export class BoardController {
         boardId,
       },
     };
-    const memberMessages = members.map(({ user }) =>
-      this.userService.addUserNotifications(user._id, notification),
-    );
+    const memberMessages = members.map(({ user }) => this.userService.addUserNotifications(user._id, notification));
 
     try {
       await this.boardService.deleteBoard(boardId);

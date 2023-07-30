@@ -2,7 +2,6 @@ import { Service, Inject } from "typedi";
 import { TaskRepository, UserRepository, BoardRepository } from "../repositories/index.js";
 import { TaskMapper, ColumnTaskMapper } from "../mappers/index.js";
 import { TaskDTO, ColumnTaskDTO } from "../types/dto/index.js";
-import { AuthUser } from "@/types/utils.type.js";
 import { HttpError, NotFoundError } from "routing-controllers";
 
 @Service()
@@ -21,8 +20,8 @@ export class TaskService {
     this.boardRepository = boardRepository;
   }
 
-  async createTask(taskData: any, boardId: string, currentUser: AuthUser): Promise<TaskDTO> {
-    const author = await this.userRepository.getById(currentUser.id.toString());
+  async createTask(taskData: any, boardId: string, currentUserId: string): Promise<TaskDTO> {
+    const author = await this.userRepository.getById(currentUserId);
     const newTask = { ...taskData, author, board: boardId };
     const task = await this.taskRepository.create(newTask);
     return TaskMapper(task);

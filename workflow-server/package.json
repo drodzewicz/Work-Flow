@@ -17,6 +17,7 @@
   "author": "Dariusz Rodzewicz",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.17",
     "@types/mongoose": "^5.11.97",

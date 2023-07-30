@@ -29,7 +29,7 @@ export const env = {
       secret: utils.getEnv("REFRESH_TOKE_SECRET", false, "refreshTokenSecret"),
       // lifespan in milliseconds 24(hours) * 60 (min) * 60 (s) = 1 day
       lifespanSeconds: 24 * 60 * 60,
-    }
+    },
   },
   pagination: {
     limit: utils.toNumber(utils.getEnv("PAGINATION_LIMIT", false, "10")),
@@ -41,6 +41,7 @@ export const env = {
     username: utils.getEnv("DB_USERNAME"),
     password: utils.getEnv("DB_PASSWORD"),
     database: utils.getEnv("DB_URI", true),
+    seed: utils.getEnv("DB_SEED", false),
   },
   swagger: {
     enabled: utils.toBool(utils.getEnv("SWAGGER_ENABLED")),

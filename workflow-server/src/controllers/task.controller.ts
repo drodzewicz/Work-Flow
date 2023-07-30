@@ -67,7 +67,7 @@ export class TaskController {
     const { boardId, columnId, ...taskData } = payload;
 
     await this.boardService.getBoard(boardId);
-    const task = await this.taskService.createTask(taskData, boardId, user);
+    const task = await this.taskService.createTask(taskData, boardId, user.id.toString());
     await this.taskService.addTaskToColumn(boardId, columnId, task._id.toString());
     return task;
   }

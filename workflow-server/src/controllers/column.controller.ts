@@ -28,8 +28,7 @@ export class ColumnController {
     fieldErrorsHandler(createColumnPayloadValidator(columnData));
 
     await this.boardService.getBoard(boardId);
-    await this.boardService.createColumn(boardId, columnData.name);
-    return this.boardService.getBoard(boardId);
+    return this.boardService.createColumn(boardId, columnData.name);
   }
 
   @Put("/:columnId")

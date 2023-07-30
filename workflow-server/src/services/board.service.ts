@@ -1,8 +1,8 @@
 import { UserRepository, BoardRepository } from "../repositories/index.js";
 import { Service, Inject } from "typedi";
-import { Pagination, AuthUser } from "../types/utils.type.js";
-import { BoardDTO, BoardSimpleDTO } from "../types/dto/index.js";
-import { BoardMapper, BoardSimpleViewMapper } from "../mappers/index.js";
+import { Pagination } from "../types/utils.type.js";
+import { BoardDTO, BoardSimpleDTO, ColumnSimpleDTO } from "../types/dto/index.js";
+import { BoardMapper, BoardSimpleViewMapper, ColumnSimpleMapper } from "../mappers/index.js";
 import { NotFoundError } from "routing-controllers";
 import { RoleNames } from "../config/permissions.config.js";
 
@@ -24,8 +24,8 @@ export class BoardService {
     return BoardMapper(board);
   }
 
-  async createBoard(board: any, user: AuthUser): Promise<BoardSimpleDTO> {
-    board.members = [{ user: user.id, role: RoleNames.ADMIN }];
+  async createBoard(board: any, userId: string): Promise<BoardSimpleDTO> {
+    board.members = [{ user: userId, role: RoleNames.ADMIN }];
     const result = await this.boardRepository.create(board);
     return BoardSimpleViewMapper(result);
   }
@@ -58,9 +58,9 @@ export class BoardService {
     await this.boardRepository.delete(boardId);
   }
 
-  async createColumn(boardId: string, columnName: string) {
-    await this.boardRepository.createColumn(boardId, columnName);
-    return this.getBoard(boardId);
+  async createColumn(boardId: string, columnName: string): Promise<ColumnSimpleDTO> {
+    const column = await this.boardRepository.createColumn(boardId, columnName);
+    return ColumnSimpleMapper(column);
   }
 
   async updateColumn(boardId: string, columnId: string, name: string): Promise<void> {

@@ -12,7 +12,7 @@ const schema = new mongoose.Schema<IBoard, BoardModel>({
   },
   description: {
     type: String,
-    maxlength: [400, "must not be longer than 400 characters"],
+    maxlength: [1000, "must not be longer than 1000 characters"],
   },
   members: [
     {

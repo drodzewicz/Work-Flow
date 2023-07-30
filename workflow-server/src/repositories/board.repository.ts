@@ -44,7 +44,12 @@ export class BoardRepository extends GenericRepository<IBoard, BoardDocument, Bo
 
   async createColumn(boardId: string, columnName: string) {
     this.validateId(boardId);
-    return await this.model.findOneAndUpdate({ _id: boardId }, { $push: { columns: { name: columnName } } });
+    const { columns } = await this.model.findOneAndUpdate(
+      { _id: boardId },
+      { $push: { columns: { name: columnName } } },
+      { new: true },
+    );
+    return columns.pop();
   }
 
   async deleteColumn(boardId: string, columnId: string) {

@@ -12,3 +12,8 @@ export interface BoardSimpleDTO {
   name: string;
   description: string;
 }
+
+export interface ColumnSimpleDTO {
+  name: string;
+  _id: string;
+}

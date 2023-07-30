@@ -8,15 +8,7 @@ import { logger } from "./config/logger.config.js";
 import { databaseConnect } from "./config/mongoose.config.js";
 import { usePassportJWT } from "./config/passport-jwt.config.js";
 import { useSwagger } from "./config/swagger.config.js";
-import { UserController } from "./controllers/user.controller.js";
-import { BoardController } from "./controllers/board.controller.js";
-import { AuthController } from "./controllers/auth.controller.js";
-import { TaskController } from "./controllers/task.controller.js";
-import { TagController } from "./controllers/tag.controller.js";
-import { MemberController } from "./controllers/member.controller.js";
-import { ColumnController } from "./controllers/column.controller.js";
-import { PermissionController } from "./controllers/permission.controller.js";
-import { SelfController } from "./controllers/self.controller.js";
+import { controllers } from "./controllers/index.js";
 
 import { HttpErrorHandler } from "./middleware/httpError.middleware.js";
 import { currentUserChecker, authorizationChecker } from "./middleware/auth.middleware.js";
@@ -32,17 +24,7 @@ const routingControllersOptions = {
   routePrefix: env.app.routePrefix,
   classTransformer: false,
   defaultErrorHandler: false,
-  controllers: [
-    AuthController,
-    UserController,
-    BoardController,
-    ColumnController,
-    TaskController,
-    TagController,
-    MemberController,
-    PermissionController,
-    SelfController,
-  ],
+  controllers,
   middlewares: [HttpErrorHandler],
   currentUserChecker,
   authorizationChecker,

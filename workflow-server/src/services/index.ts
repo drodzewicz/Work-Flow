@@ -5,3 +5,4 @@ export * from "./task.service.js";
 export * from "./tag.service.js";
 export * from "./member.service.js";
 export * from "./permission.service.js";
+export * from "./seed.service.js";

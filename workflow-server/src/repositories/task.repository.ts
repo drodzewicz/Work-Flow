@@ -54,7 +54,7 @@ export class TaskRepository extends GenericRepository<ITask, TaskDocument, TaskF
         populate: {
           path: "author assignees tags",
           select: this.userFields.join(" ") + this.tagFields.join(" "),
-        }
+        },
       },
     });
     return board.columns;
