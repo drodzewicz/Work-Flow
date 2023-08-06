@@ -1,15 +1,14 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 
-import { getBoardTask, deleteTask } from "@/service";
 import { TaskI } from "@/types/general";
+
+import { TaskDisplayProps } from "./types";
+
+import { getBoardTask, deleteTask } from "@/service";
 import axios, { CancelTokenSource } from "axios";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+
 // import { useHistory } from "react-router-dom";
-
-import { AlertContext, AlertActionType } from "@/context/AlertContext";
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
-import { UserContext } from "@/context/UserContext";
-
 import Button from "@/components/general/Button";
 
 import LoadingOverlay from "@/components/layout/LoadingOverlay";
@@ -20,15 +19,8 @@ import User from "@/components/board/User";
 import TaskUpdate from "@/dialogs/TaskEditor/TaskUpdate";
 
 import "./TaskDisplay.scss";
-import { TaskDisplayProps } from "./types";
 
 const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
-  const { modalDispatch } = useContext(ModalContext);
-  const { alertDispatch } = useContext(AlertContext);
-  const {
-    userState: { currentBoard, user },
-  } = useContext(UserContext);
-
   // const history = useHistory();
   const source = useRef<CancelTokenSource | null>(null);
 
@@ -56,14 +48,14 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
   useEffect(() => {
     const getTaskInfo = async () => {
       const { data, status } = await getBoardTask({
-        boardId: currentBoard?.id || "",
+        boardId: "",
         taskId,
         setLoading: setTaskLoading,
         cancelToken: source.current?.token,
       });
       if (status === 400) {
-        alertDispatch({ type: AlertActionType.WARNING, payload: { message: "Task not found" } });
-        modalDispatch({ type: ModalActionType.CLOSE });
+        // alertDispatch({ type: AlertActionType.WARNING, payload: { message: "Task not found" } });
+        // modalDispatch({ type: ModalActionType.CLOSE });
       } else if (data) {
         // history.push({
         //   search: `?task=${taskId}`,
@@ -78,37 +70,38 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
       //   search: "",
       // });
     };
-  }, [currentBoard, taskId, history, modalDispatch, alertDispatch]);
+  }, [taskId, history]);
 
   const deleteTaskHandler = async () => {
     const shouldDelete = window.confirm("are you sure you want to delete this task?");
     if (shouldDelete) {
       deleteTask({
-        boardId: currentBoard?.id || "",
+        boardId: "",
         payload: {
           taskId,
         },
         res: (res: any) => {
           const { error } = res;
-          if (!error) modalDispatch({ type: ModalActionType.CLOSE });
+          // if (!error) modalDispatch({ type: ModalActionType.CLOSE });
         },
       });
     }
   };
 
   const openTaskEditModal = () => {
-    modalDispatch({
-      type: ModalActionType.OPEN,
-      payload: {
-        title: "Edit Task",
-        render: <TaskUpdate taskId={taskId} boardId={currentBoard?.id || ""} />,
-      },
-    });
+    // modalDispatch({
+    //   type: ModalActionType.OPEN,
+    //   payload: {
+    //     title: "Edit Task",
+    //     render: <TaskUpdate taskId={taskId} boardId={""} />,
+    //   },
+    // });
   };
 
   const isAuthorizedToEdit = () => {
-    const { role } = currentBoard;
-    return taskDetails.author._id === user._id || role === "OWNER" || role === "ADMIN";
+    // const { role } = currentBoard;
+    // return taskDetails.author._id === user._id || role === "OWNER" || role === "ADMIN";
+    return true;
   };
 
   return (

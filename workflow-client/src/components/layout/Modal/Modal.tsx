@@ -1,11 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 
 import { IModalProps } from "./types";
 
 import { FaTimes } from "react-icons/fa";
-import { useLocation, useNavigate } from "react-router-dom";
-
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
 
 import Portal from "@/components/layout/Portal";
 
@@ -21,31 +18,6 @@ const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
   size,
   onClose,
 }) => {
-  // const {
-  //   modalState: { show, title, render, size },
-  //   modalDispatch,
-  // } = useContext(ModalContext);
-  const lcoation = useLocation();
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   const escKeyDown = (e: any) => {
-  //     if (e.code === "Escape") modalDispatch({ type: ModalActionType.CLOSE });
-  //   };
-  //   document.addEventListener("keydown", escKeyDown, false);
-  //   return () => {
-  //     document.removeEventListener("keydown", escKeyDown);
-  //   };
-  // }, [modalDispatch]);
-
-  const closeModal = () => {
-    // modalDispatch({ type: ModalActionType.CLOSE });
-    // FIXME after refacor
-    // if(lcoation.hash.includes("#login")) {
-    //   navigate("/")
-    // }
-  };
-
   if (show) {
     return (
       <Portal mountTo="root-modal">

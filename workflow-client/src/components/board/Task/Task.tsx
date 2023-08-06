@@ -6,9 +6,6 @@ import { TaskProps } from "./types";
 
 import { Draggable } from "react-beautiful-dnd";
 
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
-import { UserContext } from "@/context/UserContext";
-
 import Image from "@/components/general/Image";
 import Tooltip from "@/components/general/Tooltip";
 
@@ -19,10 +16,7 @@ import TaskDisplay from "@/dialogs/TaskDisplay/TaskDisplay";
 import "./Task.scss";
 
 const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people = [] }) => {
-  const { modalDispatch } = useContext(ModalContext);
-  const {
-    userState: { currentBoard },
-  } = useContext(UserContext);
+  const currentBoard = "board";
 
   const poepleAnchorElement = useRef(null);
   const tagsAnchorElement = useRef(null);
@@ -30,14 +24,14 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
   const { taskIndex } = indexes;
 
   const openTaskDetailsModal = () => {
-    modalDispatch({
-      type: ModalActionType.OPEN,
-      payload: {
-        render: <TaskDisplay taskId={taskId} />,
-        title: "Task Details",
-        size: "l",
-      },
-    });
+    // modalDispatch({
+    //   type: ModalActionType.OPEN,
+    //   payload: {
+    //     render: <TaskDisplay taskId={taskId} />,
+    //     title: "Task Details",
+    //     size: "l",
+    //   },
+    // });
   };
 
   const AssignedUsers: React.FC = () => {
@@ -73,7 +67,8 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
     <Draggable
       draggableId={taskId}
       index={taskIndex}
-      isDragDisabled={currentBoard.role === UserBoardRoles.GUEST}
+      // isDragDisabled={currentBoard.role === UserBoardRoles.GUEST}
+      isDragDisabled={true}
     >
       {(provided, snapshot) => (
         <div

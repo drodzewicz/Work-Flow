@@ -5,7 +5,6 @@ import { UserBoardRoles } from "@/types/general";
 import { Droppable } from "react-beautiful-dnd";
 
 import { TaskContext, TasksActionType } from "@/context/TaskContext";
-import { UserContext } from "@/context/UserContext";
 
 // import { useWebSocketListener } from "@/hooks/useWebSocketListener";
 import DragableColumn from "@/components/board/Column/DraggableColumn/DragableColumn";
@@ -13,9 +12,6 @@ import NewColumn from "@/components/board/NewColumn";
 
 const TaskBoard: React.FC<{ columns: { _id: string; name: string }[] }> = ({ columns }) => {
   const { tasksState, tasksDispatch } = useContext(TaskContext);
-  const {
-    userState: { currentBoard },
-  } = useContext(UserContext);
 
   const createNewColumn = useCallback(
     (newColumn: string) => {
@@ -105,8 +101,8 @@ const TaskBoard: React.FC<{ columns: { _id: string; name: string }[] }> = ({ col
   // useWebSocketListener("moveTask", moveTask);
 
   const isAuthorized = () => {
-    const { role } = currentBoard;
-    return role === UserBoardRoles.OWNER || role === UserBoardRoles.ADMIN;
+    // return role === UserBoardRoles.OWNER || role === UserBoardRoles.ADMIN;
+    return true;
   };
 
   return (

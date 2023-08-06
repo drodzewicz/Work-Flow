@@ -1,10 +1,10 @@
 import App from "@/App";
 import BoardPage from "@/views/BoardPage";
-import DashboardPage from "@/views/DashboardPage";
+import BoardSettings from "@/views/BoardSettings";
+import Dashboard from "@/views/Dashboard";
 import ErrorPage from "@/views/ErrorPage";
 import Register from "@/views/Register";
 import WelcomePage from "@/views/WelcomePage";
-import BoardSettings from "@/views/BoardSettings";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <DashboardPage />,
+        element: <Dashboard />,
       },
       {
         path: "board/:id",

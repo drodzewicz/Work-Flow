@@ -1,28 +1,27 @@
 import React, { useContext, useEffect } from "react";
 
+import { FormValues } from "./types";
+
 import { changePassword } from "@/service";
 import { FormikProps, Form, Field, withFormik } from "formik";
-
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
 
 import Button from "@/components/general/Button";
 import { TextField } from "@/components/general/TextInput";
 
 import "./ChangePassword.scss";
+
 import { validationSchema } from "./formSchema";
-import { FormValues } from "./types";
 
 const ChangePasswordForm: React.FC<FormikProps<FormValues>> = (props) => {
   const { errors, isSubmitting, isValid, status, setErrors } = props;
-  const { modalDispatch } = useContext(ModalContext);
 
   useEffect(() => {
     if (status?.submitStatus === "SUCCESS") {
-      modalDispatch({ type: ModalActionType.CLOSE });
+      // modalDispatch({ type: ModalActionType.CLOSE });
     } else if (status?.submitStatus === "ERROR") {
       setErrors(status?.message);
     }
-  }, [status, modalDispatch, setErrors]);
+  }, [status, setErrors]);
 
   return (
     <Form className="change-password">

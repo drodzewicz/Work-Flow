@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { OnSubmitType } from "@/types/general/utils";
 
@@ -26,9 +26,9 @@ import BoardContainer from "@/components/board/BoardContainer";
 
 import BoardEditor from "@/dialogs/BoardEditor/BoardEditor";
 
-import "./DashboardPage.scss";
+import "./Dashboard.scss";
 
-const DashboardPage: React.FC = () => {
+const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
   const {
@@ -130,4 +130,4 @@ const DashboardPage: React.FC = () => {
   );
 };
 
-export default DashboardPage;
+export default Dashboard;

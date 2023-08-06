@@ -1,26 +1,25 @@
 import React, { useContext, useEffect } from "react";
 
+import { FormValues, ChangeProfilePictureProps } from "./types";
+
 import { changeAvatar } from "@/service";
 import { FormikProps, Form, Field, withFormik } from "formik";
-
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
 
 import Button from "@/components/general/Button";
 import { TextField } from "@/components/general/TextInput";
 
 import "./ChangeProfilePicture.scss";
+
 import { validationSchema } from "./formSchema";
-import { FormValues, ChangeProfilePictureProps } from "./types";
 
 const ChangeProfilePicture: React.FC<FormikProps<FormValues>> = (props) => {
   const { errors, isSubmitting, isValid, status } = props;
-  const { modalDispatch } = useContext(ModalContext);
 
   useEffect(() => {
     if (status?.submitStatus === "SUCCESS") {
-      modalDispatch({ type: ModalActionType.CLOSE });
+      // modalDispatch({ type: ModalActionType.CLOSE });
     }
-  }, [status, modalDispatch]);
+  }, [status]);
 
   return (
     <Form className="change-profile-picture">

@@ -8,9 +8,6 @@ import { getBoardTags } from "@/service";
 import { FormikProps, Form, Field } from "formik";
 import { FaTags, FaUserFriends } from "react-icons/fa";
 
-import { AlertContext, AlertActionType } from "@/context/AlertContext";
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
-
 import Button from "@/components/general/Button/Button";
 import { TextField, TextAreaField } from "@/components/general/TextInput";
 
@@ -32,9 +29,6 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
     boardId,
   } = props;
 
-  const { modalDispatch } = useContext(ModalContext);
-  const { alertDispatch } = useContext(AlertContext);
-
   const [users, setUsers] = useState<UserShortI[]>([]);
 
   const [availableTags, setAvailableTags] = useState<TagI[]>([]);
@@ -54,12 +48,12 @@ const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = 
 
   useEffect(() => {
     if (status?.submitStatus === "SUCCESS") {
-      modalDispatch({ type: ModalActionType.CLOSE });
-      alertDispatch({ type: AlertActionType.SUCCESS, payload: { message: status.message } });
+      // modalDispatch({ type: ModalActionType.CLOSE });
+      // alertDispatch({ type: AlertActionType.SUCCESS, payload: { message: status.message } });
     } else if (status?.submitStatus === "ERROR") {
-      alertDispatch({ type: AlertActionType.ERROR, payload: { message: status.message } });
+      // alertDispatch({ type: AlertActionType.ERROR, payload: { message: status.message } });
     }
-  }, [status, modalDispatch, alertDispatch]);
+  }, [status]);
   const toggleSelectTag = (selectedTag: TagI) => {
     return setSelectedTags((tags) => {
       let tempTags = [...tags];

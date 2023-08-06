@@ -4,7 +4,6 @@ import { UserBoardRoles } from "@/types/general";
 
 import { ColumnProps } from "./types";
 
-import useAuthClient from "@/hooks/useClient";
 import { updateBoardColumn } from "@/service";
 import { deleteColumn } from "@/service";
 import { AxiosResponse } from "axios";
@@ -13,9 +12,9 @@ import { FaRegPlusSquare, FaEllipsisV, FaTrashAlt, FaEdit } from "react-icons/fa
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 
-import { ModalContext, ModalActionType } from "@/context/ModalContext";
 import { TaskContext, TasksActionType } from "@/context/TaskContext";
-import { UserContext } from "@/context/UserContext";
+
+import useAuthClient from "@/hooks/useClient";
 
 import DropdownMenu from "@/components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
@@ -35,11 +34,8 @@ const Column: React.FC<ColumnProps> = ({
   boardId,
   listOfTasks,
 }) => {
-  const { modalDispatch } = useContext(ModalContext);
   const { tasksDispatch } = useContext(TaskContext);
-  const {
-    userState: { currentBoard },
-  } = useContext(UserContext);
+  const currentBoard = "test";
 
   const [showTitleInput, setShowTitleInput] = useState<boolean>(false);
 
@@ -56,14 +52,14 @@ const Column: React.FC<ColumnProps> = ({
   );
 
   const openBoardTagsModal = () => {
-    modalDispatch({
-      type: ModalActionType.OPEN,
-      payload: {
-        render: <TaskCreate columnId={columnId} boardId={boardId} />,
-        title: "New Task",
-        size: "l",
-      },
-    });
+    // modalDispatch({
+    //   type: ModalActionType.OPEN,
+    //   payload: {
+    //     render: <TaskCreate columnId={columnId} boardId={boardId} />,
+    //     title: "New Task",
+    //     size: "l",
+    //   },
+    // });
   };
 
   const removeColumn = async () => {
@@ -101,8 +97,8 @@ const Column: React.FC<ColumnProps> = ({
   };
 
   const isAuthorized = () => {
-    const { role } = currentBoard;
-    return role === UserBoardRoles.ADMIN || role === UserBoardRoles.OWNER;
+    // return role === UserBoardRoles.ADMIN || role === UserBoardRoles.OWNER;
+    return true;
   };
 
   return (
@@ -122,11 +118,10 @@ const Column: React.FC<ColumnProps> = ({
                 onEnter={changeColumnNameOnKeyPressEnter}
                 editTitle={showTitleInput}
               />
-              {currentBoard.role !== UserBoardRoles.GUEST && (
-                <button onClick={openBoardTagsModal} className="task-column__header__new-task-btn">
-                  <FaRegPlusSquare />
-                </button>
-              )}
+              {/* currentBoard.role !== UserBoardRoles.GUEST  */}
+              <button onClick={openBoardTagsModal} className="task-column__header__new-task-btn">
+                <FaRegPlusSquare />
+              </button>
 
               {isAuthorized() && (
                 <>

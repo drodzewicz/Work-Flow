@@ -6,10 +6,6 @@ import { BoardMembersUserProps } from "./types";
 
 import { FaShieldAlt, FaUserAlt, FaRegAddressCard, FaCrown } from "react-icons/fa";
 
-import { UserContext } from "@/context/UserContext";
-
-import { useClickOutside } from "@/hooks/useClickOutside";
-
 import User from "@/components/board/User";
 
 import "./BoardMemberUser.scss";

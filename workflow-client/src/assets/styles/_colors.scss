@@ -29,11 +29,31 @@ $blue-accent-dark: #91e5eb;
 // tag colors
 $tag-red: rgb(255, 103, 103);
 $tag-yellow: rgb(255, 197, 36);
-$tag-green:rgb(127, 231, 67);
-$tag-tiel:rgb(146, 250, 233);
+$tag-green: rgb(127, 231, 67);
+$tag-tiel: rgb(146, 250, 233);
 $tag-purple: rgb(192, 100, 204);
 $tag-majenta: rgb(216, 116, 138);
 $tag-pink: rgb(246, 174, 255);
-$tag-black : rgb(29, 29, 29);
+$tag-black: rgb(29, 29, 29);
 $tag-white: rgb(238, 238, 238);
 $tag-blue: rgb(53, 42, 207);
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --main-bg-color: #f5f9fa;
+    --main-accent-color: #19b2bd;
+    --color-1: #fcfcfc;
+    --color-2: #474a4b;
+    --color-3: #474a4b;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --main-bg-color: #333637;
+    --main-accent-color: #91e5eb;
+    --color-1: #474a4b;
+    --color-2: #474a4b;
+    --color-3: #474a4b;
+  }
+}

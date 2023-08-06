@@ -9,7 +9,7 @@
   gap: 1rem;
 
   .board-container {
-	  position: relative;
+    position: relative;
     &__loading {
       position: absolute;
     }
@@ -82,8 +82,4 @@
       box-shadow: 0 1px 7px rgba($blue-accent-dark, 0.4);
     }
   }
-}
-
-.pinned-board-container {
-  
 }

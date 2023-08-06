@@ -2,8 +2,6 @@ import React, { useContext, PropsWithChildren } from "react";
 
 import { useLocation, Navigate } from "react-router-dom";
 
-import { UserContext } from "@/context/UserContext";
-
 type RouteGuardConditionType = (attrs: { isAuthenticated: boolean }) => boolean;
 
 interface IRouteGuardProps {
@@ -16,18 +14,14 @@ const RouteGuard: React.FC<PropsWithChildren<IRouteGuardProps>> = ({
   condition,
   redirectTo,
 }) => {
-  const {
-    userState: { authenticated, user },
-  } = useContext(UserContext);
-
   const location = useLocation();
   const token = localStorage.getItem("token");
-  const isAuthenticated =
-    (authenticated !== null && authenticated) || (authenticated === null && !!token);
+  // const isAuthenticated =
+  //   (authenticated !== null && authenticated) || (authenticated === null && !!token);
 
   // FIXME implement router guards
   // if (condition({ isAuthenticated: !!user })) {
-    return <>{children}</>;
+  return <>{children}</>;
   // }
 
   // Redirect them to the /login page, but save the current location they were

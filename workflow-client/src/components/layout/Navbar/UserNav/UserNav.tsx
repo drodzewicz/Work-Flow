@@ -5,7 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 import useAuth from "@/hooks/useAuth";
 
+import useGetCurrentUser from "@/service/useGetCurentUser";
 import useGetNotifications from "@/service/useGetNotifications";
+import useLogout from "@/service/useLogout";
 
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
 import ThemeSwitch from "@/components/general/ThemeSwitch";
@@ -18,7 +20,20 @@ import "./UserNav.scss";
 const UserNav: React.FC = () => {
   const navigate = useNavigate();
 
-  const { user, logout } = useAuth();
+  const { user, token, login, logout } = useAuth();
+  const { mutate: logoutUser } = useLogout({
+    onSuccess: () => {
+      logout();
+      navigate("/");
+    },
+  });
+
+  useGetCurrentUser({
+    onSuccess: (user) => {
+      login({ user, token: token as string });
+    },
+  });
+
   const { data: notifications = [] } = useGetNotifications();
 
   const goToHomePage = () => {
@@ -27,11 +42,6 @@ const UserNav: React.FC = () => {
 
   const removeMessage = async (index: number) => {
     //
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate("/");
   };
 
   const handlGetMyNotifications = () => {
@@ -55,7 +65,7 @@ const UserNav: React.FC = () => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <span className="logout-btn" onClick={handleLogout}>
+          <span className="logout-btn" onClick={() => logoutUser()}>
             <FaSignOutAlt /> logout
           </span>
         </DropdownMenuItem>

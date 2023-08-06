@@ -8,8 +8,6 @@ import { Field, Form, useFormik, FormikProvider } from "formik";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 
-import { AlertContext, AlertActionType } from "@/context/AlertContext";
-
 import axios from "@/config/api.conf.ts";
 
 import Button from "@/components/general/Button";
@@ -29,7 +27,6 @@ const INITIAL_FORM_VALUES: RegisterType = {
 };
 
 const Register = () => {
-  const { alertDispatch } = useContext(AlertContext);
   const navigate = useNavigate();
 
   const onSubmitHandler: OnSubmitType<RegisterType> = (values) => {
@@ -48,14 +45,14 @@ const Register = () => {
     (registerPayload: any) => axios.post("/auth/register", registerPayload),
     {
       onError: (error: any) => {
-        alertDispatch({ type: AlertActionType.ERROR, payload: { message: "validation error" } });
+        // alertDispatch({ type: AlertActionType.ERROR, payload: { message: "validation error" } });
         formik.setErrors(error?.response?.data?.messages);
       },
       onSuccess: () => {
-        alertDispatch({
-          type: AlertActionType.SUCCESS,
-          payload: { message: "User successfully registered" },
-        });
+        // alertDispatch({
+        //   type: AlertActionType.SUCCESS,
+        //   payload: { message: "User successfully registered" },
+        // });
         navigate("/#login", {
           state: { username: formik.values.username, password: formik.values.password },
         });

@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+
+import { TagI, TagColors, UserBoardRoles } from "@/types/general";
 
 import { getBoardTags, createBoardTag, deleteBoardTag, updateBoardTag } from "@/service";
-import { TagI, TagColors, UserBoardRoles } from "@/types/general";
 import axios, { CancelTokenSource } from "axios";
 import { FaTrashAlt, FaCheck } from "react-icons/fa";
-
-import { UserContext } from "@/context/UserContext";
 
 import Button from "@/components/general/Button";
 import { TextField } from "@/components/general/TextInput";
@@ -15,6 +14,7 @@ import LoadingOverlay from "@/components/layout/LoadingOverlay";
 import TagButton from "@/components/board/Tag/TagButton";
 
 import "./Tags.scss";
+
 import { TagsProps } from "./type";
 
 const Tags: React.FC<TagsProps> = ({ boardId }) => {
@@ -34,9 +34,8 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
   );
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isTagLoading, setTagLoading] = useState<boolean>(false);
-  const {
-    userState: { currentBoard },
-  } = useContext(UserContext);
+
+  const currentBoard = "kek";
 
   useEffect(() => {
     source.current = axios.CancelToken.source();
@@ -102,7 +101,8 @@ const Tags: React.FC<TagsProps> = ({ boardId }) => {
   };
 
   const isAuthorized = () => {
-    return currentBoard.role === UserBoardRoles.ADMIN || currentBoard.role === UserBoardRoles.OWNER;
+    // return currentBoard.role === UserBoardRoles.ADMIN || currentBoard.role === UserBoardRoles.OWNER;
+    return true;
   };
 
   const selectTag = (color: TagColors) => {
