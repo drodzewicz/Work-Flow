@@ -5,7 +5,7 @@
   $card-height: 6rem;
   background-color: white;
   box-sizing: border-box;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.626);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
   width: $card-width;
   height: $card-height;
   border-radius: 7px;
@@ -66,9 +66,7 @@
       }
     }
   }
-  .drop-down-menu {
-    transform: translate($card-width / 2 + 1.2rem, $card-height - 2.5rem);
-  }
+
   &__content {
     z-index: 1;
     display: flex;
@@ -101,6 +99,67 @@
         &:hover {
           background: darken($light-blue-1, 5%);
         }
+      }
+    }
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: white;
+  }
+  100% {
+    background-color: $light-blue-1;
+  }
+}
+
+.board-card--loading {
+  outline: $blue-accent;
+  $card-width: 12rem;
+  $card-height: 6rem;
+  background-color: white;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  width: $card-width;
+  height: $card-height;
+  border-radius: 7px;
+  padding: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-decoration: none;
+  transition: 0.3s ease-in-out all;
+  animation: skeleton-loading 1s linear infinite alternate;
+
+  &__columns {
+    position: absolute;
+    z-index: 0;
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    align-items: flex-start;
+    &__column {
+      background: $light-blue-1;
+      animation: skeleton-loading 1s linear infinite alternate-reverse;
+
+      width: 35px;
+      height: 70px;
+      margin: 0 7px;
+      border-radius: 5px;
+      transition: all ease-in-out 0.3s;
+      &:nth-of-type(1) {
+        height: 60px;
+      }
+      &:nth-of-type(2) {
+        height: 30px;
+      }
+      &:nth-of-type(3) {
+        height: 50px;
+      }
+      &:nth-of-type(4) {
+        height: 70px;
       }
     }
   }

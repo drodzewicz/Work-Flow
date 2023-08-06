@@ -54,7 +54,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           type="text"
           onChange={searchOnChangeHandler}
         />
-        {result.length > 0 ? (
+        {result ? (
           <FaTimes onClick={clearInputSearch} className="search-input__icon" />
         ) : (
           <FaSearch onClick={searchHandler} className="search-input__icon" />

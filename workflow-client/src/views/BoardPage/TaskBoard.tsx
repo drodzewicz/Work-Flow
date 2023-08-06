@@ -7,12 +7,11 @@ import { Droppable } from "react-beautiful-dnd";
 import { TaskContext, TasksActionType } from "@/context/TaskContext";
 import { UserContext } from "@/context/UserContext";
 
-import { useWebSocketListener } from "@/hooks/useWebSocketListener";
-
+// import { useWebSocketListener } from "@/hooks/useWebSocketListener";
 import DragableColumn from "@/components/board/Column/DraggableColumn/DragableColumn";
 import NewColumn from "@/components/board/NewColumn";
 
-const TaskBoard: React.FC<{ boardId: string }> = ({ boardId }) => {
+const TaskBoard: React.FC<{ columns: { _id: string; name: string }[] }> = ({ columns }) => {
   const { tasksState, tasksDispatch } = useContext(TaskContext);
   const {
     userState: { currentBoard },
@@ -98,12 +97,12 @@ const TaskBoard: React.FC<{ boardId: string }> = ({ boardId }) => {
     [tasksDispatch]
   );
 
-  useWebSocketListener("createNewColumn", createNewColumn);
-  useWebSocketListener("deleteColumn", deleteSocketColumn);
-  useWebSocketListener("moveColumn", moveSocketColumn);
-  useWebSocketListener("createTask", createTask);
-  useWebSocketListener("deleteTask", deleteTask);
-  useWebSocketListener("moveTask", moveTask);
+  // useWebSocketListener("createNewColumn", createNewColumn);
+  // useWebSocketListener("deleteColumn", deleteSocketColumn);
+  // useWebSocketListener("moveColumn", moveSocketColumn);
+  // useWebSocketListener("createTask", createTask);
+  // useWebSocketListener("deleteTask", deleteTask);
+  // useWebSocketListener("moveTask", moveTask);
 
   const isAuthorized = () => {
     const { role } = currentBoard;
@@ -116,13 +115,13 @@ const TaskBoard: React.FC<{ boardId: string }> = ({ boardId }) => {
         {(provided) => {
           return (
             <div className="task-board__task-row" ref={provided.innerRef}>
-              {tasksState.map(({ _id, name, tasks }, index) => (
+              {columns.map(({ _id, name }, index) => (
                 <DragableColumn
                   key={_id}
-                  boardId={boardId}
+                  boardId={"lox"}
                   columnId={_id}
                   columnName={name}
-                  listOfTasks={tasks}
+                  listOfTasks={[]}
                   columnIndex={index}
                 />
               ))}
@@ -131,7 +130,8 @@ const TaskBoard: React.FC<{ boardId: string }> = ({ boardId }) => {
           );
         }}
       </Droppable>
-      <div>{isAuthorized() && <NewColumn boardId={boardId} />}</div>
+
+      <div>{isAuthorized() && <NewColumn boardId={"lox"} />}</div>
     </div>
   );
 };

@@ -1,14 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 
 import { OnSubmitType } from "@/types/general/utils";
 
 import { RegisterType } from "./types";
 
-import { register } from "@/service";
-import { Field, Form, Formik } from "formik";
+import { Field, Form, useFormik, FormikProvider } from "formik";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 import { AlertContext, AlertActionType } from "@/context/AlertContext";
+
+import axios from "@/config/api.conf.ts";
 
 import Button from "@/components/general/Button";
 import { TextField } from "@/components/general/TextInput";
@@ -30,67 +32,76 @@ const Register = () => {
   const { alertDispatch } = useContext(AlertContext);
   const navigate = useNavigate();
 
-  const onSubmitHandler: OnSubmitType<RegisterType> = async (values, { setErrors }) => {
-    const { data, error } = await register({
-      payload: values,
-    });
-    if (error) {
-      alertDispatch({ type: AlertActionType.ERROR, payload: { message: "validation error" } });
-      return setErrors({ ...error?.message });
-    }
-    if (data) {
-      alertDispatch({
-        type: AlertActionType.SUCCESS,
-        payload: { message: data.message },
-      });
-      navigate("/#login", { state: values });
-    }
+  const onSubmitHandler: OnSubmitType<RegisterType> = (values) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { matchPassword, ...otherData } = values;
+    mutation.mutate(otherData);
   };
+
+  const formik = useFormik({
+    initialValues: INITIAL_FORM_VALUES,
+    validationSchema: validationSchema,
+    onSubmit: onSubmitHandler,
+  });
+
+  const mutation = useMutation(
+    (registerPayload: any) => axios.post("/auth/register", registerPayload),
+    {
+      onError: (error: any) => {
+        alertDispatch({ type: AlertActionType.ERROR, payload: { message: "validation error" } });
+        formik.setErrors(error?.response?.data?.messages);
+      },
+      onSuccess: () => {
+        alertDispatch({
+          type: AlertActionType.SUCCESS,
+          payload: { message: "User successfully registered" },
+        });
+        navigate("/#login", {
+          state: { username: formik.values.username, password: formik.values.password },
+        });
+      },
+    }
+  );
+
   return (
     <div className="register-form">
-      <Formik
-        initialValues={INITIAL_FORM_VALUES}
-        validationSchema={validationSchema}
-        onSubmit={onSubmitHandler}
-      >
-        {(props) => (
-          <Form>
-            <Field
-              name="username"
-              autoFocus={true}
-              error={props.touched.username && props.errors.username}
-              as={TextField}
-            />
-            <Field
-              name="password"
-              type="password"
-              error={props.touched.password && props.errors.password}
-              as={TextField}
-            />
-            <Field
-              name="matchPassword"
-              type="password"
-              error={props.touched.matchPassword && props.errors.matchPassword}
-              as={TextField}
-            />
-            <Field name="email" error={props.touched.email && props.errors.email} as={TextField} />
-            <Field name="name" error={props.touched.name && props.errors.name} as={TextField} />
-            <Field
-              name="surname"
-              error={props.touched.surname && props.errors.surname}
-              as={TextField}
-            />
-            <Button
-              // disabled={props.isSubmitting || !props.isValid}
-              variant="glow"
-              className="login-form__btn"
-              type="submit"
-            >
-              Register
-            </Button>
-          </Form>
-        )}
-      </Formik>
+      <FormikProvider value={formik}>
+        <Form>
+          <Field
+            name="username"
+            autoFocus={true}
+            error={formik.touched.username && formik.errors?.username}
+            as={TextField}
+          />
+          <Field
+            name="password"
+            type="password"
+            error={formik.touched.password && formik.errors?.password}
+            as={TextField}
+          />
+          <Field
+            name="matchPassword"
+            type="password"
+            error={formik.touched.matchPassword && formik.errors?.matchPassword}
+            as={TextField}
+          />
+          <Field name="email" error={formik.touched.email && formik.errors?.email} as={TextField} />
+          <Field name="name" error={formik.touched.name && formik.errors?.name} as={TextField} />
+          <Field
+            name="surname"
+            error={formik.touched.surname && formik.errors?.surname}
+            as={TextField}
+          />
+          <Button
+            // disabled={props.isSubmitting || !props.isValid}
+            variant="glow"
+            className="login-form__btn"
+            type="submit"
+          >
+            Register
+          </Button>
+        </Form>
+      </FormikProvider>
     </div>
   );
 };

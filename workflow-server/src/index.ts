@@ -9,7 +9,6 @@ import { databaseConnect } from "./config/mongoose.config.js";
 import { usePassportJWT } from "./config/passport-jwt.config.js";
 import { useSwagger } from "./config/swagger.config.js";
 import { controllers } from "./controllers/index.js";
-
 import { HttpErrorHandler } from "./middleware/httpError.middleware.js";
 import { currentUserChecker, authorizationChecker } from "./middleware/auth.middleware.js";
 
@@ -21,7 +20,7 @@ app.use(cookieParser());
 app.use(logger);
 
 const routingControllersOptions = {
-  cors: true,
+  cors: { credentials: true, origin: 'http://localhost:5173', },
   routePrefix: env.app.routePrefix,
   classTransformer: false,
   defaultErrorHandler: false,

@@ -5,7 +5,7 @@ import axios, { Method, AxiosResponse } from "axios";
 export interface callAPIParams extends serviceParams {
   url: string;
   method: Method;
-  token?: boolean;
+  token?: boolean | string;
   payload?: any;
   query?: object;
 }
@@ -48,7 +48,7 @@ async function callAPI<T>({
   cancelToken,
 }: callAPIParams) {
   let headers = {};
-  if (token) headers = { Authorization: localStorage.getItem("token") };
+  if (token) headers = { Authorization: token };
   !!setLoading && setLoading(true);
 
   const queryString = parseQueryString(query);

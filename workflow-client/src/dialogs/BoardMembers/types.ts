@@ -9,6 +9,6 @@ export interface SearchedUser extends UserShortI {
 }
 
 export interface Member {
-  user: UserShortI;
-  role: UserBoardRoles;
+  user: User;
+  role: string;
 }

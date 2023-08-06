@@ -7,7 +7,6 @@ import "./ErrorPage.scss";
 
 const ErrorPage: React.FC = () => {
   const error = useRouteError();
-  console.log(error);
   return (
     <div className="error-page__wrapper">
       <div className="error-page">

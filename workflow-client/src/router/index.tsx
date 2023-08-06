@@ -1,11 +1,10 @@
-import App, { loader as appLoader } from "@/App";
+import App from "@/App";
 import BoardPage from "@/views/BoardPage";
-import { boardLoader } from "@/views/BoardPage/BoardPage";
 import DashboardPage from "@/views/DashboardPage";
-import { loader as dashboardLoader } from "@/views/DashboardPage/dataLoader";
 import ErrorPage from "@/views/ErrorPage";
 import Register from "@/views/Register";
 import WelcomePage from "@/views/WelcomePage";
+import BoardSettings from "@/views/BoardSettings";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -13,8 +12,6 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-    loader: appLoader,
-    action: () => 1,
     children: [
       {
         index: true,
@@ -26,13 +23,15 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        loader: dashboardLoader,
         element: <DashboardPage />,
       },
       {
         path: "board/:id",
-        loader: boardLoader,
         element: <BoardPage />,
+      },
+      {
+        path: "board/:id/settings",
+        element: <BoardSettings />,
       },
     ],
   },

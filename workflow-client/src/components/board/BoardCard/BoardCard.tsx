@@ -10,18 +10,15 @@ import { useNavigate } from "react-router-dom";
 import "./BoardCard-dark.scss";
 import "./BoardCard.scss";
 
-import BoardOptions from "./BoardOptions/BoardOptions";
 
 const BoardCard: React.FC<BoardcardProps> = ({
   boardName,
   boardId,
   pinBoard,
-  removeBoard,
   isPinned = false,
   isAuthor = false,
 }) => {
   const navigate = useNavigate();
-  // const history = useHistory();
 
   const togglePinBoard = (e: MouseEvent) => {
     e.stopPropagation();
@@ -30,11 +27,10 @@ const BoardCard: React.FC<BoardcardProps> = ({
 
   const goToBoard = () => {
     navigate(`/board/${boardId}`);
-    // history.push(`/board/${boardId}`);
   };
 
   return (
-    <div data-testid={boardId} aria-label="Board card" className="board-card">
+    <div onClick={goToBoard} aria-label="Board card" className="board-card">
       <div role="presentation" className="board-card__columns">
         <div className="board-card__columns__column"></div>
         <div className="board-card__columns__column"></div>
@@ -42,7 +38,7 @@ const BoardCard: React.FC<BoardcardProps> = ({
         <div className="board-card__columns__column"></div>
       </div>
       <div className="board-card__content">
-        <h1 onClick={goToBoard} className="board-card__content__title">
+        <h1 className="board-card__content__title">
           {boardName}
         </h1>
         <div className="board-card__content__menu">
@@ -58,7 +54,6 @@ const BoardCard: React.FC<BoardcardProps> = ({
               <Pin data-testid={`${boardId}-pin`} />
             )}
           </span>
-          <BoardOptions boardId={boardId} removeBoardCallback={removeBoard} isAuthor={isAuthor} />
         </div>
       </div>
     </div>

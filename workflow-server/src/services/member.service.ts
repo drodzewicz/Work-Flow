@@ -4,6 +4,7 @@ import { MemberRepository } from "../repositories/index.js";
 import { MemberDTO } from "../types/dto/index.js";
 import { MemberMapper } from "../mappers/index.js";
 import { RoleNames } from "../config/permissions.config.js";
+import { Pagination } from "src/types/utils.type.js";
 
 @Service()
 export class MemberService {
@@ -16,6 +17,29 @@ export class MemberService {
   async getBoardMembers(boardId: string): Promise<MemberDTO[]> {
     const members = await this.memberRepository.getBoardMembers(boardId);
     return members.map(MemberMapper);
+  }
+
+  async getBoardMembersPaginated(
+    boardId: string,
+    options: Pagination,
+  ): Promise<{ totalCount: number; members: MemberDTO[] }> {
+    const { data, totalCount } = await this.memberRepository.getBoardMembersPaginated(boardId, options);
+    return {
+      totalCount,
+      members: data.map(MemberMapper),
+    };
+  }
+
+  async getBoardMemberByUsername(
+    boardId: string,
+    username: string,
+    options: Pagination,
+  ): Promise<{ totalCount: number; members: MemberDTO[] }> {
+    const { data, totalCount } = await this.memberRepository.getBoardMembersByUsername(boardId, username, options);
+    return {
+      totalCount,
+      members: data.map(MemberMapper),
+    };
   }
 
   async getBoardMember(boardId: string, userId: string): Promise<MemberDTO> {

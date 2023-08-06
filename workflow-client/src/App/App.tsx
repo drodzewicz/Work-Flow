@@ -1,41 +1,44 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
-import { Outlet, useLoaderData } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { Outlet } from "react-router-dom";
 
 import { AlertContext } from "@/context/AlertContext";
-import { UserActionType, UserContext } from "@/context/UserContext";
 
 import "@/config/api.conf";
 
 import WarningNotification from "@/components/general/Alert";
 
 import Footer from "@/components/layout/Footer";
-import DefaultNav from "@/components/layout/Navbar/DefaultNav";
-import UserNav from "@/components/layout/Navbar/UserNav";
+import Navbar from "@/components/layout/Navbar";
 
 import "./App.scss";
 
 const App: React.FC = () => {
   const { alertState } = useContext(AlertContext);
-  const { userState, userDispatch } = useContext(UserContext);
-  const data = useLoaderData() as { user: unknown; authorized: boolean };
 
-  useEffect(() => {
-    console.log("dwd",data)
-    userDispatch({ type: UserActionType.LOGIN_SUCCESS, payload: { user: data.user } });
-  }, [data]);
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        retry: false,
+      },
+    },
+  });
 
   return (
-    <div className="App scrollbar">
-      <WarningNotification
-        show={alertState.show}
-        message={alertState.message}
-        type={alertState.type}
-      />
-      {userState.user ? <UserNav /> : <DefaultNav />}
-      <Outlet />
-      <Footer />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="App scrollbar">
+        <WarningNotification
+          show={alertState.show}
+          message={alertState.message}
+          type={alertState.type}
+        />
+        <Navbar />
+        <Outlet />
+        <Footer />
+      </div>
+    </QueryClientProvider>
   );
 };
 

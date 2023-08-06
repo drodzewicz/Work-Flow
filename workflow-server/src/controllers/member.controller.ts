@@ -9,6 +9,7 @@ import {
   UseBefore,
   HttpError,
   Authorized,
+  QueryParams,
 } from "routing-controllers";
 import { Container } from "typedi";
 import { MemberService, BoardService, UserService, PermissionService } from "../services/index.js";
@@ -17,6 +18,8 @@ import { UpdateMemberRolePayload } from "../types/request/member.type.js";
 import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
 import { memberRolePayloadValidator } from "../validators/member.validator.js";
 import { Permissions } from "../config/permissions.config.js";
+import { UserListQueryParams } from "../types/queryParams/user.type.js";
+import { getPaginationSettings } from "../utils/pagination.utils.js";
 
 @Controller("/boards/:boardId/members")
 @UseBefore(JWTMiddleware)
@@ -35,9 +38,14 @@ export class MemberController {
 
   @Get("/")
   @Authorized()
-  async getBoardMembers(@Param("boardId") boardId: string) {
-    await this.boardService.getBoard(boardId);
-    return this.memberService.getBoardMembers(boardId);
+  async getBoardMembers(@Param("boardId") boardId: string, @QueryParams() query: UserListQueryParams) {
+    const options = getPaginationSettings(query);
+
+    if (query.username) {
+      return this.memberService.getBoardMemberByUsername(boardId, query.username, options);
+    } else {
+      return this.memberService.getBoardMembersPaginated(boardId, options);
+    }
   }
 
   @Get("/:userId")

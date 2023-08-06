@@ -3,6 +3,7 @@ import { User, Board } from "../models/index.js";
 import { UserModel, BoardDocument, IBoard, BoardFields, UserFields, BoardMember } from "../types/database/index.js";
 import { GenericRepository } from "./generic.repository.js";
 import { RoleNames } from "../config/permissions.config.js";
+import { PaginatedResult, Pagination } from "../types/utils.type.js";
 
 @Service()
 export class MemberRepository extends GenericRepository<IBoard, BoardDocument, BoardFields> {
@@ -24,6 +25,40 @@ export class MemberRepository extends GenericRepository<IBoard, BoardDocument, B
       .findById(boardId, "_id members")
       .populate({ path: "members", populate: { path: "user", select: this.userFields.join(" ") } });
     return members;
+  }
+
+  async getBoardMembersPaginated(boardId: string, settings: Pagination): Promise<PaginatedResult<BoardMember>> {
+    this.validateId(boardId);
+
+    const { members } = await this.model.findById(boardId, { members: 1 });
+
+    const { members: paginatedMembers } = await this.model
+      .findById(boardId, { _id: 1, members: { $slice: [(settings.page - 1) * settings.limit, settings.limit * 1] } })
+      .populate({
+        path: "members",
+        populate: { path: "user", select: this.userFields.join(" ") },
+      });
+    return { data: paginatedMembers, totalCount: members.length };
+  }
+
+  async getBoardMembersByUsername(
+    boardId: string,
+    username: string,
+    settings: Pagination,
+  ): Promise<PaginatedResult<BoardMember>> {
+    this.validateId(boardId);
+
+    const totalCount = await this.model.count({});
+    // const query = { username: { $regex: username, $options: "i" } };
+    // const query = { _id: boardId, members: { user: { username: { $regex: username, $options: "i" } } } };
+
+    const { members } = await this.model
+      .findById(boardId, { _id: 1, members: { $slice: [(settings.page - 1) * settings.limit, settings.limit * 1] } })
+      .populate({
+        path: "members",
+        populate: { path: "user", select: this.userFields.join(" ") },
+      });
+    return { data: members, totalCount };
   }
 
   async getBoardMember(boardId: string, userId: string): Promise<BoardMember> {

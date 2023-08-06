@@ -4,10 +4,14 @@ import { UserBoardRoles } from "@/types/general";
 
 import { ColumnProps } from "./types";
 
+import useAuthClient from "@/hooks/useClient";
 import { updateBoardColumn } from "@/service";
 import { deleteColumn } from "@/service";
+import { AxiosResponse } from "axios";
 import { Droppable } from "react-beautiful-dnd";
 import { FaRegPlusSquare, FaEllipsisV, FaTrashAlt, FaEdit } from "react-icons/fa";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 
 import { ModalContext, ModalActionType } from "@/context/ModalContext";
 import { TaskContext, TasksActionType } from "@/context/TaskContext";
@@ -40,6 +44,16 @@ const Column: React.FC<ColumnProps> = ({
   const [showTitleInput, setShowTitleInput] = useState<boolean>(false);
 
   const anchorElement = useRef(null);
+
+  const client = useAuthClient();
+  const params = useParams<{ id: string }>();
+  const { data: tasks = [] } = useQuery<AxiosResponse<Column & { tasks: Task[] }>, unknown, Task[]>(
+    ["board", params.id, "column", columnId],
+    () => client.get("/tasks", { params: { boardId: params.id, columnId } }),
+    {
+      select: (response) => response.data?.tasks,
+    }
+  );
 
   const openBoardTagsModal = () => {
     modalDispatch({
@@ -101,7 +115,7 @@ const Column: React.FC<ColumnProps> = ({
             className={`task-column ${snapshot.isDraggingOver ? "task-column--active" : ""}`}
           >
             <header className="task-column__header">
-              <span className="task-column__header__task-count">{listOfTasks.length}</span>
+              <span className="task-column__header__task-count">{tasks.length}</span>
               <ColumnNameInput
                 hideInput={dissableColumnNameEditInput}
                 initialVal={columnName}
@@ -133,17 +147,16 @@ const Column: React.FC<ColumnProps> = ({
               )}
             </header>
             <div className="task-column__container scrollbar">
-              {listOfTasks &&
-                listOfTasks.map(({ _id, title, tags, people }, index) => (
-                  <Task
-                    key={_id}
-                    taskId={_id}
-                    title={title}
-                    tags={tags}
-                    people={people}
-                    indexes={{ taskIndex: index, columnIndex }}
-                  />
-                ))}
+              {tasks?.map(({ _id, title, tags, assignees }, index) => (
+                <Task
+                  key={_id}
+                  taskId={_id}
+                  title={title}
+                  tags={[]}
+                  people={assignees}
+                  indexes={{ taskIndex: index, columnIndex }}
+                />
+              ))}
               {provided.placeholder}
             </div>
           </div>

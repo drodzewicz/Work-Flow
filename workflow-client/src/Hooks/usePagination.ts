@@ -1,20 +1,22 @@
-import { useState } from "react";
+import { useDebugValue, useState } from "react";
 
 interface IusePagination {
   initialPage: number;
   limit: number;
-  initialTotal?: number;
 }
 
-const usePagination = <T>({
-  initialPage,
-  limit,
-  initialTotal = 1,
-}: IusePagination) => {
+const usePagination = ({ initialPage, limit }: IusePagination) => {
   const [currentPage, setCurrentPage] = useState<number>(initialPage);
-  const [totalPages, setTotalPages] = useState<number>(initialTotal);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
-  return { currentPage, totalPages, limit, setCurrentPage, setTotalPages};
+  useDebugValue(currentPage, (page) => page);
+  useDebugValue(totalPages, (total) => total);
+
+  const setTotalItems = (count: number) => {
+    setTotalPages(Math.ceil(count / limit));
+  };
+
+  return { currentPage, totalPages, limit, setCurrentPage, setTotalItems };
 };
 
 export { usePagination };

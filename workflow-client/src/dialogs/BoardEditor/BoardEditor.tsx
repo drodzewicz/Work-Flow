@@ -4,7 +4,8 @@ import { OnSubmitType } from "@/types/general/utils";
 
 import { BoardEditorType } from "./types";
 
-import { Field, Form, Formik } from "formik";
+import useAuthClient from "@/hooks/useClient";
+import { Field, Form, Formik, useFormik, FormikProvider } from "formik";
 
 import Button from "@/components/general/Button";
 import { TextField, TextAreaField } from "@/components/general/TextInput";
@@ -22,38 +23,36 @@ const BoardEditorForm: React.FC<{
     description: initialValues?.description || "",
   };
 
+  const formik = useFormik({ initialValues: INITIAL_FORM_VALUES, validationSchema, onSubmit });
+
+  const client = useAuthClient();
+
   return (
-    <Formik
-      initialValues={INITIAL_FORM_VALUES}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {(props) => (
-        <Form className="board-editor">
-          <Field
-            autoFocus={true}
-            name="name"
-            className="board-editor__field__name"
-            error={props.touched.name && props.errors.name}
-            as={TextField}
-          />
-          <Field
-            name="description"
-            className="board-editor__field__description"
-            error={props.touched.description && props.errors.description}
-            as={TextAreaField}
-          />
-          <Button
-            // disabled={props.isSubmitting || !props.isValid}
-            variant="glow"
-            className="login-form__btn"
-            type="submit"
-          >
-            Log In
-          </Button>
-        </Form>
-      )}
-    </Formik>
+    <FormikProvider value={formik}>
+      <Form className="board-editor">
+        <Field
+          autoFocus={true}
+          name="name"
+          className="board-editor__field__name"
+          error={formik.touched.name && formik.errors.name}
+          as={TextField}
+        />
+        <Field
+          name="description"
+          className="board-editor__field__description"
+          error={formik.touched.description && formik.errors.description}
+          as={TextAreaField}
+        />
+        <Button
+          // disabled={props.isSubmitting || !props.isValid}
+          variant="glow"
+          className="login-form__btn"
+          type="submit"
+        >
+          Create
+        </Button>
+      </Form>
+    </FormikProvider>
   );
 };
 

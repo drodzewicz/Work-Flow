@@ -1,6 +1,9 @@
 import React, { useRef, useContext, useState } from "react";
 
 import { UserBoardRoles } from "@/types/general";
+
+import { BoardMembersUserProps } from "./types";
+
 import { FaShieldAlt, FaUserAlt, FaRegAddressCard, FaCrown } from "react-icons/fa";
 
 import { UserContext } from "@/context/UserContext";
@@ -10,16 +13,8 @@ import { useClickOutside } from "@/hooks/useClickOutside";
 import User from "@/components/board/User";
 
 import "./BoardMemberUser.scss";
-import UserInfo from "./UserInfo";
-import { BoardMembersUserProps } from "./types";
 
-const BoardMemberUser: React.FC<BoardMembersUserProps> = ({ member, ...actions }) => {
-  const userInfoCardRef = useRef<HTMLDivElement | null>(null);
-  const {
-    userState: { currentBoard },
-  } = useContext(UserContext);
-  const [showUserInfo, setShowUserInfo] = useState<boolean>(false);
-
+const BoardMemberUser: React.FC<BoardMembersUserProps> = ({ member }) => {
   const userTypeIcon = (type: string) => {
     switch (type) {
       case UserBoardRoles.OWNER:
@@ -35,26 +30,13 @@ const BoardMemberUser: React.FC<BoardMembersUserProps> = ({ member, ...actions }
     }
   };
 
-  const showUserInfoCard = () => setShowUserInfo(true);
-  const hideShowUserInfoCard = () => setShowUserInfo(false);
-  useClickOutside([userInfoCardRef], hideShowUserInfoCard);
-
   return (
     <User
       className="board-user"
       username={member.user.username}
       imageSrc={member.user.avatarImageURL}
-      onClick={showUserInfoCard}
     >
       {userTypeIcon(member.role)}
-      {showUserInfo && (
-        <UserInfo
-          {...actions}
-          ref={userInfoCardRef}
-          currentRole={currentBoard.role!}
-          userId={member.user._id}
-        />
-      )}
     </User>
   );
 };
