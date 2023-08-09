@@ -5,6 +5,7 @@ import { MemberDTO } from "../types/dto/index.js";
 import { MemberMapper } from "../mappers/index.js";
 import { RoleNames } from "../config/permissions.config.js";
 import { Pagination } from "src/types/utils.type.js";
+import { UserDocument } from "src/types/database/user.type.js";
 
 @Service()
 export class MemberService {
@@ -35,10 +36,19 @@ export class MemberService {
     username: string,
     options: Pagination,
   ): Promise<{ totalCount: number; members: MemberDTO[] }> {
-    const { data, totalCount } = await this.memberRepository.getBoardMembersByUsername(boardId, username, options);
+    const members = await this.memberRepository.getBoardMembers(boardId);
+
+    const searchTerm = username?.toUpperCase();
+    let matchingUsername = members.filter(({ user }) =>
+      (user as UserDocument).username.toUpperCase().includes(searchTerm),
+    );
+    // Paginate
+    const { page, limit } = options;
+    matchingUsername = matchingUsername.slice((page - 1) * limit, page * limit);
+
     return {
-      totalCount,
-      members: data.map(MemberMapper),
+      totalCount: matchingUsername.length,
+      members: matchingUsername.map(MemberMapper),
     };
   }
 

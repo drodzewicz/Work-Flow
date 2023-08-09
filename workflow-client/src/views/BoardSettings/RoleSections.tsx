@@ -12,12 +12,6 @@ const RoleSections = () => {
   const params = useParams<{ id: string }>();
   const { data: allPermissions = [] } = useGetAvailablePermissions();
   const { data: roles = {} } = useGetBoardRoles({ boardId: params.id ?? "" });
-  const [showNewRoleInput, setShowNewRoleInput] = useState<boolean>(false);
-
-  const saveNewRole = () => {
-    setShowNewRoleInput(false);
-    console.log("saving role");
-  };
 
   return (
     <section>
@@ -29,7 +23,7 @@ const RoleSections = () => {
         recusandae, dolor eveniet. Similique tempore qui corporis sed, sequi eos!
       </small>
       {Object.entries(roles).map(([role, { permissions }]) => (
-        <div>
+        <div key={role}>
           <strong>{role}: </strong>
           <Select
             className="flex-grow"
@@ -43,18 +37,6 @@ const RoleSections = () => {
           />
         </div>
       ))}
-      {showNewRoleInput ? (
-        <div className="flex flex-row my-4 justify-center">
-          <input />
-          <Select
-            isMulti
-            options={allPermissions.map((permission) => ({ value: permission, label: permission }))}
-          />
-          <Button onClick={saveNewRole}>Save</Button>
-        </div>
-      ) : (
-        <Button onClick={() => setShowNewRoleInput(true)}>Create New Role</Button>
-      )}
     </section>
   );
 };

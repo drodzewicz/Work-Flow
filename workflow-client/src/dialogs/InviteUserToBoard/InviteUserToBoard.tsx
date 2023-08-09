@@ -16,20 +16,27 @@ const InviteUserToBoard: React.FC = () => {
   const { id: boardId = "" } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
   const client = useAuthClient();
+
   const { mutateAsync: addUserToBoard } = useAddUserToBoard();
   const [selectedUsers, setSelectedUsers] = useState<{ label: string; value: string }[]>([]);
 
   const loadOptions = useCallback(
     debounce((searchTerm: string, callback: (data: any) => void) => {
-      client
-        .get("/users", { params: { limit: 5, page: 1, username: searchTerm } })
-        .then((options: any) => {
-          const users = options.data?.users?.map((user: any) => ({
-            value: user?._id,
-            label: user?.username,
-          }));
-          return callback(users);
-        });
+      Promise.all([
+        client.get("/users", { params: { limit: 5, page: 1, username: searchTerm } }),
+        client.get(`/boards/${boardId}/members`, {
+          params: { limit: 5, page: 1, username: searchTerm },
+        }),
+      ]).then(([options1, options2]) => {
+        const users = options1.data?.users?.map((user: any) => ({
+          value: user?._id,
+          label: user?.username,
+          disabled: !!options2.data?.members?.find(
+            (member: any) => member?.user?._id === user?._id
+          ),
+        }));
+        return callback(users);
+      });
     }, 1000),
     []
   );
@@ -43,8 +50,8 @@ const InviteUserToBoard: React.FC = () => {
   };
 
   const selectOptions = (
-    data: MultiValue<{ label: string; value: string }>,
-    actions: ActionMeta<{ label: string; value: string }>
+    data: MultiValue<{ label: string; value: string; disabled: boolean }>,
+    actions: ActionMeta<{ label: string; value: string; disabled: boolean }>
   ) => {
     if (actions.action === "select-option") {
       const values = data.map(({ label, value }) => ({ label, value }));
@@ -54,7 +61,12 @@ const InviteUserToBoard: React.FC = () => {
 
   return (
     <div>
-      <AsyncSelect onChange={selectOptions} isMulti loadOptions={loadOptions} />
+      <AsyncSelect
+        onChange={selectOptions}
+        isOptionDisabled={(option) => option.disabled}
+        isMulti
+        loadOptions={loadOptions}
+      />
       <Button onClick={addSelectedUsersToBoard} variant="glow">
         Add to the board
       </Button>

@@ -14,7 +14,7 @@ export class PermissionController {
     this.memberService = Container.get(MemberService);
   }
 
-  @Get("/boards/:boardId/permissions")
+  @Get("/permissions")
   getBoardPermissions() {
     return this.permissionService.getBoardPermissions();
   }

@@ -52,13 +52,14 @@ export class MemberRepository extends GenericRepository<IBoard, BoardDocument, B
     // const query = { username: { $regex: username, $options: "i" } };
     // const query = { _id: boardId, members: { user: { username: { $regex: username, $options: "i" } } } };
 
-    const { members } = await this.model
-      .findById(boardId, { _id: 1, members: { $slice: [(settings.page - 1) * settings.limit, settings.limit * 1] } })
+    const data = await this.model
+      .find({ _id: boardId, members: { $elemMatch: { user: { username: "admin" } } } }, "_id members")
       .populate({
         path: "members",
         populate: { path: "user", select: this.userFields.join(" ") },
       });
-    return { data: members, totalCount };
+    console.log(data);
+    return { data: [], totalCount };
   }
 
   async getBoardMember(boardId: string, userId: string): Promise<BoardMember> {

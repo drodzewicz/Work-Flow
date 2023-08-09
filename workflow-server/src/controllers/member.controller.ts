@@ -18,7 +18,7 @@ import { UpdateMemberRolePayload } from "../types/request/member.type.js";
 import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
 import { memberRolePayloadValidator } from "../validators/member.validator.js";
 import { Permissions } from "../config/permissions.config.js";
-import { UserListQueryParams } from "../types/queryParams/user.type.js";
+import { BoardMembersListQueryParams } from "../types/queryParams/user.type.js";
 import { getPaginationSettings } from "../utils/pagination.utils.js";
 
 @Controller("/boards/:boardId/members")
@@ -38,7 +38,7 @@ export class MemberController {
 
   @Get("/")
   @Authorized()
-  async getBoardMembers(@Param("boardId") boardId: string, @QueryParams() query: UserListQueryParams) {
+  async getBoardMembers(@Param("boardId") boardId: string, @QueryParams() query: BoardMembersListQueryParams) {
     const options = getPaginationSettings(query);
 
     if (query.username) {
