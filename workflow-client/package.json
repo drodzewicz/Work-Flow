@@ -13,6 +13,7 @@
     "axios": "^1.4.0",
     "formik": "^2.2.9",
     "http-status-codes": "^2.2.0",
+    "lodash": "^4.17.21",
     "query-string": "^8.1.0",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
@@ -20,6 +21,7 @@
     "react-icons": "^4.8.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.11.0",
+    "react-select": "^5.7.4",
     "sass": "^1.62.1",
     "socket.io-client": "^4.6.1",
     "vite-plugin-svgr": "^2.4.0",
@@ -28,6 +30,7 @@
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "@types/lodash": "^4.14.196",
     "@types/node": "^18.16.3",
     "@types/react": "^18.0.28",
     "@types/react-beautiful-dnd": "^13.1.4",

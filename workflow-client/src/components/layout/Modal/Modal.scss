@@ -23,7 +23,7 @@
   border-radius: 10px;
   top: 5%;
   transition: all 0.3s ease-out;
-  overflow: hidden;
+  // overflow: hidden;
   display: flex;
   flex-direction: column;
   min-width: 500px;
@@ -84,7 +84,7 @@
   &__content {
     padding: 1rem 2rem 2rem;
     position: relative;
-    overflow: auto;
+    // overflow: auto;
     height: 100%;
     @include mobile {
       padding: 1rem;

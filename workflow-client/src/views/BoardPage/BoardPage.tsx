@@ -5,6 +5,7 @@ import { BoardPageProps } from "./types";
 import { DragDropContext } from "react-beautiful-dnd";
 import { FaUsers, FaTags, FaCog } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import useModal from "@/hooks/useModal";
 
@@ -47,7 +48,7 @@ const BoardPage: React.FC<BoardPageProps> = () => {
             // onClick={openBoardTagsModal}
             >
               <FaCog />
-              <span>Settings</span>
+              <Link to={`/board/${params.id}/settings`}>Settings</Link>
             </Button>
           </div>
           <hr className="break-line" style={{ width: "100%" }} />
