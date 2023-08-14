@@ -5,7 +5,12 @@ import { useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
-type SearchBoardMembersProps = { limit?: number; page?: number; boardId: string };
+type SearchBoardMembersProps = {
+  limit?: number;
+  page?: number;
+  boardId: string;
+  onSuccess?: (data: UserListPaginated) => void;
+};
 
 type UserListPaginated = { totalCount: number; members: { role: string; user: User }[] };
 
@@ -26,6 +31,7 @@ const useSearchBoardMembers = (props?: SearchBoardMembersProps) => {
     {
       select: (response) => response.data,
       staleTime: Infinity,
+      onSuccess: props?.onSuccess,
     }
   );
 

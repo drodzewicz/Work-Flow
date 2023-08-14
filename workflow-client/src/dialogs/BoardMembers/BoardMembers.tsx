@@ -1,20 +1,18 @@
 import React from "react";
 
-import { UserBoardRoles, UserShortI } from "@/types/general";
-
 import { BoardMembersProps } from "./types";
 
+import { debounce } from "lodash";
 import { Link } from "react-router-dom";
 
 import { usePagination } from "@/hooks/usePagination";
 
-import useGetBoardMembers from "@/service/useGetBoardMembers";
-import useGetUserBoardPermissions from "@/service/useGetUserBoardPermissions";
+import useSearchBoardMembers from "@/service/useSearchBoardMembers";
 
-import Button from "@/components/general/Button/Button";
 import Pagination from "@/components/general/Pagination";
-import SearchInput from "@/components/general/SearchInput";
+import { TextField } from "@/components/general/TextInput";
 
+import User from "@/components/board/User";
 import UserLoading from "@/components/board/User/UserLoading";
 
 import "./BoardMembers.scss";
@@ -27,50 +25,27 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
     limit: 8,
   });
 
-  const { data, isLoading } = useGetBoardMembers({
+  const { data, search, isLoading } = useSearchBoardMembers({
     boardId,
-    page: currentPage,
     limit,
+    page: currentPage,
     onSuccess: (data) => {
       setTotalItems(data.totalCount);
     },
   });
 
-  const { data: permissions } = useGetUserBoardPermissions({ boardId });
-
-  const dynamicSearchHandler = async (username: string) => {
-    //
-  };
-  const removeUserFromBoarHandler = async (memberId: string) => {
-    //
-  };
-  const addUserToBoardHandler = async (user: UserShortI) => {
-    //
-  };
-  const clearSearchResults = () => {
-    //
-  };
-  const changeUserRole = async (userId: string, newRole: UserBoardRoles) => {
-    //
-  };
+  const searchDebounce = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+    search(e.target.value);
+  }, 1000);
 
   return (
     <div className="board-members">
       <Link to={`/board/${boardId}/settings`}>Manage members</Link>
-      <SearchInput
-        search={dynamicSearchHandler}
-        debounceTimeout={500}
-        result={[]}
-        clickResult={addUserToBoardHandler}
-        clear={clearSearchResults}
-      />
+      <TextField onChange={searchDebounce} />
       {data?.members.map((member) => (
-        <BoardMemberUser
-          key={member.user._id}
-          member={member}
-          removeUser={removeUserFromBoarHandler}
-          changeUserRole={changeUserRole}
-        />
+        <User key={member.user.username} username={member.user.username}>
+          {member.role}
+        </User>
       ))}
       {isLoading && [...Array(limit)].map((_, index) => <UserLoading key={index} />)}
 

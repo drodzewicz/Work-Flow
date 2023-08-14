@@ -1,5 +1,5 @@
-@import "../../../assets/styles/colors";
-@import "../../../assets/styles/mediaQueries";
+@import "../../../../assets/styles/colors";
+@import "../../../../assets/styles/mediaQueries";
 .task-column {
   display: flex;
   flex-direction: column;
@@ -68,6 +68,7 @@
 
   &__container {
     width: 16.5rem;
+    min-height: 0.5rem;
     max-height: 500px;
     overflow-y: scroll;
   }

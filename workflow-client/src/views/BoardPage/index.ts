@@ -1,1 +1,1 @@
-export { default } from "./BoardPageWrapper";
+export { default } from "./BoardPage";

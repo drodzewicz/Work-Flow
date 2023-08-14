@@ -1,0 +1,129 @@
+@import "../../assets/styles/colors";
+
+@keyframes task-skeleton-loading {
+  0% {
+    background-color: $white-1;
+  }
+  100% {
+    background-color: lighten($blue-primary-overlay, 3%);
+  }
+}
+
+.task-card--loading {
+  background-color: $white-1;
+  animation: task-skeleton-loading 1s linear infinite alternate;
+
+  width: 15rem;
+  border-radius: 5px;
+  margin: 0 0 8px 0;
+  box-sizing: border-box;
+  padding: 0.5rem 0.6rem;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.292);
+  user-select: none;
+
+  &__title {
+    margin: 0;
+    font-size: 0.9rem;
+    color: $text-primary;
+    margin-bottom: 0.2rem;
+    &::after {
+      content: "";
+      height: 1rem;
+      width: 6rem;
+      display: block;
+      background-color: $blue-primary-overlay;
+      border-radius: 3rem;
+    }
+  }
+
+  &__avatar {
+    $avatar-size: 1rem;
+    height: $avatar-size;
+    width: $avatar-size;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: $blue-primary-overlay;
+  }
+
+  &__bottom {
+    display: flex;
+    flex-direction: row;
+    cursor: default;
+    justify-content: flex-end;
+
+    &__users {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+@keyframes column-skeleton-loading {
+  0% {
+    background-color: darken($blue-primary-overlay, 3%);
+  }
+  100% {
+    background-color: darken($blue-primary-overlay, 11%);
+  }
+}
+
+.task-column--loading {
+  display: flex;
+  flex-direction: column;
+  background-color: $blue-primary-overlay;
+  border-radius: 10px;
+  padding: 0.2rem 0.5rem;
+  font-family: "Secular One", sans-serif;
+  border: 2px solid transparent;
+  box-shadow: 0 0 3px transparent;
+  transition: all 0.2s ease-in-out;
+  height: 100%;
+  outline: $blue-accent;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0.2rem 0;
+    margin-bottom: 0.4rem;
+    position: relative;
+
+    &__task-count {
+      color: darken($blue-primary-overlay, 50%);
+      background: darken($blue-primary-overlay, 11%);
+      animation: column-skeleton-loading 1s linear infinite alternate;
+
+      border-radius: 3px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      min-width: 1rem;
+      height: 1rem;
+      font-size: 0.8rem;
+      margin-right: 0.2rem;
+    }
+
+    &__name {
+      flex-grow: 1;
+      &::after {
+        content: "";
+        display: block;
+        width: 5rem;
+        height: 1rem;
+        background-color: darken($blue-primary-overlay, 11%);
+        animation: column-skeleton-loading 1s linear infinite alternate;
+
+        border-radius: 3rem;
+      }
+    }
+  }
+  &__container {
+    width: 16.5rem;
+    max-height: 500px;
+    overflow-y: scroll;
+  }
+}

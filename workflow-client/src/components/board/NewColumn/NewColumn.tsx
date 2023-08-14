@@ -29,14 +29,16 @@ const NewColumn: React.FC<NewColumnProps> = ({ boardId }) => {
     }
   };
   return (
-    <div className="add-new-column">
-      <input
-        onKeyDown={createNewColumn}
-        value={columnName}
-        onChange={handleNewColumnChange}
-        type="text"
-        placeholder="+ new column"
-      />
+    <div>
+      <div className="add-new-column">
+        <input
+          onKeyDown={createNewColumn}
+          value={columnName}
+          onChange={handleNewColumnChange}
+          type="text"
+          placeholder="+ new column"
+        />
+      </div>
     </div>
   );
 };

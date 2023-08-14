@@ -34,11 +34,14 @@ const MembersSection = () => {
     open: openInviteUserDialog,
   } = useModal();
 
-  const { limit, currentPage } = usePagination({ initialPage: 1, limit: 10 });
+  const { limit, currentPage, setTotalItems } = usePagination({ initialPage: 1, limit: 10 });
   const { data: membersData, search } = useSearchBoardMembers({
     boardId,
     limit,
     page: currentPage,
+    onSuccess: (data) => {
+      setTotalItems(data.totalCount);
+    },
   });
   const { data: roles = {} } = useGetBoardRoles({ boardId });
   const { mutate: removeMember } = useRemoveUserFromBoard();

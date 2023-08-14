@@ -17,7 +17,7 @@ type Board = {
 type BoradMember = {
   role: string;
   user: User;
-}
+};
 
 type Column = {
   name: string;
@@ -38,3 +38,5 @@ type Task = {
   assignees: User[];
   tags: Tag[];
 };
+
+type ColumnWithTasks = Column & { tasks: Task[] };
