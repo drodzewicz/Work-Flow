@@ -1,126 +1,115 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 
-import { TagI, UserShortI } from "@/types/general";
+import { OnSubmitType } from "@/types/general/utils";
 
-import { TaskEditorFormProps, FormValues } from "./types";
+import { AxiosResponse } from "axios";
+import { Form, Field, useFormik, FormikProvider } from "formik";
 
-import { getBoardTags } from "@/service";
-import { FormikProps, Form, Field } from "formik";
-import { FaTags, FaUserFriends } from "react-icons/fa";
+import useAuthClient from "@/hooks/useClient";
 
 import Button from "@/components/general/Button/Button";
 import { TextField, TextAreaField } from "@/components/general/TextInput";
+import UserSelect from "@/components/general/UserSelect/UserSelect";
 
-import TagManager from "@/dialogs/TaskEditor/TagManager";
-import UserManager from "@/dialogs/TaskEditor/UserManager";
+import User from "@/components/board/User/User";
 
 import "./TaskEditor.scss";
 
-const TaskEditorForm: React.FC<TaskEditorFormProps & FormikProps<FormValues>> = (props) => {
-  const {
-    values,
-    setValues,
-    handleSubmit,
-    errors,
-    isSubmitting,
-    isValid,
-    submitType,
-    status,
-    boardId,
-  } = props;
+import { validationSchema } from "./formSchema";
 
-  const [users, setUsers] = useState<UserShortI[]>([]);
+type TaskEditorProps = {
+  boardId: string;
+  columnId?: string;
+  onSubmit?: (data: any) => void;
+  initialValues?: {
+    title?: string;
+    description?: string;
+    assignees?: { label: string; value: string }[];
+    tags?: string[];
+  };
+};
 
-  const [availableTags, setAvailableTags] = useState<TagI[]>([]);
-  const [selectedTags, setSelectedTags] = useState<TagI[]>([]);
-
-  useEffect(() => {
-    const initTask = async () => {
-      const { data: tagsData } = await getBoardTags({ boardId });
-      if (tagsData) setAvailableTags(tagsData.tags);
-      if (submitType === "Update") {
-        setSelectedTags(values.tags);
-        setUsers(values.people);
-      }
-    };
-    initTask();
-  }, [boardId, submitType, values.tags, values.people]);
-
-  useEffect(() => {
-    if (status?.submitStatus === "SUCCESS") {
-      // modalDispatch({ type: ModalActionType.CLOSE });
-      // alertDispatch({ type: AlertActionType.SUCCESS, payload: { message: status.message } });
-    } else if (status?.submitStatus === "ERROR") {
-      // alertDispatch({ type: AlertActionType.ERROR, payload: { message: status.message } });
-    }
-  }, [status]);
-  const toggleSelectTag = (selectedTag: TagI) => {
-    return setSelectedTags((tags) => {
-      let tempTags = [...tags];
-      tempTags = tempTags.filter(({ _id }) => _id !== selectedTag._id);
-      if (tempTags.length === tags.length) {
-        tempTags.push(selectedTag);
-      }
-      return tempTags;
-    });
+const TaskEditorForm: React.FC<TaskEditorProps> = ({
+  boardId,
+  columnId,
+  initialValues,
+  onSubmit,
+}) => {
+  const INITIAL_FORM_VALUES = {
+    title: initialValues?.title || "",
+    description: initialValues?.title || "",
+    assignees: initialValues?.assignees || [],
   };
 
-  const filteredTags = () => {
-    return availableTags.map((tag) => {
-      const foundTag = selectedTags.find(({ _id }) => _id === tag._id);
-      return { ...tag, checked: !!foundTag };
-    });
+  const client = useAuthClient();
+
+  const onSubmitHandler: OnSubmitType<any> = async (values) => {
+    const { assignees, ...payload } = values;
+    payload.assignees = assignees?.map((it: any) => it.value);
+    payload.columnId = columnId;
+    onSubmit?.(payload);
   };
 
-  const submitHandler = () => {
-    setValues((vals) => ({
-      ...vals,
-      people: users,
-      tags: selectedTags,
+  const formik = useFormik({
+    initialValues: INITIAL_FORM_VALUES,
+    validationSchema: validationSchema,
+    onSubmit: onSubmitHandler,
+  });
+
+  const loadMembers = async (searchTerm: string) =>
+    client.get(`/boards/${boardId}/members`, {
+      params: { limit: 5, page: 1, username: searchTerm },
+    });
+
+  const transformData = (response: AxiosResponse) => {
+    return response.data?.members?.map((user: any) => ({
+      value: user?.user?._id,
+      label: user?.user?.username,
     }));
-    handleSubmit();
   };
 
   return (
-    <section className="task-editor">
-      <Form className="task-editor__inputs">
-        <Field
-          autoFocus={true}
-          className="task-editor__inputs__field"
-          name="title"
-          error={errors["title"]}
-          as={TextField}
-        />
-        <Field
-          className="task-editor__inputs__textArea"
-          name="description"
-          error={errors["description"]}
-          as={TextAreaField}
-        />
+    <FormikProvider value={formik}>
+      <Form>
+        <section className="task-editor">
+          <div>
+            <Field
+              name="title"
+              autoFocus={true}
+              error={formik.touched.title && formik.errors.title}
+              as={TextField}
+            />
+            <Field
+              name="description"
+              error={formik.touched.description && formik.errors.description}
+              as={TextAreaField}
+            />
+          </div>
+          <div>
+            <UserSelect
+              name="assignees"
+              loadData={loadMembers}
+              transformData={transformData}
+              renderContainer={(data, { removeItem }) =>
+                data?.map((user: any) => (
+                  <User key={user.label} username={user.label}>
+                    <Button onClick={() => removeItem(user.value)}>-</Button>
+                  </User>
+                ))
+              }
+            />
+          </div>
+          <Button
+            // disabled={props.isSubmitting || !props.isValid}
+            variant="glow"
+            className="login-form__btn"
+            type="submit"
+          >
+            Save
+          </Button>
+        </section>
       </Form>
-      <div className="task-editor__sidebar">
-        <p className="task-editor__sidebar__label">
-          <FaUserFriends />
-          <label>Users</label>
-        </p>
-        <UserManager boardId={boardId} setUsers={setUsers} users={users} />
-        <p className="task-editor__sidebar__label">
-          <FaTags />
-          <label>Tags</label>
-        </p>
-        <TagManager tags={filteredTags()} selectTagHandler={toggleSelectTag} />
-      </div>
-      <div className="task-editor__btn">
-        <Button
-          onClick={submitHandler}
-          disabled={isSubmitting || !isValid}
-          type="submit"
-          variant="glow"
-        >
-          {submitType}
-        </Button>
-      </div>
-    </section>
+    </FormikProvider>
   );
 };
 

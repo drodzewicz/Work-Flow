@@ -5,10 +5,11 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 import useBoardTask from "@/hooks/useBoardTasks";
 
+import useAddNewColumn from "@/service/useAddNewColumn";
 import useFetchTasks from "@/service/useFetchTasks";
 
 import ColumnContainer from "@/components/board/Column/ColumnContainer";
-import NewColumn from "@/components/board/NewColumn";
+import NewColumn from "@/components/board/NewColumn/NewColumn";
 
 type BoardColumnsProps = {
   boardId: string;
@@ -16,6 +17,7 @@ type BoardColumnsProps = {
 
 const BoardColumns: React.FC<BoardColumnsProps> = ({ boardId }) => {
   const { setData, setBoard, moveColumn, moveTask } = useBoardTask();
+
   const { isLoading } = useFetchTasks({
     boardId,
     onSuccess: (data) => {

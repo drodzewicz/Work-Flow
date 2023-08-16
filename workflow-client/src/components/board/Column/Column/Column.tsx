@@ -2,26 +2,21 @@ import React, { useRef } from "react";
 
 import { ColumnProps } from "./types";
 
-import * as Skeleton from "@/components/Skeleton";
-import { updateBoardColumn } from "@/service";
-import { Draggable, Droppable } from "react-beautiful-dnd";
-import { FaRegPlusSquare, FaEllipsisV, FaTrashAlt, FaEdit } from "react-icons/fa";
+import { FaRegPlusSquare, FaEllipsisV, FaTrashAlt } from "react-icons/fa";
 import { useQueryClient } from "react-query";
 
 import useBoardTask from "@/hooks/useBoardTasks";
 import useModal from "@/hooks/useModal";
 
+import useCreateTask from "@/service/useCreateTask";
 import useDeleteColumn from "@/service/useDeleteColumn";
-import useFetchTasks from "@/service/useFetchTasks";
 
 import DropdownMenu from "@/components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
 
 import Modal from "@/components/layout/Modal";
 
-import Task from "@/components/board/Task";
-
-import TaskCreate from "@/dialogs/TaskEditor/TaskCreate";
+import TaskEditor from "@/dialogs/TaskEditor/TaskEditor";
 
 import "./Column.scss";
 
@@ -43,6 +38,8 @@ const Column: React.FC<ColumnProps> = (props) => {
 
   const queryClient = useQueryClient();
 
+  const { mutate: createTask } = useCreateTask({ boardId });
+
   const { mutate: deleteColumn } = useDeleteColumn({
     boardId,
     onSuccess: () => {
@@ -61,7 +58,9 @@ const Column: React.FC<ColumnProps> = (props) => {
     <ColumnDraggable {...props}>
       <div className="task-column">
         <header className="task-column__header">
-          <span className="task-column__header__task-count">{data.columns[columnIndex].tasks.length}</span>
+          <span className="task-column__header__task-count">
+            {data.columns[columnIndex].tasks.length}
+          </span>
 
           <input value={columnName} />
           <button onClick={openCreateNewTaskModal} className="task-column__header__new-task-btn">
@@ -83,7 +82,7 @@ const Column: React.FC<ColumnProps> = (props) => {
             size="l"
             onClose={closeCreateNewTaskModal}
           >
-            <TaskCreate columnId={columnId} boardId={boardId} />
+            <TaskEditor columnId={columnId} boardId={boardId} onSubmit={createTask} />
           </Modal>
         </header>
         <TaskContainer columnId={columnId} columnIndex={columnIndex} />

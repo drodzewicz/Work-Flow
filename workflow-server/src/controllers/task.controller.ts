@@ -64,11 +64,41 @@ export class TaskController {
   @Authorized(Permissions.TASK_CREATE)
   async createTask(@Body() payload: CreateTaskPayload, @CurrentUser() user: AuthUser) {
     fieldErrorsHandler(createTaskPayloadValidator(payload));
-    const { boardId, columnId, ...taskData } = payload;
+    const { boardId, columnId, assignees, tags, ...taskData } = payload;
 
-    await this.boardService.getBoard(boardId);
+    const board = await this.boardService.getBoard(boardId);
+
+    if (board.columns.length === 0) {
+      throw new HttpError(400, "Board must have at least one column for task to be created");
+    }
+
     const task = await this.taskService.createTask(taskData, boardId, user.id.toString());
-    await this.taskService.addTaskToColumn(boardId, columnId, task._id.toString());
+
+    // if column is not proved then assign the first column of the board
+    await this.taskService.addTaskToColumn(boardId, columnId ?? board.columns[0]._id, task._id.toString());
+
+    // if assignees are proived then loop though them and add them to the task
+    if (assignees) {
+      const notification = {
+        title: "Assigned to task",
+        description: `You have been assigned to task "${task.title}"`,
+        key: "task.assignee.added",
+        attributes: {
+          taskId: task._id,
+          boardId,
+        },
+      };
+
+      for (let i = 0; i < assignees.length; i++) {
+        try {
+          await this.taskService.addAssigneeToTask(task._id, assignees[i]);
+          await this.userService.addUserNotifications(assignees[i], notification);
+        } catch (error) {
+          throw error;
+        }
+      }
+    }
+
     return task;
   }
 

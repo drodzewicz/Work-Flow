@@ -4,8 +4,7 @@ import { OnSubmitType } from "@/types/general/utils";
 
 import { BoardEditorType } from "./types";
 
-import useAuthClient from "@/hooks/useClient";
-import { Field, Form, Formik, useFormik, FormikProvider } from "formik";
+import { Field, Form, useFormik, FormikProvider } from "formik";
 
 import Button from "@/components/general/Button";
 import { TextField, TextAreaField } from "@/components/general/TextInput";
@@ -24,8 +23,6 @@ const BoardEditorForm: React.FC<{
   };
 
   const formik = useFormik({ initialValues: INITIAL_FORM_VALUES, validationSchema, onSubmit });
-
-  const client = useAuthClient();
 
   return (
     <FormikProvider value={formik}>

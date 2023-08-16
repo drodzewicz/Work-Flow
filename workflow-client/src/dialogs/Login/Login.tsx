@@ -23,21 +23,6 @@ const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initi
   const { authDispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const INITIAL_FORM_VALUES: LoginFormType = {
-    username: initialValues?.username || "",
-    password: initialValues?.password || "",
-  };
-
-  const onSubmitHandler: OnSubmitType<LoginFormType> = async (values) => {
-    mutation.mutate(values);
-  };
-
-  const formik = useFormik({
-    initialValues: INITIAL_FORM_VALUES,
-    validationSchema: validationSchema,
-    onSubmit: onSubmitHandler,
-  });
-
   const mutation = useMutation(
     (loginPayload: any) => axios.post("/auth/login", loginPayload, { withCredentials: true }),
     {
@@ -51,6 +36,21 @@ const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initi
       },
     }
   );
+
+  const onSubmitHandler: OnSubmitType<LoginFormType> = async (values) => {
+    mutation.mutate(values);
+  };
+
+  const INITIAL_FORM_VALUES: LoginFormType = {
+    username: initialValues?.username || "",
+    password: initialValues?.password || "",
+  };
+
+  const formik = useFormik({
+    initialValues: INITIAL_FORM_VALUES,
+    validationSchema: validationSchema,
+    onSubmit: onSubmitHandler,
+  });
 
   return (
     <FormikProvider value={formik}>

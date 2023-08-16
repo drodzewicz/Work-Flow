@@ -5,10 +5,13 @@ export const validator = (Schema) => (payload) => Schema.validate(payload, { abo
 export const fieldErrorsHandler = (validatorData: any) => {
   const { error } = validatorData;
   if (error) {
-    const otherErrors = error?.details?.map((err) => ({
-      key: err?.path?.join("."),
-      message: err?.message?.replaceAll(`\"`, ""),
-    }));
+    const otherErrors = error?.details?.reduce(
+      (acc, err) => ({
+        ...acc,
+        [`${err?.path?.join(".")}`]: err?.message?.replaceAll(`\"`, ""),
+      }),
+      {},
+    );
     const message = error.message?.replaceAll(`\"`, "");
     throw new PayloadError(message, otherErrors);
   }

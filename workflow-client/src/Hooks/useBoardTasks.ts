@@ -8,7 +8,6 @@ import useAuthClient from "./useClient";
 const useBoardTask = () => {
   const [data, dispatch] = useContext(TaskContext);
   const client = useAuthClient();
-  //FIXME
 
   const getColumn = useCallback(
     (columnId: string) => {

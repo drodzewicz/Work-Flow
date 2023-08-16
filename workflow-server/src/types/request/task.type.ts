@@ -1,8 +1,10 @@
 export type CreateTaskPayload = {
   title: string;
-  description: string;
+  description?: string;
   boardId: string;
   columnId: string;
+  assignees?: string[];
+  tags?: string[];
 };
 
 export type UpdateTaskPayload = {
