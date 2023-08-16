@@ -1,9 +1,9 @@
 import App from "@/App";
 import BoardPage from "@/views/BoardPage";
-import BoardSettings from "@/views/BoardSettings";
-import Dashboard from "@/views/Dashboard";
+import BoardSettingsPage from "@/views/BoardSettingsPage";
+import DashboardPage from "@/views/DashboardPage";
 import ErrorPage from "@/views/ErrorPage";
-import Register from "@/views/Register";
+import RegisterPage from "@/views/RegisterPage";
 import WelcomePage from "@/views/WelcomePage";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -19,11 +19,11 @@ const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <Register />,
+        element: <RegisterPage />,
       },
       {
         path: "dashboard",
-        element: <Dashboard />,
+        element: <DashboardPage />,
       },
       {
         path: "board/:id",
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       },
       {
         path: "board/:id/settings",
-        element: <BoardSettings />,
+        element: <BoardSettingsPage />,
       },
     ],
   },

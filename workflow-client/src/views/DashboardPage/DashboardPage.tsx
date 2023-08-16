@@ -26,9 +26,9 @@ import BoardContainer from "@/components/board/BoardContainer";
 
 import BoardEditor from "@/dialogs/BoardEditor/BoardEditor";
 
-import "./Dashboard.scss";
+import "./DashboardPage.scss";
 
-const Dashboard: React.FC = () => {
+const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
 
   const {
@@ -130,4 +130,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardPage;

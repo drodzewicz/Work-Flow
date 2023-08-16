@@ -10,7 +10,7 @@ import GeneralSections from "./GeneralSections";
 import MembersSection from "./MembersSection";
 import RoleSections from "./RoleSections";
 
-const BoardSettings: React.FC = () => {
+const BoardSettingsPage: React.FC = () => {
   const params = useParams<{ id: string }>();
   return (
     <ContainerBox className="flex flex-col">
@@ -28,4 +28,4 @@ const BoardSettings: React.FC = () => {
   );
 };
 
-export default BoardSettings;
+export default BoardSettingsPage;

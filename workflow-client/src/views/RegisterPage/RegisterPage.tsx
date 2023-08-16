@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { OnSubmitType } from "@/types/general/utils";
 
@@ -13,7 +13,7 @@ import axios from "@/config/api.conf.ts";
 import Button from "@/components/general/Button";
 import { TextField } from "@/components/general/TextInput";
 
-import "./Register.scss";
+import "./RegisterPage.scss";
 
 import { validationSchema } from "./formSchema";
 
@@ -26,7 +26,7 @@ const INITIAL_FORM_VALUES: RegisterType = {
   surname: "",
 };
 
-const Register = () => {
+const RegisterPage = () => {
   const navigate = useNavigate();
 
   const onSubmitHandler: OnSubmitType<RegisterType> = (values) => {
@@ -103,4 +103,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterPage;
