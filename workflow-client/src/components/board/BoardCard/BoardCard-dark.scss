@@ -31,23 +31,3 @@
   }
 }
 
-@keyframes skeleton-loading-dark {
-  0% {
-    background-color: $dark-1;
-  }
-  100% {
-    background-color: darken($dark-1, 3%);
-  }
-}
-
-.theme-dark .board-card--loading {
-  background-color: $dark-2;
-  animation: skeleton-loading-dark 1s linear infinite alternate;
-
-  &__columns {
-    &__column {
-      background: lighten($dark-2, 3%);
-      animation: skeleton-loading-dark 1s linear infinite alternate-reverse;
-    }
-  }
-}

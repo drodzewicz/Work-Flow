@@ -1,19 +1,10 @@
-import React, { useContext, useRef } from "react";
-
-import { UserBoardRoles } from "@/types/general";
+import React from "react";
 
 import { TaskProps } from "./types";
 
-import { Draggable } from "react-beautiful-dnd";
-
 import useModal from "@/hooks/useModal";
 
-import Image from "@/components/general/Image";
-import Tooltip from "@/components/general/Tooltip";
-
 import Modal from "@/components/layout/Modal";
-
-import TagMini from "@/components/board/Tag/TagMini";
 
 import TaskDisplay from "@/dialogs/TaskDisplay/TaskDisplay";
 

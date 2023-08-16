@@ -1,17 +1,6 @@
 import React from "react";
 
-import { UserBoardRoles } from "@/types/general";
-
-import { TaskProps } from "./types";
-
 import { Draggable } from "react-beautiful-dnd";
-
-import Image from "@/components/general/Image";
-import Tooltip from "@/components/general/Tooltip";
-
-import TagMini from "@/components/board/Tag/TagMini";
-
-import TaskDisplay from "@/dialogs/TaskDisplay/TaskDisplay";
 
 import "./Task.scss";
 

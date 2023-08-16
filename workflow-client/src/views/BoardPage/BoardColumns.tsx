@@ -1,6 +1,6 @@
 import React from "react";
 
-import * as Skeleton from "@/components/Skeleton";
+import * as Skeleton from "@/components/layout/Skeleton";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 import useBoardTask from "@/hooks/useBoardTasks";

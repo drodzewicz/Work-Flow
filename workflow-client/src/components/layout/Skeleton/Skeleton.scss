@@ -1,4 +1,4 @@
-@import "../../assets/styles/colors";
+@import "../../../assets/styles/colors";
 
 @keyframes task-skeleton-loading {
   0% {
@@ -125,5 +125,87 @@
     width: 16.5rem;
     max-height: 500px;
     overflow-y: scroll;
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: white;
+  }
+  100% {
+    background-color: $light-blue-1;
+  }
+}
+
+.board-card--loading {
+  outline: $blue-accent;
+  $card-width: 12rem;
+  $card-height: 6rem;
+  background-color: white;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  width: $card-width;
+  height: $card-height;
+  border-radius: 7px;
+  padding: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-decoration: none;
+  transition: 0.3s ease-in-out all;
+  animation: skeleton-loading 1s linear infinite alternate;
+
+  &__columns {
+    position: absolute;
+    z-index: 0;
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    align-items: flex-start;
+    &__column {
+      background: $light-blue-1;
+      animation: skeleton-loading 1s linear infinite alternate-reverse;
+
+      width: 35px;
+      height: 70px;
+      margin: 0 7px;
+      border-radius: 5px;
+      transition: all ease-in-out 0.3s;
+      &:nth-of-type(1) {
+        height: 60px;
+      }
+      &:nth-of-type(2) {
+        height: 30px;
+      }
+      &:nth-of-type(3) {
+        height: 50px;
+      }
+      &:nth-of-type(4) {
+        height: 70px;
+      }
+    }
+  }
+}
+
+@keyframes skeleton-loading-dark {
+  0% {
+    background-color: $dark-1;
+  }
+  100% {
+    background-color: darken($dark-1, 3%);
+  }
+}
+
+.theme-dark .board-card--loading {
+  background-color: $dark-2;
+  animation: skeleton-loading-dark 1s linear infinite alternate;
+
+  &__columns {
+    &__column {
+      background: lighten($dark-2, 3%);
+      animation: skeleton-loading-dark 1s linear infinite alternate-reverse;
+    }
   }
 }
