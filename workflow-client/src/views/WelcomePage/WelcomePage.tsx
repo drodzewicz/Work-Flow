@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import { getAppTheme } from "@/service/theme";
 
-import Button from "@/components/general/Button";
+import Button from "@/components/form/Button";
 
 import "./WelcomePage.scss";
 

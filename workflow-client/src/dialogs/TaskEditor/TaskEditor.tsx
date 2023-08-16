@@ -2,14 +2,13 @@ import React from "react";
 
 import { OnSubmitType } from "@/types/general/utils";
 
+import Button from "@/components/form/Button/Button";
+import { TextField, TextAreaField } from "@/components/form/TextInput";
+import UserSelect from "@/components/form/UserSelect/UserSelect";
 import { AxiosResponse } from "axios";
 import { Form, Field, useFormik, FormikProvider } from "formik";
 
 import useAuthClient from "@/hooks/useClient";
-
-import Button from "@/components/general/Button/Button";
-import { TextField, TextAreaField } from "@/components/general/TextInput";
-import UserSelect from "@/components/general/UserSelect/UserSelect";
 
 import User from "@/components/board/User/User";
 

@@ -1,4 +1,4 @@
-import { ws } from "@/config/socket.conf";
+// import { ws } from "@/config/socket.conf";
 
 interface emitWSParams {
 	roomId: string;
@@ -8,10 +8,10 @@ interface emitWSParams {
 	res: any;
 }
 
-const emitWS = async ({ roomId, eventName, token, payload, res }: emitWSParams) => {
-  let userToken = undefined;
-  if (token) userToken = localStorage.getItem("token");
-  ws.emit(eventName, { roomId, token: userToken, payload }, res);
+const emitWS = async (props: emitWSParams) => {
+//   let userToken = undefined;
+//   if (token) userToken = localStorage.getItem("token");
+//   ws.emit(eventName, { roomId, token: userToken, payload }, res);
 };
 
 export { emitWS };

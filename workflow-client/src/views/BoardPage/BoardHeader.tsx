@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import useModal from "@/hooks/useModal";
 
-import Button from "@/components/general/Button";
+import Button from "@/components/form/Button";
 import ExpandText from "@/components/general/ExpandText";
 
 import Modal from "@/components/layout/Modal";

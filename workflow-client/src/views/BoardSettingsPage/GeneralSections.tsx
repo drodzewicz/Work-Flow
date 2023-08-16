@@ -1,17 +1,12 @@
 import React from "react";
 
-import { OnSubmitType } from "@/types/general/utils";
-
-import { BoardEditorType } from "@/dialogs/BoardEditor/types";
-
+import Button from "@/components/form/Button";
+import { TextAreaField, TextField } from "@/components/form/TextInput";
 import { Form, Field, FormikProvider, useFormik } from "formik";
 import { useParams } from "react-router-dom";
 
 import useGetBoard from "@/service/useGetBoard";
 import useUpdateBoardInfo from "@/service/useUpdateBoardInfo";
-
-import Button from "@/components/general/Button";
-import { TextAreaField, TextField } from "@/components/general/TextInput";
 
 import { validationSchema } from "@/dialogs/BoardEditor/formSchema";
 

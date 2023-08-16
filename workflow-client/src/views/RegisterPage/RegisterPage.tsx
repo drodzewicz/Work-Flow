@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 
 import axios from "@/config/api.conf.ts";
 
-import Button from "@/components/general/Button";
-import { TextField } from "@/components/general/TextInput";
+import Button from "@/components/form/Button";
+import { TextField } from "@/components/form/TextInput";
 
 import "./RegisterPage.scss";
 

@@ -17,7 +17,7 @@ import useFetchPinnedUserBoards from "@/service/useFetchPinnedUserBoards";
 import useFetchUserBoards from "@/service/useFetchUserBoard";
 import useTogglePinBoard from "@/service/useTogglePinBoard";
 
-import Button from "@/components/general/Button";
+import Button from "@/components/form/Button";
 
 import ContainerBox from "@/components/layout/ContainerBox/ContainerBox";
 import Modal from "@/components/layout/Modal";

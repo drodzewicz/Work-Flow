@@ -2,13 +2,13 @@ import React, { useRef, useState } from "react";
 
 import { TaskDisplayProps } from "./types";
 
+import Button from "@/components/form/Button";
 import { FaEdit, FaEllipsisV, FaTrashAlt } from "react-icons/fa";
 
 import useBoardTask from "@/hooks/useBoardTasks";
 
 import useGetTaskDetails from "@/service/useGetTaskDetails";
 
-import Button from "@/components/general/Button";
 import DropdownMenu from "@/components/general/DropdownMenu";
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
 

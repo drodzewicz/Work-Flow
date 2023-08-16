@@ -10,7 +10,7 @@ import { usePagination } from "@/hooks/usePagination";
 import useSearchBoardMembers from "@/service/useSearchBoardMembers";
 
 import Pagination from "@/components/general/Pagination";
-import { TextField } from "@/components/general/TextInput";
+import { TextField } from "@/components/form/TextInput";
 
 import User from "@/components/board/User";
 import UserLoading from "@/components/board/User/UserLoading";

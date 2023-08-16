@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 
+import Button from "@/components/form/Button";
 import debounce from "lodash/debounce";
 import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
@@ -9,8 +10,6 @@ import AsyncSelect from "react-select/async";
 import useAuthClient from "@/hooks/useClient";
 
 import useAddUserToBoard from "@/service/useAddUserToBoard";
-
-import Button from "@/components/general/Button";
 
 const InviteUserToBoard: React.FC = () => {
   const { id: boardId = "" } = useParams<{ id: string }>();

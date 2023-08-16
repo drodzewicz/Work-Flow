@@ -4,6 +4,8 @@ import { OnSubmitType } from "@/types/general/utils";
 
 import { LoginFormType } from "./types";
 
+import Button from "@/components/form/Button";
+import { TextField } from "@/components/form/TextInput";
 import { Field, Form, useFormik, FormikProvider } from "formik";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -11,9 +13,6 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext, AuthActionType } from "@/context/AuthContext";
 
 import axios from "@/config/api.conf.ts";
-
-import Button from "@/components/general/Button";
-import { TextField } from "@/components/general/TextInput";
 
 import "./Login.scss";
 

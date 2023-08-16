@@ -2,7 +2,7 @@ import React from "react";
 
 import { Link, useParams } from "react-router-dom";
 
-import Button from "@/components/general/Button/Button";
+import Button from "@/components/form/Button";
 
 import ContainerBox from "@/components/layout/ContainerBox";
 

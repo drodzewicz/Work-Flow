@@ -6,8 +6,8 @@ import { BoardEditorType } from "./types";
 
 import { Field, Form, useFormik, FormikProvider } from "formik";
 
-import Button from "@/components/general/Button";
-import { TextField, TextAreaField } from "@/components/general/TextInput";
+import Button from "@/components/form/Button";
+import { TextField, TextAreaField } from "@/components/form/TextInput";
 
 import "./BoardEditor.scss";
 
