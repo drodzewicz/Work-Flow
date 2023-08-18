@@ -17,7 +17,7 @@ import useFetchPinnedUserBoards from "@/service/useFetchPinnedUserBoards";
 import useFetchUserBoards from "@/service/useFetchUserBoard";
 import useTogglePinBoard from "@/service/useTogglePinBoard";
 
-import ContainerBox from "@/components/layout/ContainerBox/ContainerBox";
+import Box from "@/components/layout/Box";
 import Modal from "@/components/layout/Modal";
 
 import BoardContainer from "@/components/board/BoardContainer";
@@ -75,7 +75,7 @@ const DashboardPage: React.FC = () => {
 
   return (
     <>
-      <ContainerBox className="board-dashboard">
+      <Box className="board-dashboard">
         {pinnedBoards && (
           <div className="pinned-board-container">
             <h1 className="board-container-title">
@@ -115,7 +115,7 @@ const DashboardPage: React.FC = () => {
             }}
           />
         </div>
-      </ContainerBox>
+      </Box>
       <Modal
         show={showCreateNewBoardDialog}
         title="Create new Board"

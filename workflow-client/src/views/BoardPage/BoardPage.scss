@@ -1,13 +1,12 @@
-@import "../../assets/styles/variables";
 @import "../../assets/styles/mediaQueries";
 
 .task-loading {
   position: relative;
-  min-height: calc(100vh - #{$navbar-height} - #{$footer-height} - 3.5rem);
+  min-height: calc(100vh - var(--size-navbar-height) - var(--size-footer-height) - 3.5rem);
 }
 .board-page {
   margin: 0 2rem;
-  min-height: calc(100vh - #{$navbar-height} - #{$footer-height} - 3.5rem);
+  min-height: calc(100vh - var(--size-navbar-height) - var(--size-footer-height) - 3.5rem);
   display: flex;
   flex-direction: column;
   @include mobile {
@@ -15,7 +14,6 @@
   }
   &__title {
     margin: 2rem 1rem;
-    font-family: "Secular One", sans-serif;
     color: var(--color-font-main);
     p {
       margin: 0;

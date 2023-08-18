@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { OnSubmitType } from "@/types/general/utils";
 
@@ -9,16 +9,16 @@ import { Field, Form, useFormik, FormikProvider } from "formik";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 
-import { AuthContext, AuthActionType } from "@/context/AuthContext";
-
 import axios from "@/config/api.conf.ts";
+
+import useAuth from "@/hooks/useAuth";
 
 import "./Login.scss";
 
 import { validationSchema } from "./formSchema";
 
 const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initialValues }) => {
-  const { authDispatch } = useContext(AuthContext);
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const mutation = useMutation(
@@ -26,7 +26,7 @@ const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initi
     {
       onSuccess: (response) => {
         const { user, accessToken } = response.data;
-        authDispatch({ type: AuthActionType.LOGIN, payload: { user, token: accessToken } });
+        login({ user, token: accessToken });
         navigate("/dashboard");
       },
       onError: () => {

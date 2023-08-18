@@ -1,0 +1,6 @@
+.box {
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - var(--size-navbar-height) - var(--size-footer-height) - 2.1rem);
+  position: relative;
+}

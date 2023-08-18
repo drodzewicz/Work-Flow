@@ -1,7 +1,6 @@
-@import "../../../assets/styles/variables";
 .app-footer {
   background: transparent;
-  height: $footer-height;
+  height: var(--size-footer-height);
   margin-top: 1rem;
   display: flex;
   flex-direction: row;
@@ -16,11 +15,10 @@
     align-items: center;
     justify-content: center;
     margin: 0 1rem;
-    font-family: "Roboto", sans-serif;
     color: gray;
     font-size: 0.8rem;
     cursor: pointer;
-    transition: ease-in-out all $transition-speed;
+    transition: ease-in-out all var(--transition-speed-seconds);
     font-weight: bold;
     &:hover {
       color: gray;

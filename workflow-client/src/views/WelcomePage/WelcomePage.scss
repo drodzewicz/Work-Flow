@@ -20,7 +20,6 @@
       margin-right: 0;
       margin-left: auto;
       opacity: 0;
-      animation: element-apear 1.5s forwards 1.5s;
       @include mq-2 {
         height: 50vh;
         width: 50vh;
@@ -38,25 +37,21 @@
         margin: 0;
         color: var(--color-font-main);
         opacity: 0;
-        animation: element-slide-left 2s forwards 1s;
       }
       hr {
         opacity: 0;
-        animation: element-apear 1.5s forwards 1.5s;
       }
       h2 {
         font-size: 4vh;
         margin: 0;
         color: var(--color-font-main);
         opacity: 0;
-        animation: element-apear 1.5s forwards 2s;
       }
       p {
         font-size: 3vh;
         max-width: 40wv;
         color: var(--color-font-secondary);
         opacity: 0;
-        animation: element-apear 1.5s forwards 2.5s;
       }
       .join-now {
         margin: 0 auto;
@@ -64,7 +59,6 @@
         font-size: 2.5vh;
         padding: 1.5vh 3vh;
         opacity: 0;
-        animation: element-pop 0.7s forwards 2.5s;
         @include mq-1 {
           font-size: 1.5rem;
         }
@@ -76,7 +70,6 @@
     min-height: 80vh;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    animation: element-apear 1.5s forwards 1.5s;
     @include mq-1 {
       grid-template-columns: 1fr;
     }

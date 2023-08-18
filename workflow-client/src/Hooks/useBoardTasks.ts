@@ -1,7 +1,6 @@
 import { useCallback, useContext } from "react";
 
-import { TaskContext } from "@/context/TaskContext";
-import { TasksAction } from "@/context/TaskContext/actions";
+import { TaskContext, TasksAction } from "@/context/TaskContext";
 
 import useAuthClient from "./useClient";
 
