@@ -40,3 +40,12 @@ type Task = {
 };
 
 type ColumnWithTasks = Column & { tasks: Task[] };
+
+type BoardNotification = {
+  _id: string;
+  title: string;
+  description: string;
+  key: string;
+  attributes?: Record<string, string>;
+  timeStamp: Date;
+};

@@ -10,7 +10,6 @@ import useGetNotifications from "@/service/useGetNotifications";
 import useLogout from "@/service/useLogout";
 
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
-import Notification from "@/components/general/Notification";
 import ThemeSwitch from "@/components/general/ThemeSwitch";
 
 import NavItem from "@/components/layout/Navbar/NavItem";
@@ -55,7 +54,7 @@ const UserNav: React.FC = () => {
       <NavItem name="home" onClick={goToHomePage} Icon={FaHome} />
       <NavItem
         name="profile"
-        dropdownOffset={{ x: -60, y: 10 }}
+        offset={{ x: -60, y: 10 }}
         Icon={FaUserAlt}
         label={user.username}
         className="profile-nav"
@@ -66,7 +65,7 @@ const UserNav: React.FC = () => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <FaMoon /> Theme Dark
+            <FaMoon /> Theme Dark
         </DropdownMenuItem>
         <DropdownMenuItem>
           <span className="logout-btn" onClick={() => logoutUser()}>
@@ -77,15 +76,22 @@ const UserNav: React.FC = () => {
       <NavItem
         name="notiications"
         onClick={handlGetMyNotifications}
-        dropdownOffset={{ x: -20, y: 10 }}
+        offset={{ x: -20, y: 10 }}
         className={`notification-nav ${notifications?.length ? "badge" : ""}`}
         dropdownMaxHeight={400}
         dropDownOnClickClose={false}
         Icon={FaBell}
       >
-        {notifications.map((notification) => (
-          <Notification notification={notification} />
-        ))}
+        {/* {notifications.map(({ _id, title, info, url }, index) => (
+          <DropdownMenuItem key={_id}>
+            <Notification
+              message={info}
+              boardTitle={title}
+              url={url}
+              removeNotification={() => removeMessage(index)}
+            />
+          </DropdownMenuItem>
+        ))} */}
       </NavItem>
     </nav>
   );

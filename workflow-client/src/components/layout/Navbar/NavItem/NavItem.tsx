@@ -1,10 +1,22 @@
 import React, { useRef } from "react";
 
-import { NavItemProps } from "./types";
-
 import DropdownMenu from "@/components/general/DropdownMenu/DropdownMenu";
 
 import "./NavItem.scss";
+
+type svgIcon = React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+
+export interface NavItemProps {
+  Icon?: svgIcon;
+  label?: string;
+  name?: string;
+  onClick?: () => void;
+  className?: string;
+  dropdownOffset?: { x: number; y: number };
+  dropDownOnClickClose?: boolean;
+  dropdownMaxHeight?: number;
+  children?: React.ReactNode;
+}
 
 const NavItem: React.FC<NavItemProps> = ({
   Icon,
@@ -12,10 +24,10 @@ const NavItem: React.FC<NavItemProps> = ({
   children,
   onClick,
   className,
-  offset,
+  dropdownOffset,
   name,
   dropDownOnClickClose,
-  dropDownScrollableAt,
+  dropdownMaxHeight,
 }) => {
   const anchorElement = useRef(null);
 
@@ -28,9 +40,9 @@ const NavItem: React.FC<NavItemProps> = ({
       {children && (
         <DropdownMenu
           className={className}
-          scrollableAt={dropDownScrollableAt}
+          dropdownMaxHeight={dropdownMaxHeight}
           onClickClose={dropDownOnClickClose}
-          offset={offset}
+          offset={dropdownOffset}
           anchorEl={anchorElement}
         >
           {children}

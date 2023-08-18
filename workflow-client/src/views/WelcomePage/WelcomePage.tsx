@@ -6,14 +6,13 @@ import { ReactComponent as Person } from "@/assets/images/workflow-person.svg";
 import { ReactComponent as PersonDark } from "@/assets/images/workflow-person_dark.svg";
 import { useNavigate } from "react-router-dom";
 
-import { getAppTheme } from "@/service/theme";
+import useAppTheme from "@/hooks/useAppTheme";
 
 import "./WelcomePage.scss";
 
 const WelcomePage: React.FC = () => {
-  const appTheme = getAppTheme();
-  document.body.className = `theme-${appTheme}`;
   const navigate = useNavigate();
+  const { themeState } = useAppTheme();
 
   const openRegisterModal = () => {
     navigate("/register");
@@ -22,7 +21,7 @@ const WelcomePage: React.FC = () => {
   return (
     <div className="welcome-section">
       <section className="welcome-section__introduction">
-        {appTheme === "dark" ? (
+        {themeState ? (
           <PersonDark role="presentation" name="person_task_board" className="person-image" />
         ) : (
           <Person role="presentation" name="person_task_board" className="person-image" />
@@ -52,7 +51,7 @@ const WelcomePage: React.FC = () => {
             <li>Enjoy a smooth and organized workflow</li>
           </ul>
         </div>
-        {appTheme === "dark" ? (
+        {themeState ? (
           <TaskColumnsDark className="task-columns-image" />
         ) : (
           <TaskColumns className="task-columns-image" />

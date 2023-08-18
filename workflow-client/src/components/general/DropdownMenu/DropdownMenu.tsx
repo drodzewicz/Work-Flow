@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { DropdownMenuProps } from "./types";
-
 import { useClickOutside } from "@/hooks/useClickOutside";
 import useWindowSize from "@/hooks/useWindowSize";
 
@@ -9,13 +7,25 @@ import Portal from "@/components/layout/Portal";
 
 import "./DropdownMenu.scss";
 
+export interface DropdownMenuProps {
+  offset?: {
+    x: number;
+    y: number;
+  };
+  onClickClose?: boolean;
+  dropdownMaxHeight?: number;
+  anchorEl: any;
+  className?: string;
+  children?: React.ReactNode;
+}
+
 const DropdownMenu: React.FC<DropdownMenuProps> = ({
   className,
   children,
   anchorEl,
   offset = { x: 0, y: 0 },
   onClickClose = true,
-  scrollableAt,
+  dropdownMaxHeight,
 }) => {
   const [width] = useWindowSize();
   const [cords, setCords] = useState<{ left: number; top: number }>({ left: 0, top: 0 });
@@ -59,7 +69,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
       <Portal mountTo="root-menu">
         <ul
           ref={dropDownMenuRef}
-          style={{ top: cords.top, left: cords.left, maxHeight: scrollableAt }}
+          style={{ top: cords.top, left: cords.left, maxHeight: dropdownMaxHeight }}
           onClick={onClickClose ? closeMenuClickHandler : undefined}
           className={computeClassName()}
         >
