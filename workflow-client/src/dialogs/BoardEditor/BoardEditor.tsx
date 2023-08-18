@@ -4,10 +4,8 @@ import { OnSubmitType } from "@/types/general/utils";
 
 import { BoardEditorType } from "./types";
 
-import { Field, Form, useFormik, FormikProvider } from "formik";
-
-import Button from "@/components/form/Button";
 import { TextField, TextAreaField } from "@/components/form/TextInput";
+import { Field, Form, useFormik, FormikProvider } from "formik";
 
 import "./BoardEditor.scss";
 
@@ -40,14 +38,13 @@ const BoardEditorForm: React.FC<{
           error={formik.touched.description && formik.errors.description}
           as={TextAreaField}
         />
-        <Button
+        <button
           // disabled={props.isSubmitting || !props.isValid}
-          variant="glow"
-          className="login-form__btn"
+          className="btn--glow login-form__btn"
           type="submit"
         >
           Create
-        </Button>
+        </button>
       </Form>
     </FormikProvider>
   );

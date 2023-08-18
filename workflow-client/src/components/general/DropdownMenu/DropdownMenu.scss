@@ -1,8 +1,6 @@
-@import "../../../assets/styles/colors";
 .drop-down-menu {
   position: absolute;
-  color: #222222;
-  background: white;
+  background: var(--color-header);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
   margin-top: 0.2rem;
@@ -22,10 +20,10 @@
     cursor: pointer;
     transition: 0.2s all ease-in-out;
     user-select: none;
-    color: #222222;
+    color: var(--color-font-main);
     padding: 0.2rem 0.4rem;
     &:hover {
-      background: $blue-secondary-overlay;
+      background: var(--color-task-bg);
     }
     * {
       color: inherit;
@@ -33,4 +31,3 @@
     }
   }
 }
-

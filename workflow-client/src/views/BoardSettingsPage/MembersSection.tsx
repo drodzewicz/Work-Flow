@@ -1,6 +1,5 @@
 import React from "react";
 
-import Button from "@/components/form/Button";
 import { TextField } from "@/components/form/TextInput";
 import debounce from "lodash/debounce";
 import { useParams } from "react-router-dom";
@@ -62,7 +61,9 @@ const MembersSection = () => {
     <section className="my-2">
       <h2 className="text-lg font-bold mb-3">Members</h2>
       <hr />
-      <Button onClick={openInviteUserDialog}>Invite new members</Button>
+      <button className="btn" onClick={openInviteUserDialog}>
+        Invite new members
+      </button>
       <TextField onChange={searchDebounce} />
       {membersData?.members.map((member) => (
         <User key={member.user.username} username={member.user.username}>
@@ -73,7 +74,12 @@ const MembersSection = () => {
               chooseRole({ ...option, userId: member.user._id }, actions)
             }
           />
-          <Button onClick={() => removeMember({ boardId, userId: member.user._id })}>remove</Button>
+          <button
+            className="btn"
+            onClick={() => removeMember({ boardId, userId: member.user._id })}
+          >
+            remove
+          </button>
         </User>
       ))}
       <Modal

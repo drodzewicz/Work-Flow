@@ -4,7 +4,6 @@ import { UserProps } from "./types";
 
 import Image from "@/components/general/Image/Image";
 
-import "./User-dark.scss";
 import "./User.scss";
 
 const User: React.FC<UserProps> = ({ imageSrc, username, className, onClick, children }) => {

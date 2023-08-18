@@ -1,5 +1,4 @@
 @import "../../assets/styles/mediaQueries";
-@import "../../assets/styles/colors";
 
 .task-display-loader.loading-overlay {
   min-height: 40vh;
@@ -46,8 +45,8 @@
       display: flex;
       flex-direction: column;
       &__message {
-        font-size: 0.9rem;  
-        color: $black-1;
+        font-size: 0.9rem;
+        color: var(--color-font-main);
       }
       &__author {
         margin-bottom: 1rem;
@@ -62,28 +61,10 @@
       &__label {
         font-size: 0.8rem;
         margin-bottom: 0.2rem;
-        color: $text-primary;
+        color: var(--color-font-main);
         font-weight: bold;
       }
     }
   }
 }
 
-.theme-dark {
-  .task-display {
-    &__header__title {
-      color: white;
-    }
-    &__body {
-      &__people__label {
-        color: white;
-      }
-      &__people__message{
-        color: rgb(156, 156, 156);
-      }
-      &__content__description {
-        color: white;
-      }
-    }
-  }
-}

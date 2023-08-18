@@ -1,15 +1,18 @@
 import React, { forwardRef, useRef, useEffect, useState, useCallback } from "react";
+
+import { BoardUserFullI, UserBoardRoles } from "@/types/general";
+
 // import { matchPath, useLocation } from "react-router-dom";
 import { UserInfoProps } from "./types";
-import "./UserInfo.scss";
-import { getBoardMember } from "@/service";
-import { BoardUserFullI, UserBoardRoles } from "@/types/general";
-import Image from "@/components/general/Image";
-import Button from "@/components/general/Button";
+
+import axios, { CancelTokenSource } from "axios";
+import { FaShieldAlt, FaUserAlt, FaRegAddressCard, FaCrown, FaUserSlash } from "react-icons/fa";
+
 import DropdownMenu from "@/components/general/DropdownMenu";
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
-import { FaShieldAlt, FaUserAlt, FaRegAddressCard, FaCrown, FaUserSlash } from "react-icons/fa";
-import axios, { CancelTokenSource } from "axios";
+import Image from "@/components/general/Image";
+
+import "./UserInfo.scss";
 
 const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
   ({ userId, currentRole, removeUser, changeUserRole }, ref) => {
@@ -131,16 +134,16 @@ const UserInfo = forwardRef<HTMLDivElement, UserInfoProps>(
           </p>
         </div>
         <div className="user-info__control-btn">
-          <Button disabled={user.role === UserBoardRoles.OWNER || isLoading} ref={rolesAnchor}>
+          <button disabled={user.role === UserBoardRoles.OWNER || isLoading} ref={rolesAnchor}>
             {roleIcon(user.role)}
-          </Button>
+          </button>
           <DropdownMenu offset={{ x: -125, y: 0 }} anchorEl={rolesAnchor} className="role-options">
             {availableRoles()}
           </DropdownMenu>
-          <Button disabled={isLoading || !isAuthorizedAdmin()} onClick={kickUserHandler}>
+          <button disabled={isLoading || !isAuthorizedAdmin()} onClick={kickUserHandler}>
             <FaUserSlash />
             kick
-          </Button>
+          </button>
         </div>
       </div>
     );

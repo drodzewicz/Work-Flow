@@ -1,5 +1,4 @@
 @import "../../../assets/styles/mediaQueries";
-@import "../../../assets/styles/colors";
 
 .board-container {
   &__boards {
@@ -19,18 +18,9 @@
     display: flex;
     justify-content: center;
     width: 70vw;
-    color: $black-1;
+    color: red;
   }
   &__loading.loading-overlay {
     min-height: 20vh;
-  }
-}
-
-.theme-dark {
-  .board-container {
-    &__empty-message {
-      color: $text-secondary;
-      width: 70vw;
-    }
   }
 }

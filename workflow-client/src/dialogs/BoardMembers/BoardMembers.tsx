@@ -2,6 +2,7 @@ import React from "react";
 
 import { BoardMembersProps } from "./types";
 
+import { TextField } from "@/components/form/TextInput";
 import { debounce } from "lodash";
 import { Link } from "react-router-dom";
 
@@ -10,10 +11,8 @@ import { usePagination } from "@/hooks/usePagination";
 import useSearchBoardMembers from "@/service/useSearchBoardMembers";
 
 import Pagination from "@/components/general/Pagination";
-import { TextField } from "@/components/form/TextInput";
 
 import User from "@/components/board/User";
-import UserLoading from "@/components/board/User/UserLoading";
 
 import "./BoardMembers.scss";
 
@@ -47,7 +46,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
           {member.role}
         </User>
       ))}
-      {isLoading && [...Array(limit)].map((_, index) => <UserLoading key={index} />)}
+      {/* {isLoading && [...Array(limit)].map((_, index) => <UserLoading key={index} />)} */}
 
       <Pagination current={currentPage} total={totalPages} handleChange={setCurrentPage} />
     </div>

@@ -1,9 +1,8 @@
-@import "../../../assets/styles/colors";
 .board-card {
-  outline: $blue-accent;
   $card-width: 12rem;
   $card-height: 6rem;
-  background-color: white;
+
+  background-color: var(--color-boardcard-bg);
   box-sizing: border-box;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
   width: $card-width;
@@ -17,26 +16,6 @@
   position: relative;
   text-decoration: none;
   transition: 0.3s ease-in-out all;
-  &:hover & {
-    background-color: lighten($light-blue-1, 2%);
-    &__columns {
-      &__column {
-        background: darken($light-blue-1, 5%);
-        &:nth-of-type(3) {
-          height: 60px;
-        }
-        &:nth-of-type(4) {
-          height: 30px;
-        }
-        &:nth-of-type(1) {
-          height: 50px;
-        }
-        &:nth-of-type(2) {
-          height: 70px;
-        }
-      }
-    }
-  }
 
   &__columns {
     position: absolute;
@@ -46,7 +25,7 @@
     height: 70px;
     align-items: flex-start;
     &__column {
-      background: $light-blue-1;
+      background: var(--color-boardcard-columns);
       width: 35px;
       height: 70px;
       margin: 0 7px;
@@ -67,6 +46,25 @@
     }
   }
 
+  &:hover & {
+    &__columns {
+      &__column {
+        &:nth-of-type(3) {
+          height: 60px;
+        }
+        &:nth-of-type(4) {
+          height: 30px;
+        }
+        &:nth-of-type(1) {
+          height: 50px;
+        }
+        &:nth-of-type(2) {
+          height: 70px;
+        }
+      }
+    }
+  }
+
   &__content {
     z-index: 1;
     display: flex;
@@ -77,7 +75,7 @@
       font-family: "Secular One", sans-serif;
       font-size: 1rem;
       width: 100%;
-      color: $text-primary;
+      color: var(--color-font-main);
       flex-grow: 1;
       justify-self: flex-start;
       cursor: default;
@@ -91,16 +89,15 @@
         cursor: pointer;
         height: 1.2rem;
         width: 1.2rem;
-        color: $text-primary;
-        fill: $text-primary;
+        color: var(--color-font-main);
+        fill: var(--color-font-main);
         border-radius: 5px;
         padding: 3px;
         transition: all ease-in-out 0.2s;
         &:hover {
-          background: darken($light-blue-1, 5%);
+          background: red;
         }
       }
     }
   }
 }
-

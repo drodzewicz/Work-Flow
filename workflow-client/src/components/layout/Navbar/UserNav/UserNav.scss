@@ -1,5 +1,4 @@
 @import "../../../../assets/styles/mediaQueries";
-@import "../../../../assets/styles/colors";
 
 .notification-nav.drop-down-menu {
   transform: translate(-16.5rem, 2rem);
@@ -40,23 +39,12 @@
   &.notification-nav.badge {
     #{$nav-item}__icon::after {
       content: "";
-      background-color: $blue-accent;
+      background-color: var(--color-accent-primary);
       width: 0.5rem;
       height: 0.5rem;
       border-radius: 5rem;
       position: absolute;
       transform: translate(15px, -5px);
-    }
-  }
-}
-
-.theme-dark {
-  .navbar__item {
-    $nav-item: &;
-    &.notification-nav.badge {
-      .navbar__item__icon::after {
-        background-color: $blue-accent-dark !important;
-      }
     }
   }
 }

@@ -6,8 +6,6 @@ import Select from "react-select";
 import useGetAvailablePermissions from "@/service/useGetAvailablePermissions";
 import useGetBoardRoles from "@/service/useGetBoardRoles";
 
-import Button from "@/components/general/Button";
-
 const RoleSections = () => {
   const params = useParams<{ id: string }>();
   const { data: allPermissions = [] } = useGetAvailablePermissions();

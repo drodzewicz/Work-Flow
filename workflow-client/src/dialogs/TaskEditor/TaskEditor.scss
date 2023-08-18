@@ -1,5 +1,4 @@
 @import "../../assets/styles/mediaQueries";
-@import "../../assets/styles/colors";
 
 .update-task.loading-overlay {
 	height: 50vh;
@@ -44,14 +43,6 @@
 		}
 		.user-manager {
 			margin-bottom: 1rem;
-		}
-	}
-}
-
-.theme-dark {
-	.task-editor__sidebar {
-		&__label {
-			color: white;
 		}
 	}
 }

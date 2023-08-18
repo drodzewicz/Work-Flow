@@ -8,8 +8,6 @@ import { useNavigate } from "react-router-dom";
 
 import { getAppTheme } from "@/service/theme";
 
-import Button from "@/components/form/Button";
-
 import "./WelcomePage.scss";
 
 const WelcomePage: React.FC = () => {
@@ -39,9 +37,9 @@ const WelcomePage: React.FC = () => {
             personal or organizational level. Using this application organizing your work will be
             easy!!
           </p>
-          <Button onClick={openRegisterModal} variant="glow" className="join-now">
+          <button onClick={openRegisterModal} className="btn--glow join-now">
             Join us Now
-          </Button>
+          </button>
         </div>
       </section>
       <section className="welcome-section__explainer">

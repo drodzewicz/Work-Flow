@@ -1,6 +1,6 @@
-@import "../../assets/styles/colors";
 @import "../../assets/styles/variables";
 @import "../../assets/styles/mediaQueries";
+
 .task-loading {
   position: relative;
   min-height: calc(100vh - #{$navbar-height} - #{$footer-height} - 3.5rem);
@@ -16,7 +16,7 @@
   &__title {
     margin: 2rem 1rem;
     font-family: "Secular One", sans-serif;
-    color: $text-secondary;
+    color: var(--color-font-main);
     p {
       margin: 0;
     }
@@ -33,13 +33,10 @@
       padding: 0.3rem 0.2rem;
       margin-left: 0.1rem;
       cursor: pointer;
-      color: $text-primary;
+      color: var(--color-font-main);
       transition: background 0.15s ease-in;
       svg {
         transform: translateY(2px);
-      }
-      &:hover {
-        background-color: $blue-primary-overlay;
       }
       span {
         display: grid;
@@ -64,28 +61,6 @@
       gap: 1rem;
       & > div {
         height: 100%;
-      }
-    }
-  }
-}
-
-.theme-dark {
-  .board-page {
-    &__title {
-      color: $text-primary-dark;
-    }
-    &__controlls {
-      .board-options__ellipsis {
-        color: $dark-3;
-        &:hover {
-          background-color: $dark-1;
-        }
-      }
-      .board-options {
-        color: lighten($black-1, 30%);
-        &:hover {
-          background-color: rgba($dark-1, 0.5);
-        }
       }
     }
   }

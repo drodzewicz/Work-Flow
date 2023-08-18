@@ -1,6 +1,4 @@
-@import "../../assets/styles/colors";
 @import "../../assets/styles/mediaQueries";
-@import "../../assets/styles/keyframes";
 
 .welcome-section {
   margin: 3rem 4rem 0;
@@ -38,7 +36,7 @@
       h1 {
         font-size: 7vh;
         margin: 0;
-        color: $black-1;
+        color: var(--color-font-main);
         opacity: 0;
         animation: element-slide-left 2s forwards 1s;
       }
@@ -49,14 +47,14 @@
       h2 {
         font-size: 4vh;
         margin: 0;
-        color: $text-primary;
+        color: var(--color-font-main);
         opacity: 0;
         animation: element-apear 1.5s forwards 2s;
       }
       p {
         font-size: 3vh;
         max-width: 40wv;
-        color: $text-secondary;
+        color: var(--color-font-secondary);
         opacity: 0;
         animation: element-apear 1.5s forwards 2.5s;
       }
@@ -96,11 +94,11 @@
       h2 {
         font-size: 7vh;
         margin: 0;
-        color: $black-1;
+        color: black;
       }
       ul {
         padding-left: 4vh;
-        color: $text-primary;
+        color: var(--color-font-main);
         li {
           font-size: 3vh;
           margin-top: 0.5rem;
@@ -110,14 +108,3 @@
   }
 }
 
-.theme-dark {
-  h1 {
-    color: $white-1;
-  }
-  h2 {
-    color: $text-primary-dark;
-  }
-  p, ul {
-    color: $gray-1;
-  }
-}

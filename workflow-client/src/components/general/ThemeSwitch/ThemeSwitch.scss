@@ -1,6 +1,5 @@
-@import "../../../assets/styles/colors";
 .switch-button {
-  background-color: $gray-1;
+  background-color: gray;
   width: 3rem;
   height: 1.7rem;
   border-radius: 7rem;
@@ -11,11 +10,11 @@
   transition: all ease-in-out 0.3s;
   cursor: pointer;
   &--dark {
-    background: $blue-accent;
+    background: var(--color-accent-primary);
     .switch-button__circle {
       transform: translateX(23px);
       svg {
-        color: $blue-accent;
+        color: var(--color-accent-primary);
       }
     }
   }
@@ -34,7 +33,7 @@
     svg {
       width: 0.9rem;
       height: 0.9rem;
-      color: darken($gray-1, 15%);
+      color: gray;
     }
   }
 }

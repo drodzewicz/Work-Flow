@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Outlet } from "react-router-dom";

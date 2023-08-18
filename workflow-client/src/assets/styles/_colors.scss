@@ -1,59 +1,37 @@
-$gray-bg: #f5f9fa;
-$white-1: #fcfcfc;
-$gray-1: #bfcdd0;
-$light-blue-1: #e7f0f2;
-$text-secondary: #626262;
-$blue-accent: #19b2bd;
-$blue-secondary-overlay: #f0f7f7;
-$text-primary: #404040;
-$blue-primary-overlay: #e0ebee;
-$black-1: #222222;
-
-// labels
-$label-red: #fb8a8a;
-$label-orange: #ffac4b;
-$label-green: #3d5a44;
-$label-blue: #8a95fb;
-$label-pink: #ff52d9;
-$label-yellow: #ffef5b;
-
-// dark mode
-$gray-bg-dark: #333637;
-$dark-1: #474a4b;
-$dark-2: #535657;
-$dark-3: #6a6d6e;
-$text-secondary-dark: #e0e0e0;
-$text-primary-dark: #f0f0f0;
-$blue-accent-dark: #91e5eb;
-
-// tag colors
-$tag-red: rgb(255, 103, 103);
-$tag-yellow: rgb(255, 197, 36);
-$tag-green: rgb(127, 231, 67);
-$tag-tiel: rgb(146, 250, 233);
-$tag-purple: rgb(192, 100, 204);
-$tag-majenta: rgb(216, 116, 138);
-$tag-pink: rgb(246, 174, 255);
-$tag-black: rgb(29, 29, 29);
-$tag-white: rgb(238, 238, 238);
-$tag-blue: rgb(53, 42, 207);
-
-@media (prefers-color-scheme: light) {
-  :root {
-    --main-bg-color: #f5f9fa;
-    --main-accent-color: #19b2bd;
-    --color-1: #fcfcfc;
-    --color-2: #474a4b;
-    --color-3: #474a4b;
-  }
+:root {
+  --color-accent-primary: #19b2bd;
+  --color-accent-secondary: #81e7ee;
+  --color-bg: #f5f9fa;
+  --color-header: #fcfcfc;
+  --color-task-bg: #fff;
+  --color-boardcard-bg: #fff;
+  --color-boardcard-columns: #e7f0f2;
+  --color-board-scrollbar-bg: #d0e0e5;
+  --color-board-scrollbar-thumb: #b0c2c5;
+  --color-column-bg: #e0ebee;
+  --color-column-secondary: #bcd4da;
+  --color-column-text: #609ab5;
+  --color-column-scrollbar-bg: #d0e0e5;
+  --color-column-scrollbar-thumb: #b0c2c5;
+  --color-font-main: #222222;
+  --color-font-secondary: #575757;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --main-bg-color: #333637;
-    --main-accent-color: #91e5eb;
-    --color-1: #474a4b;
-    --color-2: #474a4b;
-    --color-3: #474a4b;
-  }
+[data-theme="DARK"] {
+  --color-accent-primary: #91e5eb;
+  --color-accent-secondary: #fff;
+  --color-bg: #333637;
+  --color-header: #474a4b;
+  --color-task-bg: #6a6d6e;
+  --color-boardcard-bg: #535657;
+  --color-boardcard-columns: #6a6d6e;
+  --color-board-scrollbar-bg: #3b3d3e;
+  --color-board-scrollbar-thumb: #5d6061;
+  --color-column-bg: #474a4b;
+  --color-column-secondary: #6a6d6e;
+  --color-column-text: #ffffff;
+  --color-column-scrollbar-bg: #3b3d3e;
+  --color-column-scrollbar-thumb: #5d6061;
+  --color-font-main: #fcfcfc;
+  --color-font-secondary: #dcddec;
 }

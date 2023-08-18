@@ -1,5 +1,3 @@
-@import "../../../assets/styles/colors";
-
 .notification {
   display: flex;
   flex-direction: row;
@@ -11,14 +9,14 @@
   &:hover {
     &__content {
       &__title {
-        color: $blue-accent;
+        color: var(--color-accent-primary);
       }
       &__message {
-        color: mix($blue-accent, white, 70%);
+        color: var(--color-accent-primary);
       }
     }
     &__close-icon {
-      color: $blue-accent;
+      color: var(--color-accent-primary);
     }
   }
   &__content {
@@ -28,19 +26,19 @@
       font-size: 1rem;
       padding: 0;
       margin: 0;
-      white-space: nowrap; 
-      width: 14rem; 
+      white-space: nowrap;
+      width: 14rem;
       overflow: hidden;
-      text-overflow: ellipsis; 
+      text-overflow: ellipsis;
     }
     &__message {
       font-size: 0.8rem;
       padding: 0;
-      color: $text-secondary;
-      white-space: nowrap; 
-      width: 14rem; 
+      color: var(--color-font-secondary);
+      white-space: nowrap;
+      width: 14rem;
       overflow: hidden;
-      text-overflow: ellipsis; 
+      text-overflow: ellipsis;
     }
   }
   &__close-icon {

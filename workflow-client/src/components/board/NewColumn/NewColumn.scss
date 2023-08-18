@@ -1,9 +1,7 @@
-@import "../../../assets/styles/colors";
-
 .add-new-column {
   display: flex;
   flex-direction: column;
-  background-color: $blue-primary-overlay;
+  background-color: var(--color-column-bg);
   border-radius: 10px;
   margin: 0 0.5rem;
   padding: 0.2rem 0.5rem;
@@ -13,7 +11,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  border: 1px darken($blue-primary-overlay, 40%) dashed;
+  border: 1px var(--color-column-secondary) dashed;
 
   input {
     outline: none;
@@ -25,7 +23,7 @@
     margin: 0 0.5rem;
     box-sizing: border-box;
     &::placeholder {
-      color: darken($blue-primary-overlay, 30%);
+      color: var(-color-font-secondary);
     }
   }
 }

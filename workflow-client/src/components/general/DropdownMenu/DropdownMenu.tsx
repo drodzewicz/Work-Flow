@@ -7,7 +7,6 @@ import useWindowSize from "@/hooks/useWindowSize";
 
 import Portal from "@/components/layout/Portal";
 
-import "./DropdownMenu-dark.scss";
 import "./DropdownMenu.scss";
 
 const DropdownMenu: React.FC<DropdownMenuProps> = ({

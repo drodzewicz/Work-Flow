@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 
 import axios from "@/config/api.conf.ts";
 
-import Button from "@/components/form/Button";
 import { TextField } from "@/components/form/TextInput";
 
 import "./RegisterPage.scss";
@@ -89,14 +88,13 @@ const RegisterPage = () => {
             error={formik.touched.surname && formik.errors?.surname}
             as={TextField}
           />
-          <Button
+          <button
             // disabled={props.isSubmitting || !props.isValid}
-            variant="glow"
-            className="login-form__btn"
+            className="btn login-form__btn"
             type="submit"
           >
             Register
-          </Button>
+          </button>
         </Form>
       </FormikProvider>
     </div>

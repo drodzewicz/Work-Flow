@@ -1,5 +1,3 @@
-@import "../../../../assets/styles/colors";
-
 .navbar__item {
   list-style-type: none;
 
@@ -16,19 +14,19 @@
     justify-content: center;
     align-items: center;
     color: #222222;
-    background: white;
+    background: var(--color-task-bg);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
     position: relative;
     gap: 0.5rem;
 
     &:focus {
-      outline-color: $blue-accent;
+      outline-color: var(--color-accent-primary);
       outline-width: 2px;
       outline-offset: 2px;
     }
 
     &:hover {
-      background: $white-1;
+      background: yellow;
       color: #3d3d3d;
     }
   }
@@ -37,17 +35,5 @@
     display: grid;
     place-items: center;
     font-size: 1.1rem;
-  }
-}
-
-.theme-dark .navbar__item {
-  &__button {
-    color: $white-1;
-    background: darken($dark-1, 10%);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-    &:hover {
-      background: darken($dark-1, 7%);
-      color: $white-1;
-    }
   }
 }

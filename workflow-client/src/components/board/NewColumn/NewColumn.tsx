@@ -4,7 +4,6 @@ import { NewColumnProps } from "./types";
 
 import useAddNewColumn from "@/service/useAddNewColumn";
 
-import "./NewColumn-dark.scss";
 import "./NewColumn.scss";
 
 const NewColumn: React.FC<NewColumnProps> = ({ boardId }) => {

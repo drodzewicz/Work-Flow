@@ -6,7 +6,6 @@ import { FaTimes } from "react-icons/fa";
 
 import Portal from "@/components/layout/Portal";
 
-import "./Modal-dark.scss";
 import "./Modal.scss";
 
 import Backdrop from "../Backdrop";

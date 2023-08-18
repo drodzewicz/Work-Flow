@@ -1,5 +1,4 @@
 @import "../../../assets/styles/mediaQueries";
-@import "../../../assets/styles/colors";
 
 .modal-wrapper {
   width: 100%;
@@ -15,7 +14,7 @@
 .modal {
   position: fixed;
   z-index: 999;
-  background-color: white;
+  background-color: var(--color-bg);
   height: auto;
   border: 1px solid #ccc;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.445);
@@ -51,7 +50,7 @@
     min-width: auto !important;
   }
   &__header {
-    background-color: $blue-secondary-overlay;
+    background-color: var(--color-header);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -64,7 +63,7 @@
       flex-grow: 1;
       text-align: center;
       font-family: "Secular One", sans-serif;
-      color: darken($blue-secondary-overlay, 80%);
+      color: var(--color-font-main);
       font-size: 1.3rem;
       box-sizing: border-box;
       transform: translateX(18px);
@@ -73,12 +72,10 @@
     & > &__close-icon {
       align-self: flex-end;
       cursor: pointer;
-      color: $black-1;
+      color: var(--color-font-main);
       font-size: 0.9rem;
       height: 100%;
       z-index: 2;
-      outline-color: $blue-accent;
-      outline-offset:  0.1em;
     }
   }
   &__content {

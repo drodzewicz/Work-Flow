@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 
 import { TaskDisplayProps } from "./types";
 
-import Button from "@/components/form/Button";
 import { FaEdit, FaEllipsisV, FaTrashAlt } from "react-icons/fa";
 
 import useBoardTask from "@/hooks/useBoardTasks";
@@ -39,7 +38,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
             assignees: data?.assignees?.map((it) => ({ label: it.username, value: it._id })),
           }}
         />
-        <Button onClick={() => setIsEdditing(false)}>Cancel</Button>
+        <button onClick={() => setIsEdditing(false)}>Cancel</button>
       </>
     );
   }

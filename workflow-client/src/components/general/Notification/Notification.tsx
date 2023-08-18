@@ -3,9 +3,7 @@ import React from "react";
 import { NotificationProps } from "./types";
 
 import { FaTimes } from "react-icons/fa";
-// import { useHistory } from "react-router-dom";
 
-import "./Notification-dark.scss";
 import "./Notification.scss";
 
 const Notification: React.FC<NotificationProps> = ({

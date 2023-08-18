@@ -1,7 +1,5 @@
-@import "../../../../assets/styles/colors";
-
 .user-info {
-  background-color: $white-1;
+  background-color: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   padding: 0.6rem 0.7rem;
   border-radius: 5px;
@@ -46,7 +44,7 @@
     }
   }
   &__email {
-    color: $text-secondary;
+    color: gray;
     font-size: 0.8rem;
     margin-top: 0.4rem;
     text-align: center;
@@ -75,11 +73,3 @@
   }
 }
 
-.theme-dark {
-  .user-info {
-    background-color: $dark-2;
-    &__email {
-      color: $gray-1;
-    }
-  }
-}

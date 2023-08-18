@@ -6,10 +6,7 @@ import { ReactComponent as Pin } from "@/assets/images/pin-empty.svg";
 import { ReactComponent as Pined } from "@/assets/images/pin-full.svg";
 import { useNavigate } from "react-router-dom";
 
-// import { useHistory } from "react-router-dom";
-import "./BoardCard-dark.scss";
 import "./BoardCard.scss";
-
 
 const BoardCard: React.FC<BoardcardProps> = ({
   boardName,
@@ -30,7 +27,7 @@ const BoardCard: React.FC<BoardcardProps> = ({
   };
 
   return (
-    <div onClick={goToBoard} aria-label="Board card" className="board-card">
+    <div onClick={goToBoard} aria-label="Board card" className="board-card border-red-800">
       <div role="presentation" className="board-card__columns">
         <div className="board-card__columns__column"></div>
         <div className="board-card__columns__column"></div>
@@ -38,9 +35,7 @@ const BoardCard: React.FC<BoardcardProps> = ({
         <div className="board-card__columns__column"></div>
       </div>
       <div className="board-card__content">
-        <h1 className="board-card__content__title">
-          {boardName}
-        </h1>
+        <h1 className="board-card__content__title">{boardName}</h1>
         <div className="board-card__content__menu">
           <span
             className="board-card__content__menu__icon"

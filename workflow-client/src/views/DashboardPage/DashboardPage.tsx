@@ -17,8 +17,6 @@ import useFetchPinnedUserBoards from "@/service/useFetchPinnedUserBoards";
 import useFetchUserBoards from "@/service/useFetchUserBoard";
 import useTogglePinBoard from "@/service/useTogglePinBoard";
 
-import Button from "@/components/form/Button";
-
 import ContainerBox from "@/components/layout/ContainerBox/ContainerBox";
 import Modal from "@/components/layout/Modal";
 
@@ -97,10 +95,10 @@ const DashboardPage: React.FC = () => {
         <div className="board-container">
           <h1 className="board-container-title">
             <FaColumns className="board-container-title__icon" /> Boards
-            <Button onClick={openCreateNewBoardModal} className="new-board-btn">
+            <button onClick={openCreateNewBoardModal} className="btn new-board-btn">
               <span className="new-board-btn__text">New Board</span>
               <FaPlus className="new-board-btn__icon" />
-            </Button>
+            </button>
           </h1>
           <hr className="break-line" />
           <BoardContainer

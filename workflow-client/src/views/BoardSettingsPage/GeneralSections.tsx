@@ -1,6 +1,5 @@
 import React from "react";
 
-import Button from "@/components/form/Button";
 import { TextAreaField, TextField } from "@/components/form/TextInput";
 import { Form, Field, FormikProvider, useFormik } from "formik";
 import { useParams } from "react-router-dom";
@@ -45,9 +44,9 @@ const GeneralSections: React.FC = () => {
             error={formik.touched.description && formik.errors?.description}
             as={TextAreaField}
           />
-          <Button disabled={formik.isValid} type="submit" className="self-end" variant="glow">
+          <button disabled={formik.isValid} type="submit" className="btn self-end">
             save changes
-          </Button>
+          </button>
         </Form>
       </FormikProvider>
     </section>

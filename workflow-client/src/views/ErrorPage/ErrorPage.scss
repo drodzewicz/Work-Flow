@@ -1,5 +1,4 @@
 @import "../../assets/styles/variables";
-@import "../../assets/styles/colors";
 @import "../../assets/styles/mediaQueries";
 
 .error-page {
@@ -31,7 +30,7 @@
       font-size: 3rem;
       margin: 0;
       font-family: "Secular One", sans-serif;
-      color: $text-primary;
+      color: var(--color-font-main);
       @include mq-1 {
         font-size: 2.4rem;
       }
@@ -41,26 +40,14 @@
         position: absolute;
         height: 2px;
         width: 100%;
-        background: lighten($text-secondary, 40%);
+        background: var(--color-font-secondary);
       }
     }
     &__reason-phrase {
       font-family: "Secular One", sans-serif;
       margin: 0;
       margin-top: 10px;
-      color: $text-secondary;
+      color: var(--color-font-main);
     }
-  }
-}
-
-.theme-dark .error-page {
-  &__title {
-    color: $text-primary-dark;
-    &:after {
-      background: darken($text-secondary-dark, 40%);
-    }
-  }
-  &__reason-phrase {
-    color: darken($text-secondary-dark, 40%);
   }
 }

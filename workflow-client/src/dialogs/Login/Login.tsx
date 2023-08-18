@@ -4,7 +4,6 @@ import { OnSubmitType } from "@/types/general/utils";
 
 import { LoginFormType } from "./types";
 
-import Button from "@/components/form/Button";
 import { TextField } from "@/components/form/TextInput";
 import { Field, Form, useFormik, FormikProvider } from "formik";
 import { useMutation } from "react-query";
@@ -66,14 +65,13 @@ const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initi
           error={formik.touched.password && formik.errors.password}
           as={TextField}
         />
-        <Button
+        <button
           // disabled={props.isSubmitting || !props.isValid}
-          variant="glow"
-          className="login-form__btn"
+          className="btn--glow login-form__btn"
           type="submit"
         >
           Log In
-        </Button>
+        </button>
       </Form>
     </FormikProvider>
   );

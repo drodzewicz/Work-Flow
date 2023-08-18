@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 
-import Button from "@/components/form/Button";
 import debounce from "lodash/debounce";
 import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
@@ -66,9 +65,9 @@ const InviteUserToBoard: React.FC = () => {
         isMulti
         loadOptions={loadOptions}
       />
-      <Button onClick={addSelectedUsersToBoard} variant="glow">
+      <button onClick={addSelectedUsersToBoard} className="btn--glow">
         Add to the board
-      </Button>
+      </button>
     </div>
   );
 };

@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 import useModal from "@/hooks/useModal";
 
-import Button from "@/components/form/Button";
 import ExpandText from "@/components/general/ExpandText";
 
 import Modal from "@/components/layout/Modal";
@@ -28,14 +27,14 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ boardId, name, description })
           <p>{description}</p>
         </ExpandText>
         <div className="board-page__controlls">
-          <Button onClick={openMembersModal}>
+          <button className="btn" onClick={openMembersModal}>
             <FaUsers />
             <span>Peolpe</span>
-          </Button>
-          <Button>
+          </button>
+          <button className="btn">
             <FaCog />
             <Link to={`/board/${boardId}/settings`}>Settings</Link>
-          </Button>
+          </button>
         </div>
         <hr className="break-line" style={{ width: "100%" }} />
       </div>

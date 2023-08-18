@@ -1,16 +1,14 @@
-@import "../../../assets/styles/colors";
-
 @keyframes task-skeleton-loading {
   0% {
-    background-color: $white-1;
+    background-color: white;
   }
   100% {
-    background-color: lighten($blue-primary-overlay, 3%);
+    background-color: gray;
   }
 }
 
 .task-card--loading {
-  background-color: $white-1;
+  background-color: white;
   animation: task-skeleton-loading 1s linear infinite alternate;
 
   width: 15rem;
@@ -24,14 +22,13 @@
   &__title {
     margin: 0;
     font-size: 0.9rem;
-    color: $text-primary;
     margin-bottom: 0.2rem;
     &::after {
       content: "";
       height: 1rem;
       width: 6rem;
       display: block;
-      background-color: $blue-primary-overlay;
+      background-color: gray;
       border-radius: 3rem;
     }
   }
@@ -42,7 +39,7 @@
     width: $avatar-size;
     border-radius: 50%;
     object-fit: cover;
-    background-color: $blue-primary-overlay;
+    background-color: gray;
   }
 
   &__bottom {
@@ -62,17 +59,17 @@
 
 @keyframes column-skeleton-loading {
   0% {
-    background-color: darken($blue-primary-overlay, 3%);
+    background-color: darken(gray, 3%);
   }
   100% {
-    background-color: darken($blue-primary-overlay, 11%);
+    background-color: darken(gray, 11%);
   }
 }
 
 .task-column--loading {
   display: flex;
   flex-direction: column;
-  background-color: $blue-primary-overlay;
+  background-color: gray;
   border-radius: 10px;
   padding: 0.2rem 0.5rem;
   font-family: "Secular One", sans-serif;
@@ -80,7 +77,6 @@
   box-shadow: 0 0 3px transparent;
   transition: all 0.2s ease-in-out;
   height: 100%;
-  outline: $blue-accent;
 
   &__header {
     display: flex;
@@ -92,8 +88,8 @@
     position: relative;
 
     &__task-count {
-      color: darken($blue-primary-overlay, 50%);
-      background: darken($blue-primary-overlay, 11%);
+      color: darken(gray, 50%);
+      background: darken(gray, 11%);
       animation: column-skeleton-loading 1s linear infinite alternate;
 
       border-radius: 3px;
@@ -114,7 +110,7 @@
         display: block;
         width: 5rem;
         height: 1rem;
-        background-color: darken($blue-primary-overlay, 11%);
+        background-color: darken(gray, 11%);
         animation: column-skeleton-loading 1s linear infinite alternate;
 
         border-radius: 3rem;
@@ -133,12 +129,11 @@
     background-color: white;
   }
   100% {
-    background-color: $light-blue-1;
+    background-color: gray;
   }
 }
 
 .board-card--loading {
-  outline: $blue-accent;
   $card-width: 12rem;
   $card-height: 6rem;
   background-color: white;
@@ -165,7 +160,7 @@
     height: 70px;
     align-items: flex-start;
     &__column {
-      background: $light-blue-1;
+      background: gray;
       animation: skeleton-loading 1s linear infinite alternate-reverse;
 
       width: 35px;
@@ -191,21 +186,9 @@
 
 @keyframes skeleton-loading-dark {
   0% {
-    background-color: $dark-1;
+    background-color: darkgray;
   }
   100% {
-    background-color: darken($dark-1, 3%);
-  }
-}
-
-.theme-dark .board-card--loading {
-  background-color: $dark-2;
-  animation: skeleton-loading-dark 1s linear infinite alternate;
-
-  &__columns {
-    &__column {
-      background: lighten($dark-2, 3%);
-      animation: skeleton-loading-dark 1s linear infinite alternate-reverse;
-    }
+    background-color: darken(darkgray, 3%);
   }
 }

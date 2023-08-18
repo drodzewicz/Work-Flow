@@ -1,4 +1,3 @@
-@import "../../../assets/styles/colors";
 .pagination {
   display: flex;
   flex-direction: row;
@@ -12,24 +11,24 @@
     justify-content: center;
     align-items: center;
     background: transparent;
-    color: $text-primary;
+    color: var(--color-font-main);
     border: none;
     margin: 0.5rem;
     width: $pagination-item-size;
     height: $pagination-item-size;
     border-radius: 5px;
     cursor: pointer;
-     outline-color: $blue-accent;
+     outline-color: var(--color-accent-primary);
   }
   &__current-page {
-    background-color: $blue-accent;
-    color: white;
+    background-color: var(--color-accent-primary);
+    color: var(--color-bg);
   }
   &__dots {
     width: 0.8rem;
     transition: all 0.3s ease-in-out;
     overflow: hidden;
-    color: $text-primary;
+    color: var(--color-font-main);
     cursor: default;
     user-select: none;
     &.hide {

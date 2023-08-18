@@ -1,5 +1,3 @@
-@import "../../..//assets/styles/colors";
-
 .board-user {
   cursor: pointer;
   &:hover {
@@ -12,10 +10,3 @@
   }
 }
 
-.theme-dark {
-  .board-user {
-    &:hover {
-      background-color: $dark-3;
-    }
-  }
-}

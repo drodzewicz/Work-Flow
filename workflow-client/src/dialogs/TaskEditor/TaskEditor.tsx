@@ -2,7 +2,6 @@ import React from "react";
 
 import { OnSubmitType } from "@/types/general/utils";
 
-import Button from "@/components/form/Button/Button";
 import { TextField, TextAreaField } from "@/components/form/TextInput";
 import UserSelect from "@/components/form/UserSelect/UserSelect";
 import { AxiosResponse } from "axios";
@@ -92,20 +91,21 @@ const TaskEditorForm: React.FC<TaskEditorProps> = ({
               renderContainer={(data, { removeItem }) =>
                 data?.map((user: any) => (
                   <User key={user.label} username={user.label}>
-                    <Button onClick={() => removeItem(user.value)}>-</Button>
+                    <button className="btn" onClick={() => removeItem(user.value)}>
+                      -
+                    </button>
                   </User>
                 ))
               }
             />
           </div>
-          <Button
+          <button
             // disabled={props.isSubmitting || !props.isValid}
-            variant="glow"
-            className="login-form__btn"
+            className="bnt--glow login-form__btn"
             type="submit"
           >
             Save
-          </Button>
+          </button>
         </section>
       </Form>
     </FormikProvider>

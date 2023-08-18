@@ -8,7 +8,6 @@ import NavItem from "@/components/layout/Navbar/NavItem/NavItem";
 import Login from "@/dialogs/Login/Login";
 
 import "../Navbar.scss";
-import "./DefaultNav.scss";
 
 import Modal from "../../Modal/Modal";
 
