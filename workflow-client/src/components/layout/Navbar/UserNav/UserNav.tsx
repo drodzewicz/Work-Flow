@@ -3,6 +3,7 @@ import React from "react";
 import { FaSignOutAlt, FaUserAlt, FaHome, FaBell, FaMoon, FaSun } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 
+import useAppTheme from "@/hooks/useAppTheme";
 import useAuth from "@/hooks/useAuth";
 
 import useGetCurrentUser from "@/service/useGetCurentUser";
@@ -11,17 +12,16 @@ import useLogout from "@/service/useLogout";
 
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
 import Notification from "@/components/general/Notification";
-import ThemeSwitch from "@/components/general/ThemeSwitch";
 
 import NavItem from "@/components/layout/Navbar/NavItem";
 
-import "../Navbar.scss";
 import "./UserNav.scss";
 
 const UserNav: React.FC = () => {
   const navigate = useNavigate();
 
   const { user, token, login, logout } = useAuth();
+  const { themeState, toggleTheme } = useAppTheme();
   const { mutate: logoutUser } = useLogout({
     onSuccess: () => {
       logout();
@@ -37,25 +37,12 @@ const UserNav: React.FC = () => {
 
   const { data: notifications = [] } = useGetNotifications();
 
-  const goToHomePage = () => {
-    navigate("/dashboard");
-  };
-
-  const removeMessage = async (index: number) => {
-    //
-  };
-
-  const handlGetMyNotifications = () => {
-    //
-  };
-
   return (
     <nav className="navbar">
-      <ThemeSwitch />
-      <NavItem name="home" onClick={goToHomePage} Icon={FaHome} />
+      <NavItem name="home" to="/dashboard" Icon={FaHome} />
       <NavItem
         name="profile"
-        dropdownOffset={{ x: -60, y: 10 }}
+        dropdownOffset={{ x: -105, y: 10 }}
         Icon={FaUserAlt}
         label={user.username}
         className="profile-nav"
@@ -65,8 +52,9 @@ const UserNav: React.FC = () => {
             <FaUserAlt /> Profile
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <FaMoon /> Theme Dark
+        <DropdownMenuItem onClick={toggleTheme}>
+          {themeState ? <FaMoon /> : <FaSun />}
+          Switch theme
         </DropdownMenuItem>
         <DropdownMenuItem>
           <span className="logout-btn" onClick={() => logoutUser()}>
@@ -76,8 +64,7 @@ const UserNav: React.FC = () => {
       </NavItem>
       <NavItem
         name="notiications"
-        onClick={handlGetMyNotifications}
-        dropdownOffset={{ x: -20, y: 10 }}
+        dropdownOffset={{ x: -25, y: 10 }}
         className={`notification-nav ${notifications?.length ? "badge" : ""}`}
         dropdownMaxHeight={400}
         dropDownOnClickClose={false}
