@@ -1,10 +1,16 @@
 import React, { useRef, useState, useEffect } from "react";
 
-import { TooltipPorps } from "./types";
-
 import Portal from "@/components/layout/Portal";
 
 import "./Tooltip.scss";
+
+export interface TooltipPorps {
+  className?: string;
+  anchorEl: any;
+  offset?: { x: number; y: number };
+  debounceTimeout?: number;
+  children?: React.ReactNode;
+}
 
 const Tooltip: React.FC<TooltipPorps> = ({
   className,

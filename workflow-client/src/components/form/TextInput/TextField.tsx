@@ -1,8 +1,13 @@
 import React, { forwardRef } from "react";
 
-import { TextFieldInputProps } from "./types";
-
 import "./TextField.scss";
+
+export interface TextFieldI {
+  label?: string;
+  error?: string;
+}
+
+export interface TextFieldInputProps extends TextFieldI, React.ComponentProps<"input"> {}
 
 const TextField = forwardRef<HTMLInputElement, TextFieldInputProps>((props, ref) => {
   const { label, className, error, name, ...fieldProps } = props;

@@ -1,10 +1,6 @@
 import React from "react";
 
-import { ColumnProps } from "./types";
-
 import { Droppable } from "react-beautiful-dnd";
-
-import Column from ".";
 
 const TaskDroppableContainer: React.FC<{
   columnId: string;

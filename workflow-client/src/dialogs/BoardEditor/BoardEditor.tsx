@@ -1,15 +1,16 @@
 import React from "react";
 
-import { OnSubmitType } from "@/types/general/utils";
-
-import { BoardEditorType } from "./types";
+import { OnSubmitType } from "@/types/utils";
 
 import { TextField, TextAreaField } from "@/components/form/TextInput";
 import { Field, Form, useFormik, FormikProvider } from "formik";
+import { InferType } from "yup";
 
 import "./BoardEditor.scss";
 
 import { validationSchema } from "./formSchema";
+
+export type BoardEditorType = InferType<typeof validationSchema>;
 
 const BoardEditorForm: React.FC<{
   initialValues?: Partial<BoardEditorType>;

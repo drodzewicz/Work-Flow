@@ -1,14 +1,20 @@
 import React, { MouseEvent } from "react";
 
-import { BoardcardProps } from "./types";
-
 import { ReactComponent as Pin } from "@/assets/images/pin-empty.svg";
 import { ReactComponent as Pined } from "@/assets/images/pin-full.svg";
 import { useNavigate } from "react-router-dom";
 
 import "./BoardCard.scss";
 
-const BoardCard: React.FC<BoardcardProps> = ({
+export interface BoardCardProps {
+  boardName: string;
+  boardId: string;
+  isPinned?: boolean;
+  pinBoard: () => void;
+  isAuthor?: boolean;
+}
+
+const BoardCard: React.FC<BoardCardProps> = ({
   boardName,
   boardId,
   pinBoard,

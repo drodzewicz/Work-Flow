@@ -1,8 +1,12 @@
 import React from "react";
 
-import { BackdropProps } from "./types";
-
 import "./Backdrop.scss";
+
+export interface BackdropProps {
+  show: boolean;
+  clicked?: () => void;
+  opacity?: number;
+}
 
 const Backdrop: React.FC<BackdropProps> = ({ show, clicked, opacity = 0.6 }) => (
   <div

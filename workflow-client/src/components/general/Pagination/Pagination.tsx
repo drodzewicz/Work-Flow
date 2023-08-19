@@ -1,10 +1,17 @@
 import React from "react";
 
-import { PaginationProps } from "./types";
-
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 
 import "./Pagination.scss";
+
+export interface PaginationI {
+  current: number;
+  total: number;
+}
+
+export interface PaginationProps extends PaginationI {
+  handleChange: (page: number) => void;
+}
 
 const Pagination: React.FC<PaginationProps> = ({ current, total, handleChange }) => {
   const previousPage = () => {

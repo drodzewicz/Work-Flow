@@ -1,7 +1,5 @@
 import React, { useRef, useState } from "react";
 
-import { TaskDisplayProps } from "./types";
-
 import { FaEdit, FaEllipsisV, FaTrashAlt } from "react-icons/fa";
 
 import useBoardTask from "@/hooks/useBoardTasks";
@@ -16,6 +14,10 @@ import User from "@/components/board/User";
 import TaskEditor from "@/dialogs/TaskEditor";
 
 import "./TaskDisplay.scss";
+
+export interface TaskDisplayProps {
+  taskId: string;
+}
 
 const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
   const [isEdditing, setIsEdditing] = useState<boolean>(false);

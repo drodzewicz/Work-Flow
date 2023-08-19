@@ -1,8 +1,11 @@
 import React from "react";
 
-import { PortalProps } from "./types";
-
 import { createPortal } from "react-dom";
+
+export interface PortalProps {
+  mountTo: string;
+  children: React.ReactNode;
+}
 
 const Portal: React.FC<PortalProps> = ({ children, mountTo }) => {
   const mount = document.getElementById(mountTo)!;

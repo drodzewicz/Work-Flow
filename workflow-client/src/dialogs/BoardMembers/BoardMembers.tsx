@@ -1,7 +1,5 @@
 import React from "react";
 
-import { BoardMembersProps } from "./types";
-
 import { TextField } from "@/components/form/TextInput";
 import { debounce } from "lodash";
 import { Link } from "react-router-dom";
@@ -16,7 +14,9 @@ import User from "@/components/board/User";
 
 import "./BoardMembers.scss";
 
-import BoardMemberUser from "./BoardMemberUser/BoardMemberUser";
+export type BoardMembersProps = {
+  boardId: string;
+};
 
 const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
   const { currentPage, totalPages, limit, setCurrentPage, setTotalItems } = usePagination({
@@ -24,7 +24,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
     limit: 8,
   });
 
-  const { data, search, isLoading } = useSearchBoardMembers({
+  const { data, search } = useSearchBoardMembers({
     boardId,
     limit,
     page: currentPage,
@@ -46,8 +46,6 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
           {member.role}
         </User>
       ))}
-      {/* {isLoading && [...Array(limit)].map((_, index) => <UserLoading key={index} />)} */}
-
       <Pagination current={currentPage} total={totalPages} handleChange={setCurrentPage} />
     </div>
   );

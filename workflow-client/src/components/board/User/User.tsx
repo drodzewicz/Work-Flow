@@ -1,10 +1,16 @@
 import React from "react";
 
-import { UserProps } from "./types";
-
 import Image from "@/components/general/Image/Image";
 
 import "./User.scss";
+
+export type UserProps = {
+  imageSrc?: string;
+  username: string;
+  className?: string;
+  onClick?: () => void;
+  children?: React.ReactNode;
+};
 
 const User: React.FC<UserProps> = ({ imageSrc, username, className, onClick, children }) => {
   return (

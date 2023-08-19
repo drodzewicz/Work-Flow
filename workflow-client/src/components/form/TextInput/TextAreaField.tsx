@@ -1,8 +1,13 @@
 import React from "react";
 
-import { TextAreaFieldProps } from "./types";
-
 import "./TextField.scss";
+
+export interface TextFieldI {
+  label?: string;
+  error?: string;
+}
+
+export interface TextAreaFieldProps extends TextFieldI, React.ComponentProps<"textarea"> {}
 
 const TextAreaField: React.FC<TextAreaFieldProps> = (props) => {
   const { label, className, error, name, ...fieldProps } = props;

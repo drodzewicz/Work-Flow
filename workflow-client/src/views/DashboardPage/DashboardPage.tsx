@@ -1,8 +1,6 @@
 import React from "react";
 
-import { OnSubmitType } from "@/types/general/utils";
-
-import { BoardEditorType } from "@/dialogs/BoardEditor/types";
+import { OnSubmitType } from "@/types/utils";
 
 import { ReactComponent as Pined } from "@/assets/images/pin-full.svg";
 import { FaPlus } from "react-icons/fa";
@@ -22,7 +20,7 @@ import Modal from "@/components/layout/Modal";
 
 import BoardContainer from "@/components/board/BoardContainer";
 
-import BoardEditor from "@/dialogs/BoardEditor/BoardEditor";
+import BoardEditor, { BoardEditorType } from "@/dialogs/BoardEditor/BoardEditor";
 
 import "./DashboardPage.scss";
 

@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useRef, ChangeEvent } from "react";
 
-import { ColumnNameInputProps } from "./types";
-
 import "./ColumnNameInput.scss";
+
+export interface ColumnNameInputProps {
+  initialVal: string;
+  onEnter: (newTitle: string) => void;
+  hideInput: () => void;
+  editTitle: boolean;
+}
 
 const ColumnNameInput: React.FC<ColumnNameInputProps> = ({
   initialVal,

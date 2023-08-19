@@ -1,6 +1,6 @@
 import React from "react";
 
-import { OnSubmitType } from "@/types/general/utils";
+import { OnSubmitType } from "@/types/utils";
 
 import { TextField, TextAreaField } from "@/components/form/TextInput";
 import UserSelect from "@/components/form/UserSelect/UserSelect";

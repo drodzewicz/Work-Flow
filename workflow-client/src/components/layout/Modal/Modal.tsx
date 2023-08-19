@@ -1,7 +1,5 @@
 import React from "react";
 
-import { IModalProps } from "./types";
-
 import { FaTimes } from "react-icons/fa";
 
 import Portal from "@/components/layout/Portal";
@@ -9,6 +7,13 @@ import Portal from "@/components/layout/Portal";
 import "./Modal.scss";
 
 import Backdrop from "../Backdrop";
+
+export type IModalProps = {
+  show: boolean;
+  title: string;
+  onClose: () => void;
+  size: "s" | "m" | "l";
+};
 
 const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
   show,

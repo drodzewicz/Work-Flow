@@ -1,13 +1,12 @@
 import React from "react";
 
-import { OnSubmitType } from "@/types/general/utils";
-
-import { LoginFormType } from "./types";
+import { OnSubmitType } from "@/types/utils";
 
 import { TextField } from "@/components/form/TextInput";
 import { Field, Form, useFormik, FormikProvider } from "formik";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { InferType } from "yup";
 
 import axios from "@/config/api.conf.ts";
 
@@ -16,6 +15,8 @@ import useAuth from "@/hooks/useAuth";
 import "./Login.scss";
 
 import { validationSchema } from "./formSchema";
+
+export type LoginFormType = InferType<typeof validationSchema>;
 
 const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initialValues }) => {
   const { login } = useAuth();

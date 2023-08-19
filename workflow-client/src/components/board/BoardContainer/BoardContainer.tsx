@@ -1,14 +1,23 @@
 import React from "react";
 
-import { BoardContainerProps } from "./types";
-
-import Pagination from "@/components/general/Pagination/Pagination";
+import Pagination, { PaginationI } from "@/components/general/Pagination/Pagination";
 
 import * as Skeleton from "@/components/layout/Skeleton";
 
 import BoardCard from "@/components/board/BoardCard";
 
 import "./BoardContainer.scss";
+
+export interface BoardContainerProps {
+  boards: (Board & { isPinned: boolean })[];
+  togglePinBoard: (boardId: string) => void;
+  page?: PaginationI;
+  changePage?: (page: number) => void;
+  className?: string;
+  noBoardsMessage?: string;
+  numberOfLoadingItems: number;
+  isLoading?: boolean;
+}
 
 const BoardContainer: React.FC<BoardContainerProps> = ({
   boards,

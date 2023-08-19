@@ -2,7 +2,8 @@ import React from "react";
 
 import useBoardTask from "@/hooks/useBoardTasks";
 
-import Task from "../../Task";
+import Task from "@/components/board/Task";
+
 import TaskDroppableContainer from "./TaskDroppableContainer";
 
 const TaskContainer: React.FC<{ columnId: string; columnIndex: number }> = ({

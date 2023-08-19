@@ -1,7 +1,5 @@
 import React from "react";
 
-import { BoardPageProps } from "./types";
-
 import { useParams } from "react-router-dom";
 
 import { TaskProvider } from "@/context/TaskContext";
@@ -13,7 +11,7 @@ import "./BoardPage.scss";
 import BoardColumns from "./BoardColumns";
 import BoardHeader from "./BoardHeader";
 
-const BoardPage: React.FC<BoardPageProps> = () => {
+const BoardPage: React.FC = () => {
   const { id: boardId = "" } = useParams<{ id: string }>();
   const { data: board } = useGetBoard({ boardId });
 

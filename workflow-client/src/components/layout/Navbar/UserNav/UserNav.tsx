@@ -53,7 +53,7 @@ const UserNav: React.FC = () => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={toggleTheme}>
-          {themeState ? <FaMoon /> : <FaSun />}
+          {themeState ? <FaSun /> : <FaMoon />}
           Switch theme
         </DropdownMenuItem>
         <DropdownMenuItem>

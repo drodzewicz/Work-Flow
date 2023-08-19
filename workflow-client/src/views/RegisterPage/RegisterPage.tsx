@@ -1,20 +1,20 @@
 import React from "react";
 
-import { OnSubmitType } from "@/types/general/utils";
+import { OnSubmitType } from "@/types/utils";
 
-import { RegisterType } from "./types";
-
+import { TextField } from "@/components/form/TextInput";
 import { Field, Form, useFormik, FormikProvider } from "formik";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { InferType } from "yup";
 
 import axios from "@/config/api.conf.ts";
-
-import { TextField } from "@/components/form/TextInput";
 
 import "./RegisterPage.scss";
 
 import { validationSchema } from "./formSchema";
+
+export type RegisterType = InferType<typeof validationSchema>;
 
 const INITIAL_FORM_VALUES: RegisterType = {
   username: "",
@@ -44,14 +44,9 @@ const RegisterPage = () => {
     (registerPayload: any) => axios.post("/auth/register", registerPayload),
     {
       onError: (error: any) => {
-        // alertDispatch({ type: AlertActionType.ERROR, payload: { message: "validation error" } });
         formik.setErrors(error?.response?.data?.messages);
       },
       onSuccess: () => {
-        // alertDispatch({
-        //   type: AlertActionType.SUCCESS,
-        //   payload: { message: "User successfully registered" },
-        // });
         navigate("/#login", {
           state: { username: formik.values.username, password: formik.values.password },
         });
