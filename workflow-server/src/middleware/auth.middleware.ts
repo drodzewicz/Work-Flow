@@ -12,7 +12,7 @@ const taskRepository = new TaskRepository();
 const userRepository = new UserRepository();
 const boardRepository = new BoardRepository();
 
-const memberService = new MemberService(memberRepository);
+const memberService = new MemberService(memberRepository, userRepository);
 const boardService = new BoardService(boardRepository, userRepository);
 const taskService = new TaskService(taskRepository, userRepository, boardRepository);
 

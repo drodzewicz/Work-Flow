@@ -20,7 +20,7 @@ const SkeletonContainer: React.FC<SkeletonContainerProps> = ({
   const id = useId();
 
   if (!show) {
-    return <>{children}</>;
+    return <div className={containerClassName ?? ""}>{children}</div>;
   }
 
   return (

@@ -30,7 +30,7 @@ const BoardContainer: React.FC<BoardContainerProps> = ({
   noBoardsMessage = "empty",
 }) => {
   return (
-    <div className={`board-container rr ${className || ""}`}>
+    <div className={`board-container ${className || ""}`}>
       <Skeleton.Container
         show={isLoading}
         containerClassName="board-container__boards"

@@ -10,6 +10,7 @@ import {
   UseBefore,
   CurrentUser,
   Authorized,
+  Patch,
 } from "routing-controllers";
 import { BoardService, MemberService, UserService } from "../services/index.js";
 import { Container } from "typedi";
@@ -87,5 +88,21 @@ export class BoardController {
 
     await this.boardService.getBoard(boardId);
     return await this.boardService.updateBoard(boardId, payload);
+  }
+
+  @Patch("/:boardId/leave")
+  @Authorized()
+  async LeaveBoard(@Param("boardId") boardId: string, @CurrentUser() user: AuthUser) {
+    const members = await this.memberService.getBoardMembers(boardId);
+    await this.memberService.getBoardMember(boardId, user.id.toString());
+
+    await this.memberService.removeUserFromBoard(boardId, user.id.toString());
+
+    // if last member leaves the board then delete the board
+    if (members.length === 1) {
+      await this.boardService.deleteBoard(boardId);
+    }
+
+    return { message: "User removed from the board" };
   }
 }

@@ -1,6 +1,6 @@
 import { UnauthorizedError } from "routing-controllers";
 import { Service, Inject } from "typedi";
-import { MemberRepository } from "../repositories/index.js";
+import { MemberRepository, UserRepository } from "../repositories/index.js";
 import { MemberDTO } from "../types/dto/index.js";
 import { MemberMapper } from "../mappers/index.js";
 import { RoleNames } from "../config/permissions.config.js";
@@ -10,9 +10,11 @@ import { UserDocument } from "src/types/database/user.type.js";
 @Service()
 export class MemberService {
   memberRepository: MemberRepository;
+  userRepository: UserRepository;
 
-  constructor(@Inject() memberRepository: MemberRepository) {
+  constructor(@Inject() memberRepository: MemberRepository, @Inject() userRepository: UserRepository) {
     this.memberRepository = memberRepository;
+    this.userRepository = userRepository;
   }
 
   async getBoardMembers(boardId: string): Promise<MemberDTO[]> {
@@ -76,6 +78,7 @@ export class MemberService {
 
   async removeUserFromBoard(boardId: string, userId: string): Promise<void> {
     await this.memberRepository.removeUserFromBoard(boardId, userId);
+    await this.userRepository.removeBoardFromPinnedCollection(userId, boardId);
   }
 
   async updateBoardMemberRole(boardId: string, userId: string, role: RoleNames): Promise<MemberDTO> {
