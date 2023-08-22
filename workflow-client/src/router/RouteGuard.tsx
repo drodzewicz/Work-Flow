@@ -1,29 +1,27 @@
-import React, { useContext, PropsWithChildren } from "react";
+import React, { useContext, PropsWithChildren, useEffect } from "react";
 
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation, Navigate, Outlet } from "react-router-dom";
+
+import useAuth from "@/hooks/useAuth";
 
 type RouteGuardConditionType = (attrs: { isAuthenticated: boolean }) => boolean;
 
 interface IRouteGuardProps {
   redirectTo: string;
-  condition: RouteGuardConditionType;
+  anonymous?: boolean;
 }
 
 const RouteGuard: React.FC<PropsWithChildren<IRouteGuardProps>> = ({
   children,
-  condition,
   redirectTo,
+  anonymous = false,
 }) => {
   const location = useLocation();
-  const token = localStorage.getItem("token");
-  // const isAuthenticated =
-  //   (authenticated !== null && authenticated) || (authenticated === null && !!token);
+  const { user } = useAuth();
 
-  // FIXME implement router guards
-  // if (condition({ isAuthenticated: !!user })) {
-  return <>{children}</>;
-  // }
-
+  if ((anonymous && !user) || (!anonymous && user)) {
+    return <Outlet />;
+  }
   // Redirect them to the /login page, but save the current location they were
   // trying to go to when they were redirected. This allows us to send them
   // along to that page after they login, which is a nicer user experience

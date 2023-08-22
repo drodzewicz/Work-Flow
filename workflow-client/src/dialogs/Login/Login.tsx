@@ -5,7 +5,7 @@ import { OnSubmitType } from "@/types/utils";
 import { TextField } from "@/components/form/TextInput";
 import { Field, Form, useFormik, FormikProvider } from "formik";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { InferType } from "yup";
 
 import axios from "@/config/api.conf.ts";
@@ -21,6 +21,7 @@ export type LoginFormType = InferType<typeof validationSchema>;
 const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initialValues }) => {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const mutation = useMutation(
     (loginPayload: any) => axios.post("/auth/login", loginPayload, { withCredentials: true }),
@@ -28,7 +29,11 @@ const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initi
       onSuccess: (response) => {
         const { user, accessToken } = response.data;
         login({ user, token: accessToken });
-        navigate("/dashboard");
+
+        // redirect user to the desired page if user was redirected to login
+        const from = location.state?.from?.pathname || "/dashboard";
+
+        navigate(from);
       },
       onError: () => {
         formik.setErrors({ username: "bad login", password: "bad login" });

@@ -7,31 +7,42 @@ import RegisterPage from "@/views/RegisterPage";
 import WelcomePage from "@/views/WelcomePage";
 import { createBrowserRouter } from "react-router-dom";
 
+import RouteGuard from "./RouteGuard";
+
 const router = createBrowserRouter([
   {
-    path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
       {
-        index: true,
-        element: <WelcomePage />,
+        element: <RouteGuard anonymous redirectTo="/dashboard" />,
+        children: [
+          {
+            path: "/",
+            element: <WelcomePage />,
+          },
+          {
+            path: "register",
+            element: <RegisterPage />,
+          },
+        ],
       },
       {
-        path: "register",
-        element: <RegisterPage />,
-      },
-      {
-        path: "dashboard",
-        element: <DashboardPage />,
-      },
-      {
-        path: "board/:id",
-        element: <BoardPage />,
-      },
-      {
-        path: "board/:id/settings",
-        element: <BoardSettingsPage />,
+        element: <RouteGuard redirectTo="/#login" />,
+        children: [
+          {
+            path: "dashboard",
+            element: <DashboardPage />,
+          },
+          {
+            path: "board/:id",
+            element: <BoardPage />,
+          },
+          {
+            path: "board/:id/settings",
+            element: <BoardSettingsPage />,
+          },
+        ],
       },
     ],
   },
