@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { PropsWithChildren, useEffect, useRef, useState } from "react";
 
 import { useClickOutside } from "@/hooks/useClickOutside";
 import useWindowSize from "@/hooks/useWindowSize";
@@ -16,10 +16,9 @@ export interface DropdownMenuProps {
   dropdownMaxHeight?: number;
   anchorEl: any;
   className?: string;
-  children?: React.ReactNode;
 }
 
-const DropdownMenu: React.FC<DropdownMenuProps> = ({
+const DropdownMenu: React.FC<PropsWithChildren<DropdownMenuProps>> = ({
   className,
   children,
   anchorEl,

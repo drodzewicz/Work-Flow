@@ -1,4 +1,4 @@
-import React, { useId } from "react";
+import React, { PropsWithChildren, useId } from "react";
 
 import "./Skeleton.scss";
 
@@ -7,10 +7,9 @@ type SkeletonContainerProps = {
   count: number;
   containerClassName?: string;
   show?: boolean;
-  children?: React.ReactNode;
 };
 
-const SkeletonContainer: React.FC<SkeletonContainerProps> = ({
+const SkeletonContainer: React.FC<PropsWithChildren<SkeletonContainerProps>> = ({
   element,
   count,
   containerClassName,

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 
-const ColumnSkeleton: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
+const ColumnSkeleton: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className="task-column--loading">
       <header className="task-column--loading__header">

@@ -1,12 +1,13 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 
 import { Droppable } from "react-beautiful-dnd";
 
-const TaskDroppableContainer: React.FC<{
-  columnId: string;
-  children?: React.ReactNode;
-  className?: string;
-}> = (props) => {
+const TaskDroppableContainer: React.FC<
+  PropsWithChildren<{
+    columnId: string;
+    className?: string;
+  }>
+> = (props) => {
   const { columnId } = props;
 
   return (

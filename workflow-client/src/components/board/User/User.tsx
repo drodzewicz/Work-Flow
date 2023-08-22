@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 
 import Image from "@/components/general/Image/Image";
 
@@ -9,10 +9,15 @@ export type UserProps = {
   username: string;
   className?: string;
   onClick?: () => void;
-  children?: React.ReactNode;
 };
 
-const User: React.FC<UserProps> = ({ imageSrc, username, className, onClick, children }) => {
+const User: React.FC<PropsWithChildren<UserProps>> = ({
+  imageSrc,
+  username,
+  className,
+  onClick,
+  children,
+}) => {
   return (
     <div onClick={onClick} className={`user-card ${className || ""}`}>
       <Image className="user-card__avatar" src={imageSrc} />

@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { PropsWithChildren, createContext, useReducer } from "react";
 
 import { TaskActionsType } from "./types";
 
@@ -10,7 +10,7 @@ export const TaskContext = createContext<
   [{ boardId: string; columns: ColumnWithTasks[] }, React.Dispatch<TaskActionsType>]
 >([INITIAL_STATE, () => null]);
 
-export const TaskProvider: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
+export const TaskProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, INITIAL_STATE);
 
   return <TaskContext.Provider value={[state, dispatch]}>{children}</TaskContext.Provider>;

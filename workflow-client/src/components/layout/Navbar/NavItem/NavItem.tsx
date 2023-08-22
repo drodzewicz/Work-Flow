@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { PropsWithChildren, useRef } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -18,10 +18,9 @@ export interface NavItemProps {
   dropdownOffset?: { x: number; y: number };
   dropDownOnClickClose?: boolean;
   dropdownMaxHeight?: number;
-  children?: React.ReactNode;
 }
 
-const NavItem: React.FC<NavItemProps> = ({
+const NavItem: React.FC<PropsWithChildren<NavItemProps>> = ({
   Icon,
   label,
   children,

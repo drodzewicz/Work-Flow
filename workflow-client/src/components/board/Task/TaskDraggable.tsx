@@ -1,15 +1,16 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 
 import { Draggable } from "react-beautiful-dnd";
 
 import "./Task.scss";
 
-const TaskDraggable: React.FC<{
-  taskId: string;
-  taskIndex: number;
-  children?: React.ReactNode;
-  className?: string;
-}> = ({ taskId, taskIndex, children, className }) => {
+const TaskDraggable: React.FC<
+  PropsWithChildren<{
+    taskId: string;
+    taskIndex: number;
+    className?: string;
+  }>
+> = ({ taskId, taskIndex, children, className }) => {
   return (
     <Draggable draggableId={taskId} index={taskIndex}>
       {(provided, snapshot) => (

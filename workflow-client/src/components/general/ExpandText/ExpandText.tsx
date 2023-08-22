@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { PropsWithChildren, useState } from "react";
 
 import { FaCaretDown } from "react-icons/fa";
 
@@ -8,10 +8,14 @@ export interface ExpandTextProps {
   className?: string;
   title: string;
   isOpen?: boolean;
-  children?: React.ReactNode;
 }
 
-const ExpandText: React.FC<ExpandTextProps> = ({ title, children, isOpen = false, className }) => {
+const ExpandText: React.FC<PropsWithChildren<ExpandTextProps>> = ({
+  title,
+  children,
+  isOpen = false,
+  className,
+}) => {
   const [show, setShow] = useState(isOpen);
 
   const toggleExpand = () => setShow((isOpen) => !isOpen);

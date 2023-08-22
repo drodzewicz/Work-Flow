@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, PropsWithChildren } from "react";
 
 import Portal from "@/components/layout/Portal";
 
@@ -9,10 +9,9 @@ export interface TooltipPorps {
   anchorEl: any;
   offset?: { x: number; y: number };
   debounceTimeout?: number;
-  children?: React.ReactNode;
 }
 
-const Tooltip: React.FC<TooltipPorps> = ({
+const Tooltip: React.FC<PropsWithChildren<TooltipPorps>> = ({
   className,
   children,
   anchorEl,

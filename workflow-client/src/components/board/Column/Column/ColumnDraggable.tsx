@@ -1,12 +1,12 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 
 import { ColumnProps } from "./types";
 
 import { Draggable } from "react-beautiful-dnd";
 
-const ColumnDraggable: React.FC<
-  ColumnProps & { children?: React.ReactNode; className?: string }
-> = (props) => {
+const ColumnDraggable: React.FC<ColumnProps & PropsWithChildren<{ className?: string }>> = (
+  props
+) => {
   const { columnId, columnIndex } = props;
 
   return (

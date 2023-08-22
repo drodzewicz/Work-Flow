@@ -71,7 +71,7 @@ const UserNav: React.FC = () => {
         Icon={FaBell}
       >
         {notifications.map((notification) => (
-          <Notification notification={notification} />
+          <Notification key={notification._id} notification={notification} />
         ))}
       </NavItem>
     </nav>
