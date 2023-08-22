@@ -1,16 +1,19 @@
-.column-name-input {
-  background: transparent;
-  border: dashed 1px green;
-  flex-grow: 1;
-  outline: none;
-  color: red;
-}
-
-.task-column-name {
-  margin: 0;
-  margin-left: 0;
-  margin-right: auto;
+.column-name {
+  font-family: inherit;
+  font-weight: bold;
   font-size: 1rem;
-  margin-left: 0.5rem;
-  color: green;
+  flex: 1;
+
+  &--input {
+    background-color: white;
+    border: none;
+    cursor: default;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    width: 5rem;
+  }
+  &--text {
+    cursor: default;
+  }
 }

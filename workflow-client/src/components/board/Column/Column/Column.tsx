@@ -10,6 +10,7 @@ import useModal from "@/hooks/useModal";
 
 import useCreateTask from "@/service/useCreateTask";
 import useDeleteColumn from "@/service/useDeleteColumn";
+import useUpdateColumn from "@/service/useUpdateColumn";
 
 import DropdownMenu from "@/components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
@@ -20,6 +21,7 @@ import TaskEditor from "@/dialogs/TaskEditor/TaskEditor";
 
 import "./Column.scss";
 
+import ColumnNameInput from "../ColumnNameInput/ColumnNameInput";
 import ColumnDraggable from "./ColumnDraggable";
 import TaskContainer from "./TaskContainer";
 
@@ -47,6 +49,8 @@ const Column: React.FC<ColumnProps> = (props) => {
     },
   });
 
+  const { mutate: updateColumn } = useUpdateColumn({ boardId, columnId });
+
   const removeColumn = async () => {
     const shouldDelete = window.confirm("are you sure you want to delete this column?");
     if (shouldDelete) {
@@ -62,7 +66,7 @@ const Column: React.FC<ColumnProps> = (props) => {
             {data.columns[columnIndex].tasks.length}
           </span>
 
-          <input value={columnName} />
+          <ColumnNameInput value={columnName} onSubmit={updateColumn} />
           <button onClick={openCreateNewTaskModal} className="task-column__header__new-task-btn">
             <FaRegPlusSquare />
           </button>

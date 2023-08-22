@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, ChangeEvent } from "react";
 
+import { FaCheck, FaTimes } from "react-icons/fa";
+
 import "./ColumnNameInput.scss";
 
 export interface ColumnNameInputProps {
@@ -9,50 +11,60 @@ export interface ColumnNameInputProps {
   editTitle: boolean;
 }
 
-const ColumnNameInput: React.FC<ColumnNameInputProps> = ({
-  initialVal,
-  onEnter,
-  hideInput,
-  editTitle,
-}) => {
-  const columnNameInputRef = useRef<HTMLInputElement>(null);
-
-  const [columnNameState, setColumnName] = useState<string>(initialVal);
+const ColumnNameInput: React.FC<any> = ({ value, onSubmit }) => {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [columnName, setColumnName] = useState<string>(value);
+  const ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    columnNameInputRef.current?.focus();
-  }, [editTitle]);
+    if (isEditing) {
+      ref.current?.focus();
+    }
+  }, [isEditing]);
 
   const cancelEditHandler = () => {
-    setColumnName(initialVal);
-    hideInput();
+    setIsEditing(false);
+    setColumnName(value);
   };
 
-  const columnNameOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const updatedColumnName = e.target.value;
-    if (updatedColumnName.length > 0) {
-      setColumnName(updatedColumnName);
-    }
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setColumnName(e.target.value);
+  };
+
+  const saveChanges = () => {
+    onSubmit(columnName);
+    setIsEditing(false);
   };
 
   const updateColumnName = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && columnNameState.trim() !== "") {
-      onEnter(columnNameState);
+    if (e.key === "Enter" && columnName.trim() !== "") {
+      saveChanges();
     }
   };
-  if (editTitle)
+
+  const activateEditingMode = () => {
+    setIsEditing(true);
+  };
+
+  if (isEditing) {
     return (
       <input
-        ref={columnNameInputRef}
-        className="column-name-input"
+        ref={ref}
+        className="column-name column-name--input"
         onKeyDown={updateColumnName}
         onBlur={cancelEditHandler}
-        onChange={columnNameOnChangeHandler}
-        value={columnNameState}
+        onChange={onChangeHandler}
+        value={columnName}
         type="text"
       />
     );
-  return <h2 className="task-column-name">{initialVal}</h2>;
+  }
+
+  return (
+    <span onDoubleClick={activateEditingMode} className="column-name column-name--text">
+      {columnName}
+    </span>
+  );
 };
 
 export default ColumnNameInput;
