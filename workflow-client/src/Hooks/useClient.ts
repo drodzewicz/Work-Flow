@@ -52,7 +52,6 @@ const useAuthClient = () => {
 
         /**  */
         if (originalRequest._retry || originalRequest.url === "/auth/refreshToken") {
-          // navigate("/#login");
           logout();
         }
 
