@@ -23,6 +23,7 @@ const NewColumn: React.FC<NewColumnProps> = ({ boardId }) => {
   const createNewColumnHandler = async (event: React.KeyboardEvent) => {
     if (event.key === "Enter" && columnName.trim() !== "") {
       createNewColumn(columnName);
+      setColumnName("");
     }
   };
   return (
