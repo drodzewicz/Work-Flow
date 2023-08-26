@@ -1,0 +1,53 @@
+.async-input {
+  display: flex;
+  position: relative;
+
+  &__input {
+    background-color: var(--color-boardcard-bg);
+    flex-grow: 1;
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.338);
+    border-radius: 0.2rem;
+  }
+
+  &__loading {
+    background-color: green;
+    position: absolute;
+    right: 1.2rem;
+    top: 45%;
+    bottom: 0;
+  }
+
+  $dot-size: 5px;
+  $dot-distance: 9px;
+  $lightest-color: rgb(232, 232, 232);
+  $darkest-color: rgb(205, 205, 205);
+
+  &__loading {
+    width: $dot-size;
+    height: $dot-size;
+    border-radius: 50%;
+    background-color: $lightest-color;
+    box-shadow: $dot-distance 0 $lightest-color, -$dot-distance 0 $lightest-color;
+    animation: flash 0.5s ease-out infinite alternate;
+  }
+
+  @keyframes flash {
+    0% {
+      background-color: $darkest-color;
+      box-shadow: $dot-distance 0 $darkest-color, -$dot-distance 0 $lightest-color;
+    }
+    50% {
+      background-color: $lightest-color;
+      box-shadow: $dot-distance 0 $darkest-color, -$dot-distance 0 $darkest-color;
+    }
+    100% {
+      background-color: $darkest-color;
+      box-shadow: $dot-distance 0 $lightest-color, -$dot-distance 0 $darkest-color;
+    }
+  }
+}

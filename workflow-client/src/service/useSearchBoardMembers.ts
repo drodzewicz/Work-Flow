@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { AxiosResponse } from "axios";
 import { useQuery } from "react-query";
@@ -10,6 +10,7 @@ type SearchBoardMembersProps = {
   page?: number;
   boardId: string;
   onSuccess?: (data: UserListPaginated) => void;
+  setTotalItems?: (count: number) => void;
 };
 
 type UserListPaginated = { totalCount: number; members: { role: string; user: User }[] };
@@ -29,11 +30,16 @@ const useSearchBoardMembers = (props?: SearchBoardMembersProps) => {
         params: { page: page, limit, username: searchTerm },
       }),
     {
+      keepPreviousData: true,
       select: (response) => response.data,
       staleTime: Infinity,
       onSuccess: props?.onSuccess,
     }
   );
+
+  useEffect(() => {
+    props?.setTotalItems?.(query.data?.totalCount ?? 0);
+  }, [query.data?.totalCount]);
 
   const search = (searchString: string) => {
     setSearchTerm(searchString);

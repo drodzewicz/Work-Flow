@@ -1,21 +1,15 @@
-import React, { useContext, PropsWithChildren, useEffect } from "react";
+import React from "react";
 
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 
 import useAuth from "@/hooks/useAuth";
-
-type RouteGuardConditionType = (attrs: { isAuthenticated: boolean }) => boolean;
 
 interface IRouteGuardProps {
   redirectTo: string;
   anonymous?: boolean;
 }
 
-const RouteGuard: React.FC<PropsWithChildren<IRouteGuardProps>> = ({
-  children,
-  redirectTo,
-  anonymous = false,
-}) => {
+const RouteGuard: React.FC<IRouteGuardProps> = ({ redirectTo, anonymous = false }) => {
   const location = useLocation();
   const { user } = useAuth();
 

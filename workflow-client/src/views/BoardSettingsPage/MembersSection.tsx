@@ -1,7 +1,6 @@
 import React from "react";
 
-import { TextField } from "@/components/form/TextInput";
-import debounce from "lodash/debounce";
+import AsyncInput from "@/components/form/AsyncInput";
 import { useParams } from "react-router-dom";
 import Select, { ActionMeta } from "react-select";
 
@@ -12,6 +11,8 @@ import useGetBoardRoles from "@/service/useGetBoardRoles";
 import useRemoveUserFromBoard from "@/service/useRemoveMemberFromBoard";
 import useSearchBoardMembers from "@/service/useSearchBoardMembers";
 import useUpdateMemberRole from "@/service/useUpdateMemberRole";
+
+import Pagination from "@/components/general/Pagination";
 
 import Modal from "@/components/layout/Modal";
 
@@ -28,23 +29,22 @@ const MembersSection = () => {
     open: openInviteUserDialog,
   } = useModal();
 
-  const { limit, currentPage, setTotalItems } = usePagination({ initialPage: 1, limit: 10 });
-  const { data: membersData, search } = useSearchBoardMembers({
+  const { limit, currentPage, totalPages, setTotalItems, setCurrentPage } = usePagination({
+    initialPage: 1,
+    limit: 5,
+  });
+
+  const { data, search, isLoading } = useSearchBoardMembers({
     boardId,
     limit,
     page: currentPage,
-    onSuccess: (data) => {
-      setTotalItems(data.totalCount);
-    },
+    setTotalItems,
   });
+
   const { data: roles = {} } = useGetBoardRoles({ boardId });
   const { mutate: removeMember } = useRemoveUserFromBoard();
   const { mutate: updateMemberRole } = useUpdateMemberRole({ boardId });
   const rolesList = Object.keys(roles).map((role) => ({ value: role, label: role }));
-
-  const searchDebounce = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
-    search(e.target.value);
-  }, 1000);
 
   const chooseRole = (
     data: { label?: string; value?: string; userId: string },
@@ -64,8 +64,8 @@ const MembersSection = () => {
       <button className="btn" onClick={openInviteUserDialog}>
         Invite new members
       </button>
-      <TextField onChange={searchDebounce} />
-      {membersData?.members.map((member) => (
+      <AsyncInput onChange={search} isLoading={isLoading} debounceTime={500} />
+      {data?.members.map((member) => (
         <User key={member.user.username} username={member.user.username}>
           <Select
             defaultValue={rolesList.find((role) => role.value === member.role)}
@@ -82,6 +82,7 @@ const MembersSection = () => {
           </button>
         </User>
       ))}
+      <Pagination current={currentPage} total={totalPages} handleChange={setCurrentPage} />
       <Modal
         show={showInviteUserDialog}
         title="Invite users to the board"

@@ -49,3 +49,8 @@ type BoardNotification = {
   attributes?: Record<string, string>;
   timeStamp: Date;
 };
+
+type Member = {
+  user: User;
+  role: string;
+};
