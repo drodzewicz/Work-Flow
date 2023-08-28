@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
+import { getRoleIcon } from "@/utils/role";
 import { useParams } from "react-router-dom";
 import Select from "react-select";
 
@@ -20,21 +21,30 @@ const RoleSections = () => {
         optio iure nam velit aut quae provident laboriosam, laudantium voluptatum laborum veritatis
         recusandae, dolor eveniet. Similique tempore qui corporis sed, sequi eos!
       </small>
-      {Object.entries(roles).map(([role, { permissions }]) => (
-        <div key={role}>
-          <strong>{role}: </strong>
-          <Select
-            className="flex-grow"
-            isMulti
-            defaultValue={permissions.map((permission) => ({
-              value: permission,
-              label: permission,
-            }))}
-            isDisabled={true}
-            options={allPermissions.map((permission) => ({ value: permission, label: permission }))}
-          />
-        </div>
-      ))}
+      {Object.entries(roles).map(([role, { permissions }]) => {
+        const RoleIcon = getRoleIcon(role);
+        return (
+          <div key={role}>
+            <strong>
+              <RoleIcon />
+              {role}:{" "}
+            </strong>
+            <Select
+              className="flex-grow"
+              isMulti
+              defaultValue={permissions.map((permission) => ({
+                value: permission,
+                label: permission,
+              }))}
+              isDisabled={true}
+              options={allPermissions.map((permission) => ({
+                value: permission,
+                label: permission,
+              }))}
+            />
+          </div>
+        );
+      })}
     </section>
   );
 };

@@ -1,9 +1,11 @@
 import React from "react";
 
 import AsyncInput from "@/components/form/AsyncInput";
+import RoleSelect from "@/components/form/RoleSelect/RoleSelect";
 import { useParams } from "react-router-dom";
 import Select, { ActionMeta } from "react-select";
 
+import useAuth from "@/hooks/useAuth";
 import useModal from "@/hooks/useModal";
 import { usePagination } from "@/hooks/usePagination";
 
@@ -22,6 +24,8 @@ import InviteUserToBoard from "@/dialogs/InviteUserToBoard";
 
 const MembersSection = () => {
   const { id: boardId = "" } = useParams<{ id: string }>();
+
+  const { user } = useAuth();
 
   const {
     show: showInviteUserDialog,
@@ -44,18 +48,6 @@ const MembersSection = () => {
   const { data: roles = {} } = useGetBoardRoles({ boardId });
   const { mutate: removeMember } = useRemoveUserFromBoard();
   const { mutate: updateMemberRole } = useUpdateMemberRole({ boardId });
-  const rolesList = Object.keys(roles).map((role) => ({ value: role, label: role }));
-
-  const chooseRole = (
-    data: { label?: string; value?: string; userId: string },
-    actions: ActionMeta<{ label: string; value: string }>
-  ) => {
-    if (actions.action === "select-option") {
-      const role = data?.value ?? "";
-      const userId = data?.userId ?? "";
-      updateMemberRole({ userId, role });
-    }
-  };
 
   return (
     <section className="my-2">
@@ -67,14 +59,14 @@ const MembersSection = () => {
       <AsyncInput onChange={search} isLoading={isLoading} debounceTime={500} />
       {data?.members.map((member) => (
         <User key={member.user.username} username={member.user.username}>
-          <Select
-            defaultValue={rolesList.find((role) => role.value === member.role)}
-            options={rolesList}
-            onChange={(option, actions) =>
-              chooseRole({ ...option, userId: member.user._id }, actions)
-            }
+          <RoleSelect
+            disabled={member.user._id === user._id}
+            initialValue={member.role}
+            roles={roles}
+            onSelect={(role) => updateMemberRole({ userId: member.user._id, role })}
           />
           <button
+            disabled={member.user._id === user._id}
             className="btn"
             onClick={() => removeMember({ boardId, userId: member.user._id })}
           >
