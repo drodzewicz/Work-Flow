@@ -3,8 +3,6 @@ import React from "react";
 import AsyncInput from "@/components/form/AsyncInput";
 import RoleSelect from "@/components/form/RoleSelect/RoleSelect";
 import { useParams } from "react-router-dom";
-import Select, { ActionMeta } from "react-select";
-
 import useAuth from "@/hooks/useAuth";
 import useModal from "@/hooks/useModal";
 import { usePagination } from "@/hooks/usePagination";

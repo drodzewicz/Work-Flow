@@ -1,40 +1,49 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef } from "react";
 
-import { AxiosResponse } from "axios";
-import { useField } from "formik";
 import { debounce } from "lodash";
-import { SingleValue, ActionMeta, MultiValue } from "react-select";
+import { SingleValue, ActionMeta } from "react-select";
 import AsyncSelect from "react-select/async";
 
-type UserSelectProps = {
-  name: string;
-  loadData: (searchTerm: string) => Promise<AxiosResponse<unknown, any>>;
-  transformData?: (data: AxiosResponse) => any;
-  onError?: (error: any) => void;
-  onSuccess?: (error: any) => void;
-  onSelect?: (data: any) => void;
+export interface DefaultOption {
+  label: string;
+  value: string;
+}
+
+type UserSelectProps<T, D extends DefaultOption> = {
+  name?: string;
+  loadData: (searchTerm: string) => Promise<T>;
+  transformData: (data: T) => D[];
+  onError?: (error: unknown) => void;
+  onSuccess?: (data: D[]) => void;
+  onSelect?: (data: D) => void;
+  isOptionDisabled?: (option: D) => boolean;
   debounceTime?: number;
-  renderContainer?: (data: any, options: any) => React.ReactNode;
 };
 
-const UserSelect: React.FC<UserSelectProps> = ({
+/**
+ *
+ * Generic Type:
+ * T: Response Data Type
+ * D: Transformed Data Option Type
+ *
+ */
+function UserSelect<T, D extends DefaultOption>({
   name,
   onError,
   onSuccess,
   transformData,
   onSelect,
   loadData,
-  renderContainer,
+  isOptionDisabled,
   debounceTime = 1000,
-}) => {
-  const [input, setInput] = useState({ label: "", value: "" });
-  const [_field, state, { setValue, setTouched }] = useField(name);
+}: UserSelectProps<T, D>) {
+  const selectRef = useRef<any>(null);
 
   const loadOptions = useCallback(
-    debounce((searchTerm: string, callback: (data: any) => void) => {
+    debounce((searchTerm: string, callback: (data: D[]) => void) => {
       loadData(searchTerm)
         .then((response) => {
-          const data = transformData ? transformData(response) : response.data;
+          const data = transformData(response);
           callback(data);
           onSuccess?.(data);
         })
@@ -45,32 +54,25 @@ const UserSelect: React.FC<UserSelectProps> = ({
     []
   );
 
-  const selectOptions = (
-    data:
-      | SingleValue<{ label: string; value: string }>
-      | MultiValue<{ label: string; value: string }>,
-    actions: ActionMeta<{ label: string; value: string }>
-  ) => {
+  const selectOptions = (data: SingleValue<D>, actions: ActionMeta<D>) => {
     if (actions.action === "select-option") {
-      setTouched(true);
-      const currentValue = state.value ?? [];
-      setValue([...currentValue, data]);
-      setInput({ label: "", value: "" });
-      onSelect?.(data);
+      // console.log(selectRef.current)
+      selectRef.current.setValue("");
+      onSelect?.(data as D);
     }
   };
 
-  const removeItem = (value: string) => {
-    const newVlaues = state.value?.filter((it: any) => it.value !== value);
-    setValue(newVlaues);
-  };
-
   return (
-    <div>
-      <AsyncSelect name={name} onChange={selectOptions} loadOptions={loadOptions} value={input} />
-      {renderContainer?.(state.value, { removeItem })}
-    </div>
+    <AsyncSelect
+      ref={(refference) => (selectRef.current = refference)}
+      name={name}
+      onChange={selectOptions}
+      loadOptions={loadOptions}
+      isOptionDisabled={isOptionDisabled}
+      noOptionsMessage={() => null}
+      loadingMessage={() => null}
+    />
   );
-};
+}
 
 export default UserSelect;

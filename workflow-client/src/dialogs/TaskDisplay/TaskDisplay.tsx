@@ -37,7 +37,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
           initialValues={{
             title: data?.title,
             description: data?.description,
-            assignees: data?.assignees?.map((it) => ({ label: it.username, value: it._id })),
+            assignees: data?.assignees,
           }}
         />
         <button onClick={() => setIsEdditing(false)}>Cancel</button>
