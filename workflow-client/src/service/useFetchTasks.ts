@@ -9,6 +9,13 @@ type FetchColumnTasksProp = {
   onSuccess?: (data: ColumnWithTasks | ColumnWithTasks[]) => void;
 };
 
+const boardTasksKey = ({ boardId, columnId }: { boardId: string; columnId?: string }) => [
+  "board",
+  boardId,
+  "column",
+  columnId,
+];
+
 const useFetchTasks = (props: FetchColumnTasksProp) => {
   const client = useAuthClient();
   return useQuery<
@@ -16,7 +23,7 @@ const useFetchTasks = (props: FetchColumnTasksProp) => {
     unknown,
     ColumnWithTasks | ColumnWithTasks[]
   >(
-    ["board", props.boardId, "column", props.columnId],
+    boardTasksKey({ boardId: props.boardId, columnId: props.columnId }),
     () => client.get("/tasks", { params: { boardId: props.boardId, columnId: props.columnId } }),
     {
       select: (response) => response.data,
@@ -26,5 +33,7 @@ const useFetchTasks = (props: FetchColumnTasksProp) => {
     }
   );
 };
+
+export { boardTasksKey };
 
 export default useFetchTasks;

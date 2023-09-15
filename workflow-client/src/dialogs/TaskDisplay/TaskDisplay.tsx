@@ -4,6 +4,7 @@ import { FaEdit, FaEllipsisV, FaTrashAlt } from "react-icons/fa";
 
 import useBoardTask from "@/hooks/useBoardTasks";
 
+import useDeleteTask from "@/service/useDeleteTask";
 import useGetTaskDetails from "@/service/useGetTaskDetails";
 
 import DropdownMenu from "@/components/general/DropdownMenu";
@@ -21,7 +22,7 @@ export interface TaskDisplayProps {
 
 const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
   const [isEdditing, setIsEdditing] = useState<boolean>(false);
-
+  const { mutate: deleteTask } = useDeleteTask();
   const { data } = useGetTaskDetails({ taskId });
 
   const {
@@ -53,7 +54,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
           <FaEllipsisV />
         </button>
         <DropdownMenu anchorEl={anchorElement} className="column-more-options">
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => deleteTask(taskId)}>
             <FaTrashAlt /> Delete
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setIsEdditing(true)}>
