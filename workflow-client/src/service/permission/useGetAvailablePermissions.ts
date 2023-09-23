@@ -1,18 +1,22 @@
-import { AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
+
 import permissionURL from "./url";
 
 const useGetAvailablePermissions = () => {
   const client = useAuthClient();
-  return useQuery<AxiosResponse<string[]>, unknown, string[]>(
-    "permissions",
-    () => client.get(permissionURL.permissions),
-    {
-      select: (response) => response.data,
-    }
-  );
+
+  const fetchPermissions = async () => {
+    const response = await client.get(permissionURL.permissions);
+    return response.data;
+  };
+
+  return useQuery<string[], AxiosError, string[]>({
+    queryKey: "permissions",
+    queryFn: fetchPermissions,
+  });
 };
 
 export default useGetAvailablePermissions;
