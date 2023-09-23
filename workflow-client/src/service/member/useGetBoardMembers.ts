@@ -3,6 +3,8 @@ import { useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
+import memberURL from "./url";
+
 type GetBoardMembersProps = {
   boardId: string;
   page: number;
@@ -16,7 +18,7 @@ const useGetBoardMembers = ({ boardId, page, limit, onSuccess }: GetBoardMembers
   const client = useAuthClient();
   return useQuery<AxiosResponse<PaginatedBoardMembersList>, unknown, PaginatedBoardMembersList>(
     ["board-memebers", boardId, page],
-    () => client.get(`boards/${boardId}/members`, { params: { page: page, limit } }),
+    () => client.get(memberURL.index(boardId), { params: { page: page, limit } }),
     {
       select: (response) => response.data,
       onSuccess,

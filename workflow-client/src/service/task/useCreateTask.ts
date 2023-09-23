@@ -3,6 +3,8 @@ import { useMutation } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
+import taskURL from "./url";
+
 type CreateTaskProps = { boardId: string };
 
 type CreateTaskPayload = {
@@ -15,7 +17,7 @@ type CreateTaskPayload = {
 const useCreateTask = ({ boardId }: CreateTaskProps) => {
   const client = useAuthClient();
   return useMutation<AxiosResponse<Task>, unknown, CreateTaskPayload>((data) =>
-    client.post("/tasks", { ...data, boardId })
+    client.post(taskURL.index, { ...data, boardId })
   );
 };
 

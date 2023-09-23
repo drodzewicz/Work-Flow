@@ -3,11 +3,14 @@ import { useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
-const useFetchPinnedUserBoards = () => {
+import selfURL from "./url";
+
+// TODO: use useFetchUserBoards with parameter pinned instead of a seperate endpoint
+const useGetUserPinnedBoards = () => {
   const client = useAuthClient();
   const pinneBoardQuery = useQuery<AxiosResponse<Board[]>, unknown, Board[]>(
     ["self-pinned-boards"],
-    () => client.get("/self/pinnedBoards"),
+    () => client.get(selfURL.pinnedBards()),
     {
       select(data) {
         return data.data;
@@ -17,4 +20,4 @@ const useFetchPinnedUserBoards = () => {
   return pinneBoardQuery;
 };
 
-export default useFetchPinnedUserBoards;
+export default useGetUserPinnedBoards;

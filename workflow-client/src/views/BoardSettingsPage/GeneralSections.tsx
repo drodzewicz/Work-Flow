@@ -6,8 +6,7 @@ import { useParams } from "react-router-dom";
 
 import useRBAC from "@/hooks/useRBAC";
 
-import useGetBoard from "@/service/board/useGetBoard";
-import useUpdateBoardInfo from "@/service/board/useUpdateBoardInfo";
+import { useGetBoard, useUpdateBoardInfo } from "@/service/board";
 
 import { validationSchema } from "@/dialogs/BoardEditor/formSchema";
 

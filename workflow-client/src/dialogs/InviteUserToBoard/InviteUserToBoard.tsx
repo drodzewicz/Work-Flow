@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import useAuthClient from "@/hooks/useClient";
 import useList from "@/hooks/useList";
 
-import useAddUserToBoard from "@/service/member/useAddUserToBoard";
+import { useAddBoardMember } from "@/service/member";
 
 import User from "@/components/board/User";
 
@@ -17,7 +17,7 @@ const InviteUserToBoard: React.FC = () => {
   const queryClient = useQueryClient();
   const client = useAuthClient();
 
-  const { mutateAsync: addUserToBoard } = useAddUserToBoard();
+  const { mutateAsync: addUserToBoard } = useAddBoardMember();
   const { data: users, addItem: addUser, removeItem: removeUser } = useList<User>();
 
   const addSelectedUsersToBoard = async () => {

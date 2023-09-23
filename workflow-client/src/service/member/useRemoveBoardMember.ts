@@ -3,14 +3,16 @@ import { useMutation, useQueryClient } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
-type RemoveUserFromBoardPayload = { boardId: string; userId: string };
+import memberURL from "./url";
 
-const useRemoveUserFromBoard = () => {
+type RemoveBoardMemberPayload = { boardId: string; userId: string };
+
+const useRemoveBoardMember = () => {
   const client = useAuthClient();
   const queryClient = useQueryClient();
 
-  return useMutation<AxiosResponse, unknown, RemoveUserFromBoardPayload>(
-    ({ boardId, userId }) => client.delete(`/boards/${boardId}/members/${userId}`),
+  return useMutation<AxiosResponse, unknown, RemoveBoardMemberPayload>(
+    ({ boardId, userId }) => client.delete(memberURL.remove(boardId, userId)),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["board-memebers"]);
@@ -19,4 +21,4 @@ const useRemoveUserFromBoard = () => {
   );
 };
 
-export default useRemoveUserFromBoard;
+export default useRemoveBoardMember;

@@ -5,7 +5,7 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import useBoardTask from "@/hooks/useBoardTasks";
 import useRBAC from "@/hooks/useRBAC";
 
-import useFetchTasks from "@/service/task/useFetchTasks";
+import { useGetTasks } from "@/service/task";
 
 import * as Skeleton from "@/components/layout/Skeleton";
 
@@ -21,7 +21,7 @@ const BoardColumns: React.FC<BoardColumnsProps> = ({ boardId }) => {
 
   const canCreateColumn = useRBAC({ boardId, action: "COLUMN_CREATE" });
 
-  const { isLoading } = useFetchTasks({
+  const { isLoading } = useGetTasks({
     boardId,
     onSuccess: (data) => {
       setData(data as ColumnWithTasks[]);

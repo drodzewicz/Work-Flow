@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { usePagination } from "@/hooks/usePagination";
 import useRBAC from "@/hooks/useRBAC";
 
-import useSearchBoardMembers from "@/service/member/useSearchBoardMembers";
+import { useSearchBoardMembers } from "@/service/member";
 
 import Pagination from "@/components/general/Pagination";
 

@@ -6,9 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import useAppTheme from "@/hooks/useAppTheme";
 import useAuth from "@/hooks/useAuth";
 
-import useGetCurrentUser from "@/service/self/useGetCurentUser";
-import useGetNotifications from "@/service/notification/useGetNotifications";
-import useLogout from "@/service/auth/useLogout";
+import { useLogout } from "@/service/auth";
+import { useGetNotifications, useGetCurrentUser } from "@/service/self";
 
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
 import Notification from "@/components/general/Notification";

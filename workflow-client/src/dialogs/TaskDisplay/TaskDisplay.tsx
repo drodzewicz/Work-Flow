@@ -6,8 +6,7 @@ import useBoardTask from "@/hooks/useBoardTasks";
 import useBoolean from "@/hooks/useBoolean";
 import useRBAC from "@/hooks/useRBAC";
 
-import useDeleteTask from "@/service/task/useDeleteTask";
-import useGetTaskDetails from "@/service/task/useGetTaskDetails";
+import { useGetTaskDetails, useDeleteTask } from "@/service/task";
 
 import DropdownMenu from "@/components/general/DropdownMenu";
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
@@ -28,7 +27,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
     setTrue: setEdditingTrue,
     setFalse: setEdditingFalse,
   } = useBoolean(false);
-  
+
   const { mutate: deleteTask } = useDeleteTask();
   const { data } = useGetTaskDetails({ taskId });
 

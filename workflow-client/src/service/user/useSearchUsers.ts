@@ -5,6 +5,8 @@ import { useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
+import userURL from "./url";
+
 type SearchUsersProps = { limit?: number; page?: number };
 
 type UserListPaginated = { totalCount: number; users: User[] };
@@ -18,7 +20,7 @@ const useSearchUsers = (props?: SearchUsersProps) => {
 
   const query = useQuery<AxiosResponse<UserListPaginated>, unknown, UserListPaginated>(
     ["search-users", searchTerm],
-    () => client.get("/users", { params: { limit, page, username: searchTerm } }),
+    () => client.get(userURL.index, { params: { limit, page, username: searchTerm } }),
     {
       select: (response) => response.data,
       enabled: !!searchTerm,

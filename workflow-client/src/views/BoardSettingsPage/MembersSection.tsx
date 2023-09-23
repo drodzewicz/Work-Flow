@@ -9,10 +9,8 @@ import useModal from "@/hooks/useModal";
 import { usePagination } from "@/hooks/usePagination";
 import useRBAC from "@/hooks/useRBAC";
 
-import useGetBoardRoles from "@/service/permission/useGetBoardRoles";
-import useRemoveUserFromBoard from "@/service/member/useRemoveMemberFromBoard";
-import useSearchBoardMembers from "@/service/member/useSearchBoardMembers";
-import useUpdateMemberRole from "@/service/permission/useUpdateMemberRole";
+import { useRemoveBoardMember, useSearchBoardMembers } from "@/service/member";
+import { useUpdateMemberRole, useGetBoardRoles } from "@/service/permission";
 
 import Pagination from "@/components/general/Pagination";
 
@@ -48,7 +46,7 @@ const MembersSection = () => {
   const canManageMembers = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
 
   const { data: roles = {} } = useGetBoardRoles({ boardId });
-  const { mutate: removeMember } = useRemoveUserFromBoard();
+  const { mutate: removeMember } = useRemoveBoardMember();
   const { mutate: updateMemberRole } = useUpdateMemberRole({ boardId });
 
   return (

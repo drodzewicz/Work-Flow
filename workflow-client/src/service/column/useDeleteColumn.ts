@@ -3,14 +3,16 @@ import { useMutation } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
+import columnURL from "./url";
+
 type DeleteColumnProps = { boardId: string; onSuccess?: () => void };
 
-const useDeleteColumn = (props: DeleteColumnProps) => {
+const useDeleteColumn = ({ boardId, onSuccess }: DeleteColumnProps) => {
   const client = useAuthClient();
   return useMutation<AxiosResponse, unknown, string>(
-    (columnId) => client.delete(`/boards/${props.boardId}/columns/${columnId}`),
+    (columnId) => client.delete(columnURL.delete(boardId, columnId)),
     {
-      onSuccess: props.onSuccess,
+      onSuccess,
     }
   );
 };

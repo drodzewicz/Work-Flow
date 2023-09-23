@@ -3,7 +3,9 @@ import { useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
-type FetchColumnTasksProp = {
+import taskURL from "./url";
+
+type GetColumnTasksProp = {
   boardId: string;
   columnId?: string;
   onSuccess?: (data: ColumnWithTasks | ColumnWithTasks[]) => void;
@@ -16,7 +18,7 @@ const boardTasksKey = ({ boardId, columnId }: { boardId: string; columnId?: stri
   columnId,
 ];
 
-const useFetchTasks = (props: FetchColumnTasksProp) => {
+const useGetTasks = (props: GetColumnTasksProp) => {
   const client = useAuthClient();
   return useQuery<
     AxiosResponse<ColumnWithTasks | ColumnWithTasks[]>,
@@ -24,7 +26,8 @@ const useFetchTasks = (props: FetchColumnTasksProp) => {
     ColumnWithTasks | ColumnWithTasks[]
   >(
     boardTasksKey({ boardId: props.boardId, columnId: props.columnId }),
-    () => client.get("/tasks", { params: { boardId: props.boardId, columnId: props.columnId } }),
+    () =>
+      client.get(taskURL.index, { params: { boardId: props.boardId, columnId: props.columnId } }),
     {
       select: (response) => response.data,
       onSuccess: (data) => {
@@ -36,4 +39,4 @@ const useFetchTasks = (props: FetchColumnTasksProp) => {
 
 export { boardTasksKey };
 
-export default useFetchTasks;
+export default useGetTasks;

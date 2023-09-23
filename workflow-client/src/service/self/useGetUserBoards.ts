@@ -3,15 +3,17 @@ import { useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
+import selfURL from "./url";
+
 type PaginatedUserBoardList = { boards: Board[]; totalCount: number };
 
-type FetchUserBoardProps = {
+type GetUserBoardsProps = {
   page: number;
   limit: number;
   onSuccess?: (data: PaginatedUserBoardList) => void;
 };
 
-const useFetchUserBoards = (props: FetchUserBoardProps) => {
+const useGetUserBoards = (props: GetUserBoardsProps) => {
   const { page, limit, onSuccess } = props;
 
   const client = useAuthClient();
@@ -20,7 +22,7 @@ const useFetchUserBoards = (props: FetchUserBoardProps) => {
     AxiosResponse<PaginatedUserBoardList>,
     unknown,
     PaginatedUserBoardList
-  >(["self-boards", page], () => client.get("/self/boards", { params: { page, limit } }), {
+  >(["self-boards", page], () => client.get(selfURL.boards(), { params: { page, limit } }), {
     select(response) {
       return response.data;
     },
@@ -30,4 +32,4 @@ const useFetchUserBoards = (props: FetchUserBoardProps) => {
   return { ...queryData };
 };
 
-export default useFetchUserBoards;
+export default useGetUserBoards;

@@ -9,9 +9,8 @@ import useBoardTask from "@/hooks/useBoardTasks";
 import useModal from "@/hooks/useModal";
 import useRBAC from "@/hooks/useRBAC";
 
-import useCreateTask from "@/service/task/useCreateTask";
-import useDeleteColumn from "@/service/column/useDeleteColumn";
-import useUpdateColumn from "@/service/column/useUpdateColumn";
+import { useUpdateColumn, useDeleteColumn } from "@/service/column";
+import { useCreateTask } from "@/service/task";
 
 import DropdownMenu from "@/components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";

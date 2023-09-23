@@ -3,6 +3,8 @@ import { useMutation } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
+import columnURL from "./url";
+
 type UpdateColumnProps = {
   boardId: string;
   columnId: string;
@@ -11,7 +13,7 @@ type UpdateColumnProps = {
 const useUpdateColumn = ({ boardId, columnId }: UpdateColumnProps) => {
   const client = useAuthClient();
   return useMutation<AxiosResponse, unknown, string>((name) =>
-    client.put(`/boards/${boardId}/columns/${columnId}`, { name })
+    client.put(columnURL.update(boardId, columnId), { name })
   );
 };
 

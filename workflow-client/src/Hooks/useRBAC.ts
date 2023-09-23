@@ -1,4 +1,4 @@
-import useGetCurrentUserBoardRole from "@/service/permission/useGetCurrentUserBoardRole";
+import { useGetCurrentUserBoardRole } from "@/service/permission";
 
 enum Permissions {
   // BOARD

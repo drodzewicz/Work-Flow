@@ -4,6 +4,8 @@ import { useQuery } from "react-query";
 import useAuth from "@/hooks/useAuth";
 import useAuthClient from "@/hooks/useClient";
 
+import permissionURL from "./url";
+
 type GetCurrentUserBoardRoleProps = {
   boardId: string;
 };
@@ -19,7 +21,7 @@ const useGetCurrentUserBoardRole = ({ boardId }: GetCurrentUserBoardRoleProps) =
 
   return useQuery<AxiosResponse<PermissionsReposne>, unknown, PermissionsReposne>(
     ["board-self-permissions"],
-    () => client.get(`/boards/${boardId}/permissions/${user?._id}`),
+    () => client.get(permissionURL.userBoardRole(boardId, user?._id ?? "")),
     {
       staleTime: 1000 * 60 * 1,
       select: (response) => response.data,

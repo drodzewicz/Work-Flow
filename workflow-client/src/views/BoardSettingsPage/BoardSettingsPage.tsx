@@ -4,8 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 import useRBAC from "@/hooks/useRBAC";
 
-import useDeleteBoard from "@/service/board/useDeleteBoard";
-import useLeaveBoard from "@/service/board/useLeaveBoard";
+import { useDeleteBoard, useLeaveBoard } from "@/service/board";
 
 import Box from "@/components/layout/Box";
 

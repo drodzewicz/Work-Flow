@@ -3,7 +3,9 @@ import { useMutation, useQueryClient } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
-const useAddUserToBoard = () => {
+import memberURL from "./url";
+
+const useAddBoardMember = () => {
   //   const queryClient = useQueryClient();
 
   const client = useAuthClient();
@@ -11,11 +13,11 @@ const useAddUserToBoard = () => {
     AxiosResponse<{ role: string; user: User }>,
     unknown,
     { boardId: string; userId: string }
-  >(({ boardId, userId }) => client.post(`/boards/${boardId}/members/${userId}`), {
+  >(({ boardId, userId }) => client.post(memberURL.add(boardId, userId)), {
     onSuccess: () => {
       //   queryClient.invalidateQueries("self-pinned-boards");
     },
   });
 };
 
-export default useAddUserToBoard;
+export default useAddBoardMember;

@@ -3,6 +3,8 @@ import { useMutation } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
+import boardURL from "./url";
+
 type LeaveBoardProps = {
   onSuceess?: (response: AxiosResponse) => void;
   onError?: (error: unknown) => void;
@@ -11,7 +13,7 @@ type LeaveBoardProps = {
 const useLeaveBoard = (props?: LeaveBoardProps) => {
   const client = useAuthClient();
   return useMutation<AxiosResponse, unknown, string>(
-    (boardId) => client.patch(`/boards/${boardId}/leave`),
+    (boardId) => client.patch(boardURL.leave(boardId)),
     {
       onSuccess: (response) => {
         props?.onSuceess?.(response);

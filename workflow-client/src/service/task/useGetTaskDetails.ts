@@ -3,17 +3,18 @@ import { useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
+import taskURL from "./url";
+
 type GetTaskDetailsProps = { taskId: string };
 
-const useGetTaskDetails = (props: GetTaskDetailsProps) => {
+const useGetTaskDetails = ({ taskId }: GetTaskDetailsProps) => {
   const client = useAuthClient();
 
   return useQuery<AxiosResponse<Task>, unknown, Task>(
-    ["task-details", props.taskId],
-    () => client.get(`/tasks/${props.taskId}`),
+    ["task-details", taskId],
+    () => client.get(taskURL.read(taskId)),
     {
       select: (response) => response.data,
-      
     }
   );
 };

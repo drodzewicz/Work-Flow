@@ -5,7 +5,7 @@ import { IconType } from "react-icons";
 import { FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-import useDeleteNotification from "@/service/notification/useDeleteNotification";
+import { useDeleteNotification } from "@/service/self";
 
 import "./Notification.scss";
 

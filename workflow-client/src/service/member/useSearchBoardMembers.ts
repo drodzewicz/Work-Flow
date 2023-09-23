@@ -5,6 +5,8 @@ import { useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
+import memberURL from "./url";
+
 type SearchBoardMembersProps = {
   limit?: number;
   page?: number;
@@ -26,7 +28,7 @@ const useSearchBoardMembers = (props?: SearchBoardMembersProps) => {
   const query = useQuery<AxiosResponse<UserListPaginated>, unknown, UserListPaginated>(
     ["board-memebers", boardId, page, searchTerm],
     () =>
-      client.get(`boards/${boardId}/members`, {
+      client.get(memberURL.index(boardId), {
         params: { page: page, limit, username: searchTerm },
       }),
     {

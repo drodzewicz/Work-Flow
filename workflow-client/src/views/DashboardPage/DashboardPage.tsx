@@ -10,10 +10,8 @@ import { useNavigate } from "react-router-dom";
 import useModal from "@/hooks/useModal";
 import { usePagination } from "@/hooks/usePagination";
 
-import useCreateBoard from "@/service/board/useCreateBoard";
-import useFetchPinnedUserBoards from "@/service/self/useFetchPinnedUserBoards";
-import useFetchUserBoards from "@/service/self/useFetchUserBoard";
-import useTogglePinBoard from "@/service/self/useTogglePinBoard";
+import { useCreateBoard } from "@/service/board";
+import { useTogglePinBoard, useGetUserPinnedBoards, useGetUserBoards } from "@/service/self";
 
 import Box from "@/components/layout/Box";
 import Modal from "@/components/layout/Modal";
@@ -33,7 +31,7 @@ const DashboardPage: React.FC = () => {
     close: closeCreateNewBoardModal,
   } = useModal();
 
-  const { data: pinnedBoards = [], isLoading: isPinnedBoardLoading } = useFetchPinnedUserBoards();
+  const { data: pinnedBoards = [], isLoading: isPinnedBoardLoading } = useGetUserPinnedBoards();
 
   const { currentPage, totalPages, limit, setCurrentPage, setTotalItems } = usePagination({
     initialPage: 1,
@@ -41,7 +39,7 @@ const DashboardPage: React.FC = () => {
   });
 
   const { data: boardData = { boards: [], totalCount: 0 }, isLoading: isBoardLoading } =
-    useFetchUserBoards({
+    useGetUserBoards({
       limit,
       page: currentPage,
       onSuccess: (data) => {

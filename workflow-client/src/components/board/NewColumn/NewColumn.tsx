@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
 
-import useAddNewColumn from "@/service/column/useAddNewColumn";
+import { useCreateColumn } from "@/service/column";
 
 import "./NewColumn.scss";
 
@@ -11,7 +11,7 @@ export interface NewColumnProps {
 const NewColumn: React.FC<NewColumnProps> = ({ boardId }) => {
   const [columnName, setColumnName] = useState<string>("");
 
-  const { mutate: createNewColumn } = useAddNewColumn({ boardId });
+  const { mutate: createNewColumn } = useCreateColumn({ boardId });
 
   const handleNewColumnChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newColumnName = event.target.value;
