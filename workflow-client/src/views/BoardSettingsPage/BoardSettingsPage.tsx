@@ -2,8 +2,10 @@ import React from "react";
 
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import useDeleteBoard from "@/service/useDeleteBoard";
-import useLeaveBoard from "@/service/useLeaveBoard";
+import useRBAC from "@/hooks/useRBAC";
+
+import useDeleteBoard from "@/service/board/useDeleteBoard";
+import useLeaveBoard from "@/service/board/useLeaveBoard";
 
 import Box from "@/components/layout/Box";
 
@@ -14,6 +16,9 @@ import RoleSections from "./RoleSections";
 const BoardSettingsPage: React.FC = () => {
   const { id: boardId = "" } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
+  const canDeleteBoard = useRBAC({ boardId, action: "BOARD_DELETE" });
+  const canModifyRoles = useRBAC({ boardId, action: "MEMBER_ROLE_UPDATE" });
 
   const { mutate: deleteBoard } = useDeleteBoard({
     onSuceess: () => {
@@ -44,12 +49,14 @@ const BoardSettingsPage: React.FC = () => {
         <button onClick={leaveBoardHandler} className="btn">
           Leave board
         </button>
-        <button onClick={deleteBoardHandler} className="btn">
-          Delete Board
-        </button>
+        {canDeleteBoard && (
+          <button onClick={deleteBoardHandler} className="btn">
+            Delete Board
+          </button>
+        )}
       </div>
       <GeneralSections />
-      <RoleSections />
+      {canModifyRoles && <RoleSections />}
       <MembersSection />
     </Box>
   );

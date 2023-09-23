@@ -4,13 +4,16 @@ import { ColumnProps } from "./types";
 
 import { Draggable } from "react-beautiful-dnd";
 
+import useRBAC from "@/hooks/useRBAC";
+
 const ColumnDraggable: React.FC<ColumnProps & PropsWithChildren<{ className?: string }>> = (
   props
 ) => {
-  const { columnId, columnIndex } = props;
+  const { columnId, columnIndex, boardId } = props;
+  const canMoveColumn = useRBAC({ boardId, action: "COLUMN_MOVE" });
 
   return (
-    <Draggable draggableId={columnId} index={columnIndex} isDragDisabled={false}>
+    <Draggable draggableId={columnId} index={columnIndex} isDragDisabled={!canMoveColumn}>
       {(provided) => (
         <div
           ref={provided.innerRef}

@@ -5,13 +5,12 @@ import { FaCheck, FaTimes } from "react-icons/fa";
 import "./ColumnNameInput.scss";
 
 export interface ColumnNameInputProps {
-  initialVal: string;
-  onEnter: (newTitle: string) => void;
-  hideInput: () => void;
-  editTitle: boolean;
+  value: string;
+  disabled?: boolean;
+  onSubmit: (value: string) => void;
 }
 
-const ColumnNameInput: React.FC<any> = ({ value, onSubmit }) => {
+const ColumnNameInput: React.FC<ColumnNameInputProps> = ({ value, disabled, onSubmit }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [columnName, setColumnName] = useState<string>(value);
   const ref = useRef<HTMLInputElement>(null);
@@ -43,7 +42,9 @@ const ColumnNameInput: React.FC<any> = ({ value, onSubmit }) => {
   };
 
   const activateEditingMode = () => {
-    setIsEditing(true);
+    if (!disabled) {
+      setIsEditing(true); 
+    }
   };
 
   if (isEditing) {

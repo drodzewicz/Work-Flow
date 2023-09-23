@@ -4,19 +4,22 @@ import { TextAreaField, TextField } from "@/components/form/TextInput";
 import { Form, Field, FormikProvider, useFormik } from "formik";
 import { useParams } from "react-router-dom";
 
-import useGetBoard from "@/service/useGetBoard";
-import useUpdateBoardInfo from "@/service/useUpdateBoardInfo";
+import useRBAC from "@/hooks/useRBAC";
+
+import useGetBoard from "@/service/board/useGetBoard";
+import useUpdateBoardInfo from "@/service/board/useUpdateBoardInfo";
 
 import { validationSchema } from "@/dialogs/BoardEditor/formSchema";
 
 const GeneralSections: React.FC = () => {
-  const params = useParams<{ id: string }>();
+  const { id: boardId = "" } = useParams<{ id: string }>();
 
-  const { mutate: updateBoard } = useUpdateBoardInfo({ boardId: params.id ?? "" });
-  const { data = { name: "", description: "" } } = useGetBoard({ boardId: params.id });
+  const { mutate: updateBoard } = useUpdateBoardInfo({ boardId: boardId });
+  const { data = { name: "", description: "" } } = useGetBoard({ boardId });
+
+  const canUpdateBoard = useRBAC({ boardId, action: "BOARD_UPDATE" });
 
   const onSubmitHandler = (values: any) => {
-    console.log("kek");
     updateBoard(values);
   };
 
@@ -37,16 +40,20 @@ const GeneralSections: React.FC = () => {
             name="name"
             autoFocus={true}
             error={formik.touched.name && formik.errors?.name}
+            disabled={!canUpdateBoard}
             as={TextField}
           />
           <Field
             name="description"
             error={formik.touched.description && formik.errors?.description}
+            disabled={!canUpdateBoard}
             as={TextAreaField}
           />
-          <button disabled={formik.isValid} type="submit" className="btn self-end">
-            save changes
-          </button>
+          {canUpdateBoard && (
+            <button disabled={formik.isValid} type="submit" className="btn self-end">
+              save changes
+            </button>
+          )}
         </Form>
       </FormikProvider>
     </section>

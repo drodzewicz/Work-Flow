@@ -6,9 +6,9 @@ import { Link, useNavigate } from "react-router-dom";
 import useAppTheme from "@/hooks/useAppTheme";
 import useAuth from "@/hooks/useAuth";
 
-import useGetCurrentUser from "@/service/useGetCurentUser";
-import useGetNotifications from "@/service/useGetNotifications";
-import useLogout from "@/service/useLogout";
+import useGetCurrentUser from "@/service/self/useGetCurentUser";
+import useGetNotifications from "@/service/notification/useGetNotifications";
+import useLogout from "@/service/auth/useLogout";
 
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
 import Notification from "@/components/general/Notification";
@@ -44,7 +44,7 @@ const UserNav: React.FC = () => {
         name="profile"
         dropdownOffset={{ x: -105, y: 10 }}
         Icon={FaUserAlt}
-        label={user.username}
+        label={user?.username}
         className="profile-nav"
       >
         <DropdownMenuItem>

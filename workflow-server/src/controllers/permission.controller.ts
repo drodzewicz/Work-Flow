@@ -24,7 +24,7 @@ export class PermissionController {
   async getBoardUserPermissions(@Param("boardId") boardId: string, @Param("userId") userId: string) {
     const member = await this.memberService.getBoardMember(boardId, userId);
     const rolePermissions = await this.permissionService.getBoardRoles();
-    return rolePermissions[member.role];
+    return { role: member.role, ...rolePermissions[member.role] };
   }
 
   @Get("/boards/:boardId/roles")

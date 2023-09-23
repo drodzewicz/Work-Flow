@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
 
-import useAddNewColumn from "@/service/useAddNewColumn";
+import useAddNewColumn from "@/service/column/useAddNewColumn";
 
 import "./NewColumn.scss";
 

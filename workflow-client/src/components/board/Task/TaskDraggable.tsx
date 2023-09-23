@@ -2,6 +2,9 @@ import React, { PropsWithChildren } from "react";
 
 import { Draggable } from "react-beautiful-dnd";
 
+import useBoardTask from "@/hooks/useBoardTasks";
+import useRBAC from "@/hooks/useRBAC";
+
 import "./Task.scss";
 
 const TaskDraggable: React.FC<
@@ -11,8 +14,11 @@ const TaskDraggable: React.FC<
     className?: string;
   }>
 > = ({ taskId, taskIndex, children, className }) => {
+  const { data } = useBoardTask();
+  const canMoveTask = useRBAC({ boardId: data.boardId, action: "TASK_MOVE" });
+
   return (
-    <Draggable draggableId={taskId} index={taskIndex}>
+    <Draggable draggableId={taskId} index={taskIndex} isDragDisabled={!canMoveTask}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}

@@ -11,8 +11,9 @@ type BoardResponse = {
   columns: Column[];
 };
 
-type GetBoardProps = { boardId: string | undefined };
-const useGetBoard = ({ boardId }: GetBoardProps) => {
+type GetBoardProps = { boardId: string | undefined; onError?: () => void };
+
+const useGetBoard = ({ boardId, onError }: GetBoardProps) => {
   const client = useAuthClient();
   return useQuery<AxiosResponse<BoardResponse>, unknown, BoardResponse>(
     ["board", boardId],
@@ -20,7 +21,8 @@ const useGetBoard = ({ boardId }: GetBoardProps) => {
     {
       select: (response) => response.data,
       enabled: !!boardId,
-    }
+      onError: onError,
+     }
   );
 };
 

@@ -4,8 +4,9 @@ import AsyncInput from "@/components/form/AsyncInput";
 import { Link } from "react-router-dom";
 
 import { usePagination } from "@/hooks/usePagination";
+import useRBAC from "@/hooks/useRBAC";
 
-import useSearchBoardMembers from "@/service/useSearchBoardMembers";
+import useSearchBoardMembers from "@/service/member/useSearchBoardMembers";
 
 import Pagination from "@/components/general/Pagination";
 
@@ -23,6 +24,8 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
     limit: 5,
   });
 
+  const canManageMembers = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
+
   const { data, search, isLoading } = useSearchBoardMembers({
     boardId,
     limit,
@@ -32,9 +35,12 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
 
   return (
     <div className="board-members">
-      <Link className="btn" to={`/board/${boardId}/settings`}>
-        Manage members
-      </Link>
+      {canManageMembers && (
+        <Link className="btn" to={`/board/${boardId}/settings`}>
+          Manage members
+        </Link>
+      )}
+
       <AsyncInput onChange={search} isLoading={isLoading} debounceTime={500} />
       {data?.members.map((member) => (
         <User key={member.user.username} username={member.user.username}>

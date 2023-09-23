@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import useAuthClient from "@/hooks/useClient";
 import useList from "@/hooks/useList";
 
-import useAddUserToBoard from "@/service/useAddUserToBoard";
+import useAddUserToBoard from "@/service/member/useAddUserToBoard";
 
 import User from "@/components/board/User";
 

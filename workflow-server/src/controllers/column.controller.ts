@@ -60,7 +60,7 @@ export class ColumnController {
   }
 
   @Delete("/:columnId")
-  @Authorized(Permissions.COLUMN_REMOVE)
+  @Authorized(Permissions.COLUMN_DELETE)
   async deleteColumn(@Param("boardId") boardId: string, @Param("columnId") columnId: string) {
     await this.boardService.getBoard(boardId);
     await this.boardService.deleteColumn(boardId, columnId);

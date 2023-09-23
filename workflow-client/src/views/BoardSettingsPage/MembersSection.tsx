@@ -3,14 +3,16 @@ import React from "react";
 import AsyncInput from "@/components/form/AsyncInput";
 import RoleSelect from "@/components/form/RoleSelect/RoleSelect";
 import { useParams } from "react-router-dom";
+
 import useAuth from "@/hooks/useAuth";
 import useModal from "@/hooks/useModal";
 import { usePagination } from "@/hooks/usePagination";
+import useRBAC from "@/hooks/useRBAC";
 
-import useGetBoardRoles from "@/service/useGetBoardRoles";
-import useRemoveUserFromBoard from "@/service/useRemoveMemberFromBoard";
-import useSearchBoardMembers from "@/service/useSearchBoardMembers";
-import useUpdateMemberRole from "@/service/useUpdateMemberRole";
+import useGetBoardRoles from "@/service/permission/useGetBoardRoles";
+import useRemoveUserFromBoard from "@/service/member/useRemoveMemberFromBoard";
+import useSearchBoardMembers from "@/service/member/useSearchBoardMembers";
+import useUpdateMemberRole from "@/service/permission/useUpdateMemberRole";
 
 import Pagination from "@/components/general/Pagination";
 
@@ -43,6 +45,8 @@ const MembersSection = () => {
     setTotalItems,
   });
 
+  const canManageMembers = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
+
   const { data: roles = {} } = useGetBoardRoles({ boardId });
   const { mutate: removeMember } = useRemoveUserFromBoard();
   const { mutate: updateMemberRole } = useUpdateMemberRole({ boardId });
@@ -51,36 +55,44 @@ const MembersSection = () => {
     <section className="my-2">
       <h2 className="text-lg font-bold mb-3">Members</h2>
       <hr />
-      <button className="btn" onClick={openInviteUserDialog}>
-        Invite new members
-      </button>
+      {canManageMembers && (
+        <>
+          <button className="btn" onClick={openInviteUserDialog}>
+            Invite new members
+          </button>
+          <Modal
+            show={showInviteUserDialog}
+            title="Invite users to the board"
+            size="s"
+            onClose={closeInviteUserDialog}
+          >
+            <InviteUserToBoard />
+          </Modal>
+        </>
+      )}
       <AsyncInput onChange={search} isLoading={isLoading} debounceTime={500} />
       {data?.members.map((member) => (
         <User key={member.user.username} username={member.user.username}>
-          <RoleSelect
-            disabled={member.user._id === user._id}
-            initialValue={member.role}
-            roles={roles}
-            onSelect={(role) => updateMemberRole({ userId: member.user._id, role })}
-          />
-          <button
-            disabled={member.user._id === user._id}
-            className="btn"
-            onClick={() => removeMember({ boardId, userId: member.user._id })}
-          >
-            remove
-          </button>
+          {canManageMembers && (
+            <>
+              <RoleSelect
+                disabled={member.user._id === user?._id}
+                initialValue={member.role}
+                roles={roles}
+                onSelect={(role) => updateMemberRole({ userId: member.user._id, role })}
+              />
+              <button
+                disabled={member.user._id === user?._id}
+                className="btn"
+                onClick={() => removeMember({ boardId, userId: member.user._id })}
+              >
+                remove
+              </button>
+            </>
+          )}
         </User>
       ))}
       <Pagination current={currentPage} total={totalPages} handleChange={setCurrentPage} />
-      <Modal
-        show={showInviteUserDialog}
-        title="Invite users to the board"
-        size="s"
-        onClose={closeInviteUserDialog}
-      >
-        <InviteUserToBoard />
-      </Modal>
     </section>
   );
 };

@@ -8,6 +8,7 @@ import WelcomePage from "@/views/WelcomePage";
 import { createBrowserRouter } from "react-router-dom";
 
 import RouteGuard from "./RouteGuard";
+import BoardErrorPage from "@/views/BoardErrorPage/BoardErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       },
       {
         element: <RouteGuard redirectTo="/#login" />,
+        errorElement: <BoardErrorPage />,
         children: [
           {
             path: "dashboard",

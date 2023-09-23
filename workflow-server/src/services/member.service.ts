@@ -1,4 +1,4 @@
-import { UnauthorizedError } from "routing-controllers";
+import { ForbiddenError } from "routing-controllers";
 import { Service, Inject } from "typedi";
 import { MemberRepository, UserRepository } from "../repositories/index.js";
 import { MemberDTO } from "../types/dto/index.js";
@@ -57,7 +57,7 @@ export class MemberService {
   async getBoardMember(boardId: string, userId: string): Promise<MemberDTO> {
     const member = await this.memberRepository.getBoardMember(boardId, userId);
     if (!member) {
-      throw new UnauthorizedError("User is not a member of the board");
+      throw new ForbiddenError("User is not a member of the board");
     }
     return MemberMapper(member);
   }

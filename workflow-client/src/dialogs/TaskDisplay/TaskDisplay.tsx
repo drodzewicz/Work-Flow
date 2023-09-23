@@ -1,11 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
 import { FaEdit, FaEllipsisV, FaTrashAlt } from "react-icons/fa";
 
 import useBoardTask from "@/hooks/useBoardTasks";
+import useBoolean from "@/hooks/useBoolean";
+import useRBAC from "@/hooks/useRBAC";
 
-import useDeleteTask from "@/service/useDeleteTask";
-import useGetTaskDetails from "@/service/useGetTaskDetails";
+import useDeleteTask from "@/service/task/useDeleteTask";
+import useGetTaskDetails from "@/service/task/useGetTaskDetails";
 
 import DropdownMenu from "@/components/general/DropdownMenu";
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
@@ -21,7 +23,12 @@ export interface TaskDisplayProps {
 }
 
 const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
-  const [isEdditing, setIsEdditing] = useState<boolean>(false);
+  const {
+    state: isEdditing,
+    setTrue: setEdditingTrue,
+    setFalse: setEdditingFalse,
+  } = useBoolean(false);
+  
   const { mutate: deleteTask } = useDeleteTask();
   const { data } = useGetTaskDetails({ taskId });
 
@@ -29,6 +36,9 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
     data: { boardId },
   } = useBoardTask();
   const anchorElement = useRef(null);
+
+  const canEditTask = useRBAC({ boardId, action: "TASK_CREATE" });
+  const canDeleteTask = useRBAC({ boardId, action: "TASK_DELETE" });
 
   if (isEdditing) {
     return (
@@ -41,7 +51,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
             assignees: data?.assignees,
           }}
         />
-        <button onClick={() => setIsEdditing(false)}>Cancel</button>
+        <button onClick={setEdditingFalse}>Cancel</button>
       </>
     );
   }
@@ -50,17 +60,25 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
     <section className="task-display">
       <header className="flex flex-row">
         <h1 className="flex-grow">{data?.title}</h1>
-        <button type="button" ref={anchorElement}>
-          <FaEllipsisV />
-        </button>
-        <DropdownMenu anchorEl={anchorElement} className="column-more-options">
-          <DropdownMenuItem onClick={() => deleteTask(taskId)}>
-            <FaTrashAlt /> Delete
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setIsEdditing(true)}>
-            <FaEdit /> Edit
-          </DropdownMenuItem>
-        </DropdownMenu>
+        {(canEditTask || canDeleteTask) && (
+          <>
+            <button type="button" ref={anchorElement}>
+              <FaEllipsisV />
+            </button>
+            <DropdownMenu anchorEl={anchorElement} className="column-more-options">
+              {canDeleteTask && (
+                <DropdownMenuItem onClick={() => deleteTask(taskId)}>
+                  <FaTrashAlt /> Delete
+                </DropdownMenuItem>
+              )}
+              {canEditTask && (
+                <DropdownMenuItem onClick={setEdditingTrue}>
+                  <FaEdit /> Edit
+                </DropdownMenuItem>
+              )}
+            </DropdownMenu>
+          </>
+        )}
       </header>
       <hr className="break-line" />
       <article className="task-display__body">

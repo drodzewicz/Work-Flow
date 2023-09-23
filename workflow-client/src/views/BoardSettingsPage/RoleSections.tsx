@@ -4,8 +4,8 @@ import { getRoleIcon } from "@/utils/role";
 import { useParams } from "react-router-dom";
 import Select from "react-select";
 
-import useGetAvailablePermissions from "@/service/useGetAvailablePermissions";
-import useGetBoardRoles from "@/service/useGetBoardRoles";
+import useGetAvailablePermissions from "@/service/permission/useGetAvailablePermissions";
+import useGetBoardRoles from "@/service/permission/useGetBoardRoles";
 
 const RoleSections = () => {
   const params = useParams<{ id: string }>();

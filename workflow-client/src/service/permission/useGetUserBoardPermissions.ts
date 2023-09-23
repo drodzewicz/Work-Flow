@@ -9,8 +9,8 @@ const useGetUserBoardPermissions = ({ boardId }: GetUserBoardPermissionsProps) =
   const client = useAuthClient();
   const { user } = useAuth();
   return useQuery(
-    ["board-user-permissions", user.id],
-    () => client.get(`/boards/${boardId}/permissions/${user._id}`),
+    ["board-user-permissions", user?.id],
+    () => client.get(`/boards/${boardId}/permissions/${user?._id}`),
     {
       select: (response) => response.data,
     }

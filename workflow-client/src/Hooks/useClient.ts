@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 
-import useAuth from "@/hooks/useAuth";
-import useRefreshToken from "@/hooks/useRefreshToken";
 import { useNavigate } from "react-router-dom";
 
 import axios, { authAxios } from "@/config/api.conf.ts";
+
+import useAuth from "@/hooks/useAuth";
+import useRefreshToken from "@/hooks/useRefreshToken";
 
 const useAuthClient = () => {
   const { isRefreshing, refresh } = useRefreshToken();
@@ -35,6 +36,10 @@ const useAuthClient = () => {
       (response) => response,
       async (error) => {
         const originalRequest = error.config;
+
+        if (error?.response?.status === 403) {
+          throw new Response("Not Found", { status: 403 });
+        }
 
         /** Ignore other errors than unauthorized:
          * below logic should only be applied to 401 errors

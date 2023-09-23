@@ -7,10 +7,11 @@ import { useQueryClient } from "react-query";
 
 import useBoardTask from "@/hooks/useBoardTasks";
 import useModal from "@/hooks/useModal";
+import useRBAC from "@/hooks/useRBAC";
 
-import useCreateTask from "@/service/useCreateTask";
-import useDeleteColumn from "@/service/useDeleteColumn";
-import useUpdateColumn from "@/service/useUpdateColumn";
+import useCreateTask from "@/service/task/useCreateTask";
+import useDeleteColumn from "@/service/column/useDeleteColumn";
+import useUpdateColumn from "@/service/column/useUpdateColumn";
 
 import DropdownMenu from "@/components/general/DropdownMenu/DropdownMenu";
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
@@ -37,6 +38,10 @@ const Column: React.FC<ColumnProps> = (props) => {
   } = useModal();
 
   const anchorElement = useRef(null);
+
+  const canDeleteColumn = useRBAC({ boardId: data.boardId, action: "COLUMN_DELETE" });
+  const canCreateColumn = useRBAC({ boardId: data.boardId, action: "COLUMN_CREATE" });
+  const canCreateTask = useRBAC({ boardId: data.boardId, action: "TASK_CREATE" });
 
   const queryClient = useQueryClient();
 
@@ -66,28 +71,38 @@ const Column: React.FC<ColumnProps> = (props) => {
             {data.columns[columnIndex].tasks.length}
           </span>
 
-          <ColumnNameInput value={columnName} onSubmit={updateColumn} />
-          <button onClick={openCreateNewTaskModal} className="task-column__header__new-task-btn">
-            <FaRegPlusSquare />
-          </button>
-
-          <button ref={anchorElement} className="task-column__header__more-options">
-            <FaEllipsisV />
-          </button>
-          <DropdownMenu anchorEl={anchorElement} className="column-more-options">
-            <DropdownMenuItem onClick={removeColumn}>
-              <FaTrashAlt />
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenu>
-          <Modal
-            show={showCreateNewTaskModal}
-            title="Create new Task"
-            size="l"
-            onClose={closeCreateNewTaskModal}
-          >
-            <TaskEditor columnId={columnId} boardId={boardId} onSubmit={createTask} />
-          </Modal>
+          <ColumnNameInput value={columnName} onSubmit={updateColumn} disabled={!canCreateColumn} />
+          {canCreateTask && (
+            <>
+              <button
+                onClick={openCreateNewTaskModal}
+                className="task-column__header__new-task-btn"
+              >
+                <FaRegPlusSquare />
+              </button>
+              <Modal
+                show={showCreateNewTaskModal}
+                title="Create new Task"
+                size="l"
+                onClose={closeCreateNewTaskModal}
+              >
+                <TaskEditor columnId={columnId} boardId={boardId} onSubmit={createTask} />
+              </Modal>
+            </>
+          )}
+          {canDeleteColumn && (
+            <>
+              <button ref={anchorElement} className="task-column__header__more-options">
+                <FaEllipsisV />
+              </button>
+              <DropdownMenu anchorEl={anchorElement} className="column-more-options">
+                <DropdownMenuItem onClick={removeColumn}>
+                  <FaTrashAlt />
+                  Delete
+                </DropdownMenuItem>
+              </DropdownMenu>
+            </>
+          )}
         </header>
         <TaskContainer columnId={columnId} columnIndex={columnIndex} />
       </div>

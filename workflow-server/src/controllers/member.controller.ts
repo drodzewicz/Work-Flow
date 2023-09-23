@@ -83,7 +83,7 @@ export class MemberController {
   }
 
   @Delete("/:userId")
-  @Authorized(Permissions.MEMBER_REMOVE)
+  @Authorized(Permissions.MEMBER_DELETE)
   async RemoveUserToBoard(@Param("boardId") boardId: string, @Param("userId") userId: string) {
     const { name } = await this.boardService.getBoard(boardId);
     await this.userService.getUser(userId);
@@ -104,7 +104,7 @@ export class MemberController {
   }
 
   @Patch("/:userId/role")
-  @Authorized(Permissions.ROLE_MODIFY)
+  @Authorized(Permissions.MEMBER_ROLE_UPDATE)
   async updateBoardMemberRole(
     @Param("boardId") boardId: string,
     @Param("userId") userId: string,

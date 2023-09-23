@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useParams } from "react-router-dom";
 
 import { TaskProvider } from "@/context/TaskContext";
 
-import useGetBoard from "@/service/useGetBoard";
+import useGetBoard from "@/service/board/useGetBoard";
 
 import "./BoardPage.scss";
 
@@ -13,7 +13,22 @@ import BoardHeader from "./BoardHeader";
 
 const BoardPage: React.FC = () => {
   const { id: boardId = "" } = useParams<{ id: string }>();
-  const { data: board } = useGetBoard({ boardId });
+  const {
+    data: board,
+    error,
+    status,
+  } = useGetBoard({
+    boardId,
+    onError: () => {
+      throw new Response("UPS", { status: 403 });
+    },
+  });
+
+  // if (status === "error") {
+  //   throw new Response((error as any)?.response?.data?.message, {
+  //     status: (error as any)?.response.status,
+  //   });
+  // }
 
   return (
     <div className="board-page">

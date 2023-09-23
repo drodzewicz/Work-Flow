@@ -1,7 +1,7 @@
 import React from "react";
 
 import { getRoleIcon } from "@/utils/role";
-import Select, { ActionMeta, OptionProps, SingleValue, components } from "react-select";
+import Select, { ActionMeta, SingleValue, components } from "react-select";
 
 type BoardRoles = Record<string, { permissions: string[] }>;
 

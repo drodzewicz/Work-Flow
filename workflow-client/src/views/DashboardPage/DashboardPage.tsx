@@ -10,10 +10,10 @@ import { useNavigate } from "react-router-dom";
 import useModal from "@/hooks/useModal";
 import { usePagination } from "@/hooks/usePagination";
 
-import useCreateBoard from "@/service/useCreateBoard";
-import useFetchPinnedUserBoards from "@/service/useFetchPinnedUserBoards";
-import useFetchUserBoards from "@/service/useFetchUserBoard";
-import useTogglePinBoard from "@/service/useTogglePinBoard";
+import useCreateBoard from "@/service/board/useCreateBoard";
+import useFetchPinnedUserBoards from "@/service/self/useFetchPinnedUserBoards";
+import useFetchUserBoards from "@/service/self/useFetchUserBoard";
+import useTogglePinBoard from "@/service/self/useTogglePinBoard";
 
 import Box from "@/components/layout/Box";
 import Modal from "@/components/layout/Modal";

@@ -1,12 +1,13 @@
 import React from "react";
 
-import * as Skeleton from "@/components/layout/Skeleton";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 import useBoardTask from "@/hooks/useBoardTasks";
+import useRBAC from "@/hooks/useRBAC";
 
-import useAddNewColumn from "@/service/useAddNewColumn";
-import useFetchTasks from "@/service/useFetchTasks";
+import useFetchTasks from "@/service/task/useFetchTasks";
+
+import * as Skeleton from "@/components/layout/Skeleton";
 
 import ColumnContainer from "@/components/board/Column/ColumnContainer";
 import NewColumn from "@/components/board/NewColumn/NewColumn";
@@ -17,6 +18,8 @@ type BoardColumnsProps = {
 
 const BoardColumns: React.FC<BoardColumnsProps> = ({ boardId }) => {
   const { setData, setBoard, moveColumn, moveTask } = useBoardTask();
+
+  const canCreateColumn = useRBAC({ boardId, action: "COLUMN_CREATE" });
 
   const { isLoading } = useFetchTasks({
     boardId,
@@ -61,7 +64,7 @@ const BoardColumns: React.FC<BoardColumnsProps> = ({ boardId }) => {
         >
           <ColumnContainer boardId={boardId} />
         </Skeleton.Container>
-        <NewColumn boardId={boardId} />
+        {canCreateColumn && <NewColumn boardId={boardId} />}
       </div>
     </DragDropContext>
   );

@@ -6,7 +6,7 @@ const useAuth = () => {
   const [authState, authDispatch] = useContext(AuthContext);
   const { user, token } = authState;
   const userFromLocaleStorage = localStorage.getItem("user");
-  const parsedUser = userFromLocaleStorage ? JSON.parse(userFromLocaleStorage) : null;
+  const parsedUser: User | null = userFromLocaleStorage ? JSON.parse(userFromLocaleStorage) : null;
 
   useDebugValue(authState, (auth) => (auth?.user ? "Logged In" : "Logged Out"));
 
