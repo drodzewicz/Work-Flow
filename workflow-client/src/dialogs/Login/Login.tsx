@@ -4,13 +4,12 @@ import { OnSubmitType } from "@/types/utils";
 
 import { TextField } from "@/components/form/TextInput";
 import { Field, Form, useFormik, FormikProvider } from "formik";
-import { useMutation } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { InferType } from "yup";
 
-import axios from "@/config/api.conf.ts";
-
 import useAuth from "@/hooks/useAuth";
+
+import { useLogin } from "@/service/auth";
 
 import "./Login.scss";
 
@@ -19,30 +18,25 @@ import { validationSchema } from "./formSchema";
 export type LoginFormType = InferType<typeof validationSchema>;
 
 const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initialValues }) => {
-  const { login } = useAuth();
+  const { login: authLogin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const mutation = useMutation(
-    (loginPayload: any) => axios.post("/auth/login", loginPayload, { withCredentials: true }),
-    {
-      onSuccess: (response) => {
-        const { user, accessToken } = response.data;
-        login({ user, token: accessToken });
+  const { mutate: login } = useLogin({
+    onSuccess(response) {
+      const { user, accessToken } = response.data;
+      authLogin({ user, token: accessToken });
 
-        // redirect user to the desired page if user was redirected to login
-        const from = location.state?.from?.pathname || "/dashboard";
-
-        navigate(from);
-      },
-      onError: () => {
-        formik.setErrors({ username: "bad login", password: "bad login" });
-      },
-    }
-  );
+      // redirect user to the desired page if user was redirected to login
+      navigate(location.state?.from?.pathname || "/dashboard");
+    },
+    onError() {
+      formik.setErrors({ username: "bad login", password: "bad login" });
+    },
+  });
 
   const onSubmitHandler: OnSubmitType<LoginFormType> = async (values) => {
-    mutation.mutate(values);
+    login(values);
   };
 
   const INITIAL_FORM_VALUES: LoginFormType = {

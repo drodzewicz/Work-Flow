@@ -1,7 +1,6 @@
 import React from "react";
 
 import UserSelect, { DefaultOption } from "@/components/form/UserSelect/UserSelect";
-import { AxiosResponse } from "axios";
 import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 

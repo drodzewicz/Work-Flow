@@ -1,4 +1,4 @@
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { useMutation } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
@@ -16,7 +16,7 @@ type BoardPayload = {
 
 const useCreateBoard = ({ onSuccess }: CreateBoardProps) => {
   const client = useAuthClient();
-  const createBoardMutation = useMutation<AxiosResponse<Board>, unknown, BoardPayload>(
+  const createBoardMutation = useMutation<AxiosResponse<Board>, AxiosError, BoardPayload>(
     (data) => client.post(boardURL.index, data),
     {
       onSuccess,

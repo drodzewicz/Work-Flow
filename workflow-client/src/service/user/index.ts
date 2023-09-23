@@ -1,3 +1,4 @@
+import userQueryKeys from "./queryKeys";
 import useSearchUsers from "./useSearchUsers";
 
-export { useSearchUsers };
+export { userQueryKeys, useSearchUsers };

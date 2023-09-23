@@ -4,11 +4,10 @@ import { OnSubmitType } from "@/types/utils";
 
 import { TextField } from "@/components/form/TextInput";
 import { Field, Form, useFormik, FormikProvider } from "formik";
-import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { InferType } from "yup";
 
-import axios from "@/config/api.conf.ts";
+import { useRegister } from "@/service/auth";
 
 import "./RegisterPage.scss";
 
@@ -31,7 +30,7 @@ const RegisterPage = () => {
   const onSubmitHandler: OnSubmitType<RegisterType> = (values) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { matchPassword, ...otherData } = values;
-    mutation.mutate(otherData);
+    register(otherData);
   };
 
   const formik = useFormik({
@@ -40,19 +39,16 @@ const RegisterPage = () => {
     onSubmit: onSubmitHandler,
   });
 
-  const mutation = useMutation(
-    (registerPayload: any) => axios.post("/auth/register", registerPayload),
-    {
-      onError: (error: any) => {
-        formik.setErrors(error?.response?.data?.messages);
-      },
-      onSuccess: () => {
-        navigate("/#login", {
-          state: { username: formik.values.username, password: formik.values.password },
-        });
-      },
-    }
-  );
+  const { mutate: register } = useRegister({
+    onSuccess() {
+      navigate("/#login", {
+        state: { username: formik.values.username, password: formik.values.password },
+      });
+    },
+    onError(error) {
+      formik.setErrors(error?.response?.data?.messages);
+    },
+  });
 
   return (
     <div className="register-form">

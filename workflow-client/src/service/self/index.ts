@@ -1,3 +1,4 @@
+import selfQueryKeys from "./queryKeys";
 import useDeleteNotification from "./useDeleteNotification";
 import useGetCurrentUser from "./useGetCurrentUser";
 import useGetNotifications from "./useGetNotifications";
@@ -6,6 +7,7 @@ import useGetUserPinnedBoards from "./useGetUserPinnedBoards";
 import useTogglePinBoard from "./useTogglePinBoard";
 
 export {
+  selfQueryKeys,
   useDeleteNotification,
   useGetCurrentUser,
   useGetNotifications,
