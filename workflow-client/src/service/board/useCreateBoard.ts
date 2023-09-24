@@ -1,29 +1,29 @@
-import { AxiosError, AxiosResponse } from "axios";
-import { useMutation } from "react-query";
+import { AxiosError } from "axios";
+import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
 import boardURL from "./url";
-
-type CreateBoardProps = {
-  onSuccess?: (data: AxiosResponse<Board>) => void;
-};
 
 type BoardPayload = {
   name: string;
   description?: string;
 };
 
-const useCreateBoard = ({ onSuccess }: CreateBoardProps) => {
-  const client = useAuthClient();
-  const createBoardMutation = useMutation<AxiosResponse<Board>, AxiosError, BoardPayload>(
-    (data) => client.post(boardURL.index, data),
-    {
-      onSuccess,
-    }
-  );
+type OptionsType = Omit<UseMutationOptions<Board, AxiosError, BoardPayload>, "mutationFn">;
 
-  return createBoardMutation;
+const useCreateBoard = (options: OptionsType) => {
+  const client = useAuthClient();
+
+  const mutationFn: MutationFunction<Board, BoardPayload> = async (data) => {
+    const response = await client.post(boardURL.index, data);
+    return response.data;
+  };
+
+  return useMutation({
+    ...options,
+    mutationFn,
+  });
 };
 
 export default useCreateBoard;

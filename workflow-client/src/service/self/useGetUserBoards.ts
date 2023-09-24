@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { QueryFunctionContext, useQuery } from "react-query";
+import { QueryFunctionContext, UseQueryOptions, useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
@@ -8,17 +8,19 @@ import selfURL from "./url";
 
 type PaginatedUserBoardList = { boards: Board[]; totalCount: number };
 
+type BoardsQueryKey = ReturnType<(typeof selfQueryKeys)["boards"]>;
+
+type OptionsType = Omit<
+  UseQueryOptions<PaginatedUserBoardList, AxiosError, PaginatedUserBoardList, BoardsQueryKey>,
+  "queryKey" | "queryFn"
+>;
+
 type GetUserBoardsProps = {
   page: number;
   limit: number;
-  onSuccess?: (data: PaginatedUserBoardList) => void;
-};
+} & OptionsType;
 
-type BoardsQueryKey = ReturnType<(typeof selfQueryKeys)["boards"]>;
-
-const useGetUserBoards = (props: GetUserBoardsProps) => {
-  const { page, limit, onSuccess } = props;
-
+const useGetUserBoards = ({ page, limit, ...options }: GetUserBoardsProps) => {
   const client = useAuthClient();
 
   const fetchBoards = async ({
@@ -28,11 +30,10 @@ const useGetUserBoards = (props: GetUserBoardsProps) => {
     return response.data;
   };
 
-  return useQuery<PaginatedUserBoardList, AxiosError, PaginatedUserBoardList, BoardsQueryKey>({
+  return useQuery({
+    ...options,
     queryKey: selfQueryKeys.boards({ page, limit }),
     queryFn: fetchBoards,
-    keepPreviousData: true,
-    onSuccess,
   });
 };
 

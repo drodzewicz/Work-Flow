@@ -1,17 +1,31 @@
-import { AxiosResponse } from "axios";
-import { useMutation } from "react-query";
+import { AxiosError } from "axios";
+import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
 import permissionURL from "./url";
 
-type UpdateMemberRoleProps = { boardId: string };
+type UpdateMemberRolePayload = { userId: string; role: string };
 
-const useUpdateMemberRole = ({ boardId }: UpdateMemberRoleProps) => {
+type OptionsType = Omit<
+  UseMutationOptions<Board, AxiosError, UpdateMemberRolePayload>,
+  "mutationFn"
+>;
+
+type UpdateMemberRoleProps = { boardId: string } & OptionsType;
+
+const useUpdateMemberRole = ({ boardId, ...options }: UpdateMemberRoleProps) => {
   const client = useAuthClient();
-  return useMutation<AxiosResponse, unknown, { userId: string; role: string }>(({ userId, role }) =>
-    client.patch(permissionURL.updateMemberRole(boardId, userId), { role })
-  );
+
+  const mutationFn: MutationFunction<Board, UpdateMemberRolePayload> = async ({ userId, role }) => {
+    const response = await client.patch(permissionURL.updateMemberRole(boardId, userId), { role });
+    return response.data;
+  };
+
+  return useMutation({
+    ...options,
+    mutationFn,
+  });
 };
 
 export default useUpdateMemberRole;

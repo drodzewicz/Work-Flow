@@ -1,20 +1,26 @@
-import { AxiosResponse } from "axios";
-import { useMutation } from "react-query";
+import { AxiosError } from "axios";
+import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
 import columnURL from "./url";
 
-type DeleteColumnProps = { boardId: string; onSuccess?: () => void };
+type OptionsType = Omit<UseMutationOptions<unknown, AxiosError, string>, "mutationFn">;
 
-const useDeleteColumn = ({ boardId, onSuccess }: DeleteColumnProps) => {
+type DeleteColumnProps = { boardId: string } & OptionsType;
+
+const useDeleteColumn = ({ boardId, ...options }: DeleteColumnProps) => {
   const client = useAuthClient();
-  return useMutation<AxiosResponse, unknown, string>(
-    (columnId) => client.delete(columnURL.delete(boardId, columnId)),
-    {
-      onSuccess,
-    }
-  );
+
+  const mutationFn: MutationFunction<unknown, string> = async (columnId) => {
+    const response = await client.delete(columnURL.delete(boardId, columnId));
+    return response.data;
+  };
+
+  return useMutation({
+    ...options,
+    mutationFn,
+  });
 };
 
 export default useDeleteColumn;

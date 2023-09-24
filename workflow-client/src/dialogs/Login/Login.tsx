@@ -23,8 +23,8 @@ const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initi
   const location = useLocation();
 
   const { mutate: login } = useLogin({
-    onSuccess(response) {
-      const { user, accessToken } = response.data;
+    onSuccess(data) {
+      const { user, accessToken } = data;
       authLogin({ user, token: accessToken });
 
       // redirect user to the desired page if user was redirected to login

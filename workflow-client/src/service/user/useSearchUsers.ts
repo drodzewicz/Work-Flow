@@ -1,36 +1,39 @@
 import { useState } from "react";
 
 import { AxiosError } from "axios";
-import { QueryFunctionContext, useQuery } from "react-query";
+import { QueryFunction, QueryFunctionContext, UseQueryOptions, useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
 import userQueryKeys from "./queryKeys";
 import userURL from "./url";
 
-type SearchUsersProps = { limit?: number; page?: number };
-
 type UserListPaginated = { totalCount: number; users: User[] };
 
 type UserQueryKey = ReturnType<(typeof userQueryKeys)["list"]>;
 
-const useSearchUsers = (props?: SearchUsersProps) => {
-  const limit = props?.limit ?? 5;
-  const page = props?.page ?? 1;
+type OptionsType = Omit<
+  UseQueryOptions<UserListPaginated, AxiosError, UserListPaginated, UserQueryKey>,
+  "queryKey" | "queryFn"
+>;
 
+type SearchUsersProps = { limit: number; page: number } & OptionsType;
+
+const useSearchUsers = ({ limit, page, ...options }: SearchUsersProps) => {
   const client = useAuthClient();
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const fetchTasks = async ({
+  const fetchTasks: QueryFunction<UserListPaginated, UserQueryKey> = async ({
     queryKey: [{ searchTerm, pagination }],
-  }: QueryFunctionContext<UserQueryKey>) => {
+  }) => {
     const response = await client.get(userURL.index, {
       params: { ...pagination, username: searchTerm },
     });
     return response.data;
   };
 
-  const query = useQuery<UserListPaginated, AxiosError, UserListPaginated, UserQueryKey>({
+  const query = useQuery({
+    ...options,
     queryKey: userQueryKeys.list(searchTerm, { page, limit }),
     queryFn: fetchTasks,
     enabled: !!searchTerm,

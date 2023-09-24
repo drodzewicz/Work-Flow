@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { useQuery } from "react-query";
+import { QueryFunction, UseQueryOptions, useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
@@ -8,16 +8,22 @@ import selfURL from "./url";
 
 type PinnendBoardsQueryKey = ReturnType<(typeof selfQueryKeys)["pinnedBoards"]>;
 
+type OptionsType = Omit<
+  UseQueryOptions<Board[], AxiosError, Board[], PinnendBoardsQueryKey>,
+  "queryKey" | "queryFn"
+>;
+
 // TODO: use useFetchUserBoards with parameter pinned instead of a seperate endpoint
-const useGetUserPinnedBoards = () => {
+const useGetUserPinnedBoards = (options?: OptionsType) => {
   const client = useAuthClient();
 
-  const fetchPinnedBoards = async () => {
+  const fetchPinnedBoards: QueryFunction<Board[], PinnendBoardsQueryKey> = async () => {
     const response = await client.get(selfURL.pinnedBards());
     return response.data;
   };
 
-  return useQuery<Board[], AxiosError, Board[], PinnendBoardsQueryKey>({
+  return useQuery({
+    ...options,
     queryKey: selfQueryKeys.pinnedBoards(),
     queryFn: fetchPinnedBoards,
   });

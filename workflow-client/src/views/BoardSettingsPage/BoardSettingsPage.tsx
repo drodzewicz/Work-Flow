@@ -20,13 +20,13 @@ const BoardSettingsPage: React.FC = () => {
   const canModifyRoles = useRBAC({ boardId, action: "MEMBER_ROLE_UPDATE" });
 
   const { mutate: deleteBoard } = useDeleteBoard({
-    onSuceess: () => {
+    onSuccess: () => {
       navigate("/dashboard");
     },
   });
 
   const { mutate: leaveBoard } = useLeaveBoard({
-    onSuceess: () => {
+    onSuccess: () => {
       navigate("/dashboard");
     },
   });

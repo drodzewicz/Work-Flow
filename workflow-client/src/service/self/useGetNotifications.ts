@@ -1,20 +1,31 @@
 import { AxiosError } from "axios";
-import { useQuery } from "react-query";
+import { QueryFunction, UseQueryOptions, useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
 import selfQueryKeys from "./queryKeys";
 import selfURL from "./url";
 
-const useGetNotifications = () => {
+type NotificationsQueryKey = ReturnType<(typeof selfQueryKeys)["notifications"]>;
+
+type OptionsType = Omit<
+  UseQueryOptions<BoardNotification[], AxiosError, BoardNotification[], NotificationsQueryKey>,
+  "queryKey" | "queryFn"
+>;
+
+const useGetNotifications = (options?: OptionsType) => {
   const client = useAuthClient();
 
-  const fetchNotifications = async () => {
+  const fetchNotifications: QueryFunction<
+    BoardNotification[],
+    NotificationsQueryKey
+  > = async () => {
     const response = await client.get(selfURL.notifications());
     return response.data;
   };
 
-  return useQuery<BoardNotification[], AxiosError, BoardNotification[]>({
+  return useQuery({
+    ...options,
     queryKey: selfQueryKeys.notifications(),
     queryFn: fetchNotifications,
   });

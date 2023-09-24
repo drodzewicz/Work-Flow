@@ -1,19 +1,31 @@
-import { AxiosResponse } from "axios";
-import { useMutation } from "react-query";
+import { AxiosError } from "axios";
+import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
 import boardURL from "./url";
 
-type UpdateBoardInfoProps = { boardId: string };
-
 type UpdateBoardInfoPayload = { name: string; description?: string };
 
-const useUpdateBoardInfo = ({ boardId }: UpdateBoardInfoProps) => {
+type OptionsType = Omit<
+  UseMutationOptions<Board, AxiosError, UpdateBoardInfoPayload>,
+  "mutationFn"
+>;
+
+type UpdateBoardInfoProps = { boardId: string } & OptionsType;
+
+const useUpdateBoardInfo = ({ boardId, ...options }: UpdateBoardInfoProps) => {
   const client = useAuthClient();
-  return useMutation<AxiosResponse<Board>, unknown, UpdateBoardInfoPayload>((data) =>
-    client.put(boardURL.update(boardId), data)
-  );
+
+  const mutationFn: MutationFunction<Board, UpdateBoardInfoPayload> = async (data) => {
+    const response = await client.put(boardURL.update(boardId), data);
+    return response.data;
+  };
+
+  return useMutation({
+    ...options,
+    mutationFn,
+  });
 };
 
 export default useUpdateBoardInfo;

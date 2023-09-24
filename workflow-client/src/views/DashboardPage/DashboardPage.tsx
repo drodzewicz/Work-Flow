@@ -42,6 +42,7 @@ const DashboardPage: React.FC = () => {
     useGetUserBoards({
       limit,
       page: currentPage,
+      keepPreviousData: true,
       onSuccess: (data) => {
         setTotalItems(data.totalCount);
       },
@@ -49,7 +50,7 @@ const DashboardPage: React.FC = () => {
 
   const { mutate: createBoard } = useCreateBoard({
     onSuccess: (response) => {
-      navigate(`/board/${response.data._id}`);
+      navigate(`/board/${response._id}`);
     },
   });
   const { mutate: togglePinBoard } = useTogglePinBoard();

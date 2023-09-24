@@ -1,22 +1,27 @@
-import { AxiosResponse } from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { AxiosError } from "axios";
+import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
 import memberURL from "./url";
 
-const useAddBoardMember = () => {
-  //   const queryClient = useQueryClient();
+type UserRoleResponse = { role: string; user: User };
 
+type OptionsType = Omit<UseMutationOptions<UserRoleResponse, AxiosError, string>, "mutationFn">;
+
+type AddBoardMemberProps = { boardId: string } & OptionsType;
+
+const useAddBoardMember = ({ boardId, ...options }: AddBoardMemberProps) => {
   const client = useAuthClient();
-  return useMutation<
-    AxiosResponse<{ role: string; user: User }>,
-    unknown,
-    { boardId: string; userId: string }
-  >(({ boardId, userId }) => client.post(memberURL.add(boardId, userId)), {
-    onSuccess: () => {
-      //   queryClient.invalidateQueries("self-pinned-boards");
-    },
+
+  const mutationFn: MutationFunction<UserRoleResponse, string> = async (userId) => {
+    const response = await client.post(memberURL.add(boardId, userId));
+    return response.data;
+  };
+
+  return useMutation({
+    ...options,
+    mutationFn,
   });
 };
 

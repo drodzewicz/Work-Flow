@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { QueryFunctionContext, useQuery } from "react-query";
+import { QueryFunction, UseQueryOptions, useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
@@ -8,17 +8,22 @@ import taskURL from "./url";
 
 type TaskQueryKey = ReturnType<(typeof taskQueryKeys)["item"]>;
 
-type GetTaskDetailsProps = { taskId: string };
+type OptionsType = Omit<
+  UseQueryOptions<Task, AxiosError, Task, TaskQueryKey>,
+  "queryKey" | "queryFn"
+>;
+type GetTaskDetailsProps = { taskId: string } & OptionsType;
 
-const useGetTaskDetails = ({ taskId }: GetTaskDetailsProps) => {
+const useGetTaskDetails = ({ taskId, ...options }: GetTaskDetailsProps) => {
   const client = useAuthClient();
 
-  const fetchTask = async ({ queryKey: [{ id }] }: QueryFunctionContext<TaskQueryKey>) => {
+  const fetchTask: QueryFunction<Task, TaskQueryKey> = async ({ queryKey: [{ id }] }) => {
     const response = await client.get(taskURL.read(id));
     return response.data;
   };
 
-  return useQuery<Task, AxiosError, Task, TaskQueryKey>({
+  return useQuery({
+    ...options,
     queryKey: taskQueryKeys.item(taskId),
     queryFn: fetchTask,
   });

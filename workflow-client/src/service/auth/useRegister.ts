@@ -1,11 +1,9 @@
-import { AxiosError, AxiosResponse } from "axios";
-import { useMutation } from "react-query";
+import { AxiosError } from "axios";
+import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
 
 import axios from "@/config/api.conf.ts";
 
 import authURL from "./url";
-
-type RegisterProps = { onSuccess: (response: AxiosResponse) => void; onError: (err: any) => void };
 
 type RegisterPayload = {
   username: string;
@@ -23,13 +21,25 @@ type RegisterResponse = {
   email: string;
 };
 
-const useRegister = (props?: RegisterProps) => {
-  return useMutation<AxiosResponse<RegisterResponse>, AxiosError, RegisterPayload>(
-    (data) => axios.post(authURL.register, data),
-    {
-      ...props,
-    }
-  );
+type OptionsType = Omit<
+  UseMutationOptions<
+    RegisterResponse,
+    AxiosError<{ messages: Record<string, string> }>,
+    RegisterPayload
+  >,
+  "mutationFn"
+>;
+
+const useRegister = (options: OptionsType) => {
+  const mutationFn: MutationFunction<RegisterResponse, RegisterPayload> = async (data) => {
+    const response = await axios.post(authURL.register, data);
+    return response.data;
+  };
+
+  return useMutation({
+    ...options,
+    mutationFn,
+  });
 };
 
 export default useRegister;

@@ -18,14 +18,10 @@ const GeneralSections: React.FC = () => {
 
   const canUpdateBoard = useRBAC({ boardId, action: "BOARD_UPDATE" });
 
-  const onSubmitHandler = (values: any) => {
-    updateBoard(values);
-  };
-
   const formik = useFormik({
     initialValues: { name: data.name, description: data.description },
     validationSchema: validationSchema,
-    onSubmit: onSubmitHandler,
+    onSubmit: (values) => updateBoard(values),
     enableReinitialize: true,
   });
 

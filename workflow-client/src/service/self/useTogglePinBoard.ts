@@ -1,22 +1,24 @@
-import { useMutation, useQueryClient } from "react-query";
+import { AxiosError } from "axios";
+import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
 import selfURL from "./url";
 
-const useTogglePinBoard = () => {
-  const client = useAuthClient();
-  const queryClient = useQueryClient();
+type OptionsType = Omit<UseMutationOptions<unknown, AxiosError, string>, "mutationFn">;
 
-  const pinBoardMutation = useMutation(
-    (boardId: string) => client.put(selfURL.togglePin(boardId)),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("self-pinned-boards");
-      },
-    }
-  );
-  return pinBoardMutation;
+const useTogglePinBoard = (options: OptionsType) => {
+  const client = useAuthClient();
+
+  const mutationFn: MutationFunction<Board, string> = async (boardId) => {
+    const response = await client.put(selfURL.togglePin(boardId));
+    return response.data;
+  };
+
+  return useMutation({
+    ...options,
+    mutationFn,
+  });
 };
 
 export default useTogglePinBoard;

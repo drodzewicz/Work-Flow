@@ -1,28 +1,24 @@
-import { AxiosResponse } from "axios";
-import { useMutation } from "react-query";
+import { AxiosError } from "axios";
+import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
 import boardURL from "./url";
 
-type LeaveBoardProps = {
-  onSuceess?: (response: AxiosResponse) => void;
-  onError?: (error: unknown) => void;
-};
+type OptionsType = Omit<UseMutationOptions<unknown, AxiosError, string>, "mutationFn">;
 
-const useLeaveBoard = (props?: LeaveBoardProps) => {
+const useLeaveBoard = (options: OptionsType) => {
   const client = useAuthClient();
-  return useMutation<AxiosResponse, unknown, string>(
-    (boardId) => client.patch(boardURL.leave(boardId)),
-    {
-      onSuccess: (response) => {
-        props?.onSuceess?.(response);
-      },
-      onError: (error) => {
-        props?.onError?.(error);
-      },
-    }
-  );
+
+  const mutationFn: MutationFunction<unknown, string> = async (boardId) => {
+    const response = await client.patch(boardURL.leave(boardId));
+    return response.data;
+  };
+
+  return useMutation({
+    ...options,
+    mutationFn,
+  });
 };
 
 export default useLeaveBoard;

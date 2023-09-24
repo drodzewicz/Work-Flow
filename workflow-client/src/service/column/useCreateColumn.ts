@@ -1,22 +1,26 @@
-import { AxiosResponse } from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { AxiosError } from "axios";
+import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
 import columnURL from "./url";
 
-type CreateColumnProps = { boardId: string };
+type OptionsType = Omit<UseMutationOptions<Column, AxiosError, string>, "mutationFn">;
 
-const useCreateColumn = ({ boardId }: CreateColumnProps) => {
+type CreateColumnProps = { boardId: string } & OptionsType;
+
+const useCreateColumn = ({ boardId, ...options }: CreateColumnProps) => {
   const client = useAuthClient();
-  const queryClient = useQueryClient();
 
-  return useMutation<AxiosResponse<Column>, unknown, string>(
-    (name) => client.post(columnURL.index(boardId), { name }),
-    {
-      onSuccess: () => queryClient.invalidateQueries(["board", boardId]),
-    }
-  );
+  const mutationFn: MutationFunction<Board, string> = async (name) => {
+    const response = await client.post(columnURL.index(boardId), { name });
+    return response.data;
+  };
+
+  return useMutation({
+    ...options,
+    mutationFn,
+  });
 };
 
 export default useCreateColumn;

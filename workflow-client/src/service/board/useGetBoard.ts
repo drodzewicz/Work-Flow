@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { QueryFunctionContext, useQuery } from "react-query";
+import { QueryFunction, QueryFunctionContext, UseQueryOptions, useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
@@ -14,23 +14,30 @@ type BoardResponse = {
   columns: Column[];
 };
 
-type GetBoardProps = { boardId: string; onError?: () => void };
-
 type BoardQueryKey = ReturnType<(typeof boardQueryKeys)["item"]>;
 
-const useGetBoard = ({ boardId, onError }: GetBoardProps) => {
+type OptionsType = Omit<
+  UseQueryOptions<BoardResponse, AxiosError, BoardResponse, BoardQueryKey>,
+  "queryKey" | "queryFn"
+>;
+
+type GetBoardProps = { boardId: string } & OptionsType;
+
+const useGetBoard = ({ boardId, ...options }: GetBoardProps) => {
   const client = useAuthClient();
 
-  const fetchBoard = async ({ queryKey: [{ id }] }: QueryFunctionContext<BoardQueryKey>) => {
+  const fetchBoard: QueryFunction<BoardResponse, BoardQueryKey> = async ({
+    queryKey: [{ id }],
+  }) => {
     const response = await client.get(boardURL.read(id));
     return response.data;
   };
 
-  return useQuery<BoardResponse, AxiosError, BoardResponse, BoardQueryKey>({
+  return useQuery({
+    ...options,
     queryKey: boardQueryKeys.item(boardId),
     queryFn: fetchBoard,
     enabled: !!boardId,
-    onError: onError,
   });
 };
 

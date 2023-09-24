@@ -1,41 +1,41 @@
 import { AxiosError } from "axios";
-import { QueryFunctionContext, useQuery } from "react-query";
+import { QueryFunction, UseQueryOptions, useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
 import memberQueryKeys from "./queryKeys";
 import memberURL from "./url";
 
-type GetBoardMembersProps = {
-  boardId: string;
-  page: number;
-  limit: number;
-  onSuccess?: (data: PaginatedBoardMembersList) => void;
-};
-
 type PaginatedBoardMembersList = { members: BoradMember[]; totalCount: number };
 
 type MemberListQueryKey = ReturnType<(typeof memberQueryKeys)["list"]>;
 
-const useGetBoardMembers = ({ boardId, page, limit, onSuccess }: GetBoardMembersProps) => {
-  const client = useAuthClient();
-
-  const fetchMembersList = async ({
-    queryKey: [{ listId, pagination }],
-  }: QueryFunctionContext<MemberListQueryKey>) => {
-    const response = await client.get(memberURL.index(listId), { params: pagination });
-    return response.data;
-  };
-
-  return useQuery<
+type OptionsType = Omit<
+  UseQueryOptions<
     PaginatedBoardMembersList,
     AxiosError,
     PaginatedBoardMembersList,
     MemberListQueryKey
-  >({
+  >,
+  "queryKey" | "queryFn"
+>;
+
+type GetBoardMembersProps = { boardId: string; page: number; limit: number } & OptionsType;
+
+const useGetBoardMembers = ({ boardId, page, limit, ...options }: GetBoardMembersProps) => {
+  const client = useAuthClient();
+
+  const fetchMembersList: QueryFunction<PaginatedBoardMembersList, MemberListQueryKey> = async ({
+    queryKey: [{ listId, pagination }],
+  }) => {
+    const response = await client.get(memberURL.index(listId), { params: pagination });
+    return response.data;
+  };
+
+  return useQuery({
     queryKey: memberQueryKeys.list(boardId, { page, limit }),
     queryFn: fetchMembersList,
-    onSuccess,
+    ...options,
   });
 };
 

@@ -1,11 +1,9 @@
-import { AxiosError, AxiosResponse } from "axios";
-import { useMutation } from "react-query";
+import { AxiosError } from "axios";
+import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
 
 import axios from "@/config/api.conf.ts";
 
 import authURL from "./url";
-
-type LoginProps = { onSuccess: (response: AxiosResponse) => void; onError: (err: any) => void };
 
 type LoginPayload = {
   username: string;
@@ -14,16 +12,21 @@ type LoginPayload = {
 
 type LoginResponse = {
   user: User;
-  accessToke: string;
+  accessToken: string;
 };
 
-const useLogin = (props?: LoginProps) => {
-  return useMutation<AxiosResponse<LoginResponse>, AxiosError, LoginPayload>(
-    (data) => axios.post(authURL.login, data, { withCredentials: true }),
-    {
-      ...props,
-    }
-  );
+type OptionsType = Omit<UseMutationOptions<LoginResponse, AxiosError, LoginPayload>, "mutationFn">;
+
+const useLogin = (options: OptionsType) => {
+  const mutationFn: MutationFunction<LoginResponse, LoginPayload> = async (data) => {
+    const response = await axios.post(authURL.login, data, { withCredentials: true });
+    return response.data;
+  };
+
+  return useMutation({
+    ...options,
+    mutationFn,
+  });
 };
 
 export default useLogin;

@@ -19,9 +19,6 @@ const BoardPage: React.FC = () => {
     status,
   } = useGetBoard({
     boardId,
-    onError: () => {
-      throw new Response("UPS", { status: 403 });
-    },
   });
 
   // if (status === "error") {

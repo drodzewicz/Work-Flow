@@ -46,7 +46,7 @@ const MembersSection = () => {
   const canManageMembers = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
 
   const { data: roles = {} } = useGetBoardRoles({ boardId });
-  const { mutate: removeMember } = useRemoveBoardMember();
+  const { mutate: removeMember } = useRemoveBoardMember({ boardId });
   const { mutate: updateMemberRole } = useUpdateMemberRole({ boardId });
 
   return (
@@ -82,7 +82,7 @@ const MembersSection = () => {
               <button
                 disabled={member.user._id === user?._id}
                 className="btn"
-                onClick={() => removeMember({ boardId, userId: member.user._id })}
+                onClick={() => removeMember(member.user._id)}
               >
                 remove
               </button>

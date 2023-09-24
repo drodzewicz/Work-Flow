@@ -1,22 +1,24 @@
-import { AxiosResponse } from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { AxiosError } from "axios";
+import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
 import selfURL from "./url";
 
-const useDeleteNotification = () => {
-  const client = useAuthClient();
-  const queryClient = useQueryClient();
+type OptionsType = Omit<UseMutationOptions<unknown, AxiosError, string>, "mutationFn">;
 
-  return useMutation<AxiosResponse, unknown, string>(
-    (notificationId: string) => client.delete(selfURL.deleteNotification(notificationId)),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("notifications");
-      },
-    }
-  );
+const useDeleteNotification = (options?: OptionsType) => {
+  const client = useAuthClient();
+
+  const mutationFn: MutationFunction<unknown, string> = async (notificationId) => {
+    const response = await client.delete(selfURL.deleteNotification(notificationId));
+    return response.data;
+  };
+
+  return useMutation({
+    ...options,
+    mutationFn,
+  });
 };
 
 export default useDeleteNotification;

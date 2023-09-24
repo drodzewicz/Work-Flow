@@ -16,11 +16,11 @@ const InviteUserToBoard: React.FC = () => {
   const queryClient = useQueryClient();
   const client = useAuthClient();
 
-  const { mutateAsync: addUserToBoard } = useAddBoardMember();
+  const { mutateAsync: addUserToBoard } = useAddBoardMember({ boardId });
   const { data: users, addItem: addUser, removeItem: removeUser } = useList<User>();
 
   const addSelectedUsersToBoard = async () => {
-    await Promise.all(users.map(({ _id }) => addUserToBoard({ boardId, userId: _id }))).then(() => {
+    await Promise.all(users.map(({ _id }) => addUserToBoard(_id))).then(() => {
       queryClient.invalidateQueries(["board-memebers", boardId]);
     });
   };

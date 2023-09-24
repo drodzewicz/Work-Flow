@@ -1,36 +1,39 @@
-import { AxiosError, AxiosResponse } from "axios";
-import { QueryFunctionContext, useQuery } from "react-query";
+import { AxiosError } from "axios";
+import { QueryFunction, UseQueryOptions, useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
 import taskQueryKeys from "./queryKeys";
 import taskURL from "./url";
 
+type TaskQueryKey = ReturnType<(typeof taskQueryKeys)["list"]>;
+
+type GetTasksResponse = ColumnWithTasks | ColumnWithTasks[];
+
+type OptionsType = Omit<
+  UseQueryOptions<GetTasksResponse, AxiosError, GetTasksResponse, TaskQueryKey>,
+  "queryKey" | "queryFn"
+>;
+
 type GetColumnTasksProp = {
   boardId: string;
   columnId?: string;
-  onSuccess?: (data: ColumnWithTasks | ColumnWithTasks[]) => void;
-};
+} & OptionsType;
 
-type TaskQueryKey = ReturnType<(typeof taskQueryKeys)["list"]>;
-
-const useGetTasks = ({ boardId, columnId, onSuccess }: GetColumnTasksProp) => {
+const useGetTasks = ({ boardId, columnId, ...options }: GetColumnTasksProp) => {
   const client = useAuthClient();
 
-  const fetchTasks = async ({ queryKey: [{ listId }] }: QueryFunctionContext<TaskQueryKey>) => {
+  const fetchTasks: QueryFunction<GetTasksResponse, TaskQueryKey> = async ({
+    queryKey: [{ listId }],
+  }) => {
     const response = await client.get(taskURL.index, { params: listId });
     return response.data;
   };
 
-  return useQuery<
-    ColumnWithTasks | ColumnWithTasks[],
-    AxiosError,
-    ColumnWithTasks | ColumnWithTasks[],
-    TaskQueryKey
-  >({
+  return useQuery({
+    ...options,
     queryKey: taskQueryKeys.list(boardId, columnId),
     queryFn: fetchTasks,
-    onSuccess,
   });
 };
 

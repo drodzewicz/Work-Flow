@@ -46,7 +46,7 @@ const RegisterPage = () => {
       });
     },
     onError(error) {
-      formik.setErrors(error?.response?.data?.messages);
+      formik.setErrors(error.response?.data?.messages as any);
     },
   });
 
