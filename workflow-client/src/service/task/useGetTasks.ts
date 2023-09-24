@@ -34,6 +34,7 @@ const useGetTasks = ({ boardId, columnId, ...options }: GetColumnTasksProp) => {
     ...options,
     queryKey: taskQueryKeys.list(boardId, columnId),
     queryFn: fetchTasks,
+    // staleTime: 1 * 60 * 1000,
   });
 };
 

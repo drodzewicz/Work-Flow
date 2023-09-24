@@ -36,7 +36,7 @@ const useGetCurrentUserBoardRole = ({ boardId }: GetCurrentUserBoardRoleProps) =
   return useQuery<PermissionsReposne, AxiosError, PermissionsReposne, UserBoardRoleQueryKey>({
     queryKey: permissionsQueryKeys.boardUser(boardId, user?._id || ""),
     queryFn: fetchCurrentUserBoardRole,
-    staleTime: 1000 * 60 * 1,
+    staleTime: 5 * 60 * 1000,
   });
 };
 

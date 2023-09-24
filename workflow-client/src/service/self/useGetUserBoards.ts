@@ -8,7 +8,7 @@ import selfURL from "./url";
 
 type PaginatedUserBoardList = { boards: Board[]; totalCount: number };
 
-type BoardsQueryKey = ReturnType<(typeof selfQueryKeys)["boards"]>;
+type BoardsQueryKey = ReturnType<(typeof selfQueryKeys)["paginatedBoards"]>;
 
 type OptionsType = Omit<
   UseQueryOptions<PaginatedUserBoardList, AxiosError, PaginatedUserBoardList, BoardsQueryKey>,
@@ -32,8 +32,9 @@ const useGetUserBoards = ({ page, limit, ...options }: GetUserBoardsProps) => {
 
   return useQuery({
     ...options,
-    queryKey: selfQueryKeys.boards({ page, limit }),
+    queryKey: selfQueryKeys.paginatedBoards({ page, limit }),
     queryFn: fetchBoards,
+    staleTime: 5 * 60 * 1000,
   });
 };
 

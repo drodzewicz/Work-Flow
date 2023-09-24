@@ -28,6 +28,7 @@ const useGetNotifications = (options?: OptionsType) => {
     ...options,
     queryKey: selfQueryKeys.notifications(),
     queryFn: fetchNotifications,
+    refetchInterval: 60 * 1000,
   });
 };
 

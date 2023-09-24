@@ -25,6 +25,7 @@ const useGetCurrentUser = (options?: OptionsType) => {
     ...options,
     queryKey: selfQueryKeys.currentUser(),
     queryFn: fetchCurrentUser,
+    staleTime: 6 * 60 * 1000,
   });
 };
 

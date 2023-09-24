@@ -24,6 +24,7 @@ const useGetAvailablePermissions = (options?: OptionsType) => {
     ...options,
     queryKey: "permissions",
     queryFn: fetchPermissions,
+    staleTime: Infinity,
   });
 };
 

@@ -26,6 +26,7 @@ const useGetUserPinnedBoards = (options?: OptionsType) => {
     ...options,
     queryKey: selfQueryKeys.pinnedBoards(),
     queryFn: fetchPinnedBoards,
+    staleTime: 5 * 60 * 1000
   });
 };
 

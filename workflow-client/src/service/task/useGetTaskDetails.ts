@@ -26,6 +26,7 @@ const useGetTaskDetails = ({ taskId, ...options }: GetTaskDetailsProps) => {
     ...options,
     queryKey: taskQueryKeys.item(taskId),
     queryFn: fetchTask,
+    staleTime: 1 * 60 * 1000,
   });
 };
 

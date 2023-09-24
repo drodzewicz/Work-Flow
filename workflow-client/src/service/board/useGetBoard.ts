@@ -38,6 +38,7 @@ const useGetBoard = ({ boardId, ...options }: GetBoardProps) => {
     queryKey: boardQueryKeys.item(boardId),
     queryFn: fetchBoard,
     enabled: !!boardId,
+    staleTime: 1 * 60 * 1000,
   });
 };
 
