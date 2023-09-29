@@ -1,8 +1,9 @@
 import { AxiosError } from "axios";
-import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
+import { MutationFunction, UseMutationOptions, useMutation, useQueryClient } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
+import taskQueryKeys from "./queryKeys";
 import taskURL from "./url";
 
 type CreateTaskPayload = {
@@ -17,6 +18,7 @@ type OptionsType = Omit<UseMutationOptions<Task, AxiosError, CreateTaskPayload>,
 type CreateTaskProps = { boardId: string } & OptionsType;
 
 const useCreateTask = ({ boardId, ...options }: CreateTaskProps) => {
+  const queryClient = useQueryClient();
   const client = useAuthClient();
 
   const mutationFn: MutationFunction<Task, CreateTaskPayload> = async (data) => {
@@ -27,6 +29,10 @@ const useCreateTask = ({ boardId, ...options }: CreateTaskProps) => {
   return useMutation({
     ...options,
     mutationFn,
+    onSuccess: (_data, _var, _context) => {
+      queryClient.invalidateQueries(taskQueryKeys.list(boardId));
+      options?.onSuccess?.(_data, _var, _context);
+    },
   });
 };
 

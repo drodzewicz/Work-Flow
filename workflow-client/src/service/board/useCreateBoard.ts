@@ -1,7 +1,9 @@
 import { AxiosError } from "axios";
-import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
+import { MutationFunction, UseMutationOptions, useMutation, useQueryClient } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
+
+import { selfQueryKeys } from "@/service/self";
 
 import boardURL from "./url";
 
@@ -14,6 +16,7 @@ type OptionsType = Omit<UseMutationOptions<Board, AxiosError, BoardPayload>, "mu
 
 const useCreateBoard = (options: OptionsType) => {
   const client = useAuthClient();
+  const queryClient = useQueryClient();
 
   const mutationFn: MutationFunction<Board, BoardPayload> = async (data) => {
     const response = await client.post(boardURL.index, data);
@@ -23,6 +26,10 @@ const useCreateBoard = (options: OptionsType) => {
   return useMutation({
     ...options,
     mutationFn,
+    onSuccess: (_data, _var, _context) => {
+      queryClient.invalidateQueries(selfQueryKeys.boards());
+      options?.onSuccess?.(_data, _var, _context);
+    },
   });
 };
 

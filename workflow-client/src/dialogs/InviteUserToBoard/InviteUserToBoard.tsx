@@ -1,35 +1,37 @@
 import React from "react";
 
 import UserSelect, { DefaultOption } from "@/components/form/UserSelect/UserSelect";
-import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 
 import useAuthClient from "@/hooks/useClient";
 import useList from "@/hooks/useList";
 
 import { useAddBoardMember } from "@/service/member";
+import memberURL from "@/service/member/url";
+import userURL from "@/service/user/url";
 
 import User from "@/components/board/User";
 
-const InviteUserToBoard: React.FC = () => {
+type InviteUserToBoardProps = {
+  closeModal?: () => void;
+};
+
+const InviteUserToBoard: React.FC<InviteUserToBoardProps> = ({ closeModal }) => {
   const { id: boardId = "" } = useParams<{ id: string }>();
-  const queryClient = useQueryClient();
   const client = useAuthClient();
 
   const { mutateAsync: addUserToBoard } = useAddBoardMember({ boardId });
   const { data: users, addItem: addUser, removeItem: removeUser } = useList<User>();
 
   const addSelectedUsersToBoard = async () => {
-    await Promise.all(users.map(({ _id }) => addUserToBoard(_id))).then(() => {
-      queryClient.invalidateQueries(["board-memebers", boardId]);
-    });
+    await Promise.all(users.map(({ _id }) => addUserToBoard(_id))).then(() => closeModal?.());
   };
 
   const loadUsers = async (searchTerm: string) => {
     const params = { limit: 5, page: 1, username: searchTerm };
     return Promise.all([
-      client.get("/users", { params }),
-      client.get(`/boards/${boardId}/members`, { params }),
+      client.get(userURL.index, { params }),
+      client.get(memberURL.index(boardId), { params }),
     ]).then(([respo1, respo2]) => {
       return respo1.data?.users?.map((user: any) => ({
         value: user?._id,

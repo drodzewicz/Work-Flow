@@ -2,32 +2,26 @@ import React from "react";
 
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
-import useBoardTask from "@/hooks/useBoardTasks";
+import useBoardId from "@/hooks/useBoardId";
 import useRBAC from "@/hooks/useRBAC";
 
+import useMoveColumn from "@/service/column/useMoveColumn";
 import { useGetTasks } from "@/service/task";
+import useMoveTask from "@/service/task/useMoveTask";
 
 import * as Skeleton from "@/components/layout/Skeleton";
 
 import ColumnContainer from "@/components/board/Column/ColumnContainer";
 import NewColumn from "@/components/board/NewColumn/NewColumn";
 
-type BoardColumnsProps = {
-  boardId: string;
-};
-
-const BoardColumns: React.FC<BoardColumnsProps> = ({ boardId }) => {
-  const { setData, setBoard, moveColumn, moveTask } = useBoardTask();
+const BoardColumns: React.FC = () => {
+  const boardId = useBoardId();
+  const { mutate: moveColumn } = useMoveColumn({ boardId });
+  const { mutate: moveTask } = useMoveTask({ boardId });
 
   const canCreateColumn = useRBAC({ boardId, action: "COLUMN_CREATE" });
 
-  const { isLoading } = useGetTasks({
-    boardId,
-    onSuccess: (data) => {
-      setData(data as ColumnWithTasks[]);
-      setBoard(boardId);
-    },
-  });
+  const { isLoading } = useGetTasks({ boardId });
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -35,14 +29,14 @@ const BoardColumns: React.FC<BoardColumnsProps> = ({ boardId }) => {
     const { source, destination, type, draggableId } = result;
     switch (type) {
       case "droppableTaskToColumn":
-        moveTask(
-          draggableId,
-          { columnId: source.droppableId },
-          { columnId: destination.droppableId, rowIndex: destination.index }
-        );
+        moveTask({
+          taskId: draggableId,
+          source: { columnId: source.droppableId },
+          destination: { columnId: destination.droppableId, rowIndex: destination.index },
+        });
         break;
       case "droppableColumn":
-        moveColumn(draggableId, source.index, destination.index);
+        moveColumn({ columnId: draggableId, destination: destination.index });
         break;
       default:
         break;
@@ -62,9 +56,9 @@ const BoardColumns: React.FC<BoardColumnsProps> = ({ boardId }) => {
             </Skeleton.Column>
           }
         >
-          <ColumnContainer boardId={boardId} />
+          <ColumnContainer />
         </Skeleton.Container>
-        {canCreateColumn && <NewColumn boardId={boardId} />}
+        {canCreateColumn && <NewColumn />}
       </div>
     </DragDropContext>
   );

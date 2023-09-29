@@ -8,22 +8,19 @@ import taskURL from "./url";
 
 type TaskQueryKey = ReturnType<(typeof taskQueryKeys)["list"]>;
 
-type GetTasksResponse = ColumnWithTasks | ColumnWithTasks[];
-
 type OptionsType = Omit<
-  UseQueryOptions<GetTasksResponse, AxiosError, GetTasksResponse, TaskQueryKey>,
+  UseQueryOptions<ColumnWithTasks[], AxiosError, ColumnWithTasks[], TaskQueryKey>,
   "queryKey" | "queryFn"
 >;
 
 type GetColumnTasksProp = {
   boardId: string;
-  columnId?: string;
 } & OptionsType;
 
-const useGetTasks = ({ boardId, columnId, ...options }: GetColumnTasksProp) => {
+const useGetTasks = ({ boardId, ...options }: GetColumnTasksProp) => {
   const client = useAuthClient();
 
-  const fetchTasks: QueryFunction<GetTasksResponse, TaskQueryKey> = async ({
+  const fetchTasks: QueryFunction<ColumnWithTasks[], TaskQueryKey> = async ({
     queryKey: [{ listId }],
   }) => {
     const response = await client.get(taskURL.index, { params: listId });
@@ -32,9 +29,9 @@ const useGetTasks = ({ boardId, columnId, ...options }: GetColumnTasksProp) => {
 
   return useQuery({
     ...options,
-    queryKey: taskQueryKeys.list(boardId, columnId),
+    queryKey: taskQueryKeys.list(boardId),
     queryFn: fetchTasks,
-    // staleTime: 1 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
   });
 };
 

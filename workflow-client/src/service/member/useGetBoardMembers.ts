@@ -8,7 +8,7 @@ import memberURL from "./url";
 
 type PaginatedBoardMembersList = { members: BoradMember[]; totalCount: number };
 
-type MemberListQueryKey = ReturnType<(typeof memberQueryKeys)["list"]>;
+type MemberListQueryKey = ReturnType<(typeof memberQueryKeys)["listPaginated"]>;
 
 type OptionsType = Omit<
   UseQueryOptions<
@@ -33,9 +33,9 @@ const useGetBoardMembers = ({ boardId, page, limit, ...options }: GetBoardMember
   };
 
   return useQuery({
-    queryKey: memberQueryKeys.list(boardId, { page, limit }),
-    queryFn: fetchMembersList,
     ...options,
+    queryKey: memberQueryKeys.listPaginated(boardId, { page, limit }),
+    queryFn: fetchMembersList,
   });
 };
 

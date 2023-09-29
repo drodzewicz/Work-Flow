@@ -1,34 +1,39 @@
 import React, { useRef } from "react";
 
-import { ColumnProps } from "./types";
-
 import { FaRegPlusSquare, FaEllipsisV, FaTrashAlt } from "react-icons/fa";
-import { useQueryClient } from "react-query";
 
-import useBoardTask from "@/hooks/useBoardTasks";
+import useBoardId from "@/hooks/useBoardId";
 import useModal from "@/hooks/useModal";
 import useRBAC from "@/hooks/useRBAC";
 
 import { useUpdateColumn, useDeleteColumn } from "@/service/column";
-import { useCreateTask } from "@/service/task";
+import { useCreateTask, useGetTasks } from "@/service/task";
 
-import DropdownMenu from "@/components/general/DropdownMenu/DropdownMenu";
+import DropdownMenu from "@/components/general/DropdownMenu";
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
 
 import Modal from "@/components/layout/Modal";
 
-import TaskEditor from "@/dialogs/TaskEditor/TaskEditor";
+import TaskEditor from "@/dialogs/TaskEditor";
 
 import "./Column.scss";
 
-import ColumnNameInput from "../ColumnNameInput/ColumnNameInput";
+import ColumnNameInput from "../ColumnNameInput";
 import ColumnDraggable from "./ColumnDraggable";
 import TaskContainer from "./TaskContainer";
 
-const Column: React.FC<ColumnProps> = (props) => {
-  const { columnName, columnId, columnIndex, boardId } = props;
+export type ColumnProps = {
+  columnName: string;
+  columnId: string;
+  columnIndex: number;
+  placeholder?: any;
+};
 
-  const { data } = useBoardTask();
+const Column: React.FC<ColumnProps> = (props) => {
+  const boardId = useBoardId();
+  const { columnName, columnId, columnIndex } = props;
+
+  const { data = [] } = useGetTasks({ boardId });
 
   const {
     show: showCreateNewTaskModal,
@@ -38,21 +43,12 @@ const Column: React.FC<ColumnProps> = (props) => {
 
   const anchorElement = useRef(null);
 
-  const canDeleteColumn = useRBAC({ boardId: data.boardId, action: "COLUMN_DELETE" });
-  const canCreateColumn = useRBAC({ boardId: data.boardId, action: "COLUMN_CREATE" });
-  const canCreateTask = useRBAC({ boardId: data.boardId, action: "TASK_CREATE" });
-
-  const queryClient = useQueryClient();
+  const canDeleteColumn = useRBAC({ boardId, action: "COLUMN_DELETE" });
+  const canCreateColumn = useRBAC({ boardId, action: "COLUMN_CREATE" });
+  const canCreateTask = useRBAC({ boardId, action: "TASK_CREATE" });
 
   const { mutate: createTask } = useCreateTask({ boardId });
-
-  const { mutate: deleteColumn } = useDeleteColumn({
-    boardId,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["board", boardId]);
-    },
-  });
-
+  const { mutate: deleteColumn } = useDeleteColumn({ boardId });
   const { mutate: updateColumn } = useUpdateColumn({ boardId, columnId });
 
   const removeColumn = async () => {
@@ -66,9 +62,7 @@ const Column: React.FC<ColumnProps> = (props) => {
     <ColumnDraggable {...props}>
       <div className="task-column">
         <header className="task-column__header">
-          <span className="task-column__header__task-count">
-            {data.columns[columnIndex].tasks.length}
-          </span>
+          <span className="task-column__header__task-count">{data[columnIndex].tasks.length}</span>
 
           <ColumnNameInput value={columnName} onSubmit={updateColumn} disabled={!canCreateColumn} />
           {canCreateTask && (
@@ -85,7 +79,14 @@ const Column: React.FC<ColumnProps> = (props) => {
                 size="l"
                 onClose={closeCreateNewTaskModal}
               >
-                <TaskEditor columnId={columnId} boardId={boardId} onSubmit={createTask} />
+                <TaskEditor
+                  columnId={columnId}
+                  boardId={boardId}
+                  onSubmit={(values) => {
+                    createTask(values);
+                    closeCreateNewTaskModal();
+                  }}
+                />
               </Modal>
             </>
           )}

@@ -37,7 +37,7 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
         </div>
       </TaskDraggable>
       <Modal show={showTaskViewDialog} title="" size="l" onClose={closeTaskViewDialog}>
-        <TaskDisplay taskId={taskId} />
+        <TaskDisplay taskId={taskId} closeModal={closeTaskViewDialog} />
       </Modal>
     </>
   );

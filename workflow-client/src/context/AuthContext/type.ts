@@ -9,7 +9,7 @@ export interface LoginSuccessAction {
   type: AuthAction.LOGIN;
   payload: {
     token: string;
-    user: any;
+    user: User;
   };
 }
 

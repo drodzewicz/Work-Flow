@@ -1,8 +1,6 @@
 import React from "react";
 
-import { useParams } from "react-router-dom";
-
-import { TaskProvider } from "@/context/TaskContext";
+import useBoardId from "@/hooks/useBoardId";
 
 import { useGetBoard } from "@/service/board";
 
@@ -12,31 +10,13 @@ import BoardColumns from "./BoardColumns";
 import BoardHeader from "./BoardHeader";
 
 const BoardPage: React.FC = () => {
-  const { id: boardId = "" } = useParams<{ id: string }>();
-  const {
-    data: board,
-    error,
-    status,
-  } = useGetBoard({
-    boardId,
-  });
-
-  // if (status === "error") {
-  //   throw new Response((error as any)?.response?.data?.message, {
-  //     status: (error as any)?.response.status,
-  //   });
-  // }
+  const boardId = useBoardId();
+  const { data: board } = useGetBoard({ boardId });
 
   return (
     <div className="board-page">
-      <BoardHeader
-        boardId={boardId}
-        name={board?.name ?? ""}
-        description={board?.description ?? ""}
-      />
-      <TaskProvider>
-        <BoardColumns boardId={boardId} />
-      </TaskProvider>
+      <BoardHeader name={board?.name ?? ""} description={board?.description ?? ""} />
+      <BoardColumns />
     </div>
   );
 };

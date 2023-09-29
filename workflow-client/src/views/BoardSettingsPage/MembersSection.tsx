@@ -64,7 +64,7 @@ const MembersSection = () => {
             size="s"
             onClose={closeInviteUserDialog}
           >
-            <InviteUserToBoard />
+            <InviteUserToBoard closeModal={closeInviteUserDialog} />
           </Modal>
         </>
       )}

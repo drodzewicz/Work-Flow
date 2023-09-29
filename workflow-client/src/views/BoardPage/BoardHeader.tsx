@@ -1,8 +1,9 @@
 import React from "react";
 
 import { FaUsers, FaCog } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
+import useBoardId from "@/hooks/useBoardId";
 import useModal from "@/hooks/useModal";
 
 import ExpandText from "@/components/general/ExpandText";
@@ -12,12 +13,12 @@ import Modal from "@/components/layout/Modal";
 import BoardMembers from "@/dialogs/BoardMembers";
 
 type BoardHeaderProps = {
-  boardId: string;
   name: string;
   description: string;
 };
 
-const BoardHeader: React.FC<BoardHeaderProps> = ({ boardId, name, description }) => {
+const BoardHeader: React.FC<BoardHeaderProps> = ({ name, description }) => {
+  const boardId = useBoardId();
   const { show: showMembersModal, open: openMembersModal, close: closeMembersModal } = useModal();
 
   return (

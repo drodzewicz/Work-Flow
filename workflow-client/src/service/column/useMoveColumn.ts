@@ -3,26 +3,32 @@ import { MutationFunction, UseMutationOptions, useMutation, useQueryClient } fro
 
 import useAuthClient from "@/hooks/useClient";
 
-import taskQueryKeys from "../task/queryKeys";
+import { taskQueryKeys } from "@/service/task";
+
 import columnURL from "./url";
 
-type OptionsType = Omit<UseMutationOptions<unknown, AxiosError, string>, "mutationFn">;
+type MoveColumnPayload = { columnId: string; destination: number };
 
-type UpdateColumnProps = { boardId: string; columnId: string } & OptionsType;
+type OptionsType = Omit<UseMutationOptions<unknown, AxiosError, MoveColumnPayload>, "mutationFn">;
 
-const useUpdateColumn = ({ boardId, columnId, ...options }: UpdateColumnProps) => {
+type MoveColumnProps = { boardId: string } & OptionsType;
+
+const useMoveColumn = ({ boardId, ...options }: MoveColumnProps) => {
   const queryClient = useQueryClient();
   const client = useAuthClient();
 
-  const mutationFn: MutationFunction<unknown, string> = async (name) => {
-    const response = await client.put(columnURL.update(boardId, columnId), { name });
+  const mutationFn: MutationFunction<unknown, MoveColumnPayload> = async ({
+    columnId,
+    destination,
+  }) => {
+    const response = await client.patch(columnURL.move(boardId, columnId), { index: destination });
     return response.data;
   };
 
   return useMutation({
     ...options,
     mutationFn,
-    onMutate: async (name) => {
+    onMutate: async ({ columnId, destination }) => {
       // Snapshot the previous value
       const previousColumns = structuredClone(
         queryClient.getQueryData<ColumnWithTasks[]>(taskQueryKeys.list(boardId))
@@ -33,7 +39,10 @@ const useUpdateColumn = ({ boardId, columnId, ...options }: UpdateColumnProps) =
         if (!old) {
           return [];
         }
-        return old.map((column) => (column._id === columnId ? { ...column, name } : column));
+        const columnIndex = old.findIndex((column) => column._id === columnId);
+        const [targetColumn] = old.splice(columnIndex, 1);
+        old.splice(destination, 0, targetColumn);
+        return old;
       });
 
       return { previousColumns };
@@ -45,4 +54,4 @@ const useUpdateColumn = ({ boardId, columnId, ...options }: UpdateColumnProps) =
   });
 };
 
-export default useUpdateColumn;
+export default useMoveColumn;

@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { QueryFunction, QueryFunctionContext, UseQueryOptions, useQuery } from "react-query";
+import { QueryFunction, UseQueryOptions, useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 

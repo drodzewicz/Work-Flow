@@ -10,6 +10,8 @@ import { Form, Field, useFormik, FormikProvider } from "formik";
 import useAuthClient from "@/hooks/useClient";
 import useList from "@/hooks/useList";
 
+import memberURL from "@/service/member/url";
+
 import User from "@/components/board/User/User";
 
 import "./TaskEditor.scss";
@@ -55,7 +57,7 @@ const TaskEditor: React.FC<TaskEditorProps> = ({ boardId, columnId, initialValue
   });
 
   const loadMembers = async (searchTerm: string) =>
-    client.get(`/boards/${boardId}/members`, {
+    client.get(memberURL.index(boardId), {
       params: { limit: 5, page: 1, username: searchTerm },
     });
 

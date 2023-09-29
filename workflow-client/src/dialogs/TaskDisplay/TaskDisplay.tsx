@@ -1,12 +1,13 @@
 import React, { useRef } from "react";
 
 import { FaEdit, FaEllipsisV, FaTrashAlt } from "react-icons/fa";
+import { useQueryClient } from "react-query";
+import { useParams } from "react-router-dom";
 
-import useBoardTask from "@/hooks/useBoardTasks";
 import useBoolean from "@/hooks/useBoolean";
 import useRBAC from "@/hooks/useRBAC";
 
-import { useGetTaskDetails, useDeleteTask } from "@/service/task";
+import { useGetTaskDetails, useDeleteTask, taskQueryKeys } from "@/service/task";
 
 import DropdownMenu from "@/components/general/DropdownMenu";
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
@@ -19,21 +20,26 @@ import "./TaskDisplay.scss";
 
 export interface TaskDisplayProps {
   taskId: string;
+  closeModal?: () => void;
 }
 
-const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId }) => {
+const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
   const {
     state: isEdditing,
     setTrue: setEdditingTrue,
     setFalse: setEdditingFalse,
   } = useBoolean(false);
 
-  const { mutate: deleteTask } = useDeleteTask();
+  const queryClient = useQueryClient();
+  const { mutate: deleteTask } = useDeleteTask({
+    onSuccess: () => {
+      queryClient.invalidateQueries(taskQueryKeys.list(boardId));
+      closeModal?.();
+    },
+  });
   const { data } = useGetTaskDetails({ taskId });
 
-  const {
-    data: { boardId },
-  } = useBoardTask();
+  const { id: boardId = "" } = useParams();
   const anchorElement = useRef(null);
 
   const canEditTask = useRBAC({ boardId, action: "TASK_CREATE" });

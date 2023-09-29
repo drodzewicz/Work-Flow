@@ -1,8 +1,8 @@
 import React, { PropsWithChildren } from "react";
 
 import { Draggable } from "react-beautiful-dnd";
+import { useParams } from "react-router-dom";
 
-import useBoardTask from "@/hooks/useBoardTasks";
 import useRBAC from "@/hooks/useRBAC";
 
 import "./Task.scss";
@@ -14,8 +14,8 @@ const TaskDraggable: React.FC<
     className?: string;
   }>
 > = ({ taskId, taskIndex, children, className }) => {
-  const { data } = useBoardTask();
-  const canMoveTask = useRBAC({ boardId: data.boardId, action: "TASK_MOVE" });
+  const { id: boardId = "" } = useParams<{ id: string }>();
+  const canMoveTask = useRBAC({ boardId, action: "TASK_MOVE" });
 
   return (
     <Draggable draggableId={taskId} index={taskIndex} isDragDisabled={!canMoveTask}>
