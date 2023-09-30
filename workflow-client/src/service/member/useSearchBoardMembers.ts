@@ -1,48 +1,55 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { AxiosResponse } from "axios";
-import { useQuery } from "react-query";
+import { AxiosError } from "axios";
+import { QueryFunction, UseQueryOptions, useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
 import memberQueryKeys from "./queryKeys";
 import memberURL from "./url";
 
+type UserListPaginated = { totalCount: number; members: { role: string; user: User }[] };
+
+type UserListQueryKey = ReturnType<(typeof memberQueryKeys)["searchListPaginated"]>;
+
+type OptionsType = Omit<
+  UseQueryOptions<UserListPaginated, AxiosError, UserListPaginated, UserListQueryKey>,
+  "queryKey" | "queryFn"
+>;
+
 type SearchBoardMembersProps = {
   limit?: number;
   page?: number;
   boardId: string;
-  onSuccess?: (data: UserListPaginated) => void;
-  setTotalItems?: (count: number) => void;
-};
+} & OptionsType;
 
-type UserListPaginated = { totalCount: number; members: { role: string; user: User }[] };
-
-const useSearchBoardMembers = (props?: SearchBoardMembersProps) => {
-  const limit = props?.limit ?? 5;
-  const page = props?.page ?? 1;
-  const boardId = props?.boardId ?? "";
+const useSearchBoardMembers = ({
+  boardId,
+  limit: propsLimit,
+  page: propPage,
+  ...options
+}: SearchBoardMembersProps) => {
+  const limit = propsLimit ?? 5;
+  const page = propPage ?? 1;
 
   const client = useAuthClient();
-  const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const query = useQuery<AxiosResponse<UserListPaginated>, unknown, UserListPaginated>(
-    memberQueryKeys.list(boardId),
-    () =>
-      client.get(memberURL.index(boardId), {
-        params: { page: page, limit, username: searchTerm },
-      }),
-    {
-      keepPreviousData: true,
-      select: (response) => response.data,
-      staleTime: Infinity,
-      onSuccess: props?.onSuccess,
-    }
-  );
+  const fetchMembersList: QueryFunction<UserListPaginated, UserListQueryKey> = async ({
+    queryKey: [{ listId }],
+  }) => {
+    const response = await client.get(memberURL.index(listId), {
+      params: { page: page, limit, username: searchTerm || undefined },
+    });
+    return response.data;
+  };
 
-  useEffect(() => {
-    props?.setTotalItems?.(query.data?.totalCount ?? 0);
-  }, [query.data?.totalCount]);
+  const query = useQuery({
+    ...options,
+    queryKey: memberQueryKeys.searchListPaginated(boardId, { limit, page }, searchTerm),
+    queryFn: fetchMembersList,
+    staleTime: 60 * 1000,
+  });
 
   const search = (searchString: string) => {
     setSearchTerm(searchString);

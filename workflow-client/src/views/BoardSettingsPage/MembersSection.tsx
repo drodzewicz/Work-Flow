@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import AsyncInput from "@/components/form/AsyncInput";
 import RoleSelect from "@/components/form/RoleSelect/RoleSelect";
@@ -40,8 +40,12 @@ const MembersSection = () => {
     boardId,
     limit,
     page: currentPage,
-    setTotalItems,
+    keepPreviousData: true,
   });
+
+  useEffect(() => {
+    setTotalItems(data?.totalCount ?? 0);
+  }, [data?.totalCount]);
 
   const canManageMembers = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
 

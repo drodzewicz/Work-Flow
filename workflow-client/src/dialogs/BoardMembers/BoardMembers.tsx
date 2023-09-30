@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import AsyncInput from "@/components/form/AsyncInput";
 import { Link } from "react-router-dom";
@@ -30,8 +30,12 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
     boardId,
     limit,
     page: currentPage,
-    setTotalItems,
+    keepPreviousData: true,
   });
+
+  useEffect(() => {
+    setTotalItems(data?.totalCount ?? 0);
+  }, [data?.totalCount]);
 
   return (
     <div className="board-members">
