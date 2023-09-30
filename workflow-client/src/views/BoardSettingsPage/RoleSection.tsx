@@ -1,15 +1,17 @@
 import React from "react";
 
 import { getRoleIcon } from "@/utils/role";
-import { useParams } from "react-router-dom";
 import Select from "react-select";
+
+import useBoardId from "@/hooks/useBoardId";
 
 import { useGetBoardRoles, useGetAvailablePermissions } from "@/service/permission";
 
-const RoleSections = () => {
-  const params = useParams<{ id: string }>();
+const RoleSection = () => {
+  const boardId = useBoardId();
+
   const { data: allPermissions = [] } = useGetAvailablePermissions();
-  const { data: roles = {} } = useGetBoardRoles({ boardId: params.id ?? "" });
+  const { data: roles = {} } = useGetBoardRoles({ boardId });
 
   return (
     <section>
@@ -48,4 +50,4 @@ const RoleSections = () => {
   );
 };
 
-export default RoleSections;
+export default RoleSection;

@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 
 import AsyncInput from "@/components/form/AsyncInput";
 import RoleSelect from "@/components/form/RoleSelect/RoleSelect";
-import { useParams } from "react-router-dom";
 
 import useAuth from "@/hooks/useAuth";
+import useBoardId from "@/hooks/useBoardId";
 import useModal from "@/hooks/useModal";
 import { usePagination } from "@/hooks/usePagination";
 import useRBAC from "@/hooks/useRBAC";
@@ -21,8 +21,7 @@ import User from "@/components/board/User";
 import InviteUserToBoard from "@/dialogs/InviteUserToBoard";
 
 const MembersSection = () => {
-  const { id: boardId = "" } = useParams<{ id: string }>();
-
+  const boardId = useBoardId();
   const { user } = useAuth();
 
   const {

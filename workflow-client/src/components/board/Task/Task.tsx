@@ -2,6 +2,8 @@ import React from "react";
 
 import useModal from "@/hooks/useModal";
 
+import Image from "@/components/general/Image/Image";
+
 import Modal from "@/components/layout/Modal";
 
 import TaskDisplay from "@/dialogs/TaskDisplay/TaskDisplay";
@@ -17,11 +19,11 @@ export interface TaskProps {
     taskIndex: number;
     columnIndex: number;
   };
-  tags?: unknown[];
-  people?: User[];
+  tags?: Tag[];
+  assignees?: User[];
 }
 
-const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people = [] }) => {
+const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], assignees = [] }) => {
   const {
     show: showTaskViewDialog,
     open: openTaskViewDialog,
@@ -33,7 +35,25 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], people =
       <TaskDraggable className="task-card" taskId={taskId} taskIndex={indexes.taskIndex}>
         <div onClick={openTaskViewDialog}>
           <h3 className="task-card__title">{title}</h3>
-          <div className="task-card__bottom"></div>
+          <div className="task-card__bottom">
+            <div>
+              {tags.map((tag) => (
+                <span key={tag._id} style={{ background: tag.key }}>
+                  {tag.name}
+                </span>
+              ))}
+            </div>
+            <div>
+              {assignees.map((assignee) => (
+                <Image
+                  className="task-card__avatar"
+                  key={assignee.username}
+                  src={assignee.avatarImageURL}
+                  title={assignee.username}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </TaskDraggable>
       <Modal show={showTaskViewDialog} title="" size="l" onClose={closeTaskViewDialog}>

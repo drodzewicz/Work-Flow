@@ -54,6 +54,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
             title: data?.title,
             description: data?.description,
             assignees: data?.assignees,
+            tags: data?.tags,
           }}
         />
         <button onClick={setEdditingFalse}>Cancel</button>
@@ -89,9 +90,11 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
       <article className="task-display__body">
         <div className="task-display__body__content">
           <div className="task-display__body__content__tags">
-            {/* {taskDetails.tags.map(({ _id, color, name }) => (
-              <Tag key={_id} colorCode={color} tagName={name} />
-            ))} */}
+            {data?.tags.map(({ _id, key, name }) => (
+              <div key={_id} style={{ background: key }}>
+                {name}
+              </div>
+            ))}
           </div>
           <p className="task-display__body__content__description">{data?.description}</p>
         </div>

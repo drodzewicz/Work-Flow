@@ -1,19 +1,21 @@
 import React from "react";
 
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
+import useBoardId from "@/hooks/useBoardId";
 import useRBAC from "@/hooks/useRBAC";
 
 import { useDeleteBoard, useLeaveBoard } from "@/service/board";
 
 import Box from "@/components/layout/Box";
 
-import GeneralSections from "./GeneralSections";
+import GeneralSection from "./GeneralSection";
 import MembersSection from "./MembersSection";
-import RoleSections from "./RoleSections";
+import RoleSection from "./RoleSection";
+import TagSection from "./TagSection";
 
 const BoardSettingsPage: React.FC = () => {
-  const { id: boardId = "" } = useParams<{ id: string }>();
+  const boardId = useBoardId();
   const navigate = useNavigate();
 
   const canDeleteBoard = useRBAC({ boardId, action: "BOARD_DELETE" });
@@ -54,9 +56,10 @@ const BoardSettingsPage: React.FC = () => {
           </button>
         )}
       </div>
-      <GeneralSections />
-      {canModifyRoles && <RoleSections />}
+      <GeneralSection />
+      {canModifyRoles && <RoleSection />}
       <MembersSection />
+      <TagSection />
     </Box>
   );
 };

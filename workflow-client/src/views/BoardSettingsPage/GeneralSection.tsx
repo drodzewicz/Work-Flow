@@ -2,16 +2,16 @@ import React from "react";
 
 import { TextAreaField, TextField } from "@/components/form/TextInput";
 import { Form, Field, FormikProvider, useFormik } from "formik";
-import { useParams } from "react-router-dom";
 
+import useBoardId from "@/hooks/useBoardId";
 import useRBAC from "@/hooks/useRBAC";
 
 import { useGetBoard, useUpdateBoardInfo } from "@/service/board";
 
 import { validationSchema } from "@/dialogs/BoardEditor/formSchema";
 
-const GeneralSections: React.FC = () => {
-  const { id: boardId = "" } = useParams<{ id: string }>();
+const GeneralSection: React.FC = () => {
+  const boardId = useBoardId();
 
   const { mutate: updateBoard } = useUpdateBoardInfo({ boardId: boardId });
   const { data = { name: "", description: "" } } = useGetBoard({ boardId });
@@ -59,4 +59,4 @@ const GeneralSections: React.FC = () => {
   );
 };
 
-export default GeneralSections;
+export default GeneralSection;

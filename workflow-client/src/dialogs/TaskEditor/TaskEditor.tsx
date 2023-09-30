@@ -11,6 +11,7 @@ import useAuthClient from "@/hooks/useClient";
 import useList from "@/hooks/useList";
 
 import memberURL from "@/service/member/url";
+import { useGetTags } from "@/service/tag";
 
 import User from "@/components/board/User/User";
 
@@ -25,7 +26,7 @@ type TaskEditorProps = {
   initialValues?: {
     title?: string;
     description?: string;
-    tags?: string[];
+    tags?: Tag[];
     assignees?: User[];
   };
 };
@@ -43,6 +44,8 @@ const TaskEditor: React.FC<TaskEditorProps> = ({ boardId, columnId, initialValue
   } = useList<User>(initialValues?.assignees ?? []);
 
   const client = useAuthClient();
+
+  const { data: availableTags } = useGetTags({ boardId });
 
   const onSubmitHandler: OnSubmitType<any> = async (values) => {
     values.assignees = assignees?.map((user) => user._id);
@@ -106,6 +109,11 @@ const TaskEditor: React.FC<TaskEditorProps> = ({ boardId, columnId, initialValue
                 </User>
               ))}
             </div>
+            <select>
+              {availableTags?.map((tag) => (
+                <option key={tag._id}>{tag.name}</option>
+              ))}
+            </select>
           </div>
           <button
             // disabled={props.isSubmitting || !props.isValid}

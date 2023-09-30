@@ -23,8 +23,8 @@ const TaskContainer: React.FC<{ columnId: string; columnIndex: number }> = ({
           key={_id}
           taskId={_id}
           title={title}
-          tags={[]}
-          people={assignees}
+          tags={tags}
+          assignees={assignees}
           indexes={{ taskIndex: index, columnIndex }}
         />
       ))}
