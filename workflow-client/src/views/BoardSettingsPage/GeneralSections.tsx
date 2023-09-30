@@ -45,7 +45,11 @@ const GeneralSections: React.FC = () => {
             as={TextAreaField}
           />
           {canUpdateBoard && (
-            <button disabled={formik.isValid} type="submit" className="btn self-end">
+            <button
+              disabled={!(formik.isValid && formik.dirty)}
+              type="submit"
+              className="btn self-end"
+            >
               save changes
             </button>
           )}
