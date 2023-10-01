@@ -105,7 +105,6 @@ export class UserRepository extends GenericRepository<IUser, UserDocument, UserF
   async removeUserNotifications(userId: string, notificationId: string): Promise<void> {
     this.validateId(userId);
     this.validateId(notificationId);
-    console.log({ userId, notificationId });
     await this.model.findOneAndUpdate({ _id: userId }, { $pull: { notifications: { _id: notificationId } } });
   }
 }

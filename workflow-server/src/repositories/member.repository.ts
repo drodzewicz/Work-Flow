@@ -58,7 +58,6 @@ export class MemberRepository extends GenericRepository<IBoard, BoardDocument, B
         path: "members",
         populate: { path: "user", select: this.userFields.join(" ") },
       });
-    console.log(data);
     return { data: [], totalCount };
   }
 

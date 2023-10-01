@@ -1,14 +1,15 @@
 import App from "@/App";
+import BoardErrorPage from "@/views/BoardErrorPage/BoardErrorPage";
 import BoardPage from "@/views/BoardPage";
 import BoardSettingsPage from "@/views/BoardSettingsPage";
 import DashboardPage from "@/views/DashboardPage";
 import ErrorPage from "@/views/ErrorPage";
+import ProfilePage from "@/views/ProfilePage";
 import RegisterPage from "@/views/RegisterPage";
 import WelcomePage from "@/views/WelcomePage";
 import { createBrowserRouter } from "react-router-dom";
 
 import RouteGuard from "./RouteGuard";
-import BoardErrorPage from "@/views/BoardErrorPage/BoardErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
           {
             path: "board/:id/settings",
             element: <BoardSettingsPage />,
+          },
+          {
+            path: "profile",
+            element: <ProfilePage />,
           },
         ],
       },
