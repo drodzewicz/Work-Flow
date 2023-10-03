@@ -1,45 +1,65 @@
-import React, { useCallback, useState } from "react";
+import React, { forwardRef, useCallback, useState } from "react";
 
 import { debounce } from "lodash";
 
 import "./AsyncInput.scss";
 
-type AsyncInputProps = {
+export type AsyncInputProps = {
   debounceTime?: number;
   isLoading?: boolean;
   placeholder?: string;
   onChange?: (searchTerm: string) => void;
+  onClick?: () => void;
 };
 
-const AsyncInput: React.FC<AsyncInputProps> = ({
-  debounceTime = 1000,
-  onChange,
-  isLoading,
-  placeholder = "Search",
-}) => {
-  const [isInputting, setIsInputing] = useState<boolean>(false);
+const AsyncInput = forwardRef<HTMLInputElement, React.PropsWithChildren<AsyncInputProps>>(
+  (props, ref) => {
+    const {
+      debounceTime = 1000,
+      isLoading,
+      placeholder = "Search",
+      onChange,
+      onClick,
+      children,
+    } = props;
 
-  const debounceonChange = useCallback(
-    debounce((searchTerm: string) => {
-      onChange?.(searchTerm);
-      setIsInputing(false);
-    }, debounceTime),
-    []
-  );
+    const [isInputting, setIsInputing] = useState<boolean>(false);
 
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!isInputting) {
-      setIsInputing(true);
-    }
-    debounceonChange(e.currentTarget.value);
-  };
+    const debounceonChange = useCallback(
+      debounce((searchTerm: string) => {
+        onChange?.(searchTerm);
+        setIsInputing(false);
+      }, debounceTime),
+      []
+    );
 
-  return (
-    <div className="async-input">
-      <input className="async-input__input" placeholder={placeholder} onChange={onInputChange} />
-      {(isInputting || isLoading) && <span className="async-input__loading"></span>}
-    </div>
-  );
-};
+    const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!isInputting) {
+        setIsInputing(true);
+      }
+      debounceonChange(e.currentTarget.value);
+    };
+
+    return (
+      <div className="async-input">
+        <input
+          ref={ref}
+          className="async-input__input"
+          placeholder={placeholder}
+          onChange={onInputChange}
+          onClick={onClick}
+        />
+        <div className="async-input__button-group">
+          {(isInputting || isLoading) && (
+            <span className="async-input__loading-container">
+              <span className="async-input__loading" />
+            </span>
+          )}
+          {children}
+        </div>
+      </div>
+    );
+  }
+);
 
 export default AsyncInput;

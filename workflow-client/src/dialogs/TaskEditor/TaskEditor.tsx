@@ -2,6 +2,8 @@ import React from "react";
 
 import { OnSubmitType } from "@/types/utils";
 
+import AsyncSearch from "@/components/form/AsyncSearch/AsyncSearch";
+import { OptionType } from "@/components/form/AsyncSearch/SearchOptionType";
 import { TextField, TextAreaField } from "@/components/form/TextInput";
 import UserSelect, { DefaultOption } from "@/components/form/UserSelect/UserSelect";
 import { AxiosResponse } from "axios";
@@ -10,6 +12,7 @@ import { Form, Field, useFormik, FormikProvider } from "formik";
 import useAuthClient from "@/hooks/useClient";
 import useList from "@/hooks/useList";
 
+import { useSearchBoardMembers } from "@/service/member";
 import memberURL from "@/service/member/url";
 import { useGetTags } from "@/service/tag";
 
@@ -43,8 +46,6 @@ const TaskEditor: React.FC<TaskEditorProps> = ({ boardId, columnId, initialValue
     removeItem: removeAssignee,
   } = useList<User>(initialValues?.assignees ?? []);
 
-  const client = useAuthClient();
-
   const { data: availableTags } = useGetTags({ boardId });
 
   const onSubmitHandler: OnSubmitType<any> = async (values) => {
@@ -59,17 +60,19 @@ const TaskEditor: React.FC<TaskEditorProps> = ({ boardId, columnId, initialValue
     onSubmit: onSubmitHandler,
   });
 
-  const loadMembers = async (searchTerm: string) =>
-    client.get(memberURL.index(boardId), {
-      params: { limit: 5, page: 1, username: searchTerm },
-    });
+  const { data: members = [], search } = useSearchBoardMembers<(User & OptionType)[]>({
+    boardId,
+    limit: 5,
+    page: 1,
+    keepPreviousData: true,
+    select: (data) =>
+      data?.members?.map(({ user }) => ({ ...user, id: user._id, label: user.username })),
+  });
 
-  const transformData = (response: AxiosResponse) =>
-    response.data?.members?.map((member: Member) => ({
-      value: member?.user?._id,
-      label: member?.user?.username,
-      member,
-    }));
+  const onAssigneeSelect = (option: unknown) => {
+    addAssignee(option as User);
+    search("");
+  };
 
   return (
     <FormikProvider value={formik}>
@@ -89,16 +92,11 @@ const TaskEditor: React.FC<TaskEditorProps> = ({ boardId, columnId, initialValue
             />
           </div>
           <div>
-            <UserSelect<
-              AxiosResponse<{ totalCount: number; members: Member[] }>,
-              DefaultOption & { member: Member }
-            >
-              loadData={loadMembers}
-              isOptionDisabled={({ value }) =>
-                !!assignees.find((assignee) => assignee._id === value)
-              }
-              transformData={transformData}
-              onSelect={(option) => addAssignee(option.member.user)}
+            <AsyncSearch
+              options={members}
+              showSelectedValues={false}
+              onChange={search}
+              onSelect={onAssigneeSelect}
             />
             <div>
               {assignees.map((assignee) => (

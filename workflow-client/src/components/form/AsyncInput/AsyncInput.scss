@@ -14,14 +14,6 @@
     border-radius: 0.2rem;
   }
 
-  &__loading {
-    background-color: green;
-    position: absolute;
-    right: 1.2rem;
-    top: 45%;
-    bottom: 0;
-  }
-
   $dot-size: 5px;
   $dot-distance: 9px;
   $lightest-color: rgb(232, 232, 232);
@@ -34,6 +26,13 @@
     background-color: $lightest-color;
     box-shadow: $dot-distance 0 $lightest-color, -$dot-distance 0 $lightest-color;
     animation: flash 0.5s ease-out infinite alternate;
+  }
+  &__loading-container {
+    width: $dot-size * 3 + $dot-distance * 2;
+    height: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   @keyframes flash {
@@ -49,5 +48,22 @@
       background-color: $darkest-color;
       box-shadow: $dot-distance 0 $lightest-color, -$dot-distance 0 $darkest-color;
     }
+  }
+
+  &__button-group {
+    position: absolute;
+    right: 1rem;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__clear {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

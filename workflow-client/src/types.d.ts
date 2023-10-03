@@ -54,3 +54,5 @@ type Member = {
   user: User;
   role: string;
 };
+
+type BoardRoles = Record<string, { permissions: string[] }>;

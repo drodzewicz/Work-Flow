@@ -12,23 +12,23 @@ type UserListPaginated = { totalCount: number; members: { role: string; user: Us
 
 type UserListQueryKey = ReturnType<(typeof memberQueryKeys)["searchListPaginated"]>;
 
-type OptionsType = Omit<
-  UseQueryOptions<UserListPaginated, AxiosError, UserListPaginated, UserListQueryKey>,
+type OptionsType<R> = Omit<
+  UseQueryOptions<UserListPaginated, AxiosError, R, UserListQueryKey>,
   "queryKey" | "queryFn"
 >;
 
-type SearchBoardMembersProps = {
+type SearchBoardMembersProps<R> = {
   limit?: number;
   page?: number;
   boardId: string;
-} & OptionsType;
+} & OptionsType<R>;
 
-const useSearchBoardMembers = ({
+function useSearchBoardMembers<R = UserListPaginated>({
   boardId,
   limit: propsLimit,
   page: propPage,
   ...options
-}: SearchBoardMembersProps) => {
+}: SearchBoardMembersProps<R>) {
   const limit = propsLimit ?? 5;
   const page = propPage ?? 1;
 
@@ -36,10 +36,10 @@ const useSearchBoardMembers = ({
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const fetchMembersList: QueryFunction<UserListPaginated, UserListQueryKey> = async ({
-    queryKey: [{ listId }],
+    queryKey: [{ listId, searchTerm }],
   }) => {
     const response = await client.get(memberURL.index(listId), {
-      params: { page: page, limit, username: searchTerm || undefined },
+      params: { page: page, limit, username: searchTerm },
     });
     return response.data;
   };
@@ -60,6 +60,6 @@ const useSearchBoardMembers = ({
   };
 
   return { ...query, search, clear, searchTerm };
-};
+}
 
 export default useSearchBoardMembers;

@@ -1,0 +1,28 @@
+$option-height: 2rem;
+
+.async-search {
+  display: block;
+  position: relative;
+  &__options {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background-color: gray;
+    max-height: $option-height * 5;
+    overflow-y: auto;
+  }
+  &__option {
+    height: $option-height;
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 0.6rem;
+    box-sizing: border-box;
+    cursor: pointer;
+    &:hover {
+      background-color: whitesmoke;
+    }
+    &--selected {
+      background-color: red;
+    }
+  }
+}
