@@ -1,7 +1,6 @@
 import React from "react";
 
 import { getRoleIcon } from "@/utils/role";
-import Select from "react-select";
 
 import useBoardId from "@/hooks/useBoardId";
 

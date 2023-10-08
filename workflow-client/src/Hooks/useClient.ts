@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 
-import { useNavigate } from "react-router-dom";
-
-import axios, { authAxios } from "@/config/api.conf.ts";
+import axios from "@/config/api.conf.ts";
 
 import useAuth from "@/hooks/useAuth";
 import useRefreshToken from "@/hooks/useRefreshToken";
@@ -10,7 +8,6 @@ import useRefreshToken from "@/hooks/useRefreshToken";
 const useAuthClient = () => {
   const { isRefreshing, refresh } = useRefreshToken();
   const { token, logout } = useAuth();
-  const navigate = useNavigate();
   let failedQueue: ((value: string | null) => unknown)[] = [];
 
   const processQueue = (token: string | null) => {
@@ -55,7 +52,6 @@ const useAuthClient = () => {
           return Promise.reject(error);
         }
 
-        /**  */
         if (originalRequest._retry || originalRequest.url === "/auth/refreshToken") {
           logout();
         }

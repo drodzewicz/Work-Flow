@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 
 import AsyncInput from "@/components/form/AsyncInput";
 import AsyncSearch from "@/components/form/AsyncSearch";
-import { OptionType } from "@/components/form/AsyncSearch/SearchOptionType";
-import RoleSelect from "@/components/form/RoleSelect/RoleSelect";
 
 import useAuth from "@/hooks/useAuth";
 import useBoardId from "@/hooks/useBoardId";
@@ -90,12 +88,6 @@ const MembersSection = () => {
                 isSearchable={false}
                 isClearable={false}
                 onSelect={({ id }) => updateMemberRole({ userId: member.user._id, role: id })}
-              />
-              <RoleSelect
-                disabled={member.user._id === user?._id}
-                initialValue={member.role}
-                roles={roles}
-                onSelect={(role) => updateMemberRole({ userId: member.user._id, role })}
               />
               <button
                 disabled={member.user._id === user?._id}

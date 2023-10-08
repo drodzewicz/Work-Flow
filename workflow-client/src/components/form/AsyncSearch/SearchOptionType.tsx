@@ -6,15 +6,9 @@ type SearchOptionType<T> = {
   option: T & OptionType;
   onClick?: (option: T & OptionType) => void;
   disabled?: boolean;
-  selected?: boolean;
 };
 
-function SearchOptionType<T>({
-  option,
-  onClick,
-  disabled = false,
-  selected = false,
-}: SearchOptionType<T>) {
+function SearchOptionType<T>({ option, onClick, disabled = false }: SearchOptionType<T>) {
   const onClickHandler = (option: T & OptionType) => {
     if (disabled) {
       return;
