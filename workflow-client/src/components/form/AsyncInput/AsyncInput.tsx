@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useState } from "react";
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
 
 import { debounce } from "lodash";
 
@@ -7,7 +7,11 @@ import "./AsyncInput.scss";
 export type AsyncInputProps = {
   debounceTime?: number;
   isLoading?: boolean;
+  readOnly?: boolean;
+  disabled?: boolean;
   placeholder?: string;
+  value?: string;
+  debounceCallback?: (searchTerm: string) => void;
   onChange?: (searchTerm: string) => void;
   onClick?: () => void;
 };
@@ -18,7 +22,11 @@ const AsyncInput = forwardRef<HTMLInputElement, React.PropsWithChildren<AsyncInp
       debounceTime = 1000,
       isLoading,
       placeholder = "Search",
+      value = "",
+      readOnly,
+      disabled,
       onChange,
+      debounceCallback,
       onClick,
       children,
     } = props;
@@ -27,23 +35,36 @@ const AsyncInput = forwardRef<HTMLInputElement, React.PropsWithChildren<AsyncInp
 
     const debounceonChange = useCallback(
       debounce((searchTerm: string) => {
-        onChange?.(searchTerm);
+        debounceCallback?.(searchTerm);
         setIsInputing(false);
       }, debounceTime),
       []
     );
 
-    const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (!isInputting) {
-        setIsInputing(true);
+    useEffect(() => {
+      if (value && debounceTime > 0) {
+        if (!isInputting) {
+          setIsInputing(true);
+        }
+        debounceonChange(value);
       }
-      debounceonChange(e.currentTarget.value);
+      if (!value) {
+        debounceCallback?.(value);
+      }
+    }, [value]);
+
+    const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const inputValue = e.currentTarget.value;
+      onChange?.(inputValue);
     };
 
     return (
       <div className="async-input">
         <input
           ref={ref}
+          readOnly={readOnly}
+          disabled={disabled}
+          value={value}
           className="async-input__input"
           placeholder={placeholder}
           onChange={onInputChange}

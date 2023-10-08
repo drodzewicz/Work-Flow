@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { AxiosError } from "axios";
-import { QueryFunction, QueryFunctionContext, UseQueryOptions, useQuery } from "react-query";
+import { QueryFunction, UseQueryOptions, useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
@@ -12,14 +12,14 @@ type UserListPaginated = { totalCount: number; users: User[] };
 
 type UserQueryKey = ReturnType<(typeof userQueryKeys)["list"]>;
 
-type OptionsType = Omit<
-  UseQueryOptions<UserListPaginated, AxiosError, UserListPaginated, UserQueryKey>,
+type OptionsType<R> = Omit<
+  UseQueryOptions<UserListPaginated, AxiosError, R, UserQueryKey>,
   "queryKey" | "queryFn"
 >;
 
-type SearchUsersProps = { limit: number; page: number } & OptionsType;
+type SearchUsersProps<R> = { limit: number; page: number } & OptionsType<R>;
 
-const useSearchUsers = ({ limit, page, ...options }: SearchUsersProps) => {
+function useSearchUsers<R = UserListPaginated>({ limit, page, ...options }: SearchUsersProps<R>) {
   const client = useAuthClient();
   const [searchTerm, setSearchTerm] = useState<string>("");
 
@@ -37,7 +37,7 @@ const useSearchUsers = ({ limit, page, ...options }: SearchUsersProps) => {
     queryKey: userQueryKeys.list(searchTerm, { page, limit }),
     queryFn: fetchTasks,
     enabled: !!searchTerm,
-    staleTime: Infinity,
+    staleTime: 60 * 1000,
   });
 
   const search = (searchString: string) => {
@@ -49,6 +49,6 @@ const useSearchUsers = ({ limit, page, ...options }: SearchUsersProps) => {
   };
 
   return { ...query, search, clear };
-};
+}
 
 export default useSearchUsers;

@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 
 import AsyncInput from "@/components/form/AsyncInput";
+import AsyncSearch from "@/components/form/AsyncSearch";
+import { OptionType } from "@/components/form/AsyncSearch/SearchOptionType";
 import RoleSelect from "@/components/form/RoleSelect/RoleSelect";
 
 import useAuth from "@/hooks/useAuth";
@@ -35,7 +37,11 @@ const MembersSection = () => {
     limit: 5,
   });
 
-  const { data, search, isLoading } = useSearchBoardMembers({
+  const {
+    data = { totalCount: 0, members: [] },
+    search,
+    isLoading,
+  } = useSearchBoardMembers({
     boardId,
     limit,
     page: currentPage,
@@ -43,8 +49,8 @@ const MembersSection = () => {
   });
 
   useEffect(() => {
-    setTotalItems(data?.totalCount ?? 0);
-  }, [data?.totalCount]);
+    setTotalItems(data.totalCount);
+  }, [data.totalCount]);
 
   const canManageMembers = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
 
@@ -71,11 +77,20 @@ const MembersSection = () => {
           </Modal>
         </>
       )}
-      <AsyncInput onChange={search} isLoading={isLoading} debounceTime={500} />
-      {data?.members.map((member) => (
+      <AsyncInput debounceCallback={search} isLoading={isLoading} debounceTime={500} />
+      {data.members.map((member) => (
         <User key={member.user.username} username={member.user.username}>
           {canManageMembers && (
             <>
+              <AsyncSearch
+                disabled={member.user._id === user?._id}
+                options={Object.keys(roles).map((role) => ({ id: role, label: role }))}
+                selectedOptions={[{ id: member.role, label: member.role }]}
+                debounceTime={0}
+                isSearchable={false}
+                isClearable={false}
+                onSelect={({ id }) => updateMemberRole({ userId: member.user._id, role: id })}
+              />
               <RoleSelect
                 disabled={member.user._id === user?._id}
                 initialValue={member.role}

@@ -5,15 +5,11 @@ import { OnSubmitType } from "@/types/utils";
 import AsyncSearch from "@/components/form/AsyncSearch/AsyncSearch";
 import { OptionType } from "@/components/form/AsyncSearch/SearchOptionType";
 import { TextField, TextAreaField } from "@/components/form/TextInput";
-import UserSelect, { DefaultOption } from "@/components/form/UserSelect/UserSelect";
-import { AxiosResponse } from "axios";
 import { Form, Field, useFormik, FormikProvider } from "formik";
 
-import useAuthClient from "@/hooks/useClient";
 import useList from "@/hooks/useList";
 
 import { useSearchBoardMembers } from "@/service/member";
-import memberURL from "@/service/member/url";
 import { useGetTags } from "@/service/tag";
 
 import User from "@/components/board/User/User";
@@ -34,30 +30,33 @@ type TaskEditorProps = {
   };
 };
 
-const TaskEditor: React.FC<TaskEditorProps> = ({ boardId, columnId, initialValues, onSubmit }) => {
-  const INITIAL_FORM_VALUES = {
-    title: initialValues?.title || "",
-    description: initialValues?.title || "",
-  };
-
+const TaskEditor: React.FC<TaskEditorProps> = ({
+  boardId,
+  columnId,
+  onSubmit,
+  initialValues = { title: "", description: "", assignees: [], tags: [] },
+}) => {
   const {
-    data: assignees,
+    data: selectedAssignees,
     addItem: addAssignee,
     removeItem: removeAssignee,
-  } = useList<User>(initialValues?.assignees ?? []);
+    clear: clearSelectedAssignees,
+  } = useList<User & OptionType>(
+    initialValues.assignees?.map((user) => ({ ...user, id: user._id, label: user.username }))
+  );
 
-  const { data: availableTags } = useGetTags({ boardId });
+  const {
+    data: selectedTags,
+    addItem: addTag,
+    removeItem: removeTag,
+    clear: clearSelectedTags,
+  } = useList<Tag & OptionType>(
+    initialValues.tags?.map((tag) => ({ ...tag, id: tag._id, label: tag.name }))
+  );
 
-  const onSubmitHandler: OnSubmitType<any> = async (values) => {
-    values.assignees = assignees?.map((user) => user._id);
-    values.columnId = columnId;
-    onSubmit?.(values);
-  };
-
-  const formik = useFormik({
-    initialValues: INITIAL_FORM_VALUES,
-    validationSchema: validationSchema,
-    onSubmit: onSubmitHandler,
+  const { data: availableTags = [] } = useGetTags<(Tag & OptionType)[]>({
+    boardId,
+    select: (data) => data?.map((tag) => ({ ...tag, id: tag._id, label: tag.name })),
   });
 
   const { data: members = [], search } = useSearchBoardMembers<(User & OptionType)[]>({
@@ -69,8 +68,21 @@ const TaskEditor: React.FC<TaskEditorProps> = ({ boardId, columnId, initialValue
       data?.members?.map(({ user }) => ({ ...user, id: user._id, label: user.username })),
   });
 
+  const onSubmitHandler: OnSubmitType<any> = async (values) => {
+    values.assignees = selectedAssignees.map((user) => user._id);
+    values.tags = selectedTags.map((tag) => tag._id);
+    values.columnId = columnId;
+    onSubmit?.(values);
+  };
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    onSubmit: onSubmitHandler,
+  });
+
   const onAssigneeSelect = (option: unknown) => {
-    addAssignee(option as User);
+    addAssignee(option as User & OptionType);
     search("");
   };
 
@@ -92,14 +104,17 @@ const TaskEditor: React.FC<TaskEditorProps> = ({ boardId, columnId, initialValue
             />
           </div>
           <div>
-            <AsyncSearch
+            <AsyncSearch<User>
               options={members}
+              selectedOptions={selectedAssignees}
               showSelectedValues={false}
-              onChange={search}
+              filterOptions={false}
+              debounceCallback={search}
               onSelect={onAssigneeSelect}
+              onClearSelection={clearSelectedAssignees}
             />
             <div>
-              {assignees.map((assignee) => (
+              {selectedAssignees.map((assignee) => (
                 <User key={assignee._id} username={assignee.username}>
                   <button className="btn" onClick={() => removeAssignee(assignee, "_id")}>
                     -
@@ -107,11 +122,24 @@ const TaskEditor: React.FC<TaskEditorProps> = ({ boardId, columnId, initialValue
                 </User>
               ))}
             </div>
-            <select>
-              {availableTags?.map((tag) => (
-                <option key={tag._id}>{tag.name}</option>
+            <AsyncSearch<Tag>
+              options={availableTags}
+              showSelectedValues={false}
+              selectedOptions={selectedTags}
+              debounceTime={0}
+              onSelect={addTag}
+              onClearSelection={clearSelectedTags}
+            />
+            <div>
+              {selectedTags.map((tag) => (
+                <div key={tag._id}>
+                  {tag.name}
+                  <button className="btn" onClick={() => removeTag(tag, "_id")}>
+                    -
+                  </button>
+                </div>
               ))}
-            </select>
+            </div>
           </div>
           <button
             // disabled={props.isSubmitting || !props.isValid}

@@ -89,6 +89,10 @@ export class TaskController {
         },
       };
 
+      for (let i = 0; i < tags.length; i++) {
+        await this.taskService.addTagToTask(task._id, tags[i]);
+      }
+
       for (let i = 0; i < assignees.length; i++) {
         try {
           await this.taskService.addAssigneeToTask(task._id, assignees[i]);

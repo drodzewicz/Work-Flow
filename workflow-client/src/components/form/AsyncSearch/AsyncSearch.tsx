@@ -9,28 +9,37 @@ import "./AsyncSearch.scss";
 import AsyncInput, { AsyncInputProps } from "../AsyncInput/AsyncInput";
 import SearchOptionType, { OptionType } from "./SearchOptionType";
 
-type AsyncSearchProps = {
-  options: OptionType[];
-  isMulti?: boolean;
-  allowEmptyValue?: boolean;
+type AsyncSearchProps<T> = {
+  options: (T & OptionType)[];
+  selectedOptions?: (T & OptionType)[];
+  disabled?: boolean;
+  isClearable?: boolean;
+  isSearchable?: boolean;
+  filterOptions?: boolean;
+  hideSelectedOptions?: boolean;
   showSelectedValues?: boolean;
   closeDropdownOnOptionClick?: boolean;
-  clearInputOnSelect?: boolean;
-  onSelect?: (option: unknown) => void;
+  onSelect?: (option: T & OptionType) => void;
+  onClearSelection?: () => void;
 };
 
-function AsyncSearch({
+function AsyncSearch<T = unknown>({
   options,
   onSelect,
-  isMulti = false,
+  onClearSelection,
+  disabled,
+  isSearchable = true,
+  selectedOptions = [],
+  hideSelectedOptions = true,
+  isClearable = true,
+  filterOptions = true,
   showSelectedValues = true,
   closeDropdownOnOptionClick = true,
-  allowEmptyValue = true,
-  clearInputOnSelect = true,
-  ...props
-}: AsyncSearchProps & AsyncInputProps) {
+  ...inputProps
+}: AsyncSearchProps<T> & AsyncInputProps) {
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
-  const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
+  const [filter, setFilter] = useState<string>("");
+  const [selectedValue, setSelectedValue] = useState<(T & OptionType)[]>(selectedOptions);
   const asyncInputRef = useRef<HTMLInputElement>(null);
   const optionContainerRef = useRef<HTMLDivElement>(null);
 
@@ -40,65 +49,76 @@ function AsyncSearch({
     setOpenDropdown((state) => !state);
   };
 
-  const onOptionClick = (option: OptionType) => {
+  const onOptionClick = (option: T & OptionType) => {
     if (closeDropdownOnOptionClick) {
       setOpenDropdown(false);
     }
-
-    if (isMulti) {
-      // toggle select
-      setSelectedOptions((selectedOptionsState) => {
-        const optionIndex = selectedOptionsState.findIndex(
-          (selectedOption) => selectedOption.id === option.id
-        );
-        if (optionIndex > -1) {
-          // if option exists in selected list then remove it
-          return selectedOptionsState.filter((selectedOption) => selectedOption.id !== option.id);
-        } else {
-          // if it doesn't then add it
-          return [...selectedOptionsState, option];
-        }
-      });
-    } else {
-      setSelectedOptions([option]);
-    }
-
+    setSelectedValue([option]);
     onSelect?.(option);
-    if (clearInputOnSelect && asyncInputRef.current) {
-      asyncInputRef.current.value = "";
-    }
+    setFilter("");
   };
 
   const placeholder = showSelectedValues
-    ? selectedOptions?.map((option) => option.label)?.join(", ")
+    ? selectedValue?.map((option) => option.label)?.join(", ")
     : undefined;
 
-  const optionIsSelected = (option: OptionType) => {
-    return !!selectedOptions?.find((selectedOption) => selectedOption.id === option.id);
+  const onInputChange = (inputValue: string) => {
+    setFilter(inputValue);
+    inputProps?.onChange?.(inputValue);
   };
 
-  const filteredOptions = isMulti ? options : options.filter((option) => !optionIsSelected(option));
+  const onClearInput = () => {
+    setFilter("");
+  };
+
+  const onClearSelectedOptions = () => {
+    setSelectedValue([]);
+    onClearSelection?.();
+  };
+
+  const filteredOptions = options.filter((option) => {
+    const isSelected =
+      hideSelectedOptions &&
+      selectedValue.find((selectedOption) => selectedOption.id === option.id);
+    const isFiltered = filterOptions && filter ? option.label.includes(filter) : true;
+    return isFiltered && !isSelected;
+  });
 
   return (
     <div className="async-search">
-      <AsyncInput {...props} ref={asyncInputRef} onClick={toggleDropdown} placeholder={placeholder}>
-        {allowEmptyValue && !!selectedOptions.length && (
-          <span onClick={() => setSelectedOptions([])} className="async-input__clear">
+      <AsyncInput
+        {...inputProps}
+        disabled={disabled}
+        readOnly={!isSearchable}
+        value={filter}
+        ref={asyncInputRef}
+        onChange={onInputChange}
+        onClick={toggleDropdown}
+        placeholder={placeholder}
+      >
+        {filter && (
+          <span onClick={onClearInput} className="async-input__clear">
             <FaTimes />
           </span>
         )}
       </AsyncInput>
       {openDropdown && (
         <div ref={optionContainerRef} className="async-search__options">
-          {filteredOptions.map((option) => (
+          {isClearable && selectedValue.length > 0 && (
             <SearchOptionType
-              key={option.label}
+              option={{ id: "_clear_", label: "clear" }}
+              onClick={onClearSelectedOptions}
+            />
+          )}
+          {filteredOptions.map((option) => (
+            <SearchOptionType<T>
+              key={`${option.id}-option`}
               option={option}
-              selected={optionIsSelected(option)}
-              //   disabled={isMulti ? optionIsSelected(option) : false}
+              disabled={option.disabled}
               onClick={onOptionClick}
             />
           ))}
+          {filteredOptions.length === 0 && <div>No result</div>}
         </div>
       )}
     </div>

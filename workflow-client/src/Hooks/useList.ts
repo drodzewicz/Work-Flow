@@ -17,7 +17,11 @@ function useList<T>(intialData?: T[]) {
     setData((previousState) => previousState.filter((it) => _.get(it, path) !== _.get(item, path)));
   };
 
-  return { data, setData, addItem, filterItem, removeItem };
+  const clear = () => {
+    setData([]);
+  };
+
+  return { data, setData, addItem, filterItem, removeItem, clear };
 }
 
 export default useList;

@@ -1,14 +1,13 @@
-import React from "react";
+import React, { useMemo } from "react";
 
-import UserSelect, { DefaultOption } from "@/components/form/UserSelect/UserSelect";
+import AsyncSearch from "@/components/form/AsyncSearch";
+import { OptionType } from "@/components/form/AsyncSearch/SearchOptionType";
 import { useParams } from "react-router-dom";
 
-import useAuthClient from "@/hooks/useClient";
 import useList from "@/hooks/useList";
 
-import { useAddBoardMember } from "@/service/member";
-import memberURL from "@/service/member/url";
-import userURL from "@/service/user/url";
+import { useAddBoardMember, useSearchBoardMembers } from "@/service/member";
+import { useSearchUsers } from "@/service/user";
 
 import User from "@/components/board/User";
 
@@ -18,53 +17,69 @@ type InviteUserToBoardProps = {
 
 const InviteUserToBoard: React.FC<InviteUserToBoardProps> = ({ closeModal }) => {
   const { id: boardId = "" } = useParams<{ id: string }>();
-  const client = useAuthClient();
 
   const { mutateAsync: addUserToBoard } = useAddBoardMember({ boardId });
-  const { data: users, addItem: addUser, removeItem: removeUser } = useList<User>();
+  const {
+    data: selectedUsers,
+    addItem: addToSelectedUser,
+    removeItem: removeFromSelectedUser,
+    clear: clearSelectedUsers,
+  } = useList<User & OptionType>();
+
+  const onOptionSelect = (option: User & OptionType) => {
+    addToSelectedUser(option);
+  };
+
+  const { data: users = [], search } = useSearchUsers({
+    limit: 10,
+    page: 1,
+    keepPreviousData: true,
+    select: (data) => data?.users?.map((user) => ({ ...user, id: user._id, label: user.username })),
+  });
+
+  const { data: members = [], search: searchMembers } = useSearchBoardMembers<User[]>({
+    boardId,
+    keepPreviousData: true,
+    select: (data) => data?.members?.map(({ user }) => user),
+  });
+
+  const searchUsersHandler = (term: string) => {
+    search(term);
+    searchMembers(term);
+  };
 
   const addSelectedUsersToBoard = async () => {
     await Promise.all(users.map(({ _id }) => addUserToBoard(_id))).then(() => closeModal?.());
   };
 
-  const loadUsers = async (searchTerm: string) => {
-    const params = { limit: 5, page: 1, username: searchTerm };
-    return Promise.all([
-      client.get(userURL.index, { params }),
-      client.get(memberURL.index(boardId), { params }),
-    ]).then(([respo1, respo2]) => {
-      return respo1.data?.users?.map((user: any) => ({
-        value: user?._id,
-        label: user?.username,
-        user,
-        disabled: !!respo2.data?.members?.find((member: any) => member?.user?._id === user?._id),
-      }));
+  const availableUsers = useMemo(() => {
+    return users.map((user) => {
+      const isMember = members?.find((member) => member._id === user?._id);
+      const isSelected = selectedUsers?.find((selectedUser) => selectedUser._id === user?._id);
+      return {
+        ...user,
+        disabled: !!(isMember || isSelected),
+      };
     });
-  };
-
-  const isOptionDisabled = ({
-    disabled,
-    value,
-  }: DefaultOption & { disabled: boolean; user: User }) =>
-    disabled || !!users.find((user) => user._id === value);
+  }, [users, members, selectedUsers]);
 
   return (
     <div>
-      <UserSelect<
-        (DefaultOption & { disabled: boolean; user: User })[],
-        DefaultOption & { disabled: boolean; user: User }
-      >
-        loadData={loadUsers}
-        transformData={(option) => option}
-        isOptionDisabled={isOptionDisabled}
-        onSelect={(option) => addUser(option.user)}
+      <AsyncSearch<User>
+        options={availableUsers}
+        showSelectedValues={false}
+        filterOptions={false}
+        hideSelectedOptions={false}
+        debounceCallback={searchUsersHandler}
+        onSelect={onOptionSelect}
+        onClearSelection={clearSelectedUsers}
       />
       <button onClick={addSelectedUsersToBoard} className="btn--glow">
         Add to the board
       </button>
-      {users.map((user) => (
+      {selectedUsers.map((user) => (
         <User key={user._id} username={user.username}>
-          <button className="btn" onClick={() => removeUser(user, "_id")}>
+          <button className="btn" onClick={() => removeFromSelectedUser(user, "_id")}>
             -
           </button>
         </User>

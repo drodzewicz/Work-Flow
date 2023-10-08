@@ -45,7 +45,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
         </Link>
       )}
 
-      <AsyncInput onChange={search} isLoading={isLoading} debounceTime={500} />
+      <AsyncInput debounceCallback={search} isLoading={isLoading} debounceTime={500} />
       {data?.members.map((member) => (
         <User key={member.user.username} username={member.user.username}>
           {member.role}

@@ -1,21 +1,21 @@
 import React from "react";
 
-export type OptionType = { id: string; label: string };
+export type OptionType = { id: string; label: string; disabled?: boolean };
 
-type SearchOptionType = {
-  option: OptionType;
-  onClick?: (option: OptionType) => void;
+type SearchOptionType<T> = {
+  option: T & OptionType;
+  onClick?: (option: T & OptionType) => void;
   disabled?: boolean;
   selected?: boolean;
 };
 
-const SearchOptionType: React.FC<SearchOptionType> = ({
+function SearchOptionType<T>({
   option,
   onClick,
   disabled = false,
   selected = false,
-}) => {
-  const onClickHandler = (option: OptionType) => {
+}: SearchOptionType<T>) {
+  const onClickHandler = (option: T & OptionType) => {
     if (disabled) {
       return;
     }
@@ -25,12 +25,12 @@ const SearchOptionType: React.FC<SearchOptionType> = ({
   return (
     <div
       key={option.label}
-      className={`async-search__option ${selected ? "async-search__option--selected" : ""}`}
+      className={`async-search__option ${disabled ? "async-search__option--disabled" : ""}`}
       onClick={() => onClickHandler(option)}
     >
       {option.label}
     </div>
   );
-};
+}
 
 export default SearchOptionType;

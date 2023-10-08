@@ -12,6 +12,9 @@
     font-family: inherit;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.338);
     border-radius: 0.2rem;
+    &:read-only {
+      cursor: default;
+    }
   }
 
   $dot-size: 5px;
