@@ -53,11 +53,11 @@ const UserNav: React.FC = () => {
         </DropdownMenuItem>
         <DropdownMenuItem onClick={toggleTheme}>
           {themeState ? <FaSun /> : <FaMoon />}
-          Switch theme
+          Theme
         </DropdownMenuItem>
         <DropdownMenuItem>
           <span className="logout-btn" onClick={() => logoutUser()}>
-            <FaSignOutAlt /> logout
+            <FaSignOutAlt /> Logout
           </span>
         </DropdownMenuItem>
       </NavItem>

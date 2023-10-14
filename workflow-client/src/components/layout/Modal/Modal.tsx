@@ -27,7 +27,7 @@ const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
       <Portal mountTo="root-modal">
         <>
           <div className="modal-wrapper">
-            <aside className={`modal size-${size}`}>
+            <aside className={`modal modal_size--${size}`}>
               <header className="modal__header">
                 <h2 className="modal__header__title">{title}</h2>
                 <FaTimes
@@ -35,10 +35,12 @@ const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
                   aria-label="Close"
                   tabIndex={0}
                   onClick={onClose}
-                  className="modal__header__close-icon"
+                  className="modal__header__close"
                 />
               </header>
-              <section className="modal__content scrollbar">{children}</section>
+              <section className="modal__content scrollbar">{children}
+        
+              </section>
             </aside>
           </div>
           <Backdrop show={show} clicked={onClose} />

@@ -93,7 +93,7 @@ const DashboardPage: React.FC = () => {
           <h1 className="board-container-title">
             <FaColumns className="board-container-title__icon" /> Boards
             <button onClick={openCreateNewBoardModal} className="btn new-board-btn">
-              <span className="new-board-btn__text">New Board</span>
+              <div className="new-board-btn__text">New Board</div>
               <FaPlus className="new-board-btn__icon" />
             </button>
           </h1>

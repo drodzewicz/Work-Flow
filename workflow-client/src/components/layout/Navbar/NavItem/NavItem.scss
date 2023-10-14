@@ -1,7 +1,20 @@
+@import "../../../../assets/styles/mediaQueries";
+
+.navbar__item {
+  --_nav-item-bg-color: white;
+  --_nav-item-bg-color-hover: var(--color-gray-light-1);
+}
+
+[data-theme="DARK"] .navbar__item {
+  --_nav-item-bg-color: var(--color-gray-dark-2);
+  --_nav-item-bg-color-hover: var(--color-gray-dark-1);
+}
 .navbar__item {
   list-style-type: none;
 
   &__button {
+    height: 2.5rem;
+    min-width: 2.5rem;
     border-radius: 5px;
     padding: 0.6rem 0.8rem;
     margin: 0.15rem 0.25rem;
@@ -12,11 +25,12 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    color: #222222;
-    background: var(--color-task-bg);
+    color: var(--color-font-main);
+    background: var(--_nav-item-bg-color);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
     position: relative;
     gap: 0.5rem;
+    font-size: 0.9rem;
 
     &:focus {
       outline-color: var(--color-accent-primary);
@@ -25,7 +39,7 @@
     }
 
     &:hover {
-      background: yellow;
+      background: var(--_nav-item-bg-color-hover);
       color: #3d3d3d;
     }
   }
@@ -33,6 +47,14 @@
   &__icon {
     display: grid;
     place-items: center;
-    font-size: 1.1rem;
+    font-size: inherit;
+  }
+
+  &__label {
+    font-weight: bold;
+    font-size: inherit;
+    @include mobile {
+      display: none;
+    }
   }
 }

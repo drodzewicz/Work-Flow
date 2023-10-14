@@ -25,10 +25,15 @@ html {
 }
 
 .break-line {
+  --_line-color: var(--color-gray-light-3);
   margin-bottom: 1rem;
   margin-top: 1rem;
   border: none;
-  border-top: 1px solid gray;
+  border-top: 1px solid var(--_line-color);
+}
+
+[data-theme="DARK"] .break-line {
+  --_line-color: var(--color-gray-dark-2);
 }
 
 %btn {

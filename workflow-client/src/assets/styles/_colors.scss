@@ -8,7 +8,10 @@
   --color-gray-dark-2: #6a6d6e;
 
   --color-gray-light-1: #e7f0f2;
-
+  --color-gray-light-2: #b0c2c5;
+  --color-gray-light-3: #bcd4da;
+  --color-font-main: #222222;
+  --color-font-secondary: #575757;
   /// ---
   --color-task-bg: #fff;
   --color-boardcard-bg: #fff;
@@ -20,8 +23,7 @@
   --color-column-text: #609ab5;
   --color-column-scrollbar-bg: #d0e0e5;
   --color-column-scrollbar-thumb: #b0c2c5;
-  --color-font-main: #222222;
-  --color-font-secondary: #575757;
+
 }
 
 [data-theme="DARK"] {
@@ -29,7 +31,8 @@
   --color-accent-secondary: #fff;
   --color-bg: #333637;
   --color-header: #474a4b;
-
+  --color-font-main: #fcfcfc;
+  --color-font-secondary: #dcddec;
   /// ---
 
   --color-task-bg: #6a6d6e;
@@ -42,6 +45,5 @@
   --color-column-text: #ffffff;
   --color-column-scrollbar-bg: #3b3d3e;
   --color-column-scrollbar-thumb: #5d6061;
-  --color-font-main: #fcfcfc;
-  --color-font-secondary: #dcddec;
+
 }

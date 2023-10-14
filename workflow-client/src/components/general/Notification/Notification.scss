@@ -1,3 +1,11 @@
+[data-theme="DARK"] .notification {
+  --_notification-bg-hover: var(--color-gray-dark-1);
+}
+
+.notification {
+  --_notification-bg-hover: var(--color-gray-light-1);
+}
+
 .notification {
   display: flex;
   flex-direction: row;
@@ -5,9 +13,6 @@
   margin: 0.4rem 0.5rem;
   border-radius: 0.25rem;
   cursor: default;
-  &:hover {
-    background-color: rgb(236, 236, 236);
-  }
 
   &__content {
     display: flex;
@@ -26,10 +31,11 @@
     flex-direction: row;
     align-items: center;
     gap: 0.5rem;
-    color: var(--color-font-primary);
+    color: var(--color-font-main);
   }
   &__title,
   &__icon {
+    color: inherit;
     font-size: 1rem;
   }
 
@@ -38,10 +44,29 @@
     color: var(--color-font-secondary);
   }
   &__close {
-    width: 4rem;
-    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.25rem;
+    align-self: flex-start;
+    margin-top: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 3px;
     cursor: pointer;
     background-color: transparent;
     border: none;
+    visibility: hidden;
+    &:hover {
+      background-color: var(--_notification-bg-hover);
+    }
+  }
+  &:hover {
+    background-color: var(--_notification-bg-hover);
+  }
+  &:hover & {
+    &__close {
+      visibility: visible;
+    }
   }
 }
