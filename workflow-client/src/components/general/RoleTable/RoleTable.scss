@@ -5,3 +5,51 @@
   white-space: nowrap;
   overflow-x: auto;
 }
+
+
+
+.view {
+  margin: auto;
+  width: 100%;
+}
+
+.wrapper {
+  position: relative;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.sticky-col {
+  position: -webkit-sticky;
+  position: sticky;
+  background-color: white !important;
+}
+
+.first-col {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+  left: 0px;
+  z-index: 1;
+}
+
+.second-col {
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+  left: 100px;
+}
+
+.vertical {
+  writing-mode: tb-rl;
+  z-index: 0;
+  -webkit-transform: rotate(-120deg);
+  -moz-transform: rotate(-120deg);
+  -o-transform: rotate(-120deg);
+  width: 60px;
+  height: 40px;
+  text-align: start;
+  line-height: 1rem;
+  margin-top: auto;
+  font-size: 0.6rem;
+}

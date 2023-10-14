@@ -11,7 +11,6 @@ export interface BoardCardProps {
   boardId: string;
   isPinned?: boolean;
   pinBoard: () => void;
-  isAuthor?: boolean;
 }
 
 const BoardCard: React.FC<BoardCardProps> = ({
@@ -19,7 +18,6 @@ const BoardCard: React.FC<BoardCardProps> = ({
   boardId,
   pinBoard,
   isPinned = false,
-  isAuthor = false,
 }) => {
   const navigate = useNavigate();
 
@@ -32,29 +30,24 @@ const BoardCard: React.FC<BoardCardProps> = ({
     navigate(`/board/${boardId}`);
   };
 
+  const PinIcon = isPinned ? Pined : Pin;
+
   return (
-    <div onClick={goToBoard} aria-label="Board card" className="board-card border-red-800">
-      <div role="presentation" className="board-card__columns">
-        <div className="board-card__columns__column"></div>
-        <div className="board-card__columns__column"></div>
-        <div className="board-card__columns__column"></div>
-        <div className="board-card__columns__column"></div>
+    <div onClick={goToBoard} aria-label="Board Card" className="board-card">
+      <div role="presentation" className="board-card__foreground">
+        <div className="board-card__column"></div>
+        <div className="board-card__column"></div>
+        <div className="board-card__column"></div>
+        <div className="board-card__column"></div>
       </div>
       <div className="board-card__content">
-        <h1 className="board-card__content__title">{boardName}</h1>
-        <div className="board-card__content__menu">
-          <span
-            className="board-card__content__menu__icon"
-            role="button"
-            onClick={togglePinBoard}
-            data-testid={`${boardId}-pin-btn`}
-          >
-            {isPinned ? (
-              <Pined data-testid={`${boardId}-pinned`} />
-            ) : (
-              <Pin data-testid={`${boardId}-pin`} />
-            )}
-          </span>
+        <div className="board-card__body">
+          <h1 className="board-card__title" title={boardName}>
+            {boardName}
+          </h1>
+        </div>
+        <div className="board-card__footer">
+          <PinIcon onClick={togglePinBoard} />
         </div>
       </div>
     </div>

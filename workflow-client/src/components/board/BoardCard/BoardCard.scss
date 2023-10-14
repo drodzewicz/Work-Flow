@@ -1,66 +1,70 @@
-.board-card {
-  $card-width: 12rem;
-  $card-height: 6rem;
+$card-width: 12rem;
+$card-height: 6rem;
 
-  background-color: var(--color-boardcard-bg);
-  box-sizing: border-box;
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+.board-card {
+  --_card-bg-color: white;
+  --_card-column-color: var(--color-gray-light-1);
+}
+
+[data-theme="DARK"] .board-card {
+  --_card-bg-color: var(--color-gray-dark-1);
+  --_card-column-color: var(--color-gray-dark-2);
+}
+
+.board-card {
   width: $card-width;
   height: $card-height;
+  background-color: var(--_card-bg-color);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
   border-radius: 7px;
   padding: 0.2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   position: relative;
-  text-decoration: none;
-  transition: 0.3s ease-in-out all;
 
-  &__columns {
+  &__foreground {
     position: absolute;
     z-index: 0;
     display: flex;
     flex-direction: row;
-    height: 70px;
     align-items: flex-start;
-    &__column {
-      background: var(--color-boardcard-columns);
-      width: 35px;
+    top: 0.5rem;
+    left: 0;
+  }
+
+  &__column {
+    background: var(--_card-column-color);
+    width: 35px;
+    height: 70px;
+    margin: 0 7px;
+    border-radius: 5px;
+    transition: all ease-in-out 0.3s;
+
+    &:nth-of-type(1) {
+      height: 60px;
+    }
+    &:nth-of-type(2) {
+      height: 30px;
+    }
+    &:nth-of-type(3) {
+      height: 50px;
+    }
+    &:nth-of-type(4) {
       height: 70px;
-      margin: 0 7px;
-      border-radius: 5px;
-      transition: all ease-in-out 0.3s;
-      &:nth-of-type(1) {
-        height: 60px;
-      }
-      &:nth-of-type(2) {
-        height: 30px;
-      }
-      &:nth-of-type(3) {
-        height: 50px;
-      }
-      &:nth-of-type(4) {
-        height: 70px;
-      }
     }
   }
 
   &:hover & {
-    &__columns {
-      &__column {
-        &:nth-of-type(3) {
-          height: 60px;
-        }
-        &:nth-of-type(4) {
-          height: 30px;
-        }
-        &:nth-of-type(1) {
-          height: 50px;
-        }
-        &:nth-of-type(2) {
-          height: 70px;
-        }
+    &__column {
+      &:nth-of-type(1) {
+        height: 50px;
+      }
+      &:nth-of-type(2) {
+        height: 70px;
+      }
+      &:nth-of-type(3) {
+        height: 60px;
+      }
+      &:nth-of-type(4) {
+        height: 30px;
       }
     }
   }
@@ -68,34 +72,48 @@
   &__content {
     z-index: 1;
     display: flex;
+    position: relative;
     flex-direction: column;
+    max-height: 100%;
     height: 100%;
-    width: 95%;
-    &__title {
-      font-size: 1rem;
-      width: 100%;
+    overflow: hidden;
+    padding: 0.4rem;
+  }
+
+  &__title {
+    font-size: 0.9rem;
+    margin: 0;
+    color: var(--color-font-main);
+    justify-self: flex-start;
+    cursor: default;
+    overflow: hidden;
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  &__body {
+    display: flex;
+    flex-grow: 1;
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    svg {
+      cursor: pointer;
+      height: 1.2rem;
+      width: 1.2rem;
       color: var(--color-font-main);
-      flex-grow: 1;
-      justify-self: flex-start;
-      cursor: default;
-    }
-    &__menu {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      align-items: center;
-      svg {
-        cursor: pointer;
-        height: 1.2rem;
-        width: 1.2rem;
-        color: var(--color-font-main);
-        fill: var(--color-font-main);
-        border-radius: 5px;
-        padding: 3px;
-        transition: all ease-in-out 0.2s;
-        &:hover {
-          background: red;
-        }
+      fill: var(--color-font-main);
+      border-radius: 5px;
+      padding: 3px;
+      transition: all ease-in-out 0.2s;
+      &:hover {
+        background: var(--_card-column-color);
       }
     }
   }

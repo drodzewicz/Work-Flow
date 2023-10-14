@@ -40,11 +40,10 @@ const BoardContainer: React.FC<BoardContainerProps> = ({
         {boards.map(({ _id, name, isPinned }) => (
           <BoardCard
             key={`board-card-${_id}`}
+            boardName={name}
             boardId={_id}
             isPinned={isPinned}
             pinBoard={() => togglePinBoard(_id)}
-            boardName={name}
-            isAuthor={false}
           />
         ))}
       </Skeleton.Container>

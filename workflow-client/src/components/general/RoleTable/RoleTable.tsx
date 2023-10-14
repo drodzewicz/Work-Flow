@@ -12,31 +12,43 @@ const RoleTable: React.FC = () => {
   const boardId = useBoardId();
   const { data: allPermissions = [] } = useGetAvailablePermissions();
   const { data: roles = {} } = useGetBoardRoles({ boardId });
+
   return (
-    <table className="role-table">
-      <thead>
-        <td></td>
-        {allPermissions.map((permission) => (
-          <td key={`${permission}-td`}>{permission}</td>
-        ))}
-      </thead>
-      <tbody>
-        {Object.entries(roles).map(([role, { permissions }]) => {
-          const RoleIcon = getRoleIcon(role);
-          return (
-            <tr key={role}>
-              <td>
-                <RoleIcon />
-                {role}
-              </td>
+    <div className="view">
+      <div className="wrapper">
+        <table className="table">
+          <thead>
+            <tr style={{height: '2rem'}}></tr>
+            <tr>
+              <th className="sticky-col first-col">Role</th>
               {allPermissions.map((permission) => (
-                <td key={`${permission}-tr`}>{permissions.includes(permission) ? "YES" : "NO"}</td>
+                <th key={`${permission}-th`} className="vertical">
+                  {permission}
+                </th>
               ))}
             </tr>
-          );
-        })}
-      </tbody>
-    </table>
+          </thead>
+          <tbody>
+            {Object.entries(roles).map(([role, { permissions }]) => {
+              const RoleIcon = getRoleIcon(role);
+              return (
+                <tr key={role}>
+                  <td className="sticky-col first-col">
+                    <RoleIcon />
+                    {role}
+                  </td>
+                  {allPermissions.map((permission) => (
+                    <td key={`${permission}-tr`}>
+                      <input type="checkbox" checked={permissions.includes(permission)} readOnly />
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

@@ -23,7 +23,7 @@ const App: React.FC = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="App scrollbar">
+      <div id="app" className="scrollbar">
         <Navbar />
         <Outlet />
         <Footer />

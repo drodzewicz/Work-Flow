@@ -1,3 +1,13 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
 .scrollbar {
   &::-webkit-scrollbar {
     width: 0.5em;
@@ -48,9 +58,8 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 
   &:hover {
-    background:  var(--color-column-bg);
+    background: var(--color-column-bg);
     color: var(--color-font-secondary);
-
   }
   &:disabled {
     box-shadow: none;
