@@ -14,6 +14,7 @@ export type AsyncInputProps = {
   debounceCallback?: (searchTerm: string) => void;
   onChange?: (searchTerm: string) => void;
   onClick?: () => void;
+  className?: string;
 };
 
 const AsyncInput = forwardRef<HTMLInputElement, React.PropsWithChildren<AsyncInputProps>>(
@@ -29,6 +30,7 @@ const AsyncInput = forwardRef<HTMLInputElement, React.PropsWithChildren<AsyncInp
       debounceCallback,
       onClick,
       children,
+      className = "",
     } = props;
 
     const [isInputting, setIsInputing] = useState<boolean>(false);
@@ -54,12 +56,11 @@ const AsyncInput = forwardRef<HTMLInputElement, React.PropsWithChildren<AsyncInp
     }, [value]);
 
     const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const inputValue = e.currentTarget.value;
-      onChange?.(inputValue);
+      onChange?.(e.currentTarget.value);
     };
 
     return (
-      <div className="async-input">
+      <div className={`async-input ${className}`}>
         <input
           ref={ref}
           readOnly={readOnly}

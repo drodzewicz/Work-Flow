@@ -1,16 +1,16 @@
-import React, { useRef } from "react";
+import React from "react";
 
-import { FaEdit, FaEllipsisV, FaTrashAlt } from "react-icons/fa";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { useQueryClient } from "react-query";
-import { useParams } from "react-router-dom";
 
+import useBoardId from "@/hooks/useBoardId";
 import useBoolean from "@/hooks/useBoolean";
 import useRBAC from "@/hooks/useRBAC";
 
 import { useGetTaskDetails, useDeleteTask, taskQueryKeys } from "@/service/task";
 
-import DropdownMenu from "@/components/general/DropdownMenu";
-import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
+import ItemContainer from "@/components/layout/ItemContainer/ItemContainer";
+import * as Skeleton from "@/components/layout/Skeleton";
 
 import User from "@/components/board/User";
 
@@ -18,12 +18,19 @@ import TaskEditor from "@/dialogs/TaskEditor";
 
 import "./TaskDisplay.scss";
 
+import TaskTags from "./TaskTags";
+
 export interface TaskDisplayProps {
   taskId: string;
   closeModal?: () => void;
 }
 
 const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
+  const boardId = useBoardId();
+
+  const canEditTask = useRBAC({ boardId, action: "TASK_CREATE" });
+  const canDeleteTask = useRBAC({ boardId, action: "TASK_DELETE" });
+
   const {
     state: isEdditing,
     setTrue: setEdditingTrue,
@@ -37,13 +44,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
       closeModal?.();
     },
   });
-  const { data } = useGetTaskDetails({ taskId });
-
-  const { id: boardId = "" } = useParams();
-  const anchorElement = useRef(null);
-
-  const canEditTask = useRBAC({ boardId, action: "TASK_CREATE" });
-  const canDeleteTask = useRBAC({ boardId, action: "TASK_DELETE" });
+  const { data, isLoading } = useGetTaskDetails({ taskId });
 
   if (isEdditing) {
     return (
@@ -64,53 +65,52 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
 
   return (
     <section className="task-display">
-      <header className="flex flex-row">
-        <h1 className="flex-grow">{data?.title}</h1>
-        {(canEditTask || canDeleteTask) && (
-          <>
-            <button type="button" ref={anchorElement}>
-              <FaEllipsisV />
-            </button>
-            <DropdownMenu anchorEl={anchorElement} className="column-more-options">
-              {canDeleteTask && (
-                <DropdownMenuItem onClick={() => deleteTask(taskId)}>
-                  <FaTrashAlt /> Delete
-                </DropdownMenuItem>
-              )}
-              {canEditTask && (
-                <DropdownMenuItem onClick={setEdditingTrue}>
-                  <FaEdit /> Edit
-                </DropdownMenuItem>
-              )}
-            </DropdownMenu>
-          </>
-        )}
+      <header>
+        <h1 className="task-display__title">{data?.title || "loading..."}</h1>
+        <div className="task-display__sub">
+          <TaskTags tags={data?.tags} />
+          <div className="task-display__action-buttons">
+            {canDeleteTask && (
+              <button className="btn" onClick={() => deleteTask(taskId)}>
+                <FaTrashAlt /> Delete
+              </button>
+            )}
+            {canEditTask && (
+              <button className="btn" onClick={setEdditingTrue}>
+                <FaEdit /> Edit
+              </button>
+            )}
+          </div>
+        </div>
       </header>
       <hr className="break-line" />
       <article className="task-display__body">
-        <div className="task-display__body__content">
-          <div className="task-display__body__content__tags">
-            {data?.tags.map(({ _id, key, name }) => (
-              <div key={_id} style={{ background: key }}>
-                {name}
-              </div>
-            ))}
-          </div>
-          <p className="task-display__body__content__description">{data?.description}</p>
+        <div className="task-display__main-content">
+          <p>{data?.description}</p>
+          {!data?.description && <i>Empty description</i>}
         </div>
-        <aside className="task-display__body__people">
-          <div className="task-display__body__people__author">
-            <label className="task-display__body__people__label">Author</label>
-            <User username={data?.author.username ?? ""} imageSrc={data?.author.avatarImageURL} />
+        <aside className="task-display__sidebar">
+          <div className="task-display__author">
+            <label>Author</label>
+            <Skeleton.Container show={isLoading} count={1} element={<Skeleton.User />}>
+              <User username={data?.author.username ?? ""} imageSrc={data?.author.avatarImageURL} />
+            </Skeleton.Container>
           </div>
-          <label className="task-display__body__people__label">Asignees</label>
-          <div className="task-display__body__people__asignees scrollbar">
-            {data?.assignees.length === 0 && (
-              <i className="task-display__body__people__message">No user has been assinged</i>
-            )}
-            {data?.assignees.map(({ _id, username, avatarImageURL }) => (
-              <User key={_id} username={username} imageSrc={avatarImageURL} />
-            ))}
+          <div className="task-display__assignees">
+            <label>
+              {data?.assignees?.length === 1 && "Assignee"}
+              {(data?.assignees?.length || 0) > 1 && `Assignee (${data?.assignees?.length})`}
+            </label>
+            <Skeleton.Container show={isLoading} count={2} element={<Skeleton.User />}>
+              <ItemContainer<User>
+                itemKey="_id"
+                items={data?.assignees}
+                maxHeight={120}
+                render={({ username, avatarImageURL }) => (
+                  <User username={username} imageSrc={avatarImageURL} />
+                )}
+              />
+            </Skeleton.Container>
           </div>
         </aside>
       </article>

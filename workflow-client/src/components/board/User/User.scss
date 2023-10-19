@@ -1,5 +1,8 @@
 .user-card {
-  background: var(--color-boardcard-bg);
+  --_user-card-bg-color: white;
+}
+.user-card {
+  background: var(--_user-card-bg-color);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -8,6 +11,7 @@
   padding: 5px;
   border-radius: 3px;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.247);
+  max-width: 30rem;
   &__avatar {
     $avatar-size: 1.5rem;
     height: $avatar-size;

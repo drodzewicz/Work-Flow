@@ -1,14 +1,35 @@
 .board-members {
-  margin-top: 2rem;
   min-height: 25rem;
+  display: flex;
+  flex-direction: column;
+
+  .manage-members-btn {
+    align-self: flex-end;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    color: var(--color-font-secondary);
+    margin-bottom: 0.4rem;
+  }
 
   &__members {
-    margin: 0.5rem 0;
     display: flex;
     flex-direction: column;
-    gap: 0.1rem;
-    &.loading-overlay {
-      min-height: 40vh;
-    }
+    margin-top: 1rem;
+  }
+
+  .user__member-role {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.2rem;
+    min-width: 4.2rem;
+    background-color: var(--color-gray-light-1);
+    color: var(--color-font-main);
+    box-shadow: 0 0 3px var(--color-gray-light-2);
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
   }
 }

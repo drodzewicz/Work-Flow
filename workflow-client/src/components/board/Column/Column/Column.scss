@@ -1,9 +1,15 @@
 @import "../../../../assets/styles/mediaQueries";
 
 .task-column {
+  --_column-bg-color: var(--color-gray-light-4);
+  --_column-bg-secondary-color: var(--color-gray-light-3);
+  --_column-text-color: var(--color-blue-1);
+}
+
+.task-column {
   display: flex;
   flex-direction: column;
-  background-color: var(--color-column-bg);
+  background-color: var(--_column-bg-color);
   border-radius: 10px;
   padding: 0.2rem 0.5rem;
   border: 2px solid transparent;
@@ -12,7 +18,8 @@
   height: 100%;
 
   &--active {
-    background: red;
+    background: var(--_column-bg-secondary-color);
+    border-radius: 5px;
   }
 
   &__header {
@@ -24,8 +31,8 @@
     margin-bottom: 0.4rem;
     position: relative;
     &__task-count {
-      color: var(--color-column-text);
-      background: var(--color-column-secondary);
+      color: var(--_column-text-color);
+      background: var(--_column-bg-secondary-color);
       border-radius: 3px;
       display: flex;
       flex-direction: row;
@@ -34,13 +41,13 @@
       min-width: 1rem;
       height: 1rem;
       font-size: 0.8rem;
-      margin-right: 0.2rem;
+      margin-right: 0.4rem;
     }
 
     &__new-task-btn,
     &__more-options {
       border: none;
-      color: var(--color-column-text);
+      color: var(--_column-text-color);
       font-size: 1.4rem;
       display: flex;
       justify-content: center;
@@ -59,15 +66,16 @@
       }
     }
     &__new-task-btn {
-      background: var(--color-column-secondary);
+      background: var(--_column-bg-secondary-color);
     }
   }
 
   &__container {
     width: 16.5rem;
-    min-height: 0.5rem;
     max-height: 500px;
     overflow-y: scroll;
+    min-height: 1px;
+
   }
 }
 

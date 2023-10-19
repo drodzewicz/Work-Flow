@@ -1,15 +1,16 @@
-@keyframes task-skeleton-loading {
+@keyframes skeleton-loading-kf {
   0% {
     background-color: white;
   }
   100% {
-    background-color: gray;
+    background-color: var(--color-gray-light-4);
   }
 }
 
 .task-card--loading {
+  --_task-card-bg-color: var(--color-gray-light-4);
   background-color: white;
-  animation: task-skeleton-loading 1s linear infinite alternate;
+  animation: skeleton-loading-kf 1s linear infinite alternate;
 
   width: 15rem;
   border-radius: 5px;
@@ -28,7 +29,7 @@
       height: 1rem;
       width: 6rem;
       display: block;
-      background-color: gray;
+      background-color: var(--_task-card-bg-color);
       border-radius: 3rem;
     }
   }
@@ -39,7 +40,7 @@
     width: $avatar-size;
     border-radius: 50%;
     object-fit: cover;
-    background-color: gray;
+    background-color: var(--_task-card-bg-color);
   }
 
   &__bottom {
@@ -57,19 +58,12 @@
   }
 }
 
-@keyframes column-skeleton-loading {
-  0% {
-    background-color: darken(gray, 3%);
-  }
-  100% {
-    background-color: darken(gray, 11%);
-  }
-}
-
 .task-column--loading {
+  --_task-column-bg-color: var(--color-gray-light-4);
+
   display: flex;
   flex-direction: column;
-  background-color: gray;
+  background-color: var(--_task-column-bg-color);
   border-radius: 10px;
   padding: 0.2rem 0.5rem;
   border: 2px solid transparent;
@@ -87,9 +81,8 @@
     position: relative;
 
     &__task-count {
-      color: darken(gray, 50%);
-      background: darken(gray, 11%);
-      animation: column-skeleton-loading 1s linear infinite alternate;
+      background: var(--_task-column-bg-color);
+      animation: skeleton-loading-kf 1s linear infinite alternate;
 
       border-radius: 3px;
       display: flex;
@@ -109,8 +102,8 @@
         display: block;
         width: 5rem;
         height: 1rem;
-        background-color: darken(gray, 11%);
-        animation: column-skeleton-loading 1s linear infinite alternate;
+        background-color: var(--_task-column-bg-color);
+        animation: skeleton-loading-kf 1s linear infinite alternate;
 
         border-radius: 3rem;
       }
@@ -123,16 +116,9 @@
   }
 }
 
-@keyframes skeleton-loading {
-  0% {
-    background-color: white;
-  }
-  100% {
-    background-color: gray;
-  }
-}
-
 .board-card--loading {
+  --_board-card-bg-color: var(--color-gray-light-4);
+
   $card-width: 12rem;
   $card-height: 6rem;
   background-color: white;
@@ -149,7 +135,7 @@
   position: relative;
   text-decoration: none;
   transition: 0.3s ease-in-out all;
-  animation: skeleton-loading 1s linear infinite alternate;
+  animation: skeleton-loading-kf 1s linear infinite alternate;
 
   &__columns {
     position: absolute;
@@ -159,8 +145,8 @@
     height: 70px;
     align-items: flex-start;
     &__column {
-      background: gray;
-      animation: skeleton-loading 1s linear infinite alternate-reverse;
+      background: var(--_board-card-bg-color);
+      animation: skeleton-loading-kf 1s linear infinite alternate-reverse;
 
       width: 35px;
       height: 70px;
@@ -183,11 +169,37 @@
   }
 }
 
-@keyframes skeleton-loading-dark {
-  0% {
-    background-color: darkgray;
+.user-card--loading {
+  --_user-card-bg-color: white;
+  --_user-card-title-color: var(--color-gray-light-4);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 2px;
+  box-sizing: border-box;
+  padding: 5px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.247);
+  max-width: 30rem;
+  background-color: var(--_user-card-bg-color);
+  animation: skeleton-loading-kf 1s linear infinite alternate;
+
+  &__avatar {
+    $avatar-size: 1.5rem;
+    height: $avatar-size;
+    width: $avatar-size;
+    border-radius: 3px;
+    background-color: var(--_user-card-title-color);
+    animation: skeleton-loading-kf 1s linear infinite alternate-reverse;
   }
-  100% {
-    background-color: darken(darkgray, 3%);
+
+  &__title {
+    width: 40%;
+    height: 10px;
+    margin-left: 10px;
+    border-radius: 15px;
+    background-color: var(--_user-card-title-color);
+    animation: skeleton-loading-kf 1s linear infinite alternate-reverse;
   }
 }

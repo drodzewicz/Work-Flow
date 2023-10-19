@@ -21,7 +21,9 @@ const User: React.FC<PropsWithChildren<UserProps>> = ({
   return (
     <div onClick={onClick} className={`user-card ${className || ""}`}>
       <Image className="user-card__avatar" src={imageSrc} />
-      <span className="user-card__username">{username}</span>
+      <span title={username} className="user-card__username">
+        {username}
+      </span>
       <div className="user-card__buttons">{children}</div>
     </div>
   );

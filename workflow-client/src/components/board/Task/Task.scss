@@ -1,5 +1,10 @@
 .task-card {
-  background-color: var(--color-task-bg);
+  --_task-bg-color: white;
+  --_task-bg-dragging-color: var(--color-gray-light-1);
+}
+
+.task-card {
+  background-color: var(--_task-bg-color);
   width: 15rem;
   border-radius: 5px;
   margin: 0 0 8px 0;
@@ -9,7 +14,7 @@
   user-select: none;
 
   &--dragging {
-    background-color: yellow;
+    background-color: var(--_task-bg-dragging-color);
   }
 
   &__title {
@@ -19,7 +24,8 @@
     margin-bottom: 0.2rem;
   }
 
-  &__avatar {
+  &__avatar,
+  &__count {
     $avatar-size: 1rem;
     height: $avatar-size;
     width: $avatar-size;
@@ -28,34 +34,38 @@
     object-fit: cover;
   }
 
-  &__bottom {
+  &__count {
     display: flex;
-    flex-direction: row;
-    cursor: default;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    background-color: white;
+    &::before {
+      content: "+";
+    }
+  }
 
-    &__tags {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
+  &__assignnees {
+    display: flex;
+    justify-content: flex-end;
+    & > * {
+      margin-left: -0.3rem;
     }
-    &__users {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-    }
-    &__more-users {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 0.6rem;
-      background: rgb(207, 207, 219);
-      height: 1rem;
-      width: auto;
-      padding: 0 0.2rem;
-      border-radius: 50%;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-    }
+  }
+
+  &__tags {
+    display: flex;
+    gap: 0.2rem;
+    flex-wrap: wrap;
+  }
+
+  &__tag {
+    background-color: var(--_tag-color);
+    padding: 0.1rem 0.2rem;
+    font-size: 0.7rem;
+    border-radius: 3px;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--_tag-color) 20%, white);
+    box-shadow: 0 0 5px color-mix(in srgb, var(--_tag-color) 50%, white);
   }
 }

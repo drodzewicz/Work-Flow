@@ -32,7 +32,7 @@ const NewColumn: React.FC = () => {
           value={columnName}
           onChange={handleNewColumnChange}
           type="text"
-          placeholder="+ new column"
+          placeholder="Add New Column..."
         />
       </div>
     </div>
