@@ -15,6 +15,7 @@ import { useGetTags } from "@/service/tag";
 
 import ItemContainer from "@/components/layout/ItemContainer";
 
+import { CustomUserOption, CustomTagOption } from "@/components/board/CustomOption";
 import TagCard from "@/components/board/TagCard/TagCard";
 import User from "@/components/board/User/User";
 
@@ -68,11 +69,7 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
     select: (data) => data?.map((tag) => ({ ...tag, id: tag._id, label: tag.name })),
   });
 
-  const {
-    data: members = [],
-    isLoading: isMembersLoading,
-    search,
-  } = useSearchBoardMembers<(User & OptionType)[]>({
+  const { data: members = [], search } = useSearchBoardMembers<(User & OptionType)[]>({
     boardId,
     limit: 5,
     page: 1,
@@ -132,6 +129,9 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
               debounceCallback={search}
               onSelect={onAssigneeSelect}
               onClearSelection={clearSelectedAssignees}
+              renderOption={(option) => (
+                <CustomUserOption username={option.username} imageSrc={option.avatarImageURL} />
+              )}
             />
             <ItemContainer<User & OptionType>
               itemKey="_id"
@@ -156,6 +156,7 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
               debounceTime={0}
               onSelect={addTag}
               onClearSelection={clearSelectedTags}
+              renderOption={(option) => <CustomTagOption color={option.key} name={option.name} />}
             />
             <ItemContainer<Tag & OptionType>
               itemKey="_id"

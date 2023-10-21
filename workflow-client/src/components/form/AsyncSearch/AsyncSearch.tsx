@@ -1,13 +1,16 @@
 import React, { useRef, useState } from "react";
 
-import { FaSearch, FaTimes } from "react-icons/fa";
+import { FaSearch, FaTimes, FaTrash } from "react-icons/fa";
 
 import { useClickOutside } from "@/hooks/useClickOutside";
+
+import Portal from "@/components/layout/Portal";
 
 import "./AsyncSearch.scss";
 
 import AsyncInput, { AsyncInputProps } from "../AsyncInput/AsyncInput";
-import SearchOptionType, { OptionType } from "./SearchOptionType";
+import AsyncSearchDropdown from "./AsyncSearchDropdown";
+import { OptionType } from "./SearchOptionType";
 
 type AsyncSearchProps<T> = {
   options: (T & OptionType)[];
@@ -21,12 +24,14 @@ type AsyncSearchProps<T> = {
   closeDropdownOnOptionClick?: boolean;
   onSelect?: (option: T & OptionType) => void;
   onClearSelection?: () => void;
+  renderOption?: (option: T & OptionType) => React.ReactNode;
 };
 
 function AsyncSearch<T = unknown>({
   options,
   onSelect,
   onClearSelection,
+  renderOption,
   disabled,
   isSearchable = true,
   selectedOptions = [],
@@ -104,25 +109,16 @@ function AsyncSearch<T = unknown>({
           <FaSearch />
         )}
       </AsyncInput>
-      {openDropdown && (
-        <div ref={optionContainerRef} className="async-search__options">
-          {isClearable && selectedValue.length > 0 && (
-            <SearchOptionType
-              option={{ id: "_clear_", label: "clear" }}
-              onClick={onClearSelectedOptions}
-            />
-          )}
-          {filteredOptions.map((option) => (
-            <SearchOptionType<T>
-              key={`${option.id}-option`}
-              option={option}
-              disabled={option.disabled}
-              onClick={onOptionClick}
-            />
-          ))}
-          {filteredOptions.length === 0 && <div>No result</div>}
-        </div>
-      )}
+      <AsyncSearchDropdown<T>
+        show={openDropdown}
+        ref={optionContainerRef}
+        inputRef={asyncInputRef}
+        options={filteredOptions}
+        showClearOption={isClearable && selectedValue.length > 0}
+        onClearSelectedOptions={onClearSelectedOptions}
+        onOptionClick={onOptionClick}
+        renderOption={renderOption}
+      />
     </div>
   );
 }

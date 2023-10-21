@@ -1,25 +1,35 @@
 $option-height: 2rem;
 
+.async-search__options {
+  --_search-dropdown-bg-color: white;
+  --_search-dropdown-bg-hover-color: var(--color-gray-light-1);
+}
+
 .async-search {
   display: block;
   position: relative;
   &__options {
-    z-index: 1;
+    z-index: 1000;
     position: absolute;
     left: 0;
     right: 0;
-    background-color: gray;
-    max-height: $option-height * 5;
+    background-color: var(--_search-dropdown-bg-color);
+    box-shadow: 0 1px 3px black;
+    max-height: 10rem;
+    border-radius: 3px;
     overflow-y: auto;
   }
-  &__option {
-    height: $option-height;
+  &__option,
+  &__clear {
     display: flex;
     align-items: center;
     padding: 0.4rem 0.4rem;
+    padding: 0.4rem 0.4rem;
     cursor: pointer;
+  }
+  &__option {
     &:hover {
-      background-color: whitesmoke;
+      background-color: var(--_search-dropdown-bg-hover-color);
     }
     &--disabled {
       background-color: red;
@@ -27,5 +37,10 @@ $option-height: 2rem;
         background-color: orange;
       }
     }
+  }
+
+  &__clear {
+    gap: 0.2rem;
+    font-size: 0.8rem;
   }
 }
