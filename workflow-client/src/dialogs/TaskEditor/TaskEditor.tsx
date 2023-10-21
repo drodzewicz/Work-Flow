@@ -6,22 +6,29 @@ import AsyncSearch from "@/components/form/AsyncSearch/AsyncSearch";
 import { OptionType } from "@/components/form/AsyncSearch/SearchOptionType";
 import { TextField, TextAreaField } from "@/components/form/TextInput";
 import { Form, Field, useFormik, FormikProvider } from "formik";
+import { FaTimes } from "react-icons/fa";
 
 import useList from "@/hooks/useList";
 
 import { useSearchBoardMembers } from "@/service/member";
 import { useGetTags } from "@/service/tag";
 
+import ItemContainer from "@/components/layout/ItemContainer";
+
+import TagCard from "@/components/board/TagCard/TagCard";
 import User from "@/components/board/User/User";
 
 import "./TaskEditor.scss";
 
+import TaskEditorActionButtons from "./TaskEditorActionButtons";
 import { validationSchema } from "./formSchema";
 
 type TaskEditorProps = {
   boardId: string;
   columnId?: string;
   onSubmit?: (data: any) => void;
+  onCancel?: () => void;
+  isEditing?: boolean;
   initialValues?: {
     title?: string;
     description?: string;
@@ -34,6 +41,8 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
   boardId,
   columnId,
   onSubmit,
+  onCancel,
+  isEditing = false,
   initialValues = { title: "", description: "", assignees: [], tags: [] },
 }) => {
   const {
@@ -59,7 +68,11 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
     select: (data) => data?.map((tag) => ({ ...tag, id: tag._id, label: tag.name })),
   });
 
-  const { data: members = [], search } = useSearchBoardMembers<(User & OptionType)[]>({
+  const {
+    data: members = [],
+    isLoading: isMembersLoading,
+    search,
+  } = useSearchBoardMembers<(User & OptionType)[]>({
     boardId,
     limit: 5,
     page: 1,
@@ -88,9 +101,13 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
 
   return (
     <FormikProvider value={formik}>
-      <Form>
-        <section className="task-editor">
-          <div>
+      <Form className="task-editor">
+        <TaskEditorActionButtons
+          onCancel={onCancel}
+          saveButtonLabel={isEditing ? "Save Changes" : "Create"}
+        />
+        <section className="scrollbar">
+          <div className="task-editor__text-inputs">
             <Field
               name="title"
               autoFocus={true}
@@ -100,10 +117,13 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
             <Field
               name="description"
               error={formik.touched.description && formik.errors.description}
+              rows={6}
+              resize="vertical"
               as={TextAreaField}
             />
           </div>
-          <div>
+          <div className="task-editor__assignees">
+            <label>Assignees</label>
             <AsyncSearch<User>
               options={members}
               selectedOptions={selectedAssignees}
@@ -113,15 +133,22 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
               onSelect={onAssigneeSelect}
               onClearSelection={clearSelectedAssignees}
             />
-            <div>
-              {selectedAssignees.map((assignee) => (
-                <User key={assignee._id} username={assignee.username}>
+            <ItemContainer<User & OptionType>
+              itemKey="_id"
+              items={selectedAssignees}
+              maxHeight={220}
+              render={(assignee) => (
+                <User username={assignee.username}>
                   <button className="btn" onClick={() => removeAssignee(assignee, "_id")}>
                     -
                   </button>
                 </User>
-              ))}
-            </div>
+              )}
+            />
+          </div>
+          <div className="task-editor__tags">
+            <label>Tags</label>
+
             <AsyncSearch<Tag>
               options={availableTags}
               showSelectedValues={false}
@@ -130,24 +157,19 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
               onSelect={addTag}
               onClearSelection={clearSelectedTags}
             />
-            <div>
-              {selectedTags.map((tag) => (
-                <div key={tag._id}>
-                  {tag.name}
-                  <button className="btn" onClick={() => removeTag(tag, "_id")}>
-                    -
+            <ItemContainer<Tag & OptionType>
+              itemKey="_id"
+              items={selectedTags}
+              maxHeight={220}
+              render={(tag) => (
+                <TagCard name={tag.label} color={tag.key}>
+                  <button className="tag-card__remove" onClick={() => removeTag(tag, "_id")}>
+                    <FaTimes />
                   </button>
-                </div>
-              ))}
-            </div>
+                </TagCard>
+              )}
+            />
           </div>
-          <button
-            // disabled={props.isSubmitting || !props.isValid}
-            className="btn bnt--glow"
-            type="submit"
-          >
-            Save
-          </button>
         </section>
       </Form>
     </FormikProvider>

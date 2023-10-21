@@ -55,17 +55,8 @@
 
   &__tags {
     display: flex;
-    gap: 0.2rem;
+    flex-direction: row;
     flex-wrap: wrap;
-  }
-
-  &__tag {
-    background-color: var(--_tag-color);
-    padding: 0.1rem 0.2rem;
-    font-size: 0.7rem;
-    border-radius: 3px;
-    font-weight: 600;
-    color: color-mix(in srgb, var(--_tag-color) 20%, white);
-    box-shadow: 0 0 5px color-mix(in srgb, var(--_tag-color) 50%, white);
+    gap: 0.2rem;
   }
 }

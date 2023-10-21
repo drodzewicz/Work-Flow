@@ -2,15 +2,17 @@ import React from "react";
 
 import useModal from "@/hooks/useModal";
 
+import ItemContainer from "@/components/layout/ItemContainer";
 import Modal from "@/components/layout/Modal";
 
 import TaskAssignees from "@/components/board/Task/TaskAssignees";
 import TaskDraggable from "@/components/board/Task/TaskDraggable";
-import TaskTags from "@/components/board/Task/TaskTags";
 
-import TaskDisplay from "@/dialogs/TaskDisplay/TaskDisplay";
+import TaskDisplay from "@/dialogs/TaskDisplay";
 
 import "./Task.scss";
+
+import TagCard from "../TagCard/TagCard";
 
 export interface TaskProps {
   taskId: string;
@@ -36,7 +38,13 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], assignee
         <div onClick={openTaskViewDialog}>
           <h3 className="task-card__title">{title}</h3>
           <div className="task-card__bottom">
-            <TaskTags tags={tags} />
+            <ItemContainer<Tag>
+              itemKey="_id"
+              items={tags}
+              className="task-card__tags"
+              noContentMessage=""
+              render={({ key, name }) => <TagCard name={name} color={key} />}
+            />
             <TaskAssignees assignees={assignees} />
           </div>
         </div>

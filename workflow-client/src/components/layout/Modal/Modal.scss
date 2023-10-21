@@ -82,6 +82,9 @@
       }
     }
   }
+  &__content--scrollable {
+    overflow: auto;
+  }
   &__content {
     padding: 1rem 2rem 2rem;
     position: relative;

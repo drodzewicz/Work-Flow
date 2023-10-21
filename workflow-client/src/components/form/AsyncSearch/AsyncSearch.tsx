@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-import { FaTimes } from "react-icons/fa";
+import { FaSearch, FaTimes } from "react-icons/fa";
 
 import { useClickOutside } from "@/hooks/useClickOutside";
 
@@ -96,10 +96,12 @@ function AsyncSearch<T = unknown>({
         onClick={toggleDropdown}
         placeholder={placeholder}
       >
-        {filter && (
+        {filter ? (
           <span onClick={onClearInput} className="async-input__clear">
             <FaTimes />
           </span>
+        ) : (
+          <FaSearch />
         )}
       </AsyncInput>
       {openDropdown && (

@@ -12,13 +12,12 @@ import { useGetTaskDetails, useDeleteTask, taskQueryKeys } from "@/service/task"
 import ItemContainer from "@/components/layout/ItemContainer/ItemContainer";
 import * as Skeleton from "@/components/layout/Skeleton";
 
+import TagCard from "@/components/board/TagCard/TagCard";
 import User from "@/components/board/User";
 
 import TaskEditor from "@/dialogs/TaskEditor";
 
 import "./TaskDisplay.scss";
-
-import TaskTags from "./TaskTags";
 
 export interface TaskDisplayProps {
   taskId: string;
@@ -32,9 +31,9 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
   const canDeleteTask = useRBAC({ boardId, action: "TASK_DELETE" });
 
   const {
-    state: isEdditing,
-    setTrue: setEdditingTrue,
-    setFalse: setEdditingFalse,
+    state: isEditing,
+    setTrue: setEditingTrue,
+    setFalse: setEditingFalse,
   } = useBoolean(false);
 
   const queryClient = useQueryClient();
@@ -46,20 +45,19 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
   });
   const { data, isLoading } = useGetTaskDetails({ taskId });
 
-  if (isEdditing) {
+  if (isEditing) {
     return (
-      <>
-        <TaskEditor
-          boardId={boardId}
-          initialValues={{
-            title: data?.title,
-            description: data?.description,
-            assignees: data?.assignees,
-            tags: data?.tags,
-          }}
-        />
-        <button onClick={setEdditingFalse}>Cancel</button>
-      </>
+      <TaskEditor
+        boardId={boardId}
+        onCancel={setEditingFalse}
+        isEditing={true}
+        initialValues={{
+          title: data?.title,
+          description: data?.description,
+          assignees: data?.assignees,
+          tags: data?.tags,
+        }}
+      />
     );
   }
 
@@ -68,7 +66,12 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
       <header>
         <h1 className="task-display__title">{data?.title || "loading..."}</h1>
         <div className="task-display__sub">
-          <TaskTags tags={data?.tags} />
+          <ItemContainer<Tag>
+            itemKey="_id"
+            items={data?.tags}
+            className="task-display__tag-container"
+            render={({ key, name }) => <TagCard name={name} color={key} />}
+          />
           <div className="task-display__action-buttons">
             {canDeleteTask && (
               <button className="btn" onClick={() => deleteTask(taskId)}>
@@ -76,7 +79,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
               </button>
             )}
             {canEditTask && (
-              <button className="btn" onClick={setEdditingTrue}>
+              <button className="btn" onClick={setEditingTrue}>
                 <FaEdit /> Edit
               </button>
             )}
@@ -99,7 +102,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
           <div className="task-display__assignees">
             <label>
               {data?.assignees?.length === 1 && "Assignee"}
-              {(data?.assignees?.length || 0) > 1 && `Assignee (${data?.assignees?.length})`}
+              {(data?.assignees?.length || 0) > 1 && `Assignees (${data?.assignees?.length})`}
             </label>
             <Skeleton.Container show={isLoading} count={2} element={<Skeleton.User />}>
               <ItemContainer<User>

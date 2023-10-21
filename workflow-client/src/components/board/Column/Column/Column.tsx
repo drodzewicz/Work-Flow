@@ -82,6 +82,7 @@ const Column: React.FC<ColumnProps> = (props) => {
                 <TaskEditor
                   columnId={columnId}
                   boardId={boardId}
+                  onCancel={closeCreateNewTaskModal}
                   onSubmit={(values) => {
                     createTask(values);
                     closeCreateNewTaskModal();

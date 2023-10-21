@@ -7,16 +7,20 @@ export interface TextFieldI {
   error?: string;
 }
 
-export interface TextAreaFieldProps extends TextFieldI, React.ComponentProps<"textarea"> {}
+export interface TextAreaFieldProps extends TextFieldI, React.ComponentProps<"textarea"> {
+  resize?: "both" | "horizontal" | "vertical" | "none";
+}
 
 const TextAreaField: React.FC<TextAreaFieldProps> = (props) => {
-  const { label, className, error, name, ...fieldProps } = props;
+  const { label, className, error, name, resize = "none", ...fieldProps } = props;
+
   return (
     <div className="text-field">
       <textarea
+        {...fieldProps}
         name={name}
         className={`text-field__textarea scrollbar ${className || ""}`}
-        {...fieldProps}
+        style={{ ...fieldProps.style, resize }}
       ></textarea>
       <div className="text-field__line"></div>
       <label

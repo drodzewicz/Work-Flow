@@ -11,6 +11,7 @@ import Backdrop from "../Backdrop";
 export type IModalProps = {
   show: boolean;
   title: string;
+  scrollable?: boolean;
   onClose: () => void;
   size: "s" | "m" | "l";
 };
@@ -20,6 +21,7 @@ const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
   title,
   children,
   size,
+  scrollable = false,
   onClose,
 }) => {
   if (show) {
@@ -38,8 +40,12 @@ const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
                   className="modal__header__close"
                 />
               </header>
-              <section className="modal__content scrollbar">{children}
-        
+              <section
+                className={`modal__content scrollbar ${
+                  scrollable ? "modal__content--scrollable" : ""
+                }`}
+              >
+                {children}
               </section>
             </aside>
           </div>
