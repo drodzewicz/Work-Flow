@@ -21,3 +21,10 @@
   color: color-mix(in srgb, var(--_tag-color) 20%, white);
   box-shadow: 0 0 5px color-mix(in srgb, var(--_tag-color) 50%, white);
 }
+
+.custom-role-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+}

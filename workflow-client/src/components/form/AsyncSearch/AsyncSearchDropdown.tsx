@@ -13,13 +13,13 @@ export type AsyncSearchDropdownProps<T> = {
   onClearSelectedOptions?: () => void;
   onOptionClick?: (option: T & OptionType) => void;
   options: (T & OptionType)[];
-  ref: React.ForwardedRef<HTMLDivElement>;
+  dropdownRef: React.ForwardedRef<HTMLDivElement>;
   renderOption?: (option: T & OptionType) => React.ReactNode;
 };
 
 function AsyncSearchDropdown<T = unknown>({
   show,
-  ref,
+  dropdownRef,
   showClearOption,
   inputRef,
   options,
@@ -42,7 +42,7 @@ function AsyncSearchDropdown<T = unknown>({
 
   return (
     <Portal mountTo="root-menu">
-      <div ref={ref} style={style} className="async-search__options scrollbar">
+      <div ref={dropdownRef} style={style} className="async-search__options scrollbar">
         {showClearOption && (
           <div
             className="async-search__clear async-search__option"

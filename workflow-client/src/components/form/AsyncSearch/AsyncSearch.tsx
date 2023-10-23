@@ -20,6 +20,7 @@ type AsyncSearchProps<T> = {
   isSearchable?: boolean;
   filterOptions?: boolean;
   hideSelectedOptions?: boolean;
+  showSearchIcon?: boolean;
   showSelectedValues?: boolean;
   closeDropdownOnOptionClick?: boolean;
   onSelect?: (option: T & OptionType) => void;
@@ -38,6 +39,7 @@ function AsyncSearch<T = unknown>({
   hideSelectedOptions = true,
   isClearable = true,
   filterOptions = true,
+  showSearchIcon = true,
   showSelectedValues = true,
   closeDropdownOnOptionClick = true,
   ...inputProps
@@ -101,17 +103,16 @@ function AsyncSearch<T = unknown>({
         onClick={toggleDropdown}
         placeholder={placeholder}
       >
-        {filter ? (
+        {filter && (
           <span onClick={onClearInput} className="async-input__clear">
             <FaTimes />
           </span>
-        ) : (
-          <FaSearch />
         )}
+        {showSearchIcon && !filter && <FaSearch />}
       </AsyncInput>
       <AsyncSearchDropdown<T>
         show={openDropdown}
-        ref={optionContainerRef}
+        dropdownRef={optionContainerRef}
         inputRef={asyncInputRef}
         options={filteredOptions}
         showClearOption={isClearable && selectedValue.length > 0}

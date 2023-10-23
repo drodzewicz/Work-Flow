@@ -7,6 +7,8 @@ import { TextField, TextAreaField } from "@/components/form/TextInput";
 import { Field, Form, useFormik, FormikProvider } from "formik";
 import { InferType } from "yup";
 
+import TagCard from "@/components/board/TagCard/TagCard";
+
 import "./TagEditor.scss";
 
 import { validationSchema } from "./formSchema";
@@ -26,23 +28,21 @@ const TagEditor: React.FC<{
 
   return (
     <FormikProvider value={formik}>
-      <Form className="board-editor">
-        <Field
-          autoFocus={true}
-          name="name"
-          className="board-editor__field__name"
-          error={formik.touched.name && formik.errors.name}
-          as={TextField}
-        />
-        <Field
-          name="key"
-          className="board-editor__field__description"
-          error={formik.touched.key && formik.errors.key}
-          as={ColorInput}
-        />
+      <Form className="tag-editor">
+        <TagCard color={formik.values.key} name={formik.values.name || "tag name..."} />
+        <div className="tag-editor__inputs">
+          <Field
+            autoFocus={true}
+            name="name"
+            className="label-name-input"
+            error={formik.touched.name && formik.errors.name}
+            as={TextField}
+          />
+          <Field name="key" label="color" as={ColorInput} />
+        </div>
         <button
           // disabled={props.isSubmitting || !props.isValid}
-          className="btn--glow login-form__btn"
+          className="btn btn--glow "
           type="submit"
         >
           Create

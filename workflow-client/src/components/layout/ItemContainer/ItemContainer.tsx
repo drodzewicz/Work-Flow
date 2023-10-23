@@ -23,7 +23,11 @@ function ItemContainer<T = unknown>({
     <div className={`item-container ${className || ""}`} style={{ maxHeight }}>
       {items?.map((props) => {
         const elementKey = "item-key-" + (props as any)[`${itemKey}`];
-        return <div key={elementKey}>{render?.(props)}</div>;
+        return (
+          <div key={elementKey} className="item-container__item">
+            {render?.(props)}
+          </div>
+        );
       })}
       {!items?.length && <i className="">{noContentMessage}</i>}
     </div>

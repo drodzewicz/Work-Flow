@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 
+import { FaEdit, FaTag, FaTrash } from "react-icons/fa";
+
 import useBoardId from "@/hooks/useBoardId";
 import useModal from "@/hooks/useModal";
 
 import { useCreateTag, useDeleteTag, useGetTags, useUpdateTag } from "@/service/tag";
 
 import Modal from "@/components/layout/Modal";
+
+import TagCard from "@/components/board/TagCard/TagCard";
 
 import TagEditor from "@/dialogs/TagEditor/TagEditor";
 
@@ -37,11 +41,9 @@ const TagSection = () => {
   };
 
   return (
-    <section>
-      <h2>Tags</h2>
-      <hr />
-      <button onClick={openCreateNewTagDialog} className="btn">
-        Add new tag
+    <section className="board-settings-page__section__tags">
+      <button onClick={openCreateNewTagDialog} className="btn btn--glow add-tag-btn">
+        <FaTag /> Add new tag
       </button>
       <Modal
         show={showCreateNewTagDialog}
@@ -71,15 +73,16 @@ const TagSection = () => {
         />
       </Modal>
       {tags.map((tag) => (
-        <div key={tag._id} style={{ display: "flex" }}>
-          <span style={{ width: "1rem", height: "1rem", backgroundColor: tag.key }}></span>
-          <span style={{ marginRight: "auto" }}>{tag.name}</span>
-          <button className="btn" onClick={() => openEditTagModal(tag)}>
-            edit
-          </button>
-          <button className="btn" onClick={() => deleteTag(tag._id)}>
-            delete
-          </button>
+        <div className="settings-tag-card">
+          <TagCard color={tag.key} name={tag.name} key={tag._id} />
+          <div className="button-group">
+            <button title="edit" className="btn" onClick={() => openEditTagModal(tag)}>
+              <FaEdit />
+            </button>
+            <button title="delete" className="btn" onClick={() => deleteTag(tag._id)}>
+              <FaTrash />
+            </button>
+          </div>
         </div>
       ))}
     </section>

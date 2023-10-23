@@ -3,18 +3,21 @@ $option-height: 2rem;
 .async-search__options {
   --_search-dropdown-bg-color: white;
   --_search-dropdown-bg-hover-color: var(--color-gray-light-1);
+  --_search-dropdown-bg-disabled-color: var(--color-gray-light-4);
 }
 
 .async-search {
   display: block;
   position: relative;
+
   &__options {
+    margin-top: 2px;
     z-index: 1000;
     position: absolute;
     left: 0;
     right: 0;
     background-color: var(--_search-dropdown-bg-color);
-    box-shadow: 0 1px 3px black;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.168);
     max-height: 10rem;
     border-radius: 3px;
     overflow-y: auto;
@@ -32,9 +35,11 @@ $option-height: 2rem;
       background-color: var(--_search-dropdown-bg-hover-color);
     }
     &--disabled {
-      background-color: red;
+      cursor: not-allowed;
+      background-color: var(--_search-dropdown-bg-disabled-color);
+      color: var(--color-font-secondary);
       &:hover {
-        background-color: orange;
+        background-color: var(--_search-dropdown-bg-disabled-color);
       }
     }
   }
@@ -42,5 +47,9 @@ $option-height: 2rem;
   &__clear {
     gap: 0.2rem;
     font-size: 0.8rem;
+  }
+
+  .async-input__input {
+    width: 100%;
   }
 }

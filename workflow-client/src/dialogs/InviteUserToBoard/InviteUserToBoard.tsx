@@ -9,7 +9,10 @@ import useList from "@/hooks/useList";
 import { useAddBoardMember, useSearchBoardMembers } from "@/service/member";
 import { useSearchUsers } from "@/service/user";
 
+import { CustomUserOption } from "@/components/board/CustomOption";
 import User from "@/components/board/User";
+
+import "./InviteUserToBoard.scss";
 
 type InviteUserToBoardProps = {
   closeModal?: () => void;
@@ -64,26 +67,33 @@ const InviteUserToBoard: React.FC<InviteUserToBoardProps> = ({ closeModal }) => 
   }, [users, members, selectedUsers]);
 
   return (
-    <div>
-      <AsyncSearch<User>
-        options={availableUsers}
-        showSelectedValues={false}
-        filterOptions={false}
-        hideSelectedOptions={false}
-        debounceCallback={searchUsersHandler}
-        onSelect={onOptionSelect}
-        onClearSelection={clearSelectedUsers}
-      />
-      <button onClick={addSelectedUsersToBoard} className="btn--glow">
-        Add to the board
-      </button>
-      {selectedUsers.map((user) => (
-        <User key={user._id} username={user.username}>
-          <button className="btn" onClick={() => removeFromSelectedUser(user, "_id")}>
-            -
-          </button>
-        </User>
-      ))}
+    <div className="invite-user-to-board">
+      <header className="invite-user-to-board__header">
+        <AsyncSearch<User>
+          options={availableUsers}
+          showSelectedValues={false}
+          filterOptions={false}
+          hideSelectedOptions={false}
+          debounceCallback={searchUsersHandler}
+          onSelect={onOptionSelect}
+          onClearSelection={clearSelectedUsers}
+          renderOption={(option) => (
+            <CustomUserOption username={option.username} imageSrc={option.avatarImageURL} />
+          )}
+        />
+        <button onClick={addSelectedUsersToBoard} className="btn--glow">
+          Add to the board
+        </button>
+      </header>
+      <div className="invite-user-to-board__content">
+        {selectedUsers.map((user) => (
+          <User key={user._id} username={user.username}>
+            <button className="btn" onClick={() => removeFromSelectedUser(user, "_id")}>
+              -
+            </button>
+          </User>
+        ))}
+      </div>
     </div>
   );
 };

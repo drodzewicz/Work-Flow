@@ -1,9 +1,16 @@
 import React, { forwardRef } from "react";
 
-const ColorInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>((props, ref) => {
-  const { className, name, ...fieldProps } = props;
+import "./ColorInput.scss";
+
+interface ColorInputProps extends React.ComponentProps<"input"> {
+  label?: string;
+}
+
+const ColorInput = forwardRef<HTMLInputElement, ColorInputProps>((props, ref) => {
+  const { className, name, label, ...fieldProps } = props;
   return (
-    <div className={`text-field ${className || ""}`}>
+    <div className={`color-input ${className || ""}`}>
+      <label>{label}</label>
       <input ref={ref} {...fieldProps} name={name} type="color" />
       <div className="text-field__line"></div>
     </div>

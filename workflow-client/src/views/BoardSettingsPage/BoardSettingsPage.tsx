@@ -9,6 +9,8 @@ import { useDeleteBoard, useLeaveBoard } from "@/service/board";
 
 import Box from "@/components/layout/Box";
 
+import "./BoardSettingsPage.scss";
+
 import GeneralSection from "./GeneralSection";
 import MembersSection from "./MembersSection";
 import RoleSection from "./RoleSection";
@@ -41,25 +43,37 @@ const BoardSettingsPage: React.FC = () => {
     leaveBoard(boardId);
   };
 
+  const settingsSections: { title: string; PageComponent: React.FC; show: boolean }[] = [
+    { title: "General", PageComponent: GeneralSection, show: true },
+    { title: "User Roles", PageComponent: RoleSection, show: canModifyRoles },
+    { title: "Members", PageComponent: MembersSection, show: true },
+    { title: "Tags", PageComponent: TagSection, show: true },
+  ];
+
   return (
-    <Box className="flex flex-col">
-      <div className="flex flex-row mb-3 justify-end">
-        <button className="btn ml-0 mr-auto">
+    <Box className="board-settings-page">
+      <header className="board-settings-page__header">
+        <button id="back-to-board-btn" className="btn">
           <Link to={`/board/${boardId}`}>back to board</Link>
         </button>
-        <button onClick={leaveBoardHandler} className="btn">
+        <button id="leave-board-btn" onClick={leaveBoardHandler} className="btn">
           Leave board
         </button>
         {canDeleteBoard && (
-          <button onClick={deleteBoardHandler} className="btn">
+          <button id="delete-board-btn" onClick={deleteBoardHandler} className="btn btn--glow">
             Delete Board
           </button>
         )}
-      </div>
-      <GeneralSection />
-      {canModifyRoles && <RoleSection />}
-      <MembersSection />
-      <TagSection />
+      </header>
+      {settingsSections
+        .filter(({ show }) => show)
+        .map(({ title, PageComponent }) => (
+          <React.Fragment key={title}>
+            <h1>{title}</h1>
+            <hr className="break-line" />
+            <PageComponent />
+          </React.Fragment>
+        ))}
     </Box>
   );
 };

@@ -1,0 +1,57 @@
+.board-settings-page {
+  padding: 1rem;
+  &__header {
+    display: flex;
+  }
+  #back-to-board-btn {
+    margin-right: auto;
+  }
+
+  &__section {
+    &__general {
+      button[type="submit"] {
+        margin-left: auto;
+      }
+    }
+    &__members {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .user-card {
+        max-width: unset;
+      }
+      .role-select {
+        width: 6rem;
+      }
+      .invite-user-button {
+        align-self: flex-end;
+      }
+    }
+
+    &__tags {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      .add-tag-btn {
+        align-self: flex-end;
+      }
+      .settings-tag-card {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        border-radius: 3px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.274);
+        padding: 0.2rem 0.4rem;
+        justify-content: space-between;
+        .button-group {
+          display: flex;
+          flex-direction: row;
+        }
+        .tag-card {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}

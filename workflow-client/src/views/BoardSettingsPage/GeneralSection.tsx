@@ -26,11 +26,9 @@ const GeneralSection: React.FC = () => {
   });
 
   return (
-    <section className="">
-      <h2 className="text-lg font-bold mb-3">General</h2>
-      <hr />
+    <section className="board-settings-page__section__general">
       <FormikProvider value={formik}>
-        <Form className="flex flex-col">
+        <Form>
           <Field
             name="name"
             autoFocus={true}
@@ -42,13 +40,14 @@ const GeneralSection: React.FC = () => {
             name="description"
             error={formik.touched.description && formik.errors?.description}
             disabled={!canUpdateBoard}
+            rows={7}
             as={TextAreaField}
           />
           {canUpdateBoard && (
             <button
               disabled={!(formik.isValid && formik.dirty)}
               type="submit"
-              className="btn self-end"
+              className="btn btn--glow"
             >
               save changes
             </button>

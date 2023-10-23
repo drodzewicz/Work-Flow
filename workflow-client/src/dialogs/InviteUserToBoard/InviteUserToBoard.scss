@@ -1,0 +1,14 @@
+.invite-user-to-board {
+  display: flex;
+  flex-direction: column;
+  &__header {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
+}

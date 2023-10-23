@@ -16,8 +16,6 @@ const RoleSection = () => {
 
   return (
     <section>
-      <h2 className="text-lg font-bold mb-3">User Roles</h2>
-      <hr />
       <RoleTable />
     </section>
   );
