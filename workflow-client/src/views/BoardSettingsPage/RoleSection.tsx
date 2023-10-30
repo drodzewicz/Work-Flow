@@ -1,7 +1,5 @@
 import React from "react";
 
-import { getRoleIcon } from "@/utils/role";
-
 import useBoardId from "@/hooks/useBoardId";
 
 import { useGetBoardRoles, useGetAvailablePermissions } from "@/service/permission";
@@ -16,7 +14,7 @@ const RoleSection = () => {
 
   return (
     <section>
-      <RoleTable />
+      <RoleTable permissions={allPermissions} roles={roles} />
     </section>
   );
 };

@@ -1,55 +1,61 @@
-.role-table {
-  background-color: gray;
-  max-width: 100vw;
-  display: block;
-  white-space: nowrap;
-  overflow-x: auto;
-}
-
-
-
-.view {
-  margin: auto;
-  width: 100%;
-}
-
-.wrapper {
+.table-wrapper {
   position: relative;
   overflow: auto;
   white-space: nowrap;
 }
 
-.sticky-col {
-  position: -webkit-sticky;
-  position: sticky;
-  background-color: white !important;
-}
-
-.first-col {
-  width: 100px;
-  min-width: 100px;
-  max-width: 100px;
-  left: 0px;
-  z-index: 1;
-}
-
-.second-col {
-  width: 150px;
-  min-width: 150px;
-  max-width: 150px;
-  left: 100px;
-}
-
 .vertical {
+  $position: 7px;
   writing-mode: tb-rl;
   z-index: 0;
   -webkit-transform: rotate(-120deg);
   -moz-transform: rotate(-120deg);
-  -o-transform: rotate(-120deg);
+  transform: rotate(-120deg) translate(-1 * $position, 2 * $position);
   width: 60px;
   height: 40px;
   text-align: start;
   line-height: 1rem;
   margin-top: auto;
   font-size: 0.6rem;
+}
+
+.role-table {
+  --_table-bg-color: var(--color-gray-light-1);
+  --_table-header-bg-color: var(--color-gray-light-3);
+}
+
+.role-table {
+  border-collapse: collapse;
+  background-color: var(--_table-bg-color);
+
+  thead {
+    background-color: var(--_table-header-bg-color);
+  }
+
+  &__first-col {
+    left: 0px;
+    z-index: 1;
+    position: -webkit-sticky;
+    position: sticky;
+    background-color: white;
+    padding: 0.6rem 1rem;
+  }
+
+  &__last-col {
+    width: 100px;
+    min-width: 100px;
+  }
+
+  &__role {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.3rem;
+  }
+
+  &__checkbox-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }

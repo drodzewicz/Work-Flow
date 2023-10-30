@@ -1,53 +1,57 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { getRoleIcon } from "@/utils/role";
-
-import useBoardId from "@/hooks/useBoardId";
-
-import { useGetAvailablePermissions, useGetBoardRoles } from "@/service/permission";
+import { IconType } from "react-icons";
 
 import "./RoleTable.scss";
 
-const RoleTable: React.FC = () => {
-  const boardId = useBoardId();
-  const { data: allPermissions = [] } = useGetAvailablePermissions();
-  const { data: roles = {} } = useGetBoardRoles({ boardId });
+import TableCheckboxCell from "./TableCheckboxCell";
+import TableHeader from "./TableHeader";
+
+type RoleTableProps = {
+  permissions: string[];
+  roles: Record<string, { permissions: string[] }>;
+};
+
+const RoleTable: React.FC<RoleTableProps> = ({ permissions, roles }) => {
+  const data: { role: string; RoleIcon: IconType; rolePermissions: Record<string, boolean> }[] =
+    useMemo(() => {
+      return Object.keys(roles).map((role) => {
+        const rolePermissions = permissions.reduce(
+          (acc, permission) => ({
+            ...acc,
+            [`${permission}`]: roles[role].permissions.includes(permission),
+          }),
+          {}
+        );
+        return { role, RoleIcon: getRoleIcon(role), rolePermissions };
+      });
+    }, [roles, permissions]);
 
   return (
-    <div className="view">
-      <div className="wrapper">
-        <table className="table">
-          <thead>
-            <tr style={{height: '2rem'}}></tr>
-            <tr>
-              <th className="sticky-col first-col">Role</th>
-              {allPermissions.map((permission) => (
-                <th key={`${permission}-th`} className="vertical">
-                  {permission}
-                </th>
+    <div className="table-wrapper scrollbar">
+      <table className="role-table">
+        <TableHeader columns={permissions} />
+        <tbody>
+          {data.map(({ role, RoleIcon, rolePermissions }) => (
+            <tr key={`${role}-row`}>
+              <td className="role-table__first-col">
+                <div className="role-table__role">
+                  <RoleIcon />
+                  {role}
+                </div>
+              </td>
+              {permissions.map((permission) => (
+                <TableCheckboxCell
+                  key={`${permission}-cell`}
+                  hasPermission={rolePermissions[permission]}
+                />
               ))}
+              <td className="role-table__last-col"></td>
             </tr>
-          </thead>
-          <tbody>
-            {Object.entries(roles).map(([role, { permissions }]) => {
-              const RoleIcon = getRoleIcon(role);
-              return (
-                <tr key={role}>
-                  <td className="sticky-col first-col">
-                    <RoleIcon />
-                    {role}
-                  </td>
-                  {allPermissions.map((permission) => (
-                    <td key={`${permission}-tr`}>
-                      <input type="checkbox" checked={permissions.includes(permission)} readOnly />
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
