@@ -1,9 +1,9 @@
 [data-theme="DARK"] .notification {
-  --_notification-bg-hover: var(--color-gray-dark-1);
+  --_notification-bg-hover: var(--c-metal-4);
 }
 
 .notification {
-  --_notification-bg-hover: var(--color-gray-light-1);
+  --_notification-bg-hover: var(--c-iceberg-2);
 }
 
 .notification {
@@ -32,7 +32,7 @@
     flex-direction: row;
     align-items: center;
     gap: 0.5rem;
-    color: var(--color-font-main);
+    color: var(--c-font-primary);
   }
   &__title,
   &__icon {
@@ -42,7 +42,7 @@
 
   &__message {
     margin: 0;
-    color: var(--color-font-secondary);
+    color: var(--c-font-secondary);
   }
   &__close {
     display: flex;

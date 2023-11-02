@@ -1,4 +1,14 @@
 .pagination {
+  --_current-page-bg-color: var(--c-accent-primary);
+  --_current-page-text-color: var(--c-iceberg-4);
+}
+
+[data-theme="DARK"] .pagination {
+  --_current-page-bg-color: var(--c-accent-primary);
+  --_current-page-text-color: var(--c-metal-1);
+}
+
+.pagination {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -10,24 +20,24 @@
     justify-content: center;
     align-items: center;
     background: transparent;
-    color: var(--color-font-main);
+    color: var(--c-font-primary);
     border: none;
     margin: 0.5rem;
     width: $pagination-item-size;
     height: $pagination-item-size;
     border-radius: 5px;
     cursor: pointer;
-     outline-color: var(--color-accent-primary);
+    outline-color: var(--_current-page-bg-color);
   }
   &__current-page {
-    background-color: var(--color-accent-primary);
-    color: var(--color-bg);
+    background-color: var(--_current-page-bg-color);
+    color: var(--_current-page-text-color);
   }
   &__dots {
     width: 0.8rem;
     transition: all 0.3s ease-in-out;
     overflow: hidden;
-    color: var(--color-font-main);
+    color: var(--c-font-primary);
     cursor: default;
     user-select: none;
     &.hide {

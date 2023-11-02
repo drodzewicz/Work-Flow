@@ -3,12 +3,12 @@ $card-height: 6rem;
 
 .board-card {
   --_card-bg-color: white;
-  --_card-column-color: var(--color-gray-light-1);
+  --_card-column-color: var(--c-iceberg-2);
 }
 
 [data-theme="DARK"] .board-card {
-  --_card-bg-color: var(--color-gray-dark-1);
-  --_card-column-color: var(--color-gray-dark-2);
+  --_card-bg-color: var(--c-metal-4);
+  --_card-column-color: var(--c-metal-6);
 }
 
 .board-card {
@@ -83,7 +83,7 @@ $card-height: 6rem;
   &__title {
     font-size: 0.9rem;
     margin: 0;
-    color: var(--color-font-main);
+    color: var(--c-font-primary);
     justify-self: flex-start;
     cursor: default;
     overflow: hidden;
@@ -107,8 +107,8 @@ $card-height: 6rem;
       cursor: pointer;
       height: 1.2rem;
       width: 1.2rem;
-      color: var(--color-font-main);
-      fill: var(--color-font-main);
+      color: var(--c-font-primary);
+      fill: var(--c-font-primary);
       border-radius: 5px;
       padding: 3px;
       transition: all ease-in-out 0.2s;

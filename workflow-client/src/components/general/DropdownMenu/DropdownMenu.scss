@@ -1,10 +1,10 @@
 [data-theme="DARK"] .drop-down-menu {
-  --_item-bg-color: var(--color-gray-dark-2);
-  --_item-bg-color-hover: var(--color-gray-dark-1);
+  --_item-bg-color: var(--c-metal-6);
+  --_item-bg-color-hover: var(--c-metal-4);
 }
 .drop-down-menu {
   --_item-bg-color: white;
-  --_item-bg-color-hover: var(--color-gray-light-1);
+  --_item-bg-color-hover: var(--c-iceberg-2);
 }
 .drop-down-menu {
   position: absolute;
@@ -29,7 +29,7 @@
     cursor: pointer;
     transition: 0.2s all ease-in-out;
     user-select: none;
-    color: var(--color-font-main);
+    color: var(--c-font-primary);
     font-weight: 400;
     &:hover {
       background: var(--_item-bg-color-hover);

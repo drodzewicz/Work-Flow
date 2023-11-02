@@ -13,7 +13,7 @@
 
   &__action-buttons {
     display: flex;
-    @include mobile() {
+    @include breakpoint(mobile) {
       flex-direction: column;
     }
   }
@@ -39,7 +39,7 @@
   &__body {
     display: flex;
     gap: 1rem;
-    @include mobile() {
+    @include breakpoint(mobile) {
       flex-direction: column;
     }
   }

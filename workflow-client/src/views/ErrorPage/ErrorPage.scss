@@ -20,7 +20,7 @@
     &__image {
       height: 30rem;
       position: absolute;
-      @include mq-1 {
+      @include breakpoint(small) {
         margin-top: 1.2rem;
         height: 20rem;
       }
@@ -28,8 +28,8 @@
     &__title {
       font-size: 3rem;
       margin: 0;
-      color: var(--color-font-main);
-      @include mq-1 {
+      color: var(--c-font-primary);
+      @include breakpoint(small) {
         font-size: 2.4rem;
       }
       &:after {
@@ -38,13 +38,13 @@
         position: absolute;
         height: 2px;
         width: 100%;
-        background: var(--color-font-secondary);
+        background: var(--c-font-secondary);
       }
     }
     &__reason-phrase {
       margin: 0;
       margin-top: 10px;
-      color: var(--color-font-main);
+      color: var(--c-font-primary);
     }
   }
 }

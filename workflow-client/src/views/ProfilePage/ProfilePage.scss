@@ -7,7 +7,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-    @include mq-1 {
+    @include breakpoint(small) {
       grid-template-columns: 1fr;
     }
   }
@@ -17,7 +17,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
-      @include mobile {
+      @include breakpoint(mobile) {
         grid-template-columns: 1fr;
       }
     }
@@ -63,7 +63,7 @@
     }
 
     &__username {
-      background-color: var(--color-accent-primary);
+      background-color: var(--c-accent-primary);
       color: white;
       padding: 0.2rem 0.6rem;
       border-radius: 3rem;
@@ -78,7 +78,7 @@
     &__container > .board-container__boards {
       display: flex;
       flex-wrap: wrap;
-      @include mobile {
+      @include breakpoint(mobile) {
         justify-content: center;
       }
     }

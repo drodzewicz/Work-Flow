@@ -1,5 +1,13 @@
 .navbar {
-  background: var(--color-header);
+  --_header-bg-color: white;
+}
+
+[data-theme="DARK"] .navbar {
+  --_header-bg-color: var(--c-metal-3);
+}
+
+.navbar {
+  background: var(--_header-bg-color);
   height: var(--size-navbar-height);
   display: flex;
   flex-direction: row;

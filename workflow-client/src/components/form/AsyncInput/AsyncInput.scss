@@ -1,9 +1,17 @@
 .async-input {
+  --_input-bg-color: white;
+}
+
+[data-theme="DARK"] .async-input {
+  --_input-bg-color: var(--c-metal-4);
+}
+
+.async-input {
   display: flex;
   position: relative;
 
   &__input {
-    background-color: var(--color-boardcard-bg);
+    background-color: var(--_input-bg-color);
     flex-grow: 1;
     font-size: 1rem;
     padding: 0.4rem 0.8rem;

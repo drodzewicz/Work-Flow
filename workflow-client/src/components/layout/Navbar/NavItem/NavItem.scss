@@ -2,12 +2,12 @@
 
 .navbar__item {
   --_nav-item-bg-color: white;
-  --_nav-item-bg-color-hover: var(--color-gray-light-1);
+  --_nav-item-bg-color-hover: var(--c-iceberg-2);
 }
 
 [data-theme="DARK"] .navbar__item {
-  --_nav-item-bg-color: var(--color-gray-dark-2);
-  --_nav-item-bg-color-hover: var(--color-gray-dark-1);
+  --_nav-item-bg-color: var(--c-metal-6);
+  --_nav-item-bg-color-hover: var(--c-metal-4);
 }
 .navbar__item {
   list-style-type: none;
@@ -25,7 +25,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    color: var(--color-font-main);
+    color: var(--c-font-primary);
     background: var(--_nav-item-bg-color);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
     position: relative;
@@ -33,7 +33,7 @@
     font-size: 0.9rem;
 
     &:focus {
-      outline-color: var(--color-accent-primary);
+      outline-color: var(--c-accent-primary);
       outline-width: 2px;
       outline-offset: 2px;
     }
@@ -53,7 +53,7 @@
   &__label {
     font-weight: bold;
     font-size: inherit;
-    @include mobile {
+    @include breakpoint(mobile) {
       display: none;
     }
   }

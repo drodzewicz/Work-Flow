@@ -7,10 +7,10 @@
     gap: 1rem;
     margin-bottom: 1rem;
     width: 100%;
-    @include mq-1 {
+    @include breakpoint(small) {
       grid-template-columns: repeat(2, 1fr);
     }
-    @include mobile {
+    @include breakpoint(mobile) {
       grid-template-columns: repeat(1, 1fr);
     }
   }

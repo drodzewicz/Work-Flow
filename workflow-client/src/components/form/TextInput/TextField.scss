@@ -1,18 +1,8 @@
-%field-style {
-  margin-top: 1.5rem;
-  background-color: var(--color-column-bg);
-  position: relative;
-  border: none;
-  font-size: 1rem;
-  padding: 0.7rem 0.5rem;
-  outline: none;
-  border-bottom: 2px solid rgba(0, 0, 255, 0);
-  border-radius: 0;
-  transition: all 0.2s ease-in-out;
-  &:focus,
-  &:hover {
-    border-color: var(--color-accent-primary);
-  }
+.text-field {
+  --_field-bg-color: var(--c-iceberg-5);
+}
+[data-theme="DARK"] .text-field {
+  --_field-bg-color: var(--c-metal-3);
 }
 
 .text-field {
@@ -21,13 +11,26 @@
   position: relative;
 
   &__textarea {
-    @extend %field-style;
     font-family: inherit;
     resize: none;
   }
 
-  &__input {
-    @extend %field-style;
+  &__input,
+  &__textarea {
+    margin-top: 1.5rem;
+    position: relative;
+    border: none;
+    font-size: 1rem;
+    padding: 0.7rem 0.5rem;
+    background-color: var(--_field-bg-color);
+    outline: none;
+    border-bottom: 2px solid rgba(0, 0, 255, 0);
+    border-radius: 0;
+    transition: all 0.2s ease-in-out;
+    &:focus,
+    &:hover {
+      border-color: var(--c-accent-primary);
+    }
   }
   &__line {
     transform: translateY(-2px);
@@ -35,7 +38,7 @@
     margin: 0 auto;
     margin-bottom: 1rem;
     display: block;
-    border-top: solid 3px var(--color-accent-primary);
+    border-top: solid 3px var(--c-accent-primary);
     transition: all 0.3s ease-in-out;
   }
 
@@ -54,24 +57,24 @@
     transform: translate(0.5rem, 2.1rem);
     transition: all 0.2s ease-in-out;
     pointer-events: none;
-    color: var(--color-font-main);
+    color: var(--c-font-primary);
   }
 
   &__input:focus + &__label {
     font-size: 0.8rem;
     transform: translate(0, 0.25rem);
-    color: var(--color-accent-primary);
+    color: var(--c-accent-primary);
   }
 
   &__valid {
     transform: translate(0, 0.25rem);
     font-size: 0.9rem;
-    color: var(--color-font-main);
+    color: var(--c-font-primary);
   }
 
   &__error {
     margin-top: 0.3rem;
-    color: red;
+    color: var(--c-red-1);
     font-size: 0.7rem;
     position: absolute;
     bottom: 0;

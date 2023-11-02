@@ -1,6 +1,6 @@
 .add-new-column {
-  --_input-bg-color: var(--color-gray-light-4);
-  --_input-border-color: var(--color-gray-light-3);
+  --_input-bg-color: var(--c-iceberg-5);
+  --_input-border-color: var(--c-iceberg-3);
 }
 .add-new-column {
   display: flex;
@@ -25,7 +25,7 @@
     margin: 0 0.5rem;
     font-weight: 600;
     &::placeholder {
-      color: var(--color-font-secondary);
+      color: var(--c-font-secondary);
     }
   }
 }

@@ -5,7 +5,7 @@
   &__field {
     &__description {
       height: 10rem;
-      @include mobile {
+      @include breakpoint(mobile) {
         height: 20rem;
       }
     }

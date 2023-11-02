@@ -1,6 +1,6 @@
 .task-card {
   --_task-bg-color: white;
-  --_task-bg-dragging-color: var(--color-gray-light-1);
+  --_task-bg-dragging-color: var(--c-iceberg-2);
 }
 
 .task-card {
@@ -20,7 +20,7 @@
   &__title {
     margin: 0;
     font-size: 0.9rem;
-    color: var(--color-font-main);
+    color: var(--c-font-primary);
     margin-bottom: 0.2rem;
   }
 

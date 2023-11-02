@@ -1,4 +1,12 @@
 #app {
+  --_app-bg-color: var(--c-iceberg-4);
+}
+
+[data-theme="DARK"] #app {
+  --_app-bg-color: var(--c-metal-1);
+}
+
+#app {
   min-height: 100%;
-  background-color: var(--color-bg);
+  background-color: var(--_app-bg-color);
 }

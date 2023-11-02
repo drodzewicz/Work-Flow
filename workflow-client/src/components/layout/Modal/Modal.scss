@@ -1,5 +1,15 @@
 @import "../../../assets/styles/mediaQueries";
 
+.modal {
+  --_modal-bg-color: var(--c-iceberg-4);
+  --_modal-header-color: white;
+}
+
+[data-theme="DARK"] .modal {
+  --_modal-bg-color: var(--c-metal-1);
+  --_modal-header-color: var(--c-metal-3);
+}
+
 .modal-wrapper {
   width: 100%;
   height: 100%;
@@ -14,9 +24,9 @@
 .modal {
   position: fixed;
   z-index: 999;
-  background-color: var(--color-bg);
+  background-color: var(--_modal-bg-color);
   height: auto;
-  border: 1px solid var(--color-header);
+  border: 1px solid var(--_modal-header-color);
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.445);
   box-sizing: border-box;
   border-radius: 10px;
@@ -40,7 +50,7 @@
     max-width: 950px;
   }
 
-  @include mobile {
+  @include breakpoint(mobile) {
     width: 100% !important;
     height: 100vh;
     position: absolute;
@@ -63,14 +73,14 @@
       margin: 0;
       flex-grow: 1;
       text-align: center;
-      color: var(--color-font-main);
+      color: var(--c-font-primary);
       font-size: 1.3rem;
       transform: translateX(18px);
       z-index: 1;
     }
     & > &__close {
       cursor: pointer;
-      color: var(--color-font-main);
+      color: var(--c-font-primary);
       font-size: 0.9rem;
       height: 1.7rem;
       width: 1.7rem;
@@ -78,7 +88,7 @@
       padding: 0.3rem;
       border-radius: 3px;
       &:hover {
-        background-color: var(--color-header);
+        background-color: var(--_modal-header-color);
       }
     }
   }
@@ -89,7 +99,7 @@
     padding: 1rem 2rem 2rem;
     position: relative;
     height: 100%;
-    @include mobile {
+    @include breakpoint(mobile) {
       overflow: auto;
       padding: 1rem;
     }

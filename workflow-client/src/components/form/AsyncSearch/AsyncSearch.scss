@@ -2,8 +2,8 @@ $option-height: 2rem;
 
 .async-search__options {
   --_search-dropdown-bg-color: white;
-  --_search-dropdown-bg-hover-color: var(--color-gray-light-1);
-  --_search-dropdown-bg-disabled-color: var(--color-gray-light-4);
+  --_search-dropdown-bg-hover-color: var(--c-iceberg-2);
+  --_search-dropdown-bg-disabled-color: var(--c-iceberg-5);
 }
 
 .async-search {
@@ -37,7 +37,7 @@ $option-height: 2rem;
     &--disabled {
       cursor: not-allowed;
       background-color: var(--_search-dropdown-bg-disabled-color);
-      color: var(--color-font-secondary);
+      color: var(--c-font-secondary);
       &:hover {
         background-color: var(--_search-dropdown-bg-disabled-color);
       }

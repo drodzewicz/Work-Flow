@@ -2,7 +2,7 @@
 
 .welcome-section {
   margin: 3rem 4rem 0;
-  @include mq-1 {
+  @include breakpoint(small) {
     margin: 1rem;
   }
   &__introduction {
@@ -10,7 +10,7 @@
     grid-template-columns: 1fr 1fr;
     min-height: 90vh;
     gap: 6vh;
-    @include mq-1 {
+    @include breakpoint(small) {
       grid-template-columns: 1fr;
     }
     .person-image {
@@ -20,11 +20,11 @@
       margin-right: 0;
       margin-left: auto;
       opacity: 0;
-      @include mq-2 {
+      @include breakpoint(medium) {
         height: 50vh;
         width: 50vh;
       }
-      @include mq-1 {
+      @include breakpoint(small) {
         height: 90%;
         width: 90%;
         order: 1;
@@ -35,7 +35,7 @@
       h1 {
         font-size: 7vh;
         margin: 0;
-        color: var(--color-font-main);
+        color: var(--c-font-primary);
         opacity: 0;
       }
       hr {
@@ -44,13 +44,13 @@
       h2 {
         font-size: 4vh;
         margin: 0;
-        color: var(--color-font-main);
+        color: var(--c-font-primary);
         opacity: 0;
       }
       p {
         font-size: 3vh;
         max-width: 40wv;
-        color: var(--color-font-secondary);
+        color: var(--c-font-secondary);
         opacity: 0;
       }
       .join-now {
@@ -59,7 +59,7 @@
         font-size: 2.5vh;
         padding: 1.5vh 3vh;
         opacity: 0;
-        @include mq-1 {
+        @include breakpoint(small) {
           font-size: 1.5rem;
         }
       }
@@ -70,7 +70,7 @@
     min-height: 80vh;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    @include mq-1 {
+    @include breakpoint(small) {
       grid-template-columns: 1fr;
     }
     .task-columns-image {
@@ -78,7 +78,7 @@
       height: 60vh;
       width: 60vh;
       margin: 0 auto;
-      @include mq-1 {
+      @include breakpoint(small) {
         height: 40vh;
         width: 40vh;
       }
@@ -91,7 +91,7 @@
       }
       ul {
         padding-left: 4vh;
-        color: var(--color-font-main);
+        color: var(--c-font-primary);
         li {
           font-size: 3vh;
           margin-top: 0.5rem;

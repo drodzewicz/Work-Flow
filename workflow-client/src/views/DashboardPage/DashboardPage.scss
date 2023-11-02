@@ -11,8 +11,8 @@
     margin: 0;
     display: flex;
     align-items: center;
-    color: var(--color-font-main);
-    fill: var(--color-font-main);
+    color: var(--c-font-primary);
+    fill: var(--c-font-primary);
     &__icon {
       color: inherit;
       margin-right: 0.5rem;
@@ -36,7 +36,7 @@
     &__text {
       font-weight: bold;
       line-height: 2rem;
-      @include mobile {
+      @include breakpoint(mobile) {
         display: none;
       }
     }

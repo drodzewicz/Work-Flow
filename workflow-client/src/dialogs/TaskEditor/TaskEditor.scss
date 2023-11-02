@@ -10,9 +10,8 @@
     padding-bottom: 3rem;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
-    @include mobile {
-    max-height: 80vh;
-      
+    @include breakpoint(mobile) {
+      max-height: 80vh;
     }
   }
 
@@ -25,7 +24,7 @@
   &__assignees,
   &__tags {
     max-width: 400px;
-    @include mobile {
+    @include breakpoint(mobile) {
       max-width: unset;
     }
     & > label {

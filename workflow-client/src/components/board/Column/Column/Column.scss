@@ -1,9 +1,7 @@
-@import "../../../../assets/styles/mediaQueries";
-
 .task-column {
-  --_column-bg-color: var(--color-gray-light-4);
-  --_column-bg-secondary-color: var(--color-gray-light-3);
-  --_column-text-color: var(--color-blue-1);
+  --_column-bg-color: var(--c-iceberg-5);
+  --_column-bg-secondary-color: var(--c-iceberg-3);
+  --_column-text-color: var(--c-downy-1);
 }
 
 .task-column {
@@ -75,7 +73,6 @@
     max-height: 500px;
     overflow-y: scroll;
     min-height: 1px;
-
   }
 }
 

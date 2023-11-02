@@ -14,7 +14,7 @@
   &.notification-nav.badge {
     #{$nav-item}__icon::after {
       content: "";
-      background-color: var(--color-accent-primary);
+      background-color: var(--c-accent-primary);
       width: 0.5rem;
       height: 0.5rem;
       border-radius: 5rem;

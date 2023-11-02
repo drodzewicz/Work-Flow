@@ -9,12 +9,12 @@
   min-height: calc(100vh - var(--size-navbar-height) - var(--size-footer-height) - 3.5rem);
   display: flex;
   flex-direction: column;
-  @include mobile {
+  @include breakpoint(mobile) {
     margin: 0 0.8rem;
   }
   &__title {
     margin: 2rem 1rem;
-    color: var(--color-font-main);
+    color: var(--c-font-primary);
     p {
       margin: 0;
     }
@@ -31,7 +31,7 @@
       padding: 0.3rem 0.2rem;
       margin-left: 0.1rem;
       cursor: pointer;
-      color: var(--color-font-main);
+      color: var(--c-font-primary);
       transition: background 0.15s ease-in;
       svg {
         transform: translateY(2px);

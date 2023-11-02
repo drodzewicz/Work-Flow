@@ -3,12 +3,12 @@
     background-color: white;
   }
   100% {
-    background-color: var(--color-gray-light-4);
+    background-color: var(--c-iceberg-5);
   }
 }
 
 .task-card--loading {
-  --_task-card-bg-color: var(--color-gray-light-4);
+  --_task-card-bg-color: var(--c-iceberg-5);
   background-color: white;
   animation: skeleton-loading-kf 1s linear infinite alternate;
 
@@ -59,7 +59,7 @@
 }
 
 .task-column--loading {
-  --_task-column-bg-color: var(--color-gray-light-4);
+  --_task-column-bg-color: var(--c-iceberg-5);
 
   display: flex;
   flex-direction: column;
@@ -117,7 +117,7 @@
 }
 
 .board-card--loading {
-  --_board-card-bg-color: var(--color-gray-light-4);
+  --_board-card-bg-color: var(--c-iceberg-5);
 
   $card-width: 12rem;
   $card-height: 6rem;
@@ -171,7 +171,7 @@
 
 .user-card--loading {
   --_user-card-bg-color: white;
-  --_user-card-title-color: var(--color-gray-light-4);
+  --_user-card-title-color: var(--c-iceberg-5);
 
   display: flex;
   flex-direction: row;
