@@ -1,0 +1,28 @@
+.profile-section-card {
+  --_card-bg: white;
+}
+
+.profile-section-card {
+  padding: 0.4rem;
+  background-color: var(--_card-bg);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.171);
+  border-radius: 0.4rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &__title {
+    margin: 1rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+}

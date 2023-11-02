@@ -1,12 +1,23 @@
-import { Param, Get, Put, Delete, Controller, QueryParams, UseBefore, Body, CurrentUser } from "routing-controllers";
+import {
+  Param,
+  Get,
+  Put,
+  Delete,
+  Controller,
+  QueryParams,
+  UseBefore,
+  Body,
+  CurrentUser,
+  Patch,
+} from "routing-controllers";
 import { UserService, BoardService } from "../services/index.js";
 import { Container } from "typedi";
 import { Pagination, AuthUser } from "../types/utils.type.js";
-import { UpdateUserPayload } from "../types/request/user.type.js";
+import { UpdateUserPayload, UpdateUserAvatarPayload } from "../types/request/user.type.js";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
 import { getPaginationSettings } from "../utils/pagination.utils.js";
 import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
-import { updateUserPayloadValidator } from "../validators/user.validator.js";
+import { updateUserAvatarPayloadValidator, updateUserPayloadValidator } from "../validators/user.validator.js";
 
 @Controller("/self")
 @UseBefore(JWTMiddleware)
@@ -29,6 +40,12 @@ export class SelfController {
     fieldErrorsHandler(updateUserPayloadValidator(payload));
 
     return this.userService.updateUser(user.id.toString(), payload);
+  }
+
+  @Patch("/avatar")
+  async updateUserAvatar(@CurrentUser() user: AuthUser, @Body() payload: UpdateUserAvatarPayload) {
+    fieldErrorsHandler(updateUserAvatarPayloadValidator(payload));
+    return this.userService.updateUserAvatar(user.id.toString(), payload.image);
   }
 
   @Get("/boards")

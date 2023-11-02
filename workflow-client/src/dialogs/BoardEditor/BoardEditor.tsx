@@ -41,7 +41,7 @@ const BoardEditorForm: React.FC<{
         />
         <button
           // disabled={props.isSubmitting || !props.isValid}
-          className="btn--glow login-form__btn"
+          className="btn btn--glow login-form__btn"
           type="submit"
         >
           Create

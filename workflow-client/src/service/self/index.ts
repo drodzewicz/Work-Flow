@@ -5,6 +5,7 @@ import useGetNotifications from "./useGetNotifications";
 import useGetUserBoards from "./useGetUserBoards";
 import useGetUserPinnedBoards from "./useGetUserPinnedBoards";
 import useTogglePinBoard from "./useTogglePinBoard";
+import useUpdateUserAvatar from "./useUpdateUserAvatar";
 
 export {
   selfQueryKeys,
@@ -13,5 +14,6 @@ export {
   useGetNotifications,
   useGetUserBoards,
   useGetUserPinnedBoards,
+  useUpdateUserAvatar,
   useTogglePinBoard,
 };

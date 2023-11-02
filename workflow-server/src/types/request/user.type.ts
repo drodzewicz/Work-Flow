@@ -3,3 +3,7 @@ export type UpdateUserPayload = Partial<{
   name: string;
   surname: string;
 }>;
+
+export type UpdateUserAvatarPayload = {
+  image: string;
+};

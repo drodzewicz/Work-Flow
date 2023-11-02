@@ -9,4 +9,10 @@ const UpdateUserPayloadSchema = Joi.object({
 
 const updateUserPayloadValidator = validator(UpdateUserPayloadSchema);
 
-export { updateUserPayloadValidator };
+const UpdateUserAvatarPayloadSchema = Joi.object({
+  image: Joi.string(),
+});
+
+const updateUserAvatarPayloadValidator = validator(UpdateUserAvatarPayloadSchema);
+
+export { updateUserPayloadValidator, updateUserAvatarPayloadValidator };

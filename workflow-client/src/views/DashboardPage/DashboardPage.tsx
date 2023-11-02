@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { OnSubmitType } from "@/types/utils";
 
@@ -62,9 +62,9 @@ const DashboardPage: React.FC = () => {
     });
   };
 
-  const pinnedBoardsWithMetaData = (): (Board & { isPinned: boolean })[] => {
+  const pinnedBoardsWithMetaData = useMemo(() => {
     return pinnedBoards.map((board) => ({ ...board, isPinned: true })) ?? [];
-  };
+  }, [pinnedBoards]);
 
   const createBoardHandler: OnSubmitType<BoardEditorType> = async (values) => {
     createBoard({ name: values.name, description: values.description || "" });
@@ -82,7 +82,7 @@ const DashboardPage: React.FC = () => {
             <BoardContainer
               className="board-dashboard__pinned"
               noBoardsMessage="you have no pinned boards"
-              boards={pinnedBoardsWithMetaData()}
+              boards={pinnedBoardsWithMetaData}
               togglePinBoard={togglePinBoard}
               numberOfLoadingItems={4}
               isLoading={isPinnedBoardLoading}
