@@ -60,6 +60,15 @@ const MembersSection = () => {
   const { mutate: removeMember } = useRemoveBoardMember({ boardId });
   const { mutate: updateMemberRole } = useUpdateMemberRole({ boardId });
 
+  const removeMemberfromTheBoard = (userId: string) => {
+    const shouldRemove = window.confirm(
+      "Are you sure you want to remove this member from the board?"
+    );
+    if (shouldRemove) {
+      removeMember(userId);
+    }
+  };
+
   return (
     <section className="board-settings-page__section__members">
       {canManageMembers && (
@@ -103,7 +112,7 @@ const MembersSection = () => {
                   <button
                     disabled={user._id === currentUser?._id}
                     className="btn"
-                    onClick={() => removeMember(user._id)}
+                    onClick={() => removeMemberfromTheBoard(user._id)}
                   >
                     <FaTimes /> <span>remove</span>
                   </button>

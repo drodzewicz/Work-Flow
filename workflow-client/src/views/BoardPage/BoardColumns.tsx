@@ -35,9 +35,15 @@ const BoardColumns: React.FC = () => {
           destination: { columnId: destination.droppableId, rowIndex: destination.index },
         });
         break;
-      case "droppableColumn":
-        moveColumn({ columnId: draggableId, destination: destination.index });
+      case "droppableColumn": {
+        const shouldMoveColumn = window.confirm(
+          "Are you sure you want to update order of this column?"
+        );
+        if (shouldMoveColumn) {
+          moveColumn({ columnId: draggableId, destination: destination.index });
+        }
         break;
+      }
       default:
         break;
     }

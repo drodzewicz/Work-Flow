@@ -36,11 +36,17 @@ const BoardSettingsPage: React.FC = () => {
   });
 
   const deleteBoardHandler = () => {
-    deleteBoard(boardId);
+    const shouldDelete = window.confirm("Are you sure you want to delete this board?");
+    if (shouldDelete) {
+      deleteBoard(boardId);
+    }
   };
 
   const leaveBoardHandler = () => {
-    leaveBoard(boardId);
+    const shouldDelete = window.confirm("Are you sure you want to leave this board?");
+    if (shouldDelete) {
+      leaveBoard(boardId);
+    }
   };
 
   const settingsSections: { title: string; PageComponent: React.FC; show: boolean }[] = [

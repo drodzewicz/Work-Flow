@@ -40,6 +40,13 @@ const TagSection = () => {
     openEditTagDialog();
   };
 
+  const deleteTagHandler = (tagId: string) => {
+    const shouldDelete = window.confirm("Are you sure you want to delete this tag?");
+    if (shouldDelete) {
+      deleteTag(tagId);
+    }
+  };
+
   return (
     <section className="board-settings-page__section__tags">
       <button onClick={openCreateNewTagDialog} className="btn btn--glow add-tag-btn">
@@ -79,7 +86,7 @@ const TagSection = () => {
             <button title="edit" className="btn" onClick={() => openEditTagModal(tag)}>
               <FaEdit /> <span>Edit</span>
             </button>
-            <button title="delete" className="btn" onClick={() => deleteTag(tag._id)}>
+            <button title="delete" className="btn" onClick={() => deleteTagHandler(tag._id)}>
               <FaTrash />
               <span>Delete</span>
             </button>
