@@ -21,6 +21,7 @@
   &__title {
     flex: 1;
     margin: 0;
+    color: var(--c-font-primary);
   }
 
   .task-options-btn {
@@ -34,6 +35,7 @@
     flex-wrap: wrap;
     flex: 1;
     gap: 0.2rem;
+    padding: 0.3rem;
   }
 
   &__body {
@@ -47,6 +49,7 @@
   &__main-content {
     min-width: 150px;
     flex: 3;
+    color: var(--c-font-primary);
   }
 
   &__sidebar {
@@ -60,8 +63,9 @@
   &__author,
   &__assignees {
     & > label {
+      color: var(--c-font-primary);
+      font-size: 0.8rem;
       font-weight: 600;
-      margin-bottom: 0.5rem;
     }
   }
 }

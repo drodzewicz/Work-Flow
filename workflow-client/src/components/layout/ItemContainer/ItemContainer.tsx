@@ -29,7 +29,7 @@ function ItemContainer<T = unknown>({
           </div>
         );
       })}
-      {!items?.length && <i className="">{noContentMessage}</i>}
+      {!items?.length && <i className="item-container__no-content-message">{noContentMessage}</i>}
     </div>
   );
 }

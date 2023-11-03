@@ -1,14 +1,27 @@
 @keyframes skeleton-loading-kf {
   0% {
-    background-color: white;
+    background-color: var(--_skeleton-color-from, white);
   }
   100% {
-    background-color: var(--c-iceberg-5);
+    background-color: var(--_skeleton-color-to, var(--c-iceberg-5));
   }
 }
 
+// Task Card
+
 .task-card--loading {
+  --_skeleton-color-from: white;
+  --_skeleton-color-to: var(--c-iceberg-2);
   --_task-card-bg-color: var(--c-iceberg-5);
+}
+
+[data-theme="DARK"] .task-card--loading {
+  --_skeleton-color-from: var(--c-metal-6);
+  --_skeleton-color-to: var(--c-metal-4);
+  --_task-card-bg-color: var(--c-metal-3);
+}
+
+.task-card--loading {
   background-color: white;
   animation: skeleton-loading-kf 1s linear infinite alternate;
 
@@ -58,9 +71,21 @@
   }
 }
 
-.task-column--loading {
-  --_task-column-bg-color: var(--c-iceberg-5);
+// Column
 
+.task-column--loading {
+  --_skeleton-color-from: white;
+  --_skeleton-color-to: var(--c-iceberg-5);
+  --_task-column-bg-color: var(--c-iceberg-5);
+}
+
+[data-theme="DARK"] .task-column--loading {
+  --_skeleton-color-from: var(--c-metal-6);
+  --_skeleton-color-to: var(--c-metal-5);
+  --_task-column-bg-color: var(--c-metal-3);
+}
+
+.task-column--loading {
   display: flex;
   flex-direction: column;
   background-color: var(--_task-column-bg-color);
@@ -116,6 +141,18 @@
   }
 }
 
+// Board Card
+
+.board-card--loading {
+  --_skeleton-color-from: white;
+  --_skeleton-color-to: var(--c-iceberg-5);
+}
+
+[data-theme="DARK"] .board-card--loading {
+  --_skeleton-color-from: var(--c-metal-4);
+  --_skeleton-color-to: var(--c-metal-5);
+}
+
 .board-card--loading {
   --_board-card-bg-color: var(--c-iceberg-5);
 
@@ -169,9 +206,21 @@
   }
 }
 
+// User Card
+
 .user-card--loading {
   --_user-card-bg-color: white;
   --_user-card-title-color: var(--c-iceberg-5);
+}
+
+[data-theme="DARK"] .user-card--loading {
+  --_user-card-bg-color: var(--c-metal-4);
+  --_user-card-title-color: var(--c-metal-5);
+}
+
+.user-card--loading {
+  --_skeleton-color-from: var(--_user-card-bg-color);
+  --_skeleton-color-to: var(--_user-card-title-color);
 
   display: flex;
   flex-direction: row;

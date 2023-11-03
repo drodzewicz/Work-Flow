@@ -6,7 +6,7 @@ import AsyncSearch from "@/components/form/AsyncSearch/AsyncSearch";
 import { OptionType } from "@/components/form/AsyncSearch/SearchOptionType";
 import { TextField, TextAreaField } from "@/components/form/TextInput";
 import { Form, Field, useFormik, FormikProvider } from "formik";
-import { FaTimes } from "react-icons/fa";
+import { FaTag, FaTimes, FaUsers } from "react-icons/fa";
 
 import useList from "@/hooks/useList";
 
@@ -119,57 +119,71 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
               as={TextAreaField}
             />
           </div>
-          <div className="task-editor__assignees">
-            <label>Assignees</label>
-            <AsyncSearch<User>
-              options={members}
-              selectedOptions={selectedAssignees}
-              showSelectedValues={false}
-              filterOptions={false}
-              debounceCallback={search}
-              onSelect={onAssigneeSelect}
-              onClearSelection={clearSelectedAssignees}
-              renderOption={(option) => (
-                <CustomUserOption username={option.username} imageSrc={option.avatarImageURL} />
-              )}
-            />
-            <ItemContainer<User & OptionType>
-              itemKey="_id"
-              items={selectedAssignees}
-              maxHeight={220}
-              render={(assignee) => (
-                <User username={assignee.username}>
-                  <button className="btn" onClick={() => removeAssignee(assignee, "_id")}>
-                    -
-                  </button>
-                </User>
-              )}
-            />
-          </div>
-          <div className="task-editor__tags">
-            <label>Tags</label>
+          <div className="task-editor__other-options">
+            <div className="task-editor__assignees">
+              <label>
+                <FaUsers />
+                Assignees
+              </label>
+              <AsyncSearch<User>
+                options={members}
+                selectedOptions={selectedAssignees}
+                showSelectedValues={false}
+                filterOptions={false}
+                debounceCallback={search}
+                onSelect={onAssigneeSelect}
+                onClearSelection={clearSelectedAssignees}
+                noResultMessage="Board member not found"
+                renderOption={(option) => (
+                  <CustomUserOption username={option.username} imageSrc={option.avatarImageURL} />
+                )}
+              />
+              <ItemContainer<User & OptionType>
+                itemKey="_id"
+                items={selectedAssignees}
+                maxHeight={220}
+                noContentMessage="Assignee not selected..."
+                render={(assignee) => (
+                  <User username={assignee.username}>
+                    <button
+                      className="btn remove-assignee-btn"
+                      onClick={() => removeAssignee(assignee, "_id")}
+                    >
+                      <FaTimes />
+                    </button>
+                  </User>
+                )}
+              />
+            </div>
+            <div className="task-editor__tags">
+              <label>
+                <FaTag />
+                Tags
+              </label>
 
-            <AsyncSearch<Tag>
-              options={availableTags}
-              showSelectedValues={false}
-              selectedOptions={selectedTags}
-              debounceTime={0}
-              onSelect={addTag}
-              onClearSelection={clearSelectedTags}
-              renderOption={(option) => <CustomTagOption color={option.key} name={option.name} />}
-            />
-            <ItemContainer<Tag & OptionType>
-              itemKey="_id"
-              items={selectedTags}
-              maxHeight={220}
-              render={(tag) => (
-                <TagCard name={tag.label} color={tag.key}>
-                  <button className="tag-card__remove" onClick={() => removeTag(tag, "_id")}>
-                    <FaTimes />
-                  </button>
-                </TagCard>
-              )}
-            />
+              <AsyncSearch<Tag>
+                options={availableTags}
+                showSelectedValues={false}
+                selectedOptions={selectedTags}
+                debounceTime={0}
+                onSelect={addTag}
+                onClearSelection={clearSelectedTags}
+                renderOption={(option) => <CustomTagOption color={option.key} name={option.name} />}
+              />
+              <ItemContainer<Tag & OptionType>
+                itemKey="_id"
+                items={selectedTags}
+                maxHeight={220}
+                noContentMessage="Tag not selected..."
+                render={(tag) => (
+                  <TagCard name={tag.label} color={tag.key}>
+                    <button className="tag-card__remove" onClick={() => removeTag(tag, "_id")}>
+                      <FaTimes />
+                    </button>
+                  </TagCard>
+                )}
+              />
+            </div>
           </div>
         </section>
       </Form>

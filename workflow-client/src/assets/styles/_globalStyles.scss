@@ -100,25 +100,40 @@ html {
 }
 
 .btn--glow {
+  --_btn-color: var(--c-accent-primary);
+  --_btn-disabled-color: var(--c-accent-secondary);
+  --_btn-text-color: white;
+  --_btn-text-disabled-color: color-mix(in srgb, var(--_btn-text-color), transparent 60%);
+}
+
+[data-theme="DARK"] .btn--glow {
+  --_btn-color: var(--c-accent-secondary);
+  --_btn-disabled-color: white;
+  --_btn-text-color: var(--c-metal-1);
+  --_btn-text-disabled-color: color-mix(in srgb, var(--_btn-text-color), transparent 60%);
+}
+
+.btn--glow {
   @extend %btn;
-  color: white;
-  background: var(--c-accent-primary);
-  box-shadow: 0 0 10px rgba(var(--c-accent-primary), 0.5);
+  color: var(--_btn-text-color);
+  background: var(--_btn-color);
+  box-shadow: 0 0 4px color-mix(in srgb, var(--_btn-color), transparent 60%);
   transition: 0.3s ease-in-out all;
 
   &:hover {
+    color: var(--_btn-text-color);
     background: var(--c-accent-secondary);
-    color: var(--c-accent-primary);
-    box-shadow: 0 0 5px rgba(var(--c-accent-primary), 0.75);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--_btn-color), transparent 40%);
   }
 
   &:disabled {
     box-shadow: none;
-    background: var(--c-accent-primary);
-    color: white;
+    background: var(--_btn-disabled-color);
+    box-shadow: unset;
+    color: var(--_btn-text-disabled-color);
+    cursor: not-allowed;
     &:hover {
-      color: white;
-      stroke: white;
+      color: var(--_btn-text-disabled-color);
     }
   }
 }

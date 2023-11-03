@@ -40,8 +40,8 @@ const BoardEditorForm: React.FC<{
           as={TextAreaField}
         />
         <button
-          // disabled={props.isSubmitting || !props.isValid}
-          className="btn btn--glow login-form__btn"
+          disabled={formik.isSubmitting || !formik.isValid}
+          className="btn btn--glow create-board-btn"
           type="submit"
         >
           Create

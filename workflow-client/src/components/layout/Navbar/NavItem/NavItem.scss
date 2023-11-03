@@ -1,8 +1,8 @@
 @import "../../../../assets/styles/mixins";
 
 .navbar__item {
-  --_nav-item-bg-color: white;
-  --_nav-item-bg-color-hover: var(--c-iceberg-2);
+  --_nav-item-bg-color: var(--c-iceberg-4);
+  --_nav-item-bg-color-hover: white;
 }
 
 [data-theme="DARK"] .navbar__item {
@@ -40,7 +40,6 @@
 
     &:hover {
       background: var(--_nav-item-bg-color-hover);
-      color: #3d3d3d;
     }
   }
 

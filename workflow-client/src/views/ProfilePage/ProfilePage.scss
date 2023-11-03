@@ -1,6 +1,16 @@
 @import "../../assets/styles/mixins";
 
 .profile-page {
+  --_username-color: var(--c-accent-primary);
+  --_username-text-color: white;
+}
+
+[data-theme="DARK"] .profile-page {
+  --_username-color: var(--c-accent-secondary);
+  --_username-text-color: var(--c-metal-1);
+}
+
+.profile-page {
   padding: 0 1rem;
 
   &__main {
@@ -26,6 +36,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+
+    &__details {
+      color: var(--c-font-primary);
     }
 
     &__avatar {
@@ -63,18 +77,19 @@
     }
 
     &__username {
-      background-color: var(--c-accent-primary);
-      color: white;
+      background-color: var(--_username-color);
+      color: var(--_username-text-color);
       padding: 0.2rem 0.6rem;
       border-radius: 3rem;
       font-size: 0.9rem;
     }
   }
 
-  &__notifications {
-  }
-
   &__pinned-boards {
+    &__title {
+      color: var(--c-font-primary);
+      fill: var(--c-font-primary);
+    }
     &__container > .board-container__boards {
       display: flex;
       flex-wrap: wrap;

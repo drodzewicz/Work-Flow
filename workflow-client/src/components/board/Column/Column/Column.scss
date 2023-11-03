@@ -4,6 +4,12 @@
   --_column-text-color: var(--c-downy-1);
 }
 
+[data-theme="DARK"] .task-column {
+  --_column-bg-color: var(--c-metal-3);
+  --_column-bg-secondary-color: var(--c-metal-2);
+  --_column-text-color: var(--c-metal-6);
+}
+
 .task-column {
   display: flex;
   flex-direction: column;
@@ -28,6 +34,7 @@
     margin: 0.2rem 0;
     margin-bottom: 0.4rem;
     position: relative;
+    
     &__task-count {
       color: var(--_column-text-color);
       background: var(--_column-bg-secondary-color);

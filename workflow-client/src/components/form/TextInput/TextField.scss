@@ -1,8 +1,10 @@
 .text-field {
   --_field-bg-color: var(--c-iceberg-5);
+  --_highlits-color: var(--c-accent-primary);
 }
 [data-theme="DARK"] .text-field {
   --_field-bg-color: var(--c-metal-3);
+  --_highlits-color: var(--c-accent-secondary);
 }
 
 .text-field {
@@ -17,6 +19,7 @@
 
   &__input,
   &__textarea {
+    color: var(--c-font-primary);
     margin-top: 1.5rem;
     position: relative;
     border: none;
@@ -29,7 +32,7 @@
     transition: all 0.2s ease-in-out;
     &:focus,
     &:hover {
-      border-color: var(--c-accent-primary);
+      border-color: var(--_highlits-color);
     }
   }
   &__line {
@@ -38,7 +41,7 @@
     margin: 0 auto;
     margin-bottom: 1rem;
     display: block;
-    border-top: solid 3px var(--c-accent-primary);
+    border-top: solid 3px var(--_highlits-color);
     transition: all 0.3s ease-in-out;
   }
 
@@ -63,7 +66,7 @@
   &__input:focus + &__label {
     font-size: 0.8rem;
     transform: translate(0, 0.25rem);
-    color: var(--c-accent-primary);
+    color: var(--_highlits-color);
   }
 
   &__valid {

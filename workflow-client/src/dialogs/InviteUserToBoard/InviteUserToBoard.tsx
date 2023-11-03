@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 
 import AsyncSearch from "@/components/form/AsyncSearch";
 import { OptionType } from "@/components/form/AsyncSearch/SearchOptionType";
+import { FaTimes } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 
 import useList from "@/hooks/useList";
@@ -81,15 +82,19 @@ const InviteUserToBoard: React.FC<InviteUserToBoardProps> = ({ closeModal }) => 
             <CustomUserOption username={option.username} imageSrc={option.avatarImageURL} />
           )}
         />
-        <button onClick={addSelectedUsersToBoard} className="btn--glow">
+        <button
+          disabled={selectedUsers.length === 0}
+          onClick={addSelectedUsersToBoard}
+          className="btn btn--glow"
+        >
           Add to the board
         </button>
       </header>
       <div className="invite-user-to-board__content">
         {selectedUsers.map((user) => (
           <User key={user._id} username={user.username}>
-            <button className="btn" onClick={() => removeFromSelectedUser(user, "_id")}>
-              -
+            <button className="btn remove-selected-user-btn" onClick={() => removeFromSelectedUser(user, "_id")}>
+              <FaTimes />
             </button>
           </User>
         ))}

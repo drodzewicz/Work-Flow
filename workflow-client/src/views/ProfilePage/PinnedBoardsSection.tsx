@@ -16,7 +16,7 @@ const PinnedBoardsSection = () => {
 
   return (
     <section className="profile-page__pinned-boards">
-      <h1>
+      <h1 className="profile-page__pinned-boards__title">
         <Pined /> Pinned Boards
       </h1>
       <hr className="break-line" />

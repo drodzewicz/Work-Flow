@@ -56,7 +56,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
         isLoading={isLoading}
         debounceTime={500}
       >
-        <FaSearch />
+        <FaSearch className="async-input__search-icon" />
       </AsyncInput>
 
       <div className="board-members__members">

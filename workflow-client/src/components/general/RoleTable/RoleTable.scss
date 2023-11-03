@@ -21,12 +21,20 @@
 
 .role-table {
   --_table-bg-color: var(--c-iceberg-2);
-  --_table-header-bg-color: var(--c-iceberg-3);
+  --_table-header-bg-color: white;
+  --_table-first-column-bg-color: white;
+}
+
+[data-theme="DARK"] .role-table {
+  --_table-bg-color: var(--c-metal-2);
+  --_table-header-bg-color: var(--c-metal-4);
+  --_table-first-column-bg-color: var(--c-metal-4);
 }
 
 .role-table {
   border-collapse: collapse;
   background-color: var(--_table-bg-color);
+  color: var(--c-font-primary);
 
   thead {
     background-color: var(--_table-header-bg-color);
@@ -37,7 +45,7 @@
     z-index: 1;
     position: -webkit-sticky;
     position: sticky;
-    background-color: white;
+    background-color: var(--_table-first-column-bg-color);
     padding: 0.6rem 1rem;
   }
 

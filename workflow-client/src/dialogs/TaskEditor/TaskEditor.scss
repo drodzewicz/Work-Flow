@@ -21,26 +21,48 @@
     margin-bottom: 1rem;
   }
 
+  &__other-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    @include breakpoint(mobile) {
+      grid-template-columns: 1fr;
+    }
+  }
   &__assignees,
   &__tags {
-    max-width: 400px;
-    @include breakpoint(mobile) {
-      max-width: unset;
-    }
     & > label {
       font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--c-font-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
     }
     .async-input__input {
       margin: 0.5rem 0;
     }
   }
 
+  &__assignees {
+    .remove-assignee-btn {
+      font-size: 0.7rem;
+      padding: 0.3rem;
+    }
+  }
+
   &__tags {
+    .item-container {
+      gap: 0.3rem;
+      padding: 0.2rem;
+    }
+
     .tag-card {
       display: flex;
       justify-content: space-between;
       font-size: 1rem;
       padding: 0.3rem;
+
       &__remove {
         display: grid;
         place-items: center;

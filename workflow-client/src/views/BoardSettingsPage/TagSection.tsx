@@ -77,10 +77,11 @@ const TagSection = () => {
           <TagCard color={tag.key} name={tag.name} key={tag._id} />
           <div className="button-group">
             <button title="edit" className="btn" onClick={() => openEditTagModal(tag)}>
-              <FaEdit />
+              <FaEdit /> <span>Edit</span>
             </button>
             <button title="delete" className="btn" onClick={() => deleteTag(tag._id)}>
               <FaTrash />
+              <span>Delete</span>
             </button>
           </div>
         </div>

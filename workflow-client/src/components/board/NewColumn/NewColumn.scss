@@ -2,6 +2,12 @@
   --_input-bg-color: var(--c-iceberg-5);
   --_input-border-color: var(--c-iceberg-3);
 }
+
+[data-theme="DARK"] .add-new-column {
+  --_input-bg-color: var(--c-metal-4);
+  --_input-border-color: var(--c-metal-2);
+}
+
 .add-new-column {
   display: flex;
   flex-direction: column;
@@ -10,7 +16,7 @@
   margin: 0 0.5rem;
   padding: 0.4rem 0.5rem;
   width: 250px;
-  height: 2.6rem;
+  height: 2.7rem;
   align-items: center;
   justify-content: center;
   position: relative;

@@ -1,6 +1,11 @@
 .user-card {
   --_user-card-bg-color: white;
 }
+
+[data-theme="DARK"] .user-card {
+  --_user-card-bg-color: var(--c-metal-4);
+}
+
 .user-card {
   background: var(--_user-card-bg-color);
   display: flex;

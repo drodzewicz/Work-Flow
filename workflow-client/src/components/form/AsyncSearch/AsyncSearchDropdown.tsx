@@ -9,6 +9,7 @@ import SearchOptionType, { OptionType } from "./SearchOptionType";
 export type AsyncSearchDropdownProps<T> = {
   show: boolean;
   showClearOption: boolean;
+  noResultMessage?: string;
   inputRef: React.RefObject<HTMLElement>;
   onClearSelectedOptions?: () => void;
   onOptionClick?: (option: T & OptionType) => void;
@@ -26,6 +27,7 @@ function AsyncSearchDropdown<T = unknown>({
   onClearSelectedOptions,
   onOptionClick,
   renderOption,
+  noResultMessage = "No result",
 }: AsyncSearchDropdownProps<T>) {
   const inputBoundingBox = inputRef.current?.getBoundingClientRect();
   const style = inputBoundingBox
@@ -49,7 +51,7 @@ function AsyncSearchDropdown<T = unknown>({
             onClick={onClearSelectedOptions}
           >
             <FaTrash />
-            Clear
+            Clear Selections
           </div>
         )}
         {options.map((option) => (
@@ -61,7 +63,7 @@ function AsyncSearchDropdown<T = unknown>({
             render={renderOption}
           />
         ))}
-        {options.length === 0 && <div>No result</div>}
+        {options.length === 0 && <div className="async-search__no-result">{noResultMessage}</div>}
       </div>
     </Portal>
   );

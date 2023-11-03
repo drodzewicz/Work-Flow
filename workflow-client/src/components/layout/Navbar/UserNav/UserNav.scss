@@ -8,19 +8,23 @@
   width: 18rem;
 }
 
-.navbar__item {
-  $nav-item: &;
+.notification-nav.badge { 
+  --_badge-color: var(--c-accent-primary);
+}
 
-  &.notification-nav.badge {
-    #{$nav-item}__icon::after {
-      content: "";
-      background-color: var(--c-accent-primary);
-      width: 0.5rem;
-      height: 0.5rem;
-      border-radius: 5rem;
-      position: absolute;
-      transform: translate(9px, -8px);
-    }
+[data-theme="DARK"] .notification-nav.badge { 
+  --_badge-color: var(--c-accent-secondary);
+}
+
+.notification-nav.badge {
+  .navbar__item__icon::after {
+    content: "";
+    background-color: var(--_badge-color);
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 5rem;
+    position: absolute;
+    transform: translate(9px, -8px);
   }
 }
 

@@ -69,7 +69,7 @@ const BoardSettingsPage: React.FC = () => {
         .filter(({ show }) => show)
         .map(({ title, PageComponent }) => (
           <React.Fragment key={title}>
-            <h1>{title}</h1>
+            <h1 className="board-settings-page__section-title">{title}</h1>
             <hr className="break-line" />
             <PageComponent />
           </React.Fragment>

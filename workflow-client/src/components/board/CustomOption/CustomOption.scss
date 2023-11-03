@@ -12,6 +12,12 @@
   }
 }
 
+.async-search__option--disabled .custom-user-option {
+  &__avatar {
+    opacity: 0.4;
+  }
+}
+
 .custom-tag-option {
   background-color: var(--_tag-color);
   padding: 0.1rem 0.2rem;

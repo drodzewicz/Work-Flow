@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import AsyncInput from "@/components/form/AsyncInput";
 import AsyncSearch from "@/components/form/AsyncSearch";
-import { FaEnvelope, FaSearch } from "react-icons/fa";
+import { FaEnvelope, FaSearch, FaTimes } from "react-icons/fa";
 
 import useAuth from "@/hooks/useAuth";
 import useBoardId from "@/hooks/useBoardId";
@@ -94,7 +94,7 @@ const MembersSection = () => {
                     options={Object.keys(roles).map((role) => ({ id: role, label: role }))}
                     selectedOptions={[{ id: role, label: role }]}
                     debounceTime={0}
-                    isSearchable={true}
+                    isSearchable={false}
                     isClearable={false}
                     showSearchIcon={false}
                     onSelect={({ id }) => updateMemberRole({ userId: user._id, role: id })}
@@ -105,7 +105,7 @@ const MembersSection = () => {
                     className="btn"
                     onClick={() => removeMember(user._id)}
                   >
-                    remove
+                    <FaTimes /> <span>remove</span>
                   </button>
                 </>
               )}

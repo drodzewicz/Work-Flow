@@ -1,11 +1,15 @@
-[data-theme="DARK"] .drop-down-menu {
-  --_item-bg-color: var(--c-metal-6);
-  --_item-bg-color-hover: var(--c-metal-4);
-}
 .drop-down-menu {
   --_item-bg-color: white;
   --_item-bg-color-hover: var(--c-iceberg-2);
+  --_item-text-color-hover: var(--c-accent-primary);
 }
+
+[data-theme="DARK"] .drop-down-menu {
+  --_item-bg-color: var(--c-metal-6);
+  --_item-bg-color-hover: var(--c-metal-4);
+  --_item-text-color-hover: var(--c-accent-secondary);
+}
+
 .drop-down-menu {
   position: absolute;
   background: var(--_item-bg-color);
@@ -33,6 +37,7 @@
     font-weight: 400;
     &:hover {
       background: var(--_item-bg-color-hover);
+      color: var(--_item-text-color-hover);
     }
     * {
       font-size: inherit;

@@ -46,7 +46,7 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
           <NotificationIcon type={notification.key} />
           <h2 className="notification__title">{notification.title}</h2>
         </div>
-        <hr />
+        <hr className="break-line" />
         <p className="notification__message">{notification.description}</p>
       </div>
       <button className="notification__close" onClick={deleteNotificationHandler}>
