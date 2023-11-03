@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import { MutationFunction, UseMutationOptions, useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 
 import useAuthClient from "@/hooks/useClient";
 
@@ -13,7 +14,10 @@ type MoveTaskPayload = {
   destination: { columnId: string; rowIndex: number };
 };
 
-type OptionsType = Omit<UseMutationOptions<unknown, AxiosError, MoveTaskPayload>, "mutationFn">;
+type OptionsType = Omit<
+  UseMutationOptions<unknown, AxiosError<GenericAPIError>, MoveTaskPayload>,
+  "mutationFn"
+>;
 
 type MoveTaskProps = { boardId: string } & OptionsType;
 
@@ -56,6 +60,9 @@ const useMoveTask = ({ boardId, ...options }: MoveTaskProps) => {
       return { previousColumns };
     },
     onError: (err, newTodo, context) => {
+      const errorMessage =
+        err.response?.data.message || "There was an issue while trying to move a task";
+      toast.error(errorMessage);
       queryClient.setQueryData(taskQueryKeys.list(boardId), context?.previousColumns);
       options?.onError?.(err, newTodo, context);
     },

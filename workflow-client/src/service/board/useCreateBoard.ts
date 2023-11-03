@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import { MutationFunction, UseMutationOptions, useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 
 import useAuthClient from "@/hooks/useClient";
 
@@ -12,7 +13,10 @@ type BoardPayload = {
   description?: string;
 };
 
-type OptionsType = Omit<UseMutationOptions<Board, AxiosError, BoardPayload>, "mutationFn">;
+type OptionsType = Omit<
+  UseMutationOptions<Board, AxiosError<GenericAPIError>, BoardPayload>,
+  "mutationFn"
+>;
 
 const useCreateBoard = (options: OptionsType) => {
   const client = useAuthClient();
@@ -27,8 +31,15 @@ const useCreateBoard = (options: OptionsType) => {
     ...options,
     mutationFn,
     onSuccess: (_data, _var, _context) => {
+      toast.success("Board created successfully");
       queryClient.invalidateQueries(selfQueryKeys.boards());
       options?.onSuccess?.(_data, _var, _context);
+    },
+    onError: (data, _var, _context) => {
+      const errorMessage =
+        data.response?.data.message || "There was an issue while trying to create a new board";
+      toast.error(errorMessage);
+      options?.onError?.(data, _var, _context);
     },
   });
 };

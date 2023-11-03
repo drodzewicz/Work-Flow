@@ -1,12 +1,16 @@
 import { AxiosError } from "axios";
 import { MutationFunction, UseMutationOptions, useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 
 import useAuthClient from "@/hooks/useClient";
 
 import taskQueryKeys from "../task/queryKeys";
 import columnURL from "./url";
 
-type OptionsType = Omit<UseMutationOptions<unknown, AxiosError, string>, "mutationFn">;
+type OptionsType = Omit<
+  UseMutationOptions<unknown, AxiosError<GenericAPIError>, string>,
+  "mutationFn"
+>;
 
 type UpdateColumnProps = { boardId: string; columnId: string } & OptionsType;
 
@@ -22,6 +26,11 @@ const useUpdateColumn = ({ boardId, columnId, ...options }: UpdateColumnProps) =
   return useMutation({
     ...options,
     mutationFn,
+    onSuccess: (data, _var, _context) => {
+      toast.success("Column updated");
+
+      options?.onSuccess?.(data, _var, _context);
+    },
     onMutate: async (name) => {
       // Snapshot the previous value
       const previousColumns = structuredClone(
@@ -39,7 +48,11 @@ const useUpdateColumn = ({ boardId, columnId, ...options }: UpdateColumnProps) =
       return { previousColumns };
     },
     onError: (err, newTodo, context) => {
-      queryClient.setQueryData(taskQueryKeys.list(boardId), context?.previousColumns);
+      const errorMessage =
+        err.response?.data.message || "There was an issue while trying to update a column";
+
+      toast.error(errorMessage);
+      queryClient.setQueryData(taskQueryKeys.list(boardId), (context as any)?.previousColumns);
       options?.onError?.(err, newTodo, context);
     },
   });

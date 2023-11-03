@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
+import { toast } from "react-toastify";
 
 import axios from "@/config/api.conf.ts";
 
@@ -39,6 +40,10 @@ const useRegister = (options: OptionsType) => {
   return useMutation({
     ...options,
     mutationFn,
+    onSuccess: (_data, _var, _context) => {
+      toast.success("Registration completed successfully");
+      options?.onSuccess?.(_data, _var, _context);
+    },
   });
 };
 

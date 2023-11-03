@@ -3,6 +3,8 @@ import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "@/config/api.conf";
 
@@ -23,6 +25,17 @@ const App: React.FC = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div id="app" className="scrollbar">
         <Navbar />
         <Outlet />

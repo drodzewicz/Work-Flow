@@ -1,11 +1,15 @@
 import { AxiosError } from "axios";
 import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
+import { toast } from "react-toastify";
 
 import useAuthClient from "@/hooks/useClient";
 
 import taskURL from "./url";
 
-type OptionsType = Omit<UseMutationOptions<unknown, AxiosError, string>, "mutationFn">;
+type OptionsType = Omit<
+  UseMutationOptions<unknown, AxiosError<GenericAPIError>, string>,
+  "mutationFn"
+>;
 
 const useDeleteTask = (options?: OptionsType) => {
   const client = useAuthClient();
@@ -18,6 +22,16 @@ const useDeleteTask = (options?: OptionsType) => {
   return useMutation({
     ...options,
     mutationFn,
+    onSuccess: (_data, _var, _context) => {
+      toast.success("Task deleted");
+      options?.onSuccess?.(_data, _var, _context);
+    },
+    onError: (err, _var, _context) => {
+      const errorMessage =
+        err.response?.data.message || "There was an issue while trying to delete a column";
+      toast.error(errorMessage);
+      options?.onError?.(err, _var, _context);
+    },
   });
 };
 

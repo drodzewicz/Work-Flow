@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import { MutationFunction, UseMutationOptions, useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 
 import useAuthClient from "@/hooks/useClient";
 
@@ -7,7 +8,10 @@ import { taskQueryKeys } from "@/service/task";
 
 import columnURL from "./url";
 
-type OptionsType = Omit<UseMutationOptions<Column, AxiosError, string>, "mutationFn">;
+type OptionsType = Omit<
+  UseMutationOptions<Column, AxiosError<GenericAPIError>, string>,
+  "mutationFn"
+>;
 
 type CreateColumnProps = { boardId: string } & OptionsType;
 
@@ -23,13 +27,22 @@ const useCreateColumn = ({ boardId, ...options }: CreateColumnProps) => {
   return useMutation({
     ...options,
     mutationFn,
-    onSuccess: (_data, _var, _context) => {
+    onSuccess: (data, _var, _context) => {
+      toast.success(`Column "${data.name}" created`);
+
       queryClient.setQueryData<ColumnWithTasks[]>(taskQueryKeys.list(boardId), (oldData) => {
-        const columnList = oldData ?? []
-        columnList.push({ ..._data, tasks: [] })
+        const columnList = oldData ?? [];
+        columnList.push({ ...data, tasks: [] });
         return columnList;
       });
-      options?.onSuccess?.(_data, _var, _context);
+
+      options?.onSuccess?.(data, _var, _context);
+    },
+    onError: (data, _var, _context) => {
+      const errorMessage =
+        data.response?.data.message || "There was an issue while trying to create a column";
+      toast.error(errorMessage);
+      options?.onError?.(data, _var, _context);
     },
   });
 };

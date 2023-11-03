@@ -4,6 +4,7 @@ import AsyncSearch from "@/components/form/AsyncSearch";
 import { OptionType } from "@/components/form/AsyncSearch/SearchOptionType";
 import { FaTimes } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import useList from "@/hooks/useList";
 
@@ -53,7 +54,17 @@ const InviteUserToBoard: React.FC<InviteUserToBoardProps> = ({ closeModal }) => 
   };
 
   const addSelectedUsersToBoard = async () => {
-    await Promise.all(users.map(({ _id }) => addUserToBoard(_id))).then(() => closeModal?.());
+    await Promise.all(users.map(({ _id }) => addUserToBoard(_id)))
+      .then(() => {
+        closeModal?.();
+        toast.success("User added to the board");
+      })
+      .catch((err) => {
+        const errorMessage =
+          (err.response?.data as any)?.message ||
+          "There was an issue while trying to add a user to the board";
+        toast.error(errorMessage);
+      });
   };
 
   const availableUsers = useMemo(() => {
@@ -93,7 +104,10 @@ const InviteUserToBoard: React.FC<InviteUserToBoardProps> = ({ closeModal }) => 
       <div className="invite-user-to-board__content">
         {selectedUsers.map((user) => (
           <User key={user._id} username={user.username}>
-            <button className="btn remove-selected-user-btn" onClick={() => removeFromSelectedUser(user, "_id")}>
+            <button
+              className="btn remove-selected-user-btn"
+              onClick={() => removeFromSelectedUser(user, "_id")}
+            >
               <FaTimes />
             </button>
           </User>

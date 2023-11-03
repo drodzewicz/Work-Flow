@@ -56,3 +56,9 @@ type Member = {
 };
 
 type BoardRoles = Record<string, { permissions: string[] }>;
+
+type GenericAPIError = {
+  error?: string;
+  message?: string;
+  messages?: Record<string, string>;
+};
