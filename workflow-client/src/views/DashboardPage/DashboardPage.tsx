@@ -74,7 +74,7 @@ const DashboardPage: React.FC = () => {
     <>
       <Box className="board-dashboard">
         {pinnedBoards && (
-          <div className="pinned-board-container">
+          <div className="board-container">
             <h1 className="board-container-title">
               <Pined className="board-container-title__icon" /> Pinned
             </h1>

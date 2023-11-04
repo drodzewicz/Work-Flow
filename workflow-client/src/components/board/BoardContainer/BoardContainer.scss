@@ -1,24 +1,15 @@
-@import "../../../assets/styles/mixins";
-
 .board-container {
   &__boards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex-direction: row;
     gap: 1rem;
-    margin-bottom: 1rem;
-    width: 100%;
-    @include breakpoint(small) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    @include breakpoint(mobile) {
-      grid-template-columns: repeat(1, 1fr);
-    }
+    flex-wrap: wrap;
   }
   &__empty-message {
     display: flex;
     justify-content: center;
     width: 70vw;
-    color: red;
+    color: var(--c-font-secondary);
   }
   &__loading.loading-overlay {
     min-height: 20vh;

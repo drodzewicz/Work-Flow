@@ -7,6 +7,17 @@
   align-items: center;
   gap: 1rem;
 
+  .board-container {
+    width: 80vw;
+    max-width: 1300px;
+
+    @include breakpoint(mobile) {
+      .board-container__boards {
+        justify-content: center;
+      }
+    }
+  }
+
   .board-container-title {
     margin: 0;
     display: flex;
