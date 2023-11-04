@@ -29,7 +29,7 @@ export const buildNotificationLink = (type: string, attributes: Record<string, s
     case NotificationKey.MODIFY_USER_ROLE:
       return `board/${attributes?.boardId}`;
     case NotificationKey.ASSIGN_USER_TO_TASK:
-      return `board/${attributes?.boardId}?task=${attributes?.taskId}`;
+      return `board/${attributes?.boardId}/task/${attributes?.taskId}`;
     case NotificationKey.DELETE_TASK:
       return `board/${attributes?.boardId}`;
     default:

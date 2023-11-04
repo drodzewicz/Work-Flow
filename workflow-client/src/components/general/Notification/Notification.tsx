@@ -37,6 +37,7 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
     if (notificationLink) {
       navigate(notificationLink);
     }
+    deleteNotification(notification._id);
   };
 
   return (

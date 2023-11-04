@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Outlet } from "react-router-dom";
+
 import useBoardId from "@/hooks/useBoardId";
 
 import { useGetBoard } from "@/service/board";
@@ -17,6 +19,7 @@ const BoardPage: React.FC = () => {
     <div className="board-page">
       <BoardHeader name={board?.name ?? ""} description={board?.description ?? ""} />
       <BoardColumns />
+      <Outlet />
     </div>
   );
 };

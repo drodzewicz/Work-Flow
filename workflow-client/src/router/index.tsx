@@ -6,6 +6,7 @@ import DashboardPage from "@/views/DashboardPage";
 import ErrorPage from "@/views/ErrorPage";
 import ProfilePage from "@/views/ProfilePage";
 import RegisterPage from "@/views/RegisterPage";
+import TaskDisplayPage from "@/views/TaskDisplayPage";
 import WelcomePage from "@/views/WelcomePage";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -40,6 +41,12 @@ const router = createBrowserRouter([
           {
             path: "board/:id",
             element: <BoardPage />,
+            children: [
+              {
+                path: "task/:taskId",
+                element: <TaskDisplayPage />,
+              },
+            ],
           },
           {
             path: "board/:id/settings",

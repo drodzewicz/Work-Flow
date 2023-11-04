@@ -1,14 +1,13 @@
 import React from "react";
 
-import useModal from "@/hooks/useModal";
+import { useNavigate } from "react-router-dom";
+
+import useBoardId from "@/hooks/useBoardId";
 
 import ItemContainer from "@/components/layout/ItemContainer";
-import Modal from "@/components/layout/Modal";
 
 import TaskAssignees from "@/components/board/Task/TaskAssignees";
 import TaskDraggable from "@/components/board/Task/TaskDraggable";
-
-import TaskDisplay from "@/dialogs/TaskDisplay";
 
 import "./Task.scss";
 
@@ -26,16 +25,17 @@ export interface TaskProps {
 }
 
 const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], assignees = [] }) => {
-  const {
-    show: showTaskViewDialog,
-    open: openTaskViewDialog,
-    close: closeTaskViewDialog,
-  } = useModal();
+  const navigate = useNavigate();
+  const boardId = useBoardId();
+
+  const openTaskModal = () => {
+    navigate(`/board/${boardId}/task/${taskId}`);
+  };
 
   return (
     <>
       <TaskDraggable className="task-card" taskId={taskId} taskIndex={indexes.taskIndex}>
-        <div onClick={openTaskViewDialog}>
+        <div onClick={openTaskModal}>
           <h3 className="task-card__title">{title}</h3>
           <div className="task-card__bottom">
             <ItemContainer<Tag>
@@ -49,9 +49,6 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], assignee
           </div>
         </div>
       </TaskDraggable>
-      <Modal show={showTaskViewDialog} title="" size="l" onClose={closeTaskViewDialog}>
-        <TaskDisplay taskId={taskId} closeModal={closeTaskViewDialog} />
-      </Modal>
     </>
   );
 };
