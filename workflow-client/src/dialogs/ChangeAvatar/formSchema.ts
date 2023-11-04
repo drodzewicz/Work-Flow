@@ -1,3 +1,4 @@
+import { formatBytes } from "@/utils/unitConverter";
 import * as Yup from "yup";
 
 const MAX_FILE_SIZE = 102400; //100KB
@@ -15,7 +16,7 @@ export const validationSchema = Yup.object({
       },
     })
     .test({
-      message: `File too big, can't exceed ${MAX_FILE_SIZE}`,
+      message: `File too big, can't exceed ${formatBytes(MAX_FILE_SIZE)}`,
       test: (file) => {
         const isValid = (file as any)?.size < MAX_FILE_SIZE;
         return isValid;

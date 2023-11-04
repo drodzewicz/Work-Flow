@@ -91,7 +91,7 @@ const MembersSection = () => {
       </AsyncInput>
       <Skeleton.Container show={isLoading} count={limit} element={<Skeleton.User />}>
         <ItemContainer<Member>
-          itemKey="_id"
+          itemKey="user._id"
           items={data?.members}
           render={({ user, role }) => (
             <User key={user.username} username={user.username}>

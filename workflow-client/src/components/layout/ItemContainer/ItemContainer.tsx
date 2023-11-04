@@ -1,5 +1,7 @@
 import React from "react";
 
+import nestedProperty from "nested-property";
+
 import "./ItemContainer.scss";
 
 type ItemContainerProps<T> = {
@@ -22,7 +24,7 @@ function ItemContainer<T = unknown>({
   return (
     <div className={`item-container ${className || ""}`} style={{ maxHeight }}>
       {items?.map((props) => {
-        const elementKey = "item-key-" + (props as any)[`${itemKey}`];
+        const elementKey = "item-key-" + nestedProperty.get(props, itemKey);
         return (
           <div key={elementKey} className="item-container__item">
             {render?.(props)}

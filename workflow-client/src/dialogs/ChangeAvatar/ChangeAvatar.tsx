@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { OnSubmitType } from "@/types/utils";
 
@@ -25,7 +25,7 @@ const ChangeAvatar: React.FC<ChangeAvatarProps> = ({ onSuccess }) => {
 
   const onSubmit: OnSubmitType<ChangeAvatarType> = async (values) => {
     if (values.image) {
-    const encodedImage = await convertToBase64(values.image);
+      const encodedImage = await convertToBase64(values.image);
       updateUserAvatar(encodedImage as string);
     }
   };
@@ -36,10 +36,14 @@ const ChangeAvatar: React.FC<ChangeAvatarProps> = ({ onSuccess }) => {
     onSubmit,
   });
 
+  const imagePreview = useMemo(
+    () => (formik.values.image ? URL.createObjectURL(formik.values.image) : undefined),
+    [formik.values.image]
+  );
+
   return (
     <div className="change-avatar-dialog">
-      {/* <Image src={formik.values.image} className="change-avatar-dialog__avatar" /> */}
-      <Image className="change-avatar-dialog__avatar" />
+      <Image src={imagePreview} className="change-avatar-dialog__avatar" />
 
       <FormikProvider value={formik}>
         <Form className="board-editor">

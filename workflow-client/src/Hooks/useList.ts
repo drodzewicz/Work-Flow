@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import _ from "lodash";
+import nestedProperty from "nested-property";
 
 function useList<T>(intialData?: T[]) {
   const [data, setData] = useState<T[]>(intialData ?? []);
@@ -14,7 +14,11 @@ function useList<T>(intialData?: T[]) {
   };
 
   const removeItem = (item: T, path: string) => {
-    setData((previousState) => previousState.filter((it) => _.get(it, path) !== _.get(item, path)));
+    setData((previousState) =>
+      previousState.filter((it) => {
+        return nestedProperty.get(it, path) !== nestedProperty.get(item, path);
+      })
+    );
   };
 
   const clear = () => {

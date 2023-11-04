@@ -80,7 +80,7 @@ const TagSection = () => {
         />
       </Modal>
       {tags.map((tag) => (
-        <div className="settings-tag-card">
+        <div key={`tag-card-${tag.key}`} className="settings-tag-card">
           <TagCard color={tag.key} name={tag.name} key={tag._id} />
           <div className="button-group">
             <button title="edit" className="btn" onClick={() => openEditTagModal(tag)}>
