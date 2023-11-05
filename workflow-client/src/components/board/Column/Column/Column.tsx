@@ -52,7 +52,7 @@ const Column: React.FC<ColumnProps> = (props) => {
   const { mutate: updateColumn } = useUpdateColumn({ boardId, columnId });
 
   const removeColumn = async () => {
-    const shouldDelete = window.confirm("are you sure you want to delete this column?");
+    const shouldDelete = window.confirm("Are you sure you want to delete this column?");
     if (shouldDelete) {
       deleteColumn(columnId);
     }

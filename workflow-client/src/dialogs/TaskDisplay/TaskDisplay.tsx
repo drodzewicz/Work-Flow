@@ -43,6 +43,14 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
       closeModal?.();
     },
   });
+
+  const deleteTaskHandler = (taskId: string) => {
+    const shouldDelete = window.confirm("Are you sure you want to delete this task?");
+    if (shouldDelete) {
+      deleteTask(taskId);
+    }
+  };
+
   const { data, isLoading } = useGetTaskDetails({ taskId });
 
   const { mutate: updateTask } = useUpdateTask({ taskId, boardId });
@@ -80,7 +88,7 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
           />
           <div className="task-display__action-buttons">
             {canDeleteTask && (
-              <button className="btn" onClick={() => deleteTask(taskId)}>
+              <button className="btn" onClick={() => deleteTaskHandler(taskId)}>
                 <FaTrashAlt /> Delete
               </button>
             )}
