@@ -10,6 +10,8 @@ export type CreateTaskPayload = {
 export type UpdateTaskPayload = {
   title: string;
   description: string;
+  assignees?: string[];
+  tags?: string[];
 };
 
 export type MoveTaskPayload = {

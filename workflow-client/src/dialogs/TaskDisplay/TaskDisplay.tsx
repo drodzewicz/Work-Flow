@@ -7,7 +7,7 @@ import useBoardId from "@/hooks/useBoardId";
 import useBoolean from "@/hooks/useBoolean";
 import useRBAC from "@/hooks/useRBAC";
 
-import { useGetTaskDetails, useDeleteTask, taskQueryKeys } from "@/service/task";
+import { useGetTaskDetails, useDeleteTask, taskQueryKeys, useUpdateTask } from "@/service/task";
 
 import ItemContainer from "@/components/layout/ItemContainer/ItemContainer";
 import * as Skeleton from "@/components/layout/Skeleton";
@@ -45,6 +45,8 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
   });
   const { data, isLoading } = useGetTaskDetails({ taskId });
 
+  const { mutate: updateTask } = useUpdateTask({ taskId, boardId });
+
   if (isEditing) {
     return (
       <TaskEditor
@@ -56,6 +58,10 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
           description: data?.description,
           assignees: data?.assignees,
           tags: data?.tags,
+        }}
+        onSubmit={(values) => {
+          updateTask(values);
+          setEditingFalse();
         }}
       />
     );

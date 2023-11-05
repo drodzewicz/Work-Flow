@@ -92,6 +92,12 @@ export class TaskRepository extends GenericRepository<ITask, TaskDocument, TaskF
     await this.model.findOneAndUpdate({ _id: taskId }, { $pull: { assignees: userId } });
   }
 
+  async clearTaskAssignees(taskId: string) {
+    this.validateId(taskId);
+
+    await this.model.findOneAndUpdate({ _id: taskId }, { $set: { assignees: [] } });
+  }
+
   async addTaskTag(taskId: string, tagsId: string) {
     this.validateId(taskId);
     this.validateId(tagsId);
