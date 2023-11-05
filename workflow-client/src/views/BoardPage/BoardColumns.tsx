@@ -21,7 +21,7 @@ const BoardColumns: React.FC = () => {
 
   const canCreateColumn = useRBAC({ boardId, action: "COLUMN_CREATE" });
 
-  const { isLoading } = useGetTasks({ boardId });
+  const { data = [], isLoading } = useGetTasks({ boardId });
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -62,7 +62,7 @@ const BoardColumns: React.FC = () => {
             </Skeleton.Column>
           }
         >
-          <ColumnContainer />
+          <ColumnContainer data={data} />
         </Skeleton.Container>
         {canCreateColumn && <NewColumn />}
       </div>

@@ -1,20 +1,13 @@
 import React from "react";
 
-import useBoardId from "@/hooks/useBoardId";
-
-import { useGetTasks } from "@/service/task";
-
 import Column from "@/components/board/Column/Column";
 
 import ColumnDroppableContainer from "./ColumnDroppableContainer";
 
-const ColumnContainer: React.FC = () => {
-  const boardId = useBoardId();
-  const { data = [] } = useGetTasks({ boardId });
-
+const ColumnContainer: React.FC<{ data: ColumnWithTasks[] }> = ({ data }) => {
   return (
     <ColumnDroppableContainer className="task-board__task-row">
-      {(data as ColumnWithTasks[]).map(({ _id, name }, index) => (
+      {data.map(({ _id, name }, index) => (
         <Column key={_id} columnId={_id} columnName={name} columnIndex={index} />
       ))}
     </ColumnDroppableContainer>
