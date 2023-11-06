@@ -55,7 +55,7 @@ const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initi
       <Form>
         <Field
           name="username"
-          autocomplete="username"
+          autoComplete="username"
           autoFocus={true}
           error={formik.touched.username && formik.errors.username}
           as={TextField}

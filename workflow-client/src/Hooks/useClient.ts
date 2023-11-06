@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import { AxiosError } from "axios";
+
 import axios from "@/config/api.conf.ts";
 
 import useAuth from "@/hooks/useAuth";
@@ -8,11 +10,16 @@ import useRefreshToken from "@/hooks/useRefreshToken";
 const useAuthClient = () => {
   const { isRefreshing, refresh } = useRefreshToken();
   const { token, logout } = useAuth();
-  let failedQueue: ((value: string | null) => unknown)[] = [];
+  let failedQueue: { reject: (error: AxiosError) => void; resolve: (token?: string) => void }[] =
+    [];
 
-  const processQueue = (token: string | null) => {
-    failedQueue.forEach((resolve) => {
-      resolve(token);
+  const processQueue = ({ token, error }: { token?: string; error?: AxiosError }) => {
+    failedQueue.forEach(({ reject, resolve }) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(token);
+      }
     });
 
     failedQueue = [];
@@ -52,10 +59,6 @@ const useAuthClient = () => {
           return Promise.reject(error);
         }
 
-        if (originalRequest._retry || originalRequest.url === "/auth/refreshToken") {
-          logout();
-        }
-
         /** Catch unauthorized requests:
          * Side note:
          * ignore refresh token endpoint to avoid infinite loop
@@ -69,8 +72,8 @@ const useAuthClient = () => {
            */
           if (isRefreshing.current) {
             /** For unauthorized request put their resolvers in a que */
-            return new Promise(function (resolve) {
-              failedQueue.push(resolve);
+            return new Promise(function (resolve, reject) {
+              failedQueue.push({ resolve, reject });
             })
               .then((token) => {
                 originalRequest.headers["Authorization"] = `Bearer ${token}`;
@@ -85,10 +88,14 @@ const useAuthClient = () => {
 
           const token = await refresh();
           originalRequest.headers.Authorization = `Bearer ${token}`;
-          processQueue(token);
+          processQueue({ token });
 
           return axios(originalRequest);
         }
+
+        /** if request fail on retry then fail all requests in the que and logout user */
+        processQueue({ error });
+        logout();
         return Promise.reject(error);
       }
     );
