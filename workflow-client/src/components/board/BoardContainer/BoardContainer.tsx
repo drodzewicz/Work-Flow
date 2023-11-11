@@ -48,7 +48,7 @@ const BoardContainer: React.FC<BoardContainerProps> = ({
         ))}
       </Skeleton.Container>
       {!boards && <i className="board-container__empty-message">{noBoardsMessage}</i>}
-      {page && <Pagination {...page} handleChange={changePage} />}
+      {page && <Pagination {...page} className="board-container__pagination" handleChange={changePage} />}
     </div>
   );
 };

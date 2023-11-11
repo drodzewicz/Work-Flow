@@ -7,13 +7,19 @@ import "./Pagination.scss";
 export interface PaginationI {
   current: number;
   total: number;
+  className?: string;
 }
 
 export interface PaginationProps extends PaginationI {
   handleChange: (page: number) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ current, total, handleChange }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  current,
+  total,
+  handleChange,
+  className = "",
+}) => {
   const previousPage = () => {
     handleChange(current - 1);
   };
@@ -23,7 +29,7 @@ const Pagination: React.FC<PaginationProps> = ({ current, total, handleChange })
   if (total < 2) return null;
   else
     return (
-      <nav aria-label="Pagination" className="pagination">
+      <nav aria-label="Pagination" className={`pagination ${className}`}>
         {current !== 1 ? (
           <>
             <button

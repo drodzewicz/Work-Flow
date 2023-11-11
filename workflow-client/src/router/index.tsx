@@ -1,21 +1,22 @@
 import App from "@/App";
-import BoardErrorPage from "@/views/BoardErrorPage/BoardErrorPage";
 import BoardPage from "@/views/BoardPage";
 import BoardSettingsPage from "@/views/BoardSettingsPage";
 import DashboardPage from "@/views/DashboardPage";
-import ErrorPage from "@/views/ErrorPage";
+import { RouterErrorPage } from "@/views/ErrorPage";
 import ProfilePage from "@/views/ProfilePage";
 import RegisterPage from "@/views/RegisterPage";
 import TaskDisplayPage from "@/views/TaskDisplayPage";
 import WelcomePage from "@/views/WelcomePage";
 import { createBrowserRouter } from "react-router-dom";
 
+import MainView from "@/components/layout/MainView/MainView";
+
 import RouteGuard from "./RouteGuard";
 
 const router = createBrowserRouter([
   {
     element: <App />,
-    errorElement: <ErrorPage />,
+    errorElement: <RouterErrorPage />,
     children: [
       {
         element: <RouteGuard anonymous redirectTo="/dashboard" />,
@@ -32,7 +33,6 @@ const router = createBrowserRouter([
       },
       {
         element: <RouteGuard redirectTo="/#login" />,
-        errorElement: <BoardErrorPage />,
         children: [
           {
             path: "dashboard",

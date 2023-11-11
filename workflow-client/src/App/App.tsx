@@ -1,5 +1,6 @@
 import React from "react";
 
+import { ErrorBoundryPage } from "@/views/ErrorPage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Outlet } from "react-router-dom";
@@ -13,7 +14,7 @@ import Navbar from "@/components/layout/Navbar";
 
 import "./App.scss";
 
-const App: React.FC = () => {
+const App: React.FC<React.PropsWithChildren> = ({ children }) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -38,7 +39,9 @@ const App: React.FC = () => {
       />
       <div id="app" className="scrollbar">
         <Navbar />
-        <Outlet />
+        <ErrorBoundryPage>
+          <Outlet />
+        </ErrorBoundryPage>
         <Footer />
       </div>
       <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />

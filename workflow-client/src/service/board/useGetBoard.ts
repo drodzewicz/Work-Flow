@@ -17,7 +17,7 @@ type BoardResponse = {
 type BoardQueryKey = ReturnType<(typeof boardQueryKeys)["item"]>;
 
 type OptionsType = Omit<
-  UseQueryOptions<BoardResponse, AxiosError, BoardResponse, BoardQueryKey>,
+  UseQueryOptions<BoardResponse, AxiosError<GenericAPIError>, BoardResponse, BoardQueryKey>,
   "queryKey" | "queryFn"
 >;
 

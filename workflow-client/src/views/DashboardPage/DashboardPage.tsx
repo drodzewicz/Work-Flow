@@ -74,7 +74,7 @@ const DashboardPage: React.FC = () => {
     <>
       <Box className="board-dashboard">
         {pinnedBoards && (
-          <div className="board-container">
+          <div className="board-container-section">
             <h1 className="board-container-title">
               <Pined className="board-container-title__icon" /> Pinned
             </h1>
@@ -89,7 +89,7 @@ const DashboardPage: React.FC = () => {
             />
           </div>
         )}
-        <div className="board-container">
+        <div className="board-container-section">
           <h1 className="board-container-title">
             <FaColumns className="board-container-title__icon" /> Boards
             <button onClick={openCreateNewBoardModal} className="btn new-board-btn">

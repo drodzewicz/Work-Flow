@@ -41,10 +41,6 @@ const useAuthClient = () => {
       async (error) => {
         const originalRequest = error.config;
 
-        if (error?.response?.status === 403) {
-          throw new Response("Not Found", { status: 403 });
-        }
-
         /** Ignore other errors than unauthorized:
          * below logic should only be applied to 401 errors
          */

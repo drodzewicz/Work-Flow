@@ -11,6 +11,10 @@
     width: 70vw;
     color: var(--c-font-secondary);
   }
+  &__pagination {
+    margin-top: 1rem;
+  }
+
   &__loading.loading-overlay {
     min-height: 20vh;
   }

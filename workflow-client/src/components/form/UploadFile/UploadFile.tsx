@@ -18,7 +18,6 @@ const UploadFile: React.FC<UploadFileProps> = ({ name, label = "Choose a file" }
     setTouched(true);
     if (e.target.files) {
       setValue(e.target.files[0]);
-      console.log(e.target.files[0]);
     }
   };
 

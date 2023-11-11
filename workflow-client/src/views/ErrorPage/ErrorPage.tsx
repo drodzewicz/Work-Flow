@@ -1,26 +1,39 @@
 import React from "react";
 
 import { ReactComponent as PersonMountains } from "@/assets/images/drawkit-nature-man-colour.svg";
-import { useRouteError, isRouteErrorResponse } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
+import Box from "@/components/layout/Box";
 
 import "./ErrorPage.scss";
 
-const ErrorPage: React.FC = () => {
-  const error = useRouteError();
+type ErrorPageProps = {
+  message: string;
+  status: string | number;
+};
+
+const ErrorPage: React.FC<ErrorPageProps> = ({ status, message }) => {
+  const navigate = useNavigate();
+
+
+
   return (
-    <div className="error-page__wrapper">
+    <Box>
       <div className="error-page">
+        <div className="error-page__header">
+          <button className="btn" onClick={() => navigate(-1)}>
+            <FaArrowLeft />
+            Go back
+          </button>
+        </div>
+        <div className="error-page__main">
+          <h2 className="error-page__title">{`ERROR: ${status}`}</h2>
+          <p className="error-page__message">{message}</p>
+        </div>
         <PersonMountains className="error-page__image" />
-        {isRouteErrorResponse(error) ? (
-          <>
-            <h2 className="error-page__title">{`ERROR: ${error.status}`}</h2>
-            <p className="error-page__reason-phrase">{error.data?.message || error.statusText}</p>
-          </>
-        ) : (
-          <p className="error-page__reason-phrase">Something went wrong</p>
-        )}
       </div>
-    </div>
+    </Box>
   );
 };
 

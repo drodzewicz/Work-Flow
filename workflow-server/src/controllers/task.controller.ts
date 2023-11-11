@@ -49,11 +49,13 @@ export class TaskController {
 
   @Get("/")
   @Authorized()
-  async getColumnTasks(@QueryParams() query: GetColumnTasksQueryParams) {
+  async getColumnTasks(@QueryParams() query: GetColumnTasksQueryParams, @CurrentUser() user: AuthUser) {
     if (!query.boardId) {
       throw new HttpError(400, "query parameter boardId is required");
     }
+    await this.memberService.getBoardMember(query.boardId, user.id.toString());
     await this.boardService.getBoard(query.boardId);
+
     if (query.columnId) {
       return this.taskService.getColumnTasks(query.boardId, query.columnId);
     }
