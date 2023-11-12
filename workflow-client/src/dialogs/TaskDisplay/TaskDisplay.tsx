@@ -2,6 +2,8 @@ import React from "react";
 
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import useBoardId from "@/hooks/useBoardId";
 import useBoolean from "@/hooks/useBoolean";
@@ -27,6 +29,8 @@ export interface TaskDisplayProps {
 const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
   const boardId = useBoardId();
 
+  const navigate = useNavigate();
+
   const canEditTask = useRBAC({ boardId, action: "TASK_CREATE" });
   const canDeleteTask = useRBAC({ boardId, action: "TASK_DELETE" });
 
@@ -51,7 +55,15 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
     }
   };
 
-  const { data, isLoading } = useGetTaskDetails({ taskId });
+  const { data, isLoading } = useGetTaskDetails({
+    taskId,
+    onError: (err) => {
+      if (err.response?.status === 404) {
+        toast.warning(err.response.data.message || "Not found");
+        navigate(`/board/${boardId}`);
+      }
+    },
+  });
 
   const { mutate: updateTask } = useUpdateTask({ taskId, boardId });
 
