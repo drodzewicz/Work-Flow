@@ -5,7 +5,6 @@ import { BoardDTO, BoardSimpleDTO, ColumnSimpleDTO } from "../types/dto/index.js
 import { BoardMapper, BoardSimpleViewMapper, ColumnSimpleMapper } from "../mappers/index.js";
 import { NotFoundError } from "routing-controllers";
 import { RoleNames } from "../config/permissions.config.js";
-import { InvalidMongooseIdError } from "../errors/InvalidMongooseIdError.js";
 
 @Service()
 export class BoardService {
@@ -18,16 +17,7 @@ export class BoardService {
   }
 
   async getBoard(boardId: string): Promise<BoardDTO> {
-    let board = null;
-    try {
-      board = await this.boardRepository.getById(boardId);
-    } catch (e) {
-      if (e instanceof InvalidMongooseIdError) {
-        throw new NotFoundError("Board was not found.");
-      } else {
-        throw e;
-      }
-    }
+    let board = await this.boardRepository.getById(boardId);
     if (!board) {
       throw new NotFoundError("Board was not found.");
     }
