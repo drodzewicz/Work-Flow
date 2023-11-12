@@ -54,7 +54,7 @@ const InviteUserToBoard: React.FC<InviteUserToBoardProps> = ({ closeModal }) => 
   };
 
   const addSelectedUsersToBoard = async () => {
-    await Promise.all(users.map(({ _id }) => addUserToBoard(_id)))
+    await Promise.all(selectedUsers.map(({ _id }) => addUserToBoard(_id)))
       .then(() => {
         closeModal?.();
         toast.success("User added to the board");
