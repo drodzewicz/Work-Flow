@@ -48,7 +48,7 @@ const ChangeAvatar: React.FC<ChangeAvatarProps> = ({ onSuccess }) => {
       <FormikProvider value={formik}>
         <Form className="board-editor">
           <Field name="image" as={UploadFile} />
-          <button className="btn btn--glow" type="submit">
+          <button disabled={!formik.isValid || !formik.touched} className="btn btn--glow" type="submit">
             Submit
           </button>
         </Form>

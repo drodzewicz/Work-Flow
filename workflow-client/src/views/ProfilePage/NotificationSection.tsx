@@ -22,6 +22,7 @@ const NotificationSection = () => {
         className="scrollbar"
         itemKey="_id"
         items={notifications}
+        noContentMessage="No new notifications at this moment..."
         maxHeight={200}
         render={(notification) => (
           <Notification key={notification._id} notification={notification} />

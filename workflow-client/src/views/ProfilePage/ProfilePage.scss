@@ -98,4 +98,14 @@
       }
     }
   }
+
+  &__notifications {
+    min-height: 7rem;
+    .item-container__no-content-message {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 }

@@ -6,6 +6,7 @@ import useBoardId from "@/hooks/useBoardId";
 import useRBAC from "@/hooks/useRBAC";
 
 import { useDeleteBoard, useLeaveBoard } from "@/service/board";
+import { useSearchBoardMembers } from "@/service/member";
 
 import Box from "@/components/layout/Box";
 
@@ -22,6 +23,12 @@ const BoardSettingsPage: React.FC = () => {
 
   const canDeleteBoard = useRBAC({ boardId, action: "BOARD_DELETE" });
   const canModifyRoles = useRBAC({ boardId, action: "MEMBER_ROLE_UPDATE" });
+
+  const { data = { totalCount: 0 } } = useSearchBoardMembers({
+    boardId,
+    limit: 5,
+    page: 1,
+  });
 
   const { mutate: deleteBoard } = useDeleteBoard({
     onSuccess: () => {
@@ -43,6 +50,14 @@ const BoardSettingsPage: React.FC = () => {
   };
 
   const leaveBoardHandler = () => {
+    if (data.totalCount === 1) {
+      const lastMemberAlert = window.confirm(
+        "You are the last member of the board, board will be deleted after you leave."
+      );
+      if (!lastMemberAlert) {
+        return;
+      }
+    }
     const shouldDelete = window.confirm("Are you sure you want to leave this board?");
     if (shouldDelete) {
       leaveBoard(boardId);
