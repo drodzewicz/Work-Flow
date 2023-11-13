@@ -4,16 +4,28 @@ import { ReactComponent as TaskColumns } from "@/assets/images/task_columns.svg"
 import { ReactComponent as TaskColumnsDark } from "@/assets/images/task_columns_dark.svg";
 import { ReactComponent as Person } from "@/assets/images/workflow-person.svg";
 import { ReactComponent as PersonDark } from "@/assets/images/workflow-person_dark.svg";
-import { useNavigate } from "react-router-dom";
+import { FaLightbulb } from "react-icons/fa";
+
+import useDemoPopup from "@/hooks/useDemoPopup";
+import useModal from "@/hooks/useModal";
+
+import Modal from "@/components/layout/Modal";
+
+import DemoLogin from "@/dialogs/DemoLogin/DemoLogin";
 
 import "./WelcomePage.scss";
 
 const WelcomePage: React.FC = () => {
-  const navigate = useNavigate();
+  const {
+    show: showDemoLoginDialog,
+    open: openDemoLoginDialog,
+    close: closeDemoLoginDialog,
+  } = useModal();
 
-  const openRegisterModal = () => {
-    navigate("/register");
-  };
+  const { closePopup } = useDemoPopup({
+    onOpen: openDemoLoginDialog,
+    onClose: closeDemoLoginDialog,
+  });
 
   return (
     <div className="welcome-section">
@@ -38,9 +50,12 @@ const WelcomePage: React.FC = () => {
             personal or organizational level. Using this application organizing your work will be
             easy!!
           </p>
-          <button onClick={openRegisterModal} className="btn btn--glow join-now">
-            Join us Now
+          <button onClick={openDemoLoginDialog} className="btn btn--glow join-now">
+            <FaLightbulb /> Demo
           </button>
+          <Modal show={showDemoLoginDialog} title="" size="m" onClose={closePopup}>
+            <DemoLogin />
+          </Modal>
         </div>
       </section>
       <section className="welcome-section__explainer">

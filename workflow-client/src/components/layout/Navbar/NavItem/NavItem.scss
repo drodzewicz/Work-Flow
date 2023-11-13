@@ -52,8 +52,12 @@
   &__label {
     font-weight: bold;
     font-size: inherit;
-    @include breakpoint(mobile) {
-      display: none;
-    }
+  }
+}
+
+// if icon is proceeded bya label then hide label on mobile break point
+.navbar__item__icon:has(+ .navbar__item__label) + .navbar__item__label {
+  @include breakpoint(mobile) {
+    display: none;
   }
 }
