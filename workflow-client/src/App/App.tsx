@@ -9,12 +9,16 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "@/config/api.conf";
 
+import useAppTheme from "@/hooks/useAppTheme";
+
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 
 import "./App.scss";
 
-const App: React.FC<React.PropsWithChildren> = ({ children }) => {
+const App: React.FC = () => {
+  useAppTheme();
+
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {

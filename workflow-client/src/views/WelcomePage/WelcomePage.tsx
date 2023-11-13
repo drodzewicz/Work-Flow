@@ -6,13 +6,10 @@ import { ReactComponent as Person } from "@/assets/images/workflow-person.svg";
 import { ReactComponent as PersonDark } from "@/assets/images/workflow-person_dark.svg";
 import { useNavigate } from "react-router-dom";
 
-import useAppTheme from "@/hooks/useAppTheme";
-
 import "./WelcomePage.scss";
 
 const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
-  const { themeState } = useAppTheme();
 
   const openRegisterModal = () => {
     navigate("/register");
@@ -21,11 +18,16 @@ const WelcomePage: React.FC = () => {
   return (
     <div className="welcome-section">
       <section className="welcome-section__introduction">
-        {themeState ? (
-          <PersonDark role="presentation" name="person_task_board" className="person-image" />
-        ) : (
-          <Person role="presentation" name="person_task_board" className="person-image" />
-        )}
+        <Person
+          role="presentation"
+          name="person_task_board"
+          className="person-image person-image--light"
+        />
+        <PersonDark
+          role="presentation"
+          name="person_task_board"
+          className="person-image person-image--dark"
+        />
 
         <div className="welcome-section__introduction__text-subsection">
           <h1>Work-Flow</h1>
@@ -36,7 +38,7 @@ const WelcomePage: React.FC = () => {
             personal or organizational level. Using this application organizing your work will be
             easy!!
           </p>
-          <button onClick={openRegisterModal} className="btn--glow join-now">
+          <button onClick={openRegisterModal} className="btn btn--glow join-now">
             Join us Now
           </button>
         </div>
@@ -51,11 +53,8 @@ const WelcomePage: React.FC = () => {
             <li>Enjoy a smooth and organized workflow</li>
           </ul>
         </div>
-        {themeState ? (
-          <TaskColumnsDark className="task-columns-image" />
-        ) : (
-          <TaskColumns className="task-columns-image" />
-        )}
+        <TaskColumns className="task-columns-image task-columns-image--light" />
+        <TaskColumnsDark className="task-columns-image task-columns-image--dark" />
       </section>
     </div>
   );
