@@ -34,6 +34,9 @@
       .invite-user-button {
         align-self: flex-end;
       }
+      .async-input__button-group {
+        color: var(--c-font-primary);
+      }
     }
 
     &__tags {

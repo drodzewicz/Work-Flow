@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import AsyncInput from "@/components/form/AsyncInput";
 import AsyncSearch from "@/components/form/AsyncSearch";
@@ -56,6 +56,8 @@ const MembersSection = () => {
 
   const canManageMembers = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
 
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
   const { data: roles = {} } = useGetBoardRoles({ boardId });
   const { mutate: removeMember } = useRemoveBoardMember({ boardId });
   const { mutate: updateMemberRole } = useUpdateMemberRole({ boardId });
@@ -86,7 +88,14 @@ const MembersSection = () => {
           </Modal>
         </>
       )}
-      <AsyncInput debounceCallback={search} isLoading={isLoading} debounceTime={500}>
+      <AsyncInput
+        placeholder="Search members..."
+        debounceCallback={search}
+        value={searchTerm}
+        onChange={setSearchTerm}
+        isLoading={isLoading}
+        debounceTime={500}
+      >
         <FaSearch />
       </AsyncInput>
       <Skeleton.Container show={isLoading} count={limit} element={<Skeleton.User />}>
