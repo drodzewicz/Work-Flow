@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { AxiosError } from "axios";
 
-import axios from "@/config/api.conf.ts";
+import axios from "@/service/utils/client.ts";
 
 import useAuth from "@/hooks/useAuth";
 import useRefreshToken from "@/hooks/useRefreshToken";

@@ -1,5 +1,7 @@
 import React from "react";
 
+import { env } from "@/config/env.config";
+
 import useAuth from "@/hooks/useAuth";
 
 import { useLogin } from "@/service/auth";
@@ -17,7 +19,9 @@ const DemoLogin = () => {
   });
 
   const loginDemoUser = () => {
-    login({ username: "admin", password: "password123" });
+    if (env.demoUser.username && env.demoUser.password) {
+      login(env.demoUser as { username: string; password: string });
+    }
   };
 
   return (
@@ -26,7 +30,11 @@ const DemoLogin = () => {
       <p className="demo-login__text">
         You can <strong>login</strong> as a demo user and take a look around the app for yourself
       </p>
-      <button className="btn btn--glow" onClick={loginDemoUser}>
+      <button
+        disabled={!env.demoUser.username || !env.demoUser.password}
+        className="btn btn--glow"
+        onClick={loginDemoUser}
+      >
         login
       </button>
     </div>

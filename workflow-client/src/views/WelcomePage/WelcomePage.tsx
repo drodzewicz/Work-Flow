@@ -6,6 +6,8 @@ import { ReactComponent as Person } from "@/assets/images/workflow-person.svg";
 import { ReactComponent as PersonDark } from "@/assets/images/workflow-person_dark.svg";
 import { FaLightbulb } from "react-icons/fa";
 
+import { env } from "@/config/env.config";
+
 import useDemoPopup from "@/hooks/useDemoPopup";
 import useModal from "@/hooks/useModal";
 
@@ -50,9 +52,12 @@ const WelcomePage: React.FC = () => {
             personal or organizational level. Using this application organizing your work will be
             easy!!
           </p>
-          <button onClick={openDemoLoginDialog} className="btn btn--glow join-now">
-            <FaLightbulb /> Demo
-          </button>
+          {env.demoUser.username && env.demoUser.password && (
+            <button onClick={openDemoLoginDialog} className="btn btn--glow join-now">
+              <FaLightbulb /> Demo
+            </button>
+          )}
+
           <Modal show={showDemoLoginDialog} title="" size="m" onClose={closePopup}>
             <DemoLogin />
           </Modal>

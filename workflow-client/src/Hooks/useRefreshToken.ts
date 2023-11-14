@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-import axios, { authAxios } from "@/config/api.conf.ts";
+import axios from "@/service/utils/client.ts";
 
 import useAuth from "./useAuth";
 

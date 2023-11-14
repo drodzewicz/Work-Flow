@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { MutationFunction, UseMutationOptions, useMutation } from "react-query";
 import { toast } from "react-toastify";
 
-import axios from "@/config/api.conf.ts";
+import axios from "@/service/utils/client.ts";
 
 import authURL from "./url";
 

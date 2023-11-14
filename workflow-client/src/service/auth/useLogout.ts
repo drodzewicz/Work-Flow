@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { MutationFunction, UseMutationOptions, useMutation, useQueryClient } from "react-query";
 
-import axios from "@/config/api.conf.ts";
+import axios from "@/service/utils/client.ts";
 
 import authURL from "./url";
 
