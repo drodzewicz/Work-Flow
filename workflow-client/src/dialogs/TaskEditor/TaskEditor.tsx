@@ -21,7 +21,6 @@ import User from "@/components/board/User/User";
 
 import "./TaskEditor.scss";
 
-import TaskEditorActionButtons from "./TaskEditorActionButtons";
 import { validationSchema } from "./formSchema";
 
 type TaskEditorProps = {
@@ -99,10 +98,18 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
   return (
     <FormikProvider value={formik}>
       <Form className="task-editor">
-        <TaskEditorActionButtons
-          onCancel={onCancel}
-          saveButtonLabel={isEditing ? "Save Changes" : "Create"}
-        />
+        <div className="task-editor__action-buttons">
+          <button
+            disabled={!formik.isValid || formik.isSubmitting}
+            className="btn btn--glow"
+            type="submit"
+          >
+            {isEditing ? "Save Changes" : "Create"}
+          </button>
+          <button className="btn" onClick={onCancel}>
+            Cancel
+          </button>
+        </div>
         <section className="scrollbar">
           <div className="task-editor__text-inputs">
             <Field

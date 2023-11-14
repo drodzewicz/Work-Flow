@@ -1,9 +1,9 @@
 .login-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
 
-    &__btn {
-        margin-top: 0.7rem;
-    }
+  &__btn.btn {
+    margin-top: 1rem;
+    align-self: center;
+  }
 }

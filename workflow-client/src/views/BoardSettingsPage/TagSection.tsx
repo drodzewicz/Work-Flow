@@ -73,6 +73,7 @@ const TagSection = () => {
       >
         <TagEditor
           initialValues={{ key: selectedTag?.key, name: selectedTag?.name }}
+          isEditing
           onSubmit={(values) => {
             updateTag({ tagId: selectedTag?._id || "", ...values });
             closeEditTagDialog();

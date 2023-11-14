@@ -52,7 +52,7 @@ const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initi
 
   return (
     <FormikProvider value={formik}>
-      <Form>
+      <Form className="login-form">
         <Field
           name="username"
           autoComplete="username"
@@ -67,8 +67,8 @@ const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initi
           as={TextField}
         />
         <button
-          // disabled={props.isSubmitting || !props.isValid}
-          className="btn--glow login-form__btn"
+          disabled={formik.isSubmitting || !formik.isValid}
+          className="btn btn--glow login-form__btn"
           type="submit"
         >
           Log In

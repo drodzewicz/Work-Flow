@@ -13,13 +13,16 @@ import "./TagEditor.scss";
 
 import { validationSchema } from "./formSchema";
 
-export type TagEditorType = InferType<typeof validationSchema>;
+type TagSchemaType = InferType<typeof validationSchema>;
 
-const TagEditor: React.FC<{
-  initialValues?: Partial<TagEditorType>;
-  onSubmit: OnSubmitType<TagEditorType>;
-}> = ({ initialValues, onSubmit }) => {
-  const INITIAL_FORM_VALUES: TagEditorType = {
+export type TagEditorType = {
+  initialValues?: Partial<TagSchemaType>;
+  onSubmit: OnSubmitType<TagSchemaType>;
+  isEditing?: boolean;
+};
+
+const TagEditor: React.FC<TagEditorType> = ({ initialValues, onSubmit, isEditing = false }) => {
+  const INITIAL_FORM_VALUES: TagSchemaType = {
     key: initialValues?.key || "",
     name: initialValues?.name || "",
   };
@@ -41,11 +44,11 @@ const TagEditor: React.FC<{
           <Field name="key" label="color" as={ColorInput} />
         </div>
         <button
-          // disabled={props.isSubmitting || !props.isValid}
+          disabled={formik.isSubmitting || !formik.isValid}
           className="btn btn--glow "
           type="submit"
         >
-          Create
+          {isEditing ? "Save" : "Create"}
         </button>
       </Form>
     </FormikProvider>

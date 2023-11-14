@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
-import { IBoard, BoardModel } from "../types/database/index.js"
+import { IBoard, BoardModel } from "../types/database/index.js";
 import { Model } from "../types/utils.type.js";
-import { RoleNames } from "../config/permissions.config.js"
+import { RoleNames } from "../config/permissions.config.js";
 
 const schema = new mongoose.Schema<IBoard, BoardModel>({
   name: {
     type: String,
     required: [true, "username is required"],
-    minlength: [3, "must not be less that 3 charatcters"],
+    minlength: [5, "must not be less that 3 charatcters"],
     maxlength: [50, "must not be longer than 50 characters"],
   },
   description: {
     type: String,
-    maxlength: [1000, "must not be longer than 1000 characters"],
+    maxlength: [400, "must not be longer than 1000 characters"],
   },
   members: [
     {

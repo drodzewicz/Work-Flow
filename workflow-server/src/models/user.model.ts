@@ -14,8 +14,8 @@ const schema = new mongoose.Schema<IUser, UserModel, IUserMethods>({
     type: String,
     required: [true, "username is required"],
     unique: true,
-    minlength: [3, "must not be less that 3 charatcters"],
-    maxlength: [50, "must not be longer than 50 characters"],
+    minlength: [5, "must not be less that 3 charatcters"],
+    maxlength: [25, "must not be longer than 50 characters"],
   },
   password: {
     type: String,
