@@ -61,11 +61,11 @@ export class AuthService {
     }
     const user = await this.userRepository.getUserByRefreshToken(token);
     if (!user) {
-      throw new UnauthorizedError("Invalid Refresh token 1");
+      throw new UnauthorizedError("Invalid Refresh token");
     }
     const decoded = jwt.verify(token, env.jwt.refreshToken.secret);
     if (!user._id.equals(decoded.id)) {
-      throw new UnauthorizedError("Invalid Refresh token 2");
+      throw new UnauthorizedError("Invalid Refresh token");
     }
     return await this.generateAccessJWT(user);
   }

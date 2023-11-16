@@ -1,0 +1,122 @@
+@import "../../../assets/styles/mixins";
+
+.modal {
+  --_modal-bg-color: var(--c-iceberg-4);
+  --_modal-header-color: white;
+}
+
+[data-theme="DARK"] .modal {
+  --_modal-bg-color: var(--c-metal-1);
+  --_modal-header-color: var(--c-metal-3);
+}
+
+.modal-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -6rem;
+  left: 0;
+  position: absolute;
+}
+
+.modal {
+  position: fixed;
+  z-index: 999;
+  background-color: var(--_modal-bg-color);
+  height: auto;
+  border: 1px solid var(--_modal-header-color);
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.445);
+  box-sizing: border-box;
+  border-radius: 10px;
+  top: 5%;
+  transition: all 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+  min-width: 500px;
+  animation: open-modal-animation 0.4s ease-out forwards;
+  margin: 0;
+  max-height: 90vh;
+
+  &_size--s {
+    min-width: 400px;
+  }
+  &_size--m {
+    min-width: 550px;
+  }
+  &_size--l {
+    width: 80vw;
+    max-width: 950px;
+  }
+
+  @include breakpoint(mobile) {
+    width: 100% !important;
+    height: 100vh;
+    position: absolute;
+    border-radius: 0;
+    top: 6rem;
+    animation: unset;
+    max-height: unset;
+    min-width: auto !important;
+  }
+  &__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    padding: 0 1rem;
+    position: relative;
+
+    &__title {
+      margin: 0;
+      flex-grow: 1;
+      text-align: center;
+      color: var(--c-font-primary);
+      font-size: 1.3rem;
+      transform: translateX(18px);
+      z-index: 1;
+    }
+    & > &__close {
+      cursor: pointer;
+      color: var(--c-font-primary);
+      font-size: 0.9rem;
+      height: 1.7rem;
+      width: 1.7rem;
+      z-index: 2;
+      padding: 0.3rem;
+      border-radius: 3px;
+      &:hover {
+        background-color: var(--_modal-header-color);
+      }
+    }
+  }
+  &__content--scrollable {
+    overflow: auto;
+  }
+  &__content {
+    padding: 1rem 2rem 2rem;
+    position: relative;
+    height: 100%;
+    @include breakpoint(mobile) {
+      overflow: auto;
+      padding: 1rem;
+    }
+  }
+}
+
+@keyframes open-modal-animation {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(6%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

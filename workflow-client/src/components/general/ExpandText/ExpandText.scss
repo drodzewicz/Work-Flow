@@ -1,0 +1,31 @@
+.expand-text {
+  margin: 0.2rem;
+  &__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    &__title {
+      margin: 0;
+      color: inherit;
+    }
+    & > &__icon {
+      height: 1.2rem;
+      width: 1.2rem;
+      cursor: pointer;
+      transition: 0.3s all ease-in-out;
+      color: inherit;
+      &--open {
+        transform: rotate(180deg);
+      }
+    }
+  }
+  &__content {
+    max-height: 10rem;
+    overflow-y: hidden;
+    transition: 0.5s all ease-in-out;
+    &--close {
+      max-height: 0;
+    }
+  }
+}

@@ -6,6 +6,8 @@ const schema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "name is required"],
+    minlength: [2, "must not be less that 2 charatcters"],
+    maxlength: [20, "must not be longer than 20 characters"],
   },
   key: { type: String, required: [true, "key is required"] },
   board: {

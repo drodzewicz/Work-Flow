@@ -34,10 +34,11 @@
     {
         "label": "Client",
         "type": "shell",
-        "command": "cd client && npm start",
+        "command": "cd workflow-client && npm run dev -- --port 3000",
         "presentation": {
             "group": "workflow"
-        }
+        },
+        "problemMatcher": []
     },
     {
         "label": "Server Test",

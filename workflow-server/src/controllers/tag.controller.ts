@@ -36,7 +36,7 @@ export class TagController {
   }
 
   @Post("/")
-  @Authorized(Permissions.TAG_ADD)
+  @Authorized(Permissions.TAG_CREATE)
   async createTag(@Body() payload: CreateTagPayload) {
     fieldErrorsHandler(createTagPayloadValidator(payload));
 
@@ -53,7 +53,7 @@ export class TagController {
   }
 
   @Delete("/:tagId")
-  @Authorized(Permissions.TAG_REMOVE)
+  @Authorized(Permissions.TAG_DELETE)
   async deleteTag(@Param("tagId") tagId: string) {
     await this.tagService.getTag(tagId);
     await this.tagService.deleteTag(tagId);
@@ -61,7 +61,7 @@ export class TagController {
   }
 
   @Put("/:tagId")
-  @Authorized(Permissions.TAG_ADD)
+  @Authorized(Permissions.TAG_CREATE)
   async updateTag(@Param("tagId") tagId: string, @Body() payload: UpdateTagPayload) {
     fieldErrorsHandler(updateTagPayloadValidator(payload));
     await this.tagService.getTag(tagId);

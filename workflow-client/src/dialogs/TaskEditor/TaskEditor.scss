@@ -1,0 +1,82 @@
+@import "../../assets/styles/mixins";
+
+.task-editor {
+  & > section {
+    overflow: auto;
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: 3rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    @include breakpoint(mobile) {
+      max-height: 80vh;
+    }
+  }
+
+  &__action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  &__other-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    @include breakpoint(mobile) {
+      grid-template-columns: 1fr;
+    }
+  }
+  &__assignees,
+  &__tags {
+    & > label {
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--c-font-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .async-input__input {
+      margin: 0.5rem 0;
+    }
+  }
+
+  &__assignees {
+    .remove-assignee-btn {
+      font-size: 0.7rem;
+      padding: 0.3rem;
+    }
+  }
+
+  &__tags {
+    .item-container {
+      gap: 0.3rem;
+      padding: 0.2rem;
+    }
+
+    .tag-card {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1rem;
+      padding: 0.3rem;
+
+      &__remove {
+        display: grid;
+        place-items: center;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color ease-in-out 0.1s;
+        color: color-mix(in srgb, var(--_tag-color) 30%, black);
+
+        &:hover {
+          background-color: color-mix(in srgb, var(--_tag-color) 50%, white);
+        }
+      }
+    }
+  }
+}

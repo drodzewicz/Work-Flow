@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap");
+
+@import "./colors";
+@import "./variables";
+@import "./mixins";
+@import "./globalStyles";
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll !important;
+}
+html,
+body {
+  height: 100%;
+}
+html {
+  overflow: hidden;
+  font-family: "Open Sans";
+}
+
+#root {
+  height: 100%;
+}

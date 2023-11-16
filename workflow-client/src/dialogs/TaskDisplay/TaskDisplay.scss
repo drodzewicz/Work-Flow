@@ -1,0 +1,71 @@
+@import "../../assets/styles/mixins";
+
+.task-display {
+  header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__sub {
+    display: flex;
+    align-items: center;
+  }
+
+  &__action-buttons {
+    display: flex;
+    @include breakpoint(mobile) {
+      flex-direction: column;
+    }
+  }
+
+  &__title {
+    flex: 1;
+    margin: 0;
+    color: var(--c-font-primary);
+  }
+
+  .task-options-btn {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  &__tag-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex: 1;
+    gap: 0.2rem;
+    padding: 0.3rem;
+  }
+
+  &__body {
+    display: flex;
+    gap: 1rem;
+    @include breakpoint(mobile) {
+      flex-direction: column;
+    }
+  }
+
+  &__main-content {
+    min-width: 150px;
+    flex: 3;
+    color: var(--c-font-primary);
+  }
+
+  &__sidebar {
+    min-width: 150px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__author,
+  &__assignees {
+    & > label {
+      color: var(--c-font-primary);
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+  }
+}

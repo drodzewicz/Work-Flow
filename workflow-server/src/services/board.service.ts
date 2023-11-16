@@ -17,7 +17,7 @@ export class BoardService {
   }
 
   async getBoard(boardId: string): Promise<BoardDTO> {
-    const board = await this.boardRepository.getById(boardId);
+    let board = await this.boardRepository.getById(boardId);
     if (!board) {
       throw new NotFoundError("Board was not found.");
     }

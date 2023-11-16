@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { CustomMongooseValidationError } from "../errors/CustomMongooseValidationError.js";
 
 interface HttpErrorWithMessageList extends HttpError {
-  messages?: unknown[];
+  messages?: Record<string, string>;
 }
 
 @Middleware({ type: "after" })

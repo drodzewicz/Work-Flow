@@ -1,0 +1,254 @@
+@keyframes skeleton-loading-kf {
+  0% {
+    background-color: var(--_skeleton-color-from, white);
+  }
+  100% {
+    background-color: var(--_skeleton-color-to, var(--c-iceberg-5));
+  }
+}
+
+// Task Card
+
+.task-card--loading {
+  --_skeleton-color-from: white;
+  --_skeleton-color-to: var(--c-iceberg-2);
+  --_task-card-bg-color: var(--c-iceberg-5);
+}
+
+[data-theme="DARK"] .task-card--loading {
+  --_skeleton-color-from: var(--c-metal-6);
+  --_skeleton-color-to: var(--c-metal-4);
+  --_task-card-bg-color: var(--c-metal-3);
+}
+
+.task-card--loading {
+  background-color: white;
+  animation: skeleton-loading-kf 1s linear infinite alternate;
+
+  width: 15rem;
+  border-radius: 5px;
+  margin: 0 0 8px 0;
+  box-sizing: border-box;
+  padding: 0.5rem 0.6rem;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.292);
+  user-select: none;
+
+  &__title {
+    margin: 0;
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+    &::after {
+      content: "";
+      height: 1rem;
+      width: 6rem;
+      display: block;
+      background-color: var(--_task-card-bg-color);
+      border-radius: 3rem;
+    }
+  }
+
+  &__avatar {
+    $avatar-size: 1rem;
+    height: $avatar-size;
+    width: $avatar-size;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: var(--_task-card-bg-color);
+  }
+
+  &__bottom {
+    display: flex;
+    flex-direction: row;
+    cursor: default;
+    justify-content: flex-end;
+
+    &__users {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+// Column
+
+.task-column--loading {
+  --_skeleton-color-from: white;
+  --_skeleton-color-to: var(--c-iceberg-5);
+  --_task-column-bg-color: var(--c-iceberg-5);
+}
+
+[data-theme="DARK"] .task-column--loading {
+  --_skeleton-color-from: var(--c-metal-6);
+  --_skeleton-color-to: var(--c-metal-5);
+  --_task-column-bg-color: var(--c-metal-3);
+}
+
+.task-column--loading {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--_task-column-bg-color);
+  border-radius: 10px;
+  padding: 0.2rem 0.5rem;
+  border: 2px solid transparent;
+  box-shadow: 0 0 3px transparent;
+  transition: all 0.2s ease-in-out;
+  height: 100%;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0.2rem 0;
+    margin-bottom: 0.4rem;
+    position: relative;
+
+    &__task-count {
+      background: var(--_task-column-bg-color);
+      animation: skeleton-loading-kf 1s linear infinite alternate;
+
+      border-radius: 3px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      min-width: 1rem;
+      height: 1rem;
+      font-size: 0.8rem;
+      margin-right: 0.2rem;
+    }
+
+    &__name {
+      flex-grow: 1;
+      &::after {
+        content: "";
+        display: block;
+        width: 5rem;
+        height: 1rem;
+        background-color: var(--_task-column-bg-color);
+        animation: skeleton-loading-kf 1s linear infinite alternate;
+
+        border-radius: 3rem;
+      }
+    }
+  }
+  &__container {
+    width: 16.5rem;
+    max-height: 500px;
+    overflow-y: scroll;
+  }
+}
+
+// Board Card
+
+.board-card--loading {
+  --_skeleton-color-from: white;
+  --_skeleton-color-to: var(--c-iceberg-5);
+}
+
+[data-theme="DARK"] .board-card--loading {
+  --_skeleton-color-from: var(--c-metal-4);
+  --_skeleton-color-to: var(--c-metal-5);
+}
+
+.board-card--loading {
+  --_board-card-bg-color: var(--c-iceberg-5);
+
+  $card-width: 12rem;
+  $card-height: 6rem;
+  background-color: white;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  width: $card-width;
+  height: $card-height;
+  border-radius: 7px;
+  padding: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-decoration: none;
+  transition: 0.3s ease-in-out all;
+  animation: skeleton-loading-kf 1s linear infinite alternate;
+
+  &__columns {
+    position: absolute;
+    z-index: 0;
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    align-items: flex-start;
+    &__column {
+      background: var(--_board-card-bg-color);
+      animation: skeleton-loading-kf 1s linear infinite alternate-reverse;
+
+      width: 35px;
+      height: 70px;
+      margin: 0 7px;
+      border-radius: 5px;
+      transition: all ease-in-out 0.3s;
+      &:nth-of-type(1) {
+        height: 60px;
+      }
+      &:nth-of-type(2) {
+        height: 30px;
+      }
+      &:nth-of-type(3) {
+        height: 50px;
+      }
+      &:nth-of-type(4) {
+        height: 70px;
+      }
+    }
+  }
+}
+
+// User Card
+
+.user-card--loading {
+  --_user-card-bg-color: white;
+  --_user-card-title-color: var(--c-iceberg-5);
+}
+
+[data-theme="DARK"] .user-card--loading {
+  --_user-card-bg-color: var(--c-metal-4);
+  --_user-card-title-color: var(--c-metal-5);
+}
+
+.user-card--loading {
+  --_skeleton-color-from: var(--_user-card-bg-color);
+  --_skeleton-color-to: var(--_user-card-title-color);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 2px;
+  box-sizing: border-box;
+  padding: 5px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.247);
+  max-width: 30rem;
+  background-color: var(--_user-card-bg-color);
+  animation: skeleton-loading-kf 1s linear infinite alternate;
+
+  &__avatar {
+    $avatar-size: 1.5rem;
+    height: $avatar-size;
+    width: $avatar-size;
+    border-radius: 3px;
+    background-color: var(--_user-card-title-color);
+    animation: skeleton-loading-kf 1s linear infinite alternate-reverse;
+  }
+
+  &__title {
+    width: 40%;
+    height: 10px;
+    margin-left: 10px;
+    border-radius: 15px;
+    background-color: var(--_user-card-title-color);
+    animation: skeleton-loading-kf 1s linear infinite alternate-reverse;
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "importOrder": [
+    "^react$",
+    "^@/types/(.*)$",
+    "./types",
+    "<THIRD_PARTY_MODULES>",
+    "^@/context/(.*)$",
+    "^@/config/(.*)$",
+    "^@/hooks/(.*)$",
+    "^@/service/(.*)$",
+    "^@/components/general/(.*)$",
+    "^@/components/layout/(.*)$",
+    "^@/components/board/(.*)$",
+    "^@/dialogs/(.*)$",
+    "(.*).scss$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "printWidth": 100
+}

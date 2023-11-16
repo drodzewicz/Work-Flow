@@ -1,0 +1,28 @@
+.column-name { 
+  --_input-bg-color: var(--c-iceberg-4);
+}
+
+[data-theme="DARK"] .column-name { 
+  --_input-bg-color: var(--c-metal-1);
+}
+
+.column-name {
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1rem;
+  flex: 1;
+  color: var(--c-font-primary);
+
+  &--input {
+    background-color: var(--_input-bg-color);
+    border: none;
+    cursor: default;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    width: 5rem;
+  }
+  &--text {
+    cursor: default;
+  }
+}

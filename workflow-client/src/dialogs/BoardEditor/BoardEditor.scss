@@ -1,0 +1,23 @@
+@import "../../assets/styles/mixins";
+
+.board-editor {
+  display: flex;
+  flex-direction: column;
+  &__field {
+    &__description {
+      height: 10rem;
+      @include breakpoint(mobile) {
+        height: 20rem;
+      }
+    }
+  }
+
+  &.loading-overlay {
+    min-height: 50vh;
+  }
+
+  .create-board-btn {
+    margin: 1rem auto;
+    min-width: 8rem;
+  }
+}

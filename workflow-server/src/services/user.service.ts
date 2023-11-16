@@ -56,6 +56,16 @@ export class UserService {
     return UserMapper(user);
   }
 
+  async updateUserAvatar(userId: string, image: any): Promise<UserDTO> {
+    const user = await this.userRepository.getById(userId);
+    if (!user) {
+      throw new NotFoundError("User was not found.");
+    }
+    user.avatarImageURL = image;
+    await this.userRepository.save(user);
+    return UserMapper(user);
+  }
+
   async updateUserInfo(userId: string, userData: IUser): Promise<UserDTO> {
     const user = await this.userRepository.updateUser(userId, userData);
     return UserMapper(user);
@@ -85,7 +95,10 @@ export class UserService {
     return await this.userRepository.getUserNotifications(userId);
   }
 
-  async addUserNotifications(userId: string, notificationData: Pick<INotification, "title" | "attributes" | "description" | "key">) {
+  async addUserNotifications(
+    userId: string,
+    notificationData: Pick<INotification, "title" | "attributes" | "description" | "key">,
+  ) {
     return await this.userRepository.addUserNotifications(userId, notificationData);
   }
 

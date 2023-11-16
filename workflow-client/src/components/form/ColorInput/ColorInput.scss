@@ -1,0 +1,11 @@
+.color-input {
+  display: flex;
+  flex-direction: column;
+  label {
+    font-size: 0.9rem;
+    color: var(--c-font-primary);
+  }
+  input {
+    height: 2.5rem;
+  }
+}

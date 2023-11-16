@@ -8,16 +8,18 @@ import * as utils from "../utils/env.utils.js";
 dotenv.config({
   path: path.join(process.cwd(), `.env`),
 });
+
 /**
  * Environment variables
  */
-
 export const env = {
   node: utils.getEnv("NODE_ENV", false),
   app: {
     routePrefix: utils.getEnv("APP_ROUTE_PREFIX", false, "api"),
     port: utils.getEnv("PORT", true),
-    banner: utils.toBool(utils.getEnv("APP_BANNER", false, "true")),
+  },
+  cors: {
+    url: utils.getEnv("CORS_URL", false),
   },
   jwt: {
     accessToken: {

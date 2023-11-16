@@ -1,0 +1,40 @@
+@import "../../assets/styles/mixins";
+
+.error-page {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    margin: 1rem 0;
+  }
+
+  &__main {
+    color: var(--c-font-primary);
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 2.5rem;
+    margin: 0.2rem 0;
+  }
+
+  &__message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1rem;
+  }
+  &__image {
+    height: 30rem;
+    transform: translateY(-5rem);
+    @include breakpoint(small) {
+      margin-top: 1.2rem;
+      height: 20rem;
+    }
+  }
+}

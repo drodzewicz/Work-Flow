@@ -1,0 +1,13 @@
+.tooltip {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	position: absolute;
+	background: rgba(0, 0, 0, 0.6);
+	color: white;
+	padding: 6px;
+	border-radius: 5px;
+	font-size: 0.8rem;
+	z-index: 1003;
+	box-sizing: border-box;
+}
