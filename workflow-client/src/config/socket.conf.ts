@@ -1,10 +1,8 @@
-// import io from "socket.io-client";
-// import { BASE_URL, ENVIROMENTS } from "@/config/default.conf";
+import io from "socket.io-client";
 
-// const BASE_API_URI = import.meta.env.REACT_APP_API_URI || BASE_URL;
-// const API_URI = import.meta.env.NODE_ENV === ENVIROMENTS.PROD ? "/" : BASE_API_URI;
-// const ws = io(API_URI);
+import { env } from "@/config/env.config";
 
-// export { ws };
-const ws = "test";
+const API_URI = env.environment === "production" ? "/" : env.api.ws;
+const ws = io(API_URI);
+
 export { ws };

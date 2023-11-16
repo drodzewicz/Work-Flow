@@ -51,13 +51,13 @@ const useMoveColumn = ({ boardId, ...options }: MoveColumnProps) => {
 
       return { previousColumns };
     },
-    onError: (err, newTodo, context) => {
+    onError: (err, errorData, context) => {
       const errorMessage =
         err.response?.data.message || "There was an issue while trying to move a column";
       toast.error(errorMessage);
 
       queryClient.setQueryData(taskQueryKeys.list(boardId), context?.previousColumns);
-      options?.onError?.(err, newTodo, context);
+      options?.onError?.(err, errorData, context);
     },
   });
 };

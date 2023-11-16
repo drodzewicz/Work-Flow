@@ -8,6 +8,7 @@ import useRBAC from "@/hooks/useRBAC";
 import useMoveColumn from "@/service/column/useMoveColumn";
 import { useGetTasks } from "@/service/task";
 import useMoveTask from "@/service/task/useMoveTask";
+import { emitWebSocket } from "@/service/utils/emitWebSocket";
 
 import * as Skeleton from "@/components/layout/Skeleton";
 
@@ -16,8 +17,18 @@ import NewColumn from "@/components/board/NewColumn/NewColumn";
 
 const BoardColumns: React.FC = () => {
   const boardId = useBoardId();
-  const { mutate: moveColumn } = useMoveColumn({ boardId });
-  const { mutate: moveTask } = useMoveTask({ boardId });
+  const { mutate: moveColumn } = useMoveColumn({
+    boardId,
+    onSuccess: () => {
+      emitWebSocket(boardId, { event: "column-update", type: "MOVE" });
+    },
+  });
+  const { mutate: moveTask } = useMoveTask({
+    boardId,
+    onSuccess: () => {
+      emitWebSocket(boardId, { event: "task-update", type: "MOVE" });
+    },
+  });
 
   const canCreateColumn = useRBAC({ boardId, action: "COLUMN_CREATE" });
 

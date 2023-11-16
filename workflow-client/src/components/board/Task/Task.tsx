@@ -36,7 +36,9 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], assignee
     <>
       <TaskDraggable className="task-card" taskId={taskId} taskIndex={indexes.taskIndex}>
         <div onClick={openTaskModal}>
-          <h3 className="task-card__title">{title}</h3>
+          <h3 className="task-card__title" title={title}>
+            {title}
+          </h3>
           <div className="task-card__bottom">
             <ItemContainer<Tag>
               itemKey="_id"

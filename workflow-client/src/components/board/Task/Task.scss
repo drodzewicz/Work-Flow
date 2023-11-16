@@ -28,6 +28,11 @@
     font-size: 0.9rem;
     color: var(--c-font-primary);
     margin-bottom: 0.2rem;
+    overflow: hidden;
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
 
   &__avatar,

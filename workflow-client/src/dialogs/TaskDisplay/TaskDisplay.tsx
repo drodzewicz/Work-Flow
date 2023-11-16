@@ -10,6 +10,7 @@ import useBoolean from "@/hooks/useBoolean";
 import useRBAC from "@/hooks/useRBAC";
 
 import { useGetTaskDetails, useDeleteTask, taskQueryKeys, useUpdateTask } from "@/service/task";
+import { emitWebSocket } from "@/service/utils/emitWebSocket";
 
 import ItemContainer from "@/components/layout/ItemContainer/ItemContainer";
 import * as Skeleton from "@/components/layout/Skeleton";
@@ -44,6 +45,8 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
   const { mutate: deleteTask } = useDeleteTask({
     onSuccess: () => {
       queryClient.invalidateQueries(taskQueryKeys.list(boardId));
+      emitWebSocket(boardId, { event: "task-update", type: "DELETE" });
+
       closeModal?.();
     },
   });

@@ -8,6 +8,7 @@ import useRBAC from "@/hooks/useRBAC";
 
 import { useUpdateColumn, useDeleteColumn } from "@/service/column";
 import { useCreateTask, useGetTasks } from "@/service/task";
+import { emitWebSocket } from "@/service/utils/emitWebSocket";
 
 import DropdownMenu from "@/components/general/DropdownMenu";
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
@@ -47,9 +48,26 @@ const Column: React.FC<ColumnProps> = (props) => {
   const canCreateColumn = useRBAC({ boardId, action: "COLUMN_CREATE" });
   const canCreateTask = useRBAC({ boardId, action: "TASK_CREATE" });
 
-  const { mutate: createTask } = useCreateTask({ boardId });
-  const { mutate: deleteColumn } = useDeleteColumn({ boardId });
-  const { mutate: updateColumn } = useUpdateColumn({ boardId, columnId });
+  const { mutate: createTask } = useCreateTask({
+    boardId,
+    onSuccess: () => {
+      closeCreateNewTaskModal();
+      emitWebSocket(boardId, { event: "task-update", type: "CREATE" });
+    },
+  });
+  const { mutate: deleteColumn } = useDeleteColumn({
+    boardId,
+    onSuccess: () => {
+      emitWebSocket(boardId, { event: "column-update", type: "DELETE" });
+    },
+  });
+  const { mutate: updateColumn } = useUpdateColumn({
+    boardId,
+    columnId,
+    onSuccess: () => {
+      emitWebSocket(boardId, { event: "column-update", type: "UPDATE" });
+    },
+  });
 
   const removeColumn = async () => {
     const shouldDelete = window.confirm("Are you sure you want to delete this column?");
@@ -85,7 +103,6 @@ const Column: React.FC<ColumnProps> = (props) => {
                   onCancel={closeCreateNewTaskModal}
                   onSubmit={(values) => {
                     createTask(values);
-                    closeCreateNewTaskModal();
                   }}
                 />
               </Modal>

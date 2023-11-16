@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { ErrorBoundryPage } from "@/views/ErrorPage";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -15,7 +15,6 @@ import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 
 import "./App.scss";
-
 
 const App: React.FC = () => {
   useAppTheme();
