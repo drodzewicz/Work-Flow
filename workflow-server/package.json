@@ -22,7 +22,7 @@
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.17",
     "@types/mongoose": "^5.11.97",
-    "@types/node": "^20.1.6",
+    "@types/node": "^20.9.0",
     "eslint": "^8.40.0",
     "nodemon": "^3.0.1",
     "prettier": "^2.8.8",
@@ -47,6 +47,7 @@
     "rimraf": "^5.0.0",
     "routing-controllers": "^0.8.1",
     "routing-controllers-openapi": "^1.7.0",
+    "socket.io": "^4.7.2",
     "swagger-ui-express": "4.0.1",
     "typedi": "^0.10.0"
   }
