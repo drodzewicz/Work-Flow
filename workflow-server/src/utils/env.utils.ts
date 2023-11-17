@@ -2,7 +2,7 @@ export function getEnv(key: string, required: boolean = false, defaultValue: str
   if (required && typeof process.env[key] === "undefined") {
     throw new Error(`Environment variable ${key} is not set.`);
   }
-  return (process.env[key] as string) ?? defaultValue;
+  return (process.env[key] as string)?.trim() ?? defaultValue;
 }
 
 export function toNumber(value: string): number {

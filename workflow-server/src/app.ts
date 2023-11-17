@@ -1,4 +1,5 @@
 import { env } from "./config/env.config.js";
+import * as path from "path";
 import http from "http";
 import express, { Application } from "express";
 import { useExpressServer } from "routing-controllers";
@@ -40,5 +41,10 @@ databaseConnect();
 usePassportJWT();
 useSwagger(app, routingControllersOptions);
 useWebSockets(server, sockets);
+
+if (env.environment === "production") {
+  app.use(express.static(path.join(process.cwd(), `/dist/public/`)));
+  app.get("*", (_, res) => res.sendFile(path.join(process.cwd(), `/dist/public/index.html`)));
+}
 
 export { server };

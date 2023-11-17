@@ -13,7 +13,7 @@ dotenv.config({
  * Environment variables
  */
 export const env = {
-  node: utils.getEnv("NODE_ENV", false),
+  environment: utils.getEnv("NODE_ENV", false),
   app: {
     routePrefix: utils.getEnv("APP_ROUTE_PREFIX", false, "api"),
     port: utils.getEnv("PORT", true),
