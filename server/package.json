@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "build": "rimraf dist && npx tsc",
-    "prestart": "npm run build",
+    "prestart": "yarn run build",
     "start": "set NODE_ENV=production && node dist/index.js",
-    "preserve": "npm run build",
+    "preserve": "yarn run build",
     "serve": "set NODE_ENV=development && concurrently \"npx tsc --w\" \"nodemon -q dist/index.js\"",
     "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix",
@@ -19,9 +19,7 @@
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
     "@types/cors": "^2.8.13",
-    "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.17",
-    "@types/mongoose": "^5.11.97",
     "@types/node": "^20.9.0",
     "eslint": "^8.40.0",
     "nodemon": "^3.0.1",
@@ -31,6 +29,8 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "chalk": "^5.2.0",
+    "class-transformer": "^0.2.3",
+    "class-validator": "0.10.1",
     "concurrently": "^8.0.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
