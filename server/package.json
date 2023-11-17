@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "rimraf dist && npx tsc",
+    "prestart": "npm run build",
     "start": "set NODE_ENV=production && node dist/index.js",
     "preserve": "npm run build",
     "serve": "set NODE_ENV=development && concurrently \"npx tsc --w\" \"nodemon -q dist/index.js\"",
