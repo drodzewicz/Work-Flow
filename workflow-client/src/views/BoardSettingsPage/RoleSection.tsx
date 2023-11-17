@@ -1,5 +1,3 @@
-import React from "react";
-
 import useBoardId from "@/hooks/useBoardId";
 
 import { useGetBoardRoles, useGetAvailablePermissions } from "@/service/permission";

@@ -9,8 +9,6 @@ import TaskDisplayPage from "@/views/TaskDisplayPage";
 import WelcomePage from "@/views/WelcomePage";
 import { createBrowserRouter } from "react-router-dom";
 
-import MainView from "@/components/layout/MainView/MainView";
-
 import RouteGuard from "./RouteGuard";
 
 const router = createBrowserRouter([

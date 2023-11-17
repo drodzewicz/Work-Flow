@@ -1,10 +1,8 @@
 import React, { useRef, useState } from "react";
 
-import { FaSearch, FaTimes, FaTrash } from "react-icons/fa";
+import { FaSearch, FaTimes } from "react-icons/fa";
 
 import { useClickOutside } from "@/hooks/useClickOutside";
-
-import Portal from "@/components/layout/Portal";
 
 import "./AsyncSearch.scss";
 

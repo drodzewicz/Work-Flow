@@ -2,8 +2,6 @@ import React, { PropsWithChildren } from "react";
 
 import { Droppable } from "react-beautiful-dnd";
 
-import Column from "../Column";
-
 const ColumnDroppableContainer: React.FC<PropsWithChildren<{ className?: string }>> = ({
   children,
   className,

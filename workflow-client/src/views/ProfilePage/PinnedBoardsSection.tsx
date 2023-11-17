@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 
 import { ReactComponent as Pined } from "@/assets/images/pin-full.svg";
 

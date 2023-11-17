@@ -1,5 +1,3 @@
-import React from "react";
-
 import { env } from "@/config/env.config";
 
 import useAuth from "@/hooks/useAuth";

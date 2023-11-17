@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { ErrorBoundryPage } from "@/views/ErrorPage";
 import { QueryClient, QueryClientProvider } from "react-query";

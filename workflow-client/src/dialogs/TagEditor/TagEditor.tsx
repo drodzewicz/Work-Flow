@@ -3,7 +3,7 @@ import React from "react";
 import { OnSubmitType } from "@/types/utils";
 
 import ColorInput from "@/components/form/ColorInput/ColorInput";
-import { TextField, TextAreaField } from "@/components/form/TextInput";
+import { TextField } from "@/components/form/TextInput";
 import { Field, Form, useFormik, FormikProvider } from "formik";
 import { InferType } from "yup";
 

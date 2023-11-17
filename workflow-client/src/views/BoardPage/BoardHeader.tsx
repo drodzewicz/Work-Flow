@@ -1,7 +1,7 @@
 import React from "react";
 
 import { FaUsers, FaCog } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import useBoardId from "@/hooks/useBoardId";
 import useModal from "@/hooks/useModal";

@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef, ChangeEvent } from "react";
 
-import { FaCheck, FaTimes } from "react-icons/fa";
-
 import "./ColumnNameInput.scss";
 
 export interface ColumnNameInputProps {
@@ -43,7 +41,7 @@ const ColumnNameInput: React.FC<ColumnNameInputProps> = ({ value, disabled, onSu
 
   const activateEditingMode = () => {
     if (!disabled) {
-      setIsEditing(true); 
+      setIsEditing(true);
     }
   };
 

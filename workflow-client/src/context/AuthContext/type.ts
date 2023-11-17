@@ -1,16 +1,13 @@
 import { AuthAction } from "./actions";
 
 export type AuthState = {
-  user: User | null;
-  token: string | null;
+  user?: User;
+  token?: string;
 };
 
 export interface LoginSuccessAction {
   type: AuthAction.LOGIN;
-  payload: {
-    token: string;
-    user: User;
-  };
+  payload: AuthState;
 }
 
 export interface LogoutAction {

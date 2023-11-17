@@ -4,8 +4,8 @@ import authReducer from "./reducer";
 import { AuthActionType, AuthState } from "./type";
 
 const INITIAL_STATE: AuthState = {
-  user: null,
-  token: null,
+  user: undefined,
+  token: undefined,
 };
 
 export const AuthContext = createContext<[AuthState, React.Dispatch<AuthActionType>]>([

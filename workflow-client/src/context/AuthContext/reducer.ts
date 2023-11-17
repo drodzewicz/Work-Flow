@@ -9,7 +9,7 @@ const reducer: Reducer<AuthState, AuthActionType> = (state, action) => {
       return { ...state, user: action.payload.user, token: action.payload.token };
     }
     case AuthAction.LOGOUT:
-      return { user: null, token: null };
+      return { user: undefined, token: undefined };
     default:
       return state;
   }

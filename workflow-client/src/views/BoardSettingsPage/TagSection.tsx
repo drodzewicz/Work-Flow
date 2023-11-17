@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { FaEdit, FaTag, FaTrash } from "react-icons/fa";
 

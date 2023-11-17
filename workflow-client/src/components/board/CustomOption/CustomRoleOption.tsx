@@ -2,8 +2,6 @@ import React from "react";
 
 import { getRoleIcon } from "@/utils/role";
 
-import Image from "@/components/general/Image/Image";
-
 import "./CustomOption.scss";
 
 type CustomRoleOptionProps = {

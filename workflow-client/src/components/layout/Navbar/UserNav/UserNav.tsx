@@ -19,7 +19,7 @@ import "./UserNav.scss";
 const UserNav: React.FC = () => {
   const navigate = useNavigate();
 
-  const { user, token, login, logout } = useAuth();
+  const { user, login, logout } = useAuth();
   const { themeState, toggleTheme } = useAppTheme();
   const { mutate: logoutUser } = useLogout({
     onSuccess: () => {
@@ -30,7 +30,7 @@ const UserNav: React.FC = () => {
 
   useGetCurrentUser({
     onSuccess: (user) => {
-      login({ user, token: token as string });
+      login({ user });
     },
   });
 
