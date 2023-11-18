@@ -18,6 +18,6 @@
     "server:build": "yarn --cwd client build",
     "preapp:build": "rimraf -d ./server/dist/public",
     "app:build": "yarn client:build && yarn server:build",
-    "postapp:build": "pwd && mv ./client/dist ./server/dist/public"
+    "postapp:build": "pwd && ls server && mv ./client/dist ./server/dist/public"
   }
 }
