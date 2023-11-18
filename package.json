@@ -16,8 +16,8 @@
     "server:prod:run": "yarn --cwd server start",
     "client:build": "yarn --cwd client build",
     "server:build": "yarn --cwd client build",
-    "preapp:build": "rimraf -d server/dist/public",
+    "preapp:build": "rimraf -d ./server/dist/public",
     "app:build": "yarn client:build && yarn server:build",
-    "postapp:build": "mv client/dist server/dist/public"
+    "postapp:build": "pwd && mv ./client/dist ./server/dist/public"
   }
 }
