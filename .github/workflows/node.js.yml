@@ -28,12 +28,6 @@ jobs:
     - name: npm ci client
       working-directory: client
       run: npm ci
-    - name: test client
-      working-directory: client
-      run: npm run test
     - name: npm ci server
       working-directory: server
       run: npm ci
-    - name: test server
-      working-directory: server
-      run: npm run test

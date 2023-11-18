@@ -1,12 +1,12 @@
 {
-  "name": "workflow-server",
+  "name": "server",
   "version": "2.0.0",
   "description": "",
   "main": "src/index.js",
   "type": "module",
+  "private": true,
   "scripts": {
     "build": "rimraf dist && npx tsc",
-    "prestart": "yarn run build",
     "start": "set NODE_ENV=production && node dist/index.js",
     "preserve": "yarn run build",
     "serve": "set NODE_ENV=development && concurrently \"npx tsc --w\" \"nodemon -q dist/index.js\"",

@@ -1,5 +1,5 @@
 {
-  "name": "workflow-client",
+  "name": "client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -39,7 +39,6 @@
     "@types/react": "^18.0.28",
     "@types/react-beautiful-dnd": "^13.1.4",
     "@types/react-dom": "^18.0.11",
-    "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "@vitejs/plugin-react": "^4.0.0",
