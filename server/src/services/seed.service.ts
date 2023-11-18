@@ -1,11 +1,10 @@
-import { Service, Inject, Container } from "typedi";
-import { env } from "../config/env.config.js";
+import { Service, Container } from "typedi";
 import { BoardService, AuthService, TagService, MemberService, TaskService } from "../services/index.js";
 import { faker } from "@faker-js/faker";
 import { getRandomElement } from "../utils/random.utils.js";
 import { UserDTO } from "../types/dto/user.dto.js";
 import { TagDTO } from "src/types/dto/tag.dto.js";
-import { BoardDTO, BoardSimpleDTO, ColumnSimpleDTO } from "src/types/dto/board.dto.js";
+import { BoardSimpleDTO, ColumnSimpleDTO } from "src/types/dto/board.dto.js";
 
 @Service()
 export class SeedService {
@@ -86,7 +85,7 @@ export class SeedService {
     const tasks = faker.helpers.multiple(() => this.createRandomTask(users, columns, tags), {
       count: 5,
     });
-    for (let i in tasks) {
+    for (const i in tasks) {
       const { title, description, column, assignee, author, tag } = tasks[i];
       const persistedTask = await this.taskService.createTask({ title, description }, boardId, author._id);
 
