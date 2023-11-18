@@ -45,7 +45,4 @@ export const env = {
     database: utils.getEnv("DB_URI", true),
     seed: utils.getEnv("DB_SEED", false),
   },
-  swagger: {
-    enabled: utils.toBool(utils.getEnv("SWAGGER_ENABLED")),
-  },
 };

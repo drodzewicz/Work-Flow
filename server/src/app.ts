@@ -8,7 +8,6 @@ import "reflect-metadata";
 import { logger } from "./config/logger.config.js";
 import { databaseConnect } from "./config/mongoose.config.js";
 import { usePassportJWT } from "./config/passport-jwt.config.js";
-import { useSwagger } from "./config/swagger.config.js";
 import { useWebSockets } from "./config/ws.config.js";
 import { controllers } from "./controllers/index.js";
 import { HttpErrorHandler } from "./middleware/httpError.middleware.js";
@@ -39,7 +38,6 @@ useExpressServer(app, routingControllersOptions);
 
 databaseConnect();
 usePassportJWT();
-useSwagger(app, routingControllersOptions);
 useWebSockets(server, sockets);
 
 if (env.environment === "production") {

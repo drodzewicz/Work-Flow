@@ -4,10 +4,9 @@ import { createPortal } from "react-dom";
 
 export interface PortalProps {
   mountTo: string;
-  children: React.ReactNode;
 }
 
-const Portal: React.FC<PortalProps> = ({ children, mountTo }) => {
+const Portal: React.FC<React.PropsWithChildren<PortalProps>> = ({ children, mountTo }) => {
   const mount = document.getElementById(mountTo)!;
 
   return createPortal(children, mount);

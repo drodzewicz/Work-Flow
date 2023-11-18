@@ -48,7 +48,6 @@
     "routing-controllers": "0.8.1",
     "routing-controllers-openapi": "1.7.0",
     "socket.io": "4.7.2",
-    "swagger-ui-express": "4.0.1",
     "typedi": "0.10.0"
   }
 }
