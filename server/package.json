@@ -30,7 +30,7 @@
     "bcryptjs": "^2.4.3",
     "chalk": "^5.2.0",
     "class-transformer": "^0.2.3",
-    "class-validator": "0.10.1",
+    "class-validator": "0.14.0",
     "concurrently": "^8.0.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
