@@ -60,7 +60,7 @@ const NavItem: React.FC<PropsWithChildren<NavItemProps>> = ({
           dropdownMaxHeight={dropdownMaxHeight}
           onClickClose={dropDownOnClickClose}
           offset={dropdownOffset}
-          anchorEl={anchorElement}
+          anchorRef={anchorElement}
         >
           {children}
         </DropdownMenu>

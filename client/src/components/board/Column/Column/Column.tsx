@@ -113,7 +113,7 @@ const Column: React.FC<ColumnProps> = (props) => {
               <button ref={anchorElement} className="task-column__header__more-options">
                 <FaEllipsisV />
               </button>
-              <DropdownMenu anchorEl={anchorElement} className="column-more-options">
+              <DropdownMenu anchorRef={anchorElement} className="column-more-options">
                 <DropdownMenuItem onClick={removeColumn}>
                   <FaTrashAlt />
                   Delete
