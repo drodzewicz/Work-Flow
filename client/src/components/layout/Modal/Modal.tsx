@@ -49,7 +49,7 @@ const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
               </section>
             </aside>
           </div>
-          <Backdrop show={show} clicked={onClose} />
+          <Backdrop show={show} onClick={onClose} />
         </>
       </Portal>
     );

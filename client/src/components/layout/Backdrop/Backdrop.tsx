@@ -4,13 +4,13 @@ import "./Backdrop.scss";
 
 export interface BackdropProps {
   show: boolean;
-  clicked?: () => void;
+  onClick?: () => void;
   opacity?: number;
 }
 
-const Backdrop: React.FC<BackdropProps> = ({ show, clicked, opacity = 0.6 }) => (
+const Backdrop: React.FC<BackdropProps> = ({ show, onClick, opacity = 0.6 }) => (
   <div
-    onClick={clicked}
+    onClick={onClick}
     role="presentation"
     style={{ opacity: show ? opacity : 0 }}
     className="backdrop"
