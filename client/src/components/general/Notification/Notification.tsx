@@ -30,7 +30,7 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
 
   const notificationLink = useMemo(
     () => buildNotificationLink(notification.key, notification.attributes ?? {}),
-    [notification]
+    [notification],
   );
 
   const navigateByMessage = () => {
@@ -50,7 +50,11 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
         <hr className="break-line" />
         <p className="notification__message">{notification.description}</p>
       </div>
-      <button className="notification__close" onClick={deleteNotificationHandler}>
+      <button
+        aria-label="close"
+        className="notification__close"
+        onClick={deleteNotificationHandler}
+      >
         <FaTimes />
       </button>
     </div>
