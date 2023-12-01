@@ -33,36 +33,31 @@ const Pagination: React.FC<PaginationProps> = ({
         {current !== 1 ? (
           <>
             <button
-              aria-label="Previouse page arrow"
+              aria-label="previous-page-navigation"
               onClick={previousPage}
               className=" pagination__item pagination__arrow"
             >
               <FaAngleLeft />
             </button>
-            <div
-              aria-label="Previouse page"
-              className={`pagination__dots ${current - 1 === 1 ? "hide" : ""}`}
-            >
-              ...
-            </div>
-            <button onClick={previousPage} className="pagination__item">
+            <div className={`pagination__elipsis ${current - 1 === 1 ? "hide" : ""}`}>...</div>
+            <button aria-label="previous-page" onClick={previousPage} className="pagination__item">
               {current - 1}
             </button>
           </>
         ) : (
           <div className="empty"></div>
         )}
-        <button aria-label="Current page" className="pagination__item pagination__current-page">
+        <button aria-label="current-page" className="pagination__item pagination__current-page">
           {current}
         </button>
         {current !== total ? (
           <>
-            <button aria-label="Next page" onClick={nextPage} className="pagination__item">
+            <button aria-label="next-page" onClick={nextPage} className="pagination__item">
               {current + 1}
             </button>
-            <div className={`pagination__dots ${current + 1 === total ? "hide" : ""}`}>...</div>
+            <div className={`pagination__elipsis ${current + 1 === total ? "hide" : ""}`}>...</div>
             <button
-              aria-label="Next page arrow"
+              aria-label="next-page-navigation"
               onClick={nextPage}
               className="pagination__item pagination__arrow"
             >
