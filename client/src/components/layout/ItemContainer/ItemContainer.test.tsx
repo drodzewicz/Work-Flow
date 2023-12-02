@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import ItemContainer from "./ItemContainer";
 
 type TestEntryType = { id: string; name: string };
@@ -21,5 +21,20 @@ describe("Test Component - ItemContainer", () => {
     expect(firstItem).toBeInTheDocument();
     expect(secondItem).toBeInTheDocument();
     expect(thirdItem).toBeInTheDocument();
+  });
+
+  it("should display no content message when empty list of items is provided", () => {
+    const noContentMessage = "There is no content";
+
+    render(
+      <ItemContainer
+        noContentMessage={noContentMessage}
+        itemKey="id"
+        items={[]}
+        render={renderFunction}
+      />,
+    );
+
+    expect(screen.queryByText(noContentMessage)).toBeInTheDocument();
   });
 });
