@@ -87,6 +87,11 @@
       z-index: 2;
       padding: 0.3rem;
       border-radius: 3px;
+      background-color: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       &:hover {
         background-color: var(--_modal-header-color);
       }
