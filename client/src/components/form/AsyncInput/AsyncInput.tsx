@@ -1,8 +1,9 @@
-import React, { forwardRef, useCallback, useEffect, useState } from "react";
+import React, { forwardRef, useCallback, useState } from "react";
 
 import { debounce } from "lodash";
 
 import "./AsyncInput.scss";
+import useDidUpdateEffect from "@/hooks/useDidUpdateEffect";
 
 export type AsyncInputProps = {
   debounceTime?: number;
@@ -22,17 +23,18 @@ const AsyncInput = forwardRef<HTMLInputElement, React.PropsWithChildren<AsyncInp
     const {
       debounceTime = 1000,
       isLoading,
-      placeholder = "Search",
-      value = "",
+      value,
       readOnly,
       disabled,
       onChange,
       debounceCallback,
       onClick,
       children,
+      placeholder = "Search",
       className = "",
     } = props;
 
+    const [inputValue, setInputValue] = useState<string>(value || "");
     const [isInputting, setIsInputing] = useState<boolean>(false);
 
     const debounceonChange = useCallback(
@@ -40,32 +42,34 @@ const AsyncInput = forwardRef<HTMLInputElement, React.PropsWithChildren<AsyncInp
         debounceCallback?.(searchTerm);
         setIsInputing(false);
       }, debounceTime),
-      []
+      [],
     );
 
-    useEffect(() => {
-      if (value && debounceTime > 0) {
+    useDidUpdateEffect(() => {
+      if (inputValue && debounceTime > 0) {
         if (!isInputting) {
           setIsInputing(true);
         }
-        debounceonChange(value);
+        debounceonChange(inputValue);
       }
-      if (!value) {
-        debounceCallback?.(value);
+      if (!inputValue) {
+        debounceCallback?.(inputValue);
       }
-    }, [value]);
+    }, [inputValue]);
 
     const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange?.(e.currentTarget.value);
+      const targetValue = e.currentTarget.value;
+      onChange?.(targetValue);
+      setInputValue(targetValue);
     };
 
     return (
-      <div className={`async-input ${className}`}>
+      <div data-testid="async-input" className={`async-input ${className}`}>
         <input
           ref={ref}
           readOnly={readOnly}
           disabled={disabled}
-          value={value}
+          value={inputValue}
           className="async-input__input"
           placeholder={placeholder}
           onChange={onInputChange}
@@ -73,7 +77,7 @@ const AsyncInput = forwardRef<HTMLInputElement, React.PropsWithChildren<AsyncInp
         />
         <div className="async-input__button-group">
           {(isInputting || isLoading) && (
-            <span className="async-input__loading-container">
+            <span data-testid="async-input-loading" className="async-input__loading-container">
               <span className="async-input__loading" />
             </span>
           )}
@@ -81,7 +85,7 @@ const AsyncInput = forwardRef<HTMLInputElement, React.PropsWithChildren<AsyncInp
         </div>
       </div>
     );
-  }
+  },
 );
 
 export default AsyncInput;
