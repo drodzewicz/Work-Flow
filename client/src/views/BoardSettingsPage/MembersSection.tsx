@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import AsyncInput from "@/components/form/AsyncInput";
 import AsyncSearch from "@/components/form/AsyncSearch";
@@ -34,7 +34,7 @@ const MembersSection = () => {
     open: openInviteUserDialog,
   } = useModal();
 
-  const { limit, currentPage, totalPages, setTotalItems, setCurrentPage } = usePagination({
+  const { limit, currentPage, totalPages, setTotalItems, setCurrentPage, reset } = usePagination({
     initialPage: 1,
     limit: 5,
   });
@@ -56,19 +56,22 @@ const MembersSection = () => {
 
   const canManageMembers = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
 
-  const [searchTerm, setSearchTerm] = useState<string>("");
-
   const { data: roles = {} } = useGetBoardRoles({ boardId });
   const { mutate: removeMember } = useRemoveBoardMember({ boardId });
   const { mutate: updateMemberRole } = useUpdateMemberRole({ boardId });
 
   const removeMemberfromTheBoard = (userId: string) => {
     const shouldRemove = window.confirm(
-      "Are you sure you want to remove this member from the board?"
+      "Are you sure you want to remove this member from the board?",
     );
     if (shouldRemove) {
       removeMember(userId);
     }
+  };
+
+  const searchMember = (username: string) => {
+    reset();
+    search(username);
   };
 
   return (
@@ -90,9 +93,7 @@ const MembersSection = () => {
       )}
       <AsyncInput
         placeholder="Search members..."
-        debounceCallback={search}
-        value={searchTerm}
-        onChange={setSearchTerm}
+        debounceCallback={searchMember}
         isLoading={isLoading}
         debounceTime={500}
       >
