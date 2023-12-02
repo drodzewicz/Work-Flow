@@ -25,22 +25,24 @@ const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
   </BrowserRouter>
 );
 
-it("should display title and message", () => {
-  render(<Notification notification={testNotification} />, { wrapper });
+describe("Test Component - Notification", () => {
+  it("should display title and message", () => {
+    render(<Notification notification={testNotification} />, { wrapper });
 
-  const notificationTitle = screen.getByRole("heading", { name: testNotification.title });
-  const notificationMessage = screen.getByText(testNotification.description);
+    const notificationTitle = screen.getByRole("heading", { name: testNotification.title });
+    const notificationMessage = screen.getByText(testNotification.description);
 
-  expect(notificationTitle).toBeInTheDocument();
-  expect(notificationMessage).toBeInTheDocument();
-});
+    expect(notificationTitle).toBeInTheDocument();
+    expect(notificationMessage).toBeInTheDocument();
+  });
 
-// FIXME having trouble with not.toBeVisible()
-// maybe upon rendering the compoenent a sudo cursor is already hovering ove rthe component?
-it.skip("should not display close button", () => {
-  render(<Notification notification={testNotification} />, { wrapper });
+  // FIXME having trouble with not.toBeVisible()
+  // maybe upon rendering the compoenent a sudo cursor is already hovering ove rthe component?
+  it.skip("should not display close button", () => {
+    render(<Notification notification={testNotification} />, { wrapper });
 
-  const closeButton = screen.queryByRole("button", { name: "close" });
+    const closeButton = screen.queryByRole("button", { name: "close" });
 
-  expect(closeButton).not.toBeVisible();
+    expect(closeButton).not.toBeVisible();
+  });
 });

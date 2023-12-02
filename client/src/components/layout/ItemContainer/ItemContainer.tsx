@@ -7,7 +7,7 @@ import "./ItemContainer.scss";
 type ItemContainerProps<T> = {
   items?: T[];
   itemKey: string;
-  render?: (props: T) => React.ReactNode;
+  render: (props: T) => React.ReactNode;
   className?: string;
   noContentMessage?: string;
   maxHeight?: number;
