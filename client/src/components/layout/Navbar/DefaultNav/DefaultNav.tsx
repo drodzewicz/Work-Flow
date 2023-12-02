@@ -23,7 +23,7 @@ const DefaultNav: React.FC = () => {
         <NavItem label="Register" to="/register" />
       </nav>
       <Modal show={location.hash === "#login"} title="Login" size="s" onClose={() => navigate("/")}>
-        <Login initialValues={location.state as { username?: string; password?: string }} />
+        <Login initialValues={location.state} />
       </Modal>
     </>
   );
