@@ -20,6 +20,7 @@ function SearchOptionType<T>({ option, onClick, render, disabled = false }: Sear
   return (
     <div
       key={option.label}
+      data-testid="async-search-option"
       className={`async-search__option ${disabled ? "async-search__option--disabled" : ""}`}
       onClick={() => onClickHandler(option)}
     >

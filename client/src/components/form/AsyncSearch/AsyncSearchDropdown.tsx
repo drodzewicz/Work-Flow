@@ -44,9 +44,15 @@ function AsyncSearchDropdown<T = unknown>({
 
   return (
     <Portal mountTo="root-menu">
-      <div ref={dropdownRef} style={style} className="async-search__options scrollbar">
+      <div
+        ref={dropdownRef}
+        style={style}
+        data-testid="async-search-dropdown"
+        className="async-search__options scrollbar"
+      >
         {showClearOption && (
           <div
+            data-testid="async-search-clear-selections"
             className="async-search__clear async-search__option"
             onClick={onClearSelectedOptions}
           >

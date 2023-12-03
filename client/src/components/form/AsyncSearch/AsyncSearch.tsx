@@ -92,7 +92,7 @@ function AsyncSearch<T = unknown>({
   });
 
   return (
-    <div className="async-search">
+    <div data-testid="async-search" className="async-search">
       <AsyncInput
         {...inputProps}
         disabled={disabled}
@@ -104,11 +104,17 @@ function AsyncSearch<T = unknown>({
         placeholder={placeholder}
       >
         {filter && (
-          <span onClick={onClearInput} className="async-search__clear">
+          <span
+            data-testid="async-clear-icon"
+            onClick={onClearInput}
+            className="async-search__clear"
+          >
             <FaTimes className="async-search__icon" />
           </span>
         )}
-        {showSearchIcon && !filter && <FaSearch className="async-search__icon" />}
+        {showSearchIcon && !filter && (
+          <FaSearch data-testid="async-search-icon" className="async-search__icon" />
+        )}
       </AsyncInput>
       <AsyncSearchDropdown<T>
         show={openDropdown}
