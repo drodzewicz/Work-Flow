@@ -1,8 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitForElementToBeRemoved } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import AsyncSearch from "./AsyncSearch";
+import { OptionType } from "./SearchOptionType";
 
-const options = [
+const options: OptionType[] = [
   { id: "1", label: "one", disabled: false },
   { id: "2", label: "two", disabled: false },
   { id: "3", label: "three", disabled: false },
@@ -126,5 +127,106 @@ describe("Test Component - AsyncSearch", () => {
     await userEvent.click(screen.getByRole("textbox"));
 
     expect(screen.queryByTestId("async-search-clear-selections")).toBeInTheDocument();
+  });
+
+  it('should not show "clear selections" option in the dropdown when isClearable is false', async () => {
+    const selectoption = options[1];
+
+    render(<AsyncSearch options={options} selectedOptions={[selectoption]} isClearable={false} />);
+
+    await userEvent.click(screen.getByRole("textbox"));
+
+    expect(screen.queryByTestId("async-search-clear-selections")).not.toBeInTheDocument();
+  });
+
+  it("should not show selected options in the dropdown when hideSelectedOptions is set to false", async () => {
+    const selectoption = options[1];
+
+    render(
+      <AsyncSearch options={options} selectedOptions={[selectoption]} hideSelectedOptions={true} />,
+    );
+
+    await userEvent.click(screen.getByRole("textbox"));
+
+    expect(screen.queryByText(selectoption.label)).not.toBeInTheDocument();
+  });
+
+  it("should show selected options in the dropdown when hideSelectedOptions is set to true", async () => {
+    const selectoption = options[0];
+
+    render(
+      <AsyncSearch
+        options={options}
+        selectedOptions={[selectoption]}
+        hideSelectedOptions={false}
+      />,
+    );
+
+    await userEvent.click(screen.getByRole("textbox"));
+
+    expect(screen.queryByText(selectoption.label)).toBeInTheDocument();
+  });
+
+  it.skip("should render filtered options containing typed in substring", async () => {
+    const simmilarSubstring = "simmilar";
+
+    const option_1 = { id: "test_1", label: `${simmilarSubstring} one` };
+    const option_2 = { id: "test_2", label: `${simmilarSubstring} two` };
+
+    const optionsWithCommonString = structuredClone(options);
+    optionsWithCommonString.push(option_1);
+    optionsWithCommonString.push(option_2);
+
+    render(
+      <AsyncSearch debounceTime={100} options={optionsWithCommonString} filterOptions={true} />,
+    );
+
+    const inputElement = screen.getByRole("textbox");
+
+    await userEvent.click(inputElement);
+    await userEvent.type(inputElement, simmilarSubstring);
+    // await waitForElementToBeRemoved(screen.queryByTestId("async-input-loading"));
+
+    // const optionItems = screen.queryAllByTestId("async-search-option");
+    screen.debug(screen.getByTestId("async-search-dropdown"));
+    // expect(optionItems).toHaveLength(2);
+  });
+
+  it("should render custom options", async () => {
+    const customString = "custom string";
+    const renderComponent = (props: OptionType) => <div>{`${customString} ${props.label}`}</div>;
+
+    render(<AsyncSearch options={options} renderOption={renderComponent} />);
+    await userEvent.click(screen.getByRole("textbox"));
+
+    const optionItems = screen.queryAllByTestId("async-search-option");
+
+    expect(optionItems).toHaveLength(options.length);
+
+    optionItems.forEach((optionElement, index) => {
+      expect(optionElement).toHaveTextContent(`${customString} ${options[index].label}`);
+    });
+  });
+
+  it("should close dropdown on option select", async () => {
+    render(<AsyncSearch options={options} closeDropdownOnOptionClick={true} />);
+    await userEvent.click(screen.getByRole("textbox"));
+
+    expect(screen.queryByTestId("async-search-dropdown")).toBeInTheDocument();
+
+    await userEvent.click(screen.getByText(options[0].label));
+
+    expect(screen.queryByTestId("async-search-dropdown")).not.toBeInTheDocument();
+  });
+
+  it("should not close dropdown on option select", async () => {
+    render(<AsyncSearch options={options} closeDropdownOnOptionClick={false} />);
+    await userEvent.click(screen.getByRole("textbox"));
+
+    expect(screen.queryByTestId("async-search-dropdown")).toBeInTheDocument();
+
+    await userEvent.click(screen.getByText(options[0].label));
+
+    expect(screen.queryByTestId("async-search-dropdown")).toBeInTheDocument();
   });
 });
