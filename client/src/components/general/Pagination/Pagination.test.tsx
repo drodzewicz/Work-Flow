@@ -4,6 +4,18 @@ import Pagination from "./Pagination";
 describe("Test Component - Pagination", () => {
   const mockHandlePageChange = vi.fn();
 
+  it("should render component if there is more than one page of pagination", () => {
+    render(<Pagination current={0} total={2} handleChange={mockHandlePageChange} />);
+
+    expect(screen.queryByRole("navigation")).toBeInTheDocument();
+  });
+
+  it("should not render component unless there is more than one page of pagination", () => {
+    render(<Pagination current={0} total={1} handleChange={mockHandlePageChange} />);
+
+    expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
+  });
+
   it("should only display right navigation arrow if current page is first page", () => {
     render(<Pagination current={1} total={10} handleChange={mockHandlePageChange} />);
 

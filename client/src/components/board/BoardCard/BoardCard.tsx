@@ -33,7 +33,12 @@ const BoardCard: React.FC<BoardCardProps> = ({
   const PinIcon = isPinned ? Pined : Pin;
 
   return (
-    <div onClick={goToBoard} aria-label="Board Card" className="board-card">
+    <div
+      onClick={goToBoard}
+      data-testid="board-card"
+      aria-label="board-card"
+      className="board-card"
+    >
       <div role="presentation" className="board-card__foreground">
         <div className="board-card__column"></div>
         <div className="board-card__column"></div>

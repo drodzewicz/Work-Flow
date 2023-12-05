@@ -1,3 +1,4 @@
+import { RenderOptions, render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
 
@@ -15,4 +16,7 @@ const allProviders: React.FC<React.PropsWithChildren> = ({ children }) => (
   </BrowserRouter>
 );
 
-export { allProviders };
+const renderWithProviders = (ui: React.ReactElement, options?: RenderOptions) =>
+  render(ui, { wrapper: allProviders, ...options });
+
+export { allProviders, renderWithProviders };

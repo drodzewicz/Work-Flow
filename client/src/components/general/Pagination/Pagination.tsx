@@ -29,7 +29,7 @@ const Pagination: React.FC<PaginationProps> = ({
   if (total < 2) return null;
   else
     return (
-      <nav aria-label="Pagination" className={`pagination ${className}`}>
+      <nav aria-label="pagination" className={`pagination ${className}`}>
         {current !== 1 ? (
           <>
             <button
