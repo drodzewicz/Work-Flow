@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Notification from "./Notification";
-import { BrowserRouter } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { allProviders } from "@/test/utils";
 
 const testNotification: BoardNotification = {
   _id: "id",
@@ -12,22 +11,11 @@ const testNotification: BoardNotification = {
   timeStamp: new Date(),
 };
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-    },
-  },
-});
-const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <BrowserRouter>
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  </BrowserRouter>
-);
+
 
 describe("Test Component - Notification", () => {
   it("should display title and message", () => {
-    render(<Notification notification={testNotification} />, { wrapper });
+    render(<Notification notification={testNotification} />, { wrapper: allProviders });
 
     const notificationTitle = screen.getByRole("heading", { name: testNotification.title });
     const notificationMessage = screen.getByText(testNotification.description);
@@ -39,7 +27,7 @@ describe("Test Component - Notification", () => {
   // FIXME having trouble with not.toBeVisible()
   // maybe upon rendering the compoenent a sudo cursor is already hovering ove rthe component?
   it.skip("should not display close button", () => {
-    render(<Notification notification={testNotification} />, { wrapper });
+    render(<Notification notification={testNotification} />, { wrapper: allProviders });
 
     const closeButton = screen.queryByRole("button", { name: "close" });
 

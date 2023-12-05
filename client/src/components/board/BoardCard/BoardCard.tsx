@@ -10,7 +10,7 @@ export interface BoardCardProps {
   boardName: string;
   boardId: string;
   isPinned?: boolean;
-  pinBoard: () => void;
+  pinBoard?: () => void;
 }
 
 const BoardCard: React.FC<BoardCardProps> = ({
@@ -23,7 +23,7 @@ const BoardCard: React.FC<BoardCardProps> = ({
 
   const togglePinBoard = (e: MouseEvent) => {
     e.stopPropagation();
-    pinBoard();
+    pinBoard?.();
   };
 
   const goToBoard = () => {
@@ -47,7 +47,14 @@ const BoardCard: React.FC<BoardCardProps> = ({
           </h1>
         </div>
         <div className="board-card__footer">
-          <PinIcon onClick={togglePinBoard} />
+          <button
+            data-testid="pin-btn"
+            aria-label={isPinned ? "pinned" : "unpinned"}
+            className="board-card__pin-btn"
+            onClick={togglePinBoard}
+          >
+            <PinIcon />
+          </button>
         </div>
       </div>
     </div>

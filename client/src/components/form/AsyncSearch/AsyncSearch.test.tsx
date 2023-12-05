@@ -1,4 +1,4 @@
-import { render, screen, waitForElementToBeRemoved } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import AsyncSearch from "./AsyncSearch";
 import { OptionType } from "./SearchOptionType";
@@ -167,6 +167,7 @@ describe("Test Component - AsyncSearch", () => {
     expect(screen.queryByText(selectoption.label)).toBeInTheDocument();
   });
 
+  // FIXME
   it.skip("should render filtered options containing typed in substring", async () => {
     const simmilarSubstring = "simmilar";
 

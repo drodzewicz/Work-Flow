@@ -103,18 +103,29 @@ $card-height: 6rem;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
+  }
+
+  &__pin-btn {
+    background-color: transparent;
+    border: none;
+    height: 1.2rem;
+    width: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color ease-in-out 0.2s;
+    padding: 0.2rem;
+
+    &:hover {
+      background: var(--_card-column-color);
+    }
     svg {
-      cursor: pointer;
-      height: 1.2rem;
-      width: 1.2rem;
       color: var(--c-font-primary);
       fill: var(--c-font-primary);
-      border-radius: 5px;
-      padding: 3px;
-      transition: all ease-in-out 0.2s;
-      &:hover {
-        background: var(--_card-column-color);
-      }
+      height: inherit;
+      width: inherit;
     }
   }
 }
