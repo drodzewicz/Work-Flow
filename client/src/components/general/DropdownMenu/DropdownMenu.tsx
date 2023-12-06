@@ -38,7 +38,7 @@ const DropdownMenu: React.FC<PropsWithChildren<DropdownMenuProps>> = ({
   useClickOutside([dropDownMenuRef, anchorRef], closeMenuClickHandler);
 
   useEffect(() => {
-    const openMenu = () => {
+    const toggleMenu = () => {
       const rect = anchorRef.current?.getBoundingClientRect?.();
       if (rect) {
         setCords({
@@ -46,14 +46,14 @@ const DropdownMenu: React.FC<PropsWithChildren<DropdownMenuProps>> = ({
           top: rect.y + window.scrollY + offsetRef.current.y,
         });
       }
-      setShow(true);
+      setShow((state) => !state);
     };
 
-    anchorRef.current?.addEventListener("click", openMenu);
+    anchorRef.current?.addEventListener("click", toggleMenu);
 
     setShow(false);
     return () => {
-      anchorRef.current?.removeEventListener("click", openMenu);
+      anchorRef.current?.removeEventListener("click", toggleMenu);
     };
   }, [width, anchorRef]);
 
