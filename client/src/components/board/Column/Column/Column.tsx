@@ -20,7 +20,7 @@ import TaskEditor from "@/dialogs/TaskEditor";
 import "./Column.scss";
 
 import ColumnNameInput from "../ColumnNameInput";
-import ColumnDraggable from "./ColumnDraggable";
+import DraggableColumnWrapper from "./DraggableColumnWrapper";
 import TaskContainer from "./TaskContainer";
 
 export type ColumnProps = {
@@ -47,6 +47,7 @@ const Column: React.FC<ColumnProps> = (props) => {
   const canDeleteColumn = useRBAC({ boardId, action: "COLUMN_DELETE" });
   const canCreateColumn = useRBAC({ boardId, action: "COLUMN_CREATE" });
   const canCreateTask = useRBAC({ boardId, action: "TASK_CREATE" });
+  const canMoveColumn = useRBAC({ boardId, action: "COLUMN_MOVE" });
 
   const { mutate: createTask } = useCreateTask({
     boardId,
@@ -77,7 +78,7 @@ const Column: React.FC<ColumnProps> = (props) => {
   };
 
   return (
-    <ColumnDraggable {...props}>
+    <DraggableColumnWrapper {...props} isMovable={canMoveColumn}>
       <div className="task-column">
         <header className="task-column__header">
           <span className="task-column__header__task-count">{data[columnIndex].tasks.length}</span>
@@ -124,7 +125,7 @@ const Column: React.FC<ColumnProps> = (props) => {
         </header>
         <TaskContainer columnId={columnId} columnIndex={columnIndex} />
       </div>
-    </ColumnDraggable>
+    </DraggableColumnWrapper>
   );
 };
 

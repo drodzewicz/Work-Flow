@@ -6,7 +6,7 @@ import { useGetTasks } from "@/service/task";
 
 import Task from "@/components/board/Task";
 
-import TaskDroppableContainer from "./TaskDroppableContainer";
+import DroppableTaskWrapper from "./DroppableTaskWrapper";
 
 const TaskContainer: React.FC<{ columnId: string; columnIndex: number }> = ({
   columnId,
@@ -17,7 +17,7 @@ const TaskContainer: React.FC<{ columnId: string; columnIndex: number }> = ({
   const { tasks } = data[columnIndex];
 
   return (
-    <TaskDroppableContainer columnId={columnId} className="task-column__container scrollbar">
+    <DroppableTaskWrapper columnId={columnId} className="task-column__container scrollbar">
       {tasks?.map(({ _id, title, tags, assignees }, index) => (
         <Task
           key={_id}
@@ -28,7 +28,7 @@ const TaskContainer: React.FC<{ columnId: string; columnIndex: number }> = ({
           indexes={{ taskIndex: index, columnIndex }}
         />
       ))}
-    </TaskDroppableContainer>
+    </DroppableTaskWrapper>
   );
 };
 

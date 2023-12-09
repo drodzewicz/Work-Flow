@@ -12,11 +12,12 @@ const TagCard: React.FC<React.PropsWithChildren<TagCardProps>> = ({
   color,
   name,
   children,
-  className,
+  className = "",
 }) => {
   return (
     <div
-      className={`tag-card ${className || ""}`}
+      data-testid="task-tag"
+      className={`tag-card ${className}`}
       style={{ "--_tag-color": color } as React.CSSProperties}
     >
       {name}

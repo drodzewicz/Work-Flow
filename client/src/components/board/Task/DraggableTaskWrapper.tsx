@@ -1,24 +1,24 @@
 import React, { PropsWithChildren } from "react";
 
 import { Draggable } from "react-beautiful-dnd";
-import { useParams } from "react-router-dom";
-
-import useRBAC from "@/hooks/useRBAC";
 
 import "./Task.scss";
 
-const TaskDraggable: React.FC<
-  PropsWithChildren<{
-    taskId: string;
-    taskIndex: number;
-    className?: string;
-  }>
-> = ({ taskId, taskIndex, children, className }) => {
-  const { id: boardId = "" } = useParams<{ id: string }>();
-  const canMoveTask = useRBAC({ boardId, action: "TASK_MOVE" });
-
+type DraggableTaskWrapperProps = {
+  taskId: string;
+  taskIndex: number;
+  className?: string;
+  isMovable?: boolean;
+};
+const DraggableTaskWrapper: React.FC<PropsWithChildren<DraggableTaskWrapperProps>> = ({
+  taskId,
+  taskIndex,
+  children,
+  className,
+  isMovable = true,
+}) => {
   return (
-    <Draggable draggableId={taskId} index={taskIndex} isDragDisabled={!canMoveTask}>
+    <Draggable draggableId={taskId} index={taskIndex} isDragDisabled={!isMovable}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
@@ -34,4 +34,4 @@ const TaskDraggable: React.FC<
   );
 };
 
-export default TaskDraggable;
+export default DraggableTaskWrapper;
