@@ -10,12 +10,12 @@ describe("Test Component - BoardCard", () => {
   const testBoard = boards[0];
 
   it("should render board title", () => {
-    render(<BoardCard boardId={testBoard.id} boardName={testBoard.name} />);
+    render(<BoardCard boardId={testBoard._id} boardName={testBoard.name} />);
     expect(screen.getByRole("heading", { name: testBoard.name })).toBeInTheDocument();
   });
 
   it("should render pin button with status unpinned", () => {
-    render(<BoardCard boardId={testBoard.id} boardName={testBoard.name} isPinned={false} />);
+    render(<BoardCard boardId={testBoard._id} boardName={testBoard.name} isPinned={false} />);
     const pinButtonElement = screen.getByTestId("pin-btn");
 
     expect(pinButtonElement).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe("Test Component - BoardCard", () => {
   });
 
   it("should render pin button with status pinned", () => {
-    render(<BoardCard boardId={testBoard.id} boardName={testBoard.name} isPinned={true} />);
+    render(<BoardCard boardId={testBoard._id} boardName={testBoard.name} isPinned={true} />);
     const pinButtonElement = screen.getByTestId("pin-btn");
 
     expect(pinButtonElement).toBeInTheDocument();
@@ -35,7 +35,7 @@ describe("Test Component - BoardCard", () => {
 
     render(
       <BoardCard
-        boardId={testBoard.id}
+        boardId={testBoard._id}
         boardName={testBoard.name}
         pinBoard={togglePinCallbackMock}
       />,
