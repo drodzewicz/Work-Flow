@@ -1,25 +1,23 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import useEvent from "@testing-library/user-event";
 import BoardCard from "./BoardCard";
-import { allProviders } from "@/test/utils";
+import { BrowerRouterWrapper, renderWithWrappers } from "@/test/utils";
 
 describe("Test Component - BoardCard", () => {
+  const render = renderWithWrappers([BrowerRouterWrapper]);
+
   const testBoard = {
     id: "board_id_1",
     boardName: "Test noard 1",
   };
 
   it("should render board title", () => {
-    render(<BoardCard boardId={testBoard.id} boardName={testBoard.boardName} />, {
-      wrapper: allProviders,
-    });
+    render(<BoardCard boardId={testBoard.id} boardName={testBoard.boardName} />);
     expect(screen.getByRole("heading", { name: testBoard.boardName })).toBeInTheDocument();
   });
 
   it("should render pin button with status unpinned", () => {
-    render(<BoardCard boardId={testBoard.id} boardName={testBoard.boardName} isPinned={false} />, {
-      wrapper: allProviders,
-    });
+    render(<BoardCard boardId={testBoard.id} boardName={testBoard.boardName} isPinned={false} />);
     const pinButtonElement = screen.getByTestId("pin-btn");
 
     expect(pinButtonElement).toBeInTheDocument();
@@ -27,9 +25,7 @@ describe("Test Component - BoardCard", () => {
   });
 
   it("should render pin button with status pinned", () => {
-    render(<BoardCard boardId={testBoard.id} boardName={testBoard.boardName} isPinned={true} />, {
-      wrapper: allProviders,
-    });
+    render(<BoardCard boardId={testBoard.id} boardName={testBoard.boardName} isPinned={true} />);
     const pinButtonElement = screen.getByTestId("pin-btn");
 
     expect(pinButtonElement).toBeInTheDocument();
@@ -45,9 +41,6 @@ describe("Test Component - BoardCard", () => {
         boardName={testBoard.boardName}
         pinBoard={togglePinCallbackMock}
       />,
-      {
-        wrapper: allProviders,
-      },
     );
     const pinButtonElement = screen.getByTestId("pin-btn");
 

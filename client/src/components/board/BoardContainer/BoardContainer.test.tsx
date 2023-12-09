@@ -1,8 +1,10 @@
 import { screen } from "@testing-library/react";
 import BoardContainer from "./BoardContainer";
-import { renderWithProviders } from "@/test/utils";
+import { renderWithWrappers, BrowerRouterWrapper } from "@/test/utils";
 
 describe("Test Component - BoardContainer", () => {
+  const render = renderWithWrappers([BrowerRouterWrapper]);
+
   const testBoardList: (Board & { isPinned: boolean })[] = [
     {
       _id: "1",
@@ -31,7 +33,7 @@ describe("Test Component - BoardContainer", () => {
 
   it("should render message when there are no boards to render", () => {
     const emptyContainerMessage = "empty container";
-    renderWithProviders(
+    render(
       <BoardContainer
         boards={[]}
         noBoardsMessage={emptyContainerMessage}
@@ -45,7 +47,7 @@ describe("Test Component - BoardContainer", () => {
 
   it("should not render message when there are boards provided", () => {
     const emptyContainerMessage = "empty container";
-    renderWithProviders(
+    render(
       <BoardContainer
         boards={testBoardList}
         noBoardsMessage={emptyContainerMessage}
@@ -59,7 +61,7 @@ describe("Test Component - BoardContainer", () => {
 
   it("should not render message when there are no boards provided and isLoading is set tot true", () => {
     const emptyContainerMessage = "empty container";
-    renderWithProviders(
+    render(
       <BoardContainer
         boards={[]}
         noBoardsMessage={emptyContainerMessage}
@@ -75,7 +77,7 @@ describe("Test Component - BoardContainer", () => {
   it("should render boards when isLoading is false", () => {
     const loadingBoardsCount = 5;
 
-    renderWithProviders(
+    render(
       <BoardContainer
         boards={testBoardList}
         togglePinBoard={togglePinMock}
@@ -91,7 +93,7 @@ describe("Test Component - BoardContainer", () => {
   it("should render boards skeleton when isLoading is true", () => {
     const loadingBoardsCount = 5;
 
-    renderWithProviders(
+    render(
       <BoardContainer
         boards={testBoardList}
         togglePinBoard={togglePinMock}

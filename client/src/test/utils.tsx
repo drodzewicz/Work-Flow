@@ -10,13 +10,28 @@ const queryClient = new QueryClient({
   },
 });
 
-const allProviders: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <BrowserRouter>
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  </BrowserRouter>
+const BrowerRouterWrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <BrowserRouter>{children}</BrowserRouter>
 );
 
-const renderWithProviders = (ui: React.ReactElement, options?: RenderOptions) =>
-  render(ui, { wrapper: allProviders, ...options });
+const ReactQueryWrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+);
 
-export { allProviders, renderWithProviders };
+const renderWithWrappers =
+  (wrappers: React.FC<React.PropsWithChildren>[]) =>
+  (ui: React.ReactElement, options?: RenderOptions) => {
+    const [FirstWrapper, ...otherWrappers] = wrappers;
+
+    const wrapper: React.FC<React.PropsWithChildren> = ({ children }) =>
+      otherWrappers.reduce(
+        (accumulator, CurrentComponent) => {
+          return <CurrentComponent>{accumulator}</CurrentComponent>;
+        },
+        <FirstWrapper>{children}</FirstWrapper>,
+      );
+
+    return render(ui, { wrapper, ...options });
+  };
+
+export { renderWithWrappers, BrowerRouterWrapper, ReactQueryWrapper };
