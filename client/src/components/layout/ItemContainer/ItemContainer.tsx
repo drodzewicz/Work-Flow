@@ -16,13 +16,13 @@ type ItemContainerProps<T> = {
 function ItemContainer<T = unknown>({
   items,
   render,
-  className,
   itemKey,
   maxHeight,
+  className = "",
   noContentMessage = "Empty",
 }: ItemContainerProps<T>) {
   return (
-    <div className={`item-container ${className || ""}`} style={{ maxHeight }}>
+    <div className={`item-container scrollbar ${className}`} style={{ maxHeight }}>
       {items?.map((props) => {
         const elementKey = "item-key-" + nestedProperty.get(props, itemKey);
         return (
