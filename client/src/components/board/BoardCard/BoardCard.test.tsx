@@ -2,22 +2,20 @@ import { screen } from "@testing-library/react";
 import useEvent from "@testing-library/user-event";
 import BoardCard from "./BoardCard";
 import { BrowerRouterWrapper, renderWithWrappers } from "@/test/utils";
+import { boards } from "@/test/data";
 
 describe("Test Component - BoardCard", () => {
   const render = renderWithWrappers([BrowerRouterWrapper]);
 
-  const testBoard = {
-    id: "board_id_1",
-    boardName: "Test noard 1",
-  };
+  const testBoard = boards[0];
 
   it("should render board title", () => {
-    render(<BoardCard boardId={testBoard.id} boardName={testBoard.boardName} />);
-    expect(screen.getByRole("heading", { name: testBoard.boardName })).toBeInTheDocument();
+    render(<BoardCard boardId={testBoard.id} boardName={testBoard.name} />);
+    expect(screen.getByRole("heading", { name: testBoard.name })).toBeInTheDocument();
   });
 
   it("should render pin button with status unpinned", () => {
-    render(<BoardCard boardId={testBoard.id} boardName={testBoard.boardName} isPinned={false} />);
+    render(<BoardCard boardId={testBoard.id} boardName={testBoard.name} isPinned={false} />);
     const pinButtonElement = screen.getByTestId("pin-btn");
 
     expect(pinButtonElement).toBeInTheDocument();
@@ -25,7 +23,7 @@ describe("Test Component - BoardCard", () => {
   });
 
   it("should render pin button with status pinned", () => {
-    render(<BoardCard boardId={testBoard.id} boardName={testBoard.boardName} isPinned={true} />);
+    render(<BoardCard boardId={testBoard.id} boardName={testBoard.name} isPinned={true} />);
     const pinButtonElement = screen.getByTestId("pin-btn");
 
     expect(pinButtonElement).toBeInTheDocument();
@@ -38,7 +36,7 @@ describe("Test Component - BoardCard", () => {
     render(
       <BoardCard
         boardId={testBoard.id}
-        boardName={testBoard.boardName}
+        boardName={testBoard.name}
         pinBoard={togglePinCallbackMock}
       />,
     );

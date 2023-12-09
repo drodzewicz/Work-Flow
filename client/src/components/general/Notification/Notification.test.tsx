@@ -1,15 +1,9 @@
 import { screen } from "@testing-library/react";
 import Notification from "./Notification";
 import { BrowerRouterWrapper, ReactQueryWrapper, renderWithWrappers } from "@/test/utils";
+import { notifications } from "@/test/data";
 
-const testNotification: BoardNotification = {
-  _id: "id",
-  description: "test description",
-  title: "test title",
-  key: "test-key",
-  attributes: { one: "one-attr", two: "two-attr" },
-  timeStamp: new Date(),
-};
+const testNotification = notifications[0];
 
 describe("Test Component - Notification", () => {
   const render = renderWithWrappers([BrowerRouterWrapper, ReactQueryWrapper]);

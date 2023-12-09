@@ -1,33 +1,12 @@
 import { screen } from "@testing-library/react";
 import BoardContainer from "./BoardContainer";
 import { renderWithWrappers, BrowerRouterWrapper } from "@/test/utils";
+import { boards } from "@/test/data";
 
 describe("Test Component - BoardContainer", () => {
   const render = renderWithWrappers([BrowerRouterWrapper]);
 
-  const testBoardList: (Board & { isPinned: boolean })[] = [
-    {
-      _id: "1",
-      name: "board one",
-      timeCreated: new Date(),
-      description: "test description",
-      isPinned: false,
-    },
-    {
-      _id: "2",
-      name: "board two",
-      timeCreated: new Date(),
-      description: "test description",
-      isPinned: false,
-    },
-    {
-      _id: "3",
-      name: "board three",
-      timeCreated: new Date(),
-      description: "test description",
-      isPinned: false,
-    },
-  ];
+  const testBoardList = boards;
 
   const togglePinMock = vi.fn();
 

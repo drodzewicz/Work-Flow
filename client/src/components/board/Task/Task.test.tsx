@@ -8,66 +8,17 @@ import {
   DroppableWrapper,
 } from "@/test/utils";
 
+import { tasks } from "@/test/data";
+
 describe("Test Component - Task", () => {
+  const testTask = tasks[0];
+
   const render = renderWithWrappers([
     DroppableWrapper,
     DragDropWrapper,
     ReactQueryWrapper,
     BrowerRouterWrapper,
   ]);
-
-  const testTask = {
-    id: "test-id",
-    title: "test task title",
-    cords: { taskIndex: 0, columnIndex: 0 },
-    tags: [
-      { _id: "tag-1", name: "tag one", key: "#c44242" },
-      { _id: "tag-2", name: "tag two", key: "#42c44d" },
-      { _id: "tag-3", name: "tag three", key: "#4246c4" },
-    ],
-    assignees: [
-      {
-        _id: "user-1",
-        username: "user_one",
-        name: "user_name_one",
-        surname: "user_surname_one",
-        email: "user_one@mail.com",
-        avatarImageURL: undefined,
-      },
-      {
-        _id: "user-2",
-        username: "user_two",
-        name: "user_name_two",
-        surname: "user_surname_two",
-        email: "user_two@mail.com",
-        avatarImageURL: undefined,
-      },
-      {
-        _id: "user-3",
-        username: "user_three",
-        name: "user_name_three",
-        surname: "user_surname_three",
-        email: "user_three@mail.com",
-        avatarImageURL: undefined,
-      },
-      {
-        _id: "user-4",
-        username: "user_four",
-        name: "user_name_four",
-        surname: "user_surname_four",
-        email: "user_four@mail.com",
-        avatarImageURL: undefined,
-      },
-      {
-        _id: "user-5",
-        username: "user_five",
-        name: "user_name_five",
-        surname: "user_surname_five",
-        email: "user_five@mail.com",
-        avatarImageURL: undefined,
-      },
-    ],
-  };
 
   it("should render task title", () => {
     render(
