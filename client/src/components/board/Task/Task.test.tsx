@@ -11,7 +11,7 @@ import {
 import { tasks } from "@/test/data";
 
 describe("Test Component - Task", () => {
-  const testTask = tasks[0];
+  const testTask = { ...tasks[0], cords: { taskIndex: 0, columnIndex: 0 } };
 
   const render = renderWithWrappers([
     DroppableWrapper,
@@ -23,7 +23,7 @@ describe("Test Component - Task", () => {
   it("should render task title", () => {
     render(
       <Task
-        taskId={testTask.id}
+        taskId={testTask._id}
         title={testTask.title}
         indexes={testTask.cords}
         tags={testTask.tags}
@@ -37,7 +37,7 @@ describe("Test Component - Task", () => {
   it("should render tags", () => {
     render(
       <Task
-        taskId={testTask.id}
+        taskId={testTask._id}
         title={testTask.title}
         indexes={testTask.cords}
         tags={testTask.tags}
@@ -57,7 +57,7 @@ describe("Test Component - Task", () => {
   it("should render first three assignee avatars", () => {
     render(
       <Task
-        taskId={testTask.id}
+        taskId={testTask._id}
         title={testTask.title}
         indexes={testTask.cords}
         tags={testTask.tags}
@@ -72,7 +72,7 @@ describe("Test Component - Task", () => {
   it("should render overflow chip in assignee row", () => {
     const { rerender } = render(
       <Task
-        taskId={testTask.id}
+        taskId={testTask._id}
         title={testTask.title}
         indexes={testTask.cords}
         tags={testTask.tags}
@@ -84,7 +84,7 @@ describe("Test Component - Task", () => {
 
     rerender(
       <Task
-        taskId={testTask.id}
+        taskId={testTask._id}
         title={testTask.title}
         indexes={testTask.cords}
         tags={testTask.tags}
@@ -98,7 +98,7 @@ describe("Test Component - Task", () => {
   it("should not render overflow chip in assignee row when amount of assignees does not overflow (3)", () => {
     render(
       <Task
-        taskId={testTask.id}
+        taskId={testTask._id}
         title={testTask.title}
         indexes={testTask.cords}
         tags={testTask.tags}

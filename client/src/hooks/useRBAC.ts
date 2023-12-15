@@ -57,9 +57,10 @@ const useRBAC = ({ boardId, action }: RBACProps) => {
   // check access based on action and permissions
   if (action) {
     const permissions = userRole?.permissions || [];
+
     return ResourcePermissionMapping[action].reduce(
       (acc, permission) => acc && permissions.includes(permission),
-      true
+      true,
     );
   }
 

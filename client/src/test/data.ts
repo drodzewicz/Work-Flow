@@ -47,36 +47,50 @@ const tags = [
   { _id: "tag-3", name: "tag three", key: "#4246c4" },
 ];
 
-const tasks = [
+const tasks: Task[] = [
   {
-    id: "test-id-1",
+    _id: "test-id-1",
     title: "test task title one",
-    cords: { taskIndex: 0, columnIndex: 0 },
+    description: "test task description one",
     tags: tags,
     assignees: users,
+    author: users[0],
   },
   {
-    id: "test-id-2",
+    _id: "test-id-2",
     title: "test task title two",
-    cords: { taskIndex: 1, columnIndex: 0 },
+    description: "test task description one",
     tags: tags,
     assignees: users,
+    author: users[0],
   },
   {
-    id: "test-id-3",
+    _id: "test-id-3",
     title: "test task title three",
-    cords: { taskIndex: 2, columnIndex: 0 },
+    description: "test task description one",
+
     tags: tags,
     assignees: users,
+    author: users[0],
   },
   {
-    id: "test-id-4",
+    _id: "test-id-4",
     title: "test task title four",
-    cords: { taskIndex: 3, columnIndex: 0 },
+    description: "test task description one",
+
     tags: tags,
     assignees: users,
+    author: users[0],
   },
 ];
+
+const columns: Column[] = [
+  { _id: "column-id-1", name: "column one" },
+  { _id: "column-id-2", name: "column two" },
+  { _id: "column-id-3", name: "column three" },
+];
+
+const columnsWithTasks: ColumnWithTasks[] = columns.map((col) => ({ ...col, tasks: tasks }));
 
 const boards = [
   {
@@ -121,4 +135,4 @@ const notifications = [
   },
 ];
 
-export { users, tags, tasks, boards, notifications };
+export { users, tags, tasks, boards, columns, notifications, columnsWithTasks };

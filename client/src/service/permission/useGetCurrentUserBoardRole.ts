@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { QueryFunctionContext, useQuery } from "react-query";
 
-import useAuth from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import useAuthClient from "@/hooks/useClient";
 
 import permissionsQueryKeys from "./queryKeys";
@@ -11,7 +11,7 @@ type GetCurrentUserBoardRoleProps = {
   boardId: string;
 };
 
-type PermissionsReposne = {
+export type PermissionsReposne = {
   role: string;
   permissions: string[];
 };

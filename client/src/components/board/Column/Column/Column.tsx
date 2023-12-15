@@ -81,7 +81,9 @@ const Column: React.FC<ColumnProps> = (props) => {
     <DraggableColumnWrapper {...props} isMovable={canMoveColumn}>
       <div className="task-column">
         <header className="task-column__header">
-          <span className="task-column__header__task-count">{data[columnIndex].tasks.length}</span>
+          <span data-testid="column-task-count" className="task-column__header__task-count">
+            {data[columnIndex]?.tasks.length}
+          </span>
 
           <ColumnNameInput value={columnName} onSubmit={updateColumn} disabled={!canCreateColumn} />
           {canCreateTask && (
@@ -111,7 +113,11 @@ const Column: React.FC<ColumnProps> = (props) => {
           )}
           {canDeleteColumn && (
             <>
-              <button ref={anchorElement} className="task-column__header__more-options">
+              <button
+                data-testid="column-option-btn"
+                ref={anchorElement}
+                className="task-column__header__more-options"
+              >
                 <FaEllipsisV />
               </button>
               <DropdownMenu anchorRef={anchorElement} className="column-more-options">

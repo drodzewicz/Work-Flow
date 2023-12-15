@@ -41,7 +41,7 @@ const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], assignee
       taskIndex={indexes.taskIndex}
       isMovable={canMoveTask}
     >
-      <div onClick={openTaskModal}>
+      <div data-testid="task-card" onClick={openTaskModal}>
         <h3 className="task-card__title" title={title}>
           {title}
         </h3>

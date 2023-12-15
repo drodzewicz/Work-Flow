@@ -14,7 +14,7 @@ const TaskContainer: React.FC<{ columnId: string; columnIndex: number }> = ({
 }) => {
   const boardId = useBoardId();
   const { data = [] } = useGetTasks({ boardId });
-  const { tasks } = data[columnIndex];
+  const tasks = data[columnIndex]?.tasks;
 
   return (
     <DroppableTaskWrapper columnId={columnId} className="task-column__container scrollbar">

@@ -29,4 +29,6 @@ const useAuth = () => {
   return { user: user ?? parsedUser, token, login, logout };
 };
 
+export { useAuth };
+
 export default useAuth;
