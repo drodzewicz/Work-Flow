@@ -1,4 +1,5 @@
 import { screen } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
 import {
   renderWithWrappers,
   ReactQueryWrapper,
@@ -11,12 +12,12 @@ import Column from "./Column";
 import { server } from "@/mocks/server";
 import * as useAuthHooks from "@/hooks/useAuth";
 import { columnsWithTasks } from "@/test/data";
-import { HttpResponse, http } from "msw";
-import { Permissions } from "@/hooks/useRBAC";
-import { apiURl } from "@/mocks/handlers";
-import permissionURL from "@/service/permission/url";
-import { PermissionsReposne } from "@/service/permission/useGetCurrentUserBoardRole";
-import taskURL from "@/service/task/url";
+// import { HttpResponse, http } from "msw";
+// import { Permissions } from "@/hooks/useRBAC";
+// import { apiURl } from "@/mocks/handlers";
+// import permissionURL from "@/service/permission/url";
+// import { PermissionsReposne } from "@/service/permission/useGetCurrentUserBoardRole";
+// import taskURL from "@/service/task/url";
 
 describe("Test Component - Column", () => {
   const RouteWrapper = createRouteWrapper("/board/:id", "/board/someId123");
@@ -64,6 +65,39 @@ describe("Test Component - Column", () => {
     expect(screen.queryByText(columnTitle)).toBeInTheDocument();
   });
 
+  it("should double click on title and activate input", async () => {
+    const columnTitle = "Test Column title";
+
+    render(<Column columnId="column-id-1" columnName={columnTitle} columnIndex={0} />);
+
+    const titleElement = screen.getByText(columnTitle);
+
+    expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
+
+    await userEvent.dblClick(titleElement);
+
+    const inputElement = screen.queryByRole("textbox");
+    expect(inputElement).toBeInTheDocument();
+    expect(inputElement).toHaveValue(columnTitle);
+  });
+
+  it("should change value in the editable title input", async () => {
+    const columnTitle = "Test Column title";
+    const testValue = "plus something";
+
+    render(<Column columnId="column-id-1" columnName={columnTitle} columnIndex={0} />);
+
+    const titleElement = screen.getByText(columnTitle);
+
+    await userEvent.dblClick(titleElement);
+
+    const inputElement = screen.getByRole("textbox");
+    expect(inputElement).toHaveValue(columnTitle);
+
+    await userEvent.type(inputElement, testValue);
+    expect(inputElement).toHaveValue(columnTitle + testValue);
+  });
+
   it("should render number of tasks in the column", async () => {
     const columnIndex = 0;
 
@@ -94,6 +128,18 @@ describe("Test Component - Column", () => {
     render(<Column columnId="column-id-1" columnName="Test Column title" columnIndex={0} />);
 
     expect(await screen.findByTestId("column-option-btn")).toBeInTheDocument();
+  });
+
+  it("should display modal when clicked on add task button", async () => {
+    render(<Column columnId="column-id-1" columnName="Test Column title" columnIndex={0} />);
+
+    const addTaskElement = screen.getByTestId("add-task-btn");
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+    await userEvent.click(addTaskElement);
+
+    expect(screen.queryByRole("dialog")).toBeInTheDocument();
   });
 
   // it.skip("should not render column options button when user does not have delete column permission", async () => {

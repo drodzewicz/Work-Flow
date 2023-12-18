@@ -2,15 +2,19 @@ import React from "react";
 
 import Column from "@/components/board/Column/Column";
 
-import ColumnDroppableContainer from "./ColumnDroppableContainer";
+import DroppableColumnWrapper from "./DroppableColumnWrapper";
 
-const ColumnContainer: React.FC<{ data: ColumnWithTasks[] }> = ({ data }) => {
+type ColumnContainerType = {
+  data: ColumnWithTasks[];
+};
+
+const ColumnContainer: React.FC<ColumnContainerType> = ({ data }) => {
   return (
-    <ColumnDroppableContainer className="task-board__task-row">
+    <DroppableColumnWrapper className="task-board__task-row">
       {data.map(({ _id, name }, index) => (
         <Column key={_id} columnId={_id} columnName={name} columnIndex={index} />
       ))}
-    </ColumnDroppableContainer>
+    </DroppableColumnWrapper>
   );
 };
 

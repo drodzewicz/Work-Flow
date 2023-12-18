@@ -49,6 +49,7 @@ const ResourcePermissionMapping: Record<ActionType, Permissions[]> = {
   ],
 };
 
+// role based access control
 const useRBAC = ({ boardId, action }: RBACProps) => {
   const { data: userRole } = useGetCurrentUserBoardRole({
     boardId,

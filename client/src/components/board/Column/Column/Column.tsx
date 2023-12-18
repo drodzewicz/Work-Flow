@@ -89,6 +89,7 @@ const Column: React.FC<ColumnProps> = (props) => {
           {canCreateTask && (
             <>
               <button
+                data-testid="add-task-btn"
                 onClick={openCreateNewTaskModal}
                 className="task-column__header__new-task-btn"
               >

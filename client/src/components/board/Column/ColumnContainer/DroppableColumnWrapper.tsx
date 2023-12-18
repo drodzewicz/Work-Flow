@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from "react";
 
 import { Droppable } from "react-beautiful-dnd";
 
-const ColumnDroppableContainer: React.FC<PropsWithChildren<{ className?: string }>> = ({
+const DroppableColumnWrapper: React.FC<PropsWithChildren<{ className?: string }>> = ({
   children,
   className,
 }) => {
@@ -20,4 +20,4 @@ const ColumnDroppableContainer: React.FC<PropsWithChildren<{ className?: string 
   );
 };
 
-export default ColumnDroppableContainer;
+export default DroppableColumnWrapper;
