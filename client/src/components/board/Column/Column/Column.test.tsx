@@ -6,18 +6,17 @@ import {
   DragDropWrapper,
   DroppableWrapper,
   createRouteWrapper,
+  queryClient,
 } from "@/test/utils";
 
 import Column from "./Column";
 import { server } from "@/mocks/server";
 import * as useAuthHooks from "@/hooks/useAuth";
 import { columnsWithTasks } from "@/test/data";
-// import { HttpResponse, http } from "msw";
-// import { Permissions } from "@/hooks/useRBAC";
-// import { apiURl } from "@/mocks/handlers";
-// import permissionURL from "@/service/permission/url";
-// import { PermissionsReposne } from "@/service/permission/useGetCurrentUserBoardRole";
-// import taskURL from "@/service/task/url";
+import { HttpResponse, http } from "msw";
+import { Permissions } from "@/hooks/useRBAC";
+import { apiURl } from "@/mocks/handlers";
+import permissionURL from "@/service/permission/url";
 
 describe("Test Component - Column", () => {
   const RouteWrapper = createRouteWrapper("/board/:id", "/board/someId123");
@@ -50,6 +49,7 @@ describe("Test Component - Column", () => {
 
   afterEach(() => {
     server.resetHandlers();
+    queryClient.clear();
   });
 
   afterAll(() => {
@@ -130,10 +130,31 @@ describe("Test Component - Column", () => {
     expect(await screen.findByTestId("column-option-btn")).toBeInTheDocument();
   });
 
+  it("should not render column options button when user does not have delete column permission", async () => {
+    server.use(
+      http.get(apiURl(permissionURL.userBoardRole("*", "*")), () => {
+        return HttpResponse.json({
+          permissions: [
+            Permissions.TASK_CREATE,
+            Permissions.TASK_DELETE,
+            Permissions.TASK_MOVE,
+            Permissions.COLUMN_CREATE,
+            Permissions.COLUMN_MOVE,
+          ],
+          role: "ADMIN",
+        });
+      }),
+    );
+
+    render(<Column columnId="column-id-1" columnName="Test Column title" columnIndex={0} />);
+
+    expect(screen.findByTestId("column-option-btn")).rejects.toThrow();
+  });
+
   it("should display modal when clicked on add task button", async () => {
     render(<Column columnId="column-id-1" columnName="Test Column title" columnIndex={0} />);
 
-    const addTaskElement = screen.getByTestId("add-task-btn");
+    const addTaskElement = await screen.findByTestId("add-task-btn");
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 
@@ -142,21 +163,23 @@ describe("Test Component - Column", () => {
     expect(screen.queryByRole("dialog")).toBeInTheDocument();
   });
 
-  // it.skip("should not render column options button when user does not have delete column permission", async () => {
-  //   server.resetHandlers(
-  //     http.get(apiURl(taskURL.index), () => {
-  //       return HttpResponse.json<ColumnWithTasks[]>(columnsWithTasks);
-  //     }),
-  //     http.get(apiURl(permissionURL.userBoardRole("*", "*")), () => {
-  //       return HttpResponse.json<PermissionsReposne>({
-  //         permissions: [Permissions.COLUMN_CREATE, Permissions.COLUMN_MOVE],
-  //         role: "ADMIN",
-  //       });
-  //     }),
-  //   );
+  it("should not render add task button when user does not have task create permission", async () => {
+    server.use(
+      http.get(apiURl(permissionURL.userBoardRole("*", "*")), () => {
+        return HttpResponse.json({
+          permissions: [
+            Permissions.TASK_DELETE,
+            Permissions.TASK_MOVE,
+            Permissions.COLUMN_CREATE,
+            Permissions.COLUMN_MOVE,
+          ],
+          role: "ADMIN",
+        });
+      }),
+    );
 
-  //   render(<Column columnId="column-id-1" columnName="Test Column title" columnIndex={0} />);
+    render(<Column columnId="column-id-1" columnName="Test Column title" columnIndex={0} />);
 
-  //   expect(screen.findByTestId("column-option-btn")).rejects.toThrow();
-  // });
+    expect(screen.findByTestId("column-option-btn")).rejects.toThrow();
+  });
 });

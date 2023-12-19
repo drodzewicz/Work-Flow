@@ -8,7 +8,7 @@ import useAuthClient from "@/hooks/useClient";
 import memberQueryKeys from "./queryKeys";
 import memberURL from "./url";
 
-type UserListPaginated = { totalCount: number; members: { role: string; user: User }[] };
+export type UserListPaginated = { totalCount: number; members: { role: string; user: User }[] };
 
 type UserListQueryKey = ReturnType<(typeof memberQueryKeys)["searchListPaginated"]>;
 

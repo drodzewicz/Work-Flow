@@ -110,4 +110,5 @@ export {
   DragDropWrapper,
   DroppableWrapper,
   onDragEndMock,
+  queryClient,
 };
