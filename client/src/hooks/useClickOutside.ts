@@ -19,3 +19,5 @@ const useClickOutside = (refs: React.RefObject<HTMLElement>[], cb?: () => void) 
 };
 
 export { useClickOutside };
+
+export default useClickOutside;

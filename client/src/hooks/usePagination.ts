@@ -28,3 +28,5 @@ const usePagination = ({ initialPage, limit }: PaginationProps) => {
 };
 
 export { usePagination };
+
+export default usePagination;

@@ -16,4 +16,6 @@ function useDidUpdateEffect(fn: () => void, inputs: Array<unknown>) {
   }, inputs);
 }
 
+export { useDidUpdateEffect };
+
 export default useDidUpdateEffect;

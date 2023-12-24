@@ -46,4 +46,6 @@ const useAppTheme = () => {
   return { themeState: appTheme, setThemeLight, setThemeDark, toggleTheme };
 };
 
+export { useAppTheme };
+
 export default useAppTheme;

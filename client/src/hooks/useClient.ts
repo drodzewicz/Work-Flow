@@ -105,4 +105,6 @@ const useAuthClient = () => {
   return axios;
 };
 
+export { useAuthClient };
+
 export default useAuthClient;
