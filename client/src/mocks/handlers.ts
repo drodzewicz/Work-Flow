@@ -1,22 +1,31 @@
 import { env } from "@/config/env.config";
+
 import permissionURL from "@/service/permission/url";
 import taskURL from "@/service/task/url";
+import memberURL from "@/service/member/url";
+import tagURL from "@/service/tag/url";
+import columnURL from "@/service/column/url";
+
 import { PermissionsReposne } from "@/service/permission/useGetCurrentUserBoardRole";
 import { http, HttpResponse } from "msw";
-import { columnsWithTasks } from "@/test/data";
+import { columnsWithTasks, columns } from "@/test/data";
 import { Permissions } from "@/hooks/useRBAC";
-import memberURL from "@/service/member/url";
 import { UserListPaginated } from "@/service/member/useSearchBoardMembers";
-import tagURL from "@/service/tag/url";
 
 const API_URL_BASENAME = [
   `${env.environment === "production" ? "" : env.api.url}`,
   env.api.prefix,
 ].join("/");
 
+const SOCKET_URL_BASENAME = `${env.environment === "production" ? "" : env.api.url}`;
+
 export const apiURl = (path: string) => API_URL_BASENAME + path;
+export const socketURl = (path: string) => SOCKET_URL_BASENAME + path;
 
 export const handlers = [
+  http.get(socketURl("/socket.io/"), () => {
+    return HttpResponse.json(null);
+  }),
   http.get(apiURl(tagURL.index), () => {
     return HttpResponse.json<Tag[]>([]);
   }),
@@ -38,5 +47,8 @@ export const handlers = [
       ],
       role: "ADMIN",
     });
+  }),
+  http.post(apiURl(columnURL.index("*")), () => {
+    return HttpResponse.json<Column>(columns[0]);
   }),
 ];
