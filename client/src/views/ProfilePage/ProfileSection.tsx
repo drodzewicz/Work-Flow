@@ -1,7 +1,5 @@
 import { FaUser } from "react-icons/fa";
 
-import useModal from "@/hooks/useModal";
-
 import { useGetCurrentUser } from "@/service/self";
 
 import Image from "@/components/general/Image";
@@ -10,14 +8,15 @@ import Modal from "@/components/layout/Modal";
 import ProfileSectionCard from "@/components/layout/ProfileSectionCard/ProfileSectionCard";
 
 import ChangeAvatar from "@/dialogs/ChangeAvatar";
+import useBoolean from "@/hooks/useBoolean";
 
 const ProfileSection = () => {
   const { data: user } = useGetCurrentUser();
   const {
-    show: showChangeAvatarDialog,
-    open: openChangeAvatarDialog,
-    close: closeChangeAvatarDialog,
-  } = useModal();
+    state: showChangeAvatarDialog,
+    setTrue: openChangeAvatarDialog,
+    setFalse: closeChangeAvatarDialog,
+  } = useBoolean(false);
 
   return (
     <ProfileSectionCard className="profile-page__profile" title="Profile" Icon={FaUser}>

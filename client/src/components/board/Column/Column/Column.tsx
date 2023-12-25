@@ -3,7 +3,6 @@ import React, { useRef } from "react";
 import { FaRegPlusSquare, FaEllipsisV, FaTrashAlt } from "react-icons/fa";
 
 import useBoardId from "@/hooks/useBoardId";
-import useModal from "@/hooks/useModal";
 import useRBAC from "@/hooks/useRBAC";
 
 import { useUpdateColumn, useDeleteColumn } from "@/service/column";
@@ -22,6 +21,7 @@ import "./Column.scss";
 import ColumnNameInput from "../ColumnNameInput";
 import DraggableColumnWrapper from "./DraggableColumnWrapper";
 import TaskContainer from "./TaskContainer";
+import useBoolean from "@/hooks/useBoolean";
 
 export type ColumnProps = {
   columnName: string;
@@ -37,10 +37,10 @@ const Column: React.FC<ColumnProps> = (props) => {
   const { data = [] } = useGetTasks({ boardId });
 
   const {
-    show: showCreateNewTaskModal,
-    open: openCreateNewTaskModal,
-    close: closeCreateNewTaskModal,
-  } = useModal();
+    state: showCreateNewTaskModal,
+    setTrue: openCreateNewTaskModal,
+    setFalse: closeCreateNewTaskModal,
+  } = useBoolean(false);
 
   const anchorElement = useRef(null);
 

@@ -4,13 +4,13 @@ import { FaUsers, FaCog } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 import useBoardId from "@/hooks/useBoardId";
-import useModal from "@/hooks/useModal";
 
 import ExpandText from "@/components/general/ExpandText";
 
 import Modal from "@/components/layout/Modal";
 
 import BoardMembers from "@/dialogs/BoardMembers";
+import useBoolean from "@/hooks/useBoolean";
 
 type BoardHeaderProps = {
   name: string;
@@ -19,7 +19,11 @@ type BoardHeaderProps = {
 
 const BoardHeader: React.FC<BoardHeaderProps> = ({ name, description }) => {
   const boardId = useBoardId();
-  const { show: showMembersModal, open: openMembersModal, close: closeMembersModal } = useModal();
+  const {
+    state: showMembersModal,
+    setTrue: openMembersModal,
+    setFalse: closeMembersModal,
+  } = useBoolean(false);
 
   return (
     <>

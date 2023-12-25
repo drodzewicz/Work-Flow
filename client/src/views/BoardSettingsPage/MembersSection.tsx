@@ -6,7 +6,6 @@ import { FaEnvelope, FaSearch, FaTimes } from "react-icons/fa";
 
 import useAuth from "@/hooks/useAuth";
 import useBoardId from "@/hooks/useBoardId";
-import useModal from "@/hooks/useModal";
 import { usePagination } from "@/hooks/usePagination";
 import useRBAC from "@/hooks/useRBAC";
 
@@ -23,16 +22,17 @@ import { CustomRoleOption } from "@/components/board/CustomOption";
 import User from "@/components/board/User";
 
 import InviteUserToBoard from "@/dialogs/InviteUserToBoard";
+import useBoolean from "@/hooks/useBoolean";
 
 const MembersSection = () => {
   const boardId = useBoardId();
   const { user: currentUser } = useAuth();
 
   const {
-    show: showInviteUserDialog,
-    close: closeInviteUserDialog,
-    open: openInviteUserDialog,
-  } = useModal();
+    state: showInviteUserDialog,
+    setFalse: closeInviteUserDialog,
+    setTrue: openInviteUserDialog,
+  } = useBoolean(false);
 
   const { limit, currentPage, totalPages, setTotalItems, setCurrentPage, reset } = usePagination({
     initialPage: 1,
