@@ -30,6 +30,4 @@ const useDemoPopup = ({ onOpen, onClose, timeout = 3000 }: DemoPopupType) => {
   return { closePopup };
 };
 
-export { useDemoPopup };
-
 export default useDemoPopup;

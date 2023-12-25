@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { QueryFunction, UseQueryOptions, useQuery } from "react-query";
 
-import useClient from "@/hooks/useClient";
+import useClient from "@/hooks/useClient/useClient";
 
 import selfQueryKeys from "./queryKeys";
 import selfURL from "./url";

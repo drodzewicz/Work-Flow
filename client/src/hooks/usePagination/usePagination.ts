@@ -27,6 +27,4 @@ const usePagination = ({ initialPage, limit }: PaginationProps) => {
   return { currentPage, totalPages, limit, setCurrentPage, setTotalItems, reset };
 };
 
-export { usePagination };
-
 export default usePagination;

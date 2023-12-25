@@ -5,6 +5,4 @@ const useBoardId = () => {
   return id;
 };
 
-export { useBoardId };
-
 export default useBoardId;

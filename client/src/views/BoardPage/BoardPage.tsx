@@ -27,7 +27,7 @@ const BoardPage: React.FC = () => {
     debounce(() => {
       queryClient.invalidateQueries(taskQueryKeys.all);
     }, 2000),
-    []
+    [],
   );
 
   useWebSocketListener("task-alert", debounceInvalidateTasks);

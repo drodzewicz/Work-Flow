@@ -69,6 +69,6 @@ const useRBAC = ({ boardId, action }: RBACProps) => {
   return false;
 };
 
-export { useRBAC, ResourcePermissionMapping, Permissions };
+export { ResourcePermissionMapping, Permissions };
 
 export default useRBAC;

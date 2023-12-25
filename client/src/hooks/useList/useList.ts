@@ -28,6 +28,4 @@ function useList<T>(intialData?: T[]) {
   return { data, setData, addItem, filterItem, removeItem, clear };
 }
 
-export { useList };
-
 export default useList;

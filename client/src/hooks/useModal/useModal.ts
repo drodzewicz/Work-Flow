@@ -12,6 +12,4 @@ const useModal = (initialStale = false) => {
   return { show, toggle, close, open };
 };
 
-export { useModal };
-
 export default useModal;

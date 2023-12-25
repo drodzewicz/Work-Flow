@@ -51,7 +51,7 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
     removeItem: removeAssignee,
     clear: clearSelectedAssignees,
   } = useList<User & OptionType>(
-    initialValues.assignees?.map((user) => ({ ...user, id: user._id, label: user.username }))
+    initialValues.assignees?.map((user) => ({ ...user, id: user._id, label: user.username })),
   );
 
   const {
@@ -60,7 +60,7 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
     removeItem: removeTag,
     clear: clearSelectedTags,
   } = useList<Tag & OptionType>(
-    initialValues.tags?.map((tag) => ({ ...tag, id: tag._id, label: tag.name }))
+    initialValues.tags?.map((tag) => ({ ...tag, id: tag._id, label: tag.name })),
   );
 
   const { data: availableTags = [] } = useGetTags<(Tag & OptionType)[]>({

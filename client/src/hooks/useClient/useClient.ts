@@ -33,7 +33,7 @@ const useAuthClient = () => {
         }
         return config;
       },
-      (error) => Promise.reject(error)
+      (error) => Promise.reject(error),
     );
 
     const responseIntercept = axios.interceptors.response.use(
@@ -93,7 +93,7 @@ const useAuthClient = () => {
         processQueue({ error });
         logout();
         return Promise.reject(error);
-      }
+      },
     );
 
     return () => {
@@ -104,7 +104,5 @@ const useAuthClient = () => {
 
   return axios;
 };
-
-export { useAuthClient };
 
 export default useAuthClient;

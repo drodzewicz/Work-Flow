@@ -12,6 +12,4 @@ const useBoolean = (initialState: boolean) => {
   return { state, setState, toggleState, setTrue, setFalse };
 };
 
-export { useBoolean };
-
 export default useBoolean;

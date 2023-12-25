@@ -13,6 +13,4 @@ const useWebSocketListener = (name: string, callback: callbackType) => {
   }, [name, callback]);
 };
 
-export { useWebSocketListener };
-
 export default useWebSocketListener;

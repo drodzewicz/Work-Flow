@@ -2,7 +2,7 @@ import { useRef } from "react";
 
 import axios from "@/service/utils/client.ts";
 
-import useAuth from "./useAuth";
+import useAuth from "../useAuth/useAuth";
 
 const useRefreshToken = () => {
   const { user, login } = useAuth();
@@ -18,7 +18,5 @@ const useRefreshToken = () => {
   };
   return { isRefreshing, refresh };
 };
-
-export { useRefreshToken };
 
 export default useRefreshToken;

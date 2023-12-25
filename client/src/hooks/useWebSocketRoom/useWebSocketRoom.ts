@@ -12,6 +12,4 @@ const useWebSocketRoom = (boardId: string) => {
   }, [boardId]);
 };
 
-export { useWebSocketRoom };
-
 export default useWebSocketRoom;

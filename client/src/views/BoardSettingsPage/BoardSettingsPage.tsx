@@ -52,7 +52,7 @@ const BoardSettingsPage: React.FC = () => {
   const leaveBoardHandler = () => {
     if (data.totalCount === 1) {
       const lastMemberAlert = window.confirm(
-        "You are the last member of the board, board will be deleted after you leave."
+        "You are the last member of the board, board will be deleted after you leave.",
       );
       if (!lastMemberAlert) {
         return;
