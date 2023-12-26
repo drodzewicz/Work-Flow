@@ -1,22 +1,21 @@
-import { useDebugValue, useState } from "react";
+import { useDebugValue, useState, useMemo } from "react";
 
 type PaginationProps = {
-  initialPage: number;
+  initialPage?: number;
   limit: number;
 };
 
-const usePagination = ({ initialPage, limit }: PaginationProps) => {
-  const FIRST_PAGE_INDEX = 1;
+const FIRST_PAGE_INDEX = 1;
 
+const usePagination = ({ initialPage = FIRST_PAGE_INDEX, limit }: PaginationProps) => {
   const [currentPage, setCurrentPage] = useState<number>(initialPage);
-  const [totalPages, setTotalPages] = useState<number>(FIRST_PAGE_INDEX);
+  const [totalItems, setTotalItems] = useState<number>(1);
+
+  const totalPages = useMemo(() => Math.ceil(totalItems / limit), [totalItems, limit]);
 
   useDebugValue(currentPage, (page) => page);
-  useDebugValue(totalPages, (total) => total);
-
-  const setTotalItems = (count: number) => {
-    setTotalPages(Math.ceil(count / limit));
-  };
+  useDebugValue(totalPages, (totalPages) => totalPages);
+  useDebugValue(totalItems, (totalItems) => totalItems);
 
   const reset = () => {
     if (currentPage !== FIRST_PAGE_INDEX) {
@@ -24,7 +23,7 @@ const usePagination = ({ initialPage, limit }: PaginationProps) => {
     }
   };
 
-  return { currentPage, totalPages, limit, setCurrentPage, setTotalItems, reset };
+  return { currentPage, totalPages, totalItems, limit, setCurrentPage, setTotalItems, reset };
 };
 
 export default usePagination;
