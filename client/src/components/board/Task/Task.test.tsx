@@ -2,23 +2,40 @@ import { screen } from "@testing-library/react";
 import Task from "./Task";
 import {
   renderWithWrappers,
-  BrowerRouterWrapper,
   ReactQueryWrapper,
   DragDropWrapper,
   DroppableWrapper,
+  createRouteWrapper,
+  queryClient,
 } from "@/test/utils";
 
 import { tasks } from "@/test/data";
+import { server } from "@/mocks/server";
 
 describe("Test Component - Task", () => {
   const testTask = { ...tasks[0], cords: { taskIndex: 0, columnIndex: 0 } };
+
+  const RouteWrapper = createRouteWrapper("/board/:id", "/board/someId123");
 
   const render = renderWithWrappers([
     DroppableWrapper,
     DragDropWrapper,
     ReactQueryWrapper,
-    BrowerRouterWrapper,
+    RouteWrapper,
   ]);
+
+  beforeAll(() => {
+    server.listen();
+  });
+
+  afterEach(() => {
+    server.resetHandlers();
+    queryClient.clear();
+  });
+
+  afterAll(() => {
+    server.close();
+  });
 
   it("should render task title", () => {
     render(
