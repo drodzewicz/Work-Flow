@@ -10,14 +10,15 @@ This project was build following the MERN stack (_Mongo_, _Express_, _React_, _N
 <br>_\*opening the page sometimes might take a while since it is served by [render](https://render.com/) on a free plan and it will most likely initiate a cold start._
 
 A **demo user** should be available on this instance. If you are not greeted with a demo dialog then you can login to demo user with following credentials
+
 ```
 username: DemoUser
 password: password123
 ```
 
 ### Running in development
-**For project installation please navigate to** [documentation](https://github.com/drodzewicz/Work-Flow/wiki/Project-installation)
 
+**For project installation please navigate to** [documentation](https://github.com/drodzewicz/Work-Flow/wiki/Project-installation)
 
 1. Open terminal in root directory
 2. run `yarn server:dev:run`
@@ -29,3 +30,8 @@ password: password123
 1. Open terminal in root directory
 2. run `yarn app:build`
 3. run `yarn server:prod:run`
+
+### Running test
+
+1. Open terminal in root directory
+2. run `yarn client:test`
