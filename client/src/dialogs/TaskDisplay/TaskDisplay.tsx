@@ -32,8 +32,8 @@ const TaskDisplay: React.FC<TaskDisplayProps> = ({ taskId, closeModal }) => {
 
   const navigate = useNavigate();
 
-  const canEditTask = useRBAC({ boardId, action: "TASK_CREATE" });
-  const canDeleteTask = useRBAC({ boardId, action: "TASK_DELETE" });
+  const { hasAccess: canEditTask } = useRBAC({ boardId, action: "TASK_CREATE" });
+  const { hasAccess: canDeleteTask } = useRBAC({ boardId, action: "TASK_DELETE" });
 
   const {
     state: isEditing,

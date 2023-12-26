@@ -21,8 +21,8 @@ const BoardSettingsPage: React.FC = () => {
   const boardId = useBoardId();
   const navigate = useNavigate();
 
-  const canDeleteBoard = useRBAC({ boardId, action: "BOARD_DELETE" });
-  const canModifyRoles = useRBAC({ boardId, action: "MEMBER_ROLE_UPDATE" });
+  const { hasAccess: canDeleteBoard } = useRBAC({ boardId, action: "BOARD_DELETE" });
+  const { hasAccess: canModifyRoles } = useRBAC({ boardId, action: "MEMBER_ROLE_UPDATE" });
 
   const { data = { totalCount: 0 } } = useSearchBoardMembers({
     boardId,

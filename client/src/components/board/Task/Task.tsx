@@ -28,7 +28,7 @@ export interface TaskProps {
 const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], assignees = [] }) => {
   const navigate = useNavigate();
   const boardId = useBoardId();
-  const canMoveTask = useRBAC({ boardId, action: "TASK_MOVE" });
+  const { hasAccess: canMoveTask } = useRBAC({ boardId, action: "TASK_MOVE" });
 
   const openTaskModal = () => {
     navigate(`/board/${boardId}/task/${taskId}`);

@@ -44,10 +44,10 @@ const Column: React.FC<ColumnProps> = (props) => {
 
   const anchorElement = useRef(null);
 
-  const canDeleteColumn = useRBAC({ boardId, action: "COLUMN_DELETE" });
-  const canCreateColumn = useRBAC({ boardId, action: "COLUMN_CREATE" });
-  const canCreateTask = useRBAC({ boardId, action: "TASK_CREATE" });
-  const canMoveColumn = useRBAC({ boardId, action: "COLUMN_MOVE" });
+  const { hasAccess: canDeleteColumn } = useRBAC({ boardId, action: "COLUMN_DELETE" });
+  const { hasAccess: canCreateColumn } = useRBAC({ boardId, action: "COLUMN_CREATE" });
+  const { hasAccess: canCreateTask } = useRBAC({ boardId, action: "TASK_CREATE" });
+  const { hasAccess: canMoveColumn } = useRBAC({ boardId, action: "COLUMN_MOVE" });
 
   const { mutate: createTask } = useCreateTask({
     boardId,

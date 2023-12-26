@@ -51,22 +51,24 @@ const ResourcePermissionMapping: Record<ActionType, Permissions[]> = {
 
 // role based access control
 const useRBAC = ({ boardId, action }: RBACProps) => {
-  const { data: userRole } = useGetCurrentUserBoardRole({
+  const { data: userRole, isLoading } = useGetCurrentUserBoardRole({
     boardId,
   });
+
+  let hasAccess = false;
 
   // check access based on action and permissions
   if (action) {
     const permissions = userRole?.permissions || [];
 
-    return ResourcePermissionMapping[action].reduce(
+    hasAccess = ResourcePermissionMapping[action].reduce(
       (acc, permission) => acc && permissions.includes(permission),
       true,
     );
   }
 
   // otherwise default to false (no access)
-  return false;
+  return { hasAccess, isLoading };
 };
 
 export { ResourcePermissionMapping, Permissions };

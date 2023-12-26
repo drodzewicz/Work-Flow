@@ -1,4 +1,4 @@
-import { RenderOptions, render } from "@testing-library/react";
+import { RenderHookOptions, RenderOptions, render, renderHook } from "@testing-library/react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter, RouterProvider, createMemoryRouter } from "react-router-dom";
@@ -43,8 +43,6 @@ const queryClient = new QueryClient({
 const ReactQueryWrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 );
-
-
 
 const onDragEndMock = vi.fn();
 
@@ -102,7 +100,24 @@ const renderWithWrappers =
     return render(ui, { wrapper, ...options });
   };
 
+function renderHookWithWrappers<R = any, P = any>(wrappers: React.FC<React.PropsWithChildren>[]) {
+  return (hook: (props: P) => R, options?: RenderHookOptions<any>) => {
+    const [FirstWrapper, ...otherWrappers] = wrappers;
+
+    const wrapper: React.FC<React.PropsWithChildren> = ({ children }) =>
+      otherWrappers.reduce(
+        (accumulator, CurrentComponent) => {
+          return <CurrentComponent>{accumulator}</CurrentComponent>;
+        },
+        <FirstWrapper>{children}</FirstWrapper>,
+      );
+
+    return renderHook(hook, { wrapper, ...options });
+  };
+}
+
 export {
+  renderHookWithWrappers,
   renderWithWrappers,
   createRouteWrapper,
   BrowerRouterWrapper,

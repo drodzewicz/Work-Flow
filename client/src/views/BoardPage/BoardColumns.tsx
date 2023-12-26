@@ -30,7 +30,7 @@ const BoardColumns: React.FC = () => {
     },
   });
 
-  const canCreateColumn = useRBAC({ boardId, action: "COLUMN_CREATE" });
+  const { hasAccess: canCreateColumn } = useRBAC({ boardId, action: "COLUMN_CREATE" });
 
   const { data = [], isLoading } = useGetTasks({ boardId });
 

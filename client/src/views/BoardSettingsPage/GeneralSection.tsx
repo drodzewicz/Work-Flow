@@ -16,7 +16,7 @@ const GeneralSection: React.FC = () => {
   const { mutate: updateBoard } = useUpdateBoardInfo({ boardId: boardId });
   const { data = { name: "", description: "" } } = useGetBoard({ boardId });
 
-  const canUpdateBoard = useRBAC({ boardId, action: "BOARD_UPDATE" });
+  const { hasAccess: canUpdateBoard } = useRBAC({ boardId, action: "BOARD_UPDATE" });
 
   const formik = useFormik({
     initialValues: { name: data.name, description: data.description },

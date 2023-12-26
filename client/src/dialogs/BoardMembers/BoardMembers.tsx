@@ -26,7 +26,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
     limit: 6,
   });
 
-  const canManageMembers = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
+  const { hasAccess: canManageMembers } = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
 
   const { data, search, isLoading } = useSearchBoardMembers({
     boardId,

@@ -54,7 +54,7 @@ const MembersSection = () => {
     setTotalItems(data.totalCount);
   }, [data.totalCount]);
 
-  const canManageMembers = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
+  const { hasAccess: canManageMembers } = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
 
   const { data: roles = {} } = useGetBoardRoles({ boardId });
   const { mutate: removeMember } = useRemoveBoardMember({ boardId });
