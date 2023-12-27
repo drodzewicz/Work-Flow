@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react";
 import useEvent from "@testing-library/user-event";
 import BoardCard from "./BoardCard";
 import { BrowerRouterWrapper, renderWithWrappers } from "@/test/utils";
-import { boards } from "@/test/data";
+import { boards } from "@/test/mocks/data";
 
 describe("Test Component - BoardCard", () => {
   const render = renderWithWrappers([BrowerRouterWrapper]);

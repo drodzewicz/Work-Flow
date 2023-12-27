@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import Notification from "./Notification";
 import { BrowerRouterWrapper, ReactQueryWrapper, renderWithWrappers } from "@/test/utils";
-import { notifications } from "@/test/data";
+import { notifications } from "@/test/mocks/data";
 
 const testNotification = notifications[0];
 

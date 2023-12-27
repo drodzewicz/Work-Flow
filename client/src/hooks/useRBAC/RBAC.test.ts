@@ -11,6 +11,7 @@ import {
 } from "@/test/utils";
 import { HttpResponse, http } from "msw";
 import permissionURL from "@/service/permission/url";
+import { users } from "@/test/mocks/data";
 
 describe("Test Hook - Role Based Access Controll (RBAC)", () => {
   const RouteWrapper = createRouteWrapper("/board/:id", "/board/someId123");
@@ -18,13 +19,7 @@ describe("Test Hook - Role Based Access Controll (RBAC)", () => {
   const useAuthSpy = vi.spyOn(useAuthHooks, "useAuth");
 
   useAuthSpy.mockReturnValue({
-    user: {
-      username: "test-user",
-      _id: "test-user-id",
-      email: "test-user@mail.com",
-      name: "test name",
-      surname: "test surname",
-    },
+    user: users[0],
     token: "jwt-token-test",
     login: vi.fn,
     logout: vi.fn,

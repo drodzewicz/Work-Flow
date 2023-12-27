@@ -13,10 +13,11 @@ import {
 import Column from "./Column";
 import { server } from "@/test/mocks/server";
 import * as useAuthHooks from "@/hooks/useAuth";
-import { columnsWithTasks } from "@/test/data";
+import { columnsWithTasks } from "@/test/mocks/data";
 import { HttpResponse, http } from "msw";
 import { Permissions } from "@/hooks/useRBAC";
 import permissionURL from "@/service/permission/url";
+import { users } from "@/test/mocks/data";
 
 describe("Test Component - Column", () => {
   const RouteWrapper = createRouteWrapper("/board/:id", "/board/someId123");
@@ -24,13 +25,7 @@ describe("Test Component - Column", () => {
   const useAuthSpy = vi.spyOn(useAuthHooks, "useAuth");
 
   useAuthSpy.mockReturnValue({
-    user: {
-      username: "test-user",
-      _id: "test-user-id",
-      email: "test-user@mail.com",
-      name: "test name",
-      surname: "test surname",
-    },
+    user: users[0],
     token: "jwt-token-test",
     login: vi.fn,
     logout: vi.fn,

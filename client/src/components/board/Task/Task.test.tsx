@@ -9,7 +9,7 @@ import {
   queryClient,
 } from "@/test/utils";
 
-import { tasks } from "@/test/data";
+import { tasks } from "@/test/mocks/data";
 import { server } from "@/test/mocks/server";
 
 describe("Test Component - Task", () => {

@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import BoardContainer from "./BoardContainer";
 import { renderWithWrappers, BrowerRouterWrapper } from "@/test/utils";
-import { boards } from "@/test/data";
+import { boards } from "@/test/mocks/data";
 
 describe("Test Component - BoardContainer", () => {
   const render = renderWithWrappers([BrowerRouterWrapper]);

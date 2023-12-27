@@ -6,7 +6,7 @@ import columnURL from "@/service/column/url";
 
 import { PermissionsReposne } from "@/service/permission/useGetCurrentUserBoardRole";
 import { http, HttpResponse } from "msw";
-import { columnsWithTasks, columns } from "@/test/data";
+import { columnsWithTasks, columns } from "@/test/mocks/data";
 import { Permissions } from "@/hooks/useRBAC";
 import { UserListPaginated } from "@/service/member/useSearchBoardMembers";
 import { apiURl, socketURl } from "../utils";
