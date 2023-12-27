@@ -1,3 +1,4 @@
+import { env } from "@/config/env.config";
 import { RenderHookOptions, RenderOptions, render, renderHook } from "@testing-library/react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -116,6 +117,16 @@ function renderHookWithWrappers<R = any, P = any>(wrappers: React.FC<React.Props
   };
 }
 
+const API_URL_BASENAME = [
+  `${env.environment === "production" ? "" : env.api.url}`,
+  env.api.prefix,
+].join("/");
+
+const SOCKET_URL_BASENAME = `${env.environment === "production" ? "" : env.api.url}`;
+
+const apiURl = (path: string) => API_URL_BASENAME + path;
+const socketURl = (path: string) => SOCKET_URL_BASENAME + path;
+
 export {
   renderHookWithWrappers,
   renderWithWrappers,
@@ -126,4 +137,6 @@ export {
   DroppableWrapper,
   onDragEndMock,
   queryClient,
+  apiURl,
+  socketURl,
 };

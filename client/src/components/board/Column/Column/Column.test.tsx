@@ -7,15 +7,15 @@ import {
   DroppableWrapper,
   createRouteWrapper,
   queryClient,
+  apiURl,
 } from "@/test/utils";
 
 import Column from "./Column";
-import { server } from "@/mocks/server";
+import { server } from "@/test/mocks/server";
 import * as useAuthHooks from "@/hooks/useAuth";
 import { columnsWithTasks } from "@/test/data";
 import { HttpResponse, http } from "msw";
 import { Permissions } from "@/hooks/useRBAC";
-import { apiURl } from "@/mocks/handlers";
 import permissionURL from "@/service/permission/url";
 
 describe("Test Component - Column", () => {

@@ -1,15 +1,15 @@
 import { waitFor } from "@testing-library/react";
 import useRBAC, { Permissions } from "./useRBAC";
-import { server } from "@/mocks/server";
+import { server } from "@/test/mocks/server";
 import * as useAuthHooks from "@/hooks/useAuth";
 import {
   ReactQueryWrapper,
+  apiURl,
   createRouteWrapper,
   queryClient,
   renderHookWithWrappers,
 } from "@/test/utils";
 import { HttpResponse, http } from "msw";
-import { apiURl } from "@/mocks/handlers";
 import permissionURL from "@/service/permission/url";
 
 describe("Test Hook - Role Based Access Controll (RBAC)", () => {

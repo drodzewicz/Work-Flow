@@ -10,7 +10,7 @@ import {
 } from "@/test/utils";
 
 import { tasks } from "@/test/data";
-import { server } from "@/mocks/server";
+import { server } from "@/test/mocks/server";
 
 describe("Test Component - Task", () => {
   const testTask = { ...tasks[0], cords: { taskIndex: 0, columnIndex: 0 } };

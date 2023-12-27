@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import NewColumn from "./NewColumn";
-import { server } from "@/mocks/server";
+import { server } from "@/test/mocks/server";
 import { renderWithWrappers, ReactQueryWrapper, createRouteWrapper } from "@/test/utils";
 import * as ColumnServiceHooks from "@/service/column";
 

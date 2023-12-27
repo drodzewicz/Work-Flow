@@ -1,5 +1,3 @@
-import { env } from "@/config/env.config";
-
 import permissionURL from "@/service/permission/url";
 import taskURL from "@/service/task/url";
 import memberURL from "@/service/member/url";
@@ -11,16 +9,7 @@ import { http, HttpResponse } from "msw";
 import { columnsWithTasks, columns } from "@/test/data";
 import { Permissions } from "@/hooks/useRBAC";
 import { UserListPaginated } from "@/service/member/useSearchBoardMembers";
-
-const API_URL_BASENAME = [
-  `${env.environment === "production" ? "" : env.api.url}`,
-  env.api.prefix,
-].join("/");
-
-const SOCKET_URL_BASENAME = `${env.environment === "production" ? "" : env.api.url}`;
-
-export const apiURl = (path: string) => API_URL_BASENAME + path;
-export const socketURl = (path: string) => SOCKET_URL_BASENAME + path;
+import { apiURl, socketURl } from "../utils";
 
 export const handlers = [
   http.get(socketURl("/socket.io/"), () => {
