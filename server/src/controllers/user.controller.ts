@@ -1,4 +1,4 @@
-import { Param, Get, Put, Controller, QueryParams, UseBefore, Body } from "routing-controllers";
+import { Param, Get, Controller, QueryParams, UseBefore } from "routing-controllers";
 import { UserService, BoardService } from "../services/index.js";
 import { Container } from "typedi";
 import { UserListQueryParams } from "../types/queryParams/user.type.js";
