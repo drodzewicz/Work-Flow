@@ -128,11 +128,12 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
           </div>
           <div className="task-editor__other-options">
             <div className="task-editor__assignees">
-              <label>
+              <label htmlFor="member-search">
                 <FaUsers />
                 Assignees
               </label>
               <AsyncSearch<User>
+                id="member-search"
                 options={members}
                 selectedOptions={selectedAssignees}
                 showSelectedValues={false}
@@ -163,12 +164,13 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
               />
             </div>
             <div className="task-editor__tags">
-              <label>
+              <label htmlFor="tag-search">
                 <FaTag />
                 Tags
               </label>
 
               <AsyncSearch<Tag>
+                id="tag-search"
                 options={availableTags}
                 showSelectedValues={false}
                 selectedOptions={selectedTags}

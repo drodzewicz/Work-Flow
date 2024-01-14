@@ -6,6 +6,7 @@ import "./AsyncInput.scss";
 import useDidUpdateEffect from "@/hooks/useDidUpdateEffect";
 
 export type AsyncInputProps = {
+  id?: string;
   debounceTime?: number;
   isLoading?: boolean;
   readOnly?: boolean;
@@ -21,6 +22,7 @@ export type AsyncInputProps = {
 const AsyncInput = forwardRef<HTMLInputElement, React.PropsWithChildren<AsyncInputProps>>(
   (props, ref) => {
     const {
+      id,
       debounceTime = 1000,
       isLoading,
       value,
@@ -66,6 +68,7 @@ const AsyncInput = forwardRef<HTMLInputElement, React.PropsWithChildren<AsyncInp
     return (
       <div data-testid="async-input" className={`async-input ${className}`}>
         <input
+          id={id}
           ref={ref}
           readOnly={readOnly}
           disabled={disabled}

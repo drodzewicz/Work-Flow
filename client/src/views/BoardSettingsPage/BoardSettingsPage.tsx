@@ -89,11 +89,11 @@ const BoardSettingsPage: React.FC = () => {
       {settingsSections
         .filter(({ show }) => show)
         .map(({ title, PageComponent }) => (
-          <React.Fragment key={title}>
+          <section aria-label={title} key={title}>
             <h1 className="board-settings-page__section-title">{title}</h1>
             <hr className="break-line" />
             <PageComponent />
-          </React.Fragment>
+          </section>
         ))}
     </Box>
   );

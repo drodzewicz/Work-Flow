@@ -79,7 +79,7 @@ const Column: React.FC<ColumnProps> = (props) => {
 
   return (
     <DraggableColumnWrapper {...props} isMovable={canMoveColumn}>
-      <div className="task-column">
+      <div className="task-column" data-testid="column">
         <header className="task-column__header">
           <span data-testid="column-task-count" className="task-column__header__task-count">
             {data[columnIndex]?.tasks.length}

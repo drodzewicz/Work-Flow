@@ -18,6 +18,7 @@ const TaskAssignees: React.FC<TaskAssigneesPeops> = ({ assignees, avatarCount = 
           key={assignee.username}
           src={assignee.avatarImageURL}
           title={assignee.username}
+          aria-label="task-assignee"
         />
       ))}
       {tailCount > 0 && (

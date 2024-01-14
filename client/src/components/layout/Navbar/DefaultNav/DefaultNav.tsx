@@ -17,11 +17,9 @@ const DefaultNav: React.FC = () => {
 
   return (
     <>
-      <nav className="navbar">
-        <NavItem name="home" to="/" Icon={FaHome} />
-        <NavItem label="Login" to="/#login" />
-        <NavItem label="Register" to="/register" />
-      </nav>
+      <NavItem name="home" to="/" Icon={FaHome} />
+      <NavItem label="Login" to="/#login" />
+      <NavItem label="Register" to="/register" />
       <Modal show={location.hash === "#login"} title="Login" size="s" onClose={() => navigate("/")}>
         <Login initialValues={location.state} />
       </Modal>

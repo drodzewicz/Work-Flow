@@ -49,6 +49,7 @@ const ColumnNameInput: React.FC<ColumnNameInputProps> = ({ value, disabled, onSu
     return (
       <input
         ref={ref}
+        aria-label="column-title"
         className="column-name column-name--input"
         onKeyDown={updateColumnName}
         onBlur={cancelEditHandler}
@@ -60,7 +61,11 @@ const ColumnNameInput: React.FC<ColumnNameInputProps> = ({ value, disabled, onSu
   }
 
   return (
-    <span onDoubleClick={activateEditingMode} className="column-name column-name--text">
+    <span
+      aria-label="column-title"
+      onDoubleClick={activateEditingMode}
+      className="column-name column-name--text"
+    >
       {columnName}
     </span>
   );

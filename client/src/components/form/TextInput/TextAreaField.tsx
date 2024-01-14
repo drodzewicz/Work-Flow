@@ -12,19 +12,21 @@ export interface TextAreaFieldProps extends TextFieldI, React.ComponentProps<"te
 }
 
 const TextAreaField: React.FC<TextAreaFieldProps> = (props) => {
-  const { label, className, error, name, resize = "none", ...fieldProps } = props;
+  const { label, className, error, name, id, resize = "none", ...fieldProps } = props;
+  const inputId = id || name;
 
   return (
     <div className="text-field">
       <textarea
         {...fieldProps}
+        id={inputId}
         name={name}
         className={`text-field__textarea scrollbar ${className || ""}`}
         style={{ ...fieldProps.style, resize }}
       ></textarea>
       <div className="text-field__line"></div>
       <label
-        htmlFor={name}
+        htmlFor={inputId}
         className={`text-field__label ${fieldProps.value !== "" ? "text-field__valid" : ""}`}
       >
         {label || name}

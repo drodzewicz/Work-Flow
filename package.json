@@ -7,7 +7,8 @@
   "private": true,
   "workspaces": [
     "server",
-    "client"
+    "client",
+    "e2e"
   ],
   "scripts": {
     "client:dev:run": "yarn --cwd client dev",
@@ -19,6 +20,8 @@
     "client:test": "yarn --cwd client test",
     "preapp:build": "rimraf -d server/dist/public",
     "app:build": "yarn client:build && yarn server:build",
+    "app:run": "yarn --cwd server start",
+    "app:test": "yarn --cwd e2e test",
     "postapp:build": "mv client/dist server/dist/public"
   }
 }

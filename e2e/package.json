@@ -1,0 +1,21 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.40.1",
+    "@types/node": "^20.10.5"
+  },
+  "scripts": {
+    "test": "yarn playwright test",
+    "test:ui": "yarn playwright test --ui",
+    "test:debug": "yarn playwright test --debug",
+    "test:headed": "yarn playwright test --headed"
+  },
+  "dependencies": {
+    "axios": "^1.6.5",
+    "dotenv": "^16.3.1",
+    "env-var": "^7.4.1"
+  }
+}

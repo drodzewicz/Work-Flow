@@ -27,9 +27,9 @@ export class UserController {
     }
   }
 
-  @Get("/:userId")
-  getUser(@Param("userId") userId: string) {
-    return this.userService.getUser(userId);
+  @Get("/:userIdentifier")
+  getUser(@Param("userIdentifier") userIdentifier: string) {
+    return this.userService.getUser(userIdentifier);
   }
 
   @Get("/:userId/boards")

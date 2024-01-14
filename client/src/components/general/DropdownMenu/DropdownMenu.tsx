@@ -62,6 +62,7 @@ const DropdownMenu: React.FC<PropsWithChildren<DropdownMenuProps>> = ({
       <Portal mountTo="root-menu">
         <ul
           ref={dropDownMenuRef}
+          aria-label="dropdown"
           style={{ top: cords.top, left: cords.left, maxHeight: dropdownMaxHeight }}
           onClick={onClickClose ? closeMenuClickHandler : undefined}
           className={`drop-down-menu scrollbar ${className}`}
