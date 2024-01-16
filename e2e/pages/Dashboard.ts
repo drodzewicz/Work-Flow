@@ -1,22 +1,7 @@
-import { Page } from "@playwright/test";
+import BasePage from "./BasePage";
 
-class Dashboard {
-  private page: Page;
-
+class Dashboard extends BasePage {
   pageURL = "/dashboard";
-
-  constructor(page: Page) {
-    this.page = page;
-  }
-
-  // GETTERS
-  // getBoardPagination() {
-  //   const paginationElement = this.page.getByRole("navigation", { name: "pagination" });
-  //   return {
-  //     next: () => paginationElement.getByRole("button", { name: "next-page-navigation" }),
-  //     previous: () => paginationElement.getByRole("button", { name: "previous-page-navigation" }),
-  //   };
-  // }
 
   get newBoardButton() {
     return this.page.getByRole("button", { name: "New Board" });

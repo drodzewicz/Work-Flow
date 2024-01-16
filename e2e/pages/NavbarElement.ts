@@ -1,6 +1,6 @@
-import { Page, expect } from "@playwright/test";
+import { Page } from "@playwright/test";
 
-class Navbar {
+class NavbarElement {
   private page: Page;
 
   constructor(page: Page) {
@@ -42,4 +42,4 @@ class Navbar {
   }
 }
 
-export default Navbar;
+export default NavbarElement;

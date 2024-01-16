@@ -1,11 +1,20 @@
 import { Page, expect } from "@playwright/test";
 import { test } from "../utils/fixtures";
+import ColumnElement from "./ColumnElement";
+import TaskDialogElement from "./TaskDialogElement";
+import TaskCardElement from "./TaskCardElement";
+import BasePage from "./BasePage";
 
-class Board {
-  private page: Page;
+class Board extends BasePage {
+  columnElement: ColumnElement;
+  taskCardElement: TaskCardElement;
+  taskDialogElement: TaskDialogElement;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
+    this.columnElement = new ColumnElement(page);
+    this.taskCardElement = new TaskCardElement(page);
+    this.taskDialogElement = new TaskDialogElement(page);
   }
 
   get settingsButton() {
@@ -14,65 +23,6 @@ class Board {
 
   get newColumnInput() {
     return this.page.getByRole("textbox", { name: "Add New Column..." });
-  }
-
-  get taskDeleteButton() {
-    return this.page.getByRole("dialog").getByRole("button", { name: "Delete" });
-  }
-
-  get taskEditButton() {
-    return this.page.getByRole("dialog").getByRole("button", { name: "Edit" });
-  }
-
-  get taskTitleInput() {
-    return this.page.getByRole("dialog").getByRole("textbox", { name: "title" });
-  }
-
-  get taskDescriptionInput() {
-    return this.page.getByRole("dialog").getByRole("textbox", { name: "description" });
-  }
-
-  get taskSaveChangesButton() {
-    return this.page.getByRole("dialog").getByRole("button", { name: "Save Changes" });
-  }
-
-  get taskAssigneeSearch() {
-    return this.page.getByRole("dialog").getByRole("textbox", { name: "Assignees" });
-  }
-
-  get taskTagSearch() {
-    return this.page.getByRole("dialog").getByRole("textbox", { name: "Tags" });
-  }
-
-  getTaskAssigneeCard(username: string) {
-    return this.page.getByRole("dialog").getByTestId("user-card").filter({ hasText: username });
-  }
-
-  getTask(name: string) {
-    return this.page.getByTestId("task-card").filter({ hasText: name });
-  }
-
-  getColumn(name: string) {
-    return this.page.getByTestId("column").filter({ hasText: name });
-  }
-
-  getColumnByIndex(index: number) {
-    return this.page.getByTestId("column").nth(index);
-  }
-
-  async moveColumn(sourceColumnName: string, destinationColumnName: string) {
-    const sourceColumn = this.getColumn(sourceColumnName).getByRole("banner");
-    const destinationColumn = this.getColumn(destinationColumnName).getByRole("banner");
-
-    const box = await destinationColumn.boundingBox();
-    if (box) {
-      await sourceColumn.hover();
-      await this.page.mouse.down();
-      await this.page.mouse.move(box.x + box.width / 2 + 100, box.y + box.height / 2, {
-        steps: 10,
-      });
-      await this.page.mouse.up();
-    }
   }
 
   pageURL(id: string) {
@@ -88,12 +38,10 @@ class Board {
       await this.newColumnInput.fill(name);
       await this.page.keyboard.press("Enter");
     });
-  }
-
-  async updateColumnName(columnName: string, newName: string) {
-    await this.getColumn(columnName).getByLabel("column-title").dblclick();
-    await this.page.getByRole("textbox", { name: "column-title" }).fill(newName);
-    await this.page.keyboard.press("Enter");
+    await test.step("remove alert", async () => {
+      await this.page.getByRole("alert").click();
+      await expect(this.page.getByRole("alert")).not.toBeVisible();
+    });
   }
 
   async pageLoaded(options?: { id?: string; boardName?: string }) {
@@ -109,12 +57,12 @@ class Board {
     taskData: { title: string; description: string; tags: string[]; assignees: string[] }
   ) {
     await test.step("open column add task form dialog", async () => {
-      await this.getColumn(columnName).getByTestId("add-task-btn").click();
+      await this.columnElement.getByName(columnName).getByTestId("add-task-btn").click();
       await expect(this.page.getByRole("dialog")).toHaveText(/Create new Task/);
     });
     await test.step("fill title and description", async () => {
-      await this.taskTitleInput.fill(taskData.title);
-      await this.taskDescriptionInput.fill(taskData.description);
+      await this.taskDialogElement.titleInput.fill(taskData.title);
+      await this.taskDialogElement.descriptionInput.fill(taskData.description);
     });
 
     if (!!taskData.tags) {
@@ -122,7 +70,7 @@ class Board {
         for (let i = 0; i < taskData.tags.length; i++) {
           const tag = taskData.tags[i];
           await test.step(`selecting tag '${tag}'`, async () => {
-            await this.taskTagSearch.click();
+            await this.taskDialogElement.tagSearch.click();
             await this.page.getByTestId("async-search-option").filter({ hasText: tag }).click();
           });
         }
@@ -134,7 +82,7 @@ class Board {
         for (let i = 0; i < taskData.assignees.length; i++) {
           const assignee = taskData.assignees[i];
           await test.step(`selecting assignee '${assignee}'`, async () => {
-            await this.taskAssigneeSearch.click();
+            await this.taskDialogElement.assigneeSearch.click();
             await this.page
               .getByTestId("async-search-option")
               .filter({ hasText: assignee })
@@ -151,16 +99,10 @@ class Board {
         .click();
       await expect(this.page.getByRole("dialog")).toBeHidden();
     });
-  }
-
-  async deleteColumn(columnName: string) {
-    await this.getColumn(columnName).getByTestId("column-option-btn").click();
-
-    await this.page
-      .getByRole("list", { name: "dropdown" })
-      .getByRole("listitem")
-      .filter({ hasText: "Delete" })
-      .click();
+    await test.step("remove alert", async () => {
+      await this.page.getByRole("alert").click();
+      await expect(this.page.getByRole("alert")).not.toBeVisible();
+    });
   }
 }
 

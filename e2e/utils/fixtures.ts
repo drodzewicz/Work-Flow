@@ -2,7 +2,7 @@ import { test as baseTest } from "@playwright/test";
 import Dashboard from "../pages/Dashboard";
 import Board from "../pages/Board";
 import BoardSettings from "../pages/BoardSettings";
-import Navbar from "../pages/Navbar";
+import NavbarElement from "../pages/NavbarElement";
 import crypto from "crypto";
 import BoardService, { Board as BoardType } from "../api/board.service";
 
@@ -10,7 +10,7 @@ type Fixtures = {
   dashboardPage: Dashboard;
   boardPage: Board;
   boardSettingsPage: BoardSettings;
-  navbar: Navbar;
+  navbar: NavbarElement;
   testBoard: BoardService;
 };
 
@@ -25,23 +25,26 @@ const test = baseTest.extend<Fixtures>({
     await use(new BoardSettings(page));
   },
   navbar: async ({ page }, use) => {
-    await use(new Navbar(page));
+    await use(new NavbarElement(page));
   },
-  testBoard: async ({ page }, use) => {
-    const board = new BoardService();
+  testBoard: [
+    async ({}, use) => {
+      const board = new BoardService();
 
-    const testHashCode = crypto.randomBytes(4).toString("hex");
-    const newBoardData = {
-      name: "E2E testing - title " + testHashCode,
-      description: "E2E testing - description",
-    };
+      const testHashCode = crypto.randomBytes(4).toString("hex");
+      const newBoardData = {
+        name: "E2E testing - title " + testHashCode,
+        description: "E2E testing - description",
+      };
 
-    await board.create(newBoardData);
+      await board.create(newBoardData);
 
-    await use(board);
+      await use(board);
 
-    await board.delete();
-  },
+      await board.delete();
+    },
+    { timeout: 100000 },
+  ],
 });
 
 export { test };

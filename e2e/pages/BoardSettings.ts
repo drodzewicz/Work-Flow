@@ -1,12 +1,6 @@
-import { Page, expect, test } from "@playwright/test";
+import BasePage from "./BasePage";
 
-class BoardSettings {
-  private page: Page;
-
-  constructor(page: Page) {
-    this.page = page;
-  }
-
+class BoardSettings extends BasePage {
   get backToBoarddButton() {
     return this.page.getByRole("button", { name: "back to board" });
   }
