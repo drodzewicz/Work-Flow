@@ -205,7 +205,6 @@ export class TaskController {
   async moveTask(@Param("taskId") taskId: string, @Body() payload: MoveTaskPayload) {
     fieldErrorsHandler(moveTaskPayloadValidator(payload));
     const { boardId, columnId, rowIndex } = payload;
-    console.log(payload);
 
     const { tasks } = await this.taskService.getColumnTasks(boardId, columnId);
     const moveTaskIndexPayloadValidator = validator(MoveTaskIndexPayloadSchema(tasks.length));

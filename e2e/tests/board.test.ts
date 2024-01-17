@@ -161,8 +161,6 @@ test.describe("Test task moving", () => {
   let secondColumnTasks: any[] = [];
 
   test.beforeEach(async ({ boardPage, testBoard }) => {
-    test.setTimeout(120000);
-
     await boardPage.createColumn(firstColumn);
     await boardPage.createColumn(secondColumn);
     await boardPage.createColumn(thirdColumn);
