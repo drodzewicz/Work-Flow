@@ -31,7 +31,11 @@ password: password123
 2. run `yarn app:build`
 3. run `yarn server:prod:run`
 
-### Running test
 
+### Run Frontend tests
 1. Open terminal in root directory
 2. run `yarn client:test`
+
+### Run End to End tests
+1. Open terminal in root directory
+2. run `yarn app:test`
