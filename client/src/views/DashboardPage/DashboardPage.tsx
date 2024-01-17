@@ -7,7 +7,6 @@ import { FaPlus } from "react-icons/fa";
 import { FaColumns } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-import useModal from "@/hooks/useModal";
 import { usePagination } from "@/hooks/usePagination";
 
 import { useCreateBoard } from "@/service/board";
@@ -21,15 +20,16 @@ import BoardContainer from "@/components/board/BoardContainer";
 import BoardEditor, { BoardEditorType } from "@/dialogs/BoardEditor/BoardEditor";
 
 import "./DashboardPage.scss";
+import useBoolean from "@/hooks/useBoolean";
 
 const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
 
   const {
-    show: showCreateNewBoardDialog,
-    open: openCreateNewBoardModal,
-    close: closeCreateNewBoardModal,
-  } = useModal();
+    state: showCreateNewBoardDialog,
+    setTrue: openCreateNewBoardModal,
+    setFalse: closeCreateNewBoardModal,
+  } = useBoolean(false);
 
   const { data: pinnedBoards = [], isLoading: isPinnedBoardLoading } = useGetUserPinnedBoards();
 

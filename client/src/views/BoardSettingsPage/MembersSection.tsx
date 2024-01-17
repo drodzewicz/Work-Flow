@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import AsyncInput from "@/components/form/AsyncInput";
 import AsyncSearch from "@/components/form/AsyncSearch";
@@ -6,7 +6,6 @@ import { FaEnvelope, FaSearch, FaTimes } from "react-icons/fa";
 
 import useAuth from "@/hooks/useAuth";
 import useBoardId from "@/hooks/useBoardId";
-import useModal from "@/hooks/useModal";
 import { usePagination } from "@/hooks/usePagination";
 import useRBAC from "@/hooks/useRBAC";
 
@@ -23,18 +22,19 @@ import { CustomRoleOption } from "@/components/board/CustomOption";
 import User from "@/components/board/User";
 
 import InviteUserToBoard from "@/dialogs/InviteUserToBoard";
+import useBoolean from "@/hooks/useBoolean";
 
 const MembersSection = () => {
   const boardId = useBoardId();
   const { user: currentUser } = useAuth();
 
   const {
-    show: showInviteUserDialog,
-    close: closeInviteUserDialog,
-    open: openInviteUserDialog,
-  } = useModal();
+    state: showInviteUserDialog,
+    setFalse: closeInviteUserDialog,
+    setTrue: openInviteUserDialog,
+  } = useBoolean(false);
 
-  const { limit, currentPage, totalPages, setTotalItems, setCurrentPage } = usePagination({
+  const { limit, currentPage, totalPages, setTotalItems, setCurrentPage, reset } = usePagination({
     initialPage: 1,
     limit: 5,
   });
@@ -54,9 +54,7 @@ const MembersSection = () => {
     setTotalItems(data.totalCount);
   }, [data.totalCount]);
 
-  const canManageMembers = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
-
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const { hasAccess: canManageMembers } = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
 
   const { data: roles = {} } = useGetBoardRoles({ boardId });
   const { mutate: removeMember } = useRemoveBoardMember({ boardId });
@@ -64,11 +62,16 @@ const MembersSection = () => {
 
   const removeMemberfromTheBoard = (userId: string) => {
     const shouldRemove = window.confirm(
-      "Are you sure you want to remove this member from the board?"
+      "Are you sure you want to remove this member from the board?",
     );
     if (shouldRemove) {
       removeMember(userId);
     }
+  };
+
+  const searchMember = (username: string) => {
+    reset();
+    search(username);
   };
 
   return (
@@ -90,9 +93,7 @@ const MembersSection = () => {
       )}
       <AsyncInput
         placeholder="Search members..."
-        debounceCallback={search}
-        value={searchTerm}
-        onChange={setSearchTerm}
+        debounceCallback={searchMember}
         isLoading={isLoading}
         debounceTime={500}
       >

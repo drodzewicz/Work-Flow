@@ -39,7 +39,7 @@ const useMoveTask = ({ boardId, ...options }: MoveTaskProps) => {
     onMutate: async ({ taskId, source, destination }) => {
       // Snapshot the previous value
       const previousColumns = structuredClone(
-        queryClient.getQueryData<ColumnWithTasks[]>(taskQueryKeys.list(boardId))
+        queryClient.getQueryData<ColumnWithTasks[]>(taskQueryKeys.list(boardId)),
       );
 
       // Optimistically update to the new value
@@ -49,7 +49,7 @@ const useMoveTask = ({ boardId, ...options }: MoveTaskProps) => {
         }
         const sourceColumnIndex = old.findIndex((column) => column._id === source.columnId);
         const destinationColumnIndex = old.findIndex(
-          (column) => column._id === destination.columnId
+          (column) => column._id === destination.columnId,
         );
         const taskIndex = old[sourceColumnIndex].tasks.findIndex((task) => task._id === taskId);
         const [targetTask] = old[sourceColumnIndex].tasks.splice(taskIndex, 1);

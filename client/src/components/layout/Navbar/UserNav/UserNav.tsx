@@ -37,7 +37,7 @@ const UserNav: React.FC = () => {
   const { data: notifications = [] } = useGetNotifications();
 
   return (
-    <nav className="navbar">
+    <>
       <NavItem name="home" to="/dashboard" Icon={FaHome} />
       <NavItem
         name="profile"
@@ -62,7 +62,7 @@ const UserNav: React.FC = () => {
         </DropdownMenuItem>
       </NavItem>
       <NavItem
-        name="notiications"
+        name="notifications"
         dropdownOffset={{ x: -25, y: 10 }}
         className={`notification-nav ${notifications?.length ? "badge" : ""}`}
         dropdownMaxHeight={400}
@@ -73,7 +73,7 @@ const UserNav: React.FC = () => {
           <Notification key={notification._id} notification={notification} />
         ))}
       </NavItem>
-    </nav>
+    </>
   );
 };
 

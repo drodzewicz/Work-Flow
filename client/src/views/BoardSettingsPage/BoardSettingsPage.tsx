@@ -21,8 +21,8 @@ const BoardSettingsPage: React.FC = () => {
   const boardId = useBoardId();
   const navigate = useNavigate();
 
-  const canDeleteBoard = useRBAC({ boardId, action: "BOARD_DELETE" });
-  const canModifyRoles = useRBAC({ boardId, action: "MEMBER_ROLE_UPDATE" });
+  const { hasAccess: canDeleteBoard } = useRBAC({ boardId, action: "BOARD_DELETE" });
+  const { hasAccess: canModifyRoles } = useRBAC({ boardId, action: "MEMBER_ROLE_UPDATE" });
 
   const { data = { totalCount: 0 } } = useSearchBoardMembers({
     boardId,
@@ -52,7 +52,7 @@ const BoardSettingsPage: React.FC = () => {
   const leaveBoardHandler = () => {
     if (data.totalCount === 1) {
       const lastMemberAlert = window.confirm(
-        "You are the last member of the board, board will be deleted after you leave."
+        "You are the last member of the board, board will be deleted after you leave.",
       );
       if (!lastMemberAlert) {
         return;
@@ -89,11 +89,11 @@ const BoardSettingsPage: React.FC = () => {
       {settingsSections
         .filter(({ show }) => show)
         .map(({ title, PageComponent }) => (
-          <React.Fragment key={title}>
+          <section aria-label={title} key={title}>
             <h1 className="board-settings-page__section-title">{title}</h1>
             <hr className="break-line" />
             <PageComponent />
-          </React.Fragment>
+          </section>
         ))}
     </Box>
   );

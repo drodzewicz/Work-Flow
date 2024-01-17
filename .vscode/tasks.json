@@ -43,6 +43,15 @@
         "group": "workflow"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Test Client",
+      "type": "shell",
+      "command": "yarn client:test",
+      "presentation": {
+        "group": "workflow"
+      },
+      "problemMatcher": []
     }
   ]
 }

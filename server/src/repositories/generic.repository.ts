@@ -5,7 +5,7 @@ export abstract class GenericRepository<T, D extends Document, F> {
   public model: Model<T>;
   public fields: F[];
 
-  protected validateId(id: string) {
+  validateId(id: string) {
     if (!Types.ObjectId.isValid(id)) {
       throw new InvalidMongooseIdError("Provided invalid id", this.model.modelName);
     }

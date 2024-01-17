@@ -51,7 +51,7 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
     removeItem: removeAssignee,
     clear: clearSelectedAssignees,
   } = useList<User & OptionType>(
-    initialValues.assignees?.map((user) => ({ ...user, id: user._id, label: user.username }))
+    initialValues.assignees?.map((user) => ({ ...user, id: user._id, label: user.username })),
   );
 
   const {
@@ -60,7 +60,7 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
     removeItem: removeTag,
     clear: clearSelectedTags,
   } = useList<Tag & OptionType>(
-    initialValues.tags?.map((tag) => ({ ...tag, id: tag._id, label: tag.name }))
+    initialValues.tags?.map((tag) => ({ ...tag, id: tag._id, label: tag.name })),
   );
 
   const { data: availableTags = [] } = useGetTags<(Tag & OptionType)[]>({
@@ -128,11 +128,12 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
           </div>
           <div className="task-editor__other-options">
             <div className="task-editor__assignees">
-              <label>
+              <label htmlFor="member-search">
                 <FaUsers />
                 Assignees
               </label>
               <AsyncSearch<User>
+                id="member-search"
                 options={members}
                 selectedOptions={selectedAssignees}
                 showSelectedValues={false}
@@ -163,12 +164,13 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
               />
             </div>
             <div className="task-editor__tags">
-              <label>
+              <label htmlFor="tag-search">
                 <FaTag />
                 Tags
               </label>
 
               <AsyncSearch<Tag>
+                id="tag-search"
                 options={availableTags}
                 showSelectedValues={false}
                 selectedOptions={selectedTags}

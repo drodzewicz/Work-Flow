@@ -19,7 +19,7 @@ type OptionsType = Omit<
   "mutationFn"
 >;
 
-type UpdateTaskProps = { boardId: string, taskId: string  } & OptionsType;
+type UpdateTaskProps = { boardId: string; taskId: string } & OptionsType;
 
 const useUpdateTask = ({ boardId, taskId, ...options }: UpdateTaskProps) => {
   const queryClient = useQueryClient();

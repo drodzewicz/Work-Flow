@@ -3,7 +3,6 @@ import { useState } from "react";
 import { FaEdit, FaTag, FaTrash } from "react-icons/fa";
 
 import useBoardId from "@/hooks/useBoardId";
-import useModal from "@/hooks/useModal";
 
 import { useCreateTag, useDeleteTag, useGetTags, useUpdateTag } from "@/service/tag";
 
@@ -12,20 +11,21 @@ import Modal from "@/components/layout/Modal";
 import TagCard from "@/components/board/TagCard/TagCard";
 
 import TagEditor from "@/dialogs/TagEditor/TagEditor";
+import useBoolean from "@/hooks/useBoolean";
 
 const TagSection = () => {
   const boardId = useBoardId();
   const {
-    show: showCreateNewTagDialog,
-    open: openCreateNewTagDialog,
-    close: closeCreateNewTagDialog,
-  } = useModal();
+    state: showCreateNewTagDialog,
+    setTrue: openCreateNewTagDialog,
+    setFalse: closeCreateNewTagDialog,
+  } = useBoolean(false);
 
   const {
-    show: showEditTagDialog,
-    open: openEditTagDialog,
-    close: closeEditTagDialog,
-  } = useModal();
+    state: showEditTagDialog,
+    setTrue: openEditTagDialog,
+    setFalse: closeEditTagDialog,
+  } = useBoolean(false);
 
   const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
 

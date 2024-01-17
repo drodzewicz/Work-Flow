@@ -49,3 +49,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+# e2e tests
+e2e/**/.auth-storage.json
+e2e/**/test-result
+e2e/**/test-results
+e2e/**/playwright-report

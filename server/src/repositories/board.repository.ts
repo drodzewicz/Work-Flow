@@ -25,6 +25,7 @@ export class BoardRepository extends GenericRepository<IBoard, BoardDocument, Bo
     const totalCount = await this.model.count({});
     const data = (await this.model
       .find({}, this.fields.join(" "))
+      .sort({ timeCreated: "descending" })
       .limit(settings.limit * 1)
       .skip((settings.page - 1) * settings.limit)) as BoardDocument[];
 
@@ -37,6 +38,7 @@ export class BoardRepository extends GenericRepository<IBoard, BoardDocument, Bo
     const totalCount = await this.model.count(query);
     const data = (await this.model
       .find(query, this.fields.join(" "))
+      .sort({ timeCreated: "descending" })
       .limit(settings.limit * 1)
       .skip((settings.page - 1) * settings.limit)) as BoardDocument[];
 

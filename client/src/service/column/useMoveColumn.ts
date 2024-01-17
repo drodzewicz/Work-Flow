@@ -35,7 +35,7 @@ const useMoveColumn = ({ boardId, ...options }: MoveColumnProps) => {
     onMutate: async ({ columnId, destination }) => {
       // Snapshot the previous value
       const previousColumns = structuredClone(
-        queryClient.getQueryData<ColumnWithTasks[]>(taskQueryKeys.list(boardId))
+        queryClient.getQueryData<ColumnWithTasks[]>(taskQueryKeys.list(boardId)),
       );
 
       // Optimistically update to the new value

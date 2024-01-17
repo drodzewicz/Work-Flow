@@ -13,8 +13,15 @@ export const AuthContext = createContext<[AuthState, React.Dispatch<AuthActionTy
   () => null,
 ]);
 
-export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, INITIAL_STATE);
+type AuthContextType = {
+  initialValues?: AuthState;
+};
+
+export const AuthProvider: React.FC<PropsWithChildren<AuthContextType>> = ({
+  children,
+  initialValues = INITIAL_STATE,
+}) => {
+  const [state, dispatch] = useReducer(authReducer, initialValues);
 
   return <AuthContext.Provider value={[state, dispatch]}>{children}</AuthContext.Provider>;
 };

@@ -10,7 +10,11 @@ import UserNav from "./UserNav";
 const Navbar: React.FC = () => {
   const { user } = useAuth();
 
-  return user ? <UserNav /> : <DefaultNav />;
+  return (
+    <nav className="navbar" aria-label="navbar">
+      {user ? <UserNav /> : <DefaultNav />}
+    </nav>
+  );
 };
 
 export default Navbar;

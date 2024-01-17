@@ -23,15 +23,17 @@ const ExpandText: React.FC<PropsWithChildren<ExpandTextProps>> = ({
   return (
     <div className={`expand-text ${className || ""}`}>
       <div className="expand-text__header">
-        <h2 className="expand-text__header__title">{title}</h2>
+        <h2 className="expand-text__title">{title}</h2>
         {children !== "" && (
-          <FaCaretDown
-            onClick={toggleExpand}
-            className={`expand-text__header__icon ${show ? "expand-text__header__icon--open" : ""}`}
-          />
+          <button className="expand-text__expand-btn" aria-expanded={show} onClick={toggleExpand}>
+            <FaCaretDown />
+          </button>
         )}
       </div>
-      <div className={`expand-text__content ${show ? "" : "expand-text__content--close"}`}>
+      <div
+        aria-expanded={show}
+        className={`expand-text__content ${show ? "" : "expand-text__content--hidden"}`}
+      >
         {children}
       </div>
     </div>

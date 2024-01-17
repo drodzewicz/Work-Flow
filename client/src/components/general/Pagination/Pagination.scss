@@ -33,7 +33,7 @@
     background-color: var(--_current-page-bg-color);
     color: var(--_current-page-text-color);
   }
-  &__dots {
+  &__elipsis {
     width: 0.8rem;
     transition: all 0.3s ease-in-out;
     overflow: hidden;

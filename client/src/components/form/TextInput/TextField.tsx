@@ -10,13 +10,14 @@ export interface TextFieldI {
 export interface TextFieldInputProps extends TextFieldI, React.ComponentProps<"input"> {}
 
 const TextField = forwardRef<HTMLInputElement, TextFieldInputProps>((props, ref) => {
-  const { label, className, error, name, ...fieldProps } = props;
+  const { label, className, error, name, id, ...fieldProps } = props;
+  const inputId = id || name;
   return (
     <div className={`text-field ${className || ""}`}>
-      <input ref={ref} name={name} className="text-field__input" {...fieldProps} />
+      <input id={inputId} ref={ref} name={name} className="text-field__input" {...fieldProps} />
       <div className="text-field__line"></div>
       <label
-        htmlFor={name}
+        htmlFor={inputId}
         className={`text-field__label ${fieldProps.value !== "" ? "text-field__valid" : ""}`}
       >
         {label || name}

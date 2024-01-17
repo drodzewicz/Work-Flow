@@ -23,7 +23,7 @@ const SkeletonContainer: React.FC<PropsWithChildren<SkeletonContainerProps>> = (
   }
 
   return (
-    <div className={containerClassName ?? ""}>
+    <div data-testid="skeleton-container" className={containerClassName ?? "skeleton-container"}>
       {[...Array(count)].map((_, index) => (
         <React.Fragment key={`skeleton-${id}-${index}`}>{element}</React.Fragment>
       ))}

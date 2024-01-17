@@ -47,6 +47,7 @@ const NavItem: React.FC<PropsWithChildren<NavItemProps>> = ({
     <li className={`navbar__item ${className || ""}`}>
       <button
         name={name}
+        aria-label={name || label}
         className="navbar__item__button"
         ref={anchorElement}
         onClick={onClickHandler}
@@ -60,7 +61,7 @@ const NavItem: React.FC<PropsWithChildren<NavItemProps>> = ({
           dropdownMaxHeight={dropdownMaxHeight}
           onClickClose={dropDownOnClickClose}
           offset={dropdownOffset}
-          anchorEl={anchorElement}
+          anchorRef={anchorElement}
         >
           {children}
         </DropdownMenu>

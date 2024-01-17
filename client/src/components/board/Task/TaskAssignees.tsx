@@ -1,11 +1,15 @@
 import React from "react";
 
-import Image from "@/components/general/Image/Image";
+import Image from "@/components/general/Image";
 
-const TaskAssignees: React.FC<{ assignees: User[] }> = ({ assignees }) => {
-  const headCount = 3;
-  const headAssignees = assignees.slice(0, headCount);
-  const tailCount = assignees.length - headCount;
+type TaskAssigneesPeops = {
+  assignees: User[];
+  avatarCount?: number;
+};
+
+const TaskAssignees: React.FC<TaskAssigneesPeops> = ({ assignees, avatarCount = 3 }) => {
+  const headAssignees = assignees.slice(0, avatarCount);
+  const tailCount = assignees.length - avatarCount;
   return (
     <div className="task-card__assignnees">
       {headAssignees.map((assignee) => (
@@ -14,9 +18,14 @@ const TaskAssignees: React.FC<{ assignees: User[] }> = ({ assignees }) => {
           key={assignee.username}
           src={assignee.avatarImageURL}
           title={assignee.username}
+          aria-label="task-assignee"
         />
       ))}
-      {tailCount > 0 && <span className="task-card__count">{tailCount}</span>}
+      {tailCount > 0 && (
+        <span data-testid="assignee-overflow-chip" className="task-card__count">
+          {tailCount}
+        </span>
+      )}
     </div>
   );
 };

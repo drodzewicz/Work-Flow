@@ -7,7 +7,12 @@ export interface PortalProps {
 }
 
 const Portal: React.FC<React.PropsWithChildren<PortalProps>> = ({ children, mountTo }) => {
-  const mount = document.getElementById(mountTo)!;
+  let mount = document.getElementById(mountTo);
+  if (!mount) {
+    mount = document.createElement("div");
+    mount.setAttribute("id", mountTo);
+    document.body.appendChild(mount);
+  }
 
   return createPortal(children, mount);
 };

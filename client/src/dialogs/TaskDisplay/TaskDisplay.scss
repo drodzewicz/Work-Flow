@@ -1,6 +1,7 @@
 @import "../../assets/styles/mixins";
 
 .task-display {
+  min-height: 20rem;
   header {
     display: flex;
     flex-direction: column;

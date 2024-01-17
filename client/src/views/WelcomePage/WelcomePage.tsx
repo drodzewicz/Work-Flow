@@ -9,20 +9,20 @@ import { FaLightbulb } from "react-icons/fa";
 import { env } from "@/config/env.config";
 
 import useDemoPopup from "@/hooks/useDemoPopup";
-import useModal from "@/hooks/useModal";
 
 import Modal from "@/components/layout/Modal";
 
 import DemoLogin from "@/dialogs/DemoLogin/DemoLogin";
 
 import "./WelcomePage.scss";
+import useBoolean from "@/hooks/useBoolean";
 
 const WelcomePage: React.FC = () => {
   const {
-    show: showDemoLoginDialog,
-    open: openDemoLoginDialog,
-    close: closeDemoLoginDialog,
-  } = useModal();
+    state: showDemoLoginDialog,
+    setTrue: openDemoLoginDialog,
+    setFalse: closeDemoLoginDialog,
+  } = useBoolean(false);
 
   const { closePopup } = useDemoPopup({
     onOpen: openDemoLoginDialog,

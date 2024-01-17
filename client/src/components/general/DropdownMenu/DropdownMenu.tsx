@@ -14,17 +14,17 @@ export interface DropdownMenuProps {
   };
   onClickClose?: boolean;
   dropdownMaxHeight?: number;
-  anchorEl: any;
+  anchorRef: React.MutableRefObject<HTMLElement | null>;
   className?: string;
 }
 
 const DropdownMenu: React.FC<PropsWithChildren<DropdownMenuProps>> = ({
-  className,
   children,
-  anchorEl,
+  anchorRef,
+  dropdownMaxHeight,
   offset = { x: 0, y: 0 },
   onClickClose = true,
-  dropdownMaxHeight,
+  className = "",
 }) => {
   const [width] = useWindowSize();
   const [cords, setCords] = useState<{ left: number; top: number }>({ left: 0, top: 0 });
@@ -35,42 +35,37 @@ const DropdownMenu: React.FC<PropsWithChildren<DropdownMenuProps>> = ({
   const closeMenuClickHandler = () => {
     setShow(false);
   };
-  useClickOutside([dropDownMenuRef, anchorEl], closeMenuClickHandler);
+  useClickOutside([dropDownMenuRef, anchorRef], closeMenuClickHandler);
 
   useEffect(() => {
-    const dropDownMenuAnchorElement = anchorEl.current;
-
-    const openMenu = () => {
-      const rect = anchorEl.current.getBoundingClientRect();
-      setCords({
-        left: rect.x + rect.width + offsetRef.current.x,
-        top: rect.y + window.scrollY + offsetRef.current.y,
-      });
-      setShow(true);
+    const toggleMenu = () => {
+      const rect = anchorRef.current?.getBoundingClientRect?.();
+      if (rect) {
+        setCords({
+          left: rect.x + rect.width + offsetRef.current.x,
+          top: rect.y + window.scrollY + offsetRef.current.y,
+        });
+      }
+      setShow((state) => !state);
     };
 
-    dropDownMenuAnchorElement.addEventListener("click", openMenu);
+    anchorRef.current?.addEventListener("click", toggleMenu);
 
     setShow(false);
     return () => {
-      dropDownMenuAnchorElement.removeEventListener("click", openMenu);
+      anchorRef.current?.removeEventListener("click", toggleMenu);
     };
-  }, [width, anchorEl]);
-
-  const computeClassName = () => {
-    const classes: string[] = ["drop-down-menu", "scrollbar"];
-    classes.push(className || "");
-    return classes.join(" ");
-  };
+  }, [width, anchorRef]);
 
   if (show) {
     return (
       <Portal mountTo="root-menu">
         <ul
           ref={dropDownMenuRef}
+          aria-label="dropdown"
           style={{ top: cords.top, left: cords.left, maxHeight: dropdownMaxHeight }}
           onClick={onClickClose ? closeMenuClickHandler : undefined}
-          className={computeClassName()}
+          className={`drop-down-menu scrollbar ${className}`}
         >
           {children}
         </ul>

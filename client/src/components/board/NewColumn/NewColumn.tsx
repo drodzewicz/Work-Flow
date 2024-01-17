@@ -13,7 +13,7 @@ const NewColumn: React.FC = () => {
 
   const handleNewColumnChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newColumnName = event.target.value;
-    if (newColumnName.length < 20) {
+    if (newColumnName.length <= 20) {
       setColumnName(newColumnName);
     }
   };

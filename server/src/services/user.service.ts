@@ -17,8 +17,21 @@ export class UserService {
     this.boardRepository = boardRepository;
   }
 
-  async getUser(userId: string): Promise<UserDTO> {
-    const user = await this.userRepository.getById(userId);
+  async getUser(userIdentifier: string): Promise<UserDTO> {
+    let isValidId = true;
+    let user = null;
+    try {
+      this.userRepository.validateId(userIdentifier);
+      isValidId = true;
+    } catch (error) {
+      isValidId = false;
+    }
+
+    if (isValidId) {
+      user = await this.userRepository.getById(userIdentifier);
+    } else {
+      user = await this.userRepository.getUserByUsername(userIdentifier);
+    }
     if (!user) {
       throw new NotFoundError("User was not found.");
     }

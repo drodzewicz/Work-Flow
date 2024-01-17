@@ -10,12 +10,12 @@ import "./BoardContainer.scss";
 
 export interface BoardContainerProps {
   boards: (Board & { isPinned: boolean })[];
+  numberOfLoadingItems: number;
   togglePinBoard: (boardId: string) => void;
   page?: PaginationI;
   changePage?: (page: number) => void;
   className?: string;
   noBoardsMessage?: string;
-  numberOfLoadingItems: number;
   isLoading?: boolean;
 }
 
@@ -47,8 +47,12 @@ const BoardContainer: React.FC<BoardContainerProps> = ({
           />
         ))}
       </Skeleton.Container>
-      {!boards && <i className="board-container__empty-message">{noBoardsMessage}</i>}
-      {page && <Pagination {...page} className="board-container__pagination" handleChange={changePage} />}
+      {!isLoading && boards?.length === 0 && (
+        <i className="board-container__empty-message">{noBoardsMessage}</i>
+      )}
+      {page && (
+        <Pagination {...page} className="board-container__pagination" handleChange={changePage} />
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import AsyncInput from "@/components/form/AsyncInput";
 import { getRoleIcon } from "@/utils/role";
@@ -21,13 +21,12 @@ export type BoardMembersProps = {
 };
 
 const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const { currentPage, totalPages, limit, setCurrentPage, setTotalItems } = usePagination({
     initialPage: 1,
     limit: 6,
   });
 
-  const canManageMembers = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
+  const { hasAccess: canManageMembers } = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
 
   const { data, search, isLoading } = useSearchBoardMembers({
     boardId,
@@ -51,8 +50,6 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
       <AsyncInput
         placeholder="Search members..."
         debounceCallback={search}
-        value={searchTerm}
-        onChange={setSearchTerm}
         isLoading={isLoading}
         debounceTime={500}
       >

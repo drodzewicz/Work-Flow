@@ -3,7 +3,6 @@ import React, { useRef } from "react";
 import { FaRegPlusSquare, FaEllipsisV, FaTrashAlt } from "react-icons/fa";
 
 import useBoardId from "@/hooks/useBoardId";
-import useModal from "@/hooks/useModal";
 import useRBAC from "@/hooks/useRBAC";
 
 import { useUpdateColumn, useDeleteColumn } from "@/service/column";
@@ -20,8 +19,9 @@ import TaskEditor from "@/dialogs/TaskEditor";
 import "./Column.scss";
 
 import ColumnNameInput from "../ColumnNameInput";
-import ColumnDraggable from "./ColumnDraggable";
+import DraggableColumnWrapper from "./DraggableColumnWrapper";
 import TaskContainer from "./TaskContainer";
+import useBoolean from "@/hooks/useBoolean";
 
 export type ColumnProps = {
   columnName: string;
@@ -37,16 +37,17 @@ const Column: React.FC<ColumnProps> = (props) => {
   const { data = [] } = useGetTasks({ boardId });
 
   const {
-    show: showCreateNewTaskModal,
-    open: openCreateNewTaskModal,
-    close: closeCreateNewTaskModal,
-  } = useModal();
+    state: showCreateNewTaskModal,
+    setTrue: openCreateNewTaskModal,
+    setFalse: closeCreateNewTaskModal,
+  } = useBoolean(false);
 
   const anchorElement = useRef(null);
 
-  const canDeleteColumn = useRBAC({ boardId, action: "COLUMN_DELETE" });
-  const canCreateColumn = useRBAC({ boardId, action: "COLUMN_CREATE" });
-  const canCreateTask = useRBAC({ boardId, action: "TASK_CREATE" });
+  const { hasAccess: canDeleteColumn } = useRBAC({ boardId, action: "COLUMN_DELETE" });
+  const { hasAccess: canCreateColumn } = useRBAC({ boardId, action: "COLUMN_CREATE" });
+  const { hasAccess: canCreateTask } = useRBAC({ boardId, action: "TASK_CREATE" });
+  const { hasAccess: canMoveColumn } = useRBAC({ boardId, action: "COLUMN_MOVE" });
 
   const { mutate: createTask } = useCreateTask({
     boardId,
@@ -77,15 +78,18 @@ const Column: React.FC<ColumnProps> = (props) => {
   };
 
   return (
-    <ColumnDraggable {...props}>
-      <div className="task-column">
+    <DraggableColumnWrapper {...props} isMovable={canMoveColumn}>
+      <div className="task-column" data-testid="column">
         <header className="task-column__header">
-          <span className="task-column__header__task-count">{data[columnIndex].tasks.length}</span>
+          <span data-testid="column-task-count" className="task-column__header__task-count">
+            {data[columnIndex]?.tasks.length}
+          </span>
 
           <ColumnNameInput value={columnName} onSubmit={updateColumn} disabled={!canCreateColumn} />
           {canCreateTask && (
             <>
               <button
+                data-testid="add-task-btn"
                 onClick={openCreateNewTaskModal}
                 className="task-column__header__new-task-btn"
               >
@@ -110,10 +114,14 @@ const Column: React.FC<ColumnProps> = (props) => {
           )}
           {canDeleteColumn && (
             <>
-              <button ref={anchorElement} className="task-column__header__more-options">
+              <button
+                data-testid="column-option-btn"
+                ref={anchorElement}
+                className="task-column__header__more-options"
+              >
                 <FaEllipsisV />
               </button>
-              <DropdownMenu anchorEl={anchorElement} className="column-more-options">
+              <DropdownMenu anchorRef={anchorElement} className="column-more-options">
                 <DropdownMenuItem onClick={removeColumn}>
                   <FaTrashAlt />
                   Delete
@@ -124,7 +132,7 @@ const Column: React.FC<ColumnProps> = (props) => {
         </header>
         <TaskContainer columnId={columnId} columnIndex={columnIndex} />
       </div>
-    </ColumnDraggable>
+    </DraggableColumnWrapper>
   );
 };
 

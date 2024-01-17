@@ -30,7 +30,7 @@ const BoardColumns: React.FC = () => {
     },
   });
 
-  const canCreateColumn = useRBAC({ boardId, action: "COLUMN_CREATE" });
+  const { hasAccess: canCreateColumn } = useRBAC({ boardId, action: "COLUMN_CREATE" });
 
   const { data = [], isLoading } = useGetTasks({ boardId });
 
@@ -48,7 +48,7 @@ const BoardColumns: React.FC = () => {
         break;
       case "droppableColumn": {
         const shouldMoveColumn = window.confirm(
-          "Are you sure you want to update order of this column?"
+          "Are you sure you want to update order of this column?",
         );
         if (shouldMoveColumn) {
           moveColumn({ columnId: draggableId, destination: destination.index });

@@ -37,11 +37,12 @@ const TagEditor: React.FC<TagEditorType> = ({ initialValues, onSubmit, isEditing
           <Field
             autoFocus={true}
             name="name"
+            aria-label="tag-name"
             className="label-name-input"
             error={formik.touched.name && formik.errors.name}
             as={TextField}
           />
-          <Field name="key" label="color" as={ColorInput} />
+          <Field name="key" aria-label="color" label="color" as={ColorInput} />
         </div>
         <button
           disabled={formik.isSubmitting || !formik.isValid}
