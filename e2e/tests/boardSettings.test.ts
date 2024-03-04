@@ -1,7 +1,7 @@
 import { test, expect } from "../utils/fixtures";
 import crypto from "crypto";
 import BoardService from "../api/board.service";
-import { envConfig } from "../playwright.config";
+import AppConfig from "../utils/AppConfig";
 
 test("should open settings page when clicked on settings button", async ({
   testBoard,
@@ -68,7 +68,6 @@ test("should be able to leave current board when clicking 'Leave Board' button",
   await boardSettingsPage.leaveBoardButton.click();
 
   await dashboardPage.pageLoaded();
-
   await expect(dashboardPage.getBoardCard(newBoardData.name)).not.toBeVisible();
 });
 
@@ -92,7 +91,7 @@ test("should update board name and description", async ({ boardSettingsPage, pag
 });
 
 test("should add new members to the board", async ({ boardSettingsPage, testBoard }) => {
-  const newMemberUser = envConfig.SUPPLEMENTARY_USER.username;
+  const newMemberUser = AppConfig.getInstance().supplementaryUser.username;
 
   await boardSettingsPage.goToPage(testBoard.board._id);
 
@@ -104,7 +103,7 @@ test("should add new members to the board", async ({ boardSettingsPage, testBoar
 });
 
 test("should remove user from the board", async ({ testBoard, page, boardSettingsPage }) => {
-  const newMemberUser = envConfig.SUPPLEMENTARY_USER.username;
+  const newMemberUser = AppConfig.getInstance().supplementaryUser.username;
 
   await boardSettingsPage.goToPage(testBoard.board._id);
 
@@ -119,7 +118,7 @@ test("should remove user from the board", async ({ testBoard, page, boardSetting
 });
 
 test("should change user role to admin", async ({ testBoard, boardSettingsPage }) => {
-  const newMemberUser = envConfig.SUPPLEMENTARY_USER.username;
+  const newMemberUser = AppConfig.getInstance().supplementaryUser.username;
 
   await boardSettingsPage.goToPage(testBoard.board._id);
 
@@ -134,8 +133,8 @@ test("should filter users when typing users username in the search input", async
   testBoard,
   boardSettingsPage,
 }) => {
-  const newMemberUser = envConfig.SUPPLEMENTARY_USER.username;
-  const testUser = envConfig.TEST_USER.username;
+  const newMemberUser = AppConfig.getInstance().supplementaryUser.username;
+  const testUser = AppConfig.getInstance().testUser.username;
 
   await boardSettingsPage.goToPage(testBoard.board._id);
 
@@ -159,7 +158,7 @@ test("should not be able to edit user role of logged in user", async ({
   testBoard,
   boardSettingsPage,
 }) => {
-  const testUser = envConfig.TEST_USER.username;
+  const testUser = AppConfig.getInstance().testUser.username;
   await boardSettingsPage.goToPage(testBoard.board._id);
 
   await boardSettingsPage.getMember(testUser).getByTestId("async-search").click();
@@ -168,7 +167,7 @@ test("should not be able to edit user role of logged in user", async ({
 });
 
 test("should not be able to remove logged in user", async ({ testBoard, boardSettingsPage }) => {
-  const testUser = envConfig.TEST_USER.username;
+  const testUser = AppConfig.getInstance().testUser.username;
   await boardSettingsPage.goToPage(testBoard.board._id);
 
   await expect(

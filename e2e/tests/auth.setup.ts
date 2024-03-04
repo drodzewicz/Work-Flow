@@ -1,7 +1,7 @@
 import { test as setup, expect } from "../utils/fixtures";
 import path from "node:path";
 import axios from "axios";
-import { envConfig } from "../playwright.config";
+import AppConfig from "../utils/AppConfig";
 
 setup("authenticate", async ({ page, navbar }) => {
   await page.goto("/");
@@ -10,7 +10,7 @@ setup("authenticate", async ({ page, navbar }) => {
 
   await expect(page.getByRole("dialog")).toBeVisible();
 
-  await navbar.login(envConfig.TEST_USER);
+  await navbar.login(AppConfig.getInstance().testUser);
 
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await expect(navbar.isLoggedIn()).toBeTruthy();
@@ -18,7 +18,7 @@ setup("authenticate", async ({ page, navbar }) => {
   await page.context().storageState({ path: path.join(process.cwd(), ".auth-storage.json") });
   const cookies = await page.context().cookies();
 
-  const res = await axios.get(`${envConfig.API_URL}/auth/refreshToken`, {
+  const res = await axios.get(`${AppConfig.getInstance().apiURL}/auth/refreshToken`, {
     headers: { Cookie: `${cookies[0].name}=${cookies[0].value}` },
   });
   process.env.TEST_USER_ACCESS_TOKEN = res.data.accessToken;

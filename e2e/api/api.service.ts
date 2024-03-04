@@ -1,15 +1,15 @@
 import axios, { AxiosInstance } from "axios";
-import { envConfig } from "../playwright.config";
+import AppConfig from "../utils/AppConfig";
 
 abstract class APIService {
   protected fetchClient: AxiosInstance;
 
   constructor() {
     this.fetchClient = axios.create({
-      baseURL: envConfig.API_URL,
+      baseURL: AppConfig.getInstance().apiURL,
       withCredentials: true,
       headers: {
-        Authorization: `Bearer ${envConfig.TEST_USER.access_token}`,
+        Authorization: `Bearer ${AppConfig.getInstance().testUser.access_token}`,
       },
     });
   }

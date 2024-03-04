@@ -1,12 +1,9 @@
-import { envConfig } from "../playwright.config";
-import Board from "../pages/Board";
-import BoardSettings from "../pages/BoardSettings";
-import Dashboard from "../pages/Dashboard";
+import AppConfig from "../utils/AppConfig";
 import { test, expect } from "../utils/fixtures";
 
 test.beforeEach(async ({ testBoard, boardPage }) => {
   await Promise.all([
-    testBoard.addMember(envConfig.SUPPLEMENTARY_USER.username),
+    testBoard.addMember(AppConfig.getInstance().supplementaryUser.username),
     testBoard.addTag({ name: "tag_1", color: "#ff0000" }),
     testBoard.addTag({ name: "tag_2", color: "#00ff00" }),
     testBoard.addTag({ name: "tag_3", color: "#0000ff" }),

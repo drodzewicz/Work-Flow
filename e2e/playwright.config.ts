@@ -1,36 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 import "dotenv/config";
-import env from "env-var";
+import AppConfig from "./utils/AppConfig";
 
-type EnvConfig = {
-  APP_URL: string;
-  API_URL: string;
-  TEST_USER: {
-    username: string;
-    password: string;
-    access_token?: string;
-  };
-  SUPPLEMENTARY_USER: {
-    username: string;
-    password: string;
-    access_token?: string;
-  };
-};
-
-export const envConfig: EnvConfig = {
-  APP_URL: env.get("APP_BASE_URL").required().asString(),
-  API_URL: env.get("API_BASE_URL").required().asString(),
-  TEST_USER: {
-    username: env.get("TEST_USER_USERNAME").required().asString(),
-    password: env.get("TEST_USER_PASSWORD").required().asString(),
-    access_token: env.get("TEST_USER_ACCESS_TOKEN").asString(),
-  },
-  SUPPLEMENTARY_USER: {
-    username: env.get("SUPPLEMENTARY_USER_USERNAME").required().asString(),
-    password: env.get("SUPPLEMENTARY_USER_PASSWORD").required().asString(),
-    access_token: env.get("SUPPLEMENTARY_USER_ACCESS_TOKEN").asString(),
-  },
-};
+AppConfig.getInstance().initialize();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -50,7 +22,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: envConfig.APP_URL,
+    baseURL: AppConfig.getInstance().appURL,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
     launchOptions: {
