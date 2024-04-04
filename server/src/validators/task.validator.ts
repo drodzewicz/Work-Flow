@@ -28,7 +28,7 @@ const MoveTaskPayloadSchema = Joi.object({
 });
 
 const MoveTaskIndexPayloadSchema = (taskCount: number) => {
-  const maxIndex = taskCount > 0 ? taskCount - 1 : 0;
+  const maxIndex = taskCount > 0 ? taskCount : 0;
   return Joi.object({
     rowIndex: Joi.number().min(0).max(maxIndex),
   });
