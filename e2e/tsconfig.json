@@ -6,8 +6,8 @@
         "esModuleInterop": true,
         "baseUrl": "./",
         "paths": {
-            "@/*": ["*"],
-        },
+            "@/*": ["*"]
+        }
     },
     "include": ["./**/*.ts", "types.d.ts"],
     "exclude": ["node_modules"]

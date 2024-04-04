@@ -1,21 +1,35 @@
 {
-  "name": "e2e",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "devDependencies": {
-    "@playwright/test": "^1.40.1",
-    "@types/node": "^20.10.5"
-  },
-  "scripts": {
-    "test": "yarn playwright test",
-    "test:ui": "yarn playwright test --ui",
-    "test:debug": "yarn playwright test --debug",
-    "test:headed": "yarn playwright test --headed"
-  },
-  "dependencies": {
-    "axios": "^1.6.5",
-    "dotenv": "^16.3.1",
-    "env-var": "^7.4.1"
-  }
+    "name": "e2e",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "devDependencies": {
+        "@playwright/test": "^1.40.1",
+        "@types/node": "^20.10.5",
+        "@typescript-eslint/eslint-plugin": "^6.4.0",
+        "eslint": "^8.0.1",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-config-standard-with-typescript": "^43.0.1",
+        "eslint-plugin-import": "^2.25.2",
+        "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+        "eslint-plugin-playwright": "^1.5.4",
+        "eslint-plugin-promise": "^6.0.0",
+        "eslint-plugin-simple-import-sort": "^12.0.0",
+        "prettier": "3.1.0",
+        "typescript": "*"
+    },
+    "scripts": {
+        "test": "yarn playwright test",
+        "test:ui": "yarn playwright test --ui",
+        "test:debug": "yarn playwright test --debug",
+        "test:headed": "yarn playwright test --headed",
+        "lint": "eslint .",
+        "lint-fix": "eslint . --fix",
+        "format": "npx prettier --write ."
+    },
+    "dependencies": {
+        "axios": "^1.6.5",
+        "dotenv": "^16.3.1",
+        "env-var": "^7.4.1"
+    }
 }
