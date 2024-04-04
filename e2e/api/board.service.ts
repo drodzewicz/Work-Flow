@@ -1,10 +1,5 @@
 import APIService from "./api.service";
 
-export type Board = { _id: string; name: string; description: string; timeCreated: string };
-export type User = { _id: string; username: string; name: string; surname: string; email: string };
-export type Member = { role: string; user: User };
-export type Tag = { key: string; name: string; _id: string };
-
 class BoardService extends APIService {
   board: Board;
   members: Member[] = [];
