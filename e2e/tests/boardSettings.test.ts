@@ -1,4 +1,4 @@
-import { test, expect } from "../utils/fixtures";
+import { test, expect } from "../fixtures/fixtures";
 import crypto from "crypto";
 import BoardService from "../api/board.service";
 import AppConfig from "../utils/AppConfig";

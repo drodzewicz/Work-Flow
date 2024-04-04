@@ -1,5 +1,5 @@
 import AppConfig from "../utils/AppConfig";
-import { test, expect } from "../utils/fixtures";
+import { test, expect } from "../fixtures/fixtures";
 
 test.beforeEach(async ({ testBoard, boardPage }) => {
   await Promise.all([

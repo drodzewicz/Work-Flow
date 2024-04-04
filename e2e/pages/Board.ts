@@ -1,5 +1,5 @@
 import { Page, expect } from "@playwright/test";
-import { test } from "../utils/fixtures";
+import { test } from "../fixtures/fixtures";
 import ColumnElement from "./ColumnElement";
 import TaskDialogElement from "./TaskDialogElement";
 import TaskCardElement from "./TaskCardElement";
