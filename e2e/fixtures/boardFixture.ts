@@ -1,5 +1,5 @@
 import { test as baseTest } from "@playwright/test";
-import Board from "../pages/Board";
+import Board from "@/pages/Board";
 
 type Fixtures = {
   boardPage: Board;

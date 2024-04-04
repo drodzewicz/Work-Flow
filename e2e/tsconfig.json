@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "ES2018", //ECAMScript 2018, also known as ES9
+        "module": "CommonJS",
+        "strict": true,
+        "esModuleInterop": true,
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["*"],
+        },
+    },
+    "include": ["./**/*.ts", "types.d.ts"],
+    "exclude": ["node_modules"]
+}

@@ -1,6 +1,6 @@
 
-import BoardService from "../api/board.service";
-import { test, expect } from "../fixtures/fixtures";
+import BoardService from "@/api/board.service";
+import { test, expect } from "@/fixtures/fixtures";
 import crypto from "crypto";
 
 

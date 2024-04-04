@@ -1,4 +1,4 @@
-import BasePage from "./BasePage";
+import BasePage from "@/pages/BasePage";
 
 class TaskDialogElement extends BasePage {
   // VIEW STATE

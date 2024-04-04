@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import BasePage from "./BasePage";
+import BasePage from "@/pages/BasePage";
 
 class ColumnElement extends BasePage {
   getByName(name: string) {

@@ -1,5 +1,5 @@
 import { test as baseTest } from "@playwright/test";
-import BoardSettings from "../pages/BoardSettings";
+import BoardSettings from "@/pages/BoardSettings";
 
 type Fixtures = {
   boardSettingsPage: BoardSettings;

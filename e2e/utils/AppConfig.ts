@@ -9,11 +9,11 @@ type ConfigUser = {
 class AppConfig {
   private static instance: AppConfig;
 
-  public appURL: string;
-  public apiURL: string;
+  public appURL!: string;
+  public apiURL!: string;
 
-  public testUser: ConfigUser;
-  public supplementaryUser: ConfigUser;
+  public testUser!: ConfigUser;
+  public supplementaryUser!: ConfigUser;
 
   private constructor() {}
 

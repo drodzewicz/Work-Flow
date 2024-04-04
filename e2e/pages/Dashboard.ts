@@ -1,4 +1,4 @@
-import BasePage from "./BasePage";
+import BasePage from "@/pages/BasePage";
 
 class Dashboard extends BasePage {
   pageURL = "/dashboard";

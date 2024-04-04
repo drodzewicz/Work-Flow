@@ -1,4 +1,4 @@
-import BasePage from "./BasePage";
+import BasePage from "@/pages/BasePage";
 
 class TaskCardElement extends BasePage {
   getByName(name: string) {

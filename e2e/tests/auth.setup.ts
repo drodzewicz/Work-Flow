@@ -1,7 +1,7 @@
-import { test as setup, expect } from "../fixtures/fixtures";
+import { test as setup, expect } from "@/fixtures/fixtures";
 import path from "node:path";
 import axios from "axios";
-import AppConfig from "../utils/AppConfig";
+import AppConfig from "@/utils/AppConfig";
 
 setup("authenticate", async ({ page, navbar }) => {
   await page.goto("/");

@@ -1,9 +1,9 @@
 import { Page, expect } from "@playwright/test";
-import { test } from "../fixtures/fixtures";
-import ColumnElement from "./ColumnElement";
-import TaskDialogElement from "./TaskDialogElement";
-import TaskCardElement from "./TaskCardElement";
-import BasePage from "./BasePage";
+import { test } from "@/fixtures/fixtures";
+import ColumnElement from "@/pages/ColumnElement";
+import TaskDialogElement from "@/pages/TaskDialogElement";
+import TaskCardElement from "@/pages/TaskCardElement";
+import BasePage from "@/pages/BasePage";
 
 class Board extends BasePage {
   columnElement: ColumnElement;

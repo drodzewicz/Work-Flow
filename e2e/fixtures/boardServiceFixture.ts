@@ -1,6 +1,6 @@
 import { test as baseTest } from "@playwright/test";
 import crypto from "crypto";
-import BoardService from "../api/board.service";
+import BoardService from "@/api/board.service";
 
 type Fixtures = {
   testBoard: BoardService;

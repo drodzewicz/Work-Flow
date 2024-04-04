@@ -1,6 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 import "dotenv/config";
-import AppConfig from "./utils/AppConfig";
+import AppConfig from "@/utils/AppConfig";
 
 AppConfig.getInstance().initialize();
 

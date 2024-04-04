@@ -1,5 +1,5 @@
 import { test as baseTest } from "@playwright/test";
-import NavbarElement from "../pages/NavbarElement";
+import NavbarElement from "@/pages/NavbarElement";
 
 type Fixtures = {
   navbar: NavbarElement;

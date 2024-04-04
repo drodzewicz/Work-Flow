@@ -1,7 +1,7 @@
-import APIService from "./api.service";
+import APIService from "@/api/api.service";
 
 class BoardService extends APIService {
-  board: Board;
+  board!: Board;
   members: Member[] = [];
   tags: Tag[] = [];
 

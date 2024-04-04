@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import AppConfig from "../utils/AppConfig";
+import AppConfig from "@/utils/AppConfig";
 
 abstract class APIService {
   protected fetchClient: AxiosInstance;

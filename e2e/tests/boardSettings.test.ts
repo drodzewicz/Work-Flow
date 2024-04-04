@@ -1,7 +1,7 @@
-import { test, expect } from "../fixtures/fixtures";
+import { test, expect } from "@/fixtures/fixtures";
 import crypto from "crypto";
-import BoardService from "../api/board.service";
-import AppConfig from "../utils/AppConfig";
+import BoardService from "@/api/board.service";
+import AppConfig from "@/utils/AppConfig";
 
 test("should open settings page when clicked on settings button", async ({
   testBoard,
