@@ -4,11 +4,11 @@ import { roles, permissions } from "../config/permissions.config.js";
 
 @Service()
 export class PermissionService {
-  async getBoardPermissions(): Promise<PermissionsDTO> {
-    return permissions;
-  }
+    async getBoardPermissions(): Promise<PermissionsDTO> {
+        return permissions;
+    }
 
-  async getBoardRoles(): Promise<RolesDTO> {
-    return roles;
-  }
+    async getBoardRoles(): Promise<RolesDTO> {
+        return roles;
+    }
 }

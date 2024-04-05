@@ -24,14 +24,14 @@ app.use(cookieParser());
 app.use(logger);
 
 const routingControllersOptions = {
-  cors: { credentials: true, origin: env.cors.url },
-  routePrefix: env.app.routePrefix,
-  classTransformer: false,
-  defaultErrorHandler: false,
-  controllers,
-  middlewares: [MongooseIdExceptionTranslate, HttpErrorHandler],
-  currentUserChecker,
-  authorizationChecker,
+    cors: { credentials: true, origin: env.cors.url },
+    routePrefix: env.app.routePrefix,
+    classTransformer: false,
+    defaultErrorHandler: false,
+    controllers,
+    middlewares: [MongooseIdExceptionTranslate, HttpErrorHandler],
+    currentUserChecker,
+    authorizationChecker,
 };
 
 useExpressServer(app, routingControllersOptions);
@@ -41,8 +41,8 @@ usePassportJWT();
 useWebSockets(server, sockets);
 
 if (env.environment === "production") {
-  app.use(express.static(path.join(process.cwd(), `/dist/public/`)));
-  app.get("*", (_, res) => res.sendFile(path.join(process.cwd(), `/dist/public/index.html`)));
+    app.use(express.static(path.join(process.cwd(), "/dist/public/")));
+    app.get("*", (_, res) => res.sendFile(path.join(process.cwd(), "/dist/public/index.html")));
 }
 
 export { server };

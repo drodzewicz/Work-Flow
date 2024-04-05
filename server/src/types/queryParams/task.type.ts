@@ -1,4 +1,4 @@
 export interface GetColumnTasksQueryParams {
-  boardId: string;
-  columnId?: string;
+    boardId: string;
+    columnId?: string;
 }

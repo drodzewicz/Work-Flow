@@ -12,32 +12,33 @@ import { SelfController } from "./self.controller.js";
 import { SeedController } from "./seed.controller.js";
 
 export {
-  UserController,
-  BoardController,
-  AuthController,
-  TaskController,
-  TagController,
-  MemberController,
-  ColumnController,
-  PermissionController,
-  SelfController,
-  SeedController,
+    UserController,
+    BoardController,
+    AuthController,
+    TaskController,
+    TagController,
+    MemberController,
+    ColumnController,
+    PermissionController,
+    SelfController,
+    SeedController,
 };
 
-const controllers: any[] = [
-  UserController,
-  BoardController,
-  AuthController,
-  TaskController,
-  TagController,
-  MemberController,
-  ColumnController,
-  PermissionController,
-  SelfController,
+// eslint-disable-next-line @typescript-eslint/ban-types
+const controllers: Function[] | string[] = [
+    UserController,
+    BoardController,
+    AuthController,
+    TaskController,
+    TagController,
+    MemberController,
+    ColumnController,
+    PermissionController,
+    SelfController,
 ];
 
 if (env.db.seed) {
-  controllers.push(SeedController);
+    controllers.push(SeedController);
 }
 
 export { controllers };

@@ -9,32 +9,32 @@ import { getPaginationSettings } from "../utils/pagination.utils.js";
 @Controller("/users")
 @UseBefore(JWTMiddleware)
 export class UserController {
-  userService: UserService;
-  boardService: BoardService;
+    userService: UserService;
+    boardService: BoardService;
 
-  constructor() {
-    this.userService = Container.get(UserService);
-    this.boardService = Container.get(BoardService);
-  }
-
-  @Get("/")
-  getUsers(@QueryParams() query: UserListQueryParams) {
-    const options = getPaginationSettings(query);
-    if (query.username) {
-      return this.userService.getUsersByMatchUsername(query.username, options);
-    } else {
-      return this.userService.getAllUsers(options);
+    constructor() {
+        this.userService = Container.get(UserService);
+        this.boardService = Container.get(BoardService);
     }
-  }
 
-  @Get("/:userIdentifier")
-  getUser(@Param("userIdentifier") userIdentifier: string) {
-    return this.userService.getUser(userIdentifier);
-  }
+    @Get("/")
+    getUsers(@QueryParams() query: UserListQueryParams) {
+        const options = getPaginationSettings(query);
+        if (query.username) {
+            return this.userService.getUsersByMatchUsername(query.username, options);
+        } else {
+            return this.userService.getAllUsers(options);
+        }
+    }
 
-  @Get("/:userId/boards")
-  async userBoards(@Param("userId") userId: string, @QueryParams() query: Pagination) {
-    const options = getPaginationSettings(query);
-    return this.boardService.getUserBoards(userId, options);
-  }
+    @Get("/:userIdentifier")
+    getUser(@Param("userIdentifier") userIdentifier: string) {
+        return this.userService.getUser(userIdentifier);
+    }
+
+    @Get("/:userId/boards")
+    async userBoards(@Param("userId") userId: string, @QueryParams() query: Pagination) {
+        const options = getPaginationSettings(query);
+        return this.boardService.getUserBoards(userId, options);
+    }
 }

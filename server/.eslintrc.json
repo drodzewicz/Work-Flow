@@ -12,6 +12,7 @@
     "no-console": "off",
     "import/prefer-default-export": "off",
     "@typescript-eslint/no-unused-vars": "warn",
-    "quotes": ["error", "double"]
+    "quotes": ["error", "double"],
+    "@typescript-eslint/no-explicit-any": "warn"
   }
 }

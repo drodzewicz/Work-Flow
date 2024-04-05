@@ -1,5 +1,5 @@
 export interface TagDTO {
-  _id: string;
-  name: string;
-  key: string;
+    _id: string;
+    name: string;
+    key: string;
 }

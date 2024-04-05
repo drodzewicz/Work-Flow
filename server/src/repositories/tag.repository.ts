@@ -5,34 +5,38 @@ import { GenericRepository } from "./generic.repository.js";
 
 @Service()
 export class TagRepository extends GenericRepository<ITag, TagDocument, TagFields> {
-  private boardModel: BoardModel;
-  private taskModel: TaskModel;
+    private boardModel: BoardModel;
+    private taskModel: TaskModel;
 
-  constructor() {
-    super();
-    this.fields = ["_id", "name", "key", "board"];
-    this.model = Tag;
-    this.boardModel = Board;
-    this.taskModel = Task;
-  }
+    constructor() {
+        super();
+        this.fields = ["_id", "name", "key", "board"];
+        this.model = Tag;
+        this.boardModel = Board;
+        this.taskModel = Task;
+    }
 
-  async getTagByKey(boardId: string, key: string): Promise<TagDocument | null> {
-    return await this.model.findOne({ board: boardId, key }, this.fields.join(" "));
-  }
+    async getTagByKey(boardId: string, key: string): Promise<TagDocument | null> {
+        return await this.model.findOne({ board: boardId, key }, this.fields.join(" "));
+    }
 
-  async addTagToBoard(boardId: string, tagId: string): Promise<void> {
-    await this.boardModel.findOneAndUpdate({ _id: boardId }, { $push: { tags: tagId } }, { new: true });
-  }
+    async addTagToBoard(boardId: string, tagId: string): Promise<void> {
+        await this.boardModel.findOneAndUpdate(
+            { _id: boardId },
+            { $push: { tags: tagId } },
+            { new: true }
+        );
+    }
 
-  async removeTagFromTasks(boardId: string, tagId: string): Promise<void> {
-    await this.taskModel.findOneAndUpdate({ board: boardId }, { $pull: { tags: tagId } });
-  }
+    async removeTagFromTasks(boardId: string, tagId: string): Promise<void> {
+        await this.taskModel.findOneAndUpdate({ board: boardId }, { $pull: { tags: tagId } });
+    }
 
-  async removeTagFromBoard(boardId: string, tagId: string): Promise<void> {
-    await this.boardModel.updateMany({ _id: boardId }, { $pull: { tags: tagId } });
-  }
+    async removeTagFromBoard(boardId: string, tagId: string): Promise<void> {
+        await this.boardModel.updateMany({ _id: boardId }, { $pull: { tags: tagId } });
+    }
 
-  async getBoardTags(boardId): Promise<TagDocument[]> {
-    return this.model.find({ board: boardId }, this.fields.join(" "));
-  }
+    async getBoardTags(boardId): Promise<TagDocument[]> {
+        return this.model.find({ board: boardId }, this.fields.join(" "));
+    }
 }

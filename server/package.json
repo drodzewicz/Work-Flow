@@ -11,8 +11,8 @@
     "preserve": "yarn run build",
     "serve": "set NODE_ENV=development && concurrently \"npx tsc --w\" \"nodemon -q dist/index.js\"",
     "lint": "eslint src/**/*.ts",
-    "format": "eslint src/**/*.ts --fix",
-    "pretty": "prettier --write \"src/**/*.ts\""
+    "lint-fix": "eslint src/**/*.ts --fix",
+    "format": "prettier --write \"src/**/*.ts\""
   },
   "license": "ISC",
   "devDependencies": {
