@@ -1,12 +1,12 @@
 {
     "parser": "@typescript-eslint/parser",
-    "plugins": ["@typescript-eslint", "simple-import-sort"],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:playwright/recommended",
         "prettier"
     ],
+    "plugins": ["@typescript-eslint", "simple-import-sort"],
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module"
