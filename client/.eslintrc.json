@@ -1,0 +1,19 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:testing-library/react",
+        "plugin:vitest/recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": ["react-refresh", "vitest"],
+    "rules": {
+        "react-refresh/only-export-components": "warn",
+        "quotes": ["error", "double"]
+    }
+}
