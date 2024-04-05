@@ -27,9 +27,7 @@ class BoardService extends APIService {
 
     async getBoardMembers() {
         try {
-            const { data } = await this.fetchClient.get(
-                `/boards/${this.board._id}/members`
-            );
+            const { data } = await this.fetchClient.get(`/boards/${this.board._id}/members`);
             // updates members lists
             this.members = data.members;
         } catch (error) {
@@ -40,18 +38,14 @@ class BoardService extends APIService {
     async addMember(userIdentifier: string) {
         let user: User | null = null;
         try {
-            const { data } = await this.fetchClient.get(
-                `/users/${userIdentifier}`
-            );
+            const { data } = await this.fetchClient.get(`/users/${userIdentifier}`);
             user = data;
         } catch (error) {
             console.error("Error while trying geting a user", error);
         }
 
         try {
-            await this.fetchClient.post(
-                `/boards/${this.board._id}/members/${user?._id}`
-            );
+            await this.fetchClient.post(`/boards/${this.board._id}/members/${user?._id}`);
         } catch (error) {
             console.error("Error while trying to add user to the board", error);
         }

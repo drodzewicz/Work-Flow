@@ -6,20 +6,15 @@
         "plugin:playwright/recommended",
         "prettier"
     ],
-    "plugins": ["@typescript-eslint", "simple-import-sort"],
+    "plugins": ["@typescript-eslint"],
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module"
     },
     "root": true,
     "rules": {
-        "simple-import-sort/imports": "error",
-        "simple-import-sort/exports": "error",
         "quotes": ["error", "double"],
-        "@typescript-eslint/no-empty-function": [
-            "error",
-            { "allow": ["constructors"] }
-        ],
+        "@typescript-eslint/no-empty-function": ["error", { "allow": ["constructors"] }],
         "@typescript-eslint/no-unused-vars": "off",
         "playwright/expect-expect": "off"
     }

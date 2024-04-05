@@ -36,24 +36,16 @@ test("should go to board page when clicked on board card", async ({
 test("should pin board to favourites", async ({ dashboardPage, testBoard }) => {
     await dashboardPage.goToPage();
 
-    await expect(
-        dashboardPage.getBoardCard(testBoard.board.name)
-    ).toBeVisible();
-    await expect(
-        dashboardPage.getPinnedBoardCard(testBoard.board.name)
-    ).not.toBeVisible();
+    await expect(dashboardPage.getBoardCard(testBoard.board.name)).toBeVisible();
+    await expect(dashboardPage.getPinnedBoardCard(testBoard.board.name)).not.toBeVisible();
 
     await dashboardPage
         .getBoardCard(testBoard.board.name)
         .getByRole("button", { name: "unpinned" })
         .click();
 
-    await expect(
-        dashboardPage.getPinnedBoardCard(testBoard.board.name)
-    ).toBeVisible();
-    await expect(
-        dashboardPage.getBoardCard(testBoard.board.name)
-    ).toBeVisible();
+    await expect(dashboardPage.getPinnedBoardCard(testBoard.board.name)).toBeVisible();
+    await expect(dashboardPage.getBoardCard(testBoard.board.name)).toBeVisible();
 
     await expect(
         dashboardPage
@@ -61,52 +53,33 @@ test("should pin board to favourites", async ({ dashboardPage, testBoard }) => {
             .getByRole("button", { name: "pinned" })
     ).toBeVisible();
     await expect(
-        dashboardPage
-            .getBoardCard(testBoard.board.name)
-            .getByRole("button", { name: "pinned" })
+        dashboardPage.getBoardCard(testBoard.board.name).getByRole("button", { name: "pinned" })
     ).toBeVisible();
 });
 
-test("should unpin board from favourites", async ({
-    dashboardPage,
-    testBoard,
-}) => {
+test("should unpin board from favourites", async ({ dashboardPage, testBoard }) => {
     await dashboardPage.goToPage();
 
-    await expect(
-        dashboardPage.getBoardCard(testBoard.board.name)
-    ).toBeVisible();
-    await expect(
-        dashboardPage.getPinnedBoardCard(testBoard.board.name)
-    ).not.toBeVisible();
+    await expect(dashboardPage.getBoardCard(testBoard.board.name)).toBeVisible();
+    await expect(dashboardPage.getPinnedBoardCard(testBoard.board.name)).not.toBeVisible();
 
     await dashboardPage
         .getBoardCard(testBoard.board.name)
         .getByRole("button", { name: "unpinned" })
         .click();
 
-    await expect(
-        dashboardPage.getPinnedBoardCard(testBoard.board.name)
-    ).toBeVisible();
-    await expect(
-        dashboardPage.getBoardCard(testBoard.board.name)
-    ).toBeVisible();
+    await expect(dashboardPage.getPinnedBoardCard(testBoard.board.name)).toBeVisible();
+    await expect(dashboardPage.getBoardCard(testBoard.board.name)).toBeVisible();
 
     await dashboardPage
         .getPinnedBoardCard(testBoard.board.name)
         .getByRole("button", { name: "pinned" })
         .click();
 
-    await expect(
-        dashboardPage.getBoardCard(testBoard.board.name)
-    ).toBeVisible();
-    await expect(
-        dashboardPage.getPinnedBoardCard(testBoard.board.name)
-    ).not.toBeVisible();
+    await expect(dashboardPage.getBoardCard(testBoard.board.name)).toBeVisible();
+    await expect(dashboardPage.getPinnedBoardCard(testBoard.board.name)).not.toBeVisible();
 
     await expect(
-        dashboardPage
-            .getBoardCard(testBoard.board.name)
-            .getByRole("button", { name: "unpinned" })
+        dashboardPage.getBoardCard(testBoard.board.name).getByRole("button", { name: "unpinned" })
     ).toBeVisible();
 });

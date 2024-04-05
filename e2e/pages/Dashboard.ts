@@ -35,9 +35,7 @@ class Dashboard extends BasePage {
 
     async createNewBoard(name: string, description: string) {
         await this.page.getByRole("textbox", { name: "name" }).fill(name);
-        await this.page
-            .getByRole("textbox", { name: "description" })
-            .fill(description);
+        await this.page.getByRole("textbox", { name: "description" }).fill(description);
 
         await this.page.getByRole("button", { name: "Create" }).click();
     }

@@ -10,9 +10,7 @@ abstract class APIService {
             baseURL: AppConfig.getInstance().apiURL,
             withCredentials: true,
             headers: {
-                Authorization: `Bearer ${
-                    AppConfig.getInstance().testUser.access_token
-                }`,
+                Authorization: `Bearer ${AppConfig.getInstance().testUser.access_token}`,
             },
         });
     }

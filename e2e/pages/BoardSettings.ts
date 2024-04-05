@@ -38,15 +38,11 @@ class BoardSettings extends BasePage {
     }
 
     get addUserToBoardButton() {
-        return this.page
-            .getByRole("dialog")
-            .getByRole("button", { name: "Add to the board" });
+        return this.page.getByRole("dialog").getByRole("button", { name: "Add to the board" });
     }
 
     get createTagButton() {
-        return this.page
-            .getByRole("dialog")
-            .getByRole("button", { name: "Create" });
+        return this.page.getByRole("dialog").getByRole("button", { name: "Create" });
     }
 
     get memberSearchInput() {
@@ -67,26 +63,14 @@ class BoardSettings extends BasePage {
     }
 
     async selectUserToInvite(username: string) {
-        await this.page
-            .getByRole("dialog")
-            .getByRole("textbox", { name: "Search" })
-            .click();
-        await this.page
-            .getByRole("dialog")
-            .getByRole("textbox", { name: "Search" })
-            .fill(username);
-        await this.page
-            .getByTestId("async-search-option")
-            .filter({ hasText: username })
-            .click();
+        await this.page.getByRole("dialog").getByRole("textbox", { name: "Search" }).click();
+        await this.page.getByRole("dialog").getByRole("textbox", { name: "Search" }).fill(username);
+        await this.page.getByTestId("async-search-option").filter({ hasText: username }).click();
     }
 
     async changeMemberRole(username: string, role: string) {
         await this.getMember(username).getByTestId("async-search").click();
-        await this.page
-            .getByTestId("async-search-option")
-            .filter({ hasText: role })
-            .click();
+        await this.page.getByTestId("async-search-option").filter({ hasText: role }).click();
     }
 
     pageURL(id: string) {

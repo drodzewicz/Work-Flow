@@ -31,19 +31,9 @@ class NavbarElement {
         return this.navbar.getByRole("button", { name: "notifications" });
     }
 
-    async login({
-        username,
-        password,
-    }: {
-        username: string;
-        password: string;
-    }) {
-        await this.page
-            .getByRole("textbox", { name: "username" })
-            .fill(username);
-        await this.page
-            .getByRole("textbox", { name: "password" })
-            .fill(password);
+    async login({ username, password }: { username: string; password: string }) {
+        await this.page.getByRole("textbox", { name: "username" }).fill(username);
+        await this.page.getByRole("textbox", { name: "password" }).fill(password);
         await this.page.getByRole("button", { name: "Log In" }).click();
     }
 

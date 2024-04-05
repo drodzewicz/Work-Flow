@@ -49,9 +49,7 @@ class Board extends BasePage {
         await this.page.waitForURL(this.pageURL(options?.id || "**"));
 
         if (options?.boardName) {
-            await expect(
-                this.page.getByRole("heading", { name: options.boardName })
-            ).toBeVisible();
+            await expect(this.page.getByRole("heading", { name: options.boardName })).toBeVisible();
         }
     }
 
@@ -65,19 +63,12 @@ class Board extends BasePage {
         }
     ) {
         await test.step("open column add task form dialog", async () => {
-            await this.columnElement
-                .getByName(columnName)
-                .getByTestId("add-task-btn")
-                .click();
-            await expect(this.page.getByRole("dialog")).toHaveText(
-                /Create new Task/
-            );
+            await this.columnElement.getByName(columnName).getByTestId("add-task-btn").click();
+            await expect(this.page.getByRole("dialog")).toHaveText(/Create new Task/);
         });
         await test.step("fill title and description", async () => {
             await this.taskDialogElement.titleInput.fill(taskData.title);
-            await this.taskDialogElement.descriptionInput.fill(
-                taskData.description
-            );
+            await this.taskDialogElement.descriptionInput.fill(taskData.description);
         });
 
         if (taskData.tags) {

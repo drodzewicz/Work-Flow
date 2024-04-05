@@ -11,7 +11,7 @@
         "test:headed": "yarn playwright test --headed",
         "lint": "eslint .",
         "lint-fix": "eslint . --fix",
-        "format": "npx prettier --write ."
+        "format": "prettier --write ."
     },
     "devDependencies": {
         "typescript": "~5.0.2",

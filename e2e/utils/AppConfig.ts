@@ -36,14 +36,8 @@ class AppConfig {
         };
 
         this.supplementaryUser = {
-            username: env
-                .get("SUPPLEMENTARY_USER_USERNAME")
-                .required()
-                .asString(),
-            password: env
-                .get("SUPPLEMENTARY_USER_PASSWORD")
-                .required()
-                .asString(),
+            username: env.get("SUPPLEMENTARY_USER_USERNAME").required().asString(),
+            password: env.get("SUPPLEMENTARY_USER_PASSWORD").required().asString(),
             access_token: env.get("SUPPLEMENTARY_USER_ACCESS_TOKEN").asString(),
         };
     }

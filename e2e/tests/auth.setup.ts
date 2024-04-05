@@ -17,16 +17,11 @@ test("authenticate", async ({ page, navbar }) => {
     await expect(page.getByRole("dialog")).not.toBeVisible();
     await expect(navbar.isLoggedIn()).toBeTruthy();
 
-    await page
-        .context()
-        .storageState({ path: path.join(process.cwd(), ".auth-storage.json") });
+    await page.context().storageState({ path: path.join(process.cwd(), ".auth-storage.json") });
     const cookies = await page.context().cookies();
 
-    const res = await axios.get(
-        `${AppConfig.getInstance().apiURL}/auth/refreshToken`,
-        {
-            headers: { Cookie: `${cookies[0].name}=${cookies[0].value}` },
-        }
-    );
+    const res = await axios.get(`${AppConfig.getInstance().apiURL}/auth/refreshToken`, {
+        headers: { Cookie: `${cookies[0].name}=${cookies[0].value}` },
+    });
     process.env.TEST_USER_ACCESS_TOKEN = res.data.accessToken;
 });

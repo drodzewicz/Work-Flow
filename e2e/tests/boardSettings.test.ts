@@ -46,9 +46,7 @@ test("should be able to remove current board when clicking 'Delete Board' button
 
     await dashboardPage.pageLoaded();
 
-    await expect(
-        dashboardPage.getBoardCard(newBoardData.name)
-    ).not.toBeVisible();
+    await expect(dashboardPage.getBoardCard(newBoardData.name)).not.toBeVisible();
 });
 
 test("should be able to leave current board when clicking 'Leave Board' button", async ({
@@ -71,16 +69,10 @@ test("should be able to leave current board when clicking 'Leave Board' button",
     await boardSettingsPage.leaveBoardButton.click();
 
     await dashboardPage.pageLoaded();
-    await expect(
-        dashboardPage.getBoardCard(newBoardData.name)
-    ).not.toBeVisible();
+    await expect(dashboardPage.getBoardCard(newBoardData.name)).not.toBeVisible();
 });
 
-test("should update board name and description", async ({
-    boardSettingsPage,
-    page,
-    testBoard,
-}) => {
+test("should update board name and description", async ({ boardSettingsPage, page, testBoard }) => {
     const testHashCode = crypto.randomBytes(4).toString("hex");
     const updatedBoard = {
         name: "updated title " + testHashCode,
@@ -90,25 +82,16 @@ test("should update board name and description", async ({
     await boardSettingsPage.goToPage(testBoard.board._id);
 
     await boardSettingsPage.boardNameInput.fill(updatedBoard.name);
-    await boardSettingsPage.boardDescriptionInput.fill(
-        updatedBoard.description
-    );
+    await boardSettingsPage.boardDescriptionInput.fill(updatedBoard.description);
     await boardSettingsPage.saveChangesButton.click();
 
     await page.reload();
 
-    await expect(boardSettingsPage.boardNameInput).toHaveValue(
-        updatedBoard.name
-    );
-    await expect(boardSettingsPage.boardDescriptionInput).toHaveValue(
-        updatedBoard.description
-    );
+    await expect(boardSettingsPage.boardNameInput).toHaveValue(updatedBoard.name);
+    await expect(boardSettingsPage.boardDescriptionInput).toHaveValue(updatedBoard.description);
 });
 
-test("should add new members to the board", async ({
-    boardSettingsPage,
-    testBoard,
-}) => {
+test("should add new members to the board", async ({ boardSettingsPage, testBoard }) => {
     const newMemberUser = AppConfig.getInstance().supplementaryUser.username;
 
     await boardSettingsPage.goToPage(testBoard.board._id);
@@ -120,11 +103,7 @@ test("should add new members to the board", async ({
     await expect(boardSettingsPage.getMember(newMemberUser)).toBeVisible();
 });
 
-test("should remove user from the board", async ({
-    testBoard,
-    page,
-    boardSettingsPage,
-}) => {
+test("should remove user from the board", async ({ testBoard, page, boardSettingsPage }) => {
     const newMemberUser = AppConfig.getInstance().supplementaryUser.username;
 
     await boardSettingsPage.goToPage(testBoard.board._id);
@@ -139,10 +118,7 @@ test("should remove user from the board", async ({
     await expect(boardSettingsPage.getMember(newMemberUser)).not.toBeVisible();
 });
 
-test("should change user role to admin", async ({
-    testBoard,
-    boardSettingsPage,
-}) => {
+test("should change user role to admin", async ({ testBoard, boardSettingsPage }) => {
     const newMemberUser = AppConfig.getInstance().supplementaryUser.username;
 
     await boardSettingsPage.goToPage(testBoard.board._id);
@@ -186,24 +162,16 @@ test("should not be able to edit user role of logged in user", async ({
     const testUser = AppConfig.getInstance().testUser.username;
     await boardSettingsPage.goToPage(testBoard.board._id);
 
-    await boardSettingsPage
-        .getMember(testUser)
-        .getByTestId("async-search")
-        .click();
+    await boardSettingsPage.getMember(testUser).getByTestId("async-search").click();
 
     await expect(page.getByTestId("async-search-dropdown")).not.toBeVisible();
 });
 
-test("should not be able to remove logged in user", async ({
-    testBoard,
-    boardSettingsPage,
-}) => {
+test("should not be able to remove logged in user", async ({ testBoard, boardSettingsPage }) => {
     const testUser = AppConfig.getInstance().testUser.username;
     await boardSettingsPage.goToPage(testBoard.board._id);
 
     await expect(
-        boardSettingsPage
-            .getMember(testUser)
-            .getByRole("button", { name: "remove" })
+        boardSettingsPage.getMember(testUser).getByRole("button", { name: "remove" })
     ).toBeDisabled();
 });
