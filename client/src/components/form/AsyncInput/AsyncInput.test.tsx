@@ -8,7 +8,7 @@ describe("Test Component - AsyncInput", () => {
     expect(screen.queryByTestId("async-input-loading")).not.toBeInTheDocument();
 
     rerender(<AsyncInput isLoading />);
-    expect(screen.queryByTestId("async-input-loading")).toBeInTheDocument();
+    expect(screen.getByTestId("async-input-loading")).toBeInTheDocument();
   });
 
   it("should display loading spinner when user is typing", async () => {
@@ -20,7 +20,7 @@ describe("Test Component - AsyncInput", () => {
     expect(screen.queryByTestId("async-input-loading")).not.toBeInTheDocument();
 
     await userEvent.type(asyncInputElement, inputText);
-    expect(screen.queryByTestId("async-input-loading")).toBeInTheDocument();
+    expect(screen.getByTestId("async-input-loading")).toBeInTheDocument();
   });
 
   it("should not display loading spinner after user has stopped typing for more than specified in debounceTime", async () => {

@@ -5,6 +5,7 @@ import { BrowerRouterWrapper, renderWithWrappers } from "@/test/utils";
 import { boards } from "@/test/mocks/data";
 
 describe("Test Component - BoardCard", () => {
+  // eslint-disable-next-line testing-library/render-result-naming-convention
   const render = renderWithWrappers([BrowerRouterWrapper]);
 
   const testBoard = boards[0];

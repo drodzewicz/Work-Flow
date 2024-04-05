@@ -31,6 +31,7 @@ describe("Test Component - Column", () => {
     logout: vi.fn,
   });
 
+  // eslint-disable-next-line testing-library/render-result-naming-convention
   const render = renderWithWrappers([
     RouteWrapper,
     DroppableWrapper,
@@ -57,7 +58,7 @@ describe("Test Component - Column", () => {
 
     render(<Column columnId="column-id-1" columnName={columnTitle} columnIndex={0} />);
 
-    expect(screen.queryByText(columnTitle)).toBeInTheDocument();
+    expect(screen.getByText(columnTitle)).toBeInTheDocument();
   });
 
   it("should double click on title and activate input", async () => {
@@ -143,7 +144,7 @@ describe("Test Component - Column", () => {
 
     render(<Column columnId="column-id-1" columnName="Test Column title" columnIndex={0} />);
 
-    expect(screen.findByTestId("column-option-btn")).rejects.toThrow();
+    await expect(screen.findByTestId("column-option-btn")).rejects.toThrow();
   });
 
   it("should display modal when clicked on add task button", async () => {
@@ -155,7 +156,7 @@ describe("Test Component - Column", () => {
 
     await userEvent.click(addTaskElement);
 
-    expect(screen.queryByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
   it("should not render add task button when user does not have task create permission", async () => {
@@ -175,6 +176,6 @@ describe("Test Component - Column", () => {
 
     render(<Column columnId="column-id-1" columnName="Test Column title" columnIndex={0} />);
 
-    expect(screen.findByTestId("column-option-btn")).rejects.toThrow();
+    await expect(screen.findByTestId("column-option-btn")).rejects.toThrow();
   });
 });

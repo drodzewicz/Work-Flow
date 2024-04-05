@@ -4,6 +4,7 @@ import { renderWithWrappers, BrowerRouterWrapper } from "@/test/utils";
 import { boards } from "@/test/mocks/data";
 
 describe("Test Component - BoardContainer", () => {
+  // eslint-disable-next-line testing-library/render-result-naming-convention
   const render = renderWithWrappers([BrowerRouterWrapper]);
 
   const testBoardList = boards;
@@ -21,7 +22,7 @@ describe("Test Component - BoardContainer", () => {
       />,
     );
 
-    expect(screen.queryByText(emptyContainerMessage)).toBeInTheDocument();
+    expect(screen.getByText(emptyContainerMessage)).toBeInTheDocument();
   });
 
   it("should not render message when there are boards provided", () => {

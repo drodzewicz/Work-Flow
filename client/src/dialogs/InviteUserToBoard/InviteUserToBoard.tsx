@@ -61,7 +61,7 @@ const InviteUserToBoard: React.FC<InviteUserToBoardProps> = ({ closeModal }) => 
       })
       .catch((err) => {
         const errorMessage =
-          (err.response?.data as any)?.message ||
+          (err.response?.data as { message: string })?.message ||
           "There was an issue while trying to add a user to the board";
         toast.error(errorMessage);
       });

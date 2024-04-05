@@ -21,6 +21,7 @@ type OptionsType = Omit<
 
 type UpdateTaskProps = { boardId: string; taskId: string } & OptionsType;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const useUpdateTask = ({ boardId, taskId, ...options }: UpdateTaskProps) => {
   const queryClient = useQueryClient();
   const client = useAuthClient();

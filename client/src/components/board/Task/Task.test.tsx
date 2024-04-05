@@ -17,6 +17,7 @@ describe("Test Component - Task", () => {
 
   const RouteWrapper = createRouteWrapper("/board/:id", "/board/someId123");
 
+  // eslint-disable-next-line testing-library/render-result-naming-convention
   const render = renderWithWrappers([
     DroppableWrapper,
     DragDropWrapper,
@@ -48,7 +49,7 @@ describe("Test Component - Task", () => {
       />,
     );
 
-    expect(screen.queryByText(testTask.title)).toBeInTheDocument();
+    expect(screen.getByText(testTask.title)).toBeInTheDocument();
   });
 
   it("should render tags", () => {

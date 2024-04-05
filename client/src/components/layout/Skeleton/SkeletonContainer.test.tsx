@@ -49,6 +49,6 @@ describe("Test Component - SkeletonContainer", () => {
       </Skeleton.Container>,
     );
 
-    expect(screen.queryByTestId("skeleton-container-test-element")).toBeInTheDocument();
+    expect(screen.getByTestId("skeleton-container-test-element")).toBeInTheDocument();
   });
 });

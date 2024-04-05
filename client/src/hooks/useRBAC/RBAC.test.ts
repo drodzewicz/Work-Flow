@@ -25,6 +25,7 @@ describe("Test Hook - Role Based Access Controll (RBAC)", () => {
     logout: vi.fn,
   });
 
+  // eslint-disable-next-line testing-library/render-result-naming-convention
   const renderHook = renderHookWithWrappers([RouteWrapper, ReactQueryWrapper]);
 
   beforeAll(() => {

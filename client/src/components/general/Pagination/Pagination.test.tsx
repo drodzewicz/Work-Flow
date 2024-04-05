@@ -7,7 +7,7 @@ describe("Test Component - Pagination", () => {
   it("should render component if there is more than one page of pagination", () => {
     render(<Pagination current={0} total={2} handleChange={mockHandlePageChange} />);
 
-    expect(screen.queryByRole("navigation")).toBeInTheDocument();
+    expect(screen.getByRole("navigation")).toBeInTheDocument();
   });
 
   it("should not render component unless there is more than one page of pagination", () => {

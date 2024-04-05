@@ -8,12 +8,14 @@ import * as ColumnServiceHooks from "@/service/column";
 describe("Test Component - NewColumn", () => {
   const RouteWrapper = createRouteWrapper("/board/:id", "/board/someId123");
 
+  // eslint-disable-next-line testing-library/render-result-naming-convention
   const render = renderWithWrappers([RouteWrapper, ReactQueryWrapper]);
 
   const useCreateColumnSpy = vi.spyOn(ColumnServiceHooks, "useCreateColumn");
 
-  let createNewColumnMockFn = vi.fn();
+  const createNewColumnMockFn = vi.fn();
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
   useCreateColumnSpy.mockReturnValue({
     mutate: createNewColumnMockFn,

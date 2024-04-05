@@ -14,7 +14,7 @@ describe("Test Component - AsyncSearch", () => {
   it("should render search icon on idle search", () => {
     render(<AsyncSearch options={options} />);
 
-    expect(screen.queryByTestId("async-search-icon")).toBeInTheDocument();
+    expect(screen.getByTestId("async-search-icon")).toBeInTheDocument();
   });
 
   it("should not render search icon on idle search", () => {
@@ -38,13 +38,13 @@ describe("Test Component - AsyncSearch", () => {
     const searchInputElement = screen.getByRole("textbox");
     await userEvent.type(searchInputElement, "test");
 
-    expect(screen.queryByTestId("async-clear-icon")).toBeInTheDocument();
+    expect(screen.getByTestId("async-clear-icon")).toBeInTheDocument();
 
     rerender(<AsyncSearch showSearchIcon={false} options={options} />);
 
     await userEvent.type(searchInputElement, "test");
 
-    expect(screen.queryByTestId("async-clear-icon")).toBeInTheDocument();
+    expect(screen.getByTestId("async-clear-icon")).toBeInTheDocument();
   });
 
   // FIXME fix component
@@ -72,7 +72,7 @@ describe("Test Component - AsyncSearch", () => {
     const asyncSearchElement = screen.getByRole("textbox");
     await userEvent.click(asyncSearchElement);
 
-    expect(screen.queryByTestId("async-search-dropdown")).toBeInTheDocument();
+    expect(screen.getByTestId("async-search-dropdown")).toBeInTheDocument();
   });
 
   it("should not let user input value when isSearchableis disabled", async () => {
@@ -85,7 +85,7 @@ describe("Test Component - AsyncSearch", () => {
 
     expect(searchInputElement).toHaveValue("");
     expect(screen.queryByTestId("async-clear-icon")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("async-search-icon")).toBeInTheDocument();
+    expect(screen.getByTestId("async-search-icon")).toBeInTheDocument();
   });
 
   it("should call onSelect callback on option click", async () => {
@@ -119,17 +119,17 @@ describe("Test Component - AsyncSearch", () => {
     expect(onSelectCallbackMock).not.toHaveBeenCalled();
   });
 
-  it('should show "clear selections" option in the dropdown when there are selected options', async () => {
+  it("should show \"clear selections\" option in the dropdown when there are selected options", async () => {
     const selectoption = options[1];
 
     render(<AsyncSearch options={options} selectedOptions={[selectoption]} />);
 
     await userEvent.click(screen.getByRole("textbox"));
 
-    expect(screen.queryByTestId("async-search-clear-selections")).toBeInTheDocument();
+    expect(screen.getByTestId("async-search-clear-selections")).toBeInTheDocument();
   });
 
-  it('should not show "clear selections" option in the dropdown when isClearable is false', async () => {
+  it("should not show \"clear selections\" option in the dropdown when isClearable is false", async () => {
     const selectoption = options[1];
 
     render(<AsyncSearch options={options} selectedOptions={[selectoption]} isClearable={false} />);
@@ -164,7 +164,7 @@ describe("Test Component - AsyncSearch", () => {
 
     await userEvent.click(screen.getByRole("textbox"));
 
-    expect(screen.queryByText(selectoption.label)).toBeInTheDocument();
+    expect(screen.getByText(selectoption.label)).toBeInTheDocument();
   });
 
   // FIXME
@@ -213,7 +213,7 @@ describe("Test Component - AsyncSearch", () => {
     render(<AsyncSearch options={options} closeDropdownOnOptionClick={true} />);
     await userEvent.click(screen.getByRole("textbox"));
 
-    expect(screen.queryByTestId("async-search-dropdown")).toBeInTheDocument();
+    expect(screen.getByTestId("async-search-dropdown")).toBeInTheDocument();
 
     await userEvent.click(screen.getByText(options[0].label));
 
@@ -224,10 +224,10 @@ describe("Test Component - AsyncSearch", () => {
     render(<AsyncSearch options={options} closeDropdownOnOptionClick={false} />);
     await userEvent.click(screen.getByRole("textbox"));
 
-    expect(screen.queryByTestId("async-search-dropdown")).toBeInTheDocument();
+    expect(screen.getByTestId("async-search-dropdown")).toBeInTheDocument();
 
     await userEvent.click(screen.getByText(options[0].label));
 
-    expect(screen.queryByTestId("async-search-dropdown")).toBeInTheDocument();
+    expect(screen.getByTestId("async-search-dropdown")).toBeInTheDocument();
   });
 });

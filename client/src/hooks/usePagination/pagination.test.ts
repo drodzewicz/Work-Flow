@@ -5,7 +5,7 @@ describe("Test Hook - Pagination", () => {
   it("should set first page to 1 if initialPage prop is not provided", async () => {
     const { result } = renderHook(usePagination, { initialProps: { limit: 5 } });
 
-    expect(result.current.currentPage).toEqual(1);
+    expect(result.current.currentPage).toBe(1);
   });
 
   it("should set first page to provided value", async () => {
@@ -41,7 +41,7 @@ describe("Test Hook - Pagination", () => {
       result.current.reset();
     });
 
-    expect(result.current.currentPage).toEqual(1);
+    expect(result.current.currentPage).toBe(1);
   });
 
   it("should set totalItems to provided value", async () => {
@@ -63,18 +63,18 @@ describe("Test Hook - Pagination", () => {
       result.current.setTotalItems(2);
     });
 
-    expect(result.current.totalPages).toEqual(1);
+    expect(result.current.totalPages).toBe(1);
 
     act(() => {
       result.current.setTotalItems(10);
     });
 
-    expect(result.current.totalPages).toEqual(2);
+    expect(result.current.totalPages).toBe(2);
 
     act(() => {
       result.current.setTotalItems(11);
     });
 
-    expect(result.current.totalPages).toEqual(3);
+    expect(result.current.totalPages).toBe(3);
   });
 });

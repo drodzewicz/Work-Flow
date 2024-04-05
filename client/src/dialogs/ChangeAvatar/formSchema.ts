@@ -9,7 +9,7 @@ export const validationSchema = Yup.object({
     .test({
       message: "Please provide a supported file type",
       test: (file, context) => {
-        const fileName = (file as any)?.name;
+        const fileName = (file as { name: string })?.name;
         const isValid = ["jpg", "png"].includes(fileName?.split(".").pop() as string);
         if (!isValid) context?.createError();
         return isValid;
@@ -18,7 +18,7 @@ export const validationSchema = Yup.object({
     .test({
       message: `File too big, can't exceed ${formatBytes(MAX_FILE_SIZE)}`,
       test: (file) => {
-        const isValid = (file as any)?.size < MAX_FILE_SIZE;
+        const isValid = (file as { size: number })?.size < MAX_FILE_SIZE;
         return isValid;
       },
     }),

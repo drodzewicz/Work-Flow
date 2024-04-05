@@ -27,7 +27,7 @@ export type ColumnProps = {
   columnName: string;
   columnId: string;
   columnIndex: number;
-  placeholder?: any;
+  placeholder?: unknown;
 };
 
 const Column: React.FC<ColumnProps> = (props) => {

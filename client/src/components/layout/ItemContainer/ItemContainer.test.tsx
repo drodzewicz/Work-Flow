@@ -35,6 +35,6 @@ describe("Test Component - ItemContainer", () => {
       />,
     );
 
-    expect(screen.queryByText(noContentMessage)).toBeInTheDocument();
+    expect(screen.getByText(noContentMessage)).toBeInTheDocument();
   });
 });

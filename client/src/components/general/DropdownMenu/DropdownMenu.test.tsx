@@ -38,7 +38,7 @@ describe("Test Component - DropdownMenu", () => {
 
     await userEvent.click(screen.getByRole("button", { name: "click" }));
 
-    expect(screen.queryByRole("list")).toBeInTheDocument();
+    expect(screen.getByRole("list")).toBeInTheDocument();
   });
 
   it("shoud hide the dropdown when clicked on the anchor element a second time", async () => {
@@ -57,7 +57,7 @@ describe("Test Component - DropdownMenu", () => {
 
     await userEvent.click(screen.getByRole("button", { name: "click" }));
 
-    expect(screen.queryByRole("list")).toBeInTheDocument();
+    expect(screen.getByRole("list")).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("button", { name: "click" }));
 
@@ -80,7 +80,7 @@ describe("Test Component - DropdownMenu", () => {
 
     await userEvent.click(screen.getByRole("button", { name: "click" }));
 
-    expect(screen.queryByRole("list")).toBeInTheDocument();
+    expect(screen.getByRole("list")).toBeInTheDocument();
 
     await userEvent.click(screen.getByText("two"));
 
@@ -103,11 +103,11 @@ describe("Test Component - DropdownMenu", () => {
 
     await userEvent.click(screen.getByRole("button", { name: "click" }));
 
-    expect(screen.queryByRole("list")).toBeInTheDocument();
+    expect(screen.getByRole("list")).toBeInTheDocument();
 
     await userEvent.click(screen.getByText("two"));
 
-    expect(screen.queryByRole("list")).toBeInTheDocument();
+    expect(screen.getByRole("list")).toBeInTheDocument();
   });
 
   it("shoud hide the dropdown when clicked outside of the component", async () => {
@@ -126,7 +126,7 @@ describe("Test Component - DropdownMenu", () => {
 
     await userEvent.click(screen.getByRole("button", { name: "click" }));
 
-    expect(screen.queryByRole("list")).toBeInTheDocument();
+    expect(screen.getByRole("list")).toBeInTheDocument();
 
     await userEvent.click(screen.getByTestId("test-wrapper"));
 

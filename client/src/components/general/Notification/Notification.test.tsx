@@ -6,6 +6,7 @@ import { notifications } from "@/test/mocks/data";
 const testNotification = notifications[0];
 
 describe("Test Component - Notification", () => {
+  // eslint-disable-next-line testing-library/render-result-naming-convention
   const render = renderWithWrappers([BrowerRouterWrapper, ReactQueryWrapper]);
 
   it("should display title and message", () => {

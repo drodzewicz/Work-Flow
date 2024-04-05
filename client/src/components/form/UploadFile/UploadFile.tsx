@@ -11,7 +11,7 @@ type UploadFileProps = {
 };
 
 const UploadFile: React.FC<UploadFileProps> = ({ name, label = "Choose a file" }) => {
-  const [_field, { error, value }, { setValue, setTouched }] = useField<File>(name);
+  const [, { error, value }, { setValue, setTouched }] = useField<File>(name);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const onUploadChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
