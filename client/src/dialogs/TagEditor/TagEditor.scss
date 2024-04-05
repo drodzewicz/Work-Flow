@@ -1,25 +1,25 @@
 .tag-editor {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-
-  &__inputs {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    flex-direction: column;
+    gap: 0.2rem;
 
-    .label-name-input {
-      flex: 1;
+    &__inputs {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .label-name-input {
+            flex: 1;
+        }
     }
-  }
-  .tag-card {
-    height: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    .tag-card {
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-  button[type="submit"] {
-    align-self: center;
-  }
+    button[type="submit"] {
+        align-self: center;
+    }
 }

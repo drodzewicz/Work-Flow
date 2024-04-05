@@ -17,44 +17,48 @@ import { validationSchema } from "./formSchema";
 export type ChangeAvatarType = { image: File | null };
 
 type ChangeAvatarProps = {
-  onSuccess?: () => void;
+    onSuccess?: () => void;
 };
 
 const ChangeAvatar: React.FC<ChangeAvatarProps> = ({ onSuccess }) => {
-  const { mutate: updateUserAvatar } = useUpdateUserAvatar({ onSuccess });
+    const { mutate: updateUserAvatar } = useUpdateUserAvatar({ onSuccess });
 
-  const onSubmit: OnSubmitType<ChangeAvatarType> = async (values) => {
-    if (values.image) {
-      const encodedImage = await convertToBase64(values.image);
-      updateUserAvatar(encodedImage as string);
-    }
-  };
+    const onSubmit: OnSubmitType<ChangeAvatarType> = async (values) => {
+        if (values.image) {
+            const encodedImage = await convertToBase64(values.image);
+            updateUserAvatar(encodedImage as string);
+        }
+    };
 
-  const formik = useFormik<ChangeAvatarType>({
-    initialValues: { image: null },
-    validationSchema,
-    onSubmit,
-  });
+    const formik = useFormik<ChangeAvatarType>({
+        initialValues: { image: null },
+        validationSchema,
+        onSubmit,
+    });
 
-  const imagePreview = useMemo(
-    () => (formik.values.image ? URL.createObjectURL(formik.values.image) : undefined),
-    [formik.values.image]
-  );
+    const imagePreview = useMemo(
+        () => (formik.values.image ? URL.createObjectURL(formik.values.image) : undefined),
+        [formik.values.image]
+    );
 
-  return (
-    <div className="change-avatar-dialog">
-      <Image src={imagePreview} className="change-avatar-dialog__avatar" />
+    return (
+        <div className="change-avatar-dialog">
+            <Image src={imagePreview} className="change-avatar-dialog__avatar" />
 
-      <FormikProvider value={formik}>
-        <Form className="board-editor">
-          <Field name="image" as={UploadFile} />
-          <button disabled={!formik.isValid || !formik.touched} className="btn btn--glow" type="submit">
-            Submit
-          </button>
-        </Form>
-      </FormikProvider>
-    </div>
-  );
+            <FormikProvider value={formik}>
+                <Form className="board-editor">
+                    <Field name="image" as={UploadFile} />
+                    <button
+                        disabled={!formik.isValid || !formik.touched}
+                        className="btn btn--glow"
+                        type="submit"
+                    >
+                        Submit
+                    </button>
+                </Form>
+            </FormikProvider>
+        </div>
+    );
 };
 
 export default ChangeAvatar;

@@ -13,22 +13,22 @@ type OptionsType = Omit<UseMutationOptions<UserRoleResponse, AxiosError, string>
 type AddBoardMemberProps = { boardId: string } & OptionsType;
 
 const useAddBoardMember = ({ boardId, ...options }: AddBoardMemberProps) => {
-  const queryClient = useQueryClient();
-  const client = useAuthClient();
+    const queryClient = useQueryClient();
+    const client = useAuthClient();
 
-  const mutationFn: MutationFunction<UserRoleResponse, string> = async (userId) => {
-    const response = await client.post(memberURL.add(boardId, userId));
-    return response.data;
-  };
+    const mutationFn: MutationFunction<UserRoleResponse, string> = async (userId) => {
+        const response = await client.post(memberURL.add(boardId, userId));
+        return response.data;
+    };
 
-  return useMutation({
-    ...options,
-    mutationFn,
-    onSuccess: (_data, _var, _context) => {
-      queryClient.invalidateQueries(memberQueryKeys.list(boardId));
-      options?.onSuccess?.(_data, _var, _context);
-    },
-  });
+    return useMutation({
+        ...options,
+        mutationFn,
+        onSuccess: (_data, _var, _context) => {
+            queryClient.invalidateQueries(memberQueryKeys.list(boardId));
+            options?.onSuccess?.(_data, _var, _context);
+        },
+    });
 };
 
 export default useAddBoardMember;

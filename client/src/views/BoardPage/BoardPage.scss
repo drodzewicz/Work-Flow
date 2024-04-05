@@ -1,66 +1,66 @@
 @import "../../assets/styles/mixins";
 
 .task-loading {
-  position: relative;
-  min-height: calc(100vh - var(--size-navbar-height) - var(--size-footer-height) - 3.5rem);
+    position: relative;
+    min-height: calc(100vh - var(--size-navbar-height) - var(--size-footer-height) - 3.5rem);
 }
 .board-page {
-  margin: 0 2rem;
-  min-height: calc(100vh - var(--size-navbar-height) - var(--size-footer-height) - 3.5rem);
-  display: flex;
-  flex-direction: column;
-  @include breakpoint(mobile) {
-    margin: 0 0.8rem;
-  }
-  &__title {
-    margin: 2rem 1rem;
-    color: var(--c-font-primary);
-    p {
-      margin: 0;
-    }
-  }
-  &__controlls {
+    margin: 0 2rem;
+    min-height: calc(100vh - var(--size-navbar-height) - var(--size-footer-height) - 3.5rem);
     display: flex;
-    align-items: center;
-    flex-direction: row;
-    .standard > svg {
-      margin-right: 0.4rem;
+    flex-direction: column;
+    @include breakpoint(mobile) {
+        margin: 0 0.8rem;
     }
-    .board-options__ellipsis {
-      border-radius: 0.2rem;
-      padding: 0.3rem 0.2rem;
-      margin-left: 0.1rem;
-      cursor: pointer;
-      color: var(--c-font-primary);
-      transition: background 0.15s ease-in;
-      svg {
-        transform: translateY(2px);
-      }
-      span {
-        display: grid;
-        place-items: center;
-        padding: 0.1rem;
-      }
+    &__title {
+        margin: 2rem 1rem;
+        color: var(--c-font-primary);
+        p {
+            margin: 0;
+        }
     }
-  }
+    &__controlls {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        .standard > svg {
+            margin-right: 0.4rem;
+        }
+        .board-options__ellipsis {
+            border-radius: 0.2rem;
+            padding: 0.3rem 0.2rem;
+            margin-left: 0.1rem;
+            cursor: pointer;
+            color: var(--c-font-primary);
+            transition: background 0.15s ease-in;
+            svg {
+                transform: translateY(2px);
+            }
+            span {
+                display: grid;
+                place-items: center;
+                padding: 0.1rem;
+            }
+        }
+    }
 
-  .task-board {
-    display: flex;
-    flex-direction: row;
-    overflow-x: scroll;
-    flex-grow: 1;
-    flex-grow: 1;
-    padding-bottom: 1rem;
+    .task-board {
+        display: flex;
+        flex-direction: row;
+        overflow-x: scroll;
+        flex-grow: 1;
+        flex-grow: 1;
+        padding-bottom: 1rem;
 
-    &__task-row {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      height: 100%;
-      gap: 1rem;
-      & > div {
-        height: 100%;
-      }
+        &__task-row {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            height: 100%;
+            gap: 1rem;
+            & > div {
+                height: 100%;
+            }
+        }
     }
-  }
 }

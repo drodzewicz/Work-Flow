@@ -1,27 +1,27 @@
 .upload-file {
-  display: flex;
-  flex-direction: column;
-
-  &__input {
-    display: none;
-  }
-
-  &__selected-file {
-    margin-top: 0.3rem;
-    color: var(--c-font-primary);
-    font-size: 0.7rem;
-    min-height: 1rem;
     display: flex;
     flex-direction: column;
-    &__size {
-      font-weight: 600;
-    }
-  }
 
-  &__error {
-    margin-top: 0.3rem;
-    color: var(--c-red-1);
-    font-size: 0.7rem;
-    min-height: 1rem;
-  }
+    &__input {
+        display: none;
+    }
+
+    &__selected-file {
+        margin-top: 0.3rem;
+        color: var(--c-font-primary);
+        font-size: 0.7rem;
+        min-height: 1rem;
+        display: flex;
+        flex-direction: column;
+        &__size {
+            font-weight: 600;
+        }
+    }
+
+    &__error {
+        margin-top: 0.3rem;
+        color: var(--c-red-1);
+        font-size: 0.7rem;
+        min-height: 1rem;
+    }
 }

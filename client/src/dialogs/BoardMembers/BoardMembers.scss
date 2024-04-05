@@ -1,47 +1,47 @@
 .board-members {
-  --_member-role-bg-color: var(--c-iceberg-2);
+    --_member-role-bg-color: var(--c-iceberg-2);
 }
 
 [data-theme="DARK"] .board-members {
-  --_member-role-bg-color: var(--c-metal-2);
+    --_member-role-bg-color: var(--c-metal-2);
 }
 
 .board-members {
-  min-height: 25rem;
-  display: flex;
-  flex-direction: column;
-
-  .manage-members-btn {
-    align-self: flex-end;
-    font-size: 0.7rem;
-    display: flex;
-    align-items: center;
-    gap: 0.2rem;
-    color: var(--c-font-secondary);
-    margin-bottom: 0.4rem;
-  }
-
-  &__members {
+    min-height: 25rem;
     display: flex;
     flex-direction: column;
-    margin-top: 1rem;
-  }
 
-  .user__member-role {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0.2rem;
-    min-width: 4.2rem;
-    background-color: var(--_member-role-bg-color);
-    color: var(--c-font-primary);
-    box-shadow: 0 0 3px color-mix(in srgb, var(--_member-role-bg-color), transparent 40%);
-    padding: 0.2rem 0.4rem;
-    border-radius: 3px;
-    font-size: 0.7rem;
-  }
+    .manage-members-btn {
+        align-self: flex-end;
+        font-size: 0.7rem;
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+        color: var(--c-font-secondary);
+        margin-bottom: 0.4rem;
+    }
 
-  .async-input__search-icon {
-    color: var(--c-font-primary);
-  }
+    &__members {
+        display: flex;
+        flex-direction: column;
+        margin-top: 1rem;
+    }
+
+    .user__member-role {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.2rem;
+        min-width: 4.2rem;
+        background-color: var(--_member-role-bg-color);
+        color: var(--c-font-primary);
+        box-shadow: 0 0 3px color-mix(in srgb, var(--_member-role-bg-color), transparent 40%);
+        padding: 0.2rem 0.4rem;
+        border-radius: 3px;
+        font-size: 0.7rem;
+    }
+
+    .async-input__search-icon {
+        color: var(--c-font-primary);
+    }
 }

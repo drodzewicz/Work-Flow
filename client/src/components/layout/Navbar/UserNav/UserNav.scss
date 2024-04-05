@@ -1,34 +1,34 @@
 .profile-nav.drop-down-menu {
-  transform: translate(1rem, 2rem);
-  width: 7rem;
+    transform: translate(1rem, 2rem);
+    width: 7rem;
 }
 
 .notification-nav.drop-down-menu {
-  transform: translate(-16.5rem, 2rem);
-  width: 18rem;
-}
-
-.notification-nav.badge { 
-  --_badge-color: var(--c-accent-primary);
-}
-
-[data-theme="DARK"] .notification-nav.badge { 
-  --_badge-color: var(--c-accent-secondary);
+    transform: translate(-16.5rem, 2rem);
+    width: 18rem;
 }
 
 .notification-nav.badge {
-  .navbar__item__icon::after {
-    content: "";
-    background-color: var(--_badge-color);
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 5rem;
-    position: absolute;
-    transform: translate(9px, -8px);
-  }
+    --_badge-color: var(--c-accent-primary);
+}
+
+[data-theme="DARK"] .notification-nav.badge {
+    --_badge-color: var(--c-accent-secondary);
+}
+
+.notification-nav.badge {
+    .navbar__item__icon::after {
+        content: "";
+        background-color: var(--_badge-color);
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 5rem;
+        position: absolute;
+        transform: translate(9px, -8px);
+    }
 }
 
 .profile-nav .drop-down-menu__item,
 .profile-nav .drop-down-menu__item * {
-  gap: 0.3rem;
+    gap: 0.3rem;
 }

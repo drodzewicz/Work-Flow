@@ -1,81 +1,89 @@
 .async-input {
-  --_input-bg-color: white;
+    --_input-bg-color: white;
 }
 
 [data-theme="DARK"] .async-input {
-  --_input-bg-color: var(--c-metal-4);
+    --_input-bg-color: var(--c-metal-4);
 }
 
 .async-input {
-  display: flex;
-  position: relative;
-
-  &__input {
-    background-color: var(--_input-bg-color);
-    color: var(--c-font-primary);
-    flex-grow: 1;
-    font-size: 1rem;
-    padding: 0.4rem 0.8rem;
-    border: none;
-    outline: none;
-    font-family: inherit;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.338);
-    border-radius: 0.2rem;
-    &:read-only {
-      cursor: default;
-    }
-  }
-
-  $dot-size: 5px;
-  $dot-distance: 9px;
-  $lightest-color: rgb(232, 232, 232);
-  $darkest-color: rgb(205, 205, 205);
-
-  &__loading {
-    width: $dot-size;
-    height: $dot-size;
-    border-radius: 50%;
-    background-color: $lightest-color;
-    box-shadow: $dot-distance 0 $lightest-color, -$dot-distance 0 $lightest-color;
-    animation: flash 0.5s ease-out infinite alternate;
-  }
-  &__loading-container {
-    width: $dot-size * 3 + $dot-distance * 2;
-    height: 1rem;
     display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    position: relative;
 
-  @keyframes flash {
-    0% {
-      background-color: $darkest-color;
-      box-shadow: $dot-distance 0 $darkest-color, -$dot-distance 0 $lightest-color;
+    &__input {
+        background-color: var(--_input-bg-color);
+        color: var(--c-font-primary);
+        flex-grow: 1;
+        font-size: 1rem;
+        padding: 0.4rem 0.8rem;
+        border: none;
+        outline: none;
+        font-family: inherit;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.338);
+        border-radius: 0.2rem;
+        &:read-only {
+            cursor: default;
+        }
     }
-    50% {
-      background-color: $lightest-color;
-      box-shadow: $dot-distance 0 $darkest-color, -$dot-distance 0 $darkest-color;
-    }
-    100% {
-      background-color: $darkest-color;
-      box-shadow: $dot-distance 0 $lightest-color, -$dot-distance 0 $darkest-color;
-    }
-  }
 
-  &__button-group {
-    position: absolute;
-    right: 1rem;
-    top: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    $dot-size: 5px;
+    $dot-distance: 9px;
+    $lightest-color: rgb(232, 232, 232);
+    $darkest-color: rgb(205, 205, 205);
 
-  &__clear {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    &__loading {
+        width: $dot-size;
+        height: $dot-size;
+        border-radius: 50%;
+        background-color: $lightest-color;
+        box-shadow:
+            $dot-distance 0 $lightest-color,
+            -$dot-distance 0 $lightest-color;
+        animation: flash 0.5s ease-out infinite alternate;
+    }
+    &__loading-container {
+        width: $dot-size * 3 + $dot-distance * 2;
+        height: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    @keyframes flash {
+        0% {
+            background-color: $darkest-color;
+            box-shadow:
+                $dot-distance 0 $darkest-color,
+                -$dot-distance 0 $lightest-color;
+        }
+        50% {
+            background-color: $lightest-color;
+            box-shadow:
+                $dot-distance 0 $darkest-color,
+                -$dot-distance 0 $darkest-color;
+        }
+        100% {
+            background-color: $darkest-color;
+            box-shadow:
+                $dot-distance 0 $lightest-color,
+                -$dot-distance 0 $darkest-color;
+        }
+    }
+
+    &__button-group {
+        position: absolute;
+        right: 1rem;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__clear {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }

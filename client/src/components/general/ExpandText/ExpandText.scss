@@ -1,39 +1,39 @@
 .expand-text {
-  margin: 0.2rem;
-  &__header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  &__title {
-    margin: 0;
-    color: inherit;
-  }
-  &__expand-btn {
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
-    font-size: 1.2rem;
-    color: inherit;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    svg {
-      transition: transform ease-in-out 0.3s;
+    margin: 0.2rem;
+    &__header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
     }
+    &__title {
+        margin: 0;
+        color: inherit;
+    }
+    &__expand-btn {
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        font-size: 1.2rem;
+        color: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-    &[aria-expanded="true"] svg {
-      transform: rotate(180deg);
+        svg {
+            transition: transform ease-in-out 0.3s;
+        }
+
+        &[aria-expanded="true"] svg {
+            transform: rotate(180deg);
+        }
     }
-  }
-  &__content {
-    max-height: 10rem;
-    overflow-y: hidden;
-    transition: 0.5s all ease-in-out;
-    &--hidden {
-      max-height: 0;
+    &__content {
+        max-height: 10rem;
+        overflow-y: hidden;
+        transition: 0.5s all ease-in-out;
+        &--hidden {
+            max-height: 0;
+        }
     }
-  }
 }

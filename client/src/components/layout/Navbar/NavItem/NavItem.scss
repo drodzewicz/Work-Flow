@@ -1,63 +1,63 @@
 @import "../../../../assets/styles/mixins";
 
 .navbar__item {
-  --_nav-item-bg-color: var(--c-iceberg-4);
-  --_nav-item-bg-color-hover: white;
+    --_nav-item-bg-color: var(--c-iceberg-4);
+    --_nav-item-bg-color-hover: white;
 }
 
 [data-theme="DARK"] .navbar__item {
-  --_nav-item-bg-color: var(--c-metal-6);
-  --_nav-item-bg-color-hover: var(--c-metal-4);
+    --_nav-item-bg-color: var(--c-metal-6);
+    --_nav-item-bg-color-hover: var(--c-metal-4);
 }
 .navbar__item {
-  list-style-type: none;
+    list-style-type: none;
 
-  &__button {
-    height: 2.5rem;
-    min-width: 2.5rem;
-    border-radius: 5px;
-    padding: 0.6rem 0.8rem;
-    margin: 0.15rem 0.25rem;
-    cursor: pointer;
-    transition: 0.2s ease-in-out all;
-    border: none;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    color: var(--c-font-primary);
-    background: var(--_nav-item-bg-color);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-    position: relative;
-    gap: 0.5rem;
-    font-size: 0.9rem;
+    &__button {
+        height: 2.5rem;
+        min-width: 2.5rem;
+        border-radius: 5px;
+        padding: 0.6rem 0.8rem;
+        margin: 0.15rem 0.25rem;
+        cursor: pointer;
+        transition: 0.2s ease-in-out all;
+        border: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        color: var(--c-font-primary);
+        background: var(--_nav-item-bg-color);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+        position: relative;
+        gap: 0.5rem;
+        font-size: 0.9rem;
 
-    &:focus {
-      outline-color: var(--c-accent-primary);
-      outline-width: 2px;
-      outline-offset: 2px;
+        &:focus {
+            outline-color: var(--c-accent-primary);
+            outline-width: 2px;
+            outline-offset: 2px;
+        }
+
+        &:hover {
+            background: var(--_nav-item-bg-color-hover);
+        }
     }
 
-    &:hover {
-      background: var(--_nav-item-bg-color-hover);
+    &__icon {
+        display: grid;
+        place-items: center;
+        font-size: inherit;
     }
-  }
 
-  &__icon {
-    display: grid;
-    place-items: center;
-    font-size: inherit;
-  }
-
-  &__label {
-    font-weight: bold;
-    font-size: inherit;
-  }
+    &__label {
+        font-weight: bold;
+        font-size: inherit;
+    }
 }
 
 // if icon is proceeded bya label then hide label on mobile break point
 .navbar__item__icon:has(+ .navbar__item__label) + .navbar__item__label {
-  @include breakpoint(mobile) {
-    display: none;
-  }
+    @include breakpoint(mobile) {
+        display: none;
+    }
 }

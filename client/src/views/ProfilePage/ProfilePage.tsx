@@ -7,15 +7,15 @@ import PinnedBoardsSection from "./PinnedBoardsSection";
 import ProfileSection from "./ProfileSection";
 
 const ProfilePage = () => {
-  return (
-    <Box className="profile-page">
-      <div className="profile-page__main">
-        <ProfileSection />
-        <NotificationSection />
-      </div>
-      <PinnedBoardsSection />
-    </Box>
-  );
+    return (
+        <Box className="profile-page">
+            <div className="profile-page__main">
+                <ProfileSection />
+                <NotificationSection />
+            </div>
+            <PinnedBoardsSection />
+        </Box>
+    );
 };
 
 export default ProfilePage;

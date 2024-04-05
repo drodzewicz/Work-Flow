@@ -18,64 +18,64 @@ import { validationSchema } from "./formSchema";
 export type LoginFormType = InferType<typeof validationSchema>;
 
 const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initialValues }) => {
-  const { login: authLogin } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
+    const { login: authLogin } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-  const { mutate: login } = useLogin({
-    onSuccess(data) {
-      const { user, accessToken } = data;
-      authLogin({ user, token: accessToken });
+    const { mutate: login } = useLogin({
+        onSuccess(data) {
+            const { user, accessToken } = data;
+            authLogin({ user, token: accessToken });
 
-      // redirect user to the desired page if user was redirected to login
-      navigate(location.state?.from?.pathname || "/dashboard");
-    },
-    onError() {
-      formik.setErrors({ username: "bad login", password: "bad login" });
-    },
-  });
+            // redirect user to the desired page if user was redirected to login
+            navigate(location.state?.from?.pathname || "/dashboard");
+        },
+        onError() {
+            formik.setErrors({ username: "bad login", password: "bad login" });
+        },
+    });
 
-  const onSubmitHandler: OnSubmitType<LoginFormType> = async (values) => {
-    login(values);
-  };
+    const onSubmitHandler: OnSubmitType<LoginFormType> = async (values) => {
+        login(values);
+    };
 
-  const INITIAL_FORM_VALUES: LoginFormType = {
-    username: initialValues?.username || "",
-    password: initialValues?.password || "",
-  };
+    const INITIAL_FORM_VALUES: LoginFormType = {
+        username: initialValues?.username || "",
+        password: initialValues?.password || "",
+    };
 
-  const formik = useFormik({
-    initialValues: INITIAL_FORM_VALUES,
-    validationSchema: validationSchema,
-    onSubmit: onSubmitHandler,
-  });
+    const formik = useFormik({
+        initialValues: INITIAL_FORM_VALUES,
+        validationSchema: validationSchema,
+        onSubmit: onSubmitHandler,
+    });
 
-  return (
-    <FormikProvider value={formik}>
-      <Form className="login-form">
-        <Field
-          name="username"
-          autoComplete="username"
-          autoFocus={true}
-          error={formik.touched.username && formik.errors.username}
-          as={TextField}
-        />
-        <Field
-          name="password"
-          type="password"
-          error={formik.touched.password && formik.errors.password}
-          as={TextField}
-        />
-        <button
-          disabled={formik.isSubmitting || !formik.isValid}
-          className="btn btn--glow login-form__btn"
-          type="submit"
-        >
-          Log In
-        </button>
-      </Form>
-    </FormikProvider>
-  );
+    return (
+        <FormikProvider value={formik}>
+            <Form className="login-form">
+                <Field
+                    name="username"
+                    autoComplete="username"
+                    autoFocus={true}
+                    error={formik.touched.username && formik.errors.username}
+                    as={TextField}
+                />
+                <Field
+                    name="password"
+                    type="password"
+                    error={formik.touched.password && formik.errors.password}
+                    as={TextField}
+                />
+                <button
+                    disabled={formik.isSubmitting || !formik.isValid}
+                    className="btn btn--glow login-form__btn"
+                    type="submit"
+                >
+                    Log In
+                </button>
+            </Form>
+        </FormikProvider>
+    );
 };
 
 export default LoginForm;

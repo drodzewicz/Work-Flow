@@ -5,9 +5,9 @@ import useGetCurrentUserBoardRole from "./useGetCurrentUserBoardRole";
 import useUpdateMemberRole from "./useUpdateMemberRole";
 
 export {
-  permissionsQueryKeys,
-  useUpdateMemberRole,
-  useGetAvailablePermissions,
-  useGetBoardRoles,
-  useGetCurrentUserBoardRole,
+    permissionsQueryKeys,
+    useUpdateMemberRole,
+    useGetAvailablePermissions,
+    useGetBoardRoles,
+    useGetCurrentUserBoardRole,
 };

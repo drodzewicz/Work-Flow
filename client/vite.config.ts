@@ -10,13 +10,13 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 type ViteConfig = UserConfig & { test: InlineConfig };
 const config: ViteConfig = {
-  // other config
-  plugins: [react(), svgr(), tsconfigPaths()],
-  test: {
-    globals: true,
-    environment: "jsdom",
-    css: true,
-    setupFiles: ["./src/test/setup.ts"],
-  },
+    // other config
+    plugins: [react(), svgr(), tsconfigPaths()],
+    test: {
+        globals: true,
+        environment: "jsdom",
+        css: true,
+        setupFiles: ["./src/test/setup.ts"],
+    },
 };
 export default defineConfig(config);

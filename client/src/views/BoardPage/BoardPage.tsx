@@ -18,38 +18,38 @@ import BoardColumns from "./BoardColumns";
 import BoardHeader from "./BoardHeader";
 
 const BoardPage: React.FC = () => {
-  const boardId = useBoardId();
-  const queryClient = useQueryClient();
+    const boardId = useBoardId();
+    const queryClient = useQueryClient();
 
-  useWebSocketRoom(boardId);
+    useWebSocketRoom(boardId);
 
-  const debounceInvalidateTasks = useCallback(
-    debounce(() => {
-      queryClient.invalidateQueries(taskQueryKeys.all);
-    }, 2000),
-    [],
-  );
+    const debounceInvalidateTasks = useCallback(
+        debounce(() => {
+            queryClient.invalidateQueries(taskQueryKeys.all);
+        }, 2000),
+        []
+    );
 
-  useWebSocketListener("task-alert", debounceInvalidateTasks);
+    useWebSocketListener("task-alert", debounceInvalidateTasks);
 
-  useWebSocketListener("column-alert", debounceInvalidateTasks);
+    useWebSocketListener("column-alert", debounceInvalidateTasks);
 
-  const { showBoundary } = useErrorBoundary();
-  const { data: board } = useGetBoard({
-    boardId,
-    onError: showBoundary,
-  });
+    const { showBoundary } = useErrorBoundary();
+    const { data: board } = useGetBoard({
+        boardId,
+        onError: showBoundary,
+    });
 
-  return (
-    <div className="board-page">
-      <BoardHeader
-        name={board?.name ?? "loading..."}
-        description={board?.description ?? "loading..."}
-      />
-      <BoardColumns />
-      <Outlet />
-    </div>
-  );
+    return (
+        <div className="board-page">
+            <BoardHeader
+                name={board?.name ?? "loading..."}
+                description={board?.description ?? "loading..."}
+            />
+            <BoardColumns />
+            <Outlet />
+        </div>
+    );
 };
 
 export default BoardPage;

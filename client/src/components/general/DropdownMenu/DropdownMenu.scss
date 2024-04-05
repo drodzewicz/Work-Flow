@@ -1,50 +1,50 @@
 .drop-down-menu {
-  --_item-bg-color: white;
-  --_item-bg-color-hover: var(--c-iceberg-2);
-  --_item-text-color-hover: var(--c-accent-primary);
+    --_item-bg-color: white;
+    --_item-bg-color-hover: var(--c-iceberg-2);
+    --_item-text-color-hover: var(--c-accent-primary);
 }
 
 [data-theme="DARK"] .drop-down-menu {
-  --_item-bg-color: var(--c-metal-6);
-  --_item-bg-color-hover: var(--c-metal-4);
-  --_item-text-color-hover: var(--c-accent-secondary);
+    --_item-bg-color: var(--c-metal-6);
+    --_item-bg-color-hover: var(--c-metal-4);
+    --_item-text-color-hover: var(--c-accent-secondary);
 }
 
 .drop-down-menu {
-  position: absolute;
-  background: var(--_item-bg-color);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
-  margin-top: 0.2rem;
-  overflow: auto;
-  z-index: 1000;
-  padding: 0;
+    position: absolute;
+    background: var(--_item-bg-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    margin-top: 0.2rem;
+    overflow: auto;
+    z-index: 1000;
+    padding: 0;
 
-  .drop-down-menu__item {
-    font-size: 1rem;
-    min-height: 2.5rem;
-    min-width: 4rem;
-    padding: 0.4rem 0.6rem;
-    overflow-y: hidden;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    cursor: pointer;
-    transition: 0.2s all ease-in-out;
-    user-select: none;
-    color: var(--c-font-primary);
-    font-weight: 400;
-    &:hover {
-      background: var(--_item-bg-color-hover);
-      color: var(--_item-text-color-hover);
+    .drop-down-menu__item {
+        font-size: 1rem;
+        min-height: 2.5rem;
+        min-width: 4rem;
+        padding: 0.4rem 0.6rem;
+        overflow-y: hidden;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        cursor: pointer;
+        transition: 0.2s all ease-in-out;
+        user-select: none;
+        color: var(--c-font-primary);
+        font-weight: 400;
+        &:hover {
+            background: var(--_item-bg-color-hover);
+            color: var(--_item-text-color-hover);
+        }
+        * {
+            font-size: inherit;
+            color: inherit;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
     }
-    * {
-      font-size: inherit;
-      color: inherit;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-    }
-  }
 }

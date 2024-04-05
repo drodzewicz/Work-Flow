@@ -7,63 +7,63 @@ import { useNavigate } from "react-router-dom";
 import "./BoardCard.scss";
 
 export interface BoardCardProps {
-  boardName: string;
-  boardId: string;
-  isPinned?: boolean;
-  pinBoard?: () => void;
+    boardName: string;
+    boardId: string;
+    isPinned?: boolean;
+    pinBoard?: () => void;
 }
 
 const BoardCard: React.FC<BoardCardProps> = ({
-  boardName,
-  boardId,
-  pinBoard,
-  isPinned = false,
+    boardName,
+    boardId,
+    pinBoard,
+    isPinned = false,
 }) => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const togglePinBoard = (e: MouseEvent) => {
-    e.stopPropagation();
-    pinBoard?.();
-  };
+    const togglePinBoard = (e: MouseEvent) => {
+        e.stopPropagation();
+        pinBoard?.();
+    };
 
-  const goToBoard = () => {
-    navigate(`/board/${boardId}`);
-  };
+    const goToBoard = () => {
+        navigate(`/board/${boardId}`);
+    };
 
-  const PinIcon = isPinned ? Pined : Pin;
+    const PinIcon = isPinned ? Pined : Pin;
 
-  return (
-    <div
-      onClick={goToBoard}
-      data-testid="board-card"
-      aria-label="board-card"
-      className="board-card"
-    >
-      <div role="presentation" className="board-card__foreground">
-        <div className="board-card__column"></div>
-        <div className="board-card__column"></div>
-        <div className="board-card__column"></div>
-        <div className="board-card__column"></div>
-      </div>
-      <div className="board-card__content">
-        <div className="board-card__body">
-          <h1 className="board-card__title" title={boardName}>
-            {boardName}
-          </h1>
+    return (
+        <div
+            onClick={goToBoard}
+            data-testid="board-card"
+            aria-label="board-card"
+            className="board-card"
+        >
+            <div role="presentation" className="board-card__foreground">
+                <div className="board-card__column"></div>
+                <div className="board-card__column"></div>
+                <div className="board-card__column"></div>
+                <div className="board-card__column"></div>
+            </div>
+            <div className="board-card__content">
+                <div className="board-card__body">
+                    <h1 className="board-card__title" title={boardName}>
+                        {boardName}
+                    </h1>
+                </div>
+                <div className="board-card__footer">
+                    <button
+                        data-testid="pin-btn"
+                        aria-label={isPinned ? "pinned" : "unpinned"}
+                        className="board-card__pin-btn"
+                        onClick={togglePinBoard}
+                    >
+                        <PinIcon />
+                    </button>
+                </div>
+            </div>
         </div>
-        <div className="board-card__footer">
-          <button
-            data-testid="pin-btn"
-            aria-label={isPinned ? "pinned" : "unpinned"}
-            className="board-card__pin-btn"
-            onClick={togglePinBoard}
-          >
-            <PinIcon />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default BoardCard;

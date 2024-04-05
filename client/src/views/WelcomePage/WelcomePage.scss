@@ -1,183 +1,183 @@
 @import "../../assets/styles/mixins";
 
 .welcome-section {
-  margin: 3rem 4rem 0;
-  @include breakpoint(small) {
-    margin: 1rem;
-  }
-  &__introduction {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 90vh;
-    gap: 6vh;
+    margin: 3rem 4rem 0;
     @include breakpoint(small) {
-      grid-template-columns: 1fr;
+        margin: 1rem;
     }
-    .person-image {
-      display: flex;
-      height: 70vh;
-      width: 70vh;
-      margin-right: 0;
-      margin-left: auto;
-      opacity: 0;
-      animation: element-apear 1.5s forwards 1.5s;
-
-      @include breakpoint(medium) {
-        height: 50vh;
-        width: 50vh;
-      }
-      @include breakpoint(small) {
-        height: 90%;
-        width: 90%;
-        order: 1;
-        margin: 0 auto;
-      }
-
-      &--dark {
-        display: none;
-      }
-      &--light {
-        display: block;
-      }
-    }
-    &__text-subsection {
-      h1 {
-        font-size: 7vh;
-        margin: 0;
-        color: var(--c-font-primary);
-        opacity: 0;
-        animation: element-slide-left 2s forwards 1s;
-      }
-      hr {
-        opacity: 0;
-        animation: element-apear 1.5s forwards 1.5s;
-      }
-      h2 {
-        font-size: 4vh;
-        margin: 0;
-        color: var(--c-font-primary);
-        opacity: 0;
-        animation: element-apear 1.5s forwards 2s;
-      }
-      p {
-        font-size: 3vh;
-        max-width: 40wv;
-        color: var(--c-font-secondary);
-        opacity: 0;
-        animation: element-apear 1.5s forwards 2.5s;
-      }
-      .join-now {
-        margin: 0 auto;
-        margin-top: 2rem;
-        font-size: 2.5vh;
-        padding: 1.5vh 3vh;
-        opacity: 0;
-        animation: element-pop 0.7s forwards 2.5s;
+    &__introduction {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 90vh;
+        gap: 6vh;
         @include breakpoint(small) {
-          font-size: 1.5rem;
+            grid-template-columns: 1fr;
         }
-      }
-    }
-  }
-  &__explainer {
-    gap: 6vh;
-    min-height: 80vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    animation: element-apear 1.5s forwards 1.5s;
-    @include breakpoint(small) {
-      grid-template-columns: 1fr;
-    }
-    .task-columns-image {
-      display: flex;
-      height: 60vh;
-      width: 60vh;
-      margin: 0 auto;
-      @include breakpoint(small) {
-        height: 40vh;
-        width: 40vh;
-      }
-    }
-    &__text-subsection {
-      h2 {
-        font-size: 7vh;
-        margin: 0;
-        color: var(--c-font-primary);
-      }
-      ul {
-        padding-left: 4vh;
-        color: var(--c-font-primary);
-        li {
-          font-size: 3vh;
-          margin-top: 0.5rem;
+        .person-image {
+            display: flex;
+            height: 70vh;
+            width: 70vh;
+            margin-right: 0;
+            margin-left: auto;
+            opacity: 0;
+            animation: element-apear 1.5s forwards 1.5s;
+
+            @include breakpoint(medium) {
+                height: 50vh;
+                width: 50vh;
+            }
+            @include breakpoint(small) {
+                height: 90%;
+                width: 90%;
+                order: 1;
+                margin: 0 auto;
+            }
+
+            &--dark {
+                display: none;
+            }
+            &--light {
+                display: block;
+            }
         }
-      }
+        &__text-subsection {
+            h1 {
+                font-size: 7vh;
+                margin: 0;
+                color: var(--c-font-primary);
+                opacity: 0;
+                animation: element-slide-left 2s forwards 1s;
+            }
+            hr {
+                opacity: 0;
+                animation: element-apear 1.5s forwards 1.5s;
+            }
+            h2 {
+                font-size: 4vh;
+                margin: 0;
+                color: var(--c-font-primary);
+                opacity: 0;
+                animation: element-apear 1.5s forwards 2s;
+            }
+            p {
+                font-size: 3vh;
+                max-width: 40wv;
+                color: var(--c-font-secondary);
+                opacity: 0;
+                animation: element-apear 1.5s forwards 2.5s;
+            }
+            .join-now {
+                margin: 0 auto;
+                margin-top: 2rem;
+                font-size: 2.5vh;
+                padding: 1.5vh 3vh;
+                opacity: 0;
+                animation: element-pop 0.7s forwards 2.5s;
+                @include breakpoint(small) {
+                    font-size: 1.5rem;
+                }
+            }
+        }
     }
-  }
+    &__explainer {
+        gap: 6vh;
+        min-height: 80vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        animation: element-apear 1.5s forwards 1.5s;
+        @include breakpoint(small) {
+            grid-template-columns: 1fr;
+        }
+        .task-columns-image {
+            display: flex;
+            height: 60vh;
+            width: 60vh;
+            margin: 0 auto;
+            @include breakpoint(small) {
+                height: 40vh;
+                width: 40vh;
+            }
+        }
+        &__text-subsection {
+            h2 {
+                font-size: 7vh;
+                margin: 0;
+                color: var(--c-font-primary);
+            }
+            ul {
+                padding-left: 4vh;
+                color: var(--c-font-primary);
+                li {
+                    font-size: 3vh;
+                    margin-top: 0.5rem;
+                }
+            }
+        }
+    }
 }
 
 [data-theme="DARK"] .welcome-section {
-  .person-image {
-    &--dark {
-      display: block;
+    .person-image {
+        &--dark {
+            display: block;
+        }
+        &--light {
+            display: none;
+        }
     }
-    &--light {
-      display: none;
+    .task-columns-image {
+        &--dark {
+            display: block;
+        }
+        &--light {
+            display: none;
+        }
     }
-  }
-  .task-columns-image {
-    &--dark {
-      display: block;
-    }
-    &--light {
-      display: none;
-    }
-  }
 }
 
 @keyframes element-pop {
-  0% {
-    font-size: 0;
-    opacity: 0;
-  }
-  80% {
-    font-size: 2.4vh;
-    @include breakpoint(medium) {
-      font-size: 3.1vh;
+    0% {
+        font-size: 0;
+        opacity: 0;
     }
-    @include breakpoint(mobile) {
-      font-size: 2.4rem;
+    80% {
+        font-size: 2.4vh;
+        @include breakpoint(medium) {
+            font-size: 3.1vh;
+        }
+        @include breakpoint(mobile) {
+            font-size: 2.4rem;
+        }
+        opacity: 1;
     }
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    font-size: 2vh;
-    @include breakpoint(medium) {
-      font-size: 3vh;
+    100% {
+        opacity: 1;
+        font-size: 2vh;
+        @include breakpoint(medium) {
+            font-size: 3vh;
+        }
+        @include breakpoint(mobile) {
+            font-size: 2rem;
+        }
     }
-    @include breakpoint(mobile) {
-      font-size: 2rem;
-    }
-  }
 }
 @keyframes element-slide-left {
-  0% {
-    opacity: 0;
-    transform: translateX(20%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
+    0% {
+        opacity: 0;
+        transform: translateX(20%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 @keyframes element-apear {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }

@@ -12,52 +12,52 @@ import { createBrowserRouter } from "react-router-dom";
 import RouteGuard from "./RouteGuard";
 
 const router = createBrowserRouter([
-  {
-    element: <App />,
-    errorElement: <RouterErrorPage />,
-    children: [
-      {
-        element: <RouteGuard anonymous redirectTo="/dashboard" />,
+    {
+        element: <App />,
+        errorElement: <RouterErrorPage />,
         children: [
-          {
-            path: "/",
-            element: <WelcomePage />,
-          },
-          {
-            path: "register",
-            element: <RegisterPage />,
-          },
+            {
+                element: <RouteGuard anonymous redirectTo="/dashboard" />,
+                children: [
+                    {
+                        path: "/",
+                        element: <WelcomePage />,
+                    },
+                    {
+                        path: "register",
+                        element: <RegisterPage />,
+                    },
+                ],
+            },
+            {
+                element: <RouteGuard redirectTo="/#login" />,
+                children: [
+                    {
+                        path: "dashboard",
+                        element: <DashboardPage />,
+                    },
+                    {
+                        path: "board/:id",
+                        element: <BoardPage />,
+                        children: [
+                            {
+                                path: "task/:taskId",
+                                element: <TaskDisplayPage />,
+                            },
+                        ],
+                    },
+                    {
+                        path: "board/:id/settings",
+                        element: <BoardSettingsPage />,
+                    },
+                    {
+                        path: "profile",
+                        element: <ProfilePage />,
+                    },
+                ],
+            },
         ],
-      },
-      {
-        element: <RouteGuard redirectTo="/#login" />,
-        children: [
-          {
-            path: "dashboard",
-            element: <DashboardPage />,
-          },
-          {
-            path: "board/:id",
-            element: <BoardPage />,
-            children: [
-              {
-                path: "task/:taskId",
-                element: <TaskDisplayPage />,
-              },
-            ],
-          },
-          {
-            path: "board/:id/settings",
-            element: <BoardSettingsPage />,
-          },
-          {
-            path: "profile",
-            element: <ProfilePage />,
-          },
-        ],
-      },
-    ],
-  },
+    },
 ]);
 
 export default router;

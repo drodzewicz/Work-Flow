@@ -1,19 +1,19 @@
 .invite-user-to-board {
-  display: flex;
-  flex-direction: column;
-  &__header {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  &__content {
     display: flex;
     flex-direction: column;
-  }
+    &__header {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
 
-  .remove-selected-user-btn {
-    font-size: 0.7rem;
-    padding: 0.3rem;
-  }
+    &__content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .remove-selected-user-btn {
+        font-size: 0.7rem;
+        padding: 0.3rem;
+    }
 }

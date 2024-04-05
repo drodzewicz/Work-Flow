@@ -6,10 +6,10 @@ import useLeaveBoard from "./useLeaveBoard";
 import useUpdateBoardInfo from "./useUpdateBoardInfo";
 
 export {
-  boardQueryKeys,
-  useCreateBoard,
-  useDeleteBoard,
-  useGetBoard,
-  useLeaveBoard,
-  useUpdateBoardInfo,
+    boardQueryKeys,
+    useCreateBoard,
+    useDeleteBoard,
+    useGetBoard,
+    useLeaveBoard,
+    useUpdateBoardInfo,
 };

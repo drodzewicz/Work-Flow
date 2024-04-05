@@ -17,61 +17,65 @@ import User from "@/components/board/User";
 import "./BoardMembers.scss";
 
 export type BoardMembersProps = {
-  boardId: string;
+    boardId: string;
 };
 
 const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
-  const { currentPage, totalPages, limit, setCurrentPage, setTotalItems } = usePagination({
-    initialPage: 1,
-    limit: 6,
-  });
+    const { currentPage, totalPages, limit, setCurrentPage, setTotalItems } = usePagination({
+        initialPage: 1,
+        limit: 6,
+    });
 
-  const { hasAccess: canManageMembers } = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
+    const { hasAccess: canManageMembers } = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
 
-  const { data, search, isLoading } = useSearchBoardMembers({
-    boardId,
-    limit,
-    page: currentPage,
-    keepPreviousData: true,
-  });
+    const { data, search, isLoading } = useSearchBoardMembers({
+        boardId,
+        limit,
+        page: currentPage,
+        keepPreviousData: true,
+    });
 
-  useEffect(() => {
-    setTotalItems(data?.totalCount ?? 0);
-  }, [data?.totalCount]);
+    useEffect(() => {
+        setTotalItems(data?.totalCount ?? 0);
+    }, [data?.totalCount]);
 
-  return (
-    <div className="board-members">
-      {canManageMembers && (
-        <Link className=" manage-members-btn" to={`/board/${boardId}/settings`}>
-          <FaCog />
-          Manage members
-        </Link>
-      )}
-      <AsyncInput
-        placeholder="Search members..."
-        debounceCallback={search}
-        isLoading={isLoading}
-        debounceTime={500}
-      >
-        <FaSearch className="async-input__search-icon" />
-      </AsyncInput>
+    return (
+        <div className="board-members">
+            {canManageMembers && (
+                <Link className=" manage-members-btn" to={`/board/${boardId}/settings`}>
+                    <FaCog />
+                    Manage members
+                </Link>
+            )}
+            <AsyncInput
+                placeholder="Search members..."
+                debounceCallback={search}
+                isLoading={isLoading}
+                debounceTime={500}
+            >
+                <FaSearch className="async-input__search-icon" />
+            </AsyncInput>
 
-      <div className="board-members__members">
-        {data?.members.map((member) => {
-          const RoleIcon = getRoleIcon(member.role);
-          return (
-            <User key={member.user.username} username={member.user.username}>
-              <div className="user__member-role">
-                <RoleIcon />
-                {member.role}
-              </div>
-            </User>
-          );
-        })}
-        <Pagination current={currentPage} total={totalPages} handleChange={setCurrentPage} />
-      </div>
-    </div>
-  );
+            <div className="board-members__members">
+                {data?.members.map((member) => {
+                    const RoleIcon = getRoleIcon(member.role);
+                    return (
+                        <User key={member.user.username} username={member.user.username}>
+                            <div className="user__member-role">
+                                <RoleIcon />
+                                {member.role}
+                            </div>
+                        </User>
+                    );
+                })}
+                <Pagination
+                    current={currentPage}
+                    total={totalPages}
+                    handleChange={setCurrentPage}
+                />
+            </div>
+        </div>
+    );
 };
 
 export default BoardMembers;

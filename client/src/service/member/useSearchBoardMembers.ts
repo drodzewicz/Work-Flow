@@ -13,53 +13,53 @@ export type UserListPaginated = { totalCount: number; members: { role: string; u
 type UserListQueryKey = ReturnType<(typeof memberQueryKeys)["searchListPaginated"]>;
 
 type OptionsType<R> = Omit<
-  UseQueryOptions<UserListPaginated, AxiosError, R, UserListQueryKey>,
-  "queryKey" | "queryFn"
+    UseQueryOptions<UserListPaginated, AxiosError, R, UserListQueryKey>,
+    "queryKey" | "queryFn"
 >;
 
 type SearchBoardMembersProps<R> = {
-  limit?: number;
-  page?: number;
-  boardId: string;
+    limit?: number;
+    page?: number;
+    boardId: string;
 } & OptionsType<R>;
 
 function useSearchBoardMembers<R = UserListPaginated>({
-  boardId,
-  limit: propsLimit,
-  page: propPage,
-  ...options
+    boardId,
+    limit: propsLimit,
+    page: propPage,
+    ...options
 }: SearchBoardMembersProps<R>) {
-  const limit = propsLimit ?? 5;
-  const page = propPage ?? 1;
+    const limit = propsLimit ?? 5;
+    const page = propPage ?? 1;
 
-  const client = useAuthClient();
-  const [searchTerm, setSearchTerm] = useState<string>("");
+    const client = useAuthClient();
+    const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const fetchMembersList: QueryFunction<UserListPaginated, UserListQueryKey> = async ({
-    queryKey: [{ listId, searchTerm }],
-  }) => {
-    const response = await client.get(memberURL.index(listId), {
-      params: { page: page, limit, username: searchTerm },
+    const fetchMembersList: QueryFunction<UserListPaginated, UserListQueryKey> = async ({
+        queryKey: [{ listId, searchTerm }],
+    }) => {
+        const response = await client.get(memberURL.index(listId), {
+            params: { page: page, limit, username: searchTerm },
+        });
+        return response.data;
+    };
+
+    const query = useQuery({
+        ...options,
+        queryKey: memberQueryKeys.searchListPaginated(boardId, { limit, page }, searchTerm),
+        queryFn: fetchMembersList,
+        staleTime: 60 * 1000,
     });
-    return response.data;
-  };
 
-  const query = useQuery({
-    ...options,
-    queryKey: memberQueryKeys.searchListPaginated(boardId, { limit, page }, searchTerm),
-    queryFn: fetchMembersList,
-    staleTime: 60 * 1000,
-  });
+    const search = (searchString: string) => {
+        setSearchTerm(searchString);
+    };
 
-  const search = (searchString: string) => {
-    setSearchTerm(searchString);
-  };
+    const clear = () => {
+        setSearchTerm("");
+    };
 
-  const clear = () => {
-    setSearchTerm("");
-  };
-
-  return { ...query, search, clear, searchTerm };
+    return { ...query, search, clear, searchTerm };
 }
 
 export default useSearchBoardMembers;

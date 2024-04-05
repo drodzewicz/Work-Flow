@@ -4,24 +4,24 @@ import authReducer from "./reducer";
 import { AuthActionType, AuthState } from "./type";
 
 const INITIAL_STATE: AuthState = {
-  user: undefined,
-  token: undefined,
+    user: undefined,
+    token: undefined,
 };
 
 export const AuthContext = createContext<[AuthState, React.Dispatch<AuthActionType>]>([
-  INITIAL_STATE,
-  () => null,
+    INITIAL_STATE,
+    () => null,
 ]);
 
 type AuthContextType = {
-  initialValues?: AuthState;
+    initialValues?: AuthState;
 };
 
 export const AuthProvider: React.FC<PropsWithChildren<AuthContextType>> = ({
-  children,
-  initialValues = INITIAL_STATE,
+    children,
+    initialValues = INITIAL_STATE,
 }) => {
-  const [state, dispatch] = useReducer(authReducer, initialValues);
+    const [state, dispatch] = useReducer(authReducer, initialValues);
 
-  return <AuthContext.Provider value={[state, dispatch]}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={[state, dispatch]}>{children}</AuthContext.Provider>;
 };

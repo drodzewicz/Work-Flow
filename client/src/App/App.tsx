@@ -17,40 +17,40 @@ import Navbar from "@/components/layout/Navbar";
 import "./App.scss";
 
 const App: React.FC = () => {
-  useAppTheme();
+    useAppTheme();
 
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-        retry: false,
-      },
-    },
-  });
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                refetchOnWindowFocus: false,
+                retry: false,
+            },
+        },
+    });
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ToastContainer
-        position="bottom-left"
-        autoClose={5000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      <div id="app" className="scrollbar">
-        <Navbar />
-        <ErrorBoundryPage>
-          <Outlet />
-        </ErrorBoundryPage>
-        <Footer />
-      </div>
-      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
-    </QueryClientProvider>
-  );
+    return (
+        <QueryClientProvider client={queryClient}>
+            <ToastContainer
+                position="bottom-left"
+                autoClose={5000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+            <div id="app" className="scrollbar">
+                <Navbar />
+                <ErrorBoundryPage>
+                    <Outlet />
+                </ErrorBoundryPage>
+                <Footer />
+            </div>
+            <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+        </QueryClientProvider>
+    );
 };
 
 export default App;

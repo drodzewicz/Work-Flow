@@ -5,16 +5,16 @@ import { useGetBoardRoles, useGetAvailablePermissions } from "@/service/permissi
 import RoleTable from "@/components/general/RoleTable/RoleTable";
 
 const RoleSection = () => {
-  const boardId = useBoardId();
+    const boardId = useBoardId();
 
-  const { data: allPermissions = [] } = useGetAvailablePermissions();
-  const { data: roles = {} } = useGetBoardRoles({ boardId });
+    const { data: allPermissions = [] } = useGetAvailablePermissions();
+    const { data: roles = {} } = useGetBoardRoles({ boardId });
 
-  return (
-    <section>
-      <RoleTable permissions={allPermissions} roles={roles} />
-    </section>
-  );
+    return (
+        <section>
+            <RoleTable permissions={allPermissions} roles={roles} />
+        </section>
+    );
 };
 
 export default RoleSection;

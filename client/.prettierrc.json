@@ -1,24 +1,24 @@
 {
-  "importOrder": [
-    "^react$",
-    "^@/types/(.*)$",
-    "./types",
-    "<THIRD_PARTY_MODULES>",
-    "^@/context/(.*)$",
-    "^@/config/(.*)$",
-    "^@/hooks/(.*)$",
-    "^@/service/(.*)$",
-    "^@/components/general/(.*)$",
-    "^@/components/layout/(.*)$",
-    "^@/components/board/(.*)$",
-    "^@/dialogs/(.*)$",
-    "(.*).scss$",
-    "^[./]"
-  ],
-  "importOrderSeparation": true,
-  "trailingComma": "es5",
-  "tabWidth": 4,
-  "semi": true,
-  "singleQuote": false,
-  "printWidth": 100
+    "importOrder": [
+        "^react$",
+        "^@/types/(.*)$",
+        "./types",
+        "<THIRD_PARTY_MODULES>",
+        "^@/context/(.*)$",
+        "^@/config/(.*)$",
+        "^@/hooks/(.*)$",
+        "^@/service/(.*)$",
+        "^@/components/general/(.*)$",
+        "^@/components/layout/(.*)$",
+        "^@/components/board/(.*)$",
+        "^@/dialogs/(.*)$",
+        "(.*).scss$",
+        "^[./]"
+    ],
+    "importOrderSeparation": true,
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": true,
+    "singleQuote": false,
+    "printWidth": 100
 }

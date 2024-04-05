@@ -1,14 +1,14 @@
 .change-avatar-dialog {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
 
-  &__avatar {
-    $avatar-size: 10rem;
-    height: $avatar-size;
-    width: $avatar-size;
-    object-fit: cover;
-  }
+    &__avatar {
+        $avatar-size: 10rem;
+        height: $avatar-size;
+        width: $avatar-size;
+        object-fit: cover;
+    }
 }

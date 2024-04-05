@@ -24,116 +24,123 @@ import TaskContainer from "./TaskContainer";
 import useBoolean from "@/hooks/useBoolean";
 
 export type ColumnProps = {
-  columnName: string;
-  columnId: string;
-  columnIndex: number;
-  placeholder?: unknown;
+    columnName: string;
+    columnId: string;
+    columnIndex: number;
+    placeholder?: unknown;
 };
 
 const Column: React.FC<ColumnProps> = (props) => {
-  const boardId = useBoardId();
-  const { columnName, columnId, columnIndex } = props;
+    const boardId = useBoardId();
+    const { columnName, columnId, columnIndex } = props;
 
-  const { data = [] } = useGetTasks({ boardId });
+    const { data = [] } = useGetTasks({ boardId });
 
-  const {
-    state: showCreateNewTaskModal,
-    setTrue: openCreateNewTaskModal,
-    setFalse: closeCreateNewTaskModal,
-  } = useBoolean(false);
+    const {
+        state: showCreateNewTaskModal,
+        setTrue: openCreateNewTaskModal,
+        setFalse: closeCreateNewTaskModal,
+    } = useBoolean(false);
 
-  const anchorElement = useRef(null);
+    const anchorElement = useRef(null);
 
-  const { hasAccess: canDeleteColumn } = useRBAC({ boardId, action: "COLUMN_DELETE" });
-  const { hasAccess: canCreateColumn } = useRBAC({ boardId, action: "COLUMN_CREATE" });
-  const { hasAccess: canCreateTask } = useRBAC({ boardId, action: "TASK_CREATE" });
-  const { hasAccess: canMoveColumn } = useRBAC({ boardId, action: "COLUMN_MOVE" });
+    const { hasAccess: canDeleteColumn } = useRBAC({ boardId, action: "COLUMN_DELETE" });
+    const { hasAccess: canCreateColumn } = useRBAC({ boardId, action: "COLUMN_CREATE" });
+    const { hasAccess: canCreateTask } = useRBAC({ boardId, action: "TASK_CREATE" });
+    const { hasAccess: canMoveColumn } = useRBAC({ boardId, action: "COLUMN_MOVE" });
 
-  const { mutate: createTask } = useCreateTask({
-    boardId,
-    onSuccess: () => {
-      closeCreateNewTaskModal();
-      emitWebSocket(boardId, { event: "task-update", type: "CREATE" });
-    },
-  });
-  const { mutate: deleteColumn } = useDeleteColumn({
-    boardId,
-    onSuccess: () => {
-      emitWebSocket(boardId, { event: "column-update", type: "DELETE" });
-    },
-  });
-  const { mutate: updateColumn } = useUpdateColumn({
-    boardId,
-    columnId,
-    onSuccess: () => {
-      emitWebSocket(boardId, { event: "column-update", type: "UPDATE" });
-    },
-  });
+    const { mutate: createTask } = useCreateTask({
+        boardId,
+        onSuccess: () => {
+            closeCreateNewTaskModal();
+            emitWebSocket(boardId, { event: "task-update", type: "CREATE" });
+        },
+    });
+    const { mutate: deleteColumn } = useDeleteColumn({
+        boardId,
+        onSuccess: () => {
+            emitWebSocket(boardId, { event: "column-update", type: "DELETE" });
+        },
+    });
+    const { mutate: updateColumn } = useUpdateColumn({
+        boardId,
+        columnId,
+        onSuccess: () => {
+            emitWebSocket(boardId, { event: "column-update", type: "UPDATE" });
+        },
+    });
 
-  const removeColumn = async () => {
-    const shouldDelete = window.confirm("Are you sure you want to delete this column?");
-    if (shouldDelete) {
-      deleteColumn(columnId);
-    }
-  };
+    const removeColumn = async () => {
+        const shouldDelete = window.confirm("Are you sure you want to delete this column?");
+        if (shouldDelete) {
+            deleteColumn(columnId);
+        }
+    };
 
-  return (
-    <DraggableColumnWrapper {...props} isMovable={canMoveColumn}>
-      <div className="task-column" data-testid="column">
-        <header className="task-column__header">
-          <span data-testid="column-task-count" className="task-column__header__task-count">
-            {data[columnIndex]?.tasks.length}
-          </span>
+    return (
+        <DraggableColumnWrapper {...props} isMovable={canMoveColumn}>
+            <div className="task-column" data-testid="column">
+                <header className="task-column__header">
+                    <span
+                        data-testid="column-task-count"
+                        className="task-column__header__task-count"
+                    >
+                        {data[columnIndex]?.tasks.length}
+                    </span>
 
-          <ColumnNameInput value={columnName} onSubmit={updateColumn} disabled={!canCreateColumn} />
-          {canCreateTask && (
-            <>
-              <button
-                data-testid="add-task-btn"
-                onClick={openCreateNewTaskModal}
-                className="task-column__header__new-task-btn"
-              >
-                <FaRegPlusSquare />
-              </button>
-              <Modal
-                show={showCreateNewTaskModal}
-                title="Create new Task"
-                size="l"
-                onClose={closeCreateNewTaskModal}
-              >
-                <TaskEditor
-                  columnId={columnId}
-                  boardId={boardId}
-                  onCancel={closeCreateNewTaskModal}
-                  onSubmit={(values) => {
-                    createTask(values);
-                  }}
-                />
-              </Modal>
-            </>
-          )}
-          {canDeleteColumn && (
-            <>
-              <button
-                data-testid="column-option-btn"
-                ref={anchorElement}
-                className="task-column__header__more-options"
-              >
-                <FaEllipsisV />
-              </button>
-              <DropdownMenu anchorRef={anchorElement} className="column-more-options">
-                <DropdownMenuItem onClick={removeColumn}>
-                  <FaTrashAlt />
-                  Delete
-                </DropdownMenuItem>
-              </DropdownMenu>
-            </>
-          )}
-        </header>
-        <TaskContainer columnId={columnId} columnIndex={columnIndex} />
-      </div>
-    </DraggableColumnWrapper>
-  );
+                    <ColumnNameInput
+                        value={columnName}
+                        onSubmit={updateColumn}
+                        disabled={!canCreateColumn}
+                    />
+                    {canCreateTask && (
+                        <>
+                            <button
+                                data-testid="add-task-btn"
+                                onClick={openCreateNewTaskModal}
+                                className="task-column__header__new-task-btn"
+                            >
+                                <FaRegPlusSquare />
+                            </button>
+                            <Modal
+                                show={showCreateNewTaskModal}
+                                title="Create new Task"
+                                size="l"
+                                onClose={closeCreateNewTaskModal}
+                            >
+                                <TaskEditor
+                                    columnId={columnId}
+                                    boardId={boardId}
+                                    onCancel={closeCreateNewTaskModal}
+                                    onSubmit={(values) => {
+                                        createTask(values);
+                                    }}
+                                />
+                            </Modal>
+                        </>
+                    )}
+                    {canDeleteColumn && (
+                        <>
+                            <button
+                                data-testid="column-option-btn"
+                                ref={anchorElement}
+                                className="task-column__header__more-options"
+                            >
+                                <FaEllipsisV />
+                            </button>
+                            <DropdownMenu anchorRef={anchorElement} className="column-more-options">
+                                <DropdownMenuItem onClick={removeColumn}>
+                                    <FaTrashAlt />
+                                    Delete
+                                </DropdownMenuItem>
+                            </DropdownMenu>
+                        </>
+                    )}
+                </header>
+                <TaskContainer columnId={columnId} columnIndex={columnIndex} />
+            </div>
+        </DraggableColumnWrapper>
+    );
 };
 
 export default Column;

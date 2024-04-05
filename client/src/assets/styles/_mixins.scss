@@ -1,19 +1,19 @@
 @mixin breakpoint($point) {
-  @if $point == large {
-    @media (max-width: 1600px) {
-      @content;
+    @if $point == large {
+        @media (max-width: 1600px) {
+            @content;
+        }
+    } @else if $point == medium {
+        @media (max-width: 1063px) {
+            @content;
+        }
+    } @else if $point == small {
+        @media (max-width: 760px) {
+            @content;
+        }
+    } @else if $point == mobile {
+        @media (max-width: 520px) {
+            @content;
+        }
     }
-  } @else if $point == medium {
-    @media (max-width: 1063px) {
-      @content;
-    }
-  } @else if $point == small {
-    @media (max-width: 760px) {
-      @content;
-    }
-  } @else if $point == mobile {
-    @media (max-width: 520px) {
-      @content;
-    }
-  }
 }

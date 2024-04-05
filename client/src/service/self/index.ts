@@ -8,12 +8,12 @@ import useTogglePinBoard from "./useTogglePinBoard";
 import useUpdateUserAvatar from "./useUpdateUserAvatar";
 
 export {
-  selfQueryKeys,
-  useDeleteNotification,
-  useGetCurrentUser,
-  useGetNotifications,
-  useGetUserBoards,
-  useGetUserPinnedBoards,
-  useUpdateUserAvatar,
-  useTogglePinBoard,
+    selfQueryKeys,
+    useDeleteNotification,
+    useGetCurrentUser,
+    useGetNotifications,
+    useGetUserBoards,
+    useGetUserPinnedBoards,
+    useUpdateUserAvatar,
+    useTogglePinBoard,
 };

@@ -1,84 +1,84 @@
 @import "../../assets/styles/mixins";
 
 .board-settings-page {
-  padding: 1rem;
-  &__header {
-    display: flex;
-  }
-  #back-to-board-btn {
-    margin-right: auto;
-  }
-
-  &__section-title {
-    color: var(--c-font-primary);
-  }
-
-  &__section {
-    &__general {
-      button[type="submit"] {
-        margin-left: auto;
-      }
-    }
-
-    &__members {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-
-      .user-card {
-        max-width: unset;
-      }
-      .role-select {
-        width: 6rem;
-      }
-      .invite-user-button {
-        align-self: flex-end;
-      }
-      .async-input__button-group {
-        color: var(--c-font-primary);
-      }
-    }
-
-    &__tags {
-      --_tag-card-bg-color: white;
-
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-      .add-tag-btn {
-        align-self: flex-end;
-      }
-      .settings-tag-card {
+    padding: 1rem;
+    &__header {
         display: flex;
-        align-items: center;
-        background-color: var(--_tag-card-bg-color);
-        border-radius: 3px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.274);
-        padding: 0.2rem 0.4rem;
-        justify-content: space-between;
-        .button-group {
-          display: flex;
-          flex-direction: row;
-
-          .btn {
-            font-size: 0.7rem;
-            padding: 0.3rem 0.5rem;
-            & > span {
-              display: block;
-              @include breakpoint(mobile) {
-                display: none;
-              }
-            }
-          }
-        }
-        .tag-card {
-          font-size: 1rem;
-        }
-      }
     }
-  }
+    #back-to-board-btn {
+        margin-right: auto;
+    }
+
+    &__section-title {
+        color: var(--c-font-primary);
+    }
+
+    &__section {
+        &__general {
+            button[type="submit"] {
+                margin-left: auto;
+            }
+        }
+
+        &__members {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            .user-card {
+                max-width: unset;
+            }
+            .role-select {
+                width: 6rem;
+            }
+            .invite-user-button {
+                align-self: flex-end;
+            }
+            .async-input__button-group {
+                color: var(--c-font-primary);
+            }
+        }
+
+        &__tags {
+            --_tag-card-bg-color: white;
+
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            .add-tag-btn {
+                align-self: flex-end;
+            }
+            .settings-tag-card {
+                display: flex;
+                align-items: center;
+                background-color: var(--_tag-card-bg-color);
+                border-radius: 3px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.274);
+                padding: 0.2rem 0.4rem;
+                justify-content: space-between;
+                .button-group {
+                    display: flex;
+                    flex-direction: row;
+
+                    .btn {
+                        font-size: 0.7rem;
+                        padding: 0.3rem 0.5rem;
+                        & > span {
+                            display: block;
+                            @include breakpoint(mobile) {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+                .tag-card {
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
 }
 
 [data-theme="DARK"] .board-settings-page__section__tags {
-  --_tag-card-bg-color: var(--c-metal-5);
+    --_tag-card-bg-color: var(--c-metal-5);
 }

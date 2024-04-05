@@ -8,24 +8,24 @@ import permissionURL from "./url";
 type PermissionsQueryKey = "permissions";
 
 type OptionsType = Omit<
-  UseQueryOptions<string[], AxiosError, string[], PermissionsQueryKey>,
-  "queryKey" | "queryFn"
+    UseQueryOptions<string[], AxiosError, string[], PermissionsQueryKey>,
+    "queryKey" | "queryFn"
 >;
 
 const useGetAvailablePermissions = (options?: OptionsType) => {
-  const client = useAuthClient();
+    const client = useAuthClient();
 
-  const fetchPermissions: QueryFunction<string[], PermissionsQueryKey> = async () => {
-    const response = await client.get(permissionURL.permissions);
-    return response.data;
-  };
+    const fetchPermissions: QueryFunction<string[], PermissionsQueryKey> = async () => {
+        const response = await client.get(permissionURL.permissions);
+        return response.data;
+    };
 
-  return useQuery({
-    ...options,
-    queryKey: "permissions",
-    queryFn: fetchPermissions,
-    staleTime: Infinity,
-  });
+    return useQuery({
+        ...options,
+        queryKey: "permissions",
+        queryFn: fetchPermissions,
+        staleTime: Infinity,
+    });
 };
 
 export default useGetAvailablePermissions;

@@ -1,111 +1,111 @@
 @import "../../assets/styles/mixins";
 
 .profile-page {
-  --_username-color: var(--c-accent-primary);
-  --_username-text-color: white;
+    --_username-color: var(--c-accent-primary);
+    --_username-text-color: white;
 }
 
 [data-theme="DARK"] .profile-page {
-  --_username-color: var(--c-accent-secondary);
-  --_username-text-color: var(--c-metal-1);
+    --_username-color: var(--c-accent-secondary);
+    --_username-text-color: var(--c-metal-1);
 }
 
 .profile-page {
-  padding: 0 1rem;
+    padding: 0 1rem;
 
-  &__main {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    @include breakpoint(small) {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  &__profile {
-    .profile-section-card__main {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      @include breakpoint(mobile) {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    &__primary {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    &__details {
-      color: var(--c-font-primary);
-    }
-
-    &__avatar {
-      $avatar-size: 10rem;
-      width: $avatar-size;
-      height: $avatar-size;
-      object-fit: cover;
-    }
-
-    &__avatar-wrapper {
-      display: flex;
-      border-radius: 0.2rem;
-      overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.281);
-      cursor: pointer;
-      position: relative;
-
-      &::after {
-        content: "Chnage avatar";
-        inset: 0 0 0 0;
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(0, 0, 0, 0.127);
-        opacity: 0;
-        transition: opacity 0.2s ease-in-out;
-      }
-
-      &:hover {
-        &::after {
-          opacity: 1;
+    &__main {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        @include breakpoint(small) {
+            grid-template-columns: 1fr;
         }
-      }
     }
 
-    &__username {
-      background-color: var(--_username-color);
-      color: var(--_username-text-color);
-      padding: 0.2rem 0.6rem;
-      border-radius: 3rem;
-      font-size: 0.9rem;
-    }
-  }
+    &__profile {
+        .profile-section-card__main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            @include breakpoint(mobile) {
+                grid-template-columns: 1fr;
+            }
+        }
 
-  &__pinned-boards {
-    &__title {
-      color: var(--c-font-primary);
-      fill: var(--c-font-primary);
-    }
-    &__container > .board-container__boards {
-      display: flex;
-      flex-wrap: wrap;
-      @include breakpoint(mobile) {
-        justify-content: center;
-      }
-    }
-  }
+        &__primary {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-  &__notifications {
-    min-height: 7rem;
-    .item-container__no-content-message {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+        &__details {
+            color: var(--c-font-primary);
+        }
+
+        &__avatar {
+            $avatar-size: 10rem;
+            width: $avatar-size;
+            height: $avatar-size;
+            object-fit: cover;
+        }
+
+        &__avatar-wrapper {
+            display: flex;
+            border-radius: 0.2rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.281);
+            cursor: pointer;
+            position: relative;
+
+            &::after {
+                content: "Chnage avatar";
+                inset: 0 0 0 0;
+                position: absolute;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: rgba(0, 0, 0, 0.127);
+                opacity: 0;
+                transition: opacity 0.2s ease-in-out;
+            }
+
+            &:hover {
+                &::after {
+                    opacity: 1;
+                }
+            }
+        }
+
+        &__username {
+            background-color: var(--_username-color);
+            color: var(--_username-text-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 3rem;
+            font-size: 0.9rem;
+        }
     }
-  }
+
+    &__pinned-boards {
+        &__title {
+            color: var(--c-font-primary);
+            fill: var(--c-font-primary);
+        }
+        &__container > .board-container__boards {
+            display: flex;
+            flex-wrap: wrap;
+            @include breakpoint(mobile) {
+                justify-content: center;
+            }
+        }
+    }
+
+    &__notifications {
+        min-height: 7rem;
+        .item-container__no-content-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
 }

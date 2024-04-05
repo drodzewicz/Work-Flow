@@ -9,22 +9,22 @@ import selfURL from "./url";
 type OptionsType = Omit<UseMutationOptions<unknown, AxiosError, string>, "mutationFn">;
 
 const useDeleteNotification = (options?: OptionsType) => {
-  const queryClient = useQueryClient();
-  const client = useAuthClient();
+    const queryClient = useQueryClient();
+    const client = useAuthClient();
 
-  const mutationFn: MutationFunction<unknown, string> = async (notificationId) => {
-    const response = await client.delete(selfURL.deleteNotification(notificationId));
-    return response.data;
-  };
+    const mutationFn: MutationFunction<unknown, string> = async (notificationId) => {
+        const response = await client.delete(selfURL.deleteNotification(notificationId));
+        return response.data;
+    };
 
-  return useMutation({
-    ...options,
-    mutationFn,
-    onSuccess: (_data, _var, _context) => {
-      queryClient.invalidateQueries(selfQueryKeys.notifications());
-      options?.onSuccess?.(_data, _var, _context);
-    },
-  });
+    return useMutation({
+        ...options,
+        mutationFn,
+        onSuccess: (_data, _var, _context) => {
+            queryClient.invalidateQueries(selfQueryKeys.notifications());
+            options?.onSuccess?.(_data, _var, _context);
+        },
+    });
 };
 
 export default useDeleteNotification;

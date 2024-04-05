@@ -9,17 +9,17 @@ import { MemoryRouter, RouterProvider, createMemoryRouter } from "react-router-d
  * like a paramter which is used to fetch data or simmilar
  */
 const createRouteWrapper = (path: string, curentLocation: string = "/") => {
-  const RouteWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
-    const routes = [{ path: path, element: children }];
+    const RouteWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
+        const routes = [{ path: path, element: children }];
 
-    const router = createMemoryRouter(routes, {
-      initialEntries: [curentLocation],
-    });
+        const router = createMemoryRouter(routes, {
+            initialEntries: [curentLocation],
+        });
 
-    return <RouterProvider router={router} />;
-  };
+        return <RouterProvider router={router} />;
+    };
 
-  return RouteWrapper;
+    return RouteWrapper;
 };
 
 /** React Router Wrapper
@@ -28,21 +28,21 @@ const createRouteWrapper = (path: string, curentLocation: string = "/") => {
  * require this wrapper
  */
 const BrowerRouterWrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <MemoryRouter>{children}</MemoryRouter>
+    <MemoryRouter>{children}</MemoryRouter>
 );
 
 /** React Query Wrapper
  * use this wrapper for component that uses the react query hooks for sending requests
  */
 const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
+    defaultOptions: {
+        queries: {
+            retry: false,
+        },
     },
-  },
 });
 const ReactQueryWrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 );
 
 const onDragEndMock = vi.fn();
@@ -51,7 +51,7 @@ const onDragEndMock = vi.fn();
  * react-beautiful-dnd package requires to render this provider to be able to use other D&D components
  */
 const DragDropWrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <DragDropContext onDragEnd={onDragEndMock}>{children}</DragDropContext>
+    <DragDropContext onDragEnd={onDragEndMock}>{children}</DragDropContext>
 );
 
 /** Droppable Wrapper
@@ -60,15 +60,15 @@ const DragDropWrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
  * to be renderend inside of the Droppable provider
  */
 const DroppableWrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <Droppable droppableId="test-droppableId" type="test-type">
-    {(provided) => {
-      return (
-        <div {...provided.droppableProps} ref={provided.innerRef}>
-          {children}
-        </div>
-      );
-    }}
-  </Droppable>
+    <Droppable droppableId="test-droppableId" type="test-type">
+        {(provided) => {
+            return (
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                    {children}
+                </div>
+            );
+        }}
+    </Droppable>
 );
 
 /** Wrapper Builder util function
@@ -86,40 +86,40 @@ const DroppableWrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
  * </ThirdWrapper>
  */
 const renderWithWrappers =
-  (wrappers: React.FC<React.PropsWithChildren>[]) =>
-  (ui: React.ReactElement, options?: RenderOptions) => {
-    const [FirstWrapper, ...otherWrappers] = wrappers;
+    (wrappers: React.FC<React.PropsWithChildren>[]) =>
+    (ui: React.ReactElement, options?: RenderOptions) => {
+        const [FirstWrapper, ...otherWrappers] = wrappers;
 
-    const wrapper: React.FC<React.PropsWithChildren> = ({ children }) =>
-      otherWrappers.reduce(
-        (accumulator, CurrentComponent) => {
-          return <CurrentComponent>{accumulator}</CurrentComponent>;
-        },
-        <FirstWrapper>{children}</FirstWrapper>,
-      );
+        const wrapper: React.FC<React.PropsWithChildren> = ({ children }) =>
+            otherWrappers.reduce(
+                (accumulator, CurrentComponent) => {
+                    return <CurrentComponent>{accumulator}</CurrentComponent>;
+                },
+                <FirstWrapper>{children}</FirstWrapper>
+            );
 
-    return render(ui, { wrapper, ...options });
-  };
+        return render(ui, { wrapper, ...options });
+    };
 
 function renderHookWithWrappers<R = any, P = any>(wrappers: React.FC<React.PropsWithChildren>[]) {
-  return (hook: (props: P) => R, options?: RenderHookOptions<any>) => {
-    const [FirstWrapper, ...otherWrappers] = wrappers;
+    return (hook: (props: P) => R, options?: RenderHookOptions<any>) => {
+        const [FirstWrapper, ...otherWrappers] = wrappers;
 
-    const wrapper: React.FC<React.PropsWithChildren> = ({ children }) =>
-      otherWrappers.reduce(
-        (accumulator, CurrentComponent) => {
-          return <CurrentComponent>{accumulator}</CurrentComponent>;
-        },
-        <FirstWrapper>{children}</FirstWrapper>,
-      );
+        const wrapper: React.FC<React.PropsWithChildren> = ({ children }) =>
+            otherWrappers.reduce(
+                (accumulator, CurrentComponent) => {
+                    return <CurrentComponent>{accumulator}</CurrentComponent>;
+                },
+                <FirstWrapper>{children}</FirstWrapper>
+            );
 
-    return renderHook(hook, { wrapper, ...options });
-  };
+        return renderHook(hook, { wrapper, ...options });
+    };
 }
 
 const API_URL_BASENAME = [
-  `${env.environment === "production" ? "" : env.api.url}`,
-  env.api.prefix,
+    `${env.environment === "production" ? "" : env.api.url}`,
+    env.api.prefix,
 ].join("/");
 
 const SOCKET_URL_BASENAME = `${env.environment === "production" ? "" : env.api.url}`;
@@ -128,15 +128,15 @@ const apiURl = (path: string) => API_URL_BASENAME + path;
 const socketURl = (path: string) => SOCKET_URL_BASENAME + path;
 
 export {
-  renderHookWithWrappers,
-  renderWithWrappers,
-  createRouteWrapper,
-  BrowerRouterWrapper,
-  ReactQueryWrapper,
-  DragDropWrapper,
-  DroppableWrapper,
-  onDragEndMock,
-  queryClient,
-  apiURl,
-  socketURl,
+    renderHookWithWrappers,
+    renderWithWrappers,
+    createRouteWrapper,
+    BrowerRouterWrapper,
+    ReactQueryWrapper,
+    DragDropWrapper,
+    DroppableWrapper,
+    onDragEndMock,
+    queryClient,
+    apiURl,
+    socketURl,
 };

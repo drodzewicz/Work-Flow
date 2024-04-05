@@ -1,36 +1,36 @@
 .custom-user-option {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  height: 2rem;
-  &__avatar {
-    $avatar-size: 1.5rem;
-    height: $avatar-size;
-    width: $avatar-size;
-    object-fit: cover;
-    border-radius: 3px;
-  }
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2rem;
+    &__avatar {
+        $avatar-size: 1.5rem;
+        height: $avatar-size;
+        width: $avatar-size;
+        object-fit: cover;
+        border-radius: 3px;
+    }
 }
 
 .async-search__option--disabled .custom-user-option {
-  &__avatar {
-    opacity: 0.4;
-  }
+    &__avatar {
+        opacity: 0.4;
+    }
 }
 
 .custom-tag-option {
-  background-color: var(--_tag-color);
-  padding: 0.1rem 0.2rem;
-  font-size: 0.9rem;
-  border-radius: 3px;
-  font-weight: 600;
-  color: color-mix(in srgb, var(--_tag-color) 20%, white);
-  box-shadow: 0 0 5px color-mix(in srgb, var(--_tag-color) 50%, white);
+    background-color: var(--_tag-color);
+    padding: 0.1rem 0.2rem;
+    font-size: 0.9rem;
+    border-radius: 3px;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--_tag-color) 20%, white);
+    box-shadow: 0 0 5px color-mix(in srgb, var(--_tag-color) 50%, white);
 }
 
 .custom-role-option {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
 }

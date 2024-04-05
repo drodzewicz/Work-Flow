@@ -1,69 +1,69 @@
 .table-wrapper {
-  position: relative;
-  overflow: auto;
-  white-space: nowrap;
+    position: relative;
+    overflow: auto;
+    white-space: nowrap;
 }
 
 .vertical {
-  $position: 7px;
-  writing-mode: tb-rl;
-  z-index: 0;
-  -webkit-transform: rotate(-120deg);
-  -moz-transform: rotate(-120deg);
-  transform: rotate(-120deg) translate(-1 * $position, 2 * $position);
-  width: 60px;
-  height: 40px;
-  text-align: start;
-  line-height: 1rem;
-  margin-top: auto;
-  font-size: 0.6rem;
+    $position: 7px;
+    writing-mode: tb-rl;
+    z-index: 0;
+    -webkit-transform: rotate(-120deg);
+    -moz-transform: rotate(-120deg);
+    transform: rotate(-120deg) translate(-1 * $position, 2 * $position);
+    width: 60px;
+    height: 40px;
+    text-align: start;
+    line-height: 1rem;
+    margin-top: auto;
+    font-size: 0.6rem;
 }
 
 .role-table {
-  --_table-bg-color: var(--c-iceberg-2);
-  --_table-header-bg-color: white;
-  --_table-first-column-bg-color: white;
+    --_table-bg-color: var(--c-iceberg-2);
+    --_table-header-bg-color: white;
+    --_table-first-column-bg-color: white;
 }
 
 [data-theme="DARK"] .role-table {
-  --_table-bg-color: var(--c-metal-2);
-  --_table-header-bg-color: var(--c-metal-4);
-  --_table-first-column-bg-color: var(--c-metal-4);
+    --_table-bg-color: var(--c-metal-2);
+    --_table-header-bg-color: var(--c-metal-4);
+    --_table-first-column-bg-color: var(--c-metal-4);
 }
 
 .role-table {
-  border-collapse: collapse;
-  background-color: var(--_table-bg-color);
-  color: var(--c-font-primary);
+    border-collapse: collapse;
+    background-color: var(--_table-bg-color);
+    color: var(--c-font-primary);
 
-  thead {
-    background-color: var(--_table-header-bg-color);
-  }
+    thead {
+        background-color: var(--_table-header-bg-color);
+    }
 
-  &__first-col {
-    left: 0px;
-    z-index: 1;
-    position: -webkit-sticky;
-    position: sticky;
-    background-color: var(--_table-first-column-bg-color);
-    padding: 0.6rem 1rem;
-  }
+    &__first-col {
+        left: 0px;
+        z-index: 1;
+        position: -webkit-sticky;
+        position: sticky;
+        background-color: var(--_table-first-column-bg-color);
+        padding: 0.6rem 1rem;
+    }
 
-  &__last-col {
-    width: 100px;
-    min-width: 100px;
-  }
+    &__last-col {
+        width: 100px;
+        min-width: 100px;
+    }
 
-  &__role {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0.3rem;
-  }
+    &__role {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.3rem;
+    }
 
-  &__checkbox-cell {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+    &__checkbox-cell {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 }

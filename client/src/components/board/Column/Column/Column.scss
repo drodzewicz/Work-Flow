@@ -1,95 +1,95 @@
 .task-column {
-  --_column-bg-color: var(--c-iceberg-5);
-  --_column-bg-secondary-color: var(--c-iceberg-3);
-  --_column-text-color: var(--c-downy-1);
+    --_column-bg-color: var(--c-iceberg-5);
+    --_column-bg-secondary-color: var(--c-iceberg-3);
+    --_column-text-color: var(--c-downy-1);
 }
 
 [data-theme="DARK"] .task-column {
-  --_column-bg-color: var(--c-metal-3);
-  --_column-bg-secondary-color: var(--c-metal-2);
-  --_column-text-color: var(--c-metal-6);
+    --_column-bg-color: var(--c-metal-3);
+    --_column-bg-secondary-color: var(--c-metal-2);
+    --_column-text-color: var(--c-metal-6);
 }
 
 .task-column {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--_column-bg-color);
-  border-radius: 10px;
-  padding: 0.2rem 0.5rem;
-  border: 2px solid transparent;
-  box-shadow: 0 0 3px transparent;
-  transition: all 0.2s ease-in-out;
-  height: 100%;
-
-  &--active {
-    background: var(--_column-bg-secondary-color);
-    border-radius: 5px;
-  }
-
-  &__header {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin: 0.2rem 0;
-    margin-bottom: 0.4rem;
-    position: relative;
-    
-    &__task-count {
-      color: var(--_column-text-color);
-      background: var(--_column-bg-secondary-color);
-      border-radius: 3px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      min-width: 1rem;
-      height: 1rem;
-      font-size: 0.8rem;
-      margin-right: 0.4rem;
+    flex-direction: column;
+    background-color: var(--_column-bg-color);
+    border-radius: 10px;
+    padding: 0.2rem 0.5rem;
+    border: 2px solid transparent;
+    box-shadow: 0 0 3px transparent;
+    transition: all 0.2s ease-in-out;
+    height: 100%;
+
+    &--active {
+        background: var(--_column-bg-secondary-color);
+        border-radius: 5px;
     }
 
-    &__new-task-btn,
-    &__more-options {
-      border: none;
-      color: var(--_column-text-color);
-      font-size: 1.4rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      margin: 0 3px;
-      border-radius: 5px;
-      height: 1.5rem;
-      width: 1.5rem;
-      background-color: transparent;
+    &__header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin: 0.2rem 0;
+        margin-bottom: 0.4rem;
+        position: relative;
 
-      svg {
-        $icon-size: 1rem;
-        width: $icon-size;
-        height: $icon-size;
-      }
-    }
-    &__new-task-btn {
-      background: var(--_column-bg-secondary-color);
-    }
-  }
+        &__task-count {
+            color: var(--_column-text-color);
+            background: var(--_column-bg-secondary-color);
+            border-radius: 3px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            min-width: 1rem;
+            height: 1rem;
+            font-size: 0.8rem;
+            margin-right: 0.4rem;
+        }
 
-  &__container {
-    width: 16.5rem;
-    overflow-y: scroll;
-    min-height: 1px;
-  }
+        &__new-task-btn,
+        &__more-options {
+            border: none;
+            color: var(--_column-text-color);
+            font-size: 1.4rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin: 0 3px;
+            border-radius: 5px;
+            height: 1.5rem;
+            width: 1.5rem;
+            background-color: transparent;
+
+            svg {
+                $icon-size: 1rem;
+                width: $icon-size;
+                height: $icon-size;
+            }
+        }
+        &__new-task-btn {
+            background: var(--_column-bg-secondary-color);
+        }
+    }
+
+    &__container {
+        width: 16.5rem;
+        overflow-y: scroll;
+        min-height: 1px;
+    }
 }
 
 .column-more-options {
-  .drop-down-menu__item {
-    padding: 0.2rem 0.6rem;
-    display: flex;
-    justify-content: flex-start;
-    svg {
-      font-size: 0.9rem;
-      margin-right: 0.3rem;
+    .drop-down-menu__item {
+        padding: 0.2rem 0.6rem;
+        display: flex;
+        justify-content: flex-start;
+        svg {
+            font-size: 0.9rem;
+            margin-right: 0.3rem;
+        }
     }
-  }
 }
