@@ -5,7 +5,6 @@ import useAuthClient from "@/hooks/useClient";
 
 import selfQueryKeys from "./queryKeys";
 import selfURL from "./url";
-import { useState } from "react";
 
 type PaginatedUserBoardList = { boards: Board[]; totalCount: number };
 
@@ -19,11 +18,11 @@ type OptionsType = Omit<
 type GetUserBoardsProps = {
     page: number;
     limit: number;
+    boardName?: string;
 } & OptionsType;
 
-const useGetUserBoards = ({ page, limit, ...options }: GetUserBoardsProps) => {
+const useGetUserBoards = ({ page, limit, boardName, ...options }: GetUserBoardsProps) => {
     const client = useAuthClient();
-    const [searchTerm, setSearchTerm] = useState<string>("");
     
     const fetchBoards = async ({
         queryKey: [{ pagination, name }],
@@ -32,22 +31,13 @@ const useGetUserBoards = ({ page, limit, ...options }: GetUserBoardsProps) => {
         return response.data;
     };
 
-    const search = (searchString: string) => {
-        setSearchTerm(searchString);
-    };
-
-    const clear = () => {
-        setSearchTerm("");
-    };
-
-    const query =  useQuery({
+    return useQuery({
         ...options,
-        queryKey: selfQueryKeys.paginatedBoards({ page, limit, name: searchTerm }),
+        queryKey: selfQueryKeys.paginatedBoards({ page, limit, name: boardName }),
         queryFn: fetchBoards,
         staleTime: 5 * 60 * 1000,
     });
 
-    return { ...query, search, clear, searchTerm };
 };
 
 export default useGetUserBoards;
