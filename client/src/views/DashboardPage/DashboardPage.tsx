@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import { OnSubmitType } from "@/types/utils";
 
 import { ReactComponent as Pined } from "@/assets/images/pin-full.svg";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaSearch } from "react-icons/fa";
 import { FaColumns } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -21,6 +21,7 @@ import BoardEditor, { BoardEditorType } from "@/dialogs/BoardEditor/BoardEditor"
 
 import "./DashboardPage.scss";
 import useBoolean from "@/hooks/useBoolean";
+import AsyncInput from "@/components/form/AsyncInput";
 
 const DashboardPage: React.FC = () => {
     const navigate = useNavigate();
@@ -33,12 +34,12 @@ const DashboardPage: React.FC = () => {
 
     const { data: pinnedBoards = [], isLoading: isPinnedBoardLoading } = useGetUserPinnedBoards();
 
-    const { currentPage, totalPages, limit, setCurrentPage, setTotalItems } = usePagination({
+    const { currentPage, totalPages, limit, setCurrentPage, setTotalItems, reset } = usePagination({
         initialPage: 1,
         limit: 8,
     });
 
-    const { data: boardData = { boards: [], totalCount: 0 }, isLoading: isBoardLoading } =
+    const { data: boardData = { boards: [], totalCount: 0 }, isLoading: isBoardLoading, search } =
         useGetUserBoards({
             limit,
             page: currentPage,
@@ -53,14 +54,20 @@ const DashboardPage: React.FC = () => {
             navigate(`/board/${response._id}`);
         },
     });
+    
     const { mutate: togglePinBoard } = useTogglePinBoard();
 
-    const boardsWithMetaData = (): (Board & { isPinned: boolean })[] => {
+    const searchBoards = (username: string) => {
+        reset();
+        search(username);
+    };
+
+    const boardsWithMetaData = useMemo(() => {
         return boardData.boards.map((board) => {
             const isPinned = !!pinnedBoards.find((pinnedBoard) => pinnedBoard._id === board._id);
             return { ...board, isPinned };
         });
-    };
+    }, [boardData.boards, pinnedBoards]);
 
     const pinnedBoardsWithMetaData = useMemo(() => {
         return pinnedBoards.map((board) => ({ ...board, isPinned: true })) ?? [];
@@ -90,20 +97,32 @@ const DashboardPage: React.FC = () => {
                     </div>
                 )}
                 <div className="board-container-section">
-                    <h1 className="board-container-title">
-                        <FaColumns className="board-container-title__icon" /> Boards
-                        <button onClick={openCreateNewBoardModal} className="btn new-board-btn">
-                            <div className="new-board-btn__text">New Board</div>
-                            <FaPlus className="new-board-btn__icon" />
-                        </button>
-                    </h1>
+                    <div className="board-container-header">
+                        <h1 className="board-container-title">
+                            <FaColumns className="board-container-title__icon" /> Boards
+                        </h1>
+                        <div className="board-table-utils">
+                            <AsyncInput
+                                placeholder="Search boards..."
+                                debounceCallback={searchBoards}
+                                isLoading={isBoardLoading}
+                                debounceTime={500}
+                            >
+                                <FaSearch className="async-input__search-icon" />
+                            </AsyncInput>
+                            <button onClick={openCreateNewBoardModal} className="btn new-board-btn">
+                                <div className="new-board-btn__text">New Board</div>
+                                <FaPlus className="new-board-btn__icon" />
+                            </button>
+                        </div>
+                    </div>
                     <hr className="break-line" />
                     <BoardContainer
                         isLoading={isBoardLoading}
                         numberOfLoadingItems={limit}
                         className="board-dashboard__main"
                         noBoardsMessage="you are not a part of any board"
-                        boards={boardsWithMetaData()}
+                        boards={boardsWithMetaData}
                         changePage={setCurrentPage}
                         togglePinBoard={togglePinBoard}
                         page={{

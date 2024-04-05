@@ -15,7 +15,7 @@ import {
 import { BoardService, MemberService, UserService } from "../services/index.js";
 import { Container } from "typedi";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
-import { Pagination, AuthUser } from "../types/utils.type.js";
+import { AuthUser, Pagination } from "../types/utils.type.js";
 import { CreateBoardPayload, UpdateBoardPayload } from "../types/request/board.type.js";
 import { fieldErrorsHandler } from "../utils/payloadValidation.utils.js";
 import {

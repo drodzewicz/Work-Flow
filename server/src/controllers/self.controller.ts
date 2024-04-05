@@ -12,7 +12,7 @@ import {
 } from "routing-controllers";
 import { UserService, BoardService } from "../services/index.js";
 import { Container } from "typedi";
-import { Pagination, AuthUser } from "../types/utils.type.js";
+import { AuthUser } from "../types/utils.type.js";
 import { UpdateUserPayload, UpdateUserAvatarPayload } from "../types/request/user.type.js";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
 import { getPaginationSettings } from "../utils/pagination.utils.js";
@@ -21,6 +21,7 @@ import {
     updateUserAvatarPayloadValidator,
     updateUserPayloadValidator,
 } from "../validators/user.validator.js";
+import { BoadsListQueryParams } from "../types/queryParams/board.type.js";
 
 @Controller("/self")
 @UseBefore(JWTMiddleware)
@@ -55,9 +56,12 @@ export class SelfController {
     }
 
     @Get("/boards")
-    async userBoards(@CurrentUser() user: AuthUser, @QueryParams() query: Pagination) {
-        const options = getPaginationSettings(query);
-        return this.boardService.getUserBoards(user.id.toString(), options);
+    async userBoards(@CurrentUser() user: AuthUser, @QueryParams() query: BoadsListQueryParams) {
+        const pagination = getPaginationSettings(query);
+        return this.boardService.getUserBoards(user.id.toString(), {
+            ...pagination,
+            name: query?.name,
+        });
     }
 
     @Get("/pinnedBoards")

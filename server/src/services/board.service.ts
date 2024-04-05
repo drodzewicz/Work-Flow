@@ -5,6 +5,7 @@ import { BoardDTO, BoardSimpleDTO, ColumnSimpleDTO } from "../types/dto/index.js
 import { BoardMapper, BoardSimpleViewMapper, ColumnSimpleMapper } from "../mappers/index.js";
 import { NotFoundError } from "routing-controllers";
 import { RoleNames } from "../config/permissions.config.js";
+import { BoadsListQueryParams } from "src/types/queryParams/board.type.js";
 
 @Service()
 export class BoardService {
@@ -35,7 +36,7 @@ export class BoardService {
 
     async getUserBoards(
         userId: string,
-        options: Pagination
+        options: BoadsListQueryParams
     ): Promise<{ totalCount: number; boards: BoardSimpleDTO[] }> {
         const { totalCount, data } = await this.boardRepository.getUserBoards(userId, options);
         return {

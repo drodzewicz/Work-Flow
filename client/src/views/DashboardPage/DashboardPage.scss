@@ -7,6 +7,31 @@
     align-items: center;
     gap: 1rem;
 
+    .board-container-header {
+        display: flex;
+        gap: 1rem;
+        @include breakpoint(mobile) {
+            flex-direction: column;
+        }
+
+        .board-table-utils {
+            display: flex;
+            margin-left: auto;
+
+            @include breakpoint(mobile) {
+                margin-left: unset;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+   
+        .async-input {
+            &__search-icon {
+                color: var(--c-font-primary);
+            }
+        }
+    }
+
     .board-container-section {
         margin-top: 2rem;
     }

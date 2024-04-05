@@ -3,6 +3,7 @@ import { User, Board } from "../models/index.js";
 import { UserModel, BoardDocument, IBoard, BoardFields } from "../types/database/index.js";
 import { Pagination, PaginatedResult } from "../types/utils.type.js";
 import { GenericRepository } from "./generic.repository.js";
+import { BoadsListQueryParams } from "src/types/queryParams/board.type.js";
 
 @Service()
 export class BoardRepository extends GenericRepository<IBoard, BoardDocument, BoardFields> {
@@ -37,10 +38,16 @@ export class BoardRepository extends GenericRepository<IBoard, BoardDocument, Bo
 
     async getUserBoards(
         userId: string,
-        settings: Pagination
+        settings: BoadsListQueryParams
     ): Promise<PaginatedResult<BoardDocument>> {
         this.validateId(userId);
-        const query = { "members.user": userId };
+        const query: any = {
+            "members.user": userId,
+        };
+
+        if (settings?.name) {
+            query.name = { $regex: new RegExp("^" + settings?.name.toLowerCase(), "i") };
+        }
         const totalCount = await this.model.count(query);
         const data = (await this.model
             .find(query, this.fields.join(" "))
