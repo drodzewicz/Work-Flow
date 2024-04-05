@@ -1,10 +1,10 @@
 {
   "name": "server",
   "version": "2.0.0",
+  "private": true,
   "description": "",
   "main": "src/index.js",
   "type": "module",
-  "private": true,
   "scripts": {
     "build": "rimraf dist && npx tsc",
     "start": "set NODE_ENV=production && node dist/index.js",
@@ -14,7 +14,6 @@
     "format": "eslint src/**/*.ts --fix",
     "pretty": "prettier --write \"src/**/*.ts\""
   },
-  "author": "Dariusz Rodzewicz",
   "license": "ISC",
   "devDependencies": {
     "typescript": "~5.0.2",
