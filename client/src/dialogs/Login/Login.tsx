@@ -4,7 +4,6 @@ import { OnSubmitType } from "@/types/utils";
 
 import { TextField } from "@/components/form/TextInput";
 import { Field, Form, useFormik, FormikProvider } from "formik";
-import { useLocation, useNavigate } from "react-router-dom";
 import { InferType } from "yup";
 
 import useAuth from "@/hooks/useAuth";
@@ -14,13 +13,13 @@ import { useLogin } from "@/service/auth";
 import "./Login.scss";
 
 import { validationSchema } from "./formSchema";
+import useRedirect from "@/hooks/useRedirect";
 
 export type LoginFormType = InferType<typeof validationSchema>;
 
 const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initialValues }) => {
     const { login: authLogin } = useAuth();
-    const navigate = useNavigate();
-    const location = useLocation();
+    const { goTo, location } = useRedirect();
 
     const { mutate: login } = useLogin({
         onSuccess(data) {
@@ -28,7 +27,11 @@ const LoginForm: React.FC<{ initialValues?: Partial<LoginFormType> }> = ({ initi
             authLogin({ user, token: accessToken });
 
             // redirect user to the desired page if user was redirected to login
-            navigate(location.state?.from?.pathname || "/dashboard");
+            if (location.state?.from?.pathname) {
+                goTo.custom(location.state?.from?.pathname);
+            } else {
+                goTo.dashboard();
+            }
         },
         onError() {
             formik.setErrors({ username: "bad login", password: "bad login" });

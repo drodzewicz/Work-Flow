@@ -1,10 +1,9 @@
 import React, { PropsWithChildren, useRef } from "react";
 
-import { useNavigate } from "react-router-dom";
-
 import DropdownMenu from "@/components/general/DropdownMenu/DropdownMenu";
 
 import "./NavItem.scss";
+import useRedirect from "@/hooks/useRedirect";
 
 type svgIcon = React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
 
@@ -33,11 +32,11 @@ const NavItem: React.FC<PropsWithChildren<NavItemProps>> = ({
     to,
 }) => {
     const anchorElement = useRef(null);
-    const navigate = useNavigate();
+    const { goTo } = useRedirect();
 
     const onClickHandler = () => {
         if (to) {
-            navigate(to);
+            goTo.custom(to);
             return;
         }
         onClick?.();

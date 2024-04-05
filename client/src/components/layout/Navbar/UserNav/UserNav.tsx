@@ -1,7 +1,7 @@
 import React from "react";
 
 import { FaSignOutAlt, FaUserAlt, FaHome, FaBell, FaMoon, FaSun } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import useAppTheme from "@/hooks/useAppTheme";
 import useAuth from "@/hooks/useAuth";
@@ -15,16 +15,17 @@ import Notification from "@/components/general/Notification";
 import NavItem from "@/components/layout/Navbar/NavItem";
 
 import "./UserNav.scss";
+import useRedirect from "@/hooks/useRedirect";
 
 const UserNav: React.FC = () => {
-    const navigate = useNavigate();
+    const { goTo } = useRedirect();
 
     const { user, login, logout } = useAuth();
     const { themeState, toggleTheme } = useAppTheme();
     const { mutate: logoutUser } = useLogout({
         onSuccess: () => {
             logout();
-            navigate("/");
+            goTo.home();
         },
     });
 

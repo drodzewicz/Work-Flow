@@ -2,9 +2,9 @@ import React, { MouseEvent } from "react";
 
 import { ReactComponent as Pin } from "@/assets/images/pin-empty.svg";
 import { ReactComponent as Pined } from "@/assets/images/pin-full.svg";
-import { useNavigate } from "react-router-dom";
 
 import "./BoardCard.scss";
+import useRedirect from "@/hooks/useRedirect";
 
 export interface BoardCardProps {
     boardName: string;
@@ -19,7 +19,7 @@ const BoardCard: React.FC<BoardCardProps> = ({
     pinBoard,
     isPinned = false,
 }) => {
-    const navigate = useNavigate();
+    const { goTo } = useRedirect();
 
     const togglePinBoard = (e: MouseEvent) => {
         e.stopPropagation();
@@ -27,7 +27,7 @@ const BoardCard: React.FC<BoardCardProps> = ({
     };
 
     const goToBoard = () => {
-        navigate(`/board/${boardId}`);
+        goTo.board(boardId);
     };
 
     const PinIcon = isPinned ? Pined : Pin;

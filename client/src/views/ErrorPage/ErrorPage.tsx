@@ -2,11 +2,11 @@ import React from "react";
 
 import { ReactComponent as PersonMountains } from "@/assets/images/drawkit-nature-man-colour.svg";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 
 import Box from "@/components/layout/Box";
 
 import "./ErrorPage.scss";
+import useRedirect from "@/hooks/useRedirect";
 
 type ErrorPageProps = {
     message: string;
@@ -14,13 +14,13 @@ type ErrorPageProps = {
 };
 
 const ErrorPage: React.FC<ErrorPageProps> = ({ status, message }) => {
-    const navigate = useNavigate();
+    const { goTo } = useRedirect();
 
     return (
         <Box>
             <div className="error-page">
                 <div className="error-page__header">
-                    <button className="btn" onClick={() => navigate(-1)}>
+                    <button className="btn" onClick={() => goTo.custom(-1)}>
                         <FaArrowLeft />
                         Go back
                     </button>

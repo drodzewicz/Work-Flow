@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import useBoardId from "@/hooks/useBoardId";
 import useRBAC from "@/hooks/useRBAC";
@@ -16,10 +16,11 @@ import GeneralSection from "./GeneralSection";
 import MembersSection from "./MembersSection";
 import RoleSection from "./RoleSection";
 import TagSection from "./TagSection";
+import useRedirect from "@/hooks/useRedirect";
 
 const BoardSettingsPage: React.FC = () => {
     const boardId = useBoardId();
-    const navigate = useNavigate();
+    const { goTo } = useRedirect();
 
     const { hasAccess: canDeleteBoard } = useRBAC({ boardId, action: "BOARD_DELETE" });
     const { hasAccess: canModifyRoles } = useRBAC({ boardId, action: "MEMBER_ROLE_UPDATE" });
@@ -32,13 +33,13 @@ const BoardSettingsPage: React.FC = () => {
 
     const { mutate: deleteBoard } = useDeleteBoard({
         onSuccess: () => {
-            navigate("/dashboard");
+            goTo.dashboard();
         },
     });
 
     const { mutate: leaveBoard } = useLeaveBoard({
         onSuccess: () => {
-            navigate("/dashboard");
+            goTo.dashboard();
         },
     });
 

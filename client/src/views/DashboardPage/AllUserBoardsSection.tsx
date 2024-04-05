@@ -11,11 +11,11 @@ import useSearchFilter from "@/hooks/useSearchFilter";
 import { useGetUserBoards, useGetUserPinnedBoards, useTogglePinBoard } from "@/service/self";
 import { OnSubmitType } from "@/types/utils";
 import { FaColumns, FaPlus, FaSearch, FaTimes } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import { useCreateBoard } from "@/service/board";
+import useRedirect from "@/hooks/useRedirect";
 
 const AllUserBoardsSection: React.FC = () => {
-    const navigate = useNavigate();
+    const { goTo } = useRedirect();
 
     const {
         state: showCreateNewBoardDialog,
@@ -46,7 +46,7 @@ const AllUserBoardsSection: React.FC = () => {
 
     const { mutate: createBoard } = useCreateBoard({
         onSuccess: (response) => {
-            navigate(`/board/${response._id}`);
+            goTo.board(response._id);
         },
     });
 

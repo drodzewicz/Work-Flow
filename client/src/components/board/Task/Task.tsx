@@ -1,7 +1,5 @@
 import React from "react";
 
-import { useNavigate } from "react-router-dom";
-
 import useBoardId from "@/hooks/useBoardId";
 
 import ItemContainer from "@/components/layout/ItemContainer";
@@ -13,6 +11,7 @@ import "./Task.scss";
 
 import TagCard from "../TagCard/TagCard";
 import useRBAC from "@/hooks/useRBAC";
+import useRedirect from "@/hooks/useRedirect";
 
 export interface TaskProps {
     taskId: string;
@@ -26,12 +25,12 @@ export interface TaskProps {
 }
 
 const Task: React.FC<TaskProps> = ({ taskId, title, indexes, tags = [], assignees = [] }) => {
-    const navigate = useNavigate();
+    const { goTo } = useRedirect();
     const boardId = useBoardId();
     const { hasAccess: canMoveTask } = useRBAC({ boardId, action: "TASK_MOVE" });
 
     const openTaskModal = () => {
-        navigate(`/board/${boardId}/task/${taskId}`);
+        goTo.task(boardId, taskId);
     };
 
     return (

@@ -2,7 +2,6 @@ import { OnSubmitType } from "@/types/utils";
 
 import { TextField } from "@/components/form/TextInput";
 import { Field, Form, useFormik, FormikProvider } from "formik";
-import { useNavigate } from "react-router-dom";
 import { InferType } from "yup";
 
 import { useRegister } from "@/service/auth";
@@ -10,6 +9,7 @@ import { useRegister } from "@/service/auth";
 import "./RegisterPage.scss";
 
 import { validationSchema } from "./formSchema";
+import useRedirect from "@/hooks/useRedirect";
 
 export type RegisterType = InferType<typeof validationSchema>;
 
@@ -23,7 +23,7 @@ const INITIAL_FORM_VALUES: RegisterType = {
 };
 
 const RegisterPage = () => {
-    const navigate = useNavigate();
+    const { goTo } = useRedirect();
 
     const onSubmitHandler: OnSubmitType<RegisterType> = (values) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,7 +39,7 @@ const RegisterPage = () => {
 
     const { mutate: register } = useRegister({
         onSuccess() {
-            navigate("/#login", {
+            goTo.custom("/#login", {
                 state: { username: formik.values.username, password: formik.values.password },
             });
         },

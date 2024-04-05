@@ -3,11 +3,11 @@ import React, { useMemo } from "react";
 import { buildNotificationLink, getNotificationIcon } from "@/utils/notification";
 import { IconType } from "react-icons";
 import { FaTimes } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 
 import { useDeleteNotification } from "@/service/self";
 
 import "./Notification.scss";
+import useRedirect from "@/hooks/useRedirect";
 
 type NotificationProps = {
     notification: BoardNotification;
@@ -20,7 +20,8 @@ const NotificationIcon: React.FC<{ type: string }> = ({ type }) => {
 };
 
 const Notification: React.FC<NotificationProps> = ({ notification }) => {
-    const navigate = useNavigate();
+    const { goTo } = useRedirect();
+
     const { mutate: deleteNotification } = useDeleteNotification();
 
     const deleteNotificationHandler = (e: React.MouseEvent<HTMLElement>) => {
@@ -35,7 +36,7 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
 
     const navigateByMessage = () => {
         if (notificationLink) {
-            navigate(notificationLink);
+            goTo.custom(notificationLink);
         }
         deleteNotification(notification._id);
     };
