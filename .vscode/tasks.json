@@ -52,6 +52,15 @@
         "group": "workflow"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Test E2E",
+      "type": "shell",
+      "command": "yarn app:test",
+      "presentation": {
+        "group": "workflow"
+      },
+      "problemMatcher": []
     }
   ]
 }
