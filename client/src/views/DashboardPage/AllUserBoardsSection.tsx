@@ -2,60 +2,33 @@ import React, { useEffect, useMemo } from "react";
 
 import BoardContainer from "@/components/board/BoardContainer";
 import AsyncInput from "@/components/form/AsyncInput";
-import Modal from "@/components/layout/Modal";
-import BoardEditor from "@/dialogs/BoardEditor";
-import { BoardEditorType } from "@/dialogs/BoardEditor/BoardEditor";
 import useBoolean from "@/hooks/useBoolean";
 import usePagination from "@/hooks/usePagination";
 import useSearchFilter from "@/hooks/useSearchFilter";
 import { useGetUserBoards, useGetUserPinnedBoards, useTogglePinBoard } from "@/service/self";
-import { OnSubmitType } from "@/types/utils";
 import { FaColumns, FaPlus, FaSearch, FaTimes } from "react-icons/fa";
-import { useCreateBoard } from "@/service/board";
-import useRedirect from "@/hooks/useRedirect";
+import CreateNewBoardDialog from "./CreateNewBoardDialog";
 
-const AllUserBoardsSection: React.FC = () => {
-    const { goTo } = useRedirect();
+type UserBoardProps = {
+    searchTerm: string;
+    currentPage: number;
+    limit: number;
+    setTotalItems: (value: number) => void;
+};
 
-    const {
-        state: showCreateNewBoardDialog,
-        setTrue: openCreateNewBoardModal,
-        setFalse: closeCreateNewBoardModal,
-    } = useBoolean(false);
-
+const useUserBoards = ({ searchTerm, limit, currentPage, setTotalItems }: UserBoardProps) => {
     const { data: pinnedBoards = [] } = useGetUserPinnedBoards();
 
-    const { currentPage, totalPages, limit, setCurrentPage, setTotalItems, reset } = usePagination({
-        initialPage: 1,
-        limit: 8,
+    const { data: boardData = { boards: [], totalCount: 0 }, isLoading } = useGetUserBoards({
+        limit,
+        page: currentPage,
+        boardName: searchTerm,
+        keepPreviousData: true,
     });
-
-    const { searchTerm, search, clear } = useSearchFilter("");
-
-    const { data: boardData = { boards: [], totalCount: 0 }, isLoading: isBoardLoading } =
-        useGetUserBoards({
-            limit,
-            page: currentPage,
-            boardName: searchTerm,
-            keepPreviousData: true,
-        });
 
     useEffect(() => {
         setTotalItems(boardData?.totalCount ?? 0);
     }, [boardData?.totalCount]);
-
-    const { mutate: createBoard } = useCreateBoard({
-        onSuccess: (response) => {
-            goTo.board(response._id);
-        },
-    });
-
-    const { mutate: togglePinBoard } = useTogglePinBoard();
-
-    const searchBoards = (username: string) => {
-        reset();
-        search(username);
-    };
 
     const boardsWithMetaData = useMemo(() => {
         return boardData.boards.map((board) => {
@@ -64,8 +37,30 @@ const AllUserBoardsSection: React.FC = () => {
         });
     }, [boardData.boards, pinnedBoards]);
 
-    const createBoardHandler: OnSubmitType<BoardEditorType> = async (values) => {
-        createBoard({ name: values.name, description: values.description || "" });
+    return { boards: boardsWithMetaData, isLoading };
+};
+
+const AllUserBoardsSection: React.FC = () => {
+    const {
+        state: showCreateNewBoardDialog,
+        setTrue: openCreateNewBoardModal,
+        setFalse: closeCreateNewBoardModal,
+    } = useBoolean(false);
+
+    const { searchTerm, search, clear } = useSearchFilter("");
+
+    const { currentPage, totalPages, limit, setCurrentPage, setTotalItems, reset } = usePagination({
+        initialPage: 1,
+        limit: 8,
+    });
+
+    const { boards, isLoading } = useUserBoards({ searchTerm, currentPage, limit, setTotalItems });
+
+    const { mutate: togglePinBoard } = useTogglePinBoard();
+
+    const searchBoards = (username: string) => {
+        reset();
+        search(username);
     };
 
     return (
@@ -79,7 +74,7 @@ const AllUserBoardsSection: React.FC = () => {
                         placeholder="Search boards..."
                         debounceCallback={searchBoards}
                         value={searchTerm}
-                        isLoading={!!searchTerm && isBoardLoading}
+                        isLoading={!!searchTerm && isLoading}
                         debounceTime={500}
                     >
                         {!searchTerm && <FaSearch className="async-input__search-icon" />}
@@ -95,11 +90,11 @@ const AllUserBoardsSection: React.FC = () => {
             </div>
             <hr className="break-line" />
             <BoardContainer
-                isLoading={isBoardLoading}
+                isLoading={isLoading}
                 numberOfLoadingItems={limit}
                 className="board-dashboard__main"
                 noBoardsMessage="you are not a part of any board"
-                boards={boardsWithMetaData}
+                boards={boards}
                 changePage={setCurrentPage}
                 togglePinBoard={togglePinBoard}
                 page={{
@@ -107,14 +102,10 @@ const AllUserBoardsSection: React.FC = () => {
                     total: totalPages,
                 }}
             />
-            <Modal
+            <CreateNewBoardDialog
                 show={showCreateNewBoardDialog}
-                title="Create new Board"
-                size="s"
-                onClose={closeCreateNewBoardModal}
-            >
-                <BoardEditor onSubmit={createBoardHandler} />
-            </Modal>
+                close={closeCreateNewBoardModal}
+            />
         </div>
     );
 };
