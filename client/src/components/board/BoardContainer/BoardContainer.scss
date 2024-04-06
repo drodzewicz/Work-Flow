@@ -1,9 +1,8 @@
 .board-container {
     &__boards {
-        display: flex;
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
         gap: 1rem;
-        flex-wrap: wrap;
     }
     &__empty-message {
         display: flex;

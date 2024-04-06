@@ -90,13 +90,7 @@
             color: var(--c-font-primary);
             fill: var(--c-font-primary);
         }
-        &__container > .board-container__boards {
-            display: flex;
-            flex-wrap: wrap;
-            @include breakpoint(mobile) {
-                justify-content: center;
-            }
-        }
+
     }
 
     &__notifications {
