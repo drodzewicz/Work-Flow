@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 
 import BoardContainer from "@/components/board/BoardContainer";
 import AsyncInput from "@/components/form/AsyncInput";
@@ -8,15 +8,15 @@ import useSearchFilter from "@/hooks/useSearchFilter";
 import { useGetUserBoards, useGetUserPinnedBoards, useTogglePinBoard } from "@/service/self";
 import { FaColumns, FaPlus, FaSearch, FaTimes } from "react-icons/fa";
 import CreateNewBoardDialog from "./CreateNewBoardDialog";
+import usePaginationPageCount from "@/hooks/usePaginationPageCount";
 
 type UserBoardProps = {
     searchTerm: string;
     currentPage: number;
     limit: number;
-    setTotalItems: (value: number) => void;
 };
 
-const useUserBoards = ({ searchTerm, limit, currentPage, setTotalItems }: UserBoardProps) => {
+const useUserBoards = ({ searchTerm, limit, currentPage }: UserBoardProps) => {
     const { data: pinnedBoards = [] } = useGetUserPinnedBoards();
 
     const { data: boardData = { boards: [], totalCount: 0 }, isLoading } = useGetUserBoards({
@@ -26,10 +26,6 @@ const useUserBoards = ({ searchTerm, limit, currentPage, setTotalItems }: UserBo
         keepPreviousData: true,
     });
 
-    useEffect(() => {
-        setTotalItems(boardData?.totalCount ?? 0);
-    }, [boardData?.totalCount]);
-
     const boardsWithMetaData = useMemo(() => {
         return boardData.boards.map((board) => {
             const isPinned = !!pinnedBoards.find((pinnedBoard) => pinnedBoard._id === board._id);
@@ -37,7 +33,7 @@ const useUserBoards = ({ searchTerm, limit, currentPage, setTotalItems }: UserBo
         });
     }, [boardData.boards, pinnedBoards]);
 
-    return { boards: boardsWithMetaData, isLoading };
+    return { boards: boardsWithMetaData, isLoading, totalCount: boardData.totalCount };
 };
 
 const AllUserBoardsSection: React.FC = () => {
@@ -49,12 +45,14 @@ const AllUserBoardsSection: React.FC = () => {
 
     const { searchTerm, search, clear } = useSearchFilter("");
 
-    const { currentPage, totalPages, limit, setCurrentPage, setTotalItems, reset } = usePagination({
+    const { currentPage, limit, setCurrentPage, reset } = usePagination({
         initialPage: 1,
         limit: 8,
     });
 
-    const { boards, isLoading } = useUserBoards({ searchTerm, currentPage, limit, setTotalItems });
+    const { boards, isLoading, totalCount } = useUserBoards({ searchTerm, currentPage, limit });
+
+    const totalPages = usePaginationPageCount({ limit, totalItems: totalCount })
 
     const { mutate: togglePinBoard } = useTogglePinBoard();
 

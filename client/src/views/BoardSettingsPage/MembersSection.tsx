@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import AsyncInput from "@/components/form/AsyncInput";
 import AsyncSearch from "@/components/form/AsyncSearch";
 import { FaEnvelope, FaSearch, FaTimes } from "react-icons/fa";
@@ -23,6 +21,7 @@ import User from "@/components/board/User";
 
 import InviteUserToBoard from "@/dialogs/InviteUserToBoard";
 import useBoolean from "@/hooks/useBoolean";
+import usePaginationPageCount from "@/hooks/usePaginationPageCount";
 
 const MembersSection = () => {
     const boardId = useBoardId();
@@ -34,7 +33,7 @@ const MembersSection = () => {
         setTrue: openInviteUserDialog,
     } = useBoolean(false);
 
-    const { limit, currentPage, totalPages, setTotalItems, setCurrentPage, reset } = usePagination({
+    const { limit, currentPage, setCurrentPage, reset } = usePagination({
         initialPage: 1,
         limit: 5,
     });
@@ -50,9 +49,7 @@ const MembersSection = () => {
         keepPreviousData: true,
     });
 
-    useEffect(() => {
-        setTotalItems(data.totalCount);
-    }, [data.totalCount]);
+    const totalPages = usePaginationPageCount({ limit, totalItems: data.totalCount })
 
     const { hasAccess: canManageMembers } = useRBAC({ boardId, action: "MANAGE_BOARD_MEMBERS" });
 

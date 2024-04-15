@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import AsyncInput from "@/components/form/AsyncInput";
 import { getRoleIcon } from "@/utils/role";
@@ -15,13 +15,14 @@ import Pagination from "@/components/general/Pagination";
 import User from "@/components/board/User";
 
 import "./BoardMembers.scss";
+import usePaginationPageCount from "@/hooks/usePaginationPageCount";
 
 export type BoardMembersProps = {
     boardId: string;
 };
 
 const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
-    const { currentPage, totalPages, limit, setCurrentPage, setTotalItems } = usePagination({
+    const { currentPage, limit, setCurrentPage, } = usePagination({
         initialPage: 1,
         limit: 6,
     });
@@ -35,9 +36,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId }) => {
         keepPreviousData: true,
     });
 
-    useEffect(() => {
-        setTotalItems(data?.totalCount ?? 0);
-    }, [data?.totalCount]);
+    const totalPages = usePaginationPageCount({ limit, totalItems: data?.totalCount  })
 
     return (
         <div className="board-members">

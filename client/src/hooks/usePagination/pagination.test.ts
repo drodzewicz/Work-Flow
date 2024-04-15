@@ -43,38 +43,4 @@ describe("Test Hook - Pagination", () => {
 
         expect(result.current.currentPage).toBe(1);
     });
-
-    it("should set totalItems to provided value", async () => {
-        const totalItems = 3;
-
-        const { result } = renderHook(usePagination, { initialProps: { limit: 5 } });
-
-        act(() => {
-            result.current.setTotalItems(totalItems);
-        });
-
-        expect(result.current.totalItems).toEqual(totalItems);
-    });
-
-    it("should calculate total page value when provided with totalItems", async () => {
-        const { result } = renderHook(usePagination, { initialProps: { limit: 5 } });
-
-        act(() => {
-            result.current.setTotalItems(2);
-        });
-
-        expect(result.current.totalPages).toBe(1);
-
-        act(() => {
-            result.current.setTotalItems(10);
-        });
-
-        expect(result.current.totalPages).toBe(2);
-
-        act(() => {
-            result.current.setTotalItems(11);
-        });
-
-        expect(result.current.totalPages).toBe(3);
-    });
 });
