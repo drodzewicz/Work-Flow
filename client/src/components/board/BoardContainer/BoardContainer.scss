@@ -1,7 +1,23 @@
+@import "../../../assets/styles/mixins";
+
 .board-container {
     &__boards {
+        --_grid-size: 5;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+
+        @include breakpoint(large) {
+            --_grid-size: 4;
+        }
+        @include breakpoint(medium) {
+            --_grid-size: 3;
+        }
+        @include breakpoint(small) {
+            --_grid-size: 2;
+        }
+        @include breakpoint(mobile) {
+            --_grid-size: 1;
+        }
+        grid-template-columns: repeat(var(--_grid-size), minmax(12rem, 1fr));
         gap: 1rem;
     }
     &__empty-message {

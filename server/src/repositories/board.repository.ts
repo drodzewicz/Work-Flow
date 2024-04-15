@@ -46,7 +46,8 @@ export class BoardRepository extends GenericRepository<IBoard, BoardDocument, Bo
         };
 
         if (settings?.name) {
-            query.name = { $regex: new RegExp("^" + settings?.name.toLowerCase(), "i") };
+            query.name = { $regex: new RegExp(settings?.name.toLowerCase(), "i") };
+            console.log(query.name)
         }
         const totalCount = await this.model.count(query);
         const data = (await this.model
