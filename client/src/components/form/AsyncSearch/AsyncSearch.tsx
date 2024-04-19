@@ -10,11 +10,21 @@ import AsyncInput, { AsyncInputProps } from "../AsyncInput/AsyncInput";
 import AsyncSearchDropdown from "./AsyncSearchDropdown";
 import { OptionType } from "./SearchOptionType";
 
+type RequiredOptions<T> =
+    | {
+          options: (T & OptionType)[];
+          hideDropdown?: false;
+      }
+    | {
+          options?: (T & OptionType)[];
+          hideDropdown: true;
+      };
+
 type AsyncSearchProps<T> = {
-    options: (T & OptionType)[];
     selectedOptions?: (T & OptionType)[];
     disabled?: boolean;
     isClearable?: boolean;
+    isInputClearable?: boolean;
     isSearchable?: boolean;
     filterOptions?: boolean;
     hideSelectedOptions?: boolean;
@@ -25,7 +35,7 @@ type AsyncSearchProps<T> = {
     onSelect?: (option: T & OptionType) => void;
     onClearSelection?: () => void;
     renderOption?: (option: T & OptionType) => React.ReactNode;
-};
+} & RequiredOptions<T>;
 
 function AsyncSearch<T = unknown>({
     options,
@@ -34,14 +44,17 @@ function AsyncSearch<T = unknown>({
     renderOption,
     disabled,
     noResultMessage,
+    placeholder,
     isSearchable = true,
     selectedOptions = [],
     hideSelectedOptions = true,
     isClearable = true,
+    isInputClearable = true,
     filterOptions = true,
     showSearchIcon = true,
     showSelectedValues = true,
     closeDropdownOnOptionClick = true,
+    hideDropdown = false,
     ...inputProps
 }: AsyncSearchProps<T> & AsyncInputProps) {
     const [openDropdown, setOpenDropdown] = useState<boolean>(false);
@@ -65,9 +78,9 @@ function AsyncSearch<T = unknown>({
         setFilter("");
     };
 
-    const placeholder = showSelectedValues
+    const inputPlaceholder = showSelectedValues
         ? selectedValue?.map((option) => option.label)?.join(", ")
-        : undefined;
+        : placeholder;
 
     const onInputChange = (inputValue: string) => {
         setFilter(inputValue);
@@ -83,7 +96,7 @@ function AsyncSearch<T = unknown>({
         onClearSelection?.();
     };
 
-    const filteredOptions = options.filter((option) => {
+    const filteredOptions = options?.filter((option) => {
         const isSelected =
             hideSelectedOptions &&
             selectedValue.find((selectedOption) => selectedOption.id === option.id);
@@ -101,9 +114,9 @@ function AsyncSearch<T = unknown>({
                 ref={asyncInputRef}
                 onChange={onInputChange}
                 onClick={toggleDropdown}
-                placeholder={placeholder}
+                placeholder={inputPlaceholder}
             >
-                {filter && (
+                {isInputClearable && filter && (
                     <span
                         data-testid="async-clear-icon"
                         onClick={onClearInput}
@@ -112,21 +125,23 @@ function AsyncSearch<T = unknown>({
                         <FaTimes className="async-search__icon" />
                     </span>
                 )}
-                {showSearchIcon && !filter && (
+                {showSearchIcon && (!filter || !isInputClearable) && (
                     <FaSearch data-testid="async-search-icon" className="async-search__icon" />
                 )}
             </AsyncInput>
-            <AsyncSearchDropdown<T>
-                show={openDropdown}
-                dropdownRef={optionContainerRef}
-                inputRef={asyncInputRef}
-                options={filteredOptions}
-                showClearOption={isClearable && selectedValue.length > 0}
-                onClearSelectedOptions={onClearSelectedOptions}
-                onOptionClick={onOptionClick}
-                renderOption={renderOption}
-                noResultMessage={noResultMessage}
-            />
+            {!hideDropdown && (
+                <AsyncSearchDropdown<T>
+                    show={openDropdown}
+                    dropdownRef={optionContainerRef}
+                    inputRef={asyncInputRef}
+                    options={filteredOptions || []}
+                    showClearOption={isClearable && selectedValue.length > 0}
+                    onClearSelectedOptions={onClearSelectedOptions}
+                    onOptionClick={onOptionClick}
+                    renderOption={renderOption}
+                    noResultMessage={noResultMessage}
+                />
+            )}
         </div>
     );
 }

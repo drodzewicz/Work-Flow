@@ -1,14 +1,14 @@
 import React, { useMemo } from "react";
 
 import BoardContainer from "@/components/board/BoardContainer";
-import AsyncInput from "@/components/form/AsyncInput";
 import useBoolean from "@/hooks/useBoolean";
 import usePagination from "@/hooks/usePagination";
 import useSearchFilter from "@/hooks/useSearchFilter";
 import { useGetUserBoards, useGetUserPinnedBoards, useTogglePinBoard } from "@/service/self";
-import { FaColumns, FaPlus, FaSearch, FaTimes } from "react-icons/fa";
+import { FaColumns, FaPlus } from "react-icons/fa";
 import CreateNewBoardDialog from "./CreateNewBoardDialog";
 import usePaginationPageCount from "@/hooks/usePaginationPageCount";
+import AsyncSearch from "@/components/form/AsyncSearch";
 
 type UserBoardProps = {
     searchTerm: string;
@@ -68,18 +68,17 @@ const AllUserBoardsSection: React.FC = () => {
                     <FaColumns className="board-container-title__icon" /> Boards
                 </h1>
                 <div className="board-table-utils">
-                    <AsyncInput
+                    <AsyncSearch
+                        className="board-search"
                         placeholder="Search boards..."
+                        hideDropdown
+                        showSelectedValues={false}
+                        filterOptions={false}
+                        hideSelectedOptions={false}
                         debounceCallback={searchBoards}
-                        value={searchTerm}
-                        isLoading={!!searchTerm && isLoading}
-                        debounceTime={500}
-                    >
-                        {!searchTerm && <FaSearch className="async-input__search-icon" />}
-                        {searchTerm && (
-                            <FaTimes className="async-input__search-icon" onClick={clear} />
-                        )}
-                    </AsyncInput>
+                        onClearSelection={clear}
+                        isInputClearable={false}
+                    />
                     <button onClick={openCreateNewBoardModal} className="btn new-board-btn">
                         <div className="new-board-btn__text">New Board</div>
                         <FaPlus className="new-board-btn__icon" />

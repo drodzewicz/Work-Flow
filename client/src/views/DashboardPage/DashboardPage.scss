@@ -10,25 +10,44 @@
     .board-container-header {
         display: flex;
         gap: 1rem;
-        @include breakpoint(mobile) {
-            flex-direction: column;
-        }
 
         .board-table-utils {
             display: flex;
             margin-left: auto;
-
-            @include breakpoint(mobile) {
-                margin-left: unset;
-                align-items: center;
-                justify-content: center;
-            }
+            position: relative;
         }
    
-        .async-input {
-            &__search-icon {
-                color: var(--c-font-primary);
+    }
+
+    .board-search input {
+        width: 11rem;
+        transition: width ease-in-out 0.3s;
+        &:focus {
+            width: 15rem;
+        }
+
+        @include breakpoint(mobile) {
+            width: 3rem;
+            
+            &::placeholder {
+                opacity: 0;
             }
+
+            &:focus {
+                &::placeholder {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    @include breakpoint(mobile) {
+        .async-search {
+            position: absolute;
+            right:  3rem;
+        }
+        .async-input__button-group {
+            pointer-events: none;
         }
     }
 
