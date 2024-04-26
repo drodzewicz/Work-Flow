@@ -1,69 +1,91 @@
-.table-wrapper {
-    position: relative;
-    overflow: auto;
-    white-space: nowrap;
-}
-
-.vertical {
-    $position: 7px;
-    writing-mode: tb-rl;
-    z-index: 0;
-    -webkit-transform: rotate(-120deg);
-    -moz-transform: rotate(-120deg);
-    transform: rotate(-120deg) translate(-1 * $position, 2 * $position);
-    width: 60px;
-    height: 40px;
-    text-align: start;
-    line-height: 1rem;
-    margin-top: auto;
-    font-size: 0.6rem;
-}
+$header-height: 3rem;
+$row-height: 4.5rem;
 
 .role-table {
-    --_table-bg-color: var(--c-iceberg-2);
-    --_table-header-bg-color: white;
-    --_table-first-column-bg-color: white;
+    --_header-color: var(--c-iceberg-2);
+    --_background-color: white;
+    --_outline-color: var(--c-iceberg-4);
+    --_role_circle: var(--c-iceberg-4);
 }
 
 [data-theme="DARK"] .role-table {
-    --_table-bg-color: var(--c-metal-2);
-    --_table-header-bg-color: var(--c-metal-4);
-    --_table-first-column-bg-color: var(--c-metal-4);
+    --_header-color: var(--c-metal-2);
+    --_background-color: var(--c-metal-5);
+    --_outline-color: var(--c-metal-6);
+    --_role_circle: var(--c-metal-6);
 }
 
 .role-table {
-    border-collapse: collapse;
-    background-color: var(--_table-bg-color);
-    color: var(--c-font-primary);
+    display: flex;
+    flex-direction: row;
+    background-color: var(--_background-color);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 
-    thead {
-        background-color: var(--_table-header-bg-color);
-    }
-
-    &__first-col {
-        left: 0px;
-        z-index: 1;
-        position: -webkit-sticky;
-        position: sticky;
-        background-color: var(--_table-first-column-bg-color);
-        padding: 0.6rem 1rem;
-    }
-
-    &__last-col {
-        width: 100px;
-        min-width: 100px;
-    }
-
-    &__role {
+    &__row {
         display: flex;
         align-items: center;
         justify-content: flex-start;
         gap: 0.3rem;
+        height: $row-height;
+        padding: 0 0.7rem;
+        border: 1px var(--_outline-color) solid;
     }
 
-    &__checkbox-cell {
+    &__grouped-column {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+    }
+
+    &__header {
+        background-color: var(--_header-color);
+        padding: 0 0.7rem;
+        white-space: nowrap;
+        height: $header-height;
+        display: flex;
+        align-items: center;
         justify-content: center;
+        border: 1px var(--_outline-color) solid;
+        font-weight: bold;
+        color: var(--c-font-primary);
+    }
+
+    &__body {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+
+        .role-table__row {
+            justify-content: center;
+        }
+    }
+
+    &__column {
+        flex-grow: 1;
+    }
+
+    & > &__column:first-child {
+        color: var(--c-font-secondary);
+        .role-table__header {
+            height: $header-height * 2;
+        }
+    }
+
+    .role-circle {
+        background-color: var(--_role_circle);
+        padding: 1rem;
+        border-radius: 50%;
+        height: 3rem;
+        width: 3rem;
+
+        &--active {
+            background-color: color-mix(in srgb, var(--_role_circle), var(--c-accent-primary) 5%);
+            color: var(--c-accent-primary);
+        }
+        &--inactive {
+            background-color: color-mix(in srgb, var(--_role_circle), var(--c-red-1) 5%);
+            color: var(--c-red-1);
+        }
     }
 }
