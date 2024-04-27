@@ -7,3 +7,5 @@ export interface UserListQueryParams extends Pagination {
 export interface BoardMembersListQueryParams extends Pagination {
     username?: string;
 }
+
+export interface NotificationListQueryParams extends Pagination {}

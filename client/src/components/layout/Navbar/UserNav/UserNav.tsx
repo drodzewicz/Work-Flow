@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import { FaSignOutAlt, FaUserAlt, FaHome, FaBell, FaMoon, FaSun } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -7,15 +7,15 @@ import useAppTheme from "@/hooks/useAppTheme";
 import useAuth from "@/hooks/useAuth";
 
 import { useLogout } from "@/service/auth";
-import { useGetNotifications, useGetCurrentUser } from "@/service/self";
+import { useGetCurrentUser, useGetNotifications } from "@/service/self";
 
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
-import Notification from "@/components/general/Notification";
 
 import NavItem from "@/components/layout/Navbar/NavItem";
 
 import "./UserNav.scss";
 import useRedirect from "@/hooks/useRedirect";
+import NotificationList from "@/components/general/NotificationList/NotificationList";
 
 const UserNav: React.FC = () => {
     const { goTo } = useRedirect();
@@ -35,7 +35,9 @@ const UserNav: React.FC = () => {
         },
     });
 
-    const { data: notifications = [] } = useGetNotifications();
+    const { data } = useGetNotifications();
+
+    const menuRef = useRef<HTMLUListElement | null>(null);
 
     return (
         <>
@@ -65,14 +67,15 @@ const UserNav: React.FC = () => {
             <NavItem
                 name="notifications"
                 dropdownOffset={{ x: -25, y: 10 }}
-                className={`notification-nav ${notifications?.length ? "badge" : ""}`}
+                className={`notification-nav ${
+                    data?.pages[0]?.notifications?.length ? "badge" : ""
+                }`}
                 dropdownMaxHeight={400}
                 dropDownOnClickClose={false}
                 Icon={FaBell}
+                menuRef={menuRef}
             >
-                {notifications.map((notification) => (
-                    <Notification key={notification._id} notification={notification} />
-                ))}
+                <NotificationList getScrollParent={() => menuRef.current} />
             </NavItem>
         </>
     );

@@ -17,9 +17,11 @@ export interface NavItemProps {
     dropdownOffset?: { x: number; y: number };
     dropDownOnClickClose?: boolean;
     dropdownMaxHeight?: number;
+    menuRef?: React.MutableRefObject<HTMLUListElement | null>;
 }
 
 const NavItem: React.FC<PropsWithChildren<NavItemProps>> = ({
+    menuRef,
     Icon,
     label,
     children,
@@ -61,6 +63,7 @@ const NavItem: React.FC<PropsWithChildren<NavItemProps>> = ({
                     onClickClose={dropDownOnClickClose}
                     offset={dropdownOffset}
                     anchorRef={anchorElement}
+                    ref={menuRef}
                 >
                     {children}
                 </DropdownMenu>

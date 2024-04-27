@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { QueryFunctionContext, UseQueryOptions, useQuery } from "react-query";
+import { QueryFunction, UseQueryOptions, useQuery } from "react-query";
 
 import useAuthClient from "@/hooks/useClient";
 
@@ -23,10 +23,10 @@ type GetUserBoardsProps = {
 
 const useGetUserBoards = ({ page, limit, boardName, ...options }: GetUserBoardsProps) => {
     const client = useAuthClient();
-    
-    const fetchBoards = async ({
+
+    const fetchBoards: QueryFunction<PaginatedUserBoardList, BoardsQueryKey> = async ({
         queryKey: [{ pagination, name }],
-    }: QueryFunctionContext<BoardsQueryKey>) => {
+    }) => {
         const response = await client.get(selfURL.boards(), { params: { ...pagination, name } });
         return response.data;
     };
@@ -37,7 +37,6 @@ const useGetUserBoards = ({ page, limit, boardName, ...options }: GetUserBoardsP
         queryFn: fetchBoards,
         staleTime: 5 * 60 * 1000,
     });
-
 };
 
 export default useGetUserBoards;

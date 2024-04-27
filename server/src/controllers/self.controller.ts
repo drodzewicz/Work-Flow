@@ -12,7 +12,7 @@ import {
 } from "routing-controllers";
 import { UserService, BoardService } from "../services/index.js";
 import { Container } from "typedi";
-import { AuthUser } from "../types/utils.type.js";
+import { AuthUser, Pagination } from "../types/utils.type.js";
 import { UpdateUserPayload, UpdateUserAvatarPayload } from "../types/request/user.type.js";
 import { JWTMiddleware } from "../middleware/auth.middleware.js";
 import { getPaginationSettings } from "../utils/pagination.utils.js";
@@ -77,8 +77,10 @@ export class SelfController {
     }
 
     @Get("/notifications")
-    async getNotifications(@CurrentUser() user: AuthUser) {
-        return this.userService.getUserNotifications(user.id.toString());
+    async getNotifications(@CurrentUser() user: AuthUser, @QueryParams() query: Pagination) {
+        const pagination = getPaginationSettings(query);
+
+        return this.userService.getUserNotifications(user.id.toString(), { ...pagination });
     }
 
     @Delete("/notifications/:notificationId")

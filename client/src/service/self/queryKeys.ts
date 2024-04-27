@@ -8,7 +8,7 @@ const selfQueryKeys = {
             {
                 ...selfQueryKeys.boards()[0],
                 pagination: props ? { page: props?.page, limit: props.limit } : undefined,
-                name: props?.name
+                name: props?.name,
             },
         ] as const,
     pinnedBoards: () => [{ ...selfQueryKeys.boards()[0], variant: "pinned" }] as const,

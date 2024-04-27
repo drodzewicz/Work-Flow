@@ -90,7 +90,6 @@
             color: var(--c-font-primary);
             fill: var(--c-font-primary);
         }
-
     }
 
     &__notifications {
@@ -100,6 +99,11 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+        }
+
+        &__scroll {
+            overflow-y: auto;
+            max-height: 20rem;
         }
     }
 }

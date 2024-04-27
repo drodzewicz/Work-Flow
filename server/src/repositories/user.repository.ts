@@ -8,9 +8,11 @@ import {
     BoardFields,
     UserNotificationFields,
     INotification,
+    NotificationDocument,
 } from "../types/database/index.js";
 import { Pagination, PaginatedResult } from "../types/utils.type.js";
 import { GenericRepository } from "./generic.repository.js";
+import { NotificationListQueryParams } from "../types/queryParams/user.type.js";
 
 @Service()
 export class UserRepository extends GenericRepository<IUser, UserDocument, UserFields> {
@@ -86,13 +88,25 @@ export class UserRepository extends GenericRepository<IUser, UserDocument, UserF
         await this.model.findOneAndUpdate({ _id: userId }, { $pull: { pinnedBoards: boardId } });
     }
 
-    async getUserNotifications(userId: string) {
+    async getUserNotifications(
+        userId: string,
+        settings: NotificationListQueryParams
+    ): Promise<PaginatedResult<NotificationDocument>> {
         this.validateId(userId);
         const { notifications } = await this.model.findById(
             userId,
             this.notificationFields.join(" ")
         );
-        return notifications;
+        const totalCount = notifications.length;
+        const data = notifications.slice(
+            settings.limit * settings.page,
+            settings.limit * settings.page + settings.limit
+        );
+        console.log(data.length, settings)
+        return {
+            totalCount,
+            data,
+        };
     }
 
     async addUserNotifications(

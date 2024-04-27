@@ -6,6 +6,7 @@ import { UserDTO, BoardSimpleDTO } from "../types/dto/index.js";
 import { BoardSimpleViewMapper, UserMapper } from "../mappers/index.js";
 import { NotFoundError } from "routing-controllers";
 import { UpdateUserPayload } from "../types/request/user.type.js";
+import { NotificationListQueryParams } from "src/types/queryParams/user.type.js";
 
 @Service()
 export class UserService {
@@ -110,8 +111,12 @@ export class UserService {
         }
     }
 
-    async getUserNotifications(userId: string) {
-        return await this.userRepository.getUserNotifications(userId);
+    async getUserNotifications(userId: string, options: NotificationListQueryParams) {
+        const { data, totalCount } = await this.userRepository.getUserNotifications(
+            userId,
+            options
+        );
+        return { notifications: data, totalCount };
     }
 
     async addUserNotifications(
