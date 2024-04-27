@@ -1,5 +1,6 @@
 import selfQueryKeys from "./queryKeys";
 import useDeleteNotification from "./useDeleteNotification";
+import useDeleteNotifications from "./useDeleteNotifications";
 import useGetCurrentUser from "./useGetCurrentUser";
 import useGetNotifications from "./useGetNotifications";
 import useGetUserBoards from "./useGetUserBoards";
@@ -9,6 +10,7 @@ import useUpdateUserAvatar from "./useUpdateUserAvatar";
 
 export {
     selfQueryKeys,
+    useDeleteNotifications,
     useDeleteNotification,
     useGetCurrentUser,
     useGetNotifications,

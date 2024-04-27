@@ -1,6 +1,7 @@
 const selfURL = {
     index: "/self" as const,
     notifications: () => `${selfURL.index}/notifications` as const,
+    deleteNotifications: () => `${selfURL.notifications()}` as const,
     deleteNotification: (notificationId: string) =>
         `${selfURL.notifications()}/${notificationId}` as const,
     pinnedBards: () => `${selfURL.index}/pinnedBoards` as const,

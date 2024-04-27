@@ -26,11 +26,6 @@ const NotificationList: React.FC<NotificationListProps> = ({ getScrollParent }) 
             hasMore={hasNextPage}
             useWindow={false}
             getScrollParent={getScrollParent}
-            loader={
-                <div className="loader" key={0}>
-                    Loading ...
-                </div>
-            }
         >
             {notifications.map((notification) => (
                 <Notification key={notification._id} notification={notification} />

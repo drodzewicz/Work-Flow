@@ -99,14 +99,18 @@ export class UserRepository extends GenericRepository<IUser, UserDocument, UserF
         );
         const totalCount = notifications.length;
         const data = notifications.slice(
-            settings.limit * settings.page,
-            settings.limit * settings.page + settings.limit
+            (settings.page - 1) * settings.limit,
+            (settings.page - 1) * settings.limit + settings.limit
         );
-        console.log(data.length, settings)
         return {
             totalCount,
             data,
         };
+    }
+
+    async deleteUserNotifications(userId: string) {
+        this.validateId(userId);
+        await this.model.findOneAndUpdate({ _id: userId }, { $set: { notifications: [] } });
     }
 
     async addUserNotifications(

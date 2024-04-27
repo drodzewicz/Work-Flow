@@ -119,6 +119,10 @@ export class UserService {
         return { notifications: data, totalCount };
     }
 
+    async deleteUserNotifications(userId: string) {
+        await this.userRepository.deleteUserNotifications(userId);
+    }
+
     async addUserNotifications(
         userId: string,
         notificationData: Pick<INotification, "title" | "attributes" | "description" | "key">

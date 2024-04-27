@@ -7,7 +7,7 @@ import useAppTheme from "@/hooks/useAppTheme";
 import useAuth from "@/hooks/useAuth";
 
 import { useLogout } from "@/service/auth";
-import { useGetCurrentUser, useGetNotifications } from "@/service/self";
+import { useDeleteNotifications, useGetCurrentUser, useGetNotifications } from "@/service/self";
 
 import DropdownMenuItem from "@/components/general/DropdownMenu/DropdownMenuItem";
 
@@ -36,6 +36,7 @@ const UserNav: React.FC = () => {
     });
 
     const { data } = useGetNotifications();
+    const { mutate: clearNotifications } = useDeleteNotifications();
 
     const menuRef = useRef<HTMLUListElement | null>(null);
 
@@ -75,6 +76,14 @@ const UserNav: React.FC = () => {
                 Icon={FaBell}
                 menuRef={menuRef}
             >
+                {data?.pages[0]?.totalCount && (
+                    <button
+                        className="btn clear-notifications"
+                        onClick={() => clearNotifications()}
+                    >
+                        clear notifications
+                    </button>
+                )}
                 <NotificationList getScrollParent={() => menuRef.current} />
             </NavItem>
         </>

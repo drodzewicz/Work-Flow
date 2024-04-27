@@ -83,6 +83,13 @@ export class SelfController {
         return this.userService.getUserNotifications(user.id.toString(), { ...pagination });
     }
 
+    @Delete("/notifications")
+    async clearNotifications(@CurrentUser() user: AuthUser) {
+        await this.userService.deleteUserNotifications(user.id.toString());
+        return { message: "notifications removed succesfully" };
+
+    }
+
     @Delete("/notifications/:notificationId")
     async removeNotifications(
         @CurrentUser() user: AuthUser,
