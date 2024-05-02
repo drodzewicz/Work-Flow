@@ -6,10 +6,10 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "build": "rimraf dist && npx tsc",
+    "build": "rimraf dist && tsc",
     "start": "set NODE_ENV=production && node dist/index.js",
     "preserve": "yarn run build",
-    "serve": "set NODE_ENV=development && concurrently \"npx tsc --w\" \"nodemon -q dist/index.js\"",
+    "serve": "set NODE_ENV=development && concurrently \"tsc --w\" \"nodemon -q dist/index.js\"",
     "lint": "eslint src/**/*.ts",
     "lint-fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write \"src/**/*.ts\""
