@@ -4,31 +4,14 @@ import { ReactComponent as TaskColumns } from "@/assets/images/task_columns.svg"
 import { ReactComponent as TaskColumnsDark } from "@/assets/images/task_columns_dark.svg";
 import { ReactComponent as Person } from "@/assets/images/workflow-person.svg";
 import { ReactComponent as PersonDark } from "@/assets/images/workflow-person_dark.svg";
-import { FaLightbulb } from "react-icons/fa";
 
 import { env } from "@/config/env.config";
 
-import useDemoPopup from "@/hooks/useDemoPopup";
-
-import Modal from "@/components/layout/Modal";
-
-import DemoLogin from "@/dialogs/DemoLogin/DemoLogin";
+import { Link } from "react-router-dom";
 
 import "./WelcomePage.scss";
-import useBoolean from "@/hooks/useBoolean";
 
 const WelcomePage: React.FC = () => {
-    const {
-        state: showDemoLoginDialog,
-        setTrue: openDemoLoginDialog,
-        setFalse: closeDemoLoginDialog,
-    } = useBoolean(false);
-
-    const { closePopup } = useDemoPopup({
-        onOpen: openDemoLoginDialog,
-        onClose: closeDemoLoginDialog,
-    });
-
     return (
         <div className="welcome-section">
             <section className="welcome-section__introduction">
@@ -45,22 +28,22 @@ const WelcomePage: React.FC = () => {
 
                 <div className="welcome-section__introduction__text-subsection">
                     <h1>Work-Flow</h1>
-                    <hr className="line-break" />
                     <h2>work more collaboratively and get more done.</h2>
                     <p>
                         Work-Flow is a web-based Kanban-style list making application used to manage
                         work at personal or organizational level. Using this application organizing
                         your work will be easy!!
                     </p>
-                    {env.demoUser.username && env.demoUser.password && (
-                        <button onClick={openDemoLoginDialog} className="btn btn--glow join-now">
-                            <FaLightbulb /> Demo
-                        </button>
-                    )}
-
-                    <Modal show={showDemoLoginDialog} title="" size="m" onClose={closePopup}>
-                        <DemoLogin />
-                    </Modal>
+                    <div className="demo-banner">
+                        <h2>Lets take a look around this app!!</h2>
+                        <p>
+                            Dont't want to create and account to checkout this app? Not a problem,{" "}
+                            <Link to="#login" state={env.demoUser}>
+                                click here
+                            </Link>{" "}
+                            to log in as a <strong>Demo user</strong>
+                        </p>
+                    </div>
                 </div>
             </section>
             <section className="welcome-section__explainer">

@@ -3,6 +3,12 @@
     width: 7rem;
 }
 
+.notification-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
 .notification-nav.drop-down-menu {
     transform: translate(-16.5rem, 2rem);
     width: 18rem;
@@ -29,7 +35,6 @@
 }
 
 .clear-notifications {
-    width: 100%;
     position: sticky;
     top: 0;
 }

@@ -1,48 +1,78 @@
 @import "../../assets/styles/mixins";
 
 .welcome-section {
-    margin: 3rem 4rem 0;
+    --_demo-backgorund-color: color-mix(in srgb, var(--c-downy-1) 10%, var(--c-iceberg-5));
+    --_demo-main-text-color: color-mix(in srgb, var(--c-downy-1) 60%, rgb(26, 58, 81));
+    --_demo-secondary-text-color: var(--c-downy-1);
+    --_demo-link-text-color: white;
+}
+
+[data-theme="DARK"] .welcome-section {
+    --_demo-backgorund-color: color-mix(in srgb, var(--c-downy-1) 20%, var(--c-metal-1));
+    --_demo-main-text-color: white;
+    --_demo-secondary-text-color: var(--c-iceberg-1);
+    --_demo-link-text-color: var(--c-accent-primary);
+}
+
+.welcome-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+
     @include breakpoint(small) {
         margin: 1rem;
     }
+    .demo-banner {
+        opacity: 0;
+        background-color: var(--_demo-backgorund-color);
+        animation: element-apear 0.7s forwards 4s;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+
+        h2 {
+            font-size: 1rem;
+            color: var(--_demo-main-text-color);
+        }
+        p {
+            font-size: 0.8rem;
+            color: var(--_demo-secondary-text-color);
+        }
+        a {
+            color: var(--_demo-link-text-color);
+            font-weight: bold;
+        }
+    }
     &__introduction {
+        padding-top: 2rem;
         display: grid;
+        gap: 3rem;
         grid-template-columns: 1fr 1fr;
         min-height: 90vh;
-        gap: 6vh;
+        padding: 0 1rem;
+        box-sizing: border-box;
         @include breakpoint(small) {
             grid-template-columns: 1fr;
         }
         .person-image {
+            width: 100%;
             display: flex;
-            height: 70vh;
-            width: 70vh;
             margin-right: 0;
             margin-left: auto;
             opacity: 0;
             animation: element-apear 1.5s forwards 1.5s;
 
-            @include breakpoint(medium) {
-                height: 50vh;
-                width: 50vh;
-            }
             @include breakpoint(small) {
-                height: 90%;
-                width: 90%;
                 order: 1;
                 margin: 0 auto;
             }
-
-            &--dark {
-                display: none;
-            }
-            &--light {
-                display: block;
-            }
         }
         &__text-subsection {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
             h1 {
-                font-size: 7vh;
+                font-size: 3rem;
                 margin: 0;
                 color: var(--c-font-primary);
                 opacity: 0;
@@ -53,15 +83,12 @@
                 animation: element-apear 1.5s forwards 1.5s;
             }
             h2 {
-                font-size: 4vh;
                 margin: 0;
                 color: var(--c-font-primary);
                 opacity: 0;
                 animation: element-apear 1.5s forwards 2s;
             }
             p {
-                font-size: 3vh;
-                max-width: 40wv;
                 color: var(--c-font-secondary);
                 opacity: 0;
                 animation: element-apear 1.5s forwards 2.5s;
@@ -69,8 +96,6 @@
             .join-now {
                 margin: 0 auto;
                 margin-top: 2rem;
-                font-size: 2.5vh;
-                padding: 1.5vh 3vh;
                 opacity: 0;
                 animation: element-pop 0.7s forwards 2.5s;
                 @include breakpoint(small) {
@@ -80,35 +105,33 @@
         }
     }
     &__explainer {
-        gap: 6vh;
         min-height: 80vh;
         display: grid;
         grid-template-columns: 1fr 1fr;
         animation: element-apear 1.5s forwards 1.5s;
+        gap: 3rem;
+        padding: 0 1rem;
+        box-sizing: border-box;
+
         @include breakpoint(small) {
             grid-template-columns: 1fr;
         }
         .task-columns-image {
             display: flex;
-            height: 60vh;
-            width: 60vh;
             margin: 0 auto;
+            width: 100%;
             @include breakpoint(small) {
-                height: 40vh;
-                width: 40vh;
             }
         }
         &__text-subsection {
             h2 {
-                font-size: 7vh;
+                font-size: 2rem;
                 margin: 0;
                 color: var(--c-font-primary);
             }
             ul {
-                padding-left: 4vh;
                 color: var(--c-font-primary);
                 li {
-                    font-size: 3vh;
                     margin-top: 0.5rem;
                 }
             }
@@ -116,21 +139,38 @@
     }
 }
 
+.person-image {
+    &--dark {
+        display: none !important;
+    }
+    &--light {
+        display: block !important;
+    }
+}
+.task-columns-image {
+    &--dark {
+        display: none !important;
+    }
+    &--light {
+        display: block !important;
+    }
+}
+
 [data-theme="DARK"] .welcome-section {
     .person-image {
         &--dark {
-            display: block;
+            display: block !important;
         }
         &--light {
-            display: none;
+            display: none !important;
         }
     }
     .task-columns-image {
         &--dark {
-            display: block;
+            display: block !important;
         }
         &--light {
-            display: none;
+            display: none !important;
         }
     }
 }
@@ -141,9 +181,7 @@
         opacity: 0;
     }
     80% {
-        font-size: 2.4vh;
         @include breakpoint(medium) {
-            font-size: 3.1vh;
         }
         @include breakpoint(mobile) {
             font-size: 2.4rem;
@@ -152,9 +190,7 @@
     }
     100% {
         opacity: 1;
-        font-size: 2vh;
         @include breakpoint(medium) {
-            font-size: 3vh;
         }
         @include breakpoint(mobile) {
             font-size: 2rem;
