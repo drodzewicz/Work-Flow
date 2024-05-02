@@ -14,6 +14,7 @@ import * as Skeleton from "@/components/layout/Skeleton";
 
 import ColumnContainer from "@/components/board/Column/ColumnContainer";
 import NewColumn from "@/components/board/NewColumn/NewColumn";
+import useBoardTaskCount from "@/hooks/useBoardTaskCount";
 
 const BoardColumns: React.FC = () => {
     const boardId = useBoardId();
@@ -33,6 +34,7 @@ const BoardColumns: React.FC = () => {
     const { hasAccess: canCreateColumn } = useRBAC({ boardId, action: "COLUMN_CREATE" });
 
     const { data = [], isLoading } = useGetTasks({ boardId });
+    const columnTaskCount = useBoardTaskCount(data);
 
     const onDragEnd = (result: DropResult) => {
         if (!result.destination) return;
@@ -66,12 +68,16 @@ const BoardColumns: React.FC = () => {
                 <Skeleton.Container
                     show={isLoading}
                     containerClassName="task-board__task-row"
-                    count={4}
-                    element={
+                    count={columnTaskCount.length || 4}
+                    element={(index) => (
                         <Skeleton.Column>
-                            <Skeleton.Container count={3} show element={<Skeleton.Task />} />
+                            <Skeleton.Container
+                                count={columnTaskCount[index] ?? 3}
+                                show
+                                element={<Skeleton.Task />}
+                            />
                         </Skeleton.Column>
-                    }
+                    )}
                 >
                     <ColumnContainer data={data} />
                 </Skeleton.Container>

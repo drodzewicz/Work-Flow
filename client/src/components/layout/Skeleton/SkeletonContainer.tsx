@@ -3,7 +3,7 @@ import React, { PropsWithChildren, useId } from "react";
 import "./Skeleton.scss";
 
 type SkeletonContainerProps = {
-    element: React.ReactNode;
+    element: ((index: number) => React.ReactNode) | React.ReactNode;
     count: number;
     containerClassName?: string;
     show?: boolean;
@@ -28,7 +28,9 @@ const SkeletonContainer: React.FC<PropsWithChildren<SkeletonContainerProps>> = (
             className={containerClassName ?? "skeleton-container"}
         >
             {[...Array(count)].map((_, index) => (
-                <React.Fragment key={`skeleton-${id}-${index}`}>{element}</React.Fragment>
+                <React.Fragment key={`skeleton-${id}-${index}`}>
+                    {typeof element == "function" ? element(index) : element}
+                </React.Fragment>
             ))}
         </div>
     );
