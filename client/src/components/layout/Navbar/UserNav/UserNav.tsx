@@ -76,7 +76,7 @@ const UserNav: React.FC = () => {
                 Icon={FaBell}
                 menuRef={menuRef}
             >
-                {data?.pages[0]?.totalCount && (
+                {!!data?.pages[0]?.totalCount && (
                     <button
                         className="btn clear-notifications"
                         onClick={() => clearNotifications()}

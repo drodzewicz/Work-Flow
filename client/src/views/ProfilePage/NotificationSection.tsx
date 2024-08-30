@@ -18,7 +18,7 @@ const NotificationSection = () => {
             title={`Notifications (${data?.pages[0]?.totalCount})`}
             Icon={FaBell}
         >
-            {data?.pages[0]?.totalCount && (
+            {!!data?.pages[0]?.totalCount && (
                 <button className="btn" onClick={() => clearNotifications()}>
                     clear notifications
                 </button>

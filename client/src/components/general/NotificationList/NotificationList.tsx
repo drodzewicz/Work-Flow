@@ -19,6 +19,7 @@ const NotificationList: React.FC<NotificationListProps> = ({ getScrollParent }) 
             }, [] as BoardNotification[]) || []
         );
     }, [data]);
+
     return (
         <InfiniteScroll
             pageStart={1}
